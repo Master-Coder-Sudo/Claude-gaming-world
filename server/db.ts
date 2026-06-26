@@ -2080,12 +2080,31 @@ export async function saveWorldState(key: string, data: unknown): Promise<void> 
   );
 }
 
+// The World Market is realm-scoped like characters, friends, guilds and
+// presence: each realm process keeps its own listings under `market:<realm>`.
+// Before this scoping the market lived in a single bare 'market' row shared by
+// every realm pointed at the same DATABASE_URL, so two realms silently
+// overwrote each other's listings and proceeds (and stomped nextListingId).
+const LEGACY_MARKET_KEY = 'market';
+
+export function marketStateKey(realm: string): string {
+  return `market:${realm}`;
+}
+
 export async function loadMarketState(): Promise<MarketSave | null> {
-  return loadWorldState<MarketSave>('market');
+  const key = marketStateKey(REALM);
+  const own = await loadWorldState<MarketSave>(key);
+  if (own !== null) return own;
+  // One-time migration: adopt the pre-scoping shared row (if any) into this
+  // realm's key so existing listings/proceeds are not stranded. Copy, never
+  // move: each realm reads the legacy row once on its own first boot.
+  const legacy = await loadWorldState<MarketSave>(LEGACY_MARKET_KEY);
+  if (legacy !== null) await saveWorldState(key, legacy);
+  return legacy;
 }
 
 export async function saveMarketState(save: MarketSave): Promise<void> {
-  await saveWorldState('market', save);
+  await saveWorldState(marketStateKey(REALM), save);
 }
 
 // ---------------------------------------------------------------------------
