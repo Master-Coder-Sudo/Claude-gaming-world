@@ -5,6 +5,7 @@
 // 500 with no leakage, no double-send) plus the reqId carrier spanning an await.
 
 import { Buffer } from 'node:buffer';
+import type * as http from 'node:http';
 import { describe, expect, it } from 'vitest';
 import { compose, respondOnce, runOnion } from '../../../server/http/compose';
 import { currentReqId } from '../../../server/http/context';
@@ -77,8 +78,9 @@ describe('compose: onion dispatch', () => {
     const a: Middleware = async (_ctx, next) => {
       await next();
     };
-    // A non-async middleware that throws synchronously exercises the try/catch
-    // that converts a sync throw into a rejected promise.
+    // b throws synchronously from a DEEPER frame (index 1); its async parent a already
+    // converts that throw into a rejected promise, so this asserts the short-circuit.
+    // The dispatch entry-frame try/catch itself is covered by the dedicated test below.
     const b: Middleware = () => {
       throw boom;
     };
@@ -88,6 +90,36 @@ describe('compose: onion dispatch', () => {
     };
     await expect(compose([a, b, c])(fakeCtx())).rejects.toBe(boom);
     expect(cReached).toBe(false);
+  });
+
+  it('returns a rejected promise, not a synchronous throw, when the FIRST middleware throws synchronously', async () => {
+    // The entry frame dispatch(0) is the only place compose's try/catch is load-bearing:
+    // without it, a sync throw from stack[0] escapes composed() synchronously instead of
+    // rejecting, breaking the "callers see one failure channel (the awaited promise)" contract.
+    const boom = new Error('boom-entry');
+    const syncThrower: Middleware = () => {
+      throw boom;
+    };
+    let promise: Promise<void> | undefined;
+    expect(() => {
+      promise = compose([syncThrower])(fakeCtx());
+    }).not.toThrow();
+    await expect(promise).rejects.toBe(boom);
+  });
+
+  it('short-circuits cleanly when a middleware resolves without calling next()', async () => {
+    // The common handler-responds-and-stops pattern: a returns without awaiting next(),
+    // so the downstream middleware never runs and the composed promise RESOLVES (not rejects).
+    let bRan = false;
+    const a: Middleware = async () => {
+      // intentionally does not call next()
+    };
+    const b: Middleware = async (_ctx, next) => {
+      bRan = true;
+      await next();
+    };
+    await expect(compose([a, b])(fakeCtx())).resolves.toBeUndefined();
+    expect(bRan).toBe(false);
   });
 
   it('short-circuits and rejects when a middleware rejects asynchronously', async () => {
@@ -254,5 +286,45 @@ describe('runOnion: outermost one-response wrapper', () => {
     await runOnion(ctx, [mw]);
     expect(syncId).toBe('rid-14');
     expect(asyncId).toBe('rid-14');
+  });
+
+  it('keeps a completed response when an outer middleware throws after the inner one ended it', async () => {
+    const ctx = fakeCtx({ reqId: 'rid-16' });
+    const res = resOf(ctx);
+    const inner: Middleware = async () => {
+      ctx.res.writeHead(200);
+      ctx.res.end('ok');
+    };
+    const outer: Middleware = async (_ctx, next) => {
+      await next();
+      throw new Error('after-complete');
+    };
+    // outer (index 0) awaits next() so inner ends the response, then outer throws on the
+    // unwind. finalizeResponse's writableEnded early-return must keep the 200 (no 500 clobber).
+    await expect(runOnion(ctx, [outer, inner])).resolves.toBeUndefined();
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toBe('ok');
+    expect(res.writableEnded).toBe(true);
+  });
+
+  it('never throws out of its net when the response object is unusable (a destroyed socket)', async () => {
+    // finalizeResponse wraps respondOnce/end in a try/catch so runOnion never throws out of
+    // its own safety net. Model a res whose writeHead/end throw while writableEnded is false:
+    // there is nothing left to send, so runOnion must still resolve, not reject.
+    const throwingRes = {
+      headersSent: false,
+      writableEnded: false,
+      writeHead() {
+        throw new Error('socket destroyed');
+      },
+      end() {
+        throw new Error('socket destroyed');
+      },
+    } as unknown as http.ServerResponse;
+    const ctx = fakeCtx({ reqId: 'rid-17', res: throwingRes });
+    const noop: Middleware = async (_ctx, next) => {
+      await next();
+    };
+    await expect(runOnion(ctx, [noop])).resolves.toBeUndefined();
   });
 });

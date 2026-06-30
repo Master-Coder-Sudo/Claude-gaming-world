@@ -135,6 +135,23 @@ describe('url authority pinning', () => {
     expect(ctx.path).toBe('/');
     expect(ctx.url.host).toBe('localhost');
   });
+
+  it('pins the authority on a plain origin-form target that normalizes to a leading //', () => {
+    // A plain origin-form target (no scheme) whose path collapses to a leading '//'
+    // (e.g. '/..//evil.com' -> '//evil.com') must NOT be re-read as a protocol-relative
+    // authority: ctx.url.host stays the placeholder, never the embedded client host.
+    const req = makeReq({ url: '/..//evil.com' });
+    const ctx = buildContext(req, makeRes(), { kind: 'notFound' });
+    expect(ctx.url.host).toBe('localhost');
+  });
+
+  it('pins the authority on a //host:port pathname target', () => {
+    // The port-bearing variant ('/..//evil.com:8443/x' -> '//evil.com:8443/x') is the
+    // same protocol-relative-authority vector; the authority must still be the placeholder.
+    const req = makeReq({ url: '/..//evil.com:8443/x' });
+    const ctx = buildContext(req, makeRes(), { kind: 'notFound' });
+    expect(ctx.url.host).toBe('localhost');
+  });
 });
 
 describe('reqId uniqueness', () => {
