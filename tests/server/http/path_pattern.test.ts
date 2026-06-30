@@ -175,6 +175,23 @@ describe('matchPattern', () => {
     expect(matchPattern(p, '/api/x/a.b+c')).toEqual({ id: 'a.b+c' });
     expect(matchPattern(p, '/api/x/(weird)')).toEqual({ id: '(weird)' });
   });
+
+  it('captures multiple params in declaration order', () => {
+    // A regression that dropped or swapped the second capture (a mis-keyed
+    // assignment or an off-by-one over the segments) would otherwise pass.
+    const p = compilePattern('/a/:foo/b/:bar');
+    expect(matchPattern(p, '/a/1/b/2')).toEqual({ foo: '1', bar: '2' });
+  });
+
+  it('returns a null-prototype params object (no inherited keys leak)', () => {
+    // matchPattern accumulates into an Object.create(null) bag so a downstream
+    // lookup by an untrusted key can never read an inherited Object.prototype
+    // member; belt-and-suspenders on top of the reserved-param-name guard.
+    const params = matchPattern(compilePattern('/api/x/:id'), '/api/x/42');
+    expect(params).not.toBeNull();
+    expect(Object.getPrototypeOf(params)).toBeNull();
+    expect((params as Record<string, unknown>).toString).toBeUndefined();
+  });
 });
 
 describe('no regex usage (structural)', () => {
@@ -206,6 +223,29 @@ describe('no regex usage (structural)', () => {
     for (const [name, src] of Object.entries(sources)) {
       for (const token of forbidden) {
         expect(src, `${name} must not contain ${token}`).not.toContain(token);
+      }
+    }
+  });
+});
+
+describe('server-only purity (structural)', () => {
+  it('imports nothing from a parent dir (src/sim/render/ui/game/net) or a node builtin', () => {
+    // Criterion 16: the router and its helper stay pure server-only descriptor
+    // code so Phase 5/7/9 own every req/res write. They may import only sibling
+    // './' modules; a parent-relative import ('../') or any node: builtin import
+    // is forbidden. The match signatures take no req/res, so tsc already
+    // guarantees the no-req/res half of the invariant; this pins the imports.
+    const sources: Record<string, string> = {
+      'path_pattern.ts': readFileSync(
+        new URL('../../../server/http/path_pattern.ts', import.meta.url),
+        'utf8',
+      ),
+      'router.ts': readFileSync(new URL('../../../server/http/router.ts', import.meta.url), 'utf8'),
+    };
+    const forbidden = ["from '../", 'from "../', "from 'node:", 'from "node:', 'require('];
+    for (const [name, src] of Object.entries(sources)) {
+      for (const token of forbidden) {
+        expect(src, `${name} must not import via ${token}`).not.toContain(token);
       }
     }
   });

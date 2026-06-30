@@ -102,6 +102,19 @@ describe('createRouter: 405 + Allow set', () => {
     expect(m.kind).toBe('methodNotAllowed');
     if (m.kind === 'methodNotAllowed') expect(m.allow).toEqual(['GET', 'HEAD', 'OPTIONS']);
   });
+
+  it('405s a wrong real method on a dynamic (param) route with the right Allow set', () => {
+    // The canonical wrong-method-on-a-resource case: the 405 + Allow flows
+    // through the dynamic matchPattern scan in computeAllow, not a static hit.
+    const r = createRouter([
+      route('GET', '/api/characters/:id'),
+      route('DELETE', '/api/characters/:id'),
+    ]);
+    const m = r.match('POST', '/api/characters/42');
+    expect(m.kind).toBe('methodNotAllowed');
+    if (m.kind === 'methodNotAllowed')
+      expect(m.allow).toEqual(['GET', 'HEAD', 'DELETE', 'OPTIONS']);
+  });
 });
 
 describe('createRouter: synthesized OPTIONS', () => {
@@ -224,5 +237,23 @@ describe('createRouter: real multi-method paths (OPTIONS/405 Allow synthesis)', 
     const m = r.match('OPTIONS', '/api/discord');
     expect(m.kind).toBe('options');
     if (m.kind === 'options') expect(m.allow).toEqual(['GET', 'HEAD', 'DELETE', 'OPTIONS']);
+  });
+});
+
+describe('createRouter: METHOD_ORDER covers PUT and PATCH', () => {
+  it('sorts PUT and PATCH into their canonical Allow positions (between POST and DELETE)', () => {
+    // PUT=3 and PATCH=4 in METHOD_ORDER are otherwise never exercised; a wrong
+    // order constant for either would slip through every other Allow assertion.
+    const r = createRouter([
+      route('GET', '/api/x'),
+      route('PUT', '/api/x'),
+      route('PATCH', '/api/x'),
+      route('DELETE', '/api/x'),
+    ]);
+    const m = r.match('OPTIONS', '/api/x');
+    expect(m.kind).toBe('options');
+    if (m.kind === 'options') {
+      expect(m.allow).toEqual(['GET', 'HEAD', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']);
+    }
   });
 });
