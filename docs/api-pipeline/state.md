@@ -1,0 +1,422 @@
+# API Pipeline: cross-phase state (the cheat sheet)
+
+Authoritative quick-reference for the `docs/api-pipeline/` packet. Every phase file reads
+this first in its Explore step. Source of truth for the locked decisions is the canonical
+block (transcribed below) and the synthesis. When a phase file disagrees with this file,
+this file and the canonical win. The feature re-architects every JSON/HTTP endpoint on the
+authoritative game server (`server/`) behind one in-house request pipeline. Goal:
+maintainability, security, testability, observability. NOT a concurrency-scalability fix
+(the single-threaded 20 Hz world loop is the per-realm ceiling, a separate out-of-scope
+workstream), NOT a gameplay change, NOT a WS wire change.
+
+## Current phase
+
+Phase 01 (importable-spine). Not started.
+
+## Locked design decisions
+
+### The five 2026-06-30 user decisions
+1. **Delivery = stacked PR chain.** Each phase is its own green, bisectable PR; the suite
+   stays green at every commit. Pairs with the ~40%-context-per-phase bound: small phases,
+   small PRs, small reviews.
+2. **Coexistence = a single all-or-nothing env dispatch flag.** The flag controls whether
+   the new pipeline sits in front of the old `handleApi`. New path is the DEFAULT (and the
+   path the suite targets). The new dispatcher delegates un-migrated paths to the old ladder
+   via a per-path catch-all so partially-migrated states work. Rollback = flip the one flag
+   (all migrated routes revert to the old ladder at once). ACCEPTED TRADEOFF (chosen
+   knowingly): a flag flip reverts the hardening too (new limiters, BOLA loaders, bearer-gap
+   close, security headers, em-dash fix all live on the new path). The old ladder is deleted
+   in the NEXT release once the metric exit-criteria are clean (Phase 25 names them).
+3. **CORS + the OPTIONS-204 short-circuit + the security-headers wrapper stay TOP-LEVEL
+   `createServer` wrappers** covering BOTH old and new paths, so a routing rollback cannot
+   drop CORS/preflight or security headers. They are NOT inside the per-route onion only.
+4. **Discord family in scope this packet.** The SPEC predates the Discord/guild/moderation
+   merge; the Discord identity endpoints, schema wiring, orphaned handler, and limiter are
+   migrated here (see Discord family below).
+5. **BOLA denial status:** 404 for player-owned objects (anti-enumeration); 403 for
+   admin/operator-scoped routes.
+
+### Scope and goal
+- IN SCOPE: every JSON/HTTP endpoint across the four sub-dispatchers (main `handleApi`,
+  admin, oauth, internal) on `server/`.
+- No heavy web framework. Zero new runtime dependencies; the ONE weighed exception is
+  `prom-client`, and ONLY when the `/metrics` exporter lands (Phase 23).
+- All `file:line` anchors in the source SPEC (`docs/api-pipeline/source-spec.md`) are STALE
+  (main.ts ~1695 lines). Re-anchor on SYMBOL NAMES and route strings, never line numbers.
+
+### Target architecture
+- Domain-agnostic spine under `server/http/`: `router.ts`, `compose.ts`, `context.ts`,
+  `schema.ts`, `errors.ts`, `error_codes.ts`, `registry.ts`, `index.ts` (barrel),
+  `middleware/*.ts`, plus a pure `config.ts` (`loadConfig`).
+- Component-first layout: each `server/<domain>.ts` exports `export const routes:
+  RouteDef[]`. Handlers are THIN; domain functions take no req/res so the same core serves
+  REST and WS and is unit-testable.
+- `RouteDef` carries method, path, middleware, schema, params, query, handler, and metadata
+  (`requireOwned*` presence, per-surface envelope, deprecated/sunset).
+- Router: in-house `Map<method,{static:Map<path,Route>, dynamic:Route[]}>`. Static match
+  O(1); dynamic captures `:param` with NO per-request regex. Known-path wrong-method -> 405
+  + Allow header BEFORE auth/handler. Deliberate anti-enumeration 404 on auth routes kept
+  via an explicit `knownDeviation` list. HEAD-for-GET, synthesized OPTIONS, single
+  trailing-slash normalization (convention H), `Vary: Origin`. A no-regex-routing guard
+  asserts every pattern is literal segments or a plain `:param`.
+- Onion: Koa-compose recursive dispatch (~15 lines) with a double-next guard, ordered
+  cheap-reject-first (IP-keyed limits before body+DB; account-keyed limits after auth).
+  `compose()` returns a promise and does NOT send a response or catch on its own (see
+  gotchas). Validator: tiny in-house (~150-line cap), NO zod/valibot, collects ALL field
+  issues in ONE pass, implements the Standard Schema v1 `~standard` type shape, handler
+  input DERIVED via `Infer<typeof S>`, typed params AND query.
+
+### Error + status model (RFC 9457 / 9110 / 6585 confirmed)
+- Per-surface envelopes chosen by a single `mapError`, NEVER one global serializer:
+  - `/api` JSON: RFC 9457 `application/problem+json` (type/title/status/detail/instance +
+    a stable machine `code`; clients localize by CODE, not by parsing `detail`).
+  - `/oauth` POST JSON: RFC 6749 `{error, error_description}`.
+  - `/admin`: `{success, data, error}`.
+  - HTML routes (email/unsubscribe, OAuth GET consent/device pages): `htmlError` HTML page.
+  - Discord callback: 302 redirect-to-error (NOT problem+json).
+  - Binary route (card upload): binary/no-JSON-wrap.
+  - The legacy `{ok:false}` 405 (perf_report) is a 4th characterized contract case.
+- Status codes: 422 well-formed-but-invalid (one-pass collected), 400 malformed JSON, 413
+  over byte cap (Content Too Large), 409 unique-violation, 401 missing/invalid token (+
+  `WWW-Authenticate`), 403 no-entitlement, 429 + `Retry-After`. Unknown -> logged 500 with
+  NO stack/SQL/table text in the body.
+- `error_codes.ts` is the single `as const` source of truth, frozen `(domain, reason)` +
+  param keys, APPEND-ONLY (AIP-193). Reuse the existing `domain.reason` vocabulary.
+
+### Non-JSON `/api` classification (a blanket rule WOULD break prod)
+The `/api` surface is NOT uniformly JSON. A global `415 application/json` + JSON-only
+`withBody` + blanket problem+json WOULD break: `POST /api/card` (binary `image/png` via
+`readBinaryBody`), `GET /api/email/unsubscribe` (HTML), `GET /api/auth/discord/callback`
+(302 redirect). Therefore: classify every `/api` route by response content-type; ship a
+`withRawBody`/binary middleware variant; exempt declared non-JSON routes from 415 + JSON
+withBody; roll out 415 in LOG-ONLY mode first until native (Capacitor) traffic is confirmed.
+Audit each beacon endpoint (`/api/site-presence`, `/api/perf-report`) actual Content-Type.
+
+### Rate limiting (two-tier)
+Tier-1 in-memory IP gate runs FIRST (floods never reach pg); tier-2 global-keyed atomic
+UPSERT in a NEW `server/ratelimit_db.ts` modeled on `bug_report_db.ts` (pg-tier for
+multi-realm). Limiters change from boolean to `{remaining, resetSeconds}` (~5 files; Phase
+19), using the injected `now()` clock (Phase 2) for deterministic tests. `RATELIMIT_SCHEMA`
+MUST be explicitly added to the `ensureSchema` statement list under the boot advisory lock,
+with a boot-time table-existence assertion (the exact trap the UNWIRED `DISCORD_SCHEMA`
+fell into). Emit draft-11 / RFC 9651 `RateLimit` + `RateLimit-Policy` structured-field
+headers (q/w/r/t, pinned to a draft version in a comment) + `Retry-After`, NOT the legacy
+trio. Handler-level checks KEPT (cannot be pre-handler middleware): `authThrottled`
+(per-username, failed-only, clears on success, 15m/10-fail); `rateLimitedPerfReport`
+returns 200 BY DESIGN. NEW limiters (labeled-behavioral knownDeviations):
+character.create/rename/delete/takeover, reports.create; the Discord limiter
+(DISCORD_MAX_PER_MINUTE=15, ip+account) is the genuinely-new 8th surface.
+
+### Discord family (Phase 16)
+- Migrate `POST /api/auth/discord/start`, `GET /api/auth/discord/callback` (HTML redirect,
+  classified non-JSON), `GET /api/discord` (status), `DELETE /api/discord` (unlink) onto
+  RouteDefs.
+- WIRE the unwired `DISCORD_SCHEMA` (5 tables in `discord_db.ts`) into `ensureSchema` here.
+- FIX the orphaned `handleSwagClaim` (implemented + tested in `discord.ts` but never
+  dispatched in main.ts, currently unreachable over HTTP).
+- Add a `discord.*` ip+account policy to POLICIES and Discord error codes to the catalog +
+  client matcher. Carry forward the `isIpBlocked` + turnstile parity gap from prior reviews.
+- The 8 secret-gated `/internal/discord/*` bot-channel endpoints migrate in Phase 18,
+  preserving their `x-woc-discord-secret` gate.
+
+### BOLA / object-level authorization
+Load-then-authorize `requireOwned*` resource-loader: scope-before-find, account-scoped
+query, populates `ctx.<resource>`. Deny-by-default coverage test over the route registry:
+every ACCOUNT-OWNED `:id` route resolves through an account-scoped loader. Admin
+operator-scoped `:id` routes are EXCLUDED from the owner clause and use an admin-scope
+loader. Structured `bola_denied` deny logging. Denial status: 404 player-owned, 403
+admin/operator (see decision 5).
+
+### Security headers (Phase 21)
+`withSecurityHeaders` via a TOP-LEVEL wrapper on the createServer prefix ladder so it
+covers serveStatic, `/c/` SSR, `/p/` card, `/avatar`, sitemap, OAuth GET pages AND the
+route onion: nosniff, Referrer-Policy, Permissions-Policy deny-all, HSTS in prod, COOP/CORP
+same-origin, frame-ancestors/X-Frame-Options on OAuth, Cache-Control no-store on
+auth/token, strip Server + X-Powered-By. Explicitly NO COEP:require-corp (would break
+cross-origin GLB/HDRI). Full CSP is a SEPARATE Report-Only effort, NOT enforced here.
+
+### World Market realm-scope fix (Phase 20, own PR, migration-safety reviewer)
+Highest-consequence change (normal-operation item loss). Realm-scope the `world_state`
+`'market'` key at BOTH write sites in lockstep (anchor on `saveCharacterAndMarketState`
+escrow txn AND `saveWorldState`) PLUS the read (`loadMarketState`). Add a backfill that
+PARTITIONS the existing global blob by each seller character's realm, idempotent under the
+advisory lock, with a boot-ordering gate before the first new-key write, a dry-run +
+escrow-sum/row-count verification, and a documented data-rollback. JSONB
+`serializeCharacter` with a defensive `??` default keeps new state fields back-compatible.
+
+### REST i18n matcher (Phase 22)
+The live `/api` REST error matcher is `userFacingApiError` in the game CLIENT
+(`src/main.ts`), a startsWith/exact/regex matcher, NOT `server_i18n` (WS-only), currently
+UNGUARDED (the S3 guard scans only the WS path). Extend it to look up emitted CODES
+directly in the client catalog instead of reverse-matching English prose; port parametric
+cases (suspended-until {date}, {seconds} rate-limit families) to `{code, params}`; add
+`apiError.*` English catalog entries; add a per-surface code-parity Vitest asserting every
+server-emitted code resolves in EVERY locale (append-only frozen), covering the ~30-45
+EXISTING REST strings too. Numbers/dates/durations format client-side via
+`formatNumber`/`formatDuration`/`Intl`. Em-dash fix: the U+2014 rate-limit strings get the
+dash swapped to a comma in the SAME change as the matching `userFacingApiError` change
+(prefix unchanged so startsWith still resolves); also fix the operator-facing em dashes in
+`src/admin/i18n.locales/en_CA.ts`.
+
+### No-magic-values + config (Phase 24)
+Every tunable (rate limits + windows, byte caps, page sizes, timeouts, TTLs, pool sizes,
+maxPayload, drain window) is a NAMED constant, single source of truth, env read ONCE via a
+pure validated `loadConfig(env)` (separate from the boot call site). POLICIES values DERIVE
+from existing named constants, never re-typed literals. Server timeouts
+(requestTimeout/headersTimeout/keepAliveTimeout/maxHeaderSize) set in `startServer()` with
+named constants, mindful of the WS upgrade handshake and the 1 MB card upload.
+
+### API conventions
+- SHIP NOW: B (pagination `{items, page, pageCount, total, pageSize}`), H (trailing-slash),
+  I (drain-aware health: `/livez` + `/readyz`, `/readyz` NOT-ready during SIGTERM drain).
+- DEFERRED to a consumer-driven follow-up: A (versioning), D (ETag), F
+  (Deprecation/Sunset), G (OpenAPI). Ship paths UNVERSIONED.
+
+### Performance gate
+Non-goal: NO realtime regression. Pipeline (compose recursion + ALS + per-route metric
+write + full-issue schema validation) runs on the SAME event loop as the 20 Hz world loop.
+Acceptance gate: the pipeline adds < X ms p99 per request and does NOT raise tick p95 above
+0.8 x DT, measured against the existing perf harness. (Phase 24 codifies the gate and picks
+the X-ms constant; X is TBD, see open items.)
+
+## Non-negotiable constraints (every phase keeps all of these)
+- **Determinism / sim purity:** sim randomness via `Rng` only; NEVER
+  `Math.random`/`Date.now`/`performance.now` in `src/sim/`. This work is SERVER-ONLY and
+  should not touch `src/sim/` (server time is fine; Phase 2 injects a `now()` clock so
+  limiter tests are deterministic). `src/sim/` imports nothing from render/ui/game/net; no
+  DOM/Three (guarded by `tests/architecture.test.ts`). The only client-side touch is the
+  i18n matcher in `src/main.ts` + the `apiError.*` catalog (Phase 22).
+- **Server authority:** clients stream intent; the server resolves all outcomes. This
+  packet does not change that and does not change the WS wire/snapshots. If a phase would
+  change them, STOP and surface it.
+- **Stable-code i18n:** every player-visible string is a `t()` key in every locale; the
+  server stays language-agnostic and emits a stable CODE re-localized at the client
+  boundary. The S3 guard is `tests/localization_fixes.test.ts`.
+- **Additive idempotent DDL:** boot-time DDL under the advisory lock (`CREATE TABLE IF NOT
+  EXISTS` / `ALTER TABLE ... ADD COLUMN IF NOT EXISTS`); there is NO migrations directory;
+  the inline DDL IS the schema. JSONB back-compat for existing character state; round-trip
+  test. New schemas MUST be added to the `ensureSchema` statement list (the DISCORD_SCHEMA
+  trap).
+- **No magic values:** every tunable is a named constant via `loadConfig(env)` (Phase 24).
+- **No generated-file edits:** do not hand-edit generated files (regenerate via the build).
+- **Shared-worktree commit care:** concurrent sessions exist. Commit with EXPLICIT paths,
+  never `git add -A`. Conventional Commits with a scope (`feat(http): ...`,
+  `fix(server): ...`, `test(server): ...`).
+- **No em dashes, en dashes, or emojis** anywhere (code, comments, docs, commits, copy).
+  Enforced by the Stop hook + pre-push copy scan.
+- **Module-first:** spine under `server/http/` + per-domain route modules; NEVER grow
+  main.ts. Biome on CHANGED files only (`npm run ci:changed`); scoped `npx @biomejs/biome
+  check --write <file>` only; NEVER a whole-tree `--write`.
+
+## Validation matrix (by change type)
+- **Any code change (baseline):** `npx tsc --noEmit` + `npx vitest run
+  tests/server/<domain>.test.ts` (and any existing affected suite) + `npm run ci:changed`
+  (Biome on changed files).
+- **Spine / primitive phases:** `npx vitest run` the new `tests/server/http/*.test.ts`.
+- **Server build:** `npm run build:server`.
+- **Player text / codes added or changed:** `npx vitest run
+  tests/localization_fixes.test.ts` (S3) + the new per-surface code-parity test.
+- **Persistence / DDL changed:** idempotent-DDL re-run test + JSONB save/load round-trip
+  test; dispatch the `migration-safety` reviewer.
+- **Each phase is a PR; pre-merge gate (mirror CI):** `npm test && npx tsc --noEmit && npm
+  run build:env && npm run build:server && npm run build`.
+- **WS wire/snapshots are NOT expected to change.** If a phase would change them, STOP and
+  surface it.
+- **Review dispatch (spawn ONLY matching surfaces; check `git diff --name-only`):**
+  `privacy-security-review` (`server/` touched, esp. auth/BOLA/rate-limit/headers/secrets/
+  SQL), `migration-safety` (`db.ts`, `ratelimit_db.ts`, `discord_db.ts` wiring, the market
+  fix, any DDL/JSONB shape change), `cross-platform-sync` (ONLY if IWorld/`src/sim`/wire/the
+  matchers/RL surface change, mostly only Phase 22), `architecture-reviewer` (ONLY if
+  `src/sim/` changes, which this packet should NOT), `qa-checklist` (each phase completion).
+
+## Key file paths
+- **Existing server sub-dispatchers (the four):** main `handleApi` in `server/main.ts`;
+  admin `handleAdminApi` in `server/admin.ts`; `server/oauth.ts`; `server/internal.ts`.
+- **Existing domain handlers / db modules to draw from:** `server/account.ts`,
+  `server/wallet.ts`, `server/discord.ts`, `server/discord_db.ts`, `server/discord_oauth.ts`,
+  `server/auth.ts`, `server/native_attestation.ts`, `server/character_sheet.ts`,
+  `server/perf_report.ts`, `server/site_presence.ts`, `server/bug_report_db.ts`,
+  `server/ratelimit.ts`, `server/ip_block.ts`/`ip_block_db.ts`, `server/turnstile.ts`,
+  `server/moderation_db.ts`/`moderation_service.ts`, `server/social_db.ts`, `server/db.ts`,
+  `server/http_util.ts`, `server/web_login_guard.ts`.
+- **Spine modules to be CREATED (`server/http/`):** `router.ts`, `compose.ts`, `context.ts`,
+  `schema.ts`, `errors.ts`, `error_codes.ts`, `registry.ts`, `index.ts` (barrel),
+  `config.ts` (pure `loadConfig`), `middleware/*.ts`, plus the importable `ws_auth` module
+  (Phase 1).
+- **New persistence:** `server/ratelimit_db.ts` (RATELIMIT_SCHEMA wired into `ensureSchema`).
+- **New per-domain route modules:** `server/leaderboard.ts`, `server/characters.ts`,
+  `server/reports.ts` (each `export const routes: RouteDef[]`); existing files get a `routes`
+  export added (`account.ts`, `wallet.ts`, `discord.ts`, `admin.ts`, `oauth.ts`,
+  `internal.ts`).
+- **Tests:** `tests/server/<domain>.test.ts`, `tests/server/http/<primitive>.test.ts` (the
+  `tests/server/` directory is created in Phase 2).
+- **Client i18n (Phase 22):** `apiError.*` catalog domain (a `src/ui/i18n.catalog/` module);
+  `userFacingApiError` in `src/main.ts` extended; `src/admin/i18n.locales/en_CA.ts` em-dash
+  fix.
+
+## New files created per phase
+| Phase | New files |
+|---|---|
+| 01 | `server/http/` dir + importable `ws_auth` module; entry-guard + exported `startServer()`/pure prefix dispatcher in `server/main.ts`; import-without-boot smoke test. |
+| 02 | `tests/server/` dir; fake-http + `fakeCtx` helper; `FakeRateLimitStore`; `FakeDb` interfaces (characters/leaderboard/reports); golden-master generator + tested normalizer; parity-harness driver; registry-introspection meta-test helpers; `server/http/config.ts` (pure `loadConfig`); `now()` clock injected into `ratelimit.ts`/`ratelimit_db.ts`. |
+| 03 | Characterization/golden-master fixtures over every route + the prefix dispatch; route-count freshness gate test; content-type classification + seeded knownDeviation list. |
+| 04 | `server/http/router.ts` + `tests/server/http/router.test.ts`. |
+| 05 | `server/http/compose.ts` + `server/http/context.ts` + tests. |
+| 06 | `server/http/schema.ts` + test. |
+| 07 | `server/http/errors.ts` + `server/http/error_codes.ts` + per-surface contract test. |
+| 08 | `server/http/middleware/*.ts` (withErrors, requestId+ALS, withCors, withBody, withRawBody, requireAccount, thin rateLimit adapter, metric/access-log hook sink) + tests. |
+| 09 | `server/http/registry.ts` + `server/http/index.ts` barrel; dispatcher-in-front wiring in `server/main.ts`; dual-path parity harness + registry-completeness path-set diff test. |
+| 10 | `server/leaderboard.ts` + `tests/server/leaderboard.test.ts`. |
+| 11 | auth `routes` (on `server/auth.ts`) + `tests/server/auth.test.ts`. |
+| 12 | `server/characters.ts` + `requireOwnedCharacter` loader + `tests/server/characters.test.ts`. |
+| 13 | account `routes` (on `server/account.ts`) + `tests/server/account.test.ts`; em-dash fix in `src/main.ts` + `src/admin/i18n.locales/en_CA.ts`. |
+| 14 | wallet `routes` (on `server/wallet.ts`) + `tests/server/wallet.test.ts`. |
+| 15 | `server/reports.ts` + `tests/server/reports.test.ts`. |
+| 16 | discord `routes` (on `server/discord.ts`) + `tests/server/discord.test.ts`; DISCORD_SCHEMA wired into `ensureSchema` (`server/db.ts`); `handleSwagClaim` dispatched. |
+| 17 | admin `routes` (on `server/admin.ts`) + `tests/server/admin.test.ts`; admin-scope loader. |
+| 18 | oauth + internal `routes` (on `server/oauth.ts`/`server/internal.ts`) + tests. |
+| 19 | `server/ratelimit_db.ts` (RATELIMIT_SCHEMA, wired into `ensureSchema`); limiter return-shape rework in `server/ratelimit.ts`; `respond429`; `tests/server/ratelimit_db.test.ts`. |
+| 20 | market realm-key changes + partitioned backfill in `server/db.ts`; extend `save_character_and_market.test.ts`. |
+| 21 | `server/http/middleware/security_headers.ts` + top-level wrapper in `server/main.ts`; 415 log-only + Origin/Sec-Fetch check + tests. |
+| 22 | `apiError.*` client catalog module; `userFacingApiError` extension in `src/main.ts`; per-surface code-parity Vitest. |
+| 23 | pino-shaped logger facade + access log; `/metrics` exporter (`prom-client`); `/livez` + `/readyz`; tests. |
+| 24 | validated fail-fast config (extend `server/http/config.ts`); named constants module; timeouts in `startServer()`; perf/tick-jitter gate test. |
+| 25 | docs (`server/CLAUDE.md`, root `CLAUDE.md`, new `server/http/CLAUDE.md`, i18n docs); `npm run new:endpoint` scaffold; flag-default flip. |
+
+## New endpoints / route tables per phase
+- **P10 (public reads):** `/api/leaderboard` (incl. `?board=guilds`, legacy `?limit=N`,
+  `?scope`), `/api/arena/leaderboard`, `/api/releases`, `/api/project-stats`, `/api/search`,
+  `/api/realms`, `/api/public/characters/:id/sheet`, dev-gated `/api/perf`; `/api/status`
+  trimmed to `{ok,realm,players_online}`; bearer resolver closes the `/api/realms` +
+  `/api/search` authz gap.
+- **P11 (auth):** `/api/register`, `/api/login`, `/api/native-attestation/challenge`.
+- **P12 (characters BOLA):** `/api/me/characters`, `/api/characters` (GET/POST),
+  `/api/characters/:id` (DELETE), `/rename`, `/takeover`, `/standing`, `/sheet`.
+- **P13 (account):** `/api/account/*` family (password/logout/email(+change/verify)/
+  deactivate/export/marketing/2fa(setup/enable/disable)/companion-token); `email-unsubscribe`
+  classified HTML.
+- **P14 (wallet):** `/api/wallet/link/challenge`, `/api/wallet/link` (POST/DELETE),
+  `/api/wallet` (GET), `/api/woc/balance`, `/api/card` (withRawBody), `/api/referrals`.
+- **P15 (reports/telemetry):** `/api/reports` (new reports.create limiter), `/api/bug-reports`,
+  `/api/perf-report` (keep 200-not-429), `/api/site-presence`.
+- **P16 (discord):** `POST /api/auth/discord/start`, `GET /api/auth/discord/callback` (HTML
+  redirect), `GET /api/discord`, `DELETE /api/discord`, `POST /api/discord/swag/claim`
+  (handleSwagClaim, newly dispatched).
+- **P17 (admin):** the ~19 `handleAdminApi` branches as RouteDefs; enum-segment routes
+  (suspend|unsuspend|ban|unban) become `:param` + schema-validated enum; `{success,data,error}`
+  + page/limit pagination frozen.
+- **P18 (oauth + internal):** `/oauth/token`, `/oauth/revoke`,
+  `/oauth/device_authorization`, authorize-POST, device-POST (RFC 6749 JSON); GET
+  authorize/device pages stay on the top-level ladder (HTML); `/internal/restart-countdown`
+  + the 8 `/internal/discord/*` bot-channel endpoints (secret gate preserved).
+
+## New DB tables / columns per phase
+- **P16:** WIRE `DISCORD_SCHEMA` (5 tables: `discord_links`, `discord_oauth_states`,
+  `reward_points`, `reward_ledger`, `swag_claims`) into the `ensureSchema` statement list
+  under the advisory lock (currently UNWIRED on this branch; the canonical trap).
+- **P19:** NEW `RATELIMIT_SCHEMA` table in `server/ratelimit_db.ts`, ADDED to the
+  `ensureSchema` list under `pg_advisory_xact_lock`, with a boot-time table-existence
+  assertion; global-keyed single-statement atomic UPSERT tier-2 backstop.
+- **P20:** realm-scope the `world_state` `'market'` key (composite realm-key, not the bare
+  global key) at both write sites + the read; partitioned idempotent backfill; no new table.
+  JSONB `serializeCharacter` defensive `??` default keeps new state fields back-compatible.
+
+## New error codes + i18n keys + the userFacingApiError matcher change (Phase 22)
+- `error_codes.ts` (created P07) is the single `as const`, append-only (AIP-193) source;
+  each migration phase appends `domain.reason` codes (reuse existing vocabulary). New codes
+  include the Discord family (P16), the previously-unmatched wallet "rate limited" responses
+  (P14), and the new character/reports limiter codes.
+- **P22 matcher change:** extend `userFacingApiError` (`src/main.ts`) to look up emitted
+  CODES directly in the client catalog instead of reverse-matching English prose; port the
+  parametric cases (suspended-until `{date}`, the `{seconds}` rate-limit families) to
+  `{code, params}`; preserve its dual REST + WS-disconnect-reason role.
+- Add `apiError.*` English catalog entries; params formatted client-side via
+  `formatNumber`/`formatDuration`/`Intl`. A per-surface code-parity Vitest asserts every
+  server-emitted code resolves in EVERY locale (append-only frozen), covering the ~30-45
+  EXISTING REST strings (currently unguarded; S3 scans only the WS path) + the new
+  Discord/guild codes.
+- Em-dash fix (paired with P13): swap the U+2014 rate-limit dashes to commas in the SAME
+  change as the matcher (prefix unchanged so startsWith still resolves); also fix
+  `src/admin/i18n.locales/en_CA.ts`.
+
+## New named constants / config (Phase 24)
+- A validated fail-fast config read ONCE at boot via the pure `loadConfig(env)` from P2
+  (HSTS-in-prod, REQUIRE_WEB_LOGIN, realm/native-app origins, limiter DSN, the dispatch
+  flag), replacing scattered `process.env` reads; log the active dispatch path at boot and
+  alert if the old path is active in prod.
+- Server timeouts in `startServer()`: `requestTimeout`, `headersTimeout`,
+  `keepAliveTimeout`, `maxHeaderSize` as named constants (mindful of the WS upgrade
+  handshake and the 1 MB card upload).
+- Consolidate every tunable (rate limits + windows, byte caps, page sizes, timeouts, TTLs,
+  pool sizes, maxPayload, drain window) into named constants with unit + comment; POLICIES
+  values DERIVE from existing constants.
+- Add the perf/tick-jitter acceptance gate (pipeline adds < X ms p99, tick p95 stays under
+  0.8 x DT). X-ms constant is TBD (chosen here; see open items).
+
+## Architecture decisions (locked, independently confirmed by code + 2024-2026 sources)
+- **RFC 9457 `application/problem+json`** as the `/api` error format (obsoleted RFC 7807,
+  no breaking member change), with a stable machine `code` as the load-bearing field;
+  clients localize by code, MUST use type/code not parse `detail`.
+- **Per-surface envelopes chosen by `mapError`, never one global flip** (problem+json /api,
+  RFC 6749 /oauth, `{success,data,error}` /admin); all three shapes exist in code today.
+- **The 422 / 400 / 413 / 429(+Retry-After) status model** (RFC 9110: 422 is now core HTTP;
+  RFC 6585), a deliberate documented knownDeviation from today's 400-for-validation /
+  500-for-malformed.
+- **Hand-rolled ~150-line validator** conforming to the Standard Schema v1 `~standard` type
+  shape with `Infer`-derived handler types (server ships nothing to a browser, so Valibot's
+  bundle win is moot; the seam keeps a zero-churn swap open).
+- **In-house static-Map table router** (literal segments + plain `:param`) over
+  URLPattern/regex, 404-vs-405+Allow before auth, HEAD-for-GET, synthesized OPTIONS,
+  trailing-slash normalization, no-regex-routing guard (ReDoS-safe by construction).
+- **Koa-compose recursive-dispatch onion** (~15 lines) with a double-next guard,
+  cheap-reject-first (IP-keyed before body+DB, account-keyed after auth).
+- **Two-tier rate limiter** (tier-1 in-memory IP gate first; tier-2 global-keyed atomic
+  UPSERT in `ratelimit_db.ts`), limiter return-shape boolean -> `{remaining,resetSeconds}`;
+  `authThrottled` genuinely cannot be pre-handler middleware.
+- **reqId via built-in `node:async_hooks` AsyncLocalStorage** (stable since v16.4.0, zero
+  deps), echoed as `X-Request-Id` on every response, behind a pino-shaped logger facade;
+  full OpenTelemetry deferred; `prom-client` only when `/metrics` lands.
+- **BOLA via a load-then-authorize `requireOwned*` loader** (scope-before-find,
+  account-scoped query) + a deny-by-default coverage test + structured deny logging;
+  session-id == request-id comparison is explicitly insufficient.
+- **Top-level security-headers wrapper** on the createServer prefix ladder (not just the
+  JSON onion), NO COEP:require-corp, full CSP deferred to a Report-Only effort.
+- **The World Market realm-scope bug is real** (exactly two writers of the bare `'market'`
+  key + a global read sharing one PRIMARY-KEY row; realms on one DATABASE_URL collide
+  last-writer-wins). The em-dash fix is matcher-safe; the draft-11
+  RateLimit/RateLimit-Policy header syntax (q/w/r/t) is a non-final Internet-Draft to pin
+  with a version comment.
+
+## OPEN items + known gotchas
+- **Stale anchors.** Every main.ts/db.ts line anchor in the SPEC is stale (main.ts ~1695
+  lines). Re-anchor on symbol names and route strings, never line numbers. Phase 03 does the
+  re-inventory + a route-count freshness gate; the market/em-dash fixes anchor on function
+  names and the literal strings.
+- **Non-JSON `/api` classification.** A blanket 415 + JSON-only `withBody` + blanket
+  problem+json would break `POST /api/card` (binary), `GET /api/email/unsubscribe` (HTML),
+  `GET /api/auth/discord/callback` (302). Classify by response content-type; ship a
+  `withRawBody` variant; exempt declared non-JSON routes; 415 log-only first until native
+  (Capacitor) traffic confirmed. Design task that must PRECEDE the error-model phase.
+- **compose-no-auto-respond rule.** `compose()` returns a promise and does NOT send a
+  response or catch on its own; raw `node:http` leaves the socket hanging on an uncaught
+  throw. `withErrors` must be OUTERMOST AND the top-level `compose(ctx)` call must be wrapped
+  to guarantee exactly ONE idempotent response on both the resolve and throw paths
+  (headersSent/writableEnded guarded). A top-level `clientError` handler must destroy the
+  socket. Mandatory, not optional.
+- **Perf/tick gate X-ms TBD.** The acceptance constant (pipeline adds < X ms p99; tick p95
+  stays under 0.8 x DT) is not yet picked. Phase 24 codifies the gate and chooses X against
+  the existing perf harness.
+- **Old-ladder deletion exit criteria TBD.** "Next release once metrics are clean" is
+  unresolved: which metrics, what thresholds, who owns the call, what if v0.18 ships before
+  they are clean. Phase 25 names the metric gate (e.g. zero `http_requests_total` on the
+  old-path label for N days, zero unexplained 404 delta) + an owner; the deletion is its own
+  follow-up PR.
+- **Rollback tradeoff accepted.** A flag flip reverts the hardening too (the suite targets
+  the new path). This is the chosen model; not an open question, but keep it visible.
+- **`handleSwagClaim` orphaned.** Implemented + tested in `discord.ts` but never dispatched;
+  Phase 16 wires it.
+- **DISCORD_SCHEMA precedent trap.** Defined-but-unwired on this branch; the exact failure
+  mode `RATELIMIT_SCHEMA` must avoid. Always add new schemas to the `ensureSchema` list with
+  a boot-time table-existence assertion.
+- **`isIpBlocked` + turnstile parity gap** carried forward from prior Discord reviews;
+  ported Discord endpoints must not skip those checks.
