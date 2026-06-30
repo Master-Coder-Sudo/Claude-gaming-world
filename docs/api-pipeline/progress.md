@@ -18,7 +18,7 @@ Mark a row's Status as "In progress" or "Done" and fill Started / Completed
 | Phase 02 QA | Done | 2026-06-30 | 2026-06-30 |
 | Phase 03 | Done | 2026-06-30 | 2026-06-30 |
 | Phase 03 QA | Done | 2026-06-30 | 2026-06-30 |
-| Phase 04 | Not started |  |  |
+| Phase 04 | Done | 2026-06-30 | 2026-06-30 |
 | Phase 04 QA | Not started |  |  |
 | Phase 05 | Not started |  |  |
 | Phase 05 QA | Not started |  |  |
@@ -141,17 +141,47 @@ QA VERDICT (Phase 03 QA, 2026-06-30): PASS-WITH-FOLLOWUPS. Brief + 5-way audit f
 ## Phase 04: Table router (server/http/router.ts)
 
 Deliverables:
-- [ ] Map<method,{static:Map,dynamic[]}>, O(1) static match, :param capture with no per-request regex
-- [ ] 404-vs-405 + Allow, HEAD-for-GET, synthesized OPTIONS from the real method set, single-trailing-slash normalization (convention H), Vary:Origin
-- [ ] A no-regex-routing guard asserting every pattern is literal segments or a plain :param
+- [x] Map<method,{static:Map,dynamic[]}>, O(1) static match, :param capture with no per-request regex
+- [x] 404-vs-405 + Allow, HEAD-for-GET, synthesized OPTIONS from the real method set, single-trailing-slash normalization (convention H), Vary:Origin
+- [x] A no-regex-routing guard asserting every pattern is literal segments or a plain :param
 
 QA:
-- [ ] Fixes applied
-- [ ] Tests added
-- [ ] Dead code removed
-- [ ] Reviews clean
+- [x] Fixes applied
+- [x] Tests added
+- [x] Dead code removed
+- [x] Reviews clean
 
 Notes:
+- New modules (both PURE, server-only, not wired into the live server until Phase 9; the
+  module-first split is the pure helper + its thin consumer):
+  - `server/http/path_pattern.ts`: `compilePattern` (the no-regex routing guard), `normalizePath`
+    (single trailing slash, root preserved, no internal-slash collapse / no percent-decode / no
+    ".." resolution), `matchPattern` (segment-count then string-equality, no per-request regex);
+    plus the `HttpMethod` (an ALIAS of the canonical `Method` from server/http/types.ts, not a
+    second source of truth), `PatternSegment`, `CompiledPattern` types.
+  - `server/http/router.ts`: `createRouter(routes)` over a `Map<HttpMethod,{static:Map,dynamic[]}>`,
+    returning the discriminated `MatchResult` union (`matched` with params + `head`,
+    `methodNotAllowed` with a sorted Allow, synthesized `options`, `notFound`). HEAD maps to GET;
+    OPTIONS is synthesized from the real method set; the Allow set always includes synthesized
+    OPTIONS and (when GET is present) HEAD, ordered by a complete `METHOD_ORDER` map.
+  - Tests: `tests/server/http/path_pattern.test.ts` + `tests/server/http/router.test.ts` (55 tests).
+- The router is a PURE match function: it returns descriptors, never writes a header/response/
+  envelope. The 405/404/OPTIONS WRITES + the Vary:Origin header are the Phase 9 dispatcher's job;
+  the error bodies are Phase 7's. The honest 405+Allow is default; the anti-enumeration
+  404-instead-of-405 override on auth routes is applied by Phase 9 from an explicit list, never here.
+- The no-regex guard REJECTS the admin enum-alternation route
+  `/admin/api/moderation/accounts/:id/(suspend|unsuspend|ban|unban)` (the only such route in the
+  Phase 3 inventory), which is what forces it to restructure to `:param` + schema in Phase 17.
+- DECISIONS beyond the literal contract (sound, recorded for Phase 9): registering HEAD/OPTIONS is
+  rejected (they are synthesized, so a HEAD-only route is intentionally inexpressible; the inventory
+  has none); the duplicate guard rejects same-SHAPE patterns (so `/a/:x` vs `/a/:y` throw, not just
+  textual dups), and reserved param names (`__proto__`/`constructor`/`prototype`) are rejected at
+  compile time.
+- Validation green: tsc clean; the two http files 55 tests pass; full `npm test` 611 files / 6411
+  pass; build:env/build:server/build all exit 0; Biome on changed files clean; ASCII-clean (no
+  em/en dashes, no emojis). Reviewers (privacy-security-review, qa-checklist, fresh coverage
+  subagent): 0 BLOCKING; all SHOULD-FIX + NIT findings applied (per the apply-all-findings rule).
+  Forward/cross-seam notes recorded in state.md for Phase 9. Next: Phase 04 QA (phase-04-qa.md).
 
 ## Phase 05: Onion compose + request context (compose.ts + context.ts)
 
