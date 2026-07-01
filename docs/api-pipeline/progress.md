@@ -32,7 +32,7 @@ Mark a row's Status as "In progress" or "Done" and fill Started / Completed
 | Phase 09 QA | Not started |  |  |
 | Phase 10 | Done | 2026-06-30 | 2026-06-30 |
 | Phase 10 QA | Done | 2026-07-01 | 2026-07-01 |
-| Phase 11 | Not started |  |  |
+| Phase 11 | Done | 2026-07-01 | 2026-07-01 |
 | Phase 11 QA | Not started |  |  |
 | Phase 12 | Not started |  |  |
 | Phase 12 QA | Not started |  |  |
@@ -696,16 +696,47 @@ More notes:
 ## Phase 11: Migrate auth (register/login/native-attestation)
 
 Deliverables:
-- [ ] Port /api/register, /api/login, /api/native-attestation/challenge
-- [ ] passesTurnstile as a per-route POST-body middleware after withBody, scoped to register+login (not a global prologue)
-- [ ] Preserve authThrottled as a HANDLER-level check (per-username, failed-only, clears on success, 15m/10-fail)
-- [ ] Keep the deliberate anti-enumeration 404 on register/login as a documented knownDeviation
+- [x] Port /api/register, /api/login, /api/native-attestation/challenge as RouteDefs (server/auth_routes.ts, NEW module), spread into apiRoutes (server/http/registry.ts)
+- [x] passesTurnstile as a per-route POST-body middleware after withBody (server/http/middleware/turnstile.ts), scoped to register+login (not a global prologue, not on the challenge route)
+- [x] Preserve authThrottled as a HANDLER-level check (per-username, failed-only via recordAuthFailure, clears on success via clearAuthFailures, 15m/10-fail window)
+- [x] Preserve the deliberate anti-enumeration behavior on register/login (documented; see the CORRECTION note: it is 409-on-taken-username / 401-on-bad-credentials, already the by-design registerLoginAntiEnumeration deviation, NOT a 404)
 
-QA:
-- [ ] Fixes applied
-- [ ] Tests added
-- [ ] Dead code removed
-- [ ] Reviews clean
+QA (in-phase reviewers, per the phase contract; the dedicated Phase 11 QA gate phase-11-qa.md is the next step):
+- [x] Fixes applied
+- [x] Tests added
+- [x] Dead code removed
+- [x] Reviews clean
+
+Reviewers (2026-07-01, the two the phase doc requires): privacy-security-review REQUIRED = 0 BLOCKING / 0 SHOULD-FIX (2 NICE-TO-HAVE + 3 INFO all parity-preserved); it verified the credential surface line-for-line (guard order = legacy cheap-reject-first, no limiter/IP-block moved after a DB read/write, admin IP-block bypass correct, anti-enumeration preserved, no secret read/logged, parameterized SQL only, CSPRNG token issuance, moderation gate intact). qa-checklist REQUIRED = READY, 0 BLOCKING / 1 SHOULD-FIX / 3 NICE-TO-HAVE. NOT dispatched (no matching surface): migration-safety (no DDL/JSONB), cross-platform-sync (no IWorld/wire/matcher; the client matcher is CONSUMED unchanged), architecture-reviewer (no src/sim). Both reviewers independently surfaced the SAME substantive item.
+Applied ALL findings (apply-all rule):
+- (SHOULD-FIX, both reviewers) Ledger gap: the new path parses the body via withBody and surfaces errors via the Phase 7 withErrors boundary, so on /api/login and /api/native-attestation/challenge a malformed JSON body now answers 400 (json.malformed), an over-cap body 413 (body.too_large), and an unexpected throw 500 (internal.error), all as RFC 9457 problem+json, whereas the legacy handleApi outer catch answers all three as 500 { error: 'internal error' }. register's 400/413 status remap is already tracked by validationStatusRemap; login + challenge were not. NOT exercised by the db-free parity corpus (valid bodies only), so it is documented, not harness-caught. FIX: added the authBodyValidationRemap known deviation (routes /api/login + /api/native-attestation/challenge, introducedInPhase 11). Leak-free: the 500 detail is a static generic sentence and the original error goes only to the logger. Phase 22 wires the client code-matcher for these problem+json bodies.
+- (NICE, both) webLoginGuard reads webLoginEnforced() LIVE per request (the legacy arm cached it once): documented as a deliberate, parity-equivalent (env is fixed at boot), more-testable choice with an inline comment; behavior unchanged.
+- (NICE, qa) login had no onion-level IP-rate-limit test (register did): added a symmetric login guard-chain 429 test (exhaust the per-IP window then a login from the same IP is rejected by ipRateLimitGuard before the handler reads the account).
+- (NICE, qa) validationStatusRemap.introducedInPhase framing (7 vs the per-route Phase-11 realization): the pre-existing Phase-7 entry (which also spans /api/reports + /api/bug-reports, migrating in later phases) is left as-is; the new authBodyValidationRemap precisely attributes login + challenge to Phase 11 and its reason notes the framing. Re-splitting validationStatusRemap is out of Phase 11 scope.
+INFO (parity-preserved, no action): the login account-existence timing oracle (verifyPassword scrypt runs only for an existing username), a banned account with a correct password answering 403 (not 401), and a blocked-IP correct-password answering 429 (not 401) all reproduce the legacy behavior exactly and are covered by registerLoginAntiEnumeration.
+
+New module + surface:
+- `server/auth_routes.ts` (NEW): the auth credential domain. Thin Ctx handlers (register, login, native-attestation challenge) + small per-route guard middleware + `export const routes: RouteDef[]` (3 POST routes). Follows the server/leaderboard.ts template. NOTE the deviation from the phase doc's "on server/auth.ts": server/auth.ts is a pure leaf (crypto + validators, imports only node + obscenity); bolting HTTP handlers + db.ts/http imports onto it risks an import cycle and mixes the pure/IO split the repo enforces (server/CLAUDE.md), so the routes live in a NEW module exactly as the leaderboard template is a NEW server/leaderboard.ts (not bolted onto db.ts). db.ts / account.ts reads+writes + the register side-effects (emailAccountCreated / createSuspiciousRegistrationReport / captureReferral) are imported directly and bundled behind a test seam (setAuthDbForTests); the three main.ts-local singletons (game.isIpBlocked, passesTurnstile, requestMetadata) are INJECTED once at boot via configureAuthRuntime (main.ts), mirroring configureLeaderboardRuntime.
+- `server/http/middleware/turnstile.ts` (NEW): a generic per-route POST-body anti-bot gate. Takes an injected `verify` (main.ts passesTurnstile is wired in by the auth route), runs after withBody, and on failure short-circuits with the legacy 403 `{error:'verification failed, please try again'}` body (it does NOT throw an HttpError, so the body shape stays legacy-identical and the client prose-matcher still resolves it; RFC 9457 for this is Phase 22).
+- `server/http/registry.ts`: `apiRoutes` now `[...leaderboardRoutes, ...authRoutes]`.
+- `server/main.ts`: `configureAuthRuntime({...})` at module load. The legacy handleApi arms for all three paths are LEFT INTACT (the flag-off rollback path; removed only in Phase 25).
+- Tests (NEW): tests/server/auth.register.test.ts, tests/server/auth.login.test.ts, tests/server/auth.attestation.test.ts.
+
+KEY RECONCILIATION (parity-first, following the Phase 10 durable pattern): the migrated auth handlers write the SAME legacy `{error:'...'}` / success body shapes byte-for-byte via http_util json(), NOT the RFC 9457 problem+json error model. The phase doc's "emit through the shared error model as a stable code (problem+json)" invariant is the Phase-22 END-STATE; the phase doc's own OUT-OF-SCOPE ("the existing prose-matcher still resolves the migrated responses, parity preserved") is decisive and requires prose bodies now, because src/main.ts userFacingApiError keys on English prose and is not code-aware until Phase 22. The guard checks (origin, IP rate-limit, IP block) run IN small per-route middleware writing legacy bodies (NOT the generic rateLimit/requireAccount middleware, which would emit problem+json and change the body shape) so parity holds exactly as Phase 10 kept publicReadRateLimited in-handler.
+
+Middleware order (per route), the exact legacy check order, cheap-reject-first (Phase 8 onion philosophy):
+- register: [webLoginGuard, ipRateLimitGuard, registerIpBlockGuard, withBody(), turnstile] then registerHandler.
+- login: [webLoginGuard, ipRateLimitGuard, withBody(), turnstile] then loginHandler (the IP block is IN-HANDLER, after the account is known, with the isAdminAccount bypass, exactly as the legacy arm did, so an admin verified by password is never locked out).
+- challenge: [withBody()] then challengeHandler (NO origin/rate-limit/turnstile gate: it is the first step a native client takes, before it can attest).
+
+One labeled knownDeviation (tests/server/http/known_deviations.ts, introducedInPhase 11):
+- `authRateLimitDashToComma`: the legacy 429 rate-limit / IP-block bodies use an em dash ("too many attempts" + em dash + " wait a minute ..."); the ported handlers use a COMMA, because the no-em-dash code invariant forbids a U+2014 literal in the new module. Matcher-safe: userFacingApiError keys on the "too many attempts" / "too many failed attempts" PREFIX (before the punctuation), so the localized message is unchanged. This divergence is NOT exercised by the db-free parity corpus (the corpus tests only the register-400 / login-401 / challenge-200 paths); the register/login unit tests assert the comma body directly. Phase 13 aligns the legacy strings to the comma and retires this deviation. The em dash was NEVER typed in new code or in the deviation text (described in words).
+
+CORRECTION (doc vs code): the phase doc repeatedly says "anti-enumeration 404" on register/login. There is NO 404. The real anti-enumeration is register 409 (taken username) / login 401 (bad credentials), plus a shared 429 message for the IP block (no signal the block exists) and 403 for moderation. This is ALREADY the by-design `registerLoginAntiEnumeration` deviation (introducedInPhase null), so no new anti-enum entry was added; the 409/401 behavior is preserved byte-for-byte. The 2FA branch ({twoFactorRequired:true} 200 / "invalid authentication code" 401) is preserved exactly.
+
+No error_codes.ts change: every code the auth routes would emit (auth.invalid_credentials, auth.web_login_only, auth.too_many_attempts, auth.too_many_failed_attempts, auth.verification_failed, account.username_*, account.password_*, account.deactivated, moderation.*, two_factor.code_invalid) was ALREADY harvested into the catalog in Phase 7, so nothing was appended and there is NO S3 guard change (the migrated bodies still emit the legacy prose; the codes are wired to emission in Phase 22).
+
+Test-harness reconciliation (the migration extends the Phase 10 baseline): completeness.test.ts's "Phase 10 migrated baseline" block became "migrated baseline (Phase 10 public reads + Phase 11 auth)": the 12 migrated routes (9 GET reads + 3 POST auth) are all router-owned AND legacy-served (rollback-retention), method-aware (auth routes are POST). parity.test.ts is unchanged (its register-400 / login-401 / challenge-200 corpus fixtures now exercise the new handlers and stay byte-identical; the challenge random challengeId/nonce are masked by the normalizer, so they are parity-stable).
 
 Notes:
 
