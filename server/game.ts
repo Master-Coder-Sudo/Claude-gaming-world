@@ -262,6 +262,7 @@ const HEAVY_SELF_CMDS = new Set<string>([
   'sell',
   'buyback',
   'loot',
+  'harvestCorpse',
   'pickup',
   'interact',
   'accept',
@@ -2288,6 +2289,9 @@ export class GameServer {
         break;
       case 'autoloot':
         if (typeof msg.id === 'number') sim.autoLoot(msg.id, pid);
+        break;
+      case 'harvestCorpse':
+        if (typeof msg.id === 'number') sim.harvestCorpse(msg.id, pid);
         break;
       case 'lootRoll':
         if (
