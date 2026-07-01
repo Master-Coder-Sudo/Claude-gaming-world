@@ -1,6 +1,6 @@
 // W0c: the IWorld structural-parity gate.
 //
-// `IWorld` (src/world_api.ts:341-511, 148 members) is the ONE seam render/ui depend
+// `IWorld` (src/world_api.ts:341-512, 149 members) is the ONE seam render/ui depend
 // on. `tsc` already proves both the offline `Sim` and the online `ClientWorld` satisfy
 // it structurally, but the interface is erased at build: there is NO runtime member
 // list, so nothing catches a present-but-throws stub or a kind flip (method vs read).
@@ -9,7 +9,7 @@
 // IWORLD_MEMBERS below is the hand-maintained member list, the W0c analog of the
 // append-only CALLBACK_KEYS in tests/sim_context.test.ts. It is APPEND-ONLY WITH THE
 // INTERFACE: whenever a future slice adds (or removes/renames) a member on `IWorld`,
-// it lands the matching edit here in the SAME commit. The count pins (148 / 37 / 111)
+// it lands the matching edit here in the SAME commit. The count pins (149 / 38 / 111)
 // plus the sorted-name `toEqual` snapshots (modeled on the anti-loosening exclude-set
 // pin in tests/parity/harness.test.ts:131-162) are what force that: a dropped or
 // renamed member reddens deliberately, never silently.
@@ -64,8 +64,8 @@ interface IWorldMember {
   readonly kind: IWorldMemberKind;
 }
 
-// The 148 members of `interface IWorld`, in interface order (world_api.ts:342-510).
-// Partition: 36 `data` + 111 `method` (read-returning + command-void + 3 async).
+// The 149 members of `interface IWorld`, in interface order (world_api.ts:342-511).
+// Partition: 38 `data` + 111 `method` (read-returning + command-void + 3 async).
 // biome-ignore lint/suspicious/noExportsInTest: IWORLD_MEMBERS is the W0c pinned structural-parity contract (the authoritative IWorld member list)
 export const IWORLD_MEMBERS = [
   // --- core world / player roster + economy reads (data) ---
@@ -85,6 +85,7 @@ export const IWORLD_MEMBERS = [
   { name: 'unlockedMilestones', kind: 'data' },
   { name: 'restedXp', kind: 'data' },
   { name: 'craftSkills', kind: 'data' },
+  { name: 'gatheringProficiency', kind: 'data' },
   { name: 'known', kind: 'data' },
   { name: 'questLog', kind: 'data' },
   { name: 'questsDone', kind: 'data' },
@@ -393,6 +394,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'friendAdd',
       'friendRemove',
       'friendlyTabTarget',
+      'gatheringProficiency',
       'guildAccept',
       'guildCreate',
       'guildDecline',
@@ -506,6 +508,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'duelInfo',
       'entities',
       'equipment',
+      'gatheringProficiency',
       'inventory',
       'known',
       'lifetimeXp',
@@ -795,6 +798,7 @@ const FACET_PROGRESSION_XP = [
   'unlockedMilestones',
   'restedXp',
   'craftSkills',
+  'gatheringProficiency',
   'leaderboard',
   'guildLeaderboard',
   'prestige',
