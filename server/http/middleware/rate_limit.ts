@@ -84,6 +84,11 @@ export const WALLET_LINK_POLICY: RateLimitPolicy = {
   retryAfterSeconds: RETRY_AFTER_SECONDS,
 };
 
+// AUTHENTICATED Discord legs only (link / status / reward). It requires
+// ctx.account (accountIdOf 500s without it), so Phase 9 must mount it BEHIND
+// requireAccount. The UNAUTHENTICATED start/callback legs run the same underlying
+// limiter IP-only via discordRateLimited(req, 0) (ratelimit.ts keys on IP when
+// accountId is 0); they need a SEPARATE 'ip' policy in Phase 9, not this one.
 export const DISCORD_POLICY: RateLimitPolicy = {
   name: 'discord',
   keyClass: 'ip+account',
