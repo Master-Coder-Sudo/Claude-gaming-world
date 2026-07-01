@@ -34,7 +34,7 @@ Mark a row's Status as "In progress" or "Done" and fill Started / Completed
 | Phase 10 QA | Done | 2026-07-01 | 2026-07-01 |
 | Phase 11 | Done | 2026-07-01 | 2026-07-01 |
 | Phase 11 QA | Not started |  |  |
-| Phase 12 | Not started |  |  |
+| Phase 12 | Done | 2026-07-01 | 2026-07-01 |
 | Phase 12 QA | Not started |  |  |
 | Phase 13 | Not started |  |  |
 | Phase 13 QA | Not started |  |  |
@@ -751,16 +751,56 @@ Notes:
 ## Phase 12: Migrate character ownership + BOLA seam (server/characters.ts)
 
 Deliverables:
-- [ ] Port /api/me/characters, /api/characters (GET/POST), /api/characters/:id (DELETE), /rename, /takeover, /standing, /sheet with typed :id params
-- [ ] requireOwnedCharacter loader populating ctx.character via an account-scoped query + a deny-by-default coverage test that every account-owned :id route resolves through an account-scoped loader (admin operator routes excluded)
-- [ ] Labeled-behavioral NEW limiters character.create/rename/delete/takeover as asserted knownDeviations
-- [ ] 403-vs-404 denial applied per the locked decision (404 for player-owned objects, 403 for admin/operator-scoped routes)
+- [x] Port /api/me/characters, /api/characters (GET/POST), /api/characters/:id (DELETE), /rename, /takeover, /standing, /sheet with typed :id params (8 RouteDefs in server/characters.ts, spread into apiRoutes)
+- [x] requireOwnedCharacter loader (generic server/http/middleware/require_owned.ts) populating ctx.state.character via an account-scoped query + a deny-by-default coverage test (metadata: completeness.test.ts checkRequireOwnedCoverage(apiRoutes); functional: tests/server/http/ownership_coverage.test.ts drives every account-owned :id route with a null loader and asserts 404). Admin operator routes excluded by explicit metadata (none exist yet; Phase 17)
+- [x] Labeled-behavioral NEW limiters character.create/rename/delete/takeover as asserted knownDeviations (newLimiterCharacterMutations, pre-seeded Phase 3, realized here)
+- [x] 404 denial applied for player-owned objects (bolaOwned404, pre-seeded by-design); 403 admin/operator is Phase 17 (no operator routes here)
 
 QA:
-- [ ] Fixes applied
-- [ ] Tests added
-- [ ] Dead code removed
-- [ ] Reviews clean
+- [x] Fixes applied
+- [x] Tests added
+- [x] Dead code removed
+- [x] Reviews clean
+
+Reviewers (the two the phase doc requires; migration-safety / cross-platform-sync / architecture-reviewer correctly SKIPPED, no DDL-JSONB / IWorld-wire-matcher / src-sim change): privacy-security-review REQUIRED = 0 BLOCKING / 0 SHOULD-FIX / 3 NICE-TO-HAVE, all 6 checks PASS (account-scoped-before-authorize, cross-account/absent identical 404 with a leak-free bola_denied log, num() 422 before any DB call, per-(ip+account)-per-action limiter behind auth with no casing/trailing-slash bypass, server-authoritative force_rename/offline/name-confirm gates, parameterized SQL + preserved moderation gate + no secret leak). qa-checklist REQUIRED = READY, 0 BLOCKING / 1 SHOULD-FIX / 2 NICE-TO-HAVE. BOTH reviewers independently surfaced the SAME item.
+Applied ALL findings (apply-all):
+- (SHOULD-FIX, both reviewers) The rename route checks ownership (requireOwnedCharacter) BEFORE the handler validates the name, so a full-token request to a non-owned/absent :id with an invalid name answers 404 where legacy returned 400. Runtime is acceptable-and-safer (BOLA-first anti-enumeration); FIX = documented as the ordering note on the characterBodyValidationRemap known deviation + this KEY RECONCILIATIONS note + a unit assertion in tests/server/characters.test.ts (non-owned id + invalid name -> 404, handler unreached).
+- (NICE, security) The bola_denied deny-log fires on EVERY miss and the two owner READ routes carry no limiter, so an authed :id-iterator can drive log volume. FIX = documented in require_owned.ts as a deliberate per-denial audit signal whose volume-bounding is Phase 23's structured-logging sink (the sink is injectable); NOT a read limiter (would 429 reads where legacy never did; out of this phase's scope).
+- (NICE, qa) Untested create double-collision-after-reclaim 409 + the non-unique create/rename rethrow 500 branches: added three unit tests.
+- (NICE/INFO, both) The new-limiter 429 problem+json client-matcher is Phase 22 (already the newLimiterCharacterMutations deviation + a progress deferral note); no action.
+
+New modules + surface:
+- `server/http/middleware/require_owned.ts` (NEW): the generic `requireOwned(config)` load-then-authorize BOLA loader. Runs AFTER the auth guard: reads ctx.account.accountId (a missing one is a composition bug -> HttpError(500)), decodes ctx.params[param] with num({int,min:1}) throwing the decode failure (-> 422) BEFORE any DB call so a query never sees NaN, calls the account-scoped loader, and on a hit stores the row at ctx.state[resource] + next(); on a miss emits a structured `bola_denied` deny-log (route + method + path + the CALLER's accountId + the requested id + reqId, NEVER whether the row exists for another account) and writes the route's LEGACY 404 body, short-circuiting (no throw, no next). The 404 body is per-route: 'character not found' (sheet/standing/rename) vs 'not found' (takeover/delete), byte-for-byte with the legacy arms.
+- `server/characters.ts` (NEW): the owner-gated character domain. Thin Ctx handlers + two per-route auth guards (activeGuard mirrors bearerActiveAccount, readGuard mirrors bearerReadAccount, both write the legacy `{error}` bodies and short-circuit, NOT the generic requireAccount which throws problem+json) + requireOwnedCharacter(notFoundBody) + the four character.* limiter middleware + `export const routes: RouteDef[]` (8 routes). The db.ts reads/writes bundled behind setCharactersDbForTests; five main.ts-local singletons (isCharacterOnline, takeOverCharacter, rekeyMarketSeller, saveMarket, initialCharacterState, publicOrigin) INJECTED at boot via configureCharactersRuntime, mirroring configureLeaderboardRuntime/configureAuthRuntime.
+- `server/ratelimit.ts`: added `characterMutationRateLimited(req, accountId, action)` (per-action ip+account sliding-window buckets, keyed BY ACTION so create/rename/delete/takeover never share a window) + `CHARACTER_MUTATION_MAX_PER_MINUTE = 20` (generous named constant; deep two-tier rework is Phase 19) + `resetCharacterMutationRateLimits`.
+- `server/http/middleware/rate_limit.ts`: added CHARACTER_CREATE/RENAME/DELETE/TAKEOVER_POLICY ('ip+account', reusing the existing rate_limit.exceeded code -> NO error_codes append, NO S3 change).
+- `server/http/registry.ts`: `apiRoutes` now `[...leaderboardRoutes, ...authRoutes, ...characterRoutes]`.
+- `server/main.ts`: `configureCharactersRuntime({...})` at module load. The legacy handleApi character arms are LEFT INTACT (flag-off rollback; removed Phase 25).
+- Tests (NEW): tests/server/http/require_owned.test.ts, tests/server/characters.test.ts, tests/server/http/ownership_coverage.test.ts. Harness edits: completeness.test.ts MIGRATED_ROUTES +8 char routes (20 total, method-aware); parity.ts isolatePass now resets the character-mutation buckets; known_deviations.ts +characterBodyValidationRemap.
+
+KEY RECONCILIATIONS (parity-first, doc-vs-code, following the Phase 10/11 durable pattern):
+- The migrated handlers write the SAME legacy `{error}`/success bodies byte-for-byte via http_util json(), NOT the RFC 9457 problem+json model. The phase doc's "stable-code i18n via problem+json" invariant is the Phase-22 END-STATE (its own OUT-OF-SCOPE line defers the src/main.ts userFacingApiError matcher to Phase 22, so prose bodies are required now). The auth guards + the requireOwned 404 write legacy prose and short-circuit (no throw); the 4 no-auth 401 goldens (characters/me_characters/owner_sheet/standing) pin `{error:'not authenticated'}` and would FAIL against a problem+json requireAccount, so the per-route legacy-body guards are load-bearing.
+- The doc's "requireOwnedCharacter populates ctx.character" is realized as `ctx.state.set('character', row)` because Ctx is frozen with no per-resource field; ctx.state (a Map) is the sanctioned slot (types.ts comment names it for exactly this). Handlers read ctx.state.get('character').
+- The doc's "404 via HttpError with a stable code" for the BOLA denial is likewise the Phase-22 end-state; the loader writes the legacy 404 prose body (an HttpError would emit problem+json and break the client matcher + byte-parity). The bolaOwned404 by-design deviation (pre-seeded Phase 3) already documents the 404-not-403 anti-enumeration for these routes.
+- Non-numeric :id: the router matches :id GENERICALLY (path_pattern cannot constrain a segment to digits), so the new router matches `/api/characters/abc/...` where the legacy `\d+` regex 404-fell-through. requireOwned's num() decoder answers 422 (before any DB call), the doc's explicit ask and NaN-safe. This diverges from legacy's 404-fallthrough ONLY for a malformed id no golden fixture pins and no real client sends, so it is not a parity divergence the harness can observe (documented, not ledgered).
+
+Middleware order (per route), cheap-reject-first:
+- GET /api/me/characters: [readGuard] (read OR full token). GET /api/characters: [activeGuard] (full only). Both return the byte-identical characterListPayload body.
+- POST /api/characters: [activeGuard, rateLimit(CREATE), withBody] then create.
+- GET /api/characters/:id/standing: [activeGuard, requireOwnedCharacter('character not found')]. GET /api/characters/:id/sheet: [readGuard, requireOwnedCharacter('character not found')].
+- POST /api/characters/:id/rename: [activeGuard, rateLimit(RENAME), withBody, requireOwnedCharacter('character not found')] (withBody BEFORE requireOwnedCharacter mirrors the legacy readBody-then-getCharacter order and keeps the framework-error divergence uniform).
+- POST /api/characters/:id/takeover: [activeGuard, rateLimit(TAKEOVER), requireOwnedCharacter('not found')] (no body).
+- DELETE /api/characters/:id: [activeGuard, rateLimit(DELETE), withBody, requireOwnedCharacter('not found')] (exact legacy order: body, ownership, online/confirm/delete).
+
+Two labeled knownDeviations that TOUCH the character routes:
+- `newLimiterCharacterMutations` (pre-seeded Phase 3, introducedInPhase 12): create/rename/delete/takeover now carry per-action limiters, so a 429 is possible where none was. Realized here; asserted by the character unit tests (drive the chain under withErrors, 21st attempt -> 429 rate_limit.exceeded problem+json). Not exercised by the parity corpus (single-request passes with reset buckets).
+- `characterBodyValidationRemap` (NEW, introducedInPhase 12): POST create/rename + DELETE parse the body via withBody, so malformed JSON -> 400 (json.malformed), over-cap -> 413 (body.too_large) as problem+json, and a literal JSON null body is coerced away (`ctx.body ?? {}` -> 400 name-invalid / confirmation-required) instead of the legacy readBody-reject / null-deref to a generic 500. Mirrors the Phase 11 authBodyValidationRemap + authNullBodyCoercion; NOT exercised by the valid-body parity corpus, so documented not harness-caught. Every future withBody POST migration inherits this. RELATED (same deviation, surfaced by BOTH in-phase reviewers): on POST /api/characters/:id/rename requireOwnedCharacter (ownership 404) runs as middleware BEFORE the handler validates the name, so a non-owned/absent :id with an INVALID name answers 404 where legacy validated the name first (400). Security-neutral-to-positive (BOLA-first anti-enumeration leaks nothing about name validity); unreachable by a real client (a client only renames its own force-flagged character); locked by a unit assertion in tests/server/characters.test.ts.
+
+No error_codes.ts change (rate_limit.exceeded and every character.*/auth.*/moderation.* code was harvested Phase 7); NO S3 change; NO DDL/JSONB (reuses the account-scoped db helpers); NO src/sim import; NO WS wire change; no em/en dashes or emojis in any added line.
+
+Deferrals: the client code-matcher for the character problem+json 429/422 bodies is Phase 22; the admin/operator-scope loader + 403 denial + the operator-route exclusion realization is Phase 17 (Phase 12 leaves the exclusion an explicit metadata clause; no operator routes exist yet).
+
+Validation (all GREEN): tsc --noEmit 0; the Phase 12 targeted matrix (characters + require_owned + ownership_coverage + parity + completeness + registry + registry_introspect + known_deviations + rate_limit + surface_inventory + dispatch) 134 tests pass; full pre-merge gate `npm test` 672 files / 7178 pass / 11 skip (up from Phase 11), tsc 0, build:env + build:server + build exit 0; ci:changed exit 0 (only pre-existing noExplicitAny warnings, no errors/format diffs); no em/en dash or emoji in any added line. New tests: require_owned 11, characters 43 (39 + 4 QA), ownership_coverage 8. Next: Phase 12 QA (phase-12-qa.md).
 
 Notes:
 
