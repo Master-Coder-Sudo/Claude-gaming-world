@@ -427,4 +427,29 @@ describe('login guards (through the onion)', () => {
     expect(res.body).toEqual({ error: 'too many attempts, wait a minute and try again' });
     expect(findAccount).not.toHaveBeenCalled();
   });
+
+  it('runs Turnstile AFTER withBody: the verifier sees the PARSED body (a body-dependent token passes)', async () => {
+    // Order guard, not just a middleware-count check. ctx.body is deliberately left
+    // unset; ONLY the streamed request carries the token, so withBody must run first
+    // for the verifier to see it. If Turnstile were reordered before withBody it would
+    // read the empty default {}, the token check would fail, and EVERY login would 403
+    // in production (with a real Turnstile secret) - a total auth outage the length-only
+    // shape test cannot catch.
+    installRuntime({ passesTurnstile: async (_req, body) => body.turnstileToken === 'ok' });
+    setAuthDbForTests({
+      findAccount: async () => account(),
+      moderationStatusForAccount: async () => modStatus(),
+      touchLogin: async () => {},
+      saveToken: async () => {},
+    });
+    const req = makeReq({
+      method: 'POST',
+      url: LOGIN_PATH,
+      body: { username: USERNAME, password: CORRECT_PASSWORD, turnstileToken: 'ok' },
+    });
+    const res = await runRoute('POST', LOGIN_PATH, { req });
+    // Proceeded past Turnstile through the full happy path to a token.
+    expect(res.status).toBe(200);
+    expect((res.body as { token: string }).token).toMatch(TOKEN_RE);
+  });
 });

@@ -17,10 +17,24 @@
 process.env.DATABASE_URL ||= 'postgres://test:test@127.0.0.1:5433/wocc_phase11_auth_attest';
 
 import type * as http from 'node:http';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { routes } from '../../server/auth_routes';
 import { turnstile } from '../../server/http/middleware/turnstile';
+import { createNativeAttestationChallenge } from '../../server/native_attestation';
 import { type FakeRes, fakeCtx, nextGuard } from './helpers';
+
+// Spy the challenge minter while DELEGATING to the real implementation: the shape
+// assertions still observe real challengeId/nonce/expiresInMs values, and the
+// pass-through assertions can read the exact `action` the handler threads (the action
+// is stored inside the challenge, never echoed in the response, so a spy is the only
+// way to catch a regression that drops body.action and always mints the default).
+vi.mock('../../server/native_attestation', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../server/native_attestation')>();
+  return {
+    ...actual,
+    createNativeAttestationChallenge: vi.fn(actual.createNativeAttestationChallenge),
+  };
+});
 
 // ---------------------------------------------------------------------------
 // Local helpers (mirroring the leaderboard.test.ts template).
@@ -91,6 +105,25 @@ describe('native-attestation challenge handler (POST /api/native-attestation/cha
     expect(b.challengeId.length).toBeGreaterThan(0);
     expect(b.nonce.length).toBeGreaterThan(0);
     expect(b.expiresInMs).toBeGreaterThan(0);
+  });
+
+  it('threads a string action through to the challenge minter (pass-through, not ignored)', async () => {
+    const mint = vi.mocked(createNativeAttestationChallenge);
+    mint.mockClear();
+    const ctx = fakeCtx({ method: 'POST', url: CHALLENGE_PATH, body: { action: 'link' } });
+    await handlerFor(CHALLENGE_PATH)(ctx);
+    expect(mint).toHaveBeenCalledTimes(1);
+    // createNativeAttestationChallenge(req, action): the second arg is the threaded action.
+    expect(mint.mock.calls[0][1]).toBe('link');
+  });
+
+  it('defaults a non-string action to "auth" when threading to the challenge minter', async () => {
+    const mint = vi.mocked(createNativeAttestationChallenge);
+    mint.mockClear();
+    const ctx = fakeCtx({ method: 'POST', url: CHALLENGE_PATH, body: { action: 5 } });
+    await handlerFor(CHALLENGE_PATH)(ctx);
+    expect(mint).toHaveBeenCalledTimes(1);
+    expect(mint.mock.calls[0][1]).toBe('auth');
   });
 
   it('carries no anti-bot guard: exactly one middleware (withBody), no turnstile gate', () => {

@@ -26,6 +26,7 @@ export const DEVIATION_ID = {
   registerLoginAntiEnumeration: 'register-login-anti-enumeration',
   authRateLimitDashToComma: 'auth-rate-limit-dash-to-comma',
   authBodyValidationRemap: 'auth-body-validation-remap-login-challenge',
+  authNullBodyCoercion: 'auth-null-body-coercion',
   bolaOwned404: 'bola-owned-404',
   planned405BeforeAuth: 'planned-405-before-auth',
   validationStatusRemap: 'validation-status-remap-422-400-413',
@@ -206,6 +207,32 @@ export const KNOWN_DEVIATIONS: readonly KnownDeviation[] = [
       "is documented here rather than caught by the harness. register's equivalent is " +
       'tracked by validationStatusRemap (whose Phase 7 attribution is the pre-existing ' +
       'error-model framing; the per-route realization lands as each route migrates).',
+  },
+  {
+    id: DEVIATION_ID.authNullBodyCoercion,
+    routes: ['/api/register', '/api/login', '/api/native-attestation/challenge'],
+    currentBehavior:
+      'A literal JSON `null` request body (well-formed JSON, so readBody resolves it to ' +
+      '`null` rather than {}) is dereferenced by the legacy handleApi arms: register reads ' +
+      'null.username, login reads null.username / null.password, and the challenge arm reads ' +
+      'null.action, each throwing a TypeError that falls to handleApi outer catch and answers ' +
+      '500 { error: "internal error" }.',
+    intendedBehavior:
+      'Phase 11 serves these routes through the new pipeline, where withBody parses the `null` ' +
+      'without throwing (null is valid JSON, so this is NOT the malformed-JSON path) and the ' +
+      'handlers plus the turnstile gate coerce it away with `ctx.body ?? {}` = {}. So register ' +
+      'answers 400 (username shape), login answers 401 (invalid credentials), and the challenge ' +
+      'answers 200 (default action "auth"), all non-token responses. Not covered by ' +
+      'authBodyValidationRemap (malformed-JSON / over-cap only) and not exercised by the ' +
+      'valid-object-body parity corpus. The divergence becomes the real behavior at the Phase ' +
+      '25 flag flip / ladder deletion.',
+    introducedInPhase: 11,
+    reason:
+      'Byte-for-byte parity would require re-crashing on a `null` body (a legacy 500 from an ' +
+      'unguarded null dereference); the migrated `ctx.body ?? {}` coercion is strictly safer ' +
+      'and yields a normal 400 / 401 / 200 for a degenerate input no real client sends. ' +
+      'Documented rather than changed, since both outcomes are non-token responses and the ' +
+      'coercion is an improvement.',
   },
   {
     id: DEVIATION_ID.planned405BeforeAuth,

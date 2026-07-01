@@ -316,4 +316,23 @@ describe('register guard chain', () => {
       body: { error: 'too many attempts, wait a minute and try again' },
     });
   });
+
+  it('runs Turnstile AFTER withBody: the verifier sees the PARSED body (a body-dependent token passes)', async () => {
+    // Order guard, not just a middleware-count check. ctx.body is deliberately left
+    // unset; ONLY the streamed request carries the token, so withBody must run first
+    // for the verifier to see it. If Turnstile were reordered before withBody it would
+    // read the empty default {}, the token check would fail, and EVERY register would
+    // 403 in production (with a real Turnstile secret) - a total auth outage the
+    // length-only shape test cannot catch.
+    installRuntime({ passesTurnstile: async (_req, body) => body.turnstileToken === 'ok' });
+    const req = makeReq({
+      method: 'POST',
+      url: '/api/register',
+      body: { username: 'newhero', password: 'secret123', turnstileToken: 'ok' },
+    });
+    const out = await runRoute('POST', '/api/register', { req });
+    // Proceeded past Turnstile into the happy-path handler (default faked db).
+    expect(out.status).toBe(200);
+    expect((out.body as { token: string }).token).toMatch(HEX64);
+  });
 });
