@@ -30,7 +30,7 @@ Mark a row's Status as "In progress" or "Done" and fill Started / Completed
 | Phase 08 QA | Not started |  |  |
 | Phase 09 | Done | 2026-06-30 | 2026-06-30 |
 | Phase 09 QA | Not started |  |  |
-| Phase 10 | Not started |  |  |
+| Phase 10 | Done | 2026-06-30 | 2026-06-30 |
 | Phase 10 QA | Not started |  |  |
 | Phase 11 | Not started |  |  |
 | Phase 11 QA | Not started |  |  |
@@ -645,10 +645,10 @@ Notes:
 ## Phase 10: Migrate public reads (server/leaderboard.ts)
 
 Deliverables:
-- [ ] Port /api/leaderboard (incl. ?board=guilds, legacy ?limit=N, ?scope), /api/arena/leaderboard, /api/releases, /api/project-stats, /api/search, /api/realms, /api/public/characters/:id/sheet, dev-gated /api/perf as RouteDefs
-- [ ] Typed page/pageSize query decoders + the {items,page,pageCount,total,pageSize} envelope (convention B); decide explicitly whether it applies to the guild board and legacy single-page shape
-- [ ] Labeled-behavioral /api/status trim to {ok,realm,players_online}
-- [ ] Apply the one bearer resolver to /api/realms (anonymous-friendly when no token) and /api/search, closing their authz gap
+- [x] Port /api/leaderboard (incl. ?board=guilds, legacy ?limit=N, ?scope), /api/arena/leaderboard, /api/releases, /api/project-stats, /api/search, /api/realms, /api/public/characters/:name/sheet, dev-gated /api/perf, and /api/status as RouteDefs (server/leaderboard.ts), spread into apiRoutes (server/http/registry.ts)
+- [x] Typed page/pageSize/scope query decoders with bounds + defaults as NAMED constants (convention B envelope DEFERRED, see the decision below); the guild board and legacy single-page shape are exempt
+- [x] Labeled-behavioral /api/status trim to {ok,realm,players_online}
+- [x] Apply the one bearer resolver to /api/realms (anonymous-friendly when no token) and /api/search, closing their authz gap (new additive `optional` mode on requireAccount)
 
 QA:
 - [ ] Fixes applied
@@ -656,7 +656,34 @@ QA:
 - [ ] Dead code removed
 - [ ] Reviews clean
 
+New module + surface:
+- `server/leaderboard.ts` (NEW): the public-read domain. Pure query decoders + pure response builders + host-agnostic read functions (each takes a narrow Db interface, unit-tested via the Phase 2 FakeLeaderboardDb/FakeCharactersDb) + thin Ctx handlers + `export const routes: RouteDef[]` (9 GET routes). Runtime singletons the handlers need but cannot import without a cycle (game.clients.size / game.perfProfile, the three cache-fronted readers getLeaderboard/getGuildLeaderboard/getReleases, GITHUB_REPO/RELEASES_SIZE, publicOrigin, toSheetRank) are INJECTED once at boot via `configureLeaderboardRuntime` (main.ts, at module load). The in-memory leaderboard/releases caches STAY in main.ts (unchanged behavior); the injected readers reference the exact same functions the legacy arms use.
+- `server/http/registry.ts`: `apiRoutes` now `[...leaderboardRoutes]` (no longer empty).
+- `server/http/middleware/require_account.ts`: additive `optional?: boolean` mode (anonymous-friendly). When true and NO Authorization header is present, next() runs with ctx.account undefined; a PRESENT header still falls through to full validation (invalid -> 401, banned -> 403). Only the absent-header branch changes; required mode is untouched.
+- `server/main.ts`: `configureLeaderboardRuntime({...})` at module load; ReleaseEntry moved to leaderboard.ts (main.ts imports it). The legacy handleApi arms for all nine paths are LEFT INTACT (the flag-off rollback path; removed only in Phase 25).
+- `tests/server/leaderboard.test.ts` (NEW): decoders + builders + read-fns-via-FakeDb + the runtime-only handlers (status trim, perf gate, leaderboard shapes, releases) via the exported routes + fakeCtx.
+
+New named constants (single source of truth, server/leaderboard.ts): `LEADERBOARD_SCOPE_DEFAULT`/`LEADERBOARD_SCOPE_GLOBAL`/`LEADERBOARD_GUILD_BOARD`, `LEADERBOARD_LEGACY_LIMIT_MAX` (= LEADERBOARD_MAX from src/sim/leaderboard_page.ts), `ARENA_LEADERBOARD_LIMIT` (20), `ARENA_FORMAT_2V2`/`ARENA_FORMAT_DEFAULT`, `SEARCH_RESULT_LIMIT` (8). page/pageSize reuse `LEADERBOARD_PAGE_SIZE`; the releases cap is injected (main.ts RELEASES_SIZE). No error_codes.ts codes appended: the gap-close 401 reuses the existing `auth.token_invalid`, so no S3 change.
+
+Convention B decision (RECORDED, per the phase contract): DEFERRED. A src/net + src/ui consumer audit found every live client reads the `leaders` key (Api.leaderboard / ClientWorld.leaderboard / ClientWorld.guildLeaderboard in src/net/online.ts, ArenaWindow.fetchLeaderboard in src/ui/arena_window.ts), never `items`. Renaming `leaders` -> `items` would silently break all four call sites, so the existing `{realm,scope,metric,leaders,page,pageCount,total,pageSize}` shape is PRESERVED byte-for-byte (fixture diff: NONE for the standard/guild/legacy boards). The typed page/pageSize/scope DECODERS were still introduced (pure input hardening, no wire change). The {items,...} envelope is deferred to net-new endpoints (Phase 25 scaffold). The guild board and legacy ?limit single-page were exempt from convention B regardless.
+
+Two labeled knownDeviations (tests/server/http/known_deviations.ts, both introducedInPhase 10):
+- `status-name-list-trim` (pre-registered in Phase 3): /api/status drops the online-player `names[]` list, exposing counts only {ok,realm,players_online}. The Phase 3 golden status_get.json stays as the CURRENT (legacy, with-names) baseline the deviation documents; the parity harness confirms old(names)-vs-new(trimmed) diverges and is filtered.
+- `realms-search-authz-gap-close` (NEW this phase): /api/realms + /api/search now validate a PRESENT token (invalid -> 401) via requireAccount({optional:true}); the no-token behavior is unchanged for realms (empty counts) and search becomes anonymous-friendly (a missing token no longer 401s, it serves results). goldenFixtures reference the current-behavior realms_get_noauth.json + search_get_noauth_401.json.
+
+Test-harness reconciliation (the Phase 9 baseline assertions the migration evolves, all flagged "this-phase seed baseline" / "vacuous now, forward-real" by the Phase 9 author):
+- completeness.test.ts: the "never double-serves" test was RECONCILED to a "rollback-retention" test. A migrated route is deliberately BOTH router-owned (flag 'new') AND legacy-served (flag 'legacy') because the legacy arm is the flag-off rollback path kept until Phase 25; that is not a runtime double-serve (the dispatcher runs exactly one arm per request, the flag picks, and parity proves they are byte-identical). The invariant flips: every router-owned ladder path MUST still be legacy-served until Phase 25 (a rollback arm removed too early would 404 under flag 'legacy'). Plus a new "Phase 10 migrated baseline" block (the 9 paths are router-owned, the rest delegate-only). The negative control + coverage tests are unchanged.
+- parity.test.ts: the Phase-9 "zero RAW divergences" assertion is replaced by "every raw divergence is a registered known-deviation path, and the status trim + search gap-close deviations actually fire". The search corpus fixture dropped its ?q so the new anonymous served path stays db-free.
+- registry.test.ts: the empty-registry assertion is replaced by "registers the Phase 10 public-read domain and matches its paths".
+
+Rate limit + error bodies (parity-first): the ported routes keep their legacy `{error:...}` bodies byte-for-byte (404 not-found, 429 rate limited). The public sheet AND (post-review) /api/search call publicReadRateLimited IN-HANDLER (not the rateLimit middleware) precisely so the 429 body shape is unchanged (the phase's "do not change any limiter return-shape" rule). RFC-9457-ification of these error bodies is Phase 22.
+
 Notes:
+- Reviewers (per the phase contract): privacy-security-review REQUIRED = 0 CRITICAL, 1 WARNING (applied), 3 INFO (by-design); port-faithfulness coverage = all 9 routes FAITHFUL (3 with the intended deviations), every named constant matches the legacy inline literal; qa-checklist = READY, 0 BLOCKING / 0 SHOULD-FIX, 2 low NITs (both applied). SKIPPED (no matching surface): migration-safety, cross-platform-sync, architecture-reviewer.
+- Applied review findings (apply-all rule): (1) SECURITY WARNING: /api/search became anonymous but was unrate-limited (the gap-close opened an unauthenticated DB-hitting name-enumeration surface); now gated in-handler with publicReadRateLimited, the same per-IP budget the public sheet uses, 429 `{error:'rate limited'}` (parity-safe: the harness resets the limiter per pass so the single request stays under budget); added a search-429 unit test. (2) NIT: the realms-search-authz-gap-close deviation now also documents that a present VALID token from a banned/suspended account is rejected 403 (requireAccount's uniform moderation gate, which the legacy bearerAccount skipped). (3) NIT: added a public-sheet 429 branch unit test.
+- INFO/by-design (no change): the /api/status name-list trim and the search/realms gap-close are only live under API_DISPATCH 'new' (the legacy arms stay for rollback; the flag flips in Phase 25); the router adds HEAD-as-GET + a trailing-slash normalization to migrated routes (a Phase 9 dispatcher property, canonical-path bodies identical); the test-only DATABASE_URL is a dummy loopback literal (the established test-setup pattern).
+
+More notes:
 
 ## Phase 11: Migrate auth (register/login/native-attestation)
 
