@@ -335,53 +335,21 @@ export const pending: Record<string, readonly string[]> = {
   "zh_CN": [
     "auth.emailPlaceholder",
     "auth.recovery.logOut",
-    "entities.quests.q_archetype_acceptance.completion",
-    "entities.quests.q_archetype_acceptance.objectives.0.label",
-    "entities.quests.q_archetype_acceptance.text",
-    "entities.quests.q_archetype_acceptance.title",
-    "entities.quests.q_prof_make_amends.completion",
-    "entities.quests.q_prof_make_amends.objectives.0.label",
-    "entities.quests.q_prof_make_amends.text",
-    "entities.quests.q_prof_make_amends.title",
     "hudChrome.crafting.reagentLine"
   ],
   "zh_TW": [
     "auth.emailPlaceholder",
     "auth.recovery.logOut",
-    "entities.quests.q_archetype_acceptance.completion",
-    "entities.quests.q_archetype_acceptance.objectives.0.label",
-    "entities.quests.q_archetype_acceptance.text",
-    "entities.quests.q_archetype_acceptance.title",
-    "entities.quests.q_prof_make_amends.completion",
-    "entities.quests.q_prof_make_amends.objectives.0.label",
-    "entities.quests.q_prof_make_amends.text",
-    "entities.quests.q_prof_make_amends.title",
     "hudChrome.crafting.reagentLine"
   ],
   "ko_KR": [
     "auth.emailPlaceholder",
     "auth.recovery.logOut",
-    "entities.quests.q_archetype_acceptance.completion",
-    "entities.quests.q_archetype_acceptance.objectives.0.label",
-    "entities.quests.q_archetype_acceptance.text",
-    "entities.quests.q_archetype_acceptance.title",
-    "entities.quests.q_prof_make_amends.completion",
-    "entities.quests.q_prof_make_amends.objectives.0.label",
-    "entities.quests.q_prof_make_amends.text",
-    "entities.quests.q_prof_make_amends.title",
     "hudChrome.crafting.reagentLine"
   ],
   "ja_JP": [
     "auth.emailPlaceholder",
     "auth.recovery.logOut",
-    "entities.quests.q_archetype_acceptance.completion",
-    "entities.quests.q_archetype_acceptance.objectives.0.label",
-    "entities.quests.q_archetype_acceptance.text",
-    "entities.quests.q_archetype_acceptance.title",
-    "entities.quests.q_prof_make_amends.completion",
-    "entities.quests.q_prof_make_amends.objectives.0.label",
-    "entities.quests.q_prof_make_amends.text",
-    "entities.quests.q_prof_make_amends.title",
     "hudChrome.crafting.reagentLine"
   ],
   "pt_BR": [
@@ -442,14 +410,6 @@ export const pending: Record<string, readonly string[]> = {
   "ru_RU": [
     "auth.emailPlaceholder",
     "auth.recovery.logOut",
-    "entities.quests.q_archetype_acceptance.completion",
-    "entities.quests.q_archetype_acceptance.objectives.0.label",
-    "entities.quests.q_archetype_acceptance.text",
-    "entities.quests.q_archetype_acceptance.title",
-    "entities.quests.q_prof_make_amends.completion",
-    "entities.quests.q_prof_make_amends.objectives.0.label",
-    "entities.quests.q_prof_make_amends.text",
-    "entities.quests.q_prof_make_amends.title",
     "hudChrome.crafting.reagentLine"
   ],
   "nl_NL": [
