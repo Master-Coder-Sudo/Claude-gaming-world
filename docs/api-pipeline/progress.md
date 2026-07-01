@@ -587,6 +587,31 @@ build:env + build:server + build all exit 0; ci:changed exit 0 (changed files cl
 warnings are pre-existing noExplicitAny in main.ts and readBody's Promise<any>); ASCII-clean (no em/en
 dashes or emojis). Next: Phase 08 QA (docs/api-pipeline/phase-08-qa.md).
 
+QA (2026-06-30): PASS. Five-agent parallel audit (correctness, test-coverage, dead-code,
+privacy-security-review, qa-checklist). 0 BLOCKING. Fixes applied:
+- SHOULD-FIX (message fidelity): a self-deactivated account now maps to the `account.deactivated`
+  code instead of the generic `moderation.suspended`. moderationStatusForAccount (db.ts) now sets an
+  OPTIONAL `deactivated` discriminator on AccountModerationStatus (additive, no schema/JSONB change),
+  and requireAccount branches on it ahead of the defensive `moderation.suspended` fallback.
+- SHOULD-FIX (coverage): withCors's SHIPPING `defaultApiAllow` predicate now has a direct test (a
+  NATIVE_APP_ORIGINS member reflected, a foreign origin skipped, with NO injected predicate).
+- Parity NIT: withRawBody's Content-Length pre-check now uses the live strict `/^\d+$/`-on-trimmed
+  parse (a shared contentLengthOverCap helper mirroring player_card.ts cardUploadContentLengthTooLarge),
+  so a non-numeric length falls through to the mid-stream cap exactly as the live card route does.
+- Coverage NITs added: require_account malformed-but-present Authorization -> token_missing and the
+  token_invalid `Bearer error="invalid_token"` challenge; withBody no-415 (non-JSON Content-Type still
+  parses) + the real 64 KiB over-cap boundary; request_id newReqId fallback (empty ctx.reqId);
+  WALLET_LINK_POLICY and DISCORD_POLICY (keyClass + flood-429 + the ip+account composition-bug 500).
+- Doc: DISCORD_POLICY is commented as AUTHENTICATED-legs-only; Phase 9 needs a SEPARATE 'ip' policy for
+  the unauthenticated Discord start/callback legs (the live discordRateLimited keys IP-only at accountId 0).
+Phase 8 http suites now 10 files / 57 tests. Deferred (tracked, non-blocking): a shared
+BEARER_TOKEN_PATTERN constant to retire the duplicated 64-hex regex (touches main.ts's 3 copies; folds
+into the auth-resolver migration), the serializeOauth `moderation.* -> access_denied` refinement (Phase 7
+errors.ts), and a live WS-upgrade smoke test (needs a booted server, out of the bare Vitest suite).
+Reviewers: privacy-security-review PASS, qa-checklist PASS-WITH-NOTES; migration-safety /
+cross-platform-sync / architecture-reviewer correctly NOT dispatched (server-only, no DDL/JSONB/db-schema,
+no src/sim / wire / matcher change). Next: Phase 09 (docs/api-pipeline/phase-09-registry-parity.md).
+
 ## Phase 09: Registry + dispatcher-in-front (per-path delegate) + dual-path parity harness + top-level CORS wrapper
 
 Deliverables:
