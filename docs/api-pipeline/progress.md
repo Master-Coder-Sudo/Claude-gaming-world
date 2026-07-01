@@ -28,7 +28,7 @@ Mark a row's Status as "In progress" or "Done" and fill Started / Completed
 | Phase 07 QA | Done | 2026-06-30 | 2026-06-30 |
 | Phase 08 | Done | 2026-06-30 | 2026-06-30 |
 | Phase 08 QA | Not started |  |  |
-| Phase 09 | Not started |  |  |
+| Phase 09 | Done | 2026-06-30 | 2026-06-30 |
 | Phase 09 QA | Not started |  |  |
 | Phase 10 | Not started |  |  |
 | Phase 10 QA | Not started |  |  |
@@ -615,11 +615,20 @@ no src/sim / wire / matcher change). Next: Phase 09 (docs/api-pipeline/phase-09-
 ## Phase 09: Registry + dispatcher-in-front (per-path delegate) + dual-path parity harness + top-level CORS wrapper
 
 Deliverables:
-- [ ] registry.ts spreading domain route tables into one lookup + http/index.ts barrel
-- [ ] New dispatcher in front of old handleApi; un-migrated paths delegate per-path to the old ladder unchanged; reproduce the createServer prefix order and the non-awaited void semantics exactly
-- [ ] Keep CORS/OPTIONS as a top-level wrapper covering both old and new paths
-- [ ] A parity harness diffing each P3 fixture through old vs new (status, body, contracted headers), weighting error and 404-vs-405 paths heaviest, blocking on any undocumented diff
-- [ ] A registry-completeness test diffing the old-ladder path set against the new-router path set, hard-failing on any old path absent from the new router (run on every rebase)
+- [x] registry.ts spreading domain route tables into one lookup + http/index.ts barrel
+- [x] New dispatcher in front of old handleApi; un-migrated paths delegate per-path to the old ladder unchanged; reproduce the createServer prefix order and the non-awaited void semantics exactly
+- [x] Keep CORS/OPTIONS as a top-level wrapper covering both old and new paths
+- [x] A parity harness diffing each P3 fixture through old vs new (status, body, contracted headers), weighting error and 404-vs-405 paths heaviest, blocking on any undocumented diff
+- [x] A registry-completeness test diffing the old-ladder path set against the new-router path set, hard-failing on any old path absent from the new router (run on every rebase)
+
+New surface shipped (all under server/http/ + tests/server/http/):
+- `server/http/registry.ts`: `ApiRegistry` (`resolve(method,path) -> MatchResult<RouteDef>` reusing the Phase 4 router, no re-implemented matching), `apiRoutes` (readonly RouteDef[], EMPTY this phase; the migration phases spread per-domain arrays in), `createApiRegistry(routes?)` (sorts most-specific-first, then the shadow guard, then createRouter; duplicate (method,path) rejection inherited from createRouter), `apiRegistry`, and `assertNoOwnedRouteShadowing` (the recorded Phase 4 BOLA-shadow obligation: a non-owned overlapping dynamic route may not shadow an account-owned :id route).
+- `server/http/dispatch.ts`: `createApiDispatcher({registry, delegate, metricSink?})` -> a fire-and-forget `(req,res)=>void` matching the legacy handleApi call shape. Matched route -> `runOnion(ctx, [withErrors, withMetrics, ...route.middleware, handler])`; any other /api path -> `void delegate(req,res)` UNCHANGED. `selectApiEntry(mode, newDispatcher, legacy)` picks the path from the flag (legacy = call handleApi directly, an inert rollback). withRequestId is intentionally omitted (runOnion already binds the reqId ALS); withCors omitted (CORS is top-level).
+- `server/http/index.ts`: barrel re-exporting the public spine (router, compose, context, schema, errors, error_codes, registry, dispatch) + the type-only types.
+- The dispatch flag: `API_DISPATCH` env, parsed by `loadConfig` into `Config.dispatch: 'legacy' | 'new'` (default `DEFAULT_DISPATCH = 'legacy'`, now EXPORTED from config.ts so main.ts single-sources it). `server/main.ts` reads it once at boot (`setApiDispatchMode(loadConfig(process.env).dispatch)`), swaps only the /api arm to `apiEntry`, lifts CORS + OPTIONS-204 into `applyCorsAndPreflight` (one top-level source over both paths), and adds the prod-guarded test-only `setApiDispatchModeForTests`/`resetApiDispatchModeForTests`.
+- `tests/server/http/parity.test.ts` (dual-path parity over 38 db-free MAIN /api contract requests + CORS/preflight cases, old-vs-new via the Phase 2 runParity driver, 0 divergences), `tests/server/http/completeness.test.ts` (registry-completeness gate: legacy ladder subset of router UNION delegate, non-vacuous negative control), plus `registry.test.ts` and `dispatch.test.ts`.
+
+ZERO routes migrated (registry empty, every /api path delegates), so behavior is byte-for-byte identical to today (proven by parity + the Phase 3 goldens staying green). No WS wire, no src/sim, no DDL/JSONB, no new player-facing English.
 
 QA:
 - [ ] Fixes applied
@@ -628,6 +637,9 @@ QA:
 - [ ] Reviews clean
 
 Notes:
+- Validation GREEN: tsc clean; the 4 new suites 39 tests; full `tests/server/` 529; full pre-merge gate `npm test` 631 files / 6693 pass / 11 skip, build:env + build:server + build all exit 0; ci:changed clean; ASCII-clean.
+- In-phase reviewers (the two the phase doc requires): privacy-security-review PASS (0 BLOCKING / 0 SHOULD-FIX, 2 INFO no-action: delegate cannot drop auth, no un-authed leak, CORS byte-identical extraction, clean flag-off rollback, prod-guarded test setter, no secret leak, 500-no-leak, exactly-one-response, WS untouched); qa-checklist READY (0 BLOCKING / 0 SHOULD-FIX, 2 NITs). Per the standing apply-all rule: NIT (a) applied (exported DEFAULT_DISPATCH from config.ts so main.ts no longer re-types the 'legacy' literal); NIT (b) recorded as a Phase 10 handoff (a migrated route must still return 405 under a wrong method once its legacy arm is removed; the completeness never-double-serves clause forces the arm removal). Not dispatched (no matching surface): migration-safety, cross-platform-sync, architecture-reviewer, release-malware-audit.
+- Orchestration: 1 Explore (context) + a 2-wave hand-spawned fan-out (the phase doc said NOT a Workflow): Wave 1 = Agent A (registry + barrel) parallel with the lead doing the delicate dispatch.ts + main.ts swap + CORS wrapper; Wave 2 = Agent C (parity) + Agent D (completeness) against the landed code. Every agent's suite was re-run by the lead (not trusted from self-report).
 
 ## Phase 10: Migrate public reads (server/leaderboard.ts)
 
