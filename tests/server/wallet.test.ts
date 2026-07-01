@@ -27,6 +27,7 @@ import { readFileSync } from 'node:fs';
 import type * as http from 'node:http';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { AccountModerationStatus } from '../../server/db';
+import { unlinkWallet, walletForAccount } from '../../server/db';
 import { compose } from '../../server/http/compose';
 import { withErrors } from '../../server/http/middleware/with_errors';
 import type { Ctx, Method, Middleware } from '../../server/http/types';
@@ -45,6 +46,20 @@ import {
   type WalletGameHooks,
 } from '../../server/wallet';
 import { type FakeRes, fakeCtx } from './helpers';
+
+// The GET /api/wallet + DELETE /api/wallet/link handlers self-read walletForAccount /
+// unlinkWallet off db.ts directly (not through the wallet.ts guard seam), so mock those two
+// exports to drive the authed happy paths db-free. The ...actual spread keeps every other db
+// export real; the guard's bearer/moderation reads come through the setWalletDbForTests seam,
+// so they are unaffected by this mock.
+vi.mock('../../server/db', async (importActual) => {
+  const actual = await importActual<typeof import('../../server/db')>();
+  return {
+    ...actual,
+    walletForAccount: vi.fn(),
+    unlinkWallet: vi.fn(async () => {}),
+  };
+});
 
 // A well-formed bearer header (64 lowercase-hex, matching wallet.ts BEARER_PATTERN).
 const BEARER = `Bearer ${'a'.repeat(64)}`;
@@ -393,5 +408,67 @@ describe('limiter order (ip+account limiter mounts after activeGuard)', () => {
     expect(unauth.body).toEqual({ error: 'not authenticated' });
     expect(unauth.status).not.toBe(429);
     expect(unauth.status).not.toBe(500);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// The two [activeGuard]-only routes (DELETE /api/wallet/link, GET /api/wallet), driven
+// through the FULL migrated chain (guard -> handler) on their authed happy paths. DELETE
+// /api/wallet/link is otherwise only checked for RESOLUTION by completeness.test.ts; these
+// pin that the ported thin handlers wire [activeGuard] to the unchanged domain functions
+// (handleWalletUnlink / handleWalletGet) and pass the legacy 200 bodies through
+// byte-for-byte, with the guard account (7) threaded via ctxAccountId. The db reads are the
+// mocked unlinkWallet / walletForAccount; the guard seam supplies the bearer/moderation
+// fakes, so the whole chain stays db-free.
+// ---------------------------------------------------------------------------
+
+describe('DELETE /api/wallet/link (migrated chain)', () => {
+  it('401s a no-bearer request at the shared activeGuard, never reaching the handler', async () => {
+    const r = await runRoute('DELETE', '/api/wallet/link');
+    expect(r).toMatchObject({ reached: false, status: 401 });
+    expect(r.body).toEqual({ error: 'not authenticated' });
+    expect(r.contentType).toBe('application/json');
+    expect(vi.mocked(unlinkWallet)).not.toHaveBeenCalled();
+  });
+
+  it('200 { unlinked: true } for a full bearer, unlinking the guard account', async () => {
+    authedDb();
+    const r = await runRoute('DELETE', '/api/wallet/link', {
+      headers: { authorization: BEARER },
+    });
+    expect(r.reached).toBe(true);
+    expect(r.status).toBe(200);
+    expect(r.body).toEqual({ unlinked: true });
+    expect(r.contentType).toBe('application/json');
+    // ctx.account (account 7) threads through walletUnlinkHandler -> handleWalletUnlink.
+    expect(vi.mocked(unlinkWallet)).toHaveBeenCalledWith(7);
+  });
+});
+
+describe('GET /api/wallet authed happy path (migrated chain)', () => {
+  it('200 { wallet: { pubkey, linkedAt } } for a linked account', async () => {
+    authedDb();
+    vi.mocked(walletForAccount).mockResolvedValue({
+      account_id: 7,
+      pubkey: 'SoLaNaAddr111',
+      linked_at: '2026-07-01T00:00:00.000Z',
+    });
+    const r = await runRoute('GET', '/api/wallet', { headers: { authorization: BEARER } });
+    expect(r.reached).toBe(true);
+    expect(r.status).toBe(200);
+    // handleWalletGet maps the db row's linked_at to the legacy { wallet: { pubkey, linkedAt } }.
+    expect(r.body).toEqual({
+      wallet: { pubkey: 'SoLaNaAddr111', linkedAt: '2026-07-01T00:00:00.000Z' },
+    });
+    expect(r.contentType).toBe('application/json');
+    expect(vi.mocked(walletForAccount)).toHaveBeenCalledWith(7);
+  });
+
+  it('200 { wallet: null } for an account with no linked wallet', async () => {
+    authedDb();
+    vi.mocked(walletForAccount).mockResolvedValue(null);
+    const r = await runRoute('GET', '/api/wallet', { headers: { authorization: BEARER } });
+    expect(r.status).toBe(200);
+    expect(r.body).toEqual({ wallet: null });
   });
 });

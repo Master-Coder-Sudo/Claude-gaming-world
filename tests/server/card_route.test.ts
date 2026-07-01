@@ -21,11 +21,12 @@ process.env.DATABASE_URL ||= 'postgres://test:test@127.0.0.1:5433/wocc_phase14_c
 
 import { readFileSync } from 'node:fs';
 import type * as http from 'node:http';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { AccountModerationStatus } from '../../server/db';
 import { compose } from '../../server/http/compose';
 import { withErrors } from '../../server/http/middleware/with_errors';
 import type { Method, Middleware } from '../../server/http/types';
+import { handleCardUpload } from '../../server/player_card';
 import {
   CARD_UPLOAD_MAX_PER_MINUTE,
   resetCardUploadRateLimits,
@@ -40,6 +41,19 @@ import {
   setWalletDbForTests,
 } from '../../server/wallet';
 import { type FakeRes, fakeCtx } from './helpers';
+
+// Wrap handleCardUpload in a mock whose DEFAULT delegates to the real implementation (so the
+// pre-auth 413, no-auth 401, character-id-required 400, and drain-to-429 tests below keep the
+// unchanged handler behavior), while the success + not-found tests override it once to isolate
+// the ROUTE chain. cardUploadContentLengthTooLarge stays real via ...actual, so the pre-auth
+// byte-cap guard is unaffected.
+vi.mock('../../server/player_card', async (importActual) => {
+  const actual = await importActual<typeof import('../../server/player_card')>();
+  return {
+    ...actual,
+    handleCardUpload: vi.fn(actual.handleCardUpload),
+  };
+});
 
 // A well-formed bearer header (64 lowercase-hex, matching wallet.ts BEARER_PATTERN).
 const BEARER = `Bearer ${'a'.repeat(64)}`;
@@ -235,5 +249,49 @@ describe('coded 429 (rateLimitedBodyToCode deviation)', () => {
     expect(limited.status).toBe(429);
     expect(limited.contentType).toBe('application/problem+json');
     expect((limited.body as Record<string, unknown>).code).toBe('rate_limit.exceeded');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Success + not-found bodies pass through the migrated chain as plain application/json,
+// pinning the phase's headline correction (the card response is JSON, NOT withRawBody/binary)
+// on the 200 and 404 paths. handleCardUpload itself (unchanged, covered directly in
+// tests/player_card_server.test.ts) is stubbed here so the assertion isolates the ROUTE: the
+// [cardContentLengthGuard, activeGuard, rateLimit] chain admits an authed request, threads the
+// guard account + the injected level lookup into the handler, and forwards its JSON body
+// verbatim (never re-wrapped as RFC 9457 problem+json by withErrors).
+// ---------------------------------------------------------------------------
+
+describe('card success + not-found bodies pass through as JSON (migrated chain)', () => {
+  it('200 application/json { url, ref } for an authed upload (JSON, not binary)', async () => {
+    vi.mocked(handleCardUpload).mockClear();
+    vi.mocked(handleCardUpload).mockImplementationOnce(async (_req, res) => {
+      res.writeHead(200, { 'content-type': 'application/json' });
+      res.end(JSON.stringify({ url: '/p/abc', ref: 'abc' }));
+    });
+    const r = await runCard({ headers: { authorization: BEARER }, url: '/api/card?character=1' });
+    expect(r.reached).toBe(true);
+    expect(r.status).toBe(200);
+    expect(r.contentType).toBe('application/json');
+    expect(r.body).toEqual({ url: '/p/abc', ref: 'abc' });
+    // The chain threaded the guard account (7) and the injected level lookup into the handler.
+    expect(vi.mocked(handleCardUpload)).toHaveBeenCalledTimes(1);
+    const [, , accountId, levelFn] = vi.mocked(handleCardUpload).mock.calls[0];
+    expect(accountId).toBe(7);
+    expect(typeof levelFn).toBe('function');
+  });
+
+  it('404 application/json { error: "character not found" } passes through unwrapped', async () => {
+    vi.mocked(handleCardUpload).mockClear();
+    vi.mocked(handleCardUpload).mockImplementationOnce(async (_req, res) => {
+      res.writeHead(404, { 'content-type': 'application/json' });
+      res.end(JSON.stringify({ error: 'character not found' }));
+    });
+    const r = await runCard({ headers: { authorization: BEARER }, url: '/api/card?character=1' });
+    expect(r.reached).toBe(true);
+    expect(r.status).toBe(404);
+    expect(r.contentType).toBe('application/json');
+    // The 404 is the handler's plain json(), NOT re-wrapped as problem+json by withErrors.
+    expect(r.body).toEqual({ error: 'character not found' });
   });
 });
