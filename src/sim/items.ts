@@ -20,6 +20,7 @@ import { ITEMS } from './data';
 import { recalcPlayerStats } from './entity';
 import { canEquipItem } from './equipment_rules';
 import { formatMoney } from './format_money';
+import { meetsLevelRequirement, requiredLevelFor } from './item_level_req';
 import { battlefieldExperienceTrickle } from './professions/battlefield_xp';
 import type { ItemUseResult, PlayerMeta } from './sim';
 import type { SimContext } from './sim_context';
@@ -69,6 +70,10 @@ export function equipItem(ctx: SimContext, itemId: string, pid?: number): void {
   if (ctx.countItem(itemId, meta.entityId) <= 0) return;
   if (!canEquipItem(meta.cls, def)) {
     ctx.error(meta.entityId, 'You cannot equip that.');
+    return;
+  }
+  if (!meetsLevelRequirement(p.level, def)) {
+    ctx.error(meta.entityId, `You must be level ${requiredLevelFor(def)} to equip that.`);
     return;
   }
   const slot = def.slot;
