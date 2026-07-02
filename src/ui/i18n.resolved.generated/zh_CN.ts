@@ -831,6 +831,16 @@ export const zh_CN: EnTranslations = {
       "mob": "[{level}] {name}",
       "mobElite": "[{level}+] {name}"
     },
+    "mobTooltip": {
+      "levelFamily": "等级 {level} {family}",
+      "familyDemon": "恶魔",
+      "hostile": "敌对",
+      "friendly": "友方"
+    },
+    "targetFrame": {
+      "unlock": "移动目标框",
+      "lock": "锁定目标框"
+    },
     "itemTooltip": {
       "requiresLevel": "需要等级 {level}"
     },

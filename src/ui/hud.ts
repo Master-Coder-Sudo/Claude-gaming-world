@@ -22,6 +22,7 @@ import {
   playerPortraitDataUrl,
   visualPortraitDataUrl,
 } from '../render/characters/portrait';
+import { isFriendlyPet, mobTooltipConColor } from '../render/reaction';
 import type { Renderer } from '../render/renderer';
 import { type AugmentCategory, augmentCategory } from '../sim/content/augments';
 import {
@@ -236,6 +237,7 @@ import {
   minimapZoomValue,
   nextMinimapZoom,
 } from './minimap_zoom';
+import { type MobTooltipI18n, type MobTooltipModel, mobTooltipHtml } from './mob_tooltip_view';
 import { OptionsWindow } from './options_window';
 import { makeWriterFacet, type PainterHostPresentation } from './painter_host';
 import { partyFrameSignature, selectPartyFrameMembers } from './party_frames';
@@ -285,6 +287,12 @@ import { swingTimerState } from './swing_timer';
 import { SwingTimerPainter } from './swing_timer_painter';
 import { localizeTalentTitle, roleLabel, tTalent } from './talent_i18n';
 import { TalentsWindow } from './talents_window';
+import {
+  clampTargetFramePos,
+  parseTargetFramePos,
+  serializeTargetFramePos,
+  type TargetFramePos,
+} from './target_frame_pos';
 import type { PresetId, ThemeKnob, ThemeState } from './theme';
 import { TOOLTIP_PEEK_MS, TouchPeekGuard } from './touch_peek';
 import { TutorialOverlay } from './tutorial';
@@ -410,6 +418,11 @@ const STAT_VIEW_DEPS: StatTooltipI18n = {
   t: (key, params) => t(key as TranslationKey, params),
   fmt: (value, opts) => formatNumber(value, opts),
 };
+// Same i18n + number-formatting surface, handed to the pure mob-hover tooltip view.
+const MOB_TOOLTIP_VIEW_DEPS: MobTooltipI18n = {
+  t: (key, params) => t(key as TranslationKey, params),
+  fmt: (value, opts) => formatNumber(value, opts),
+};
 const castDisplayName = (id: string): string => {
   if (id === FISHING_CAST_ID) return t('abilityUi.cast.fishing');
   if (id === 'demon_heal') return t('abilityUi.cast.demonHeal');
@@ -513,6 +526,7 @@ const CHAT_ACTIVE_TAB_KEY = 'woc_chat_active_tab';
 // Persisted chat-window geometry (drag position + resize size). Desktop only —
 // the mobile layout owns its own placement and ignores this.
 const CHAT_GEOMETRY_KEY = 'woc_chat_geometry';
+const TARGET_FRAME_POS_KEY = 'woc_target_frame_pos';
 const CHAT_TEMPLATE_KEYS = {
   party: 'hud.chat.templates.party',
   yell: 'hud.chat.templates.yell',
@@ -730,6 +744,13 @@ export class Hud {
   private tooltipEl = $('#tooltip');
   // Distinguishes a touch long-press "peek" (inspect, no action) from a tap.
   private peekGuard = new TouchPeekGuard();
+  // The mob whose world-hover tooltip is currently shown (showMobHoverTooltip),
+  // so main.ts's per-frame updateHoverCursor can call it every frame while the
+  // same mob stays hovered without rebuilding the tooltip HTML each time.
+  // A small composite key (id:level:hostile:playerLevel), not just the mob id, so
+  // the hover tooltip repaints when a mid-hover change moves its model. See
+  // showMobHoverTooltip.
+  private lastMobTooltipId: string | null = null;
   private errorTimer: number | undefined;
   private bannerTimer: number | undefined;
   private pfLevelEl = $('#pf-level');
@@ -977,6 +998,13 @@ export class Hud {
         startH: number;
       }
     | null = null;
+  // Movable target frame: the persisted top-left (null = stock CSS default), the
+  // move/lock button, whether the frame is currently unlocked for dragging, and the
+  // in-progress drag gesture. See target_frame_pos.ts for the math.
+  private targetFramePos: TargetFramePos | null = null;
+  private targetFrameMoveBtn: HTMLButtonElement | null = null;
+  private targetFrameUnlocked = false;
+  private targetFrameGesture: { pointerId: number; grabX: number; grabY: number } | null = null;
   private windowObserver: MutationObserver | null = null;
   private windowZ = 50;
   private ignoredChatNames = new Set<string>();
@@ -1039,6 +1067,7 @@ export class Hud {
     this.meters = new Meters(sim);
     this.initChatTabs();
     this.initChatBoxGeometry();
+    this.initTargetFrameDrag();
     this.initWindowManagement();
     this.emoteWheelSlots = this.loadEmoteWheelSlots();
     this.loadSlotMap();
@@ -2015,6 +2044,159 @@ export class Hud {
       if (!el) continue;
       for (const prop of ['left', 'top', 'right', 'bottom', 'width', 'height'])
         el.style.removeProperty(prop);
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Movable / lockable target frame (desktop only). The pure position math
+  // (clamping, (de)serialization) lives in target_frame_pos.ts; this section is
+  // the DOM wiring: a small corner button that toggles the frame between locked
+  // (fixed) and unlocked (draggable), the pointer drag itself, and localStorage
+  // persistence of the chosen spot. The saved spot survives reloads; the lock
+  // state does not (the frame always loads locked so a stray drag never moves it).
+  // Mirrors the movable chat box above (its resize-less sibling).
+  // -------------------------------------------------------------------------
+
+  private initTargetFrameDrag(): void {
+    const frame = this.targetFrameEl;
+    if (!frame) return;
+
+    // The corner toggle. Built here (like the chat resize grip) so index.html
+    // stays untouched; its glyph + position are styled in hud.css.
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'tf-move-btn';
+    btn.setAttribute('aria-pressed', 'false');
+    frame.appendChild(btn);
+    this.targetFrameMoveBtn = btn;
+    this.refreshTargetFrameMoveBtn();
+    btn.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      this.setTargetFrameUnlocked(!this.targetFrameUnlocked);
+    });
+
+    // touch-action:none (so a drag is not stolen by browser panning) is scoped to
+    // the unlocked state in CSS (#target-frame.tf-unlocked), never applied while
+    // locked so it cannot interfere with normal touch behaviour on the frame.
+    frame.addEventListener('pointerdown', (ev) => this.onTargetFrameMoveStart(ev));
+    document.addEventListener('pointermove', (ev) => this.onTargetFramePointerMove(ev));
+    const end = (ev: PointerEvent) => this.onTargetFramePointerEnd(ev);
+    document.addEventListener('pointerup', end);
+    document.addEventListener('pointercancel', end);
+    // Re-clamp into view when the viewport changes (mirrors the chat box logic).
+    window.addEventListener('resize', () => {
+      if (this.targetFramePos) this.applyTargetFramePos();
+    });
+
+    let saved: string | null = null;
+    try {
+      saved = localStorage.getItem(TARGET_FRAME_POS_KEY);
+    } catch {
+      /* storage unavailable */
+    }
+    this.targetFramePos = parseTargetFramePos(saved);
+    if (this.targetFramePos) this.applyTargetFramePos();
+  }
+
+  // The move button's accessible name / tooltip and pressed state track whether the
+  // frame is unlocked; the frame gets a class so the cursor + drag affordance show.
+  private refreshTargetFrameMoveBtn(): void {
+    const btn = this.targetFrameMoveBtn;
+    if (!btn) return;
+    const label = this.targetFrameUnlocked
+      ? t('hudChrome.targetFrame.lock')
+      : t('hudChrome.targetFrame.unlock');
+    btn.setAttribute('aria-pressed', this.targetFrameUnlocked ? 'true' : 'false');
+    btn.setAttribute('aria-label', label);
+    btn.title = label;
+    btn.classList.toggle('active', this.targetFrameUnlocked);
+    this.targetFrameEl.classList.toggle('tf-unlocked', this.targetFrameUnlocked);
+  }
+
+  private setTargetFrameUnlocked(unlocked: boolean): void {
+    this.targetFrameUnlocked = unlocked;
+    this.refreshTargetFrameMoveBtn();
+  }
+
+  // Seed targetFramePos from the live rect the first time a drag starts, so a frame
+  // still on its CSS default converts cleanly to explicit px coordinates.
+  private ensureTargetFramePos(): void {
+    if (this.targetFramePos) return;
+    const rect = this.targetFrameEl.getBoundingClientRect();
+    this.targetFramePos = { left: rect.left, top: rect.top };
+  }
+
+  private onTargetFrameMoveStart(ev: PointerEvent): void {
+    if (ev.button !== 0 || this.isMobileLayout() || !this.targetFrameUnlocked) return;
+    const target = ev.target as HTMLElement | null;
+    // The move button (and any debuff icon buttons) keep their own behaviour; only
+    // the frame body area initiates a drag.
+    if (!target || target.closest('button')) return;
+    ev.preventDefault();
+    this.ensureTargetFramePos();
+    const rect = this.targetFrameEl.getBoundingClientRect();
+    this.targetFrameGesture = {
+      pointerId: ev.pointerId,
+      grabX: ev.clientX - rect.left,
+      grabY: ev.clientY - rect.top,
+    };
+    document.body.classList.add('target-frame-dragging');
+    try {
+      this.targetFrameEl.setPointerCapture?.(ev.pointerId);
+    } catch {
+      /* synthetic pointer */
+    }
+  }
+
+  private onTargetFramePointerMove(ev: PointerEvent): void {
+    const g = this.targetFrameGesture;
+    if (!g || g.pointerId !== ev.pointerId) return;
+    ev.preventDefault();
+    this.targetFramePos = { left: ev.clientX - g.grabX, top: ev.clientY - g.grabY };
+    this.applyTargetFramePos();
+  }
+
+  private onTargetFramePointerEnd(ev: PointerEvent): void {
+    const g = this.targetFrameGesture;
+    if (!g || g.pointerId !== ev.pointerId) return;
+    this.targetFrameGesture = null;
+    document.body.classList.remove('target-frame-dragging');
+    this.persistTargetFramePos();
+  }
+
+  private applyTargetFramePos(): void {
+    if (!this.targetFramePos) return;
+    // On the mobile layout the desktop-saved position must not apply. Clear any
+    // inline left/top/right/bottom (e.g. left over after a live desktop-to-mobile
+    // viewport shrink) so the mobile stylesheet owns the frame's position again.
+    if (this.isMobileLayout()) {
+      for (const prop of ['left', 'top', 'right', 'bottom'])
+        this.targetFrameEl.style.removeProperty(prop);
+      return;
+    }
+    const rect = this.targetFrameEl.getBoundingClientRect();
+    // The frame is display:none with no target (rect is 0x0); fall back to a nominal
+    // size so a saved spot still clamps sensibly and re-shows on-screen.
+    const size = { w: rect.width || 220, h: rect.height || 92 };
+    const clamped = clampTargetFramePos(
+      this.targetFramePos,
+      { w: window.innerWidth, h: window.innerHeight },
+      size,
+    );
+    this.targetFramePos = clamped;
+    this.targetFrameEl.style.left = `${clamped.left}px`;
+    this.targetFrameEl.style.top = `${clamped.top}px`;
+    this.targetFrameEl.style.right = 'auto';
+    this.targetFrameEl.style.bottom = 'auto';
+  }
+
+  private persistTargetFramePos(): void {
+    if (!this.targetFramePos) return;
+    try {
+      localStorage.setItem(TARGET_FRAME_POS_KEY, serializeTargetFramePos(this.targetFramePos));
+    } catch {
+      /* storage unavailable */
     }
   }
 
@@ -3082,16 +3264,7 @@ export class Hud {
       // Touch-only path: showing the tooltip means the held control is being
       // inspected, so the release click should peek, not fire its action.
       this.peekGuard.tooltipShown(trigger);
-      this.tooltipEl.innerHTML = html();
-      this.tooltipEl.style.display = 'block';
-      // offsetWidth/Height are author-space (zoom-immune) layout sizes, but x/y
-      // arrive in visual (zoomed) space, so map x/y into author space (÷ scale)
-      // before clamping against the author-space tooltip box + viewport.
-      const z = getUiScale();
-      const tw = this.tooltipEl.offsetWidth,
-        th = this.tooltipEl.offsetHeight;
-      this.tooltipEl.style.left = `${Math.max(8, Math.min(window.innerWidth / z - tw - 8, x / z + 14))}px`;
-      this.tooltipEl.style.top = `${Math.max(8, y / z - th - 10)}px`;
+      this.paintTooltipAt(html(), x, y);
     };
     const showNearElement = () => {
       const rect = el.getBoundingClientRect();
@@ -3135,6 +3308,87 @@ export class Hud {
 
   hideTooltip(): void {
     this.tooltipEl.style.display = 'none';
+    this.tooltipEl.classList.remove('mob-tooltip');
+  }
+
+  // Paints the shared #tooltip box at a screen point, used by attachTooltip's
+  // element-hover showAt (item/ability/stat tooltips). Drops the mob-tooltip
+  // size modifier so a leftover world-hover tooltip never leaks its bigger
+  // sizing onto one of these.
+  private paintTooltipAt(html: string, x: number, y: number): void {
+    this.tooltipEl.classList.remove('mob-tooltip');
+    this.tooltipEl.innerHTML = html;
+    this.tooltipEl.style.display = 'block';
+    // offsetWidth/Height are author-space (zoom-immune) layout sizes, but x/y
+    // arrive in visual (zoomed) space, so map x/y into author space (÷ scale)
+    // before clamping against the author-space tooltip box + viewport.
+    const z = getUiScale();
+    const tw = this.tooltipEl.offsetWidth,
+      th = this.tooltipEl.offsetHeight;
+    this.tooltipEl.style.left = `${Math.max(8, Math.min(window.innerWidth / z - tw - 8, x / z + 14))}px`;
+    this.tooltipEl.style.top = `${Math.max(8, y / z - th - 10)}px`;
+  }
+
+  // Anchors the mob-hover tooltip to a fixed screen slot instead of the cursor:
+  // just right of the player frame's health/resource bars, bottom-aligned with
+  // them. Unlike paintTooltipAt (cursor-relative), this reads the player frame's
+  // live rect so it tracks that frame's real position/size (desktop or mobile)
+  // instead of a hand-picked pixel offset.
+  private paintTooltipNearPlayerFrame(html: string): void {
+    this.tooltipEl.classList.add('mob-tooltip');
+    this.tooltipEl.innerHTML = html;
+    this.tooltipEl.style.display = 'block';
+    const z = getUiScale();
+    const tw = this.tooltipEl.offsetWidth,
+      th = this.tooltipEl.offsetHeight;
+    const pf = this.playerFrameEl.getBoundingClientRect();
+    const gap = 14;
+    const left = Math.max(8, Math.min(window.innerWidth / z - tw - 8, pf.right / z + gap));
+    const top = Math.max(8, Math.min(window.innerHeight / z - th - 8, pf.bottom / z - th));
+    this.tooltipEl.style.left = `${left}px`;
+    this.tooltipEl.style.top = `${top}px`;
+  }
+
+  // Shows the WoW-style mouseover tooltip (name / level / creature type) for a
+  // mob hovered in the 3D world. Called every frame main.ts's updateHoverCursor
+  // finds a hovered mob; gated on a small key (not just the id) so re-hovering the
+  // same mob each frame does not rebuild the HTML, yet a mid-hover change that
+  // moves the rendered model (the mob aggros so hostile flips, the mob or the
+  // viewer dings a level so the con-color shifts) still repaints. Colored by the
+  // tooltip's own classic con spread (mobTooltipConColor), deliberately independent
+  // of the overhead nameplate bands (mobNameColor). Shown at a fixed spot (right of
+  // the health bars, see paintTooltipNearPlayerFrame) rather than following the cursor.
+  showMobHoverTooltip(entity: Entity, pvpOpponents: ReadonlySet<number>): void {
+    const key = `${entity.id}:${entity.level}:${entity.hostile ? 1 : 0}:${this.sim.player.level}`;
+    if (key === this.lastMobTooltipId) return;
+    this.lastMobTooltipId = key;
+    const template = MOBS[entity.templateId];
+    if (!template) {
+      this.hideTooltip();
+      return;
+    }
+    const diff = entity.level - this.sim.player.level;
+    const friendlyPet = isFriendlyPet(entity, this.sim.entities, (p) => pvpOpponents.has(p.id));
+    const familyLabel =
+      template.family === 'demon'
+        ? t('hudChrome.mobTooltip.familyDemon')
+        : t(`guide.family.${template.family}.name` as TranslationKey);
+    const model: MobTooltipModel = {
+      name: mobDisplayName(entity.templateId),
+      level: entity.level,
+      familyLabel,
+      color: mobTooltipConColor(diff, entity.dead, friendlyPet),
+      hostile: entity.hostile,
+    };
+    this.paintTooltipNearPlayerFrame(mobTooltipHtml(model, MOB_TOOLTIP_VIEW_DEPS));
+  }
+
+  // Clears the world-hover mob tooltip; a no-op if none is showing, so main.ts
+  // can call it unconditionally every frame nothing (or a non-mob) is hovered.
+  clearMobHoverTooltip(): void {
+    if (this.lastMobTooltipId === null) return;
+    this.lastMobTooltipId = null;
+    this.hideTooltip();
   }
 
   private itemTooltip(item: ItemDef, compare = true): string {
@@ -3368,6 +3622,10 @@ export class Hud {
     // The keyed-pool party rows reuse their DOM, so a rebuild never re-runs t() on
     // their badge tooltips / leave label; re-localize them in place on a switch.
     this.partyFramesPainter.relocalize();
+    // The target-frame move/lock button's label is set once at construction + on
+    // toggle, so re-localize it in place on a language switch (same reason as the
+    // party rows above).
+    this.refreshTargetFrameMoveBtn();
     if (this.questlogWindow.isOpen) this.questlogWindow.render();
     if ($('#bags').style.display !== 'none') this.renderBags();
     if (this.openVendorNpcId !== null && $('#vendor-window').style.display === 'block')
