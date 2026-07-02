@@ -20,6 +20,7 @@ import { ITEMS } from './data';
 import { recalcPlayerStats } from './entity';
 import { canEquipItem } from './equipment_rules';
 import { formatMoney } from './format_money';
+import { battlefieldExperienceTrickle } from './professions/battlefield_xp';
 import type { ItemUseResult, PlayerMeta } from './sim';
 import type { SimContext } from './sim_context';
 import {
@@ -174,7 +175,22 @@ export function useItem(ctx: SimContext, itemId: string, pid?: number): ItemUseR
       );
       return;
     }
+    // #1149 Battlefield Experience: resolve the specific instance BEFORE
+    // removeItem consumes it (self-observation only: the drinker is the
+    // signer). A cheap gate inside battlefieldExperienceTrickle short-
+    // circuits everything below rare tier, so this is a no-op for every
+    // plain/common/uncommon potion, exactly as before this issue.
+    const drunkInstance = meta.inventory.find(
+      (s) => s.itemId === itemId && s.instance?.signer === meta.name,
+    )?.instance;
     ctx.removeItem(itemId, 1, meta.entityId);
+    if (drunkInstance) {
+      battlefieldExperienceTrickle(meta.craftSkills, {
+        itemId,
+        instance: drunkInstance,
+        observerName: meta.name,
+      });
+    }
     p.potionCooldownUntil = ctx.time + POTION_COOLDOWN;
     p.potionCdRemaining = POTION_COOLDOWN; // materialized remaining for the action-bar swipe
     if (restoresHp) {

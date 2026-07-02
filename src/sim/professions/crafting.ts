@@ -12,6 +12,14 @@
 // Higher-tier gating, the wheel, and archetype-exclusive combos are later
 // issues; this module resolves exactly the common-tier path end to end.
 //
+// #1149 (Battlefield Experience) attribution: a crafted output that rolls
+// rare-or-better is stamped with its crafter's name via ctx.addItemInstance,
+// same signable-rarity threshold and same {signer} shape gathering.ts's
+// harvestCorpse already uses for monster materials (#1145). Below that
+// threshold the output stays a plain fungible grant, unchanged from before
+// this issue. This is what gives professions/battlefield_xp.ts a `signer` to
+// resolve later, when that specific copy is drunk/worn/lands a killing blow.
+//
 // This module is `src/sim`-pure (see src/sim/CLAUDE.md): no DOM/render/ui/
 // game/net imports, no Math.random/Date.now, host-agnostic so it runs
 // offline, on the server, and in the headless RL env unchanged.
@@ -19,7 +27,7 @@
 import { recipeById } from '../content/recipes';
 import type { PlayerMeta } from '../sim';
 import type { SimContext } from '../sim_context';
-import { type MaterialRarity, rollMaterialRarity } from './gathering';
+import { isSignableMaterialRarity, type MaterialRarity, rollMaterialRarity } from './gathering';
 import type { ProfessionReagent, ProfessionRecipeRecord } from './types';
 import { gainCraftSkill } from './wheel';
 
@@ -106,7 +114,15 @@ export function resolveCraft(ctx: SimContext, pid: number, recipeId: string): Cr
   }
   const skill = meta ? (meta.craftSkills[recipe.professionId] ?? 0) : 0;
   const quality = rollMaterialRarity(skill, ctx.rng);
-  ctx.addItem(recipe.resultItemId, recipe.resultCount, pid);
+  // #1149: sign a single rare-or-better copy so it carries an attribution
+  // target for Battlefield Experience; anything below that stays fungible,
+  // and a resultCount > 1 output is never itself signable (only single-copy
+  // grants are, matching every recipe in content/recipes.ts today).
+  if (meta && recipe.resultCount === 1 && isSignableMaterialRarity(quality)) {
+    ctx.addItemInstance(recipe.resultItemId, { signer: meta.name, rolled: { quality } }, pid);
+  } else {
+    ctx.addItem(recipe.resultItemId, recipe.resultCount, pid);
+  }
   if (meta) gainCraftSkill(meta.craftSkills, recipe.professionId, CRAFT_SKILL_GAIN);
   return {
     ok: true,
