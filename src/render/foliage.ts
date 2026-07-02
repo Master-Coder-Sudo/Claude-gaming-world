@@ -12,6 +12,7 @@ import {
 import type { BiomeId } from '../sim/types';
 import type { Decoration } from '../sim/world';
 import {
+  biomeAt,
   generateDecorations,
   roadDistance,
   terrainHeight,
@@ -1512,7 +1513,7 @@ function buildGrassRing(parent: THREE.Group, seed: number): GrassRing {
         q.setFromAxisAngle(up, r * 12.4);
         m.compose(v.set(x, h, z), q, sv.set(s, s, s));
         im.setMatrixAt(n, m);
-        c.setHex(GRASS_TINT[zoneBiomeAt(z)]);
+        c.setHex(GRASS_TINT[biomeAt(x, z)]);
         c.offsetHSL(
           (hashAt(i, j, 3) - 0.5) * 0.05,
           (hashAt(i, j, 4) - 0.5) * 0.12,

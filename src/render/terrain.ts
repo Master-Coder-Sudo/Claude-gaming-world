@@ -305,6 +305,16 @@ function sampleVertex(x: number, z: number, seed: number): VertexSample {
   const biome = biomeAt(x, z);
   paletteAt(x, z, biome);
   const w: [number, number, number, number] = [1, 0, 0, 0];
+  // A painted cell re-bases the splat mix on its biome's dominant ground layer;
+  // without this the splat tier keeps the grass texture everywhere and the
+  // biome override only reads as the gentle vertex tint (invisible in practice).
+  // Shore/road/slope/snow blends below still layer on top, matching zone bands.
+  const painted = biome !== zoneBiomeAt(z);
+  if (painted) {
+    if (biome === 'marsh' || biome === 'cave') lerpSplat(w, 1, 0.8);
+    else if (biome === 'peaks' || biome === 'volcano') lerpSplat(w, 2, 0.75);
+    else if (biome === 'beach' || biome === 'desert') lerpSplat(w, 3, 0.9);
+  }
   const impact = impactCraterTerrainBlend(x, z);
 
   // base grass with patchy variation
@@ -375,8 +385,10 @@ function sampleVertex(x: number, z: number, seed: number): VertexSample {
     snow = Math.max(snow, rimSnow);
     lerpSplat(w, 2, rim * 0.85);
   }
-  // mud rides the dirt layer wherever the marsh palette is active
-  const mud = marshWeightAt(z);
+  // mud rides the dirt layer wherever the marsh palette is active; a painted
+  // cell overrides the z-band weight (painted marsh is fully wet, any other
+  // painted biome suppresses band mud that would bleed into it)
+  const mud = painted ? (biome === 'marsh' ? 1 : 0) : marshWeightAt(z);
   if (GFX.lowPlus && !GFX.terrainSplat) {
     const ridge = clamp01((slope - 0.22) * 1.6);
     const lowland = clamp01((wl + 7 - h) / 12);
