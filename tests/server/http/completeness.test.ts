@@ -109,8 +109,16 @@ const legacyLadder = SURFACE_INVENTORY.filter(
 );
 
 // Read main.ts as a FILE (never import: main constructs a pg pool at load) and
-// re-derive the set of /api paths the CURRENT handleApi still serves.
-const MAIN_SOURCE_URL = new URL('../../../server/main.ts', import.meta.url);
+// re-derive the set of /api paths the CURRENT handleApi still serves. The
+// daily-rewards sub-dispatcher is scanned too: its exact-path /api arms sit in
+// server/daily_rewards.ts behind main.ts's `startsWith('/api/daily-rewards')`
+// prefix arm, so they are legacy-served even though main.ts never spells the
+// concrete paths (same blind-spot fix as the freshness gate's
+// DISPATCHER_SOURCES; extend this list for any future prefix-delegated module).
+const LEGACY_SOURCE_URLS = [
+  new URL('../../../server/main.ts', import.meta.url),
+  new URL('../../../server/daily_rewards.ts', import.meta.url),
+] as const;
 
 // Every `=== '<path>'` (or "<path>") comparison whose path begins with /api/. The
 // quote is captured so the same quote closes it.
@@ -125,7 +133,7 @@ const PARAM_API_RE = /const\s+(\w*Match)\s*=\s*\/((?:\\.|[^/\\\n])*)\/[a-z]*\.ex
 const API_REGEX_PREFIX = '^\\/api\\/';
 
 function deriveLegacyServed(): Set<string> {
-  const text = readFileSync(MAIN_SOURCE_URL, 'utf8');
+  const text = LEGACY_SOURCE_URLS.map((url) => readFileSync(url, 'utf8')).join('\n');
   const served = new Set<string>();
   for (const m of text.matchAll(EXACT_API_RE)) served.add(m[2]);
   for (const m of text.matchAll(PARAM_API_RE)) {
@@ -432,19 +440,27 @@ describe('registry completeness: Phase 18 oauth + internal surfaces (server/oaut
   // served through the dispatcher's delegate. The internal surface migrates EVERY
   // handleInternalApi row (11: restart-countdown + the 10 Discord-bot routes); the
   // separate /internal/daily-rewards/* ops family was never part of that ladder
-  // and stays delegate-only.
+  // and stays delegate-only (its inventory rows are excluded below; Phase 18b
+  // owns putting the family on the table).
   const oauthPostLadder = SURFACE_INVENTORY.filter(
     (r) => r.dispatcher === DISPATCH.oauth && r.method === 'POST',
   );
   const oauthGetLadder = SURFACE_INVENTORY.filter(
     (r) => r.dispatcher === DISPATCH.oauth && r.method === 'GET',
   );
-  const internalLadder = SURFACE_INVENTORY.filter((r) => r.dispatcher === DISPATCH.internal);
+  const OPS_FAMILY_PREFIX = '/internal/daily-rewards/';
+  const internalLadder = SURFACE_INVENTORY.filter(
+    (r) => r.dispatcher === DISPATCH.internal && !r.path.startsWith(OPS_FAMILY_PREFIX),
+  );
+  const opsFamilyRows = SURFACE_INVENTORY.filter(
+    (r) => r.dispatcher === DISPATCH.internal && r.path.startsWith(OPS_FAMILY_PREFIX),
+  );
 
   it('derives the expected non-empty ladders', () => {
     expect(oauthPostLadder.length).toBe(5);
     expect(oauthGetLadder.length).toBe(2);
     expect(internalLadder.length).toBe(11);
+    expect(opsFamilyRows.length).toBe(3);
   });
 
   it('registers exactly the oauth POST ladder routes', () => {
@@ -508,6 +524,12 @@ describe('registry completeness: Phase 18 oauth + internal surfaces (server/oaut
   });
 
   it('leaves the /internal/daily-rewards ops family delegate-only', () => {
+    // The three REAL ops routes (now SURFACE_INVENTORY rows) resolve notFound, so
+    // the dispatcher delegates them to the composite (handleDailyRewardInternalApi
+    // first); plus the original synthetic probes for never-existing subpaths.
+    for (const r of opsFamilyRows) {
+      expect(apiRegistry.resolve(r.method, r.path).kind, r.path).toBe('notFound');
+    }
     expect(apiRegistry.resolve('POST', '/internal/daily-rewards/run').kind).toBe('notFound');
     expect(apiRegistry.resolve('GET', '/internal/daily-rewards/status').kind).toBe('notFound');
   });
