@@ -98,7 +98,7 @@
     <a class="t3" href="#future-gathering">Gathering skills (add freely)</a>
     <a class="t3" href="#off-wheel">A second, off-wheel system for non-combat crafts (if needed)</a>
     <a class="t3" href="#sub-disciplines">Sub-disciplines that fold under existing crafts</a>
-    <a class="t3" href="#battlefield">Battlefield Experience: production skill from observed item use (exploratory, later phase)</a>
+    <a class="t3" href="#battlefield">Battlefield Experience: production skill from observed item use (committed, later phase)</a>
     <a class="t2" href="#arch">Architecture (how it lands in this repo)</a>
     <a class="t3" href="#arch-invariants">Determinism and authority (hard invariants)</a>
     <a class="t3" href="#arch-content">Content-as-code (src/sim/content/, merged by data.ts)</a>
@@ -431,7 +431,7 @@
   </ul>
 
   <h3 id="alts">Why account-level breadth does not break exclusivity</h3>
-  <p>An account can hold many characters, so a dedicated player can in principle spread the archetypes across alts and cover the whole wheel over time. That does not collapse the design, because <strong>the top of crafting is gated behind adventuring, not just crafting</strong>. The best materials come from Monster Harvesting, which means killing higher-tier monsters, and later Battlefield Experience (exploratory, see Part II: Future) improves what you craft. Both require a character that actually fights, so a combat level 1 crafting alt is never prevented from crafting but is capped well below an adventurer-crafter. Monster Harvesting alone carries this gate today; Battlefield Experience only deepens it. This is the pillar that negates the one-alt-per-craft pattern that guts crafting value in so many MMOs.</p>
+  <p>An account can hold many characters, so a dedicated player can in principle spread the archetypes across alts and cover the whole wheel over time. That does not collapse the design, because <strong>the top of crafting is gated behind adventuring, not just crafting</strong>. The best materials come from Monster Harvesting, which means killing higher-tier monsters, and later Battlefield Experience (committed concept, later phase; see Part II: Future) improves what you craft. Both require a character that actually fights, so a combat level 1 crafting alt is never prevented from crafting but is capped well below an adventurer-crafter. Monster Harvesting alone carries this gate today; Battlefield Experience only deepens it. This is the pillar that negates the one-alt-per-craft pattern that guts crafting value in so many MMOs.</p>
   <p>Two further inputs reinforce it. Contested single-use corpses are an always-on friction no one can multibox. And a recipe that requires a material <strong>signed by its recipient</strong> removes the shared-gatherer-alt shortcut for bound gear, because the wearer has to have gathered it themselves. A bare signature on its own is only provenance, not an anti-alt lever (each alt signs its own materials); the exclusivity comes from the adventuring gate and the contested and recipient-bound inputs, not the signature. You can only ever play one or two characters at once, so you can never bring the top of every archetype to bear at the same time. Specialization stays per-character, and a fully rewarding pure-skiller route is an explicit non-goal for now.</p>
 
   <h2 id="tools">Tools</h2>
@@ -491,7 +491,7 @@
   </details>
 
   <h2 id="future">Future and esoteric skills</h2>
-  <p>Two safe expansion lanes, neither of which touches the production wheel, and one exploratory mechanic parked here until the core systems are proven.</p>
+  <p>Two safe expansion lanes, neither of which touches the production wheel, and one committed but later-phase mechanic parked here until the core systems are proven.</p>
 
   <h3 id="future-gathering">Gathering skills (add freely)</h3>
   <p>Each feeds an existing craft, so they cost the wheel nothing. A menu we brainstormed:</p>
@@ -524,7 +524,7 @@
   <h3 id="sub-disciplines">Sub-disciplines that fold under existing crafts</h3>
   <p class="muted">Poisoncraft and Perfumery under Alchemy; Glassblowing under Engineering or Jewelcrafting; Runecarving and Golemcraft under Enchanting; Bookbinding and Cartography under Inscription; Trapmaking under Engineering; Bonecarving under Jewelcrafting or Leatherworking. None of these is a new wheel axis.</p>
 
-  <h3 id="battlefield">Battlefield Experience: production skill from observed item use (exploratory, later phase)</h3>
+  <h3 id="battlefield">Battlefield Experience: production skill from observed item use (committed, later phase)</h3>
   <p>Production skill could also grow from <strong>Battlefield Experience</strong>, not just crafting: watching crafted items get used in combat grants a small trickle of specialization xp toward the craft that makes them, when that craft is part of your active archetype. A weapon that lands a killing blow or armor worn while a monster dies feeds xp to a Smith; a potion drunk or meal eaten feeds nothing unless alchemy or cooking is your specialty.</p>
   <ul>
     <li><strong>Only your active archetype.</strong> Battlefield Experience credits only the crafts in your current specialty (your two majors, and your hobby up to its cap). It never advances a craft outside your archetype, so witnessing a wide variety of items in combat cannot quietly make you better at everything. This also closes the alt loophole: each character earns Battlefield Experience only for its own active archetype, so holding several archetypes across alts never lets one account skirt the at-most-two-active rule.</li>
@@ -537,7 +537,7 @@
     <summary>Worked example</summary>
     <p>A guild's master armorcrafter forges a set for a member, then comes along on the dungeon. Over a dungeon's worth of fights they observe that armor taking and surviving hits, and afterward they can take it back and improve it a little for its owner. This is why a guild may prefer to bring its master crafters on raids rather than just hauling materials back to a crafter who never leaves town.</p>
   </details>
-  <p class="muted">An idea, not a committed mechanic. It needs careful tuning and would land much later, after the core systems are proven.</p>
+  <p class="muted">Committed as a concept, deliberately last: it needs careful tuning and is not needed until the core systems (gathering, crafting, tools, Monster Harvesting) are in and proven.</p>
 
   <h2 id="arch">Architecture (how it lands in this repo)</h2>
   <p>The system follows the repo's existing seams. Nothing below invents a new one.</p>
@@ -588,7 +588,7 @@
     <li><strong>Monster Harvesting plus focus:</strong> single-use corpses, component-type tags, per-corpse focus picker, the additive town focus, the time/coin/material re-spec, and signed rare+ materials with the self-gathered craft bonus.</li>
     <li><strong>Cosmetics / market integration, wiki polish, balance.</strong></li>
   </ol>
-  <p class="muted">Much later, exploratory: Battlefield Experience (observed item use); and a possible off-wheel cosmetic/housing system (Carpenter, Mason, and tending skills) if the ten feel too limited.</p>
+  <p class="muted">Much later: Battlefield Experience (observed item use; committed as a concept, not needed until the core is proven); and a possible off-wheel cosmetic/housing system (Carpenter, Mason, and tending skills) if the ten feel too limited.</p>
 
   <h2 id="tbd">Open questions / TBD</h2>
   <p>Only genuinely open questions live here; decided points are stated in the body text where they apply.</p>
