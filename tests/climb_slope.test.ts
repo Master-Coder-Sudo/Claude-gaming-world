@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { isBlocked } from '../src/sim/colliders';
 import { CAMPS } from '../src/sim/data';
+import { PLAYER_MAX_CLIMB_SLOPE } from '../src/sim/pathfind';
 import { Sim } from '../src/sim/sim';
 import { terrainDownhill, terrainHeight, terrainSteepness, WATER_LEVEL } from '../src/sim/world';
 
@@ -14,6 +15,9 @@ import { terrainDownhill, terrainHeight, terrainSteepness, WATER_LEVEL } from '.
 //  - standing on such ground slides you downhill until footing is walkable.
 // tests/terrain_walls.test.ts pins that the walls themselves are steep enough.
 
+// Seed 42, not the production seed: the movement gates are seed-agnostic (any
+// steep-enough wall exercises them) and the terrain contract at the production
+// seed is pinned separately in tests/terrain_walls.test.ts.
 const SEED = 42;
 const CLIMB_LIMIT = 1.5;
 
@@ -88,6 +92,12 @@ function findSteepFooting(seed: number): { x: number; z: number } {
 const WEST = -Math.PI / 2; // facing f moves along (sin f, cos f); west = -x
 
 describe('unwalkable slope movement gates', () => {
+  // CLIMB_LIMIT is deliberately a literal (an independent pin, not a
+  // self-comparison); this keeps it from silently desyncing from the source.
+  it('the pinned climb limit matches the movement constant', () => {
+    expect(PLAYER_MAX_CLIMB_SLOPE).toBe(CLIMB_LIMIT);
+  });
+
   it('cannot climb the rim wall by strafing diagonally (switchback)', { timeout: 30000 }, () => {
     const sim = makeSim();
     const { z, xStart, xCrest } = findWestRimApproach(SEED);

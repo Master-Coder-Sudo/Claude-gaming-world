@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { CAMPS, NPCS, ROADS, WORLD_MAX_X, WORLD_MAX_Z, WORLD_MIN_Z, ZONES } from '../src/sim/data';
+import { PLAYER_MAX_CLIMB_SLOPE } from '../src/sim/pathfind';
 import { terrainSteepness } from '../src/sim/world';
 
 // The mountain walls of the world (the inter-zone ridges and the outer rim) are
@@ -32,12 +33,38 @@ function pathMaxSteepness(
 const RIDGE_ZS = ZONES.slice(0, -1).map((zone) => zone.zMax);
 
 describe('impassable terrain walls', () => {
+  // CLIMB_LIMIT is deliberately a literal (an independent pin, not a
+  // self-comparison); this keeps it from silently desyncing from the source.
+  it('the pinned climb limit matches the movement constant', () => {
+    expect(PLAYER_MAX_CLIMB_SLOPE).toBe(CLIMB_LIMIT);
+  });
+
   it('every non-pass crossing of each zone ridge is steeper than the climb limit', () => {
     for (const rz of RIDGE_ZS) {
       for (let x = -172; x <= 172; x += 4) {
         if (Math.abs(x) < PASS_HALF_WIDTH + 26) continue; // the road pass corridor
         const max = pathMaxSteepness(WORLD_SEED, { x, z: rz - 50 }, { x, z: rz + 50 });
         expect(max, `ridge z=${rz} crossing at x=${x}`).toBeGreaterThan(WALL_MARGIN);
+      }
+    }
+  });
+
+  it('the pass shoulder band is already a real wall', () => {
+    // The wall ramps from the flat pass opening (|x| < 10) to full height by
+    // |x| = 34 (PASS_SHOULDER in src/sim/world.ts). The crossable zone must
+    // stay contiguous with the road pass: by |x| = 16 every crossing already
+    // beats the margin, so a terrain tweak cannot quietly widen the gap into
+    // a cross-beside-the-pass hole.
+    for (const rz of RIDGE_ZS) {
+      for (let x = 16; x <= 34; x += 2) {
+        for (const side of [-1, 1]) {
+          const max = pathMaxSteepness(
+            WORLD_SEED,
+            { x: side * x, z: rz - 50 },
+            { x: side * x, z: rz + 50 },
+          );
+          expect(max, `ridge z=${rz} shoulder at x=${side * x}`).toBeGreaterThan(WALL_MARGIN);
+        }
       }
     }
   });
