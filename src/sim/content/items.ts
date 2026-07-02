@@ -197,7 +197,7 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
   },
   bristleback_maul: {
     id: 'bristleback_maul',
-    name: 'Gallowglass Maul',
+    name: 'Gallowglass Hammer',
     kind: 'weapon',
     slot: 'mainhand',
     quality: 'uncommon',

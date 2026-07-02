@@ -2236,7 +2236,7 @@ const mergeEntitiesEn = {
   items: mergeNameTranslations(
     MERGE_ITEM_IDS,
     [
-      'Gallowglass Maul',
+      'Gallowglass Hammer',
       "Broodmother's Silk Robe",
       'Cryptbone Greaves',
       'Cryptstalker Jerkin',

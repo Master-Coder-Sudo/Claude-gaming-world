@@ -4834,7 +4834,7 @@ export const en_CA: EnTranslations = {
         "name": "Monarch's Crown"
       },
       "bristleback_maul": {
-        "name": "Gallowglass Maul"
+        "name": "Gallowglass Hammer"
       },
       "broodmother_silk_robe": {
         "name": "Broodmother's Silk Robe"

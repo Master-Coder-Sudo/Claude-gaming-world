@@ -4834,7 +4834,7 @@ export const en_XA: EnTranslations = {
         "name": "[Ɱóñáŕçĥ'š Çŕóŵñ]"
       },
       "bristleback_maul": {
-        "name": "[Ĝáļļóŵĝļášš Ɱáúļ]"
+        "name": "[Ĝáļļóŵĝļášš Ĥáɱɱéŕ]"
       },
       "broodmother_silk_robe": {
         "name": "[Ɓŕóóðɱóţĥéŕ'š Šíļķ Ŕóƀé]"
