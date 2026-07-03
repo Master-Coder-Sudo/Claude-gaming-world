@@ -17,6 +17,7 @@ import {
   createApiDispatcher,
   selectApiEntry,
 } from '../../../server/http/dispatch';
+import { logger } from '../../../server/http/logger';
 import type { MetricEvent, MetricSink } from '../../../server/http/middleware/metric_sink';
 import type { ApiRegistry } from '../../../server/http/registry';
 import type { MatchResult } from '../../../server/http/router';
@@ -83,9 +84,16 @@ describe('createApiDispatcher', () => {
     expect(res.statusCode).toBe(200);
     expect(res.writableEnded).toBe(true);
     expect(JSON.parse(res.body)).toEqual({ ok: true, id: '42' });
-    // The metric hook observes the FINAL status against the :param TEMPLATE.
+    // The metric hook observes the FINAL status against the :param TEMPLATE, and
+    // carries the resolved client IP (Phase 23, for the access log).
     expect(events).toEqual([
-      { route: '/api/things/:id', method: 'GET', status: 200, durationMs: expect.any(Number) },
+      {
+        route: '/api/things/:id',
+        method: 'GET',
+        status: 200,
+        durationMs: expect.any(Number),
+        ip: expect.any(String),
+      },
     ]);
   });
 
@@ -158,6 +166,9 @@ describe('createApiDispatcher', () => {
   });
 
   it('maps a handler throw to exactly one problem+json response without leaking the error', async () => {
+    // The dispatcher injects a logger-backed onUnexpected into withErrors; silence
+    // it so the deliberate 500 does not write an ops line to the test output.
+    const errLog = vi.spyOn(logger, 'error').mockImplementation(() => {});
     const events: MetricEvent[] = [];
     const route = fakeRoute(async () => {
       throw new Error('boom-secret-detail');
@@ -181,9 +192,13 @@ describe('createApiDispatcher', () => {
     // The 500-no-leak contract: the thrown detail never reaches the body.
     expect(res.body).not.toContain('boom-secret-detail');
     expect(events[0]?.status).toBe(500);
+    // The ORIGINAL error DID reach the injected onUnexpected sink (the ops log).
+    expect(errLog).toHaveBeenCalledTimes(1);
+    errLog.mockRestore();
   });
 
   it("threads a route's meta.envelope into withErrors: an html route's throw serializes as HTML, never problem+json", async () => {
+    const errLog = vi.spyOn(logger, 'error').mockImplementation(() => {});
     // Pins the dispatcher's `withErrors({ surface: route.meta?.envelope })` line, the
     // only production consumer of meta.envelope. The Discord OAuth callback rides on
     // exactly this: its RouteDef carries meta.envelope 'html' (pinned in
@@ -215,16 +230,17 @@ describe('createApiDispatcher', () => {
     expect(res.writableEnded).toBe(true);
     // The same 500-no-leak contract holds on the HTML surface.
     expect(res.body).not.toContain('boom-secret-detail');
+    errLog.mockRestore();
   });
 
   it('mounts the Phase 21 gates on the REAL onion: an enforce-mode cross-site, wrong-type POST is rejected 403 ahead of route-local middleware (the origin gate outranks the 415)', async () => {
     // The onion_order.test.ts stack is a hand-built replica; this drives the real
     // createApiDispatcher mount. The gates are mounted with no opts, so they read
     // their enforce flags from process.env PER REQUEST: stubbing the env flips the
-    // real mount, and the un-injected gates fall back to their console.warn sinks.
+    // real mount, and the un-injected gates fall back to their structured-logger sinks.
     vi.stubEnv('API_ORIGIN_CHECK_ENFORCE', '1');
     vi.stubEnv('API_CONTENT_TYPE_ENFORCE', '1');
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const warn = vi.spyOn(logger, 'warn').mockImplementation(() => {});
     try {
       let handlerCalls = 0;
       let routeMiddlewareCalls = 0;
@@ -271,9 +287,10 @@ describe('createApiDispatcher', () => {
       expect(res.statusCode).toBe(403);
       expect(JSON.parse(res.body).code).toBe('origin.cross_site');
       // Exactly ONE sink line fired (the origin gate's): the 415 gate never got
-      // to record, proving the mount ORDER, not just presence.
+      // to record, proving the mount ORDER, not just presence. The msg is the
+      // logger call's SECOND argument (the first is the structured fields).
       expect(warn).toHaveBeenCalledTimes(1);
-      expect(warn.mock.calls[0][0]).toBe('[http] cross-site origin on mutating /api request');
+      expect(warn.mock.calls[0][1]).toBe('cross-site origin on mutating /api request');
       // Both gates sit AHEAD of the route-local middleware and the handler.
       expect(routeMiddlewareCalls).toBe(0);
       expect(handlerCalls).toBe(0);

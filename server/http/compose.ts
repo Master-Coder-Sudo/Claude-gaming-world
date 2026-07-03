@@ -29,8 +29,9 @@ const FALLBACK_NO_RESPONSE_STATUS = 404;
 // (the envelope and error codes are defined in Phase 7).
 const FALLBACK_ERROR_STATUS = 500;
 // Echoed on the structural fallbacks so a hung/errored request is still
-// correlatable. The echo-on-EVERY-response middleware lands in Phase 8/23.
-const REQUEST_ID_HEADER = 'X-Request-Id';
+// correlatable. The echo-on-EVERY-response middleware (Phase 23's withRequestId)
+// imports this same constant so the header name is single-sourced.
+export const REQUEST_ID_HEADER = 'X-Request-Id';
 // Thrown when a single middleware frame calls next() more than once. The exact
 // text matches the nextGuard primitive in tests/server/helpers/fake_ctx.ts so
 // the double-next guard reads identically in the harness and the real runtime.

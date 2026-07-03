@@ -15,6 +15,12 @@ export interface MetricEvent {
   method: string;
   status: number;
   durationMs: number;
+  /**
+   * The resolved client IP (X-Forwarded-For aware; from ctx.ip). Optional and
+   * ADDITIVE (Phase 23, for the access log): pre-existing sinks that never read it
+   * are unaffected.
+   */
+  ip?: string;
 }
 
 /** A pluggable sink for MetricEvent records. */
@@ -26,6 +32,27 @@ export interface MetricSink {
 export const noopMetricSink: MetricSink = {
   record() {},
 };
+
+/**
+ * Fan one event out to every sink (Phase 23: the access-log sink and the
+ * Prometheus sink share one recording point). Each record() is wrapped so a
+ * throwing sink neither stops the remaining sinks nor propagates out into the
+ * request's finally block; a sink is expected to already swallow its own errors,
+ * so this is a belt-and-suspenders guard, not a substitute for that.
+ */
+export function teeMetricSink(...sinks: MetricSink[]): MetricSink {
+  return {
+    record(event: MetricEvent): void {
+      for (const sink of sinks) {
+        try {
+          sink.record(event);
+        } catch {
+          // One sink failing must never break the others or the request path.
+        }
+      }
+    },
+  };
+}
 
 /**
  * Record one MetricEvent per request against `sink`. `route` is the :param
@@ -49,7 +76,7 @@ export function withMetrics(
       status = toAppError(err).status;
       throw err;
     } finally {
-      sink.record({ route, method: ctx.method, status, durationMs: now() - started });
+      sink.record({ route, method: ctx.method, status, durationMs: now() - started, ip: ctx.ip });
     }
   };
 }

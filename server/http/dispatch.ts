@@ -20,6 +20,7 @@ import type * as http from 'node:http';
 import { runOnion } from './compose';
 import type { DispatchMode } from './config';
 import { buildContext } from './context';
+import { logger } from './logger';
 import { withContentType } from './middleware/content_type';
 import { type MetricSink, noopMetricSink, withMetrics } from './middleware/metric_sink';
 import { withOriginCheck } from './middleware/origin_check';
@@ -81,11 +82,18 @@ export function createApiDispatcher(deps: ApiDispatcherDeps): ApiDispatcher {
     const stack: Middleware[] = [
       // Outermost: the sole response authority. On a throw it maps the error to
       // the route's surface envelope (RFC 9457 for /api) via mapError and writes
-      // exactly once; a handler that already responded is left untouched.
-      withErrors({ surface: route.meta?.envelope }),
+      // exactly once; a handler that already responded is left untouched. An
+      // UNEXPECTED (mapped-to-500) throwable routes the ORIGINAL error to the
+      // structured logger here, at the construction site: errors.ts must not import
+      // the logger (it sits under the logger's own import chain via context.ts), so
+      // the logger-backed sink is injected rather than defaulted inside errors.ts.
+      withErrors({
+        surface: route.meta?.envelope,
+        onUnexpected: (err) => logger.error({ err }, 'unhandled request error'),
+      }),
       // The metric observation point (the :param TEMPLATE, never the concrete
-      // path, to bound sink cardinality). The sink is a no-op until Phase 23; the
-      // hook is wired here so the injection point is live.
+      // path, to bound sink cardinality). Phase 23 wires the real access-log sink
+      // here (main.ts), so every request emits one structured access line.
       withMetrics(metricSink, route.path),
       // The Phase 21 hardening gates, global frames ahead of the route-local
       // middleware so an (enforce-mode) reject is cheap and still serializes
@@ -96,11 +104,20 @@ export function createApiDispatcher(deps: ApiDispatcherDeps): ApiDispatcher {
       // sees them (the registered-surface carve-out).
       withOriginCheck(route),
       withContentType(route),
+      // NOTE: withRequestId (the X-Request-Id echo, now built in
+      // middleware/request_id.ts) is intentionally NOT mounted here yet. runOnion
+      // already binds ctx.reqId in AsyncLocalStorage for the whole run, so the ALS
+      // rebind would be redundant, AND mounting the header echo now would add an
+      // X-Request-Id response header to every migrated-route 2xx/429/404 response
+      // where the retained legacy delegate emits none, breaking the parity harness
+      // (tests/server/http/parity.test.ts) across the whole corpus. Turning the echo
+      // on is a corpus-wide parity decision deferred to the Phase 25 flag flip /
+      // ladder deletion (normalize X-Request-Id out of the shared parity normalizer,
+      // or register it corpus-wide). withErrors still emits X-Request-Id on the
+      // error path, which the existing per-domain deviations already cover.
       // Route-local middleware (per-route rate limits, withBody, requireAccount)
       // composed after the global frames, exactly as each RouteDef declares them
-      // when it migrates (Phase 10 onward). withRequestId is intentionally omitted:
-      // runOnion already binds ctx.reqId in AsyncLocalStorage for the whole run, so
-      // a separate rebind frame would be redundant (see middleware/request_id.ts).
+      // when it migrates (Phase 10 onward).
       ...(route.middleware ?? []),
       // The handler. Turning its returned value into the surface envelope lands
       // with the first migrated route (Phase 10); today no route is migrated, so a

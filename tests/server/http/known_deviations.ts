@@ -908,9 +908,10 @@ export const KNOWN_DEVIATIONS: readonly KnownDeviation[] = [
     currentBehavior:
       'The legacy handleOAuth wraps its whole ladder in one try/catch: any throw escaping ' +
       'a POST handler (an over-cap consent body, readForm/readBinaryBody rejects past its ' +
-      '16 KB cap; a Postgres error) logs "oauth error:" and answers the bare RFC 6749 500 ' +
-      '{ error: "server_error" } with NO error_description. A malformed JSON body is NOT a ' +
-      'throw path (readForm coerces it to {} and the handler answers its own 400/401).',
+      '16 KB cap; a Postgres error) logs a structured "oauth error" line and answers the ' +
+      'bare RFC 6749 500 { error: "server_error" } with NO error_description. A malformed ' +
+      'JSON body is NOT a throw path (readForm coerces it to {} and the handler answers ' +
+      'its own 400/401).',
     intendedBehavior:
       'Phase 18 keeps the handlers self-reading (readForm inside the unchanged cores; NO ' +
       'withBody, so no 400/413 status remap and every handler-owned body stays ' +
@@ -920,10 +921,10 @@ export const KNOWN_DEVIATIONS: readonly KnownDeviation[] = [
       'unexpected error occurred." } plus an X-Request-Id header, where legacy wrote the ' +
       'bare { error: "server_error" }. Same 500 status, same RFC 6749 error code; the ' +
       'description member and header are ADDITIVE and leak-free (generic text; the ' +
-      'original error goes only to the logger, now the shared "[http] unhandled error" ' +
-      'line instead of "oauth error:"). The GET consent/device HTML pages stay on the ' +
-      'legacy ladder (never enter the route table), so their htmlError paths are ' +
-      'untouched.',
+      'original error goes only to the logger, the shared "unhandled request error" line ' +
+      'instead of the module-local "oauth error" line). The GET consent/device HTML pages ' +
+      'stay on the legacy ladder (never enter the route table), so their htmlError paths ' +
+      'are untouched.',
     introducedInPhase: 18,
     reason:
       'The migrated OAuth POST handlers surface an unexpected throw through the shared ' +
