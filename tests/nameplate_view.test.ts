@@ -48,14 +48,19 @@ function viewer(overrides: Record<string, unknown> = {}): any {
     pos: { x: 0, y: 0, z: 0 },
     dead: false,
     targetId: null,
-    comboTargetId: null,
     comboPoints: 0,
     ...overrides,
   };
 }
 
-function plan(e: any, p: any = viewer(), viewHeight = 2, showNameplates = true) {
-  return nameplatePlanInto(newNameplatePlan(), e, p, viewHeight, showNameplates);
+function plan(
+  e: any,
+  p: any = viewer(),
+  viewHeight = 2,
+  showNameplates = true,
+  showOwnNameplate = false,
+) {
+  return nameplatePlanInto(newNameplatePlan(), e, p, viewHeight, showNameplates, showOwnNameplate);
 }
 
 describe('nameplate_view - visibility', () => {
@@ -64,6 +69,13 @@ describe('nameplate_view - visibility', () => {
     expect(plan(me, viewer({ id: PLAYER_ID })).hidden).toBe(true);
     const meEmote = ent({ id: PLAYER_ID, kind: 'player', overheadEmoteId: 'wave' });
     expect(plan(meEmote, viewer({ id: PLAYER_ID })).hidden).toBe(false);
+  });
+
+  it('shows the local player its own plate when showOwnNameplate is on (no emote needed)', () => {
+    const me = ent({ id: PLAYER_ID, kind: 'player' });
+    // default (off) still hides; opting in shows the own plate even with no emote
+    expect(plan(me, viewer({ id: PLAYER_ID }), 2, true, false).hidden).toBe(true);
+    expect(plan(me, viewer({ id: PLAYER_ID }), 2, true, true).hidden).toBe(false);
   });
 
   it('hides any entity beyond NAMEPLATE_RANGE and shows it just inside', () => {
@@ -131,6 +143,11 @@ describe('nameplate_view - anchor lift (projection input)', () => {
     expect(plan(meEmote, viewer({ id: PLAYER_ID }), 2).anchorYOffset).toBe(
       2 + NAMEPLATE_SELF_EMOTE_ANCHOR_LIFT,
     );
+    // with showOwnNameplate on, the self plate anchors at the normal lift, exactly
+    // like any other player's (the low self-emote lift no longer applies).
+    expect(plan(meEmote, viewer({ id: PLAYER_ID }), 2, true, true).anchorYOffset).toBe(
+      2 + NAMEPLATE_ANCHOR_LIFT,
+    );
   });
 });
 
@@ -141,15 +158,14 @@ describe('nameplate_view - threat + combo (delegated to the narrow helpers)', ()
     expect(plan(ent({ aggroTargetId: PLAYER_ID, ownerId: PLAYER_ID })).threat).toBe(false); // my pet
   });
 
-  it('reports the combo pips the viewer has built on this exact entity', () => {
+  it('reports the banked combo pips over the viewer CURRENT target (character-bound)', () => {
     const foe = ent({ pos: { x: 0, y: 0, z: 5 } });
-    expect(plan(foe, viewer({ comboTargetId: foe.id, comboPoints: 3 })).comboPips).toBe(3);
-    expect(plan(foe, viewer({ comboTargetId: 999, comboPoints: 3 })).comboPips).toBe(0);
+    expect(plan(foe, viewer({ targetId: foe.id, comboPoints: 3 })).comboPips).toBe(3);
+    // the pool follows the target swap: not looking at this entity = no pips here
+    expect(plan(foe, viewer({ targetId: 999, comboPoints: 3 })).comboPips).toBe(0);
     expect(
-      plan(
-        { ...foe, dead: true, lootable: true },
-        viewer({ comboTargetId: foe.id, comboPoints: 3 }),
-      ).comboPips,
+      plan({ ...foe, dead: true, lootable: true }, viewer({ targetId: foe.id, comboPoints: 3 }))
+        .comboPips,
     ).toBe(0);
   });
 
@@ -177,15 +193,15 @@ describe('nameplate_view - allocation-light + determinism', () => {
   it('writes into the caller-owned plan and returns that same instance (no per-call alloc)', () => {
     const out = newNameplatePlan();
     const e = ent({ pos: { x: 0, y: 0, z: 5 } });
-    const returned = nameplatePlanInto(out, e, viewer(), 2, true);
+    const returned = nameplatePlanInto(out, e, viewer(), 2, true, false);
     expect(returned).toBe(out); // same reference, reused
   });
 
   it('same input gives the same plan (pure)', () => {
     const e = ent({ pos: { x: 0, y: 0, z: 5 }, aggroTargetId: PLAYER_ID });
-    const p = viewer({ comboTargetId: e.id, comboPoints: 2, targetId: e.id });
-    const a = nameplatePlanInto(newNameplatePlan(), e, p, 2, true);
-    const b = nameplatePlanInto(newNameplatePlan(), e, p, 2, true);
+    const p = viewer({ comboPoints: 2, targetId: e.id });
+    const a = nameplatePlanInto(newNameplatePlan(), e, p, 2, true, false);
+    const b = nameplatePlanInto(newNameplatePlan(), e, p, 2, true, false);
     expect(a).toEqual(b);
   });
 });
@@ -201,7 +217,7 @@ describe('nameplate_view - Sim-vs-ClientWorld parity', () => {
     [
       'aggroed mob with combo',
       { kind: 'mob', pos: { x: 0, y: 0, z: 6 }, aggroTargetId: PLAYER_ID },
-      { comboTargetId: 2, comboPoints: 4, targetId: 2 },
+      { comboPoints: 4, targetId: 2 },
     ],
     [
       'friendly door object',
@@ -224,8 +240,8 @@ describe('nameplate_view - Sim-vs-ClientWorld parity', () => {
       // ClientWorld-mirror-shaped: ONLY the fields the core reads, sim-only absent.
       const mirE = ent({ ...eo });
       const mirP = viewer({ ...po });
-      const simPlan = nameplatePlanInto(newNameplatePlan(), simE, simP, 2, true);
-      const mirPlan = nameplatePlanInto(newNameplatePlan(), mirE, mirP, 2, true);
+      const simPlan = nameplatePlanInto(newNameplatePlan(), simE, simP, 2, true, false);
+      const mirPlan = nameplatePlanInto(newNameplatePlan(), mirE, mirP, 2, true, false);
       expect(simPlan).toEqual(mirPlan);
     });
   }

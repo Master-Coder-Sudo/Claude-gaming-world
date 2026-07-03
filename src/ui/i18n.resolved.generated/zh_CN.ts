@@ -177,6 +177,52 @@ export const zh_CN: EnTranslations = {
       "title": "表情",
       "done": "完成"
     },
+    "dailyRewards": {
+      "title": "每日奖励",
+      "close": "关闭每日奖励",
+      "loading": "正在加载每日奖励...",
+      "error": "无法加载每日奖励。",
+      "intro": "在已验证的钱包中持有足够的 WOC 即可解锁每日奖励。通过每日一次转盘和轮换任务赚取积分，然后攀登每日排行榜，赢取奖池分成。",
+      "prize": "奖池",
+      "reset": "重置",
+      "endsIn": "{time}后结束",
+      "remainingLessThanMinute": "<1分",
+      "remainingMinutes": "{minutes}分",
+      "remainingHoursMinutes": "{hours}小时{minutes}分",
+      "score": "得分",
+      "walletValue": "钱包价值 (WOC)",
+      "usd": "{amount} USD",
+      "sol": "{amount} SOL",
+      "unknown": "未知",
+      "spinTitle": "每日转盘",
+      "spinDialogTitle": "每日奖励转盘",
+      "spinClose": "关闭每日转盘",
+      "spinReady": "有一次转盘可用。",
+      "spinClaimed": "已领取：+{points} 积分。",
+      "spinResult": "+{points} 积分",
+      "spinButton": "转动",
+      "tasks": "任务",
+      "taskMultiplier": "{multiplier}倍倍率",
+      "pointsGained": "已获得 {points} 每日奖励积分。",
+      "leaderboard": "每日排行榜",
+      "totalPlayer": "今天 {count} 名玩家",
+      "totalPlayers": "今天 {count} 名玩家",
+      "history": "往期获奖者",
+      "noLeaders": "暂无积分。",
+      "noHistory": "暂无派奖记录。",
+      "walletConnectTitle": "验证钱包",
+      "walletConnectBody": "验证一个持有 WOC 的 Solana 钱包即可解锁每日奖励。",
+      "walletConnectButton": "验证钱包",
+      "walletHoldTitle": "持有 WOC",
+      "walletHoldBody": "至少持有价值 {amount} USD 的 WOC 即可解锁每日奖励。",
+      "walletPriceBody": "WOC 价格暂时不可用。请稍后再来查看。",
+      "reason": {
+        "eligible": "奖励已解锁。",
+        "no_wallet": "请连接一个持有至少价值 $20 USD 的 WOC 的钱包。",
+        "under_minimum": "钱包低于 $20 USD WOC 的最低要求。",
+        "price_unavailable": "WOC 价格不可用，奖励暂时锁定。"
+      }
+    },
     "theme": {
       "preset": "界面主题",
       "customColors": "自定义颜色",
@@ -265,6 +311,13 @@ export const zh_CN: EnTranslations = {
       "heading": "朝向",
       "minimapZoom": "小地图缩放"
     },
+    "nativeUpdate": {
+      "title": "有可用更新",
+      "body": "World of ClaudeCraft 有新版本可用。立即更新以获取最新修复和改进。",
+      "bodyWithVersion": "World of ClaudeCraft {version} 版本已可用。立即更新以获取最新修复和改进。",
+      "notNow": "暂不",
+      "update": "更新"
+    },
     "castBar": {
       "playerAria": "你的施法条",
       "targetAria": "目标施法条"
@@ -274,11 +327,16 @@ export const zh_CN: EnTranslations = {
       "tabsLabel": "高分榜",
       "tabPlayers": "玩家",
       "tabGuilds": "公会",
+      "tabDevs": "开发者",
       "guildName": "公会",
       "members": "成员",
       "topLevel": "最高",
       "guildXp": "总经验",
-      "guildEmpty": "还没有上榜的公会。"
+      "guildEmpty": "还没有上榜的公会。",
+      "devName": "贡献者",
+      "devTierCol": "徽章",
+      "mergedPrs": "已合并 PR",
+      "devEmpty": "还没有上榜的贡献者。"
     },
     "raidLockout": {
       "title": "团队副本锁定",
@@ -331,9 +389,15 @@ export const zh_CN: EnTranslations = {
       "keybindHelpLockCursorOnRotate": "拖动旋转镜头时将鼠标光标保持在窗口内，使其无法到达屏幕边缘或移动到另一台显示器。如果你喜欢自由光标，请关闭此选项。",
       "showWalletOnCharacterScreen": "在角色界面显示钱包",
       "showWalletOnPlayerCard": "在玩家卡片显示钱包",
+      "showDevBadges": "显示开发者徽章",
+      "showOwnNameplate": "显示我的姓名板",
       "uiScale": "界面缩放",
+      "playerFrameScale": "玩家框缩放",
+      "targetFrameScale": "目标框缩放",
       "highContrastBackground": "高对比度背景",
       "startAttackOnAbility": "使用技能时自动攻击",
+      "walkByAutoloot": "路过自动拾取",
+      "groundReticle": "地面瞄准指示圈",
       "showItemLevel": "显示物品等级",
       "itemLevelLine": "物品等级 {level}",
       "itemScoreLine": "评分 {score}",
@@ -430,6 +494,9 @@ export const zh_CN: EnTranslations = {
     },
     "statInfo": {
       "fromYour": "来自你的 {value} 点{stat}：",
+      "names": {
+        "spellPower": "法术强度"
+      },
       "desc": {
         "str": "提高你的攻击强度，使你的武器攻击造成更高的伤害。",
         "agi": "提高你的反应和准度，强化你的多项战斗属性。",
@@ -438,6 +505,7 @@ export const zh_CN: EnTranslations = {
         "spi": "加快施法者在脱离战斗、休息时恢复法力值的速度。",
         "armor": "减轻受到的物理打击。对等级较低的攻击者减伤效果更强，最高减伤上限为75%。",
         "attackPower": "强化你的武器攻击。每14点攻击强度可提高1点每秒伤害。",
+        "spellPower": "提高你法术造成的伤害和治疗的强度。每点智力都会提供少量法术强度，此外还有来自装备和增益的加成。",
         "dps": "你的预估武器每秒伤害，由武器的伤害与速度以及你的攻击强度共同计算得出。",
         "critChance": "你的攻击造成暴击的几率，暴击将造成双倍伤害。",
         "dodge": "你完全躲开来袭近战攻击、不受任何伤害的几率。"
@@ -460,6 +528,15 @@ export const zh_CN: EnTranslations = {
         "minorForClass": "对你的职业益处不大。",
         "baseChance": "包含所有冒险者共享的5%基础几率。",
         "dpsApprox": "此为预估值，不计入暴击和技能伤害。"
+      },
+      "sources": {
+        "header": "构成：",
+        "base": "基础：{value}",
+        "attributes": "来自属性：{value}",
+        "fromAttribute": "来自{stat}：{value}",
+        "gear": "装备：{value}",
+        "buff": "{name}：{value}",
+        "talents": "天赋与效果：{value}"
       }
     },
     "talents": {
@@ -635,11 +712,27 @@ export const zh_CN: EnTranslations = {
       "methodGroup": "拾取方式已设为小队拾取。",
       "assigned": "{looter}将{item}分配给了{target}。",
       "unassigned": "{item}未被分配，现可自由拾取。",
-      "leaderOnly": "只有队长才能更改拾取方式。"
+      "leaderOnly": "只有队长才能更改拾取方式。",
+      "rollingFor": "正在为{item}掷骰。",
+      "looterChanged": "分配者现为{name}。",
+      "thresholdSet": "品质门槛已设为{threshold}。",
+      "summaryMaster": "拾取设置：队长分配，分配者{name}，品质门槛{threshold}。",
+      "summaryGroup": "拾取设置：小队拾取。"
     },
     "party": {
       "promoteLeader": "提升为队长",
       "inviteUsage": "邀请谁？用法：/invite <名称>。"
+    },
+    "lootSettings": {
+      "title": "拾取设置",
+      "close": "关闭拾取设置",
+      "menuItem": "拾取设置",
+      "method": "拾取方式",
+      "rollThreshold": "掷骰门槛",
+      "groupLoot": "小队拾取",
+      "valueMaster": "队长分配",
+      "leaderOption": "分配者：队长（你）",
+      "masterOption": "分配者：{name}"
     },
     "bags": {
       "filterGroupAria": "按类别筛选背包",
@@ -737,6 +830,9 @@ export const zh_CN: EnTranslations = {
         "nature": "自然"
       }
     },
+    "worldBoss": {
+      "spawn": "{name}在荆峰高地崛起！"
+    },
     "loot": {
       "chestTitle": "宝箱"
     },
@@ -747,6 +843,26 @@ export const zh_CN: EnTranslations = {
     "nameplate": {
       "mob": "[{level}] {name}",
       "mobElite": "[{level}+] {name}"
+    },
+    "mobTooltip": {
+      "levelFamily": "等级 {level} {family}",
+      "familyDemon": "恶魔",
+      "hostile": "敌对",
+      "friendly": "友方"
+    },
+    "targetFrame": {
+      "unlock": "移动目标框",
+      "lock": "锁定目标框"
+    },
+    "playerFrame": {
+      "unlock": "移动玩家框",
+      "lock": "锁定玩家框"
+    },
+    "frameReset": {
+      "label": "重置框体位置"
+    },
+    "itemTooltip": {
+      "requiresLevel": "需要等级 {level}"
     },
     "discord": {
       "title": "Discord",
@@ -826,6 +942,7 @@ export const zh_CN: EnTranslations = {
       "memberSinceDays": "已加入 Discord {days} 天",
       "roleTag": {
         "levyst": "Levy St",
+        "admin": "管理员",
         "devs": "开发者",
         "mods": "管理员",
         "artists": "画师"
@@ -888,6 +1005,140 @@ export const zh_CN: EnTranslations = {
         "help": {
           "label": "求助",
           "hint": "向社区寻求帮助"
+        }
+      }
+    },
+    "devBadge": {
+      "title": "开发者",
+      "tiers": {
+        "tinkerer": "修补匠",
+        "artificer": "工巧师",
+        "runesmith": "符文匠",
+        "architect": "架构师",
+        "worldwright": "世界铸造者"
+      },
+      "flavors": {
+        "tinkerer": "你的第一个拉取请求已合并到这片大陆。",
+        "artificer": "五次拉取请求合并后，世界开始顺从你的代码。",
+        "runesmith": "十五次拉取请求，已熔铸进运行中的游戏。",
+        "architect": "这片大陆的架构师：已合并 30 次拉取请求。",
+        "worldwright": "世界的铸造者：70 次拉取请求塑造了这款游戏。"
+      },
+      "badgeTitle": "开发者：{tier}",
+      "prsLanded": "已合并 {count} 次拉取请求",
+      "contributor": "开源贡献者",
+      "link": {
+        "cta": "关联 GitHub",
+        "relink": "重新关联 GitHub",
+        "benefits": "关联你的 GitHub，即可凭你在开源仓库中已合并的拉取请求获得开发者徽章。",
+        "error": "无法关联 GitHub，请重试。"
+      },
+      "linkedAs": "已关联为 {login}",
+      "unlink": "取消关联 GitHub"
+    },
+    "mailbox": {
+      "title": "邮箱",
+      "subtitle": "渡鸦邮驿",
+      "close": "关闭邮箱",
+      "tabInbox": "收件箱",
+      "tabInboxWithCount": "收件箱（{count}）",
+      "tabSend": "Send",
+      "empty": "你的邮箱是空的。",
+      "truncated": "显示最新的 {shown} 封信（共 {total} 封）。",
+      "attachmentsBadge": "附有包裹",
+      "unreadBadge": "未读",
+      "back": "Back",
+      "take": "领取附件",
+      "delete": "删除信件",
+      "deleteAria": "删除信件 {subject}",
+      "openAria": "阅读来自 {name} 的信件 {subject}",
+      "noSubject": "（无主题）",
+      "toLabel": "To",
+      "toPlaceholder": "角色名字",
+      "subjectLabel": "主题",
+      "bodyLabel": "内容",
+      "coinLabel": "附上钱币",
+      "parcelsLabel": "包裹",
+      "parcelsHint": "点击背包中的物品即可附上。",
+      "removeParcelAria": "从信件中移除 {item}",
+      "sendButton": "寄出信件",
+      "postageNote": "邮资：{amount}。渡鸦飞行约 {seconds} 秒。",
+      "arrivedBanner": "渡鸦已降落：来自 {name} 的邮件。",
+      "arrivedLog": "你收到了来自 {name} 的新邮件。",
+      "indicatorAria": "未读邮件：{count}",
+      "indicatorTip": "你有 {count} 封未读信件。请前往邮箱阅读。",
+      "clickAttach": "点击以附到信件上。",
+      "cannotMail": "该物品无法邮寄。",
+      "result": {
+        "sent": "渡鸦带着你给 {name} 的信起飞了（邮资 {postage}）。",
+        "collected": "你从信件中取出 {amount}。",
+        "tooFar": "你必须站在邮箱旁才能处理邮件。",
+        "needRecipient": "请写明信件的收件人。",
+        "noRecipient": "这里没有叫这个名字的邮箱主人。",
+        "tooManyParcels": "一封信最多可携带 {count} 个包裹。",
+        "noMailQuestItems": "你不能邮寄任务物品。",
+        "notEnoughItems": "你没有那么多可寄送的物品。",
+        "cantAffordPostage": "你付不起邮资。",
+        "recipientBoxFull": "对方的邮箱已满。",
+        "letterGone": "那封信已不在你的邮箱里。",
+        "takeParcelsFirst": "请先取出包裹再丢弃信件。"
+      }
+    },
+    "calendar": {
+      "title": "活动日历",
+      "close": "关闭日历",
+      "keybindLabel": "活动日历",
+      "prevMonth": "上个月",
+      "nextMonth": "下个月",
+      "dayAria": "{date}：{count} 个活动",
+      "noEvents": "这一天没有安排。",
+      "allDay": "全天",
+      "bookedBy": "由 {name} 安排",
+      "deleteAria": "移除活动 {title}",
+      "bookTitle": "安排公会活动",
+      "titlePlaceholder": "活动名称",
+      "notePlaceholder": "备注（可选）",
+      "hourLabel": "小时（UTC）",
+      "hourAllDay": "全天",
+      "addButton": "安排活动",
+      "guildOnlyNote": "加入公会即可一起计划活动。",
+      "result": {
+        "created": "活动已列入公会日历。",
+        "removed": "活动已从日历中移除。",
+        "notInGuild": "你不在公会中。",
+        "notOfficer": "只有官员和会长可以管理公会活动。",
+        "badInput": "请为活动填写名称和有效日期。",
+        "calendarFull": "公会日历已满。",
+        "eventGone": "该活动已不在日历上。"
+      },
+      "events": {
+        "raidCall": {
+          "title": "团队集结",
+          "note": "守卫吹响号角：组队前往地穴与团队副本。"
+        },
+        "marketDay": {
+          "title": "集市日",
+          "note": "商人正等着新货。今天很适合逛逛世界市场。"
+        },
+        "fiestaNight": {
+          "title": "狂欢之夜",
+          "note": "今晚 2v2 狂欢擂台的人气最旺。"
+        },
+        "arenaClash": {
+          "title": "竞技场之战",
+          "note": "决斗者涌向灰烬斗兽场。排队开打，向天梯进发。"
+        },
+        "fishingDerby": {
+          "title": "钓鱼大赛",
+          "note": "钓手们在湖边排开。带上鱼竿，交流钓鱼趣闻。"
+        },
+        "delveDay": {
+          "title": "探窟日",
+          "note": "哈尔文修士在图上做了标记：宜探坍塌圣物窖。"
+        },
+        "moongateCommunion": {
+          "title": "月门共祷",
+          "note": "朝圣者在月中之月下聚于神庙月门。"
         }
       }
     }
@@ -1838,6 +2089,9 @@ export const zh_CN: EnTranslations = {
     "password": "密码",
     "passwordError": "请输入密码。",
     "passwordPlaceholder": "请输入密码",
+    "email": "邮箱",
+    "emailPlaceholder": "you@example.com",
+    "emailError": "请输入有效的邮箱地址。",
     "showPassword": "显示密码",
     "hidePassword": "隐藏密码",
     "logIn": "登录",
@@ -1863,7 +2117,15 @@ export const zh_CN: EnTranslations = {
     "create": "创建",
     "twoFactorLabel": "验证码",
     "twoFactorPlaceholder": "6 位验证码或恢复码",
-    "twoFactorHint": "请输入身份验证器应用中的验证码，或一个恢复码。"
+    "twoFactorHint": "请输入身份验证器应用中的验证码，或一个恢复码。",
+    "recovery": {
+      "title": "添加找回邮箱",
+      "body": "设置一个邮箱地址，以便您可以找回自己的账户。我们仅在您需要重置密码时，用它来确认您是本账户的所有者。",
+      "save": "保存邮箱",
+      "logOut": "Log out",
+      "invalid": "请输入有效的邮箱地址。",
+      "failed": "无法保存您的邮箱，请重试。"
+    }
   },
   "wallet": {
     "label": "$WOC 钱包",
@@ -1917,6 +2179,7 @@ export const zh_CN: EnTranslations = {
     "helpLinkedWithBalance": "持有者特权已启用。钱包应用已在此浏览器中连接。",
     "helpLinkedDisconnected": "持有者特权已启用。需要签名或消费时请连接应用。",
     "helpLinkedDisconnectedWithBalance": "持有者特权已启用。需要签名或消费时请连接应用。",
+    "extensionHelp": "若要在此处看到钱包，请保持 Solflare Wallet 等浏览器钱包扩展处于启用状态。",
     "flowConnect": "选择一个钱包。验证会自动继续。",
     "flowSign": "在钱包应用中签署验证消息。无需交易或 SOL。",
     "flowVerify": "正在验证钱包所有权...",
@@ -2561,6 +2824,7 @@ export const zh_CN: EnTranslations = {
       "usernameTaken": "该用户名已被占用。",
       "invalidCredentials": "用户名或密码无效。",
       "verificationFailed": "验证失败，请重试。",
+      "desktopCodeInvalid": "桌面版登录代码无效或已过期，请重试。",
       "invalidCharacterName": "角色名称无效。请使用 2-16 个字母。",
       "characterNameNotAllowed": "该角色名称不可使用。",
       "invalidClass": "职业无效。",
@@ -2577,6 +2841,21 @@ export const zh_CN: EnTranslations = {
       "takenOver": "你的角色已被另一个会话接管。",
       "renameBeforeEntering": "此角色必须先改名才能进入世界。",
       "renameNotPermitted": "不允许为此角色改名。"
+    }
+  },
+  "desktop": {
+    "update": {
+      "downloading": "正在下载更新 {version}...",
+      "ready": "更新 {version} 已就绪。退出游戏时将自动安装，也可立即重启。",
+      "restart": "立即重启",
+      "later": "稍后"
+    },
+    "crash": {
+      "title": "World of ClaudeCraft",
+      "body": "游戏画面已停止响应。要重新加载吗？",
+      "reload": "重新加载",
+      "quit": "退出",
+      "fatalBody": "World of ClaudeCraft 遇到意外错误，需要关闭。"
     }
   },
   "realm": {
@@ -3335,13 +3614,16 @@ export const zh_CN: EnTranslations = {
     },
     "cast": {
       "fishing": "钓鱼",
-      "demonHeal": "恶魔治疗"
+      "demonHeal": "恶魔治疗",
+      "thunzharrStormcall": "风暴召唤"
     }
   },
   "questUi": {
     "tracker": {
       "title": "任务",
-      "complete": "完成"
+      "complete": "完成",
+      "showOnMap": "在地图上显示{name}",
+      "hideFromMap": "在地图上隐藏{name}"
     },
     "log": {
       "title": "任务日志",
@@ -3627,6 +3909,26 @@ export const zh_CN: EnTranslations = {
   },
   "entities": {
     "abilities": {
+      "flamestrike": {
+        "name": "烈焰风暴",
+        "description": "在目标区域召唤一次烈焰爆发，对爆炸范围内的敌人造成 {damage} 点火焰伤害。"
+      },
+      "rain_of_fire": {
+        "name": "烈火之雨",
+        "description": "在目标区域降下烈火之雨，灼烧敌人，造成 {damage} 点火焰伤害。"
+      },
+      "volley": {
+        "name": "乱射",
+        "description": "向目标区域射出箭雨，对其中的敌人造成 {damage} 点伤害。"
+      },
+      "hurricane": {
+        "name": "飓风",
+        "description": "在目标区域召唤飓风，重击敌人，造成 {damage} 点自然伤害。"
+      },
+      "earthquake": {
+        "name": "地震",
+        "description": "撼动目标区域，重击敌人，造成 {damage} 点自然伤害。"
+      },
       "heroic_strike": {
         "name": "英勇打击",
         "description": "一次强力攻击，使近战伤害提高 {damage}。在你的下一次挥击时触发。"
@@ -4768,6 +5070,33 @@ export const zh_CN: EnTranslations = {
       "monarch_crown_helm": {
         "name": "君主之冠"
       },
+      "copper_mining_pick": {
+        "name": "铜制采矿镐"
+      },
+      "iron_mining_pick": {
+        "name": "铁制采矿镐"
+      },
+      "mithril_mining_pick": {
+        "name": "秘银采矿镐"
+      },
+      "handaxe": {
+        "name": "手斧"
+      },
+      "felling_axe": {
+        "name": "伐木斧"
+      },
+      "ironbark_axe": {
+        "name": "铁树皮斧"
+      },
+      "gathering_sickle": {
+        "name": "采集镰刀"
+      },
+      "bronze_sickle": {
+        "name": "青铜镰刀"
+      },
+      "silverleaf_sickle": {
+        "name": "银叶镰刀"
+      },
       "bristleback_maul": {
         "name": "硬鬃重槌"
       },
@@ -5250,6 +5579,30 @@ export const zh_CN: EnTranslations = {
       },
       "vanguard_chrome_armor_plate": {
         "name": "先锋铬银"
+      },
+      "crownforged_gauntlets": {
+        "name": "铸冠护手"
+      },
+      "nighttalon_grips": {
+        "name": "夜爪握套"
+      },
+      "soulflame_gloves": {
+        "name": "魂焰手套"
+      },
+      "stormcallers_handguards": {
+        "name": "唤雷者手甲"
+      },
+      "crownforged_girdle": {
+        "name": "铸冠腰带"
+      },
+      "nighttalon_waistband": {
+        "name": "夜爪束带"
+      },
+      "soulflame_cord": {
+        "name": "魂焰腰绳"
+      },
+      "stormcallers_waistguard": {
+        "name": "唤雷者腰甲"
       }
     },
     "mobs": {
@@ -5441,6 +5794,12 @@ export const zh_CN: EnTranslations = {
       },
       "acolyte_tessa": {
         "name": "侍僧泰莎"
+      },
+      "thunzharr_waking_peak": {
+        "name": "桑扎尔，觉醒之峰"
+      },
+      "thunzharr_stormling": {
+        "name": "被惊醒的风暴元素"
       },
       "ironvein_foreman": {
         "name": "铁脉工头"
@@ -5646,6 +6005,11 @@ export const zh_CN: EnTranslations = {
         "name": "凯迪斯博学者",
         "title": "博学者",
         "greeting": "小心松动的页岩，{className}。这座山近来不安，我想知道原因。"
+      },
+      "auctioneer_voss": {
+        "name": "拍卖师沃斯",
+        "title": "世界市场守护者",
+        "greeting": "世界市场在此亦可使用，{className}。从王国各地的冒险者手中购买，或出售你自己的货物。"
       },
       "brother_aldric_raid": {
         "name": "奥德里克修士",
@@ -6096,6 +6460,36 @@ export const zh_CN: EnTranslations = {
         "objectives": {
           "0": {
             "label": "山脊潜猎者毛皮"
+          }
+        }
+      },
+      "q_stalkers_return": {
+        "title": "潜猎者去而复返",
+        "text": "死了十二只，山脊上的潜猎者反而更多了，{playerName}。野兽不会因为饥饿就往城墙上扑，是高脊上有什么东西把它们赶下来。查清之前，猎杀不停。再杀十四只。",
+        "completion": "又杀了十四只，可巡逻队每天清晨仍数得出新的足迹。我的斥候从高脊回来时脸白得像雪线：她说那些爪印有盾牌那么大，还有潜猎者绝不会留下的猎杀痕迹。在上面游荡的绝不是普通的山猫。",
+        "objectives": {
+          "0": {
+            "label": "击败山脊潜猎者"
+          }
+        }
+      },
+      "q_stalker_cloaks": {
+        "title": "守望者的披风",
+        "text": "八张皮给军官的披风加了衬，现在墙上每个士兵都想要一件，{playerName}。他们想得没错：寒冬先夺手指，从不听道歉。再从大门以南的山脊取十张皮，整支守望队都能睡个暖觉。",
+        "completion": "十张好皮，厚实得没话说……不对，你看这些，{playerName}。一半都撕裂了，可不是刀枪的痕迹。爪痕有我手掌那么宽，直接穿透了冬毛。山脊上有什么东西在残杀自己的同类。",
+        "objectives": {
+          "0": {
+            "label": "山脊潜猎者毛皮"
+          }
+        }
+      },
+      "q_old_cragmaw": {
+        "title": "老裂颚",
+        "text": "山民给我斥候找到的爪印起过名字：老裂颚，一只满身伤疤的暴君巨猫，熬死了自己族群的三代。潜猎者涌上我的道路，就是因为它，{playerName}。它的巢穴在南路上方的西侧山脊。带个帮手去，了结那老魔头。",
+        "completion": "它终于倒下了。山民曾发誓那只猫会比城墙活得还久。如今潜猎者会守在高处的雪原了，{playerName}，我的巡逻队走这条路也不必再流血。整条山脊都因你安静了下来。",
+        "objectives": {
+          "0": {
+            "label": "击败老裂颚"
           }
         }
       },
@@ -6623,6 +7017,28 @@ export const zh_CN: EnTranslations = {
         "leaveText": "你攀回圣物库废墟旁的哈尔文修士身边。"
       }
     },
+    "letters": {
+      "ravenpost_welcome": {
+        "sender": "渡鸦邮驿",
+        "subject": "渡鸦如今为你飞翔",
+        "body": "旅人：\n\n渡鸦邮驿已在谷地各处设立栖架。请在东溪镇、沼桥镇和高望镇寻找渡鸦石柱：在任意一处，你都可以向其他冒险者寄送信件、钱币和物品，也可以领取渡鸦为你带来的一切。\n\n随信附上一点心意，作为你的第一枚邮票。\n\n展翅高飞，\n渡鸦邮驿"
+      },
+      "letter_q_wolves": {
+        "sender": "雷德布鲁克元帅",
+        "subject": "围栏又安静了",
+        "body": "牧人们总算能睡个安稳觉了，这都是你的功劳。我已托渡鸦邮驿从守备金里给你捎去一点谢意。\n\n保持你的刀刃锋利。\n- 雷德布鲁克元帅"
+      },
+      "letter_q_greyjaw": {
+        "sender": "雷德布鲁克元帅",
+        "subject": "老灰颚，终于倒下了",
+        "body": "小镇里消息传得快。牧人们昨晚为你的健康干杯，威尔克斯发誓那头狼有马车那么大。让他们添油加醋去吧：这是你应得的。\n\n请代守备队享用一顿好饭。\n- 雷德布鲁克元帅"
+      },
+      "letter_q_hollow": {
+        "sender": "奥德里克修士",
+        "subject": "你在黑暗中所做的一切",
+        "body": "很少有人会知道那处洼地里埋葬着什么，愿意相信的人更少。但我知道，而且我不会忘记。\n\n愿你的道路常明。\n- 奥德里克修士"
+      }
+    },
     "itemSets": {
       "crownforged": {
         "name": "铸冠战装",
@@ -6636,8 +7052,8 @@ export const zh_CN: EnTranslations = {
       },
       "necromancers": {
         "name": "死灵法师法衣",
-        "bonus2": "受到伤害造成的施法延退降低 50%。",
-        "bonus3": "施法时不会因受到伤害而被延退。"
+        "bonus2": "你不会被击退（击退抗性 100%）。",
+        "bonus3": "智力提高 10 点，耐力提高 10 点。"
       },
       "nighttalon": {
         "name": "夜爪皮甲",
@@ -6646,13 +7062,13 @@ export const zh_CN: EnTranslations = {
       },
       "soulflame": {
         "name": "魂焰法衣",
-        "bonus2": "受到伤害造成的施法延退降低 50%。",
-        "bonus3": "施法时不会因受到伤害而被延退。"
+        "bonus2": "你不会被击退（击退抗性 100%）。",
+        "bonus3": "智力提高 15 点，精神提高 15 点。"
       },
       "stormcallers": {
         "name": "唤雷者法衣",
-        "bonus2": "受到伤害造成的施法延退降低 50%。",
-        "bonus3": "施法时不会因受到伤害而被延退。"
+        "bonus2": "你不会被击退（击退抗性 100%）。",
+        "bonus3": "智力提高 15 点，精神提高 15 点。"
       },
       "wyrmshadow": {
         "name": "龙影外衣",
@@ -6668,6 +7084,7 @@ export const zh_CN: EnTranslations = {
     "dungeonInstanceBusy": "{name}的所有副本都已被占用。请稍后再试。",
     "delveLockedChestInteract": "按 F 撬锁",
     "delveRewardChestInteract": "按 F 领取战利品",
-    "delveSurfaceExitInteract": "按 F 攀回地表"
+    "delveSurfaceExitInteract": "按 F 攀回地表",
+    "mailboxName": "邮箱"
   }
 };

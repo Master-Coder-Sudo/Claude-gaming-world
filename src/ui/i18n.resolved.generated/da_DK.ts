@@ -177,6 +177,52 @@ export const da_DK: EnTranslations = {
       "title": "Følelsesudtryk",
       "done": "Færdig"
     },
+    "dailyRewards": {
+      "title": "Daglige belønninger",
+      "close": "Luk daglige belønninger",
+      "loading": "Indlæser daglige belønninger...",
+      "error": "Kunne ikke indlæse daglige belønninger.",
+      "intro": "Behold nok WOC i din verificerede wallet for at låse daglige belønninger op. Optjen point med én daglig drejning og skiftende opgaver, og klatr så op ad den daglige resultattavle for en andel af præmiepuljen.",
+      "prize": "Præmiepulje",
+      "reset": "Nulstil",
+      "endsIn": "Slutter om {time}",
+      "remainingLessThanMinute": "<1m",
+      "remainingMinutes": "{minutes}m",
+      "remainingHoursMinutes": "{hours}t {minutes}m",
+      "score": "Score",
+      "walletValue": "Wallet-værdi (WOC)",
+      "usd": "{amount} USD",
+      "sol": "{amount} SOL",
+      "unknown": "Ukendt",
+      "spinTitle": "Daglig drejning",
+      "spinDialogTitle": "Daglig belønningsdrejning",
+      "spinClose": "Luk daglig drejning",
+      "spinReady": "Én drejning er klar.",
+      "spinClaimed": "Indløst: +{points} point.",
+      "spinResult": "+{points} point",
+      "spinButton": "Drej",
+      "tasks": "Opgaver",
+      "taskMultiplier": "x{multiplier} multiplier",
+      "pointsGained": "{points} daily rewards points gained.",
+      "leaderboard": "Daglig resultattavle",
+      "totalPlayer": "{count} player today",
+      "totalPlayers": "{count} players today",
+      "history": "Tidligere vindere",
+      "noLeaders": "Ingen point endnu.",
+      "noHistory": "Ingen udbetalinger endnu.",
+      "walletConnectTitle": "Verificer wallet",
+      "walletConnectBody": "Verificer en Solana-wallet med WOC for at låse daglige belønninger op.",
+      "walletConnectButton": "Verificer wallet",
+      "walletHoldTitle": "Behold WOC",
+      "walletHoldBody": "Behold mindst {amount} USD i WOC for at låse daglige belønninger op.",
+      "walletPriceBody": "WOC-prissætning er utilgængelig lige nu. Kom tilbage om lidt.",
+      "reason": {
+        "eligible": "Belønninger låst op.",
+        "no_wallet": "Forbind en wallet med mindst 20 USD i WOC.",
+        "under_minimum": "Wallet er under WOC-minimummet på 20 USD.",
+        "price_unavailable": "WOC-prisen er utilgængelig, belønninger er midlertidigt låst."
+      }
+    },
     "theme": {
       "preset": "UI-tema",
       "customColors": "Tilpassede farver",
@@ -265,6 +311,13 @@ export const da_DK: EnTranslations = {
       "heading": "Retning",
       "minimapZoom": "Minikort-zoom"
     },
+    "nativeUpdate": {
+      "title": "Opdatering tilgængelig",
+      "body": "En ny version af World of ClaudeCraft er tilgængelig. Opdater nu for de nyeste rettelser og forbedringer.",
+      "bodyWithVersion": "Version {version} af World of ClaudeCraft er tilgængelig. Opdater nu for de nyeste rettelser og forbedringer.",
+      "notNow": "Ikke nu",
+      "update": "Opdater"
+    },
     "castBar": {
       "playerAria": "Din castbjælke",
       "targetAria": "Enhedens castbjælke"
@@ -274,11 +327,16 @@ export const da_DK: EnTranslations = {
       "tabsLabel": "Pointtavler",
       "tabPlayers": "Spillere",
       "tabGuilds": "Guilds",
+      "tabDevs": "Udviklere",
       "guildName": "Guild",
       "members": "Medlemmer",
       "topLevel": "Top",
       "guildXp": "Samlet XP",
-      "guildEmpty": "Ingen rangerede guilds endnu."
+      "guildEmpty": "Ingen rangerede guilds endnu.",
+      "devName": "Bidragyder",
+      "devTierCol": "Mærke",
+      "mergedPrs": "Flettede PR'er",
+      "devEmpty": "Ingen rangerede bidragydere endnu."
     },
     "raidLockout": {
       "title": "Raidlåse",
@@ -331,9 +389,15 @@ export const da_DK: EnTranslations = {
       "keybindHelpLockCursorOnRotate": "Holder musemarkøren inde i vinduet, mens du trækker for at dreje kameraet, så den ikke kan nå skærmkanten eller flytte til en anden skærm. Slå fra, hvis du foretrækker en fri markør.",
       "showWalletOnCharacterScreen": "Vis pengepung på karakterskærm",
       "showWalletOnPlayerCard": "Vis pengepung på spillerkort",
+      "showDevBadges": "Vis udviklermærker",
+      "showOwnNameplate": "Show My Nameplate",
       "uiScale": "UI-skala",
+      "playerFrameScale": "Player Frame Scale",
+      "targetFrameScale": "Target Frame Scale",
       "highContrastBackground": "Baggrund med høj kontrast",
-      "startAttackOnAbility": "Auto-Attack on Ability Use",
+      "startAttackOnAbility": "Autoangreb ved brug af evne",
+      "walkByAutoloot": "Walk-by Autoloot",
+      "groundReticle": "Jordsigte-retikel",
       "showItemLevel": "Vis genstandsniveau",
       "itemLevelLine": "Genstandsniveau {level}",
       "itemScoreLine": "Score {score}",
@@ -430,6 +494,9 @@ export const da_DK: EnTranslations = {
     },
     "statInfo": {
       "fromYour": "Fra din {value} {stat}:",
+      "names": {
+        "spellPower": "Besværgelseskraft"
+      },
       "desc": {
         "str": "Øger din angrebsstyrke, så dine våbenslag rammer hårdere.",
         "agi": "Skærper dine reflekser og dit sigte og forbedrer flere af dine kampegenskaber.",
@@ -438,6 +505,7 @@ export const da_DK: EnTranslations = {
         "spi": "Fremskynder hvor hurtigt en troldkasters mana vender tilbage under hvile, uden for kamp.",
         "armor": "Dæmper indkommende fysiske slag. Reduktionen er større mod angribere af lavere niveau og er begrænset til 75%.",
         "attackPower": "Driver dine våbenangreb. For hver 14 angrebsstyrke tilføjes 1 skade pr. sekund.",
+        "spellPower": "Øger skaden fra dine besværgelser og styrken af dine helbredelser. Hvert point Intellekt giver en smule Besværgelseskraft, oven i det, der kommer fra udstyr eller buffs.",
         "dps": "Din anslåede våbenskade pr. sekund, der kombinerer dit våbens skade og hastighed med din angrebsstyrke.",
         "critChance": "Din chance for at et angreb rammer kritisk og gør dobbelt skade.",
         "dodge": "Din chance for helt at undgå et indkommende nærkampsangreb og tage ingen skade."
@@ -460,6 +528,15 @@ export const da_DK: EnTranslations = {
         "minorForClass": "Af ringe gavn for din klasse.",
         "baseChance": "Inkluderer en 5% basischance, som deles af alle eventyrere.",
         "dpsApprox": "Et skøn, det udelader kritiske slag og evneskade."
+      },
+      "sources": {
+        "header": "Sammensat af:",
+        "base": "Basis: {value}",
+        "attributes": "Fra dine attributter: {value}",
+        "fromAttribute": "Fra {stat}: {value}",
+        "gear": "Udstyret grej: {value}",
+        "buff": "{name}: {value}",
+        "talents": "Talenter og effekter: {value}"
       }
     },
     "talents": {
@@ -485,7 +562,7 @@ export const da_DK: EnTranslations = {
       "linkTitle": "Shift-klik for at linke denne opgave i chatten."
     },
     "itemShare": {
-      "linkHint": "Shift-click to link this item in chat."
+      "linkHint": "Shift-klik for at linke denne genstand i chatten."
     },
     "plurals": {
       "guildMembers": {
@@ -513,10 +590,10 @@ export const da_DK: EnTranslations = {
         "other": "Hvem: {count} spillere online på {realm}."
       },
       "playersMatching": {
-        "one": "Who: {count} player matching \"{query}\" on {realm}.",
-        "few": "Who: {count} players matching \"{query}\" on {realm}.",
-        "many": "Who: {count} players matching \"{query}\" on {realm}.",
-        "other": "Who: {count} players matching \"{query}\" on {realm}."
+        "one": "Hvem: {count} spiller, der matcher \"{query}\" på {realm}.",
+        "few": "Hvem: {count} spillere, der matcher \"{query}\" på {realm}.",
+        "many": "Hvem: {count} spillere, der matcher \"{query}\" på {realm}.",
+        "other": "Hvem: {count} spillere, der matcher \"{query}\" på {realm}."
       }
     },
     "bugReport": {
@@ -635,11 +712,27 @@ export const da_DK: EnTranslations = {
       "methodGroup": "Lootmetode sat til gruppeloot.",
       "assigned": "{looter} tildelte {item} til {target}.",
       "unassigned": "{item} blev ikke tildelt og er frit for alle.",
-      "leaderOnly": "Kun gruppelederen kan aendre lootmetoden."
+      "leaderOnly": "Kun gruppelederen kan aendre lootmetoden.",
+      "rollingFor": "Slår terning om {item}.",
+      "looterChanged": "Bytteleder er nu {name}.",
+      "thresholdSet": "Byttetærskel sat til {threshold}.",
+      "summaryMaster": "Bytteindstillinger: Mesterbytte, bytteleder {name}, tærskel {threshold}.",
+      "summaryGroup": "Bytteindstillinger: Gruppebytte."
     },
     "party": {
-      "promoteLeader": "Promote to Leader",
+      "promoteLeader": "Forfrem til leder",
       "inviteUsage": "Invite whom? Usage: /invite <name>."
+    },
+    "lootSettings": {
+      "title": "Bytteindstillinger",
+      "close": "Luk byttindstillinger",
+      "menuItem": "Bytteindstillinger",
+      "method": "Byttemetode",
+      "rollThreshold": "Terningtærskel",
+      "groupLoot": "Gruppebytte",
+      "valueMaster": "Mesterbytte",
+      "leaderOption": "Bytteleder: Leder (dig)",
+      "masterOption": "Bytteleder: {name}"
     },
     "bags": {
       "filterGroupAria": "Filtrér tasker efter kategori",
@@ -737,6 +830,9 @@ export const da_DK: EnTranslations = {
         "nature": "Natur"
       }
     },
+    "worldBoss": {
+      "spawn": "{name} rises over Thornpeak Heights!"
+    },
     "loot": {
       "chestTitle": "Kiste"
     },
@@ -747,6 +843,26 @@ export const da_DK: EnTranslations = {
     "nameplate": {
       "mob": "[{level}] {name}",
       "mobElite": "[{level}+] {name}"
+    },
+    "mobTooltip": {
+      "levelFamily": "Level {level} {family}",
+      "familyDemon": "Demon",
+      "hostile": "Hostile",
+      "friendly": "Friendly"
+    },
+    "targetFrame": {
+      "unlock": "Move target frame",
+      "lock": "Lock target frame"
+    },
+    "playerFrame": {
+      "unlock": "Move player frame",
+      "lock": "Lock player frame"
+    },
+    "frameReset": {
+      "label": "Reset Frame Positions"
+    },
+    "itemTooltip": {
+      "requiresLevel": "Kræver niveau {level}"
     },
     "discord": {
       "title": "Discord",
@@ -826,6 +942,7 @@ export const da_DK: EnTranslations = {
       "memberSinceDays": "{days}d på Discord",
       "roleTag": {
         "levyst": "Levy St",
+        "admin": "Admin",
         "devs": "Udvikler",
         "mods": "Moderator",
         "artists": "Kunstner"
@@ -888,6 +1005,140 @@ export const da_DK: EnTranslations = {
         "help": {
           "label": "Brug for hjælp",
           "hint": "Bed fællesskabet om hjælp"
+        }
+      }
+    },
+    "devBadge": {
+      "title": "Udvikler",
+      "tiers": {
+        "tinkerer": "Pusler",
+        "artificer": "Kunstsmed",
+        "runesmith": "Runesmed",
+        "architect": "Arkitekt",
+        "worldwright": "Verdensbygger"
+      },
+      "flavors": {
+        "tinkerer": "Din første pull request landede i riget.",
+        "artificer": "Fem pull requests inde, og verden føjer sig efter din kode.",
+        "runesmith": "Femten pull requests smedet ind i det kørende spil.",
+        "architect": "En arkitekt af riget: 30 pull requests flettet ind.",
+        "worldwright": "En verdensbygger: 70 pull requests former spillet."
+      },
+      "badgeTitle": "Udvikler: {tier}",
+      "prsLanded": "{count} pull requests flettet ind",
+      "contributor": "Open source-bidragyder",
+      "link": {
+        "cta": "Tilknyt GitHub",
+        "relink": "Tilknyt GitHub igen",
+        "benefits": "Tilknyt din GitHub for at optjene et udviklermærke for de pull requests, du har fået flettet ind i open source-repoet.",
+        "error": "Kunne ikke tilknytte GitHub. Prøv igen."
+      },
+      "linkedAs": "Tilknyttet som {login}",
+      "unlink": "Fjern GitHub-tilknytning"
+    },
+    "mailbox": {
+      "title": "Mailbox",
+      "subtitle": "The Ravenpost",
+      "close": "Close mailbox",
+      "tabInbox": "Inbox",
+      "tabInboxWithCount": "Inbox ({count})",
+      "tabSend": "Send",
+      "empty": "Your mailbox is empty.",
+      "truncated": "Showing the newest {shown} of {total} letters.",
+      "attachmentsBadge": "Parcel attached",
+      "unreadBadge": "Unread",
+      "back": "Back",
+      "take": "Take attachments",
+      "delete": "Delete letter",
+      "deleteAria": "Delete the letter {subject}",
+      "openAria": "Read the letter {subject} from {name}",
+      "noSubject": "(no subject)",
+      "toLabel": "To",
+      "toPlaceholder": "Character name",
+      "subjectLabel": "Subject",
+      "bodyLabel": "Message",
+      "coinLabel": "Attach coin",
+      "parcelsLabel": "Parcels",
+      "parcelsHint": "Click an item in your bags to attach it.",
+      "removeParcelAria": "Remove {item} from the letter",
+      "sendButton": "Send letter",
+      "postageNote": "Postage: {amount}. The raven flies for about {seconds}s.",
+      "arrivedBanner": "The raven has landed: mail from {name}.",
+      "arrivedLog": "You have new mail from {name}.",
+      "indicatorAria": "Unread mail: {count}",
+      "indicatorTip": "You have {count} unread letters. Visit a mailbox to read them.",
+      "clickAttach": "Click to attach to your letter.",
+      "cannotMail": "This cannot be mailed.",
+      "result": {
+        "sent": "A raven takes wing with your letter to {name} ({postage} postage).",
+        "collected": "You collect {amount} from the letter.",
+        "tooFar": "You must be at a mailbox to tend your post.",
+        "needRecipient": "Name a recipient for your letter.",
+        "noRecipient": "No one by that name holds a mailbox here.",
+        "tooManyParcels": "A letter carries at most {count} parcels.",
+        "noMailQuestItems": "You cannot mail quest items.",
+        "notEnoughItems": "You do not have that many to send.",
+        "cantAffordPostage": "You cannot afford the postage.",
+        "recipientBoxFull": "Their mailbox is full.",
+        "letterGone": "That letter is no longer in your box.",
+        "takeParcelsFirst": "Take the parcels out before discarding the letter."
+      }
+    },
+    "calendar": {
+      "title": "Event Calendar",
+      "close": "Close calendar",
+      "keybindLabel": "Event Calendar",
+      "prevMonth": "Previous month",
+      "nextMonth": "Next month",
+      "dayAria": "{date}: {count} events",
+      "noEvents": "Nothing planned for this day.",
+      "allDay": "All day",
+      "bookedBy": "Booked by {name}",
+      "deleteAria": "Remove the event {title}",
+      "bookTitle": "Book a guild event",
+      "titlePlaceholder": "Event title",
+      "notePlaceholder": "Note (optional)",
+      "hourLabel": "Hour (UTC)",
+      "hourAllDay": "All day",
+      "addButton": "Book event",
+      "guildOnlyNote": "Join a guild to plan events together.",
+      "result": {
+        "created": "The event is on the guild calendar.",
+        "removed": "The event was taken off the calendar.",
+        "notInGuild": "You are not in a guild.",
+        "notOfficer": "Only officers and the Guild Master may manage guild events.",
+        "badInput": "Give the event a title and a valid day.",
+        "calendarFull": "The guild calendar is full.",
+        "eventGone": "That event is no longer on the calendar."
+      },
+      "events": {
+        "raidCall": {
+          "title": "Raid Call",
+          "note": "Wardens sound the horn: gather a party for the crypts and the raid."
+        },
+        "marketDay": {
+          "title": "Market Day",
+          "note": "The Merchant expects fresh stock. A fine day to browse the World Market."
+        },
+        "fiestaNight": {
+          "title": "Fiesta Night",
+          "note": "The 2v2 Fiesta ring draws its loudest crowds tonight."
+        },
+        "arenaClash": {
+          "title": "Arena Clash",
+          "note": "Duelists flock to the Ashen Coliseum. Queue up and climb the ladder."
+        },
+        "fishingDerby": {
+          "title": "Fishing Derby",
+          "note": "Anglers line the lakes. Bring a pole and swap fishing tales."
+        },
+        "delveDay": {
+          "title": "Delve Day",
+          "note": "Brother Halven marks his charts: a fine day to brave the Collapsed Reliquary."
+        },
+        "moongateCommunion": {
+          "title": "Moongate Communion",
+          "note": "Pilgrims gather at the temple moongate under the mid-month moon."
         }
       }
     }
@@ -1838,6 +2089,9 @@ export const da_DK: EnTranslations = {
     "password": "Adgangskode",
     "passwordError": "Indtast venligst din adgangskode.",
     "passwordPlaceholder": "Indtast adgangskode",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "emailError": "Please enter a valid email address.",
     "showPassword": "Vis adgangskode",
     "hidePassword": "Skjul adgangskode",
     "logIn": "Log ind",
@@ -1863,7 +2117,15 @@ export const da_DK: EnTranslations = {
     "create": "Opret",
     "twoFactorLabel": "Autentificeringskode",
     "twoFactorPlaceholder": "6-cifret eller gendannelseskode",
-    "twoFactorHint": "Indtast koden fra din autentificeringsapp eller en af dine gendannelseskoder."
+    "twoFactorHint": "Indtast koden fra din autentificeringsapp eller en af dine gendannelseskoder.",
+    "recovery": {
+      "title": "Add a recovery email",
+      "body": "Set an email address so you can recover your account. We only use it to confirm you own this account if you ever need to reset your password.",
+      "save": "Save email",
+      "logOut": "Log out",
+      "invalid": "Please enter a valid email address.",
+      "failed": "Could not save your email. Please try again."
+    }
   },
   "wallet": {
     "label": "$WOC-pung",
@@ -1917,6 +2179,7 @@ export const da_DK: EnTranslations = {
     "helpLinkedWithBalance": "Ejerfordele er aktive. Pung-app forbundet i denne browser.",
     "helpLinkedDisconnected": "Ejerfordele er aktive. Forbind appen, når du har brug for at underskrive eller bruge midler.",
     "helpLinkedDisconnectedWithBalance": "Ejerfordele er aktive. Forbind appen, når du har brug for at underskrive eller bruge midler.",
+    "extensionHelp": "To see a wallet here, keep a browser wallet extension such as Solflare Wallet active.",
     "flowConnect": "Vælg en pung. Verificeringen fortsætter automatisk.",
     "flowSign": "Underskriv verificeringsbeskeden i din pung-app. Ingen transaktion eller SOL kræves.",
     "flowVerify": "Verificerer ejerskab af pung...",
@@ -2561,6 +2824,7 @@ export const da_DK: EnTranslations = {
       "usernameTaken": "Det brugernavn er allerede optaget.",
       "invalidCredentials": "Ugyldigt brugernavn eller adgangskode.",
       "verificationFailed": "Verificeringen mislykkedes. Prøv venligst igen.",
+      "desktopCodeInvalid": "Desktop-loginkoden er ugyldig eller udløbet. Prøv venligst igen.",
       "invalidCharacterName": "Ugyldigt karakternavn. Brug 2-16 bogstaver.",
       "characterNameNotAllowed": "Det karakternavn er ikke tilladt.",
       "invalidClass": "Ugyldig klasse.",
@@ -2577,6 +2841,21 @@ export const da_DK: EnTranslations = {
       "takenOver": "Din karakter blev overtaget af en anden session.",
       "renameBeforeEntering": "Denne karakter skal omdøbes, før den kan komme ind i verdenen.",
       "renameNotPermitted": "Det er ikke tilladt at omdøbe denne karakter."
+    }
+  },
+  "desktop": {
+    "update": {
+      "downloading": "Downloader opdatering {version}...",
+      "ready": "Opdatering {version} er klar. Den installeres, når du afslutter, eller genstart nu.",
+      "restart": "Genstart nu",
+      "later": "Senere"
+    },
+    "crash": {
+      "title": "World of ClaudeCraft",
+      "body": "Spilvisningen holdt op med at virke. Genindlæs den?",
+      "reload": "Genindlæs",
+      "quit": "Afslut",
+      "fatalBody": "World of ClaudeCraft stødte på en uventet fejl og skal lukke."
     }
   },
   "realm": {
@@ -3335,13 +3614,16 @@ export const da_DK: EnTranslations = {
     },
     "cast": {
       "fishing": "Fiskeri",
-      "demonHeal": "Dæmonhelbredelse"
+      "demonHeal": "Dæmonhelbredelse",
+      "thunzharrStormcall": "Stormkald"
     }
   },
   "questUi": {
     "tracker": {
       "title": "Quests",
-      "complete": "Klar"
+      "complete": "Klar",
+      "showOnMap": "Show {name} on the map",
+      "hideFromMap": "Hide {name} from the map"
     },
     "log": {
       "title": "Quest-log",
@@ -3627,6 +3909,26 @@ export const da_DK: EnTranslations = {
   },
   "entities": {
     "abilities": {
+      "flamestrike": {
+        "name": "Flammeslag",
+        "description": "Nedkalder en flammeeksplosion på målområdet, der giver {damage} Ildskade til fjender fanget i eksplosionen."
+      },
+      "rain_of_fire": {
+        "name": "Ildregn",
+        "description": "Nedkalder en ildregn over målområdet og brænder fjender for {damage} Ildskade."
+      },
+      "volley": {
+        "name": "Pileregn",
+        "description": "Nedkalder en regn af pile over målområdet og påfører {damage} skade på fjender i det."
+      },
+      "hurricane": {
+        "name": "Orkan",
+        "description": "Slipper en orkan løs over målområdet og rammer fjender for {damage} Naturskade."
+      },
+      "earthquake": {
+        "name": "Jordskælv",
+        "description": "Ryster målområdet og rammer fjender for {damage} Naturskade."
+      },
       "heroic_strike": {
         "name": "Heroisk Slag",
         "description": "Et stærkt angreb, der øger nærkampsskaden med {damage}. Aktiveres ved dit næste hug."
@@ -4768,6 +5070,33 @@ export const da_DK: EnTranslations = {
       "monarch_crown_helm": {
         "name": "Monarkens Krone"
       },
+      "copper_mining_pick": {
+        "name": "Kobberminehakke"
+      },
+      "iron_mining_pick": {
+        "name": "Jernminehakke"
+      },
+      "mithril_mining_pick": {
+        "name": "Mithrilminehakke"
+      },
+      "handaxe": {
+        "name": "Håndøkse"
+      },
+      "felling_axe": {
+        "name": "Fældeøkse"
+      },
+      "ironbark_axe": {
+        "name": "Jernbarksøkse"
+      },
+      "gathering_sickle": {
+        "name": "Høstsegl"
+      },
+      "bronze_sickle": {
+        "name": "Bronzesegl"
+      },
+      "silverleaf_sickle": {
+        "name": "Sølvbladsegl"
+      },
       "bristleback_maul": {
         "name": "Børsterygs-Lemlæster"
       },
@@ -5250,6 +5579,30 @@ export const da_DK: EnTranslations = {
       },
       "vanguard_chrome_armor_plate": {
         "name": "Fortrops Krom"
+      },
+      "crownforged_gauntlets": {
+        "name": "Kronesmedede Handsker"
+      },
+      "nighttalon_grips": {
+        "name": "Natteklo-Greb"
+      },
+      "soulflame_gloves": {
+        "name": "Sjæleflamme-Handsker"
+      },
+      "stormcallers_handguards": {
+        "name": "Stormkalderens Håndværn"
+      },
+      "crownforged_girdle": {
+        "name": "Kronesmedet Bælte"
+      },
+      "nighttalon_waistband": {
+        "name": "Natteklo-Livrem"
+      },
+      "soulflame_cord": {
+        "name": "Sjæleflamme-Snor"
+      },
+      "stormcallers_waistguard": {
+        "name": "Stormkalderens Livværn"
       }
     },
     "mobs": {
@@ -5441,6 +5794,12 @@ export const da_DK: EnTranslations = {
       },
       "acolyte_tessa": {
         "name": "Akolyt Tessa"
+      },
+      "thunzharr_waking_peak": {
+        "name": "Thunzharr, the Waking Peak"
+      },
+      "thunzharr_stormling": {
+        "name": "Roused Stormling"
       },
       "ironvein_foreman": {
         "name": "Jernåre-Formand"
@@ -5646,6 +6005,11 @@ export const da_DK: EnTranslations = {
         "name": "Lærdomsmester Caddis",
         "title": "Lærdomsmester",
         "greeting": "Pas på det løse skifer, {className}. Bjerget har været... rastløst på det seneste. Jeg agter at finde ud af hvorfor."
+      },
+      "auctioneer_voss": {
+        "name": "Auktionarius Voss",
+        "title": "Vogter af Verdensmarkedet",
+        "greeting": "Verdensmarkedet er også åbent her, {className}. Køb fra alle eventyrere i riget, eller læg dine egne varer frem."
       },
       "brother_aldric_raid": {
         "name": "Broder Aldric",
@@ -6096,6 +6460,36 @@ export const da_DK: EnTranslations = {
         "objectives": {
           "0": {
             "label": "Bjergrygs-Snigjæger-Skind"
+          }
+        }
+      },
+      "q_stalkers_return": {
+        "title": "The Stalkers Return",
+        "text": "Twelve dead, and the ridge crawls thicker than the day you started, {playerName}. Beasts do not throw themselves at a wall out of hunger. Something on the high ridge is pushing them down, and until I know what, the culling does not stop. Fourteen more.",
+        "completion": "Fourteen more, and still my patrols count fresh tracks by morning. My scout came back from the high ridge white as the snowline: prints the size of a shield, she says, and old kills no stalker would leave. Whatever walks up there is no ordinary cat.",
+        "objectives": {
+          "0": {
+            "label": "Ridge Stalker slain"
+          }
+        }
+      },
+      "q_stalker_cloaks": {
+        "title": "Cloaks for the Watch",
+        "text": "Eight pelts lined the officers' cloaks, and now every soldier on the wall wants the same, {playerName}. They are right to want it: winter takes fingers first and apologies never. Ten more pelts from the ridges south of the gate, and the whole watch sleeps warm.",
+        "completion": "Ten good pelts, thick as any I have... no, look at these, {playerName}. Torn, half of them, and by no blade or spear. Claw marks wide as my hand, right through the winter coat. Something on that ridge is savaging its own kind.",
+        "objectives": {
+          "0": {
+            "label": "Ridge Stalker Pelt"
+          }
+        }
+      },
+      "q_old_cragmaw": {
+        "title": "Old Cragmaw",
+        "text": "The mountain folk put a name to the prints my scout found: Old Cragmaw, a scar-pelted tyrant of a cat that has outlived three generations of its own pack. It is the reason the stalkers flood my road, {playerName}. Its den sits on the western ridge above the road south. Bring a friend, and put the old devil down.",
+        "completion": "Down at last. The mountain folk swore that cat would outlive the wall itself. The stalkers will keep to their high snows now, {playerName}, and my patrols will walk the road without bleeding for it. The whole ridge is quieter for your work.",
+        "objectives": {
+          "0": {
+            "label": "Old Cragmaw slain"
           }
         }
       },
@@ -6623,6 +7017,28 @@ export const da_DK: EnTranslations = {
         "leaveText": "Du klatrer tilbage til Broder Halven ved relikvariets ruin."
       }
     },
+    "letters": {
+      "ravenpost_welcome": {
+        "sender": "Ravneposten",
+        "subject": "Ravnene flyver nu for dig",
+        "body": "Vejfarende,\n\nRavneposten har rejst sine siddepinde over hele dalen. Find ravnesøjlerne i Eastbrook, Fenbridge og Highwatch: fra enhver af dem kan du sende breve, mønter og varer til andre eventyrere og hente alt, hvad ravnene bringer dig.\n\nVedlagt en lille opmærksomhed til dit første frimærke.\n\nVingerne op,\nRavneposten"
+      },
+      "letter_q_wolves": {
+        "sender": "Marskal Redbrook",
+        "subject": "Der er ro ved foldene igen",
+        "body": "Hyrderne kan for en gangs skyld sove med begge øjne lukkede, og det er din fortjeneste. Jeg har bedt Ravneposten bringe dig en lille skilling fra vagtkassen.\n\nHold din klinge smurt.\n- Marskal Redbrook"
+      },
+      "letter_q_greyjaw": {
+        "sender": "Marskal Redbrook",
+        "subject": "Gamle Gråkæbe, endelig",
+        "body": "Rygter løber hurtigt i så lille en by. Hyrderne skålede for dit helbred i aftes, og Wilkes sværger, at ulven var stor som en kærre. Lad dem bare brodere: du har fortjent det.\n\nTag et måltid på vagtens regning.\n- Marskal Redbrook"
+      },
+      "letter_q_hollow": {
+        "sender": "Broder Aldric",
+        "subject": "Det, du gjorde i mørket",
+        "body": "Kun få vil nogensinde vide, hvad der lå begravet i den lavning, og endnu færre ville tro det. Jeg ved det, og jeg glemmer det ikke.\n\nMå din vej forblive oplyst.\n- Broder Aldric"
+      }
+    },
     "itemSets": {
       "crownforged": {
         "name": "Kronesmedet kampudstyr",
@@ -6636,8 +7052,8 @@ export const da_DK: EnTranslations = {
       },
       "necromancers": {
         "name": "Nekromantikerens klæder",
-        "bonus2": "Reducerer kastetilbageslag fra skade med 50%.",
-        "bonus3": "Skade forsinker ikke dine besværgelser."
+        "bonus2": "Du kan ikke stødes tilbage (100% modstand mod tilbagestød).",
+        "bonus3": "Øger intellekt med 10 og udholdenhed med 10."
       },
       "nighttalon": {
         "name": "Natteklos læderudstyr",
@@ -6646,13 +7062,13 @@ export const da_DK: EnTranslations = {
       },
       "soulflame": {
         "name": "Sjæleflamme-klæder",
-        "bonus2": "Reducerer kastetilbageslag fra skade med 50%.",
-        "bonus3": "Skade forsinker ikke dine besværgelser."
+        "bonus2": "Du kan ikke stødes tilbage (100% modstand mod tilbagestød).",
+        "bonus3": "Øger intellekt med 15 og ånd med 15."
       },
       "stormcallers": {
         "name": "Stormkalderens klæder",
-        "bonus2": "Reducerer kastetilbageslag fra skade med 50%.",
-        "bonus3": "Skade forsinker ikke dine besværgelser."
+        "bonus2": "Du kan ikke stødes tilbage (100% modstand mod tilbagestød).",
+        "bonus3": "Øger intellekt med 15 og ånd med 15."
       },
       "wyrmshadow": {
         "name": "Wyrmskygge-udstyr",
@@ -6668,6 +7084,7 @@ export const da_DK: EnTranslations = {
     "dungeonInstanceBusy": "Alle instanser af {name} er optaget. Prøv igen snart.",
     "delveLockedChestInteract": "Tryk på F for at dirke låsen op",
     "delveRewardChestInteract": "Tryk på F for at kræve byttet",
-    "delveSurfaceExitInteract": "Tryk på F for at klatre"
+    "delveSurfaceExitInteract": "Tryk på F for at klatre",
+    "mailboxName": "Mailbox"
   }
 };

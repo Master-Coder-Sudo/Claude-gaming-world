@@ -1,5 +1,6 @@
 import type { TalentModifiers } from './content/talents';
 import { aggregateSetBonuses, CLASSES, ITEMS, MOBS, type NpcDef } from './data';
+import { meetsLevelRequirement } from './item_level_req';
 import type { Entity, EquipSlot, MobTemplate, PlayerClass, Stats, Vec3 } from './types';
 import { EQUIP_SLOTS, SPELL_POWER_PER_INT } from './types';
 
@@ -36,6 +37,7 @@ function baseEntity(id: number, pos: Vec3): Entity {
     critChance: 0.05,
     dodgeChance: 0.05,
     castPushbackReduction: 0,
+    knockbackResistance: 0,
     moveSpeed: 7,
     hostile: false,
     targetId: null,
@@ -49,6 +51,7 @@ function baseEntity(id: number, pos: Vec3): Entity {
     castingAbility: null,
     castRemaining: 0,
     castTotal: 0,
+    castAim: null,
     channeling: false,
     channelTickTimer: 0,
     channelTickEvery: 0,
@@ -57,7 +60,7 @@ function baseEntity(id: number, pos: Vec3): Entity {
     queuedOnSwing: null,
     fiveSecondRule: 99,
     comboPoints: 0,
-    comboTargetId: null,
+    comboUntil: -1,
     overpowerUntil: -1,
     potionCooldownUntil: -1,
     potionCdRemaining: 0,
@@ -73,6 +76,8 @@ function baseEntity(id: number, pos: Vec3): Entity {
     tappedById: null,
     pulseTimer: 0,
     stompTimer: 0,
+    bigCastTimer: 0,
+    yelledEngage: false,
     stoneskinTimer: 0,
     terrifyTimer: 0,
     detonateTimer: Infinity,
@@ -177,6 +182,12 @@ export function recalcPlayerStats(
     if (!itemId) continue;
     const item = ITEMS[itemId];
     if (!item) continue;
+    // Gear above the wearer's level is inert: it stays equipped (still rendered
+    // and occupying the slot, see the render mirrors below) but grants no stats,
+    // armor, spell power, or set pieces until the character reaches its required
+    // level. This only arises for a character loaded wearing gear equipped before
+    // the level gate existed; the equip path blocks equipping over-level gear.
+    if (!meetsLevelRequirement(lvl, item)) continue;
     if (item.set) setCounts.set(item.set, (setCounts.get(item.set) ?? 0) + 1);
     bonusSp += item.spellPower ?? 0;
     if (!item.stats) continue;
@@ -189,7 +200,7 @@ export function recalcPlayerStats(
   }
   // Item-set bonuses from equipped pieces. Flat primary stats join the gear
   // totals so they feed every derivation below; AP/crit/pushback fold in at
-  // their own steps (bonusAp, critChance, castPushbackReduction).
+  // their own steps (bonusAp, critChance, castPushbackReduction, knockbackResistance).
   const setEff = aggregateSetBonuses(setCounts);
   s.str += setEff.str;
   s.agi += setEff.agi;
@@ -238,6 +249,12 @@ export function recalcPlayerStats(
     bonusAp += m.ap;
     bonusDodge += m.dodge;
     if (m.staPct) s.sta = Math.round(s.sta * (1 + m.staPct));
+    // Primary-attribute multipliers, applied to the fully-summed attribute. agiPct lands
+    // before the agi-derived armor/dodge below so the percentage flows into them.
+    if (m.strPct) s.str = Math.round(s.str * (1 + m.strPct));
+    if (m.agiPct) s.agi = Math.round(s.agi * (1 + m.agiPct));
+    if (m.intPct) s.int = Math.round(s.int * (1 + m.intPct));
+    if (m.spiPct) s.spi = Math.round(s.spi * (1 + m.spiPct));
   }
   // Floor Agility at 0 so a draining debuff (negative buff_agi) can never push the
   // derived armor/dodge below what zero Agility would give.
@@ -257,11 +274,15 @@ export function recalcPlayerStats(
   s.spi = Math.max(0, s.spi);
 
   e.stats = s;
-  const weapon = (equipment.mainhand && ITEMS[equipment.mainhand]?.weapon) || {
-    min: 1,
-    max: 2,
-    speed: 2,
-  };
+  // An over-level mainhand is inert like any other gear: fall back to unarmed
+  // damage (and drop the weapon-type flags, e.g. dagger, that gate abilities)
+  // until the wearer is high enough level. The mainhand still stays worn (see
+  // e.mainhandItemId below) so the weapon model keeps rendering.
+  const mainhand = equipment.mainhand ? ITEMS[equipment.mainhand] : undefined;
+  const weapon =
+    mainhand?.weapon && meetsLevelRequirement(lvl, mainhand)
+      ? mainhand.weapon
+      : { min: 1, max: 2, speed: 2 };
   e.weapon = weapon;
   // Render-only: the equipped mainhand item id drives the held weapon model on
   // the client (mapped via ITEM_WEAPON_VARIANTS). Gated on the item actually being
@@ -295,6 +316,7 @@ export function recalcPlayerStats(
   // Crit: ~1% per 20 agi at low level
   e.critChance = 0.05 + s.agi * 0.0005 + (mods?.stats.crit ?? 0) + setEff.crit;
   e.castPushbackReduction = setEff.castPushbackReduction;
+  e.knockbackResistance = setEff.knockbackResistance;
   // Floored at 0: an off-balance debuff (negative buff_dodge) can drive dodge to nothing.
   e.dodgeChance = Math.max(0, 0.05 + s.agi * 0.0005 + bonusDodge);
 
@@ -399,6 +421,8 @@ export function createMob(id: number, template: MobTemplate, level: number, pos:
   if (template.wardAllies) e.wardTimer = template.wardAllies.every;
   // Telegraph the first Stoneskin: one full interval after engage.
   if (template.stoneskin) e.stoneskinTimer = template.stoneskin.every;
+  // Telegraph the first hardcast (bigCast) the same way: one full interval after engage.
+  if (template.bigCast) e.bigCastTimer = template.bigCast.every;
   // Telegraph the first Rally the same way: one full interval after engage.
   if (template.rally) e.rallyTimer = template.rally.every;
   // Telegraph the first War Cadence the same way: one full interval after engage.

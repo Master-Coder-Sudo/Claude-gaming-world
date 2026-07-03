@@ -177,6 +177,52 @@ export const it_IT: EnTranslations = {
       "title": "Emote",
       "done": "Fine"
     },
+    "dailyRewards": {
+      "title": "Ricompense giornaliere",
+      "close": "Chiudi ricompense giornaliere",
+      "loading": "Caricamento delle ricompense giornaliere...",
+      "error": "Impossibile caricare le ricompense giornaliere.",
+      "intro": "Detieni abbastanza WOC nel tuo portafoglio verificato per sbloccare le ricompense giornaliere. Guadagna punti con un giro giornaliero e incarichi a rotazione, poi scala la classifica giornaliera per aggiudicarti una parte del montepremi.",
+      "prize": "Montepremi",
+      "reset": "Azzeramento",
+      "endsIn": "Termina tra {time}",
+      "remainingLessThanMinute": "<1m",
+      "remainingMinutes": "{minutes}m",
+      "remainingHoursMinutes": "{hours}h {minutes}m",
+      "score": "Punteggio",
+      "walletValue": "Valore del portafoglio (WOC)",
+      "usd": "{amount} USD",
+      "sol": "{amount} SOL",
+      "unknown": "Sconosciuto",
+      "spinTitle": "Giro giornaliero",
+      "spinDialogTitle": "Giro della ricompensa giornaliera",
+      "spinClose": "Chiudi giro giornaliero",
+      "spinReady": "Un giro è pronto.",
+      "spinClaimed": "Ottenuti: +{points} punti.",
+      "spinResult": "+{points} punti",
+      "spinButton": "Gira",
+      "tasks": "Incarichi",
+      "taskMultiplier": "x{multiplier} multiplier",
+      "pointsGained": "{points} daily rewards points gained.",
+      "leaderboard": "Classifica giornaliera",
+      "totalPlayer": "{count} player today",
+      "totalPlayers": "{count} players today",
+      "history": "Vincitori precedenti",
+      "noLeaders": "Ancora nessun punto.",
+      "noHistory": "Ancora nessun pagamento.",
+      "walletConnectTitle": "Verifica portafoglio",
+      "walletConnectBody": "Verifica un portafoglio Solana con WOC per sbloccare le ricompense giornaliere.",
+      "walletConnectButton": "Verifica portafoglio",
+      "walletHoldTitle": "Detieni WOC",
+      "walletHoldBody": "Detieni almeno {amount} USD in WOC per sbloccare le ricompense giornaliere.",
+      "walletPriceBody": "Il prezzo di WOC non è disponibile al momento. Ricontrolla a breve.",
+      "reason": {
+        "eligible": "Ricompense sbloccate.",
+        "no_wallet": "Collega un portafoglio con almeno 20 USD in WOC.",
+        "under_minimum": "Il portafoglio è sotto il minimo di 20 USD in WOC.",
+        "price_unavailable": "Il prezzo di WOC non è disponibile, le ricompense sono temporaneamente bloccate."
+      }
+    },
     "theme": {
       "preset": "Tema dell'interfaccia",
       "customColors": "Colori personalizzati",
@@ -265,6 +311,13 @@ export const it_IT: EnTranslations = {
       "heading": "Direzione",
       "minimapZoom": "Zoom minimappa"
     },
+    "nativeUpdate": {
+      "title": "Aggiornamento disponibile",
+      "body": "È disponibile una nuova versione di World of ClaudeCraft. Aggiorna ora per le ultime correzioni e migliorie.",
+      "bodyWithVersion": "La versione {version} di World of ClaudeCraft è disponibile. Aggiorna ora per le ultime correzioni e migliorie.",
+      "notNow": "Non ora",
+      "update": "Aggiorna"
+    },
     "castBar": {
       "playerAria": "La tua barra di lancio",
       "targetAria": "Barra di lancio del bersaglio"
@@ -274,11 +327,16 @@ export const it_IT: EnTranslations = {
       "tabsLabel": "Classifiche dei punteggi",
       "tabPlayers": "Giocatori",
       "tabGuilds": "Gilde",
+      "tabDevs": "Sviluppatori",
       "guildName": "Gilda",
       "members": "Membri",
       "topLevel": "Top",
       "guildXp": "XP totali",
-      "guildEmpty": "Ancora nessuna gilda classificata."
+      "guildEmpty": "Ancora nessuna gilda classificata.",
+      "devName": "Contributore",
+      "devTierCol": "Distintivo",
+      "mergedPrs": "PR integrate",
+      "devEmpty": "Ancora nessun contributore in classifica."
     },
     "raidLockout": {
       "title": "Blocchi incursione",
@@ -331,9 +389,15 @@ export const it_IT: EnTranslations = {
       "keybindHelpLockCursorOnRotate": "Mantiene il cursore del mouse dentro la finestra mentre trascini per ruotare la telecamera, così non può raggiungere il bordo dello schermo o passare a un altro monitor. Disattiva l'opzione se preferisci un cursore libero.",
       "showWalletOnCharacterScreen": "Mostra portafoglio nella schermata personaggi",
       "showWalletOnPlayerCard": "Mostra portafoglio nella scheda giocatore",
+      "showDevBadges": "Mostra distintivi sviluppatore",
+      "showOwnNameplate": "Show My Nameplate",
       "uiScale": "Scala dell'interfaccia",
+      "playerFrameScale": "Player Frame Scale",
+      "targetFrameScale": "Target Frame Scale",
       "highContrastBackground": "Sfondo a contrasto elevato",
-      "startAttackOnAbility": "Auto-Attack on Ability Use",
+      "startAttackOnAbility": "Attacco automatico all'uso dell'abilita",
+      "walkByAutoloot": "Walk-by Autoloot",
+      "groundReticle": "Reticolo di puntamento a terra",
       "showItemLevel": "Mostra livello oggetto",
       "itemLevelLine": "Livello oggetto {level}",
       "itemScoreLine": "Punteggio {score}",
@@ -430,6 +494,9 @@ export const it_IT: EnTranslations = {
     },
     "statInfo": {
       "fromYour": "Dai tuoi {value} punti {stat}:",
+      "names": {
+        "spellPower": "Potere Magico"
+      },
       "desc": {
         "str": "Aumenta la tua potenza d'attacco, così i colpi della tua arma sono più potenti.",
         "agi": "Affina i tuoi riflessi e la tua mira, migliorando diverse delle tue statistiche di combattimento.",
@@ -438,6 +505,7 @@ export const it_IT: EnTranslations = {
         "spi": "Accelera la velocità con cui il mana di un incantatore si rigenera mentre riposa, fuori dal combattimento.",
         "armor": "Attutisce i colpi fisici in arrivo. La riduzione è maggiore contro avversari di livello inferiore ed è limitata al 75%.",
         "attackPower": "Potenzia gli attacchi della tua arma. Ogni 14 punti di potenza d'attacco aggiungono 1 punto di danni al secondo.",
+        "spellPower": "Aumenta il danno dei tuoi incantesimi e la potenza delle tue cure. Ogni punto di Intelletto conferisce un po' di Potere Magico, in aggiunta a quello dell'equipaggiamento o dei potenziamenti.",
         "dps": "I danni al secondo stimati della tua arma, combinando i danni e la velocità della tua arma con la tua potenza d'attacco.",
         "critChance": "La tua probabilità che un attacco colpisca in modo critico, infliggendo danni doppi.",
         "dodge": "La tua probabilità di evitare completamente un attacco in mischia in arrivo, senza subire danni."
@@ -460,6 +528,15 @@ export const it_IT: EnTranslations = {
         "minorForClass": "Di scarso beneficio per la tua classe.",
         "baseChance": "Include una probabilità di base del 5% condivisa da tutti gli avventurieri.",
         "dpsApprox": "Una stima, esclude i colpi critici e i danni delle abilità."
+      },
+      "sources": {
+        "header": "Composto da:",
+        "base": "Base: {value}",
+        "attributes": "Dai tuoi attributi: {value}",
+        "fromAttribute": "Da {stat}: {value}",
+        "gear": "Equipaggiamento indossato: {value}",
+        "buff": "{name}: {value}",
+        "talents": "Talenti ed effetti: {value}"
       }
     },
     "talents": {
@@ -485,7 +562,7 @@ export const it_IT: EnTranslations = {
       "linkTitle": "Maiusc + clic per collegare questa missione in chat."
     },
     "itemShare": {
-      "linkHint": "Shift-click to link this item in chat."
+      "linkHint": "Shift-clic per collegare questo oggetto in chat."
     },
     "plurals": {
       "guildMembers": {
@@ -635,11 +712,27 @@ export const it_IT: EnTranslations = {
       "methodGroup": "Metodo bottino impostato su bottino di gruppo.",
       "assigned": "{looter} ha assegnato {item} a {target}.",
       "unassigned": "{item} non e stato assegnato ed e libero per tutti.",
-      "leaderOnly": "Solo il capogruppo puo cambiare il metodo bottino."
+      "leaderOnly": "Solo il capogruppo puo cambiare il metodo bottino.",
+      "rollingFor": "Si tira per {item}.",
+      "looterChanged": "Il Distributore del Bottino ora e {name}.",
+      "thresholdSet": "Soglia del bottino impostata su {threshold}.",
+      "summaryMaster": "Impostazioni Bottino: Bottino Distribuito, Distributore del Bottino {name}, soglia {threshold}.",
+      "summaryGroup": "Impostazioni Bottino: Bottino di Gruppo."
     },
     "party": {
-      "promoteLeader": "Promote to Leader",
+      "promoteLeader": "Promuovi a Capo",
       "inviteUsage": "Invite whom? Usage: /invite <name>."
+    },
+    "lootSettings": {
+      "title": "Impostazioni Bottino",
+      "close": "Chiudi impostazioni bottino",
+      "menuItem": "Impostazioni Bottino",
+      "method": "Metodo di Distribuzione",
+      "rollThreshold": "Soglia di Tiro",
+      "groupLoot": "Bottino di Gruppo",
+      "valueMaster": "Bottino Distribuito",
+      "leaderOption": "Distributore del Bottino: Capo (Tu)",
+      "masterOption": "Distributore del Bottino: {name}"
     },
     "bags": {
       "filterGroupAria": "Filtra le borse per categoria",
@@ -737,6 +830,9 @@ export const it_IT: EnTranslations = {
         "nature": "Natura"
       }
     },
+    "worldBoss": {
+      "spawn": "{name} si erge sulle Alture di Thornpeak!"
+    },
     "loot": {
       "chestTitle": "Scrigno"
     },
@@ -747,6 +843,26 @@ export const it_IT: EnTranslations = {
     "nameplate": {
       "mob": "[{level}] {name}",
       "mobElite": "[{level}+] {name}"
+    },
+    "mobTooltip": {
+      "levelFamily": "Level {level} {family}",
+      "familyDemon": "Demon",
+      "hostile": "Hostile",
+      "friendly": "Friendly"
+    },
+    "targetFrame": {
+      "unlock": "Move target frame",
+      "lock": "Lock target frame"
+    },
+    "playerFrame": {
+      "unlock": "Move player frame",
+      "lock": "Lock player frame"
+    },
+    "frameReset": {
+      "label": "Reset Frame Positions"
+    },
+    "itemTooltip": {
+      "requiresLevel": "Richiede livello {level}"
     },
     "discord": {
       "title": "Discord",
@@ -826,6 +942,7 @@ export const it_IT: EnTranslations = {
       "memberSinceDays": "{days}g nel Discord",
       "roleTag": {
         "levyst": "Levy St",
+        "admin": "Admin",
         "devs": "Dev",
         "mods": "Mod",
         "artists": "Artista"
@@ -888,6 +1005,140 @@ export const it_IT: EnTranslations = {
         "help": {
           "label": "Serve aiuto",
           "hint": "Chiedi aiuto alla comunita"
+        }
+      }
+    },
+    "devBadge": {
+      "title": "Sviluppatore",
+      "tiers": {
+        "tinkerer": "Armeggione",
+        "artificer": "Artefice",
+        "runesmith": "Forgiarune",
+        "architect": "Architetto",
+        "worldwright": "Artefice di Mondi"
+      },
+      "flavors": {
+        "tinkerer": "La tua prima pull request e approdata nel reame.",
+        "artificer": "Cinque pull request, e il mondo si piega al tuo codice.",
+        "runesmith": "Quindici pull request forgiate nel gioco in esecuzione.",
+        "architect": "Un architetto del reame: 30 pull request integrate.",
+        "worldwright": "Un artefice di mondi: 70 pull request plasmano il gioco."
+      },
+      "badgeTitle": "Sviluppatore: {tier}",
+      "prsLanded": "{count} pull request integrate",
+      "contributor": "Contributore open-source",
+      "link": {
+        "cta": "Collega GitHub",
+        "relink": "Ricollega GitHub",
+        "benefits": "Collega il tuo GitHub per guadagnare un distintivo da sviluppatore per le pull request che hai avuto integrate nel repository open-source.",
+        "error": "Impossibile collegare GitHub. Riprova."
+      },
+      "linkedAs": "Collegato come {login}",
+      "unlink": "Scollega GitHub"
+    },
+    "mailbox": {
+      "title": "Mailbox",
+      "subtitle": "The Ravenpost",
+      "close": "Close mailbox",
+      "tabInbox": "Inbox",
+      "tabInboxWithCount": "Inbox ({count})",
+      "tabSend": "Send",
+      "empty": "Your mailbox is empty.",
+      "truncated": "Showing the newest {shown} of {total} letters.",
+      "attachmentsBadge": "Parcel attached",
+      "unreadBadge": "Unread",
+      "back": "Back",
+      "take": "Take attachments",
+      "delete": "Delete letter",
+      "deleteAria": "Delete the letter {subject}",
+      "openAria": "Read the letter {subject} from {name}",
+      "noSubject": "(no subject)",
+      "toLabel": "To",
+      "toPlaceholder": "Character name",
+      "subjectLabel": "Subject",
+      "bodyLabel": "Message",
+      "coinLabel": "Attach coin",
+      "parcelsLabel": "Parcels",
+      "parcelsHint": "Click an item in your bags to attach it.",
+      "removeParcelAria": "Remove {item} from the letter",
+      "sendButton": "Send letter",
+      "postageNote": "Postage: {amount}. The raven flies for about {seconds}s.",
+      "arrivedBanner": "The raven has landed: mail from {name}.",
+      "arrivedLog": "You have new mail from {name}.",
+      "indicatorAria": "Unread mail: {count}",
+      "indicatorTip": "You have {count} unread letters. Visit a mailbox to read them.",
+      "clickAttach": "Click to attach to your letter.",
+      "cannotMail": "This cannot be mailed.",
+      "result": {
+        "sent": "A raven takes wing with your letter to {name} ({postage} postage).",
+        "collected": "You collect {amount} from the letter.",
+        "tooFar": "You must be at a mailbox to tend your post.",
+        "needRecipient": "Name a recipient for your letter.",
+        "noRecipient": "No one by that name holds a mailbox here.",
+        "tooManyParcels": "A letter carries at most {count} parcels.",
+        "noMailQuestItems": "You cannot mail quest items.",
+        "notEnoughItems": "You do not have that many to send.",
+        "cantAffordPostage": "You cannot afford the postage.",
+        "recipientBoxFull": "Their mailbox is full.",
+        "letterGone": "That letter is no longer in your box.",
+        "takeParcelsFirst": "Take the parcels out before discarding the letter."
+      }
+    },
+    "calendar": {
+      "title": "Event Calendar",
+      "close": "Close calendar",
+      "keybindLabel": "Event Calendar",
+      "prevMonth": "Previous month",
+      "nextMonth": "Next month",
+      "dayAria": "{date}: {count} events",
+      "noEvents": "Nothing planned for this day.",
+      "allDay": "All day",
+      "bookedBy": "Booked by {name}",
+      "deleteAria": "Remove the event {title}",
+      "bookTitle": "Book a guild event",
+      "titlePlaceholder": "Event title",
+      "notePlaceholder": "Note (optional)",
+      "hourLabel": "Hour (UTC)",
+      "hourAllDay": "All day",
+      "addButton": "Book event",
+      "guildOnlyNote": "Join a guild to plan events together.",
+      "result": {
+        "created": "The event is on the guild calendar.",
+        "removed": "The event was taken off the calendar.",
+        "notInGuild": "You are not in a guild.",
+        "notOfficer": "Only officers and the Guild Master may manage guild events.",
+        "badInput": "Give the event a title and a valid day.",
+        "calendarFull": "The guild calendar is full.",
+        "eventGone": "That event is no longer on the calendar."
+      },
+      "events": {
+        "raidCall": {
+          "title": "Raid Call",
+          "note": "Wardens sound the horn: gather a party for the crypts and the raid."
+        },
+        "marketDay": {
+          "title": "Market Day",
+          "note": "The Merchant expects fresh stock. A fine day to browse the World Market."
+        },
+        "fiestaNight": {
+          "title": "Fiesta Night",
+          "note": "The 2v2 Fiesta ring draws its loudest crowds tonight."
+        },
+        "arenaClash": {
+          "title": "Arena Clash",
+          "note": "Duelists flock to the Ashen Coliseum. Queue up and climb the ladder."
+        },
+        "fishingDerby": {
+          "title": "Fishing Derby",
+          "note": "Anglers line the lakes. Bring a pole and swap fishing tales."
+        },
+        "delveDay": {
+          "title": "Delve Day",
+          "note": "Brother Halven marks his charts: a fine day to brave the Collapsed Reliquary."
+        },
+        "moongateCommunion": {
+          "title": "Moongate Communion",
+          "note": "Pilgrims gather at the temple moongate under the mid-month moon."
         }
       }
     }
@@ -1838,6 +2089,9 @@ export const it_IT: EnTranslations = {
     "password": "Password",
     "passwordError": "Inserisci la tua password.",
     "passwordPlaceholder": "Inserisci la password",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "emailError": "Please enter a valid email address.",
     "showPassword": "Mostra password",
     "hidePassword": "Nascondi password",
     "logIn": "Accedi",
@@ -1863,7 +2117,15 @@ export const it_IT: EnTranslations = {
     "create": "Crea",
     "twoFactorLabel": "Codice di autenticazione",
     "twoFactorPlaceholder": "Codice a 6 cifre o codice di recupero",
-    "twoFactorHint": "Inserisci il codice della tua app di autenticazione, oppure uno dei tuoi codici di recupero."
+    "twoFactorHint": "Inserisci il codice della tua app di autenticazione, oppure uno dei tuoi codici di recupero.",
+    "recovery": {
+      "title": "Add a recovery email",
+      "body": "Set an email address so you can recover your account. We only use it to confirm you own this account if you ever need to reset your password.",
+      "save": "Save email",
+      "logOut": "Log out",
+      "invalid": "Please enter a valid email address.",
+      "failed": "Could not save your email. Please try again."
+    }
   },
   "wallet": {
     "label": "Portafoglio $WOC",
@@ -1917,6 +2179,7 @@ export const it_IT: EnTranslations = {
     "helpLinkedWithBalance": "I vantaggi da titolare sono attivi. L'app del portafoglio è connessa su questo browser.",
     "helpLinkedDisconnected": "I vantaggi da titolare sono attivi. Connetti l'app quando devi firmare o spendere.",
     "helpLinkedDisconnectedWithBalance": "I vantaggi da titolare sono attivi. Connetti l'app quando devi firmare o spendere.",
+    "extensionHelp": "To see a wallet here, keep a browser wallet extension such as Solflare Wallet active.",
     "flowConnect": "Scegli un portafoglio. La verifica continua automaticamente.",
     "flowSign": "Firma il messaggio di verifica nell'app del portafoglio. Non servono transazioni né SOL.",
     "flowVerify": "Verifica della proprietà del portafoglio...",
@@ -2561,6 +2824,7 @@ export const it_IT: EnTranslations = {
       "usernameTaken": "Questo nome utente è già in uso.",
       "invalidCredentials": "Nome utente o password non validi.",
       "verificationFailed": "Verifica non riuscita. Riprova.",
+      "desktopCodeInvalid": "Il codice di accesso desktop non è valido o è scaduto. Riprova.",
       "invalidCharacterName": "Nome personaggio non valido. Usa 2-16 lettere.",
       "characterNameNotAllowed": "Questo nome personaggio non è consentito.",
       "invalidClass": "Classe non valida.",
@@ -2577,6 +2841,21 @@ export const it_IT: EnTranslations = {
       "takenOver": "Il tuo personaggio è stato preso in controllo da un'altra sessione.",
       "renameBeforeEntering": "Questo personaggio deve essere rinominato prima di entrare nel mondo.",
       "renameNotPermitted": "Non è consentito rinominare questo personaggio."
+    }
+  },
+  "desktop": {
+    "update": {
+      "downloading": "Download dell'aggiornamento {version} in corso...",
+      "ready": "L'aggiornamento {version} è pronto. Verrà installato alla chiusura, oppure riavvia ora.",
+      "restart": "Riavvia ora",
+      "later": "Più tardi"
+    },
+    "crash": {
+      "title": "World of ClaudeCraft",
+      "body": "La vista di gioco ha smesso di funzionare. Ricaricarla?",
+      "reload": "Ricarica",
+      "quit": "Esci",
+      "fatalBody": "World of ClaudeCraft ha riscontrato un errore imprevisto e deve chiudersi."
     }
   },
   "realm": {
@@ -3335,13 +3614,16 @@ export const it_IT: EnTranslations = {
     },
     "cast": {
       "fishing": "Pesca",
-      "demonHeal": "Cura demoniaca"
+      "demonHeal": "Cura demoniaca",
+      "thunzharrStormcall": "Richiamo della tempesta"
     }
   },
   "questUi": {
     "tracker": {
       "title": "Missioni",
-      "complete": "Completata"
+      "complete": "Completata",
+      "showOnMap": "Mostra {name} sulla mappa",
+      "hideFromMap": "Nascondi {name} dalla mappa"
     },
     "log": {
       "title": "Registro missioni",
@@ -3627,6 +3909,26 @@ export const it_IT: EnTranslations = {
   },
   "entities": {
     "abilities": {
+      "flamestrike": {
+        "name": "Ondata di Fiamme",
+        "description": "Evoca un'esplosione di fiamme sulla zona bersaglio, infliggendo {damage} danni da Fuoco ai nemici investiti dalla deflagrazione."
+      },
+      "rain_of_fire": {
+        "name": "Pioggia di Fuoco",
+        "description": "Fa piovere fuoco sulla zona bersaglio, bruciando i nemici per {damage} danni da Fuoco."
+      },
+      "volley": {
+        "name": "Scarica di Frecce",
+        "description": "Fa piovere frecce sulla zona bersaglio, infliggendo {damage} danni ai nemici colpiti."
+      },
+      "hurricane": {
+        "name": "Uragano",
+        "description": "Scatena un uragano sulla zona bersaglio, colpendo i nemici per {damage} danni della Natura."
+      },
+      "earthquake": {
+        "name": "Terremoto",
+        "description": "Scuote la zona bersaglio, colpendo i nemici per {damage} danni della Natura."
+      },
       "heroic_strike": {
         "name": "Colpo Eroico",
         "description": "Un attacco potente che aumenta i danni in mischia di {damage}. Si attiva al tuo prossimo colpo."
@@ -4768,6 +5070,33 @@ export const it_IT: EnTranslations = {
       "monarch_crown_helm": {
         "name": "Corona del Monarca"
       },
+      "copper_mining_pick": {
+        "name": "Piccone di Rame"
+      },
+      "iron_mining_pick": {
+        "name": "Piccone di Ferro"
+      },
+      "mithril_mining_pick": {
+        "name": "Piccone di Mithril"
+      },
+      "handaxe": {
+        "name": "Accetta"
+      },
+      "felling_axe": {
+        "name": "Ascia da Taglio"
+      },
+      "ironbark_axe": {
+        "name": "Ascia di Corteccia Ferrata"
+      },
+      "gathering_sickle": {
+        "name": "Falcetto da Raccolta"
+      },
+      "bronze_sickle": {
+        "name": "Falcetto di Bronzo"
+      },
+      "silverleaf_sickle": {
+        "name": "Falcetto Fogliargento"
+      },
       "bristleback_maul": {
         "name": "Maglio Bristleback"
       },
@@ -5250,6 +5579,30 @@ export const it_IT: EnTranslations = {
       },
       "vanguard_chrome_armor_plate": {
         "name": "Avanguardia cromo"
+      },
+      "crownforged_gauntlets": {
+        "name": "Manopole Forgiacorona"
+      },
+      "nighttalon_grips": {
+        "name": "Prese Artiglio Notturno"
+      },
+      "soulflame_gloves": {
+        "name": "Guanti Fiammanima"
+      },
+      "stormcallers_handguards": {
+        "name": "Paramani del Chiamatempeste"
+      },
+      "crownforged_girdle": {
+        "name": "Cintura Forgiacorona"
+      },
+      "nighttalon_waistband": {
+        "name": "Fascia Artiglio Notturno"
+      },
+      "soulflame_cord": {
+        "name": "Cordone Fiammanima"
+      },
+      "stormcallers_waistguard": {
+        "name": "Guardacintura del Chiamatempeste"
       }
     },
     "mobs": {
@@ -5441,6 +5794,12 @@ export const it_IT: EnTranslations = {
       },
       "acolyte_tessa": {
         "name": "Accolita Tessa"
+      },
+      "thunzharr_waking_peak": {
+        "name": "Thunzharr, il Picco Risvegliato"
+      },
+      "thunzharr_stormling": {
+        "name": "Elementale di tempesta ridestato"
       },
       "ironvein_foreman": {
         "name": "Caposquadra Venaferrata"
@@ -5646,6 +6005,11 @@ export const it_IT: EnTranslations = {
         "name": "Maestro del sapere Caddis",
         "title": "Maestro del sapere",
         "greeting": "Fai attenzione allo scisto instabile, {className}. La montagna è inquieta da qualche tempo, e voglio sapere perché."
+      },
+      "auctioneer_voss": {
+        "name": "Banditore Voss",
+        "title": "Custode del World Market",
+        "greeting": "Il World Market e aperto anche qui, {className}. Compra da ogni avventuriero del reame, o metti in vendita le tue merci."
       },
       "brother_aldric_raid": {
         "name": "Fratello Aldric",
@@ -6096,6 +6460,36 @@ export const it_IT: EnTranslations = {
         "objectives": {
           "0": {
             "label": "Pelle di braccatore della cresta"
+          }
+        }
+      },
+      "q_stalkers_return": {
+        "title": "The Stalkers Return",
+        "text": "Twelve dead, and the ridge crawls thicker than the day you started, {playerName}. Beasts do not throw themselves at a wall out of hunger. Something on the high ridge is pushing them down, and until I know what, the culling does not stop. Fourteen more.",
+        "completion": "Fourteen more, and still my patrols count fresh tracks by morning. My scout came back from the high ridge white as the snowline: prints the size of a shield, she says, and old kills no stalker would leave. Whatever walks up there is no ordinary cat.",
+        "objectives": {
+          "0": {
+            "label": "Ridge Stalker slain"
+          }
+        }
+      },
+      "q_stalker_cloaks": {
+        "title": "Cloaks for the Watch",
+        "text": "Eight pelts lined the officers' cloaks, and now every soldier on the wall wants the same, {playerName}. They are right to want it: winter takes fingers first and apologies never. Ten more pelts from the ridges south of the gate, and the whole watch sleeps warm.",
+        "completion": "Ten good pelts, thick as any I have... no, look at these, {playerName}. Torn, half of them, and by no blade or spear. Claw marks wide as my hand, right through the winter coat. Something on that ridge is savaging its own kind.",
+        "objectives": {
+          "0": {
+            "label": "Ridge Stalker Pelt"
+          }
+        }
+      },
+      "q_old_cragmaw": {
+        "title": "Old Cragmaw",
+        "text": "The mountain folk put a name to the prints my scout found: Old Cragmaw, a scar-pelted tyrant of a cat that has outlived three generations of its own pack. It is the reason the stalkers flood my road, {playerName}. Its den sits on the western ridge above the road south. Bring a friend, and put the old devil down.",
+        "completion": "Down at last. The mountain folk swore that cat would outlive the wall itself. The stalkers will keep to their high snows now, {playerName}, and my patrols will walk the road without bleeding for it. The whole ridge is quieter for your work.",
+        "objectives": {
+          "0": {
+            "label": "Old Cragmaw slain"
           }
         }
       },
@@ -6623,6 +7017,28 @@ export const it_IT: EnTranslations = {
         "leaveText": "Risali da Fratello Halven, alla rovina del reliquiario."
       }
     },
+    "letters": {
+      "ravenpost_welcome": {
+        "sender": "La Posta dei Corvi",
+        "subject": "Ora i corvi volano per te",
+        "body": "Viandante,\n\nla Posta dei Corvi ha aperto i suoi trespoli in tutta la valle. Cerca i pilastri dei corvi a Eastbrook, Fenbridge e Highwatch: da ognuno di essi potrai inviare lettere, monete e oggetti agli altri avventurieri, e ritirare tutto ciò che i corvi ti portano.\n\nIn allegato un piccolo pensiero per il tuo primo francobollo.\n\nAli in alto,\nLa Posta dei Corvi"
+      },
+      "letter_q_wolves": {
+        "sender": "Maresciallo Redbrook",
+        "subject": "Nei recinti è tornata la quiete",
+        "body": "I pastori possono finalmente dormire sonni tranquilli, e il merito è tuo. Ho chiesto alla Posta dei Corvi di portarti un piccolo compenso dal fondo della guardia.\n\nTieni la lama oliata.\n- Maresciallo Redbrook"
+      },
+      "letter_q_greyjaw": {
+        "sender": "Maresciallo Redbrook",
+        "subject": "Il vecchio Grigiafauci, finalmente",
+        "body": "Le notizie corrono in una città così piccola. Ieri sera i pastori hanno brindato alla tua salute, e Wilkes giura che il lupo era grande quanto un carro. Lascia pure che ricamino: te lo sei guadagnato.\n\nConcediti un pasto a spese della guardia.\n- Maresciallo Redbrook"
+      },
+      "letter_q_hollow": {
+        "sender": "Fratello Aldric",
+        "subject": "Ciò che hai compiuto nel buio",
+        "body": "Pochi sapranno mai cosa giaceva sepolto in quella conca, e ancora meno ci crederebbero. Io lo so, e non lo dimenticherò.\n\nChe la tua strada resti illuminata.\n- Fratello Aldric"
+      }
+    },
     "itemSets": {
       "crownforged": {
         "name": "Tenuta da battaglia Forgiacorona",
@@ -6636,8 +7052,8 @@ export const it_IT: EnTranslations = {
       },
       "necromancers": {
         "name": "Vesti del negromante",
-        "bonus2": "Riduce del 50% il ritardo al lancio causato dai danni.",
-        "bonus3": "I danni subiti non ritardano il lancio degli incantesimi."
+        "bonus2": "Non puoi essere respinto (100% di resistenza alla respinta).",
+        "bonus3": "Aumenta l'intelletto di 10 e la tempra di 10."
       },
       "nighttalon": {
         "name": "Tenuta di cuoio Artiglio Notturno",
@@ -6646,13 +7062,13 @@ export const it_IT: EnTranslations = {
       },
       "soulflame": {
         "name": "Vesti Fiamma dell’Anima",
-        "bonus2": "Riduce del 50% il ritardo al lancio causato dai danni.",
-        "bonus3": "I danni subiti non ritardano il lancio degli incantesimi."
+        "bonus2": "Non puoi essere respinto (100% di resistenza alla respinta).",
+        "bonus3": "Aumenta l'intelletto di 15 e lo spirito di 15."
       },
       "stormcallers": {
         "name": "Vesti del Chiamatempeste",
-        "bonus2": "Riduce del 50% il ritardo al lancio causato dai danni.",
-        "bonus3": "I danni subiti non ritardano il lancio degli incantesimi."
+        "bonus2": "Non puoi essere respinto (100% di resistenza alla respinta).",
+        "bonus3": "Aumenta l'intelletto di 15 e lo spirito di 15."
       },
       "wyrmshadow": {
         "name": "Tenuta Ombra del Dragone",
@@ -6668,6 +7084,7 @@ export const it_IT: EnTranslations = {
     "dungeonInstanceBusy": "Tutte le istanze di {name} sono occupate. Riprova tra poco.",
     "delveLockedChestInteract": "Premi F per scassinare la serratura",
     "delveRewardChestInteract": "Premi F per reclamare il bottino",
-    "delveSurfaceExitInteract": "Premi F per risalire"
+    "delveSurfaceExitInteract": "Premi F per risalire",
+    "mailboxName": "Mailbox"
   }
 };

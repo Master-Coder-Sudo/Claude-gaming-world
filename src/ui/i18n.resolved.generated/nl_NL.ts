@@ -177,6 +177,52 @@ export const nl_NL: EnTranslations = {
       "title": "Emotes",
       "done": "Klaar"
     },
+    "dailyRewards": {
+      "title": "Dagelijkse beloningen",
+      "close": "Dagelijkse beloningen sluiten",
+      "loading": "Dagelijkse beloningen worden geladen...",
+      "error": "Kon de dagelijkse beloningen niet laden.",
+      "intro": "Houd genoeg WOC in je geverifieerde portemonnee om dagelijkse beloningen te ontgrendelen. Verdien punten met één dagelijkse draai en wisselende taken, en klim daarna op in de dagelijkse ranglijst voor een deel van de prijzenpot.",
+      "prize": "Prijzenpot",
+      "reset": "Reset",
+      "endsIn": "Eindigt over {time}",
+      "remainingLessThanMinute": "<1 min",
+      "remainingMinutes": "{minutes} min",
+      "remainingHoursMinutes": "{hours} u {minutes} min",
+      "score": "Score",
+      "walletValue": "Portemonneewaarde (WOC)",
+      "usd": "{amount} USD",
+      "sol": "{amount} SOL",
+      "unknown": "Onbekend",
+      "spinTitle": "Dagelijkse draai",
+      "spinDialogTitle": "Dagelijkse beloningsdraai",
+      "spinClose": "Dagelijkse draai sluiten",
+      "spinReady": "Eén draai staat klaar.",
+      "spinClaimed": "Geclaimd: +{points} punten.",
+      "spinResult": "+{points} punten",
+      "spinButton": "Draaien",
+      "tasks": "Taken",
+      "taskMultiplier": "x{multiplier} multiplier",
+      "pointsGained": "{points} daily rewards points gained.",
+      "leaderboard": "Dagelijkse ranglijst",
+      "totalPlayer": "{count} player today",
+      "totalPlayers": "{count} players today",
+      "history": "Eerdere winnaars",
+      "noLeaders": "Nog geen punten.",
+      "noHistory": "Nog geen uitbetalingen.",
+      "walletConnectTitle": "Portemonnee verifiëren",
+      "walletConnectBody": "Verifieer een Solana-portemonnee met WOC om dagelijkse beloningen te ontgrendelen.",
+      "walletConnectButton": "Portemonnee verifiëren",
+      "walletHoldTitle": "WOC aanhouden",
+      "walletHoldBody": "Houd minstens {amount} USD aan WOC om dagelijkse beloningen te ontgrendelen.",
+      "walletPriceBody": "WOC-prijzen zijn momenteel niet beschikbaar. Kom binnenkort terug.",
+      "reason": {
+        "eligible": "Beloningen ontgrendeld.",
+        "no_wallet": "Verbind een portemonnee met minstens $20 USD aan WOC.",
+        "under_minimum": "Portemonnee ligt onder het WOC-minimum van $20 USD.",
+        "price_unavailable": "WOC-prijs is niet beschikbaar, beloningen zijn tijdelijk vergrendeld."
+      }
+    },
     "theme": {
       "preset": "UI-thema",
       "customColors": "Aangepaste kleuren",
@@ -265,6 +311,13 @@ export const nl_NL: EnTranslations = {
       "heading": "Richting",
       "minimapZoom": "Minimapzoom"
     },
+    "nativeUpdate": {
+      "title": "Update beschikbaar",
+      "body": "Er is een nieuwe versie van World of ClaudeCraft beschikbaar. Werk nu bij voor de nieuwste oplossingen en verbeteringen.",
+      "bodyWithVersion": "Versie {version} van World of ClaudeCraft is beschikbaar. Werk nu bij voor de nieuwste oplossingen en verbeteringen.",
+      "notNow": "Niet nu",
+      "update": "Bijwerken"
+    },
     "castBar": {
       "playerAria": "Jouw Spreukbalk",
       "targetAria": "Spreukbalk van Doelwit"
@@ -274,11 +327,16 @@ export const nl_NL: EnTranslations = {
       "tabsLabel": "Topscorelijsten",
       "tabPlayers": "Spelers",
       "tabGuilds": "Gildes",
+      "tabDevs": "Ontwikkelaars",
       "guildName": "Gilde",
       "members": "Leden",
       "topLevel": "Top",
       "guildXp": "Totaal XP",
-      "guildEmpty": "Nog geen gerangschikte gildes."
+      "guildEmpty": "Nog geen gerangschikte gildes.",
+      "devName": "Bijdrager",
+      "devTierCol": "Insigne",
+      "mergedPrs": "Samengevoegde PR's",
+      "devEmpty": "Nog geen gerangschikte bijdragers."
     },
     "raidLockout": {
       "title": "Raidvergrendelingen",
@@ -331,9 +389,15 @@ export const nl_NL: EnTranslations = {
       "keybindHelpLockCursorOnRotate": "Houdt de muisaanwijzer binnen het venster terwijl je sleept om de camera te draaien, zodat deze de schermrand niet kan bereiken of naar een ander beeldscherm kan gaan. Schakel uit als je liever een vrije aanwijzer hebt.",
       "showWalletOnCharacterScreen": "Portemonnee tonen op personagescherm",
       "showWalletOnPlayerCard": "Portemonnee tonen op spelerskaart",
+      "showDevBadges": "Ontwikkelaarsinsignes tonen",
+      "showOwnNameplate": "Show My Nameplate",
       "uiScale": "UI-schaal",
+      "playerFrameScale": "Player Frame Scale",
+      "targetFrameScale": "Target Frame Scale",
       "highContrastBackground": "Hoog-contrastachtergrond",
-      "startAttackOnAbility": "Auto-Attack on Ability Use",
+      "startAttackOnAbility": "Auto-aanval bij gebruik van vaardigheid",
+      "walkByAutoloot": "Walk-by Autoloot",
+      "groundReticle": "Grondrichtkruis",
       "showItemLevel": "Itemniveau tonen",
       "itemLevelLine": "Itemniveau {level}",
       "itemScoreLine": "Score {score}",
@@ -430,6 +494,9 @@ export const nl_NL: EnTranslations = {
     },
     "statInfo": {
       "fromYour": "Van je {value} {stat}:",
+      "names": {
+        "spellPower": "Spreukkracht"
+      },
       "desc": {
         "str": "Verhoogt je aanvalskracht, zodat je wapenslagen harder aankomen.",
         "agi": "Scherpt je reflexen en mikken, wat meerdere van je gevechtsstatistieken verbetert.",
@@ -438,6 +505,7 @@ export const nl_NL: EnTranslations = {
         "spi": "Versnelt hoe snel de mana van een spreukenwever terugkeert tijdens het rusten, buiten gevecht.",
         "armor": "Verzacht inkomende fysieke klappen. De vermindering is groter tegen aanvallers van een lager niveau en is gemaximeerd op 75%.",
         "attackPower": "Voedt je wapenaanvallen. Elke 14 aanvalskracht voegt 1 schade per seconde toe.",
+        "spellPower": "Verhoogt de schade van je spreuken en de kracht van je genezingen. Elk punt Intellect verleent een beetje Spreukkracht, bovenop wat je krijgt van uitrusting of buffs.",
         "dps": "Je geschatte wapenschade per seconde, een combinatie van de schade en snelheid van je wapen met je aanvalskracht.",
         "critChance": "Je kans dat een aanval kritiek raakt en dubbele schade aanricht.",
         "dodge": "Je kans om een inkomende slagaanval volledig te ontwijken, zonder schade op te lopen."
@@ -460,6 +528,15 @@ export const nl_NL: EnTranslations = {
         "minorForClass": "Van weinig nut voor jouw klasse.",
         "baseChance": "Bevat een basiskans van 5% die door alle avonturiers gedeeld wordt.",
         "dpsApprox": "Een schatting, het sluit kritieke treffers en vaardigheidsschade uit."
+      },
+      "sources": {
+        "header": "Opgebouwd uit:",
+        "base": "Basis: {value}",
+        "attributes": "Van je attributen: {value}",
+        "fromAttribute": "Van {stat}: {value}",
+        "gear": "Uitgeruste uitrusting: {value}",
+        "buff": "{name}: {value}",
+        "talents": "Talenten en effecten: {value}"
       }
     },
     "talents": {
@@ -485,7 +562,7 @@ export const nl_NL: EnTranslations = {
       "linkTitle": "Shift-klik om deze queeste in de chat te koppelen."
     },
     "itemShare": {
-      "linkHint": "Shift-click to link this item in chat."
+      "linkHint": "Shift-klik om dit voorwerp in de chat te delen."
     },
     "plurals": {
       "guildMembers": {
@@ -513,10 +590,10 @@ export const nl_NL: EnTranslations = {
         "other": "Wie: {count} spelers online op {realm}."
       },
       "playersMatching": {
-        "one": "Who: {count} player matching \"{query}\" on {realm}.",
-        "few": "Who: {count} players matching \"{query}\" on {realm}.",
-        "many": "Who: {count} players matching \"{query}\" on {realm}.",
-        "other": "Who: {count} players matching \"{query}\" on {realm}."
+        "one": "Wie: {count} speler die overeenkomt met \"{query}\" op {realm}.",
+        "few": "Wie: {count} spelers die overeenkomen met \"{query}\" op {realm}.",
+        "many": "Wie: {count} spelers die overeenkomen met \"{query}\" op {realm}.",
+        "other": "Wie: {count} spelers die overeenkomen met \"{query}\" op {realm}."
       }
     },
     "bugReport": {
@@ -635,11 +712,27 @@ export const nl_NL: EnTranslations = {
       "methodGroup": "Buitmethode ingesteld op groepsbuit.",
       "assigned": "{looter} heeft {item} toegewezen aan {target}.",
       "unassigned": "{item} is niet toegewezen en is vrij voor iedereen.",
-      "leaderOnly": "Alleen de groepsleider kan de buitmethode wijzigen."
+      "leaderOnly": "Alleen de groepsleider kan de buitmethode wijzigen.",
+      "rollingFor": "Werpen om {item}.",
+      "looterChanged": "Buitmeester is nu {name}.",
+      "thresholdSet": "Buitdrempel ingesteld op {threshold}.",
+      "summaryMaster": "Buitinstellingen: Buitmeester-buit, Buitmeester {name}, drempel {threshold}.",
+      "summaryGroup": "Buitinstellingen: Groepsbuit."
     },
     "party": {
-      "promoteLeader": "Promote to Leader",
+      "promoteLeader": "Bevorderen tot leider",
       "inviteUsage": "Invite whom? Usage: /invite <name>."
+    },
+    "lootSettings": {
+      "title": "Buitinstellingen",
+      "close": "Buitinstellingen sluiten",
+      "menuItem": "Buitinstellingen",
+      "method": "Buitmethode",
+      "rollThreshold": "Worpdrempel",
+      "groupLoot": "Groepsbuit",
+      "valueMaster": "Buitmeester-buit",
+      "leaderOption": "Buitmeester: Leider (jij)",
+      "masterOption": "Buitmeester: {name}"
     },
     "bags": {
       "filterGroupAria": "Tassen filteren op categorie",
@@ -737,6 +830,9 @@ export const nl_NL: EnTranslations = {
         "nature": "Natuur"
       }
     },
+    "worldBoss": {
+      "spawn": "{name} rises over Thornpeak Heights!"
+    },
     "loot": {
       "chestTitle": "Kist"
     },
@@ -747,6 +843,26 @@ export const nl_NL: EnTranslations = {
     "nameplate": {
       "mob": "[{level}] {name}",
       "mobElite": "[{level}+] {name}"
+    },
+    "mobTooltip": {
+      "levelFamily": "Level {level} {family}",
+      "familyDemon": "Demon",
+      "hostile": "Hostile",
+      "friendly": "Friendly"
+    },
+    "targetFrame": {
+      "unlock": "Move target frame",
+      "lock": "Lock target frame"
+    },
+    "playerFrame": {
+      "unlock": "Move player frame",
+      "lock": "Lock player frame"
+    },
+    "frameReset": {
+      "label": "Reset Frame Positions"
+    },
+    "itemTooltip": {
+      "requiresLevel": "Vereist niveau {level}"
     },
     "discord": {
       "title": "Discord",
@@ -826,6 +942,7 @@ export const nl_NL: EnTranslations = {
       "memberSinceDays": "{days}d in de Discord",
       "roleTag": {
         "levyst": "Levy St",
+        "admin": "Admin",
         "devs": "Dev",
         "mods": "Mod",
         "artists": "Artiest"
@@ -888,6 +1005,140 @@ export const nl_NL: EnTranslations = {
         "help": {
           "label": "Hulp nodig",
           "hint": "Vraag de gemeenschap om hulp"
+        }
+      }
+    },
+    "devBadge": {
+      "title": "Ontwikkelaar",
+      "tiers": {
+        "tinkerer": "Knutselaar",
+        "artificer": "Vervaardiger",
+        "runesmith": "Runensmid",
+        "architect": "Architect",
+        "worldwright": "Wereldbouwer"
+      },
+      "flavors": {
+        "tinkerer": "Je eerste pull request landde in het rijk.",
+        "artificer": "Vijf pull requests verder, en de wereld buigt naar je code.",
+        "runesmith": "Vijftien pull requests gesmeed in het draaiende spel.",
+        "architect": "Een architect van het rijk: 30 pull requests samengevoegd.",
+        "worldwright": "Een bouwer van werelden: 70 pull requests vormen het spel."
+      },
+      "badgeTitle": "Ontwikkelaar: {tier}",
+      "prsLanded": "{count} pull requests samengevoegd",
+      "contributor": "Opensource-bijdrager",
+      "link": {
+        "cta": "GitHub koppelen",
+        "relink": "GitHub opnieuw koppelen",
+        "benefits": "Koppel je GitHub om een ontwikkelaarsinsigne te verdienen voor de pull requests die je hebt laten samenvoegen in de opensource-repo.",
+        "error": "Kon GitHub niet koppelen. Probeer het opnieuw."
+      },
+      "linkedAs": "Gekoppeld als {login}",
+      "unlink": "GitHub ontkoppelen"
+    },
+    "mailbox": {
+      "title": "Mailbox",
+      "subtitle": "The Ravenpost",
+      "close": "Close mailbox",
+      "tabInbox": "Inbox",
+      "tabInboxWithCount": "Inbox ({count})",
+      "tabSend": "Send",
+      "empty": "Your mailbox is empty.",
+      "truncated": "Showing the newest {shown} of {total} letters.",
+      "attachmentsBadge": "Parcel attached",
+      "unreadBadge": "Unread",
+      "back": "Back",
+      "take": "Take attachments",
+      "delete": "Delete letter",
+      "deleteAria": "Delete the letter {subject}",
+      "openAria": "Read the letter {subject} from {name}",
+      "noSubject": "(no subject)",
+      "toLabel": "To",
+      "toPlaceholder": "Character name",
+      "subjectLabel": "Subject",
+      "bodyLabel": "Message",
+      "coinLabel": "Attach coin",
+      "parcelsLabel": "Parcels",
+      "parcelsHint": "Click an item in your bags to attach it.",
+      "removeParcelAria": "Remove {item} from the letter",
+      "sendButton": "Send letter",
+      "postageNote": "Postage: {amount}. The raven flies for about {seconds}s.",
+      "arrivedBanner": "The raven has landed: mail from {name}.",
+      "arrivedLog": "You have new mail from {name}.",
+      "indicatorAria": "Unread mail: {count}",
+      "indicatorTip": "You have {count} unread letters. Visit a mailbox to read them.",
+      "clickAttach": "Click to attach to your letter.",
+      "cannotMail": "This cannot be mailed.",
+      "result": {
+        "sent": "A raven takes wing with your letter to {name} ({postage} postage).",
+        "collected": "You collect {amount} from the letter.",
+        "tooFar": "You must be at a mailbox to tend your post.",
+        "needRecipient": "Name a recipient for your letter.",
+        "noRecipient": "No one by that name holds a mailbox here.",
+        "tooManyParcels": "A letter carries at most {count} parcels.",
+        "noMailQuestItems": "You cannot mail quest items.",
+        "notEnoughItems": "You do not have that many to send.",
+        "cantAffordPostage": "You cannot afford the postage.",
+        "recipientBoxFull": "Their mailbox is full.",
+        "letterGone": "That letter is no longer in your box.",
+        "takeParcelsFirst": "Take the parcels out before discarding the letter."
+      }
+    },
+    "calendar": {
+      "title": "Event Calendar",
+      "close": "Close calendar",
+      "keybindLabel": "Event Calendar",
+      "prevMonth": "Previous month",
+      "nextMonth": "Next month",
+      "dayAria": "{date}: {count} events",
+      "noEvents": "Nothing planned for this day.",
+      "allDay": "All day",
+      "bookedBy": "Booked by {name}",
+      "deleteAria": "Remove the event {title}",
+      "bookTitle": "Book a guild event",
+      "titlePlaceholder": "Event title",
+      "notePlaceholder": "Note (optional)",
+      "hourLabel": "Hour (UTC)",
+      "hourAllDay": "All day",
+      "addButton": "Book event",
+      "guildOnlyNote": "Join a guild to plan events together.",
+      "result": {
+        "created": "The event is on the guild calendar.",
+        "removed": "The event was taken off the calendar.",
+        "notInGuild": "You are not in a guild.",
+        "notOfficer": "Only officers and the Guild Master may manage guild events.",
+        "badInput": "Give the event a title and a valid day.",
+        "calendarFull": "The guild calendar is full.",
+        "eventGone": "That event is no longer on the calendar."
+      },
+      "events": {
+        "raidCall": {
+          "title": "Raid Call",
+          "note": "Wardens sound the horn: gather a party for the crypts and the raid."
+        },
+        "marketDay": {
+          "title": "Market Day",
+          "note": "The Merchant expects fresh stock. A fine day to browse the World Market."
+        },
+        "fiestaNight": {
+          "title": "Fiesta Night",
+          "note": "The 2v2 Fiesta ring draws its loudest crowds tonight."
+        },
+        "arenaClash": {
+          "title": "Arena Clash",
+          "note": "Duelists flock to the Ashen Coliseum. Queue up and climb the ladder."
+        },
+        "fishingDerby": {
+          "title": "Fishing Derby",
+          "note": "Anglers line the lakes. Bring a pole and swap fishing tales."
+        },
+        "delveDay": {
+          "title": "Delve Day",
+          "note": "Brother Halven marks his charts: a fine day to brave the Collapsed Reliquary."
+        },
+        "moongateCommunion": {
+          "title": "Moongate Communion",
+          "note": "Pilgrims gather at the temple moongate under the mid-month moon."
         }
       }
     }
@@ -1838,6 +2089,9 @@ export const nl_NL: EnTranslations = {
     "password": "Wachtwoord",
     "passwordError": "Voer je wachtwoord in.",
     "passwordPlaceholder": "Wachtwoord invoeren",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "emailError": "Please enter a valid email address.",
     "showPassword": "Wachtwoord tonen",
     "hidePassword": "Wachtwoord verbergen",
     "logIn": "Inloggen",
@@ -1863,7 +2117,15 @@ export const nl_NL: EnTranslations = {
     "create": "Aanmaken",
     "twoFactorLabel": "Authenticatiecode",
     "twoFactorPlaceholder": "6-cijferige of herstelcode",
-    "twoFactorHint": "Voer de code uit je authenticator-app in, of een van je herstelcodes."
+    "twoFactorHint": "Voer de code uit je authenticator-app in, of een van je herstelcodes.",
+    "recovery": {
+      "title": "Add a recovery email",
+      "body": "Set an email address so you can recover your account. We only use it to confirm you own this account if you ever need to reset your password.",
+      "save": "Save email",
+      "logOut": "Log out",
+      "invalid": "Please enter a valid email address.",
+      "failed": "Could not save your email. Please try again."
+    }
   },
   "wallet": {
     "label": "$WOC-portemonnee",
@@ -1917,6 +2179,7 @@ export const nl_NL: EnTranslations = {
     "helpLinkedWithBalance": "Houdervoordelen zijn actief. Portemonnee-app verbonden in deze browser.",
     "helpLinkedDisconnected": "Houdervoordelen zijn actief. Verbind de app wanneer je moet ondertekenen of uitgeven.",
     "helpLinkedDisconnectedWithBalance": "Houdervoordelen zijn actief. Verbind de app wanneer je moet ondertekenen of uitgeven.",
+    "extensionHelp": "To see a wallet here, keep a browser wallet extension such as Solflare Wallet active.",
     "flowConnect": "Kies een portemonnee. De verificatie gaat automatisch verder.",
     "flowSign": "Onderteken het verificatiebericht in je portemonnee-app. Geen transactie of SOL vereist.",
     "flowVerify": "Eigendom van portemonnee verifiëren...",
@@ -2561,6 +2824,7 @@ export const nl_NL: EnTranslations = {
       "usernameTaken": "Die gebruikersnaam is al in gebruik.",
       "invalidCredentials": "Ongeldige gebruikersnaam of wachtwoord.",
       "verificationFailed": "Verificatie mislukt. Probeer het opnieuw.",
+      "desktopCodeInvalid": "Desktop-inlogcode is ongeldig of verlopen. Probeer het opnieuw.",
       "invalidCharacterName": "Ongeldige personagenaam. Gebruik 2-16 letters.",
       "characterNameNotAllowed": "Die personagenaam is niet toegestaan.",
       "invalidClass": "Ongeldige klasse.",
@@ -2577,6 +2841,21 @@ export const nl_NL: EnTranslations = {
       "takenOver": "Je personage is overgenomen door een andere sessie.",
       "renameBeforeEntering": "Dit personage moet hernoemd worden voordat het de wereld kan betreden.",
       "renameNotPermitted": "Dit personage hernoemen is niet toegestaan."
+    }
+  },
+  "desktop": {
+    "update": {
+      "downloading": "Update {version} wordt gedownload...",
+      "ready": "Update {version} is klaar. Deze wordt geïnstalleerd wanneer je afsluit, of herstart nu.",
+      "restart": "Nu herstarten",
+      "later": "Later"
+    },
+    "crash": {
+      "title": "World of ClaudeCraft",
+      "body": "De spelweergave werkt niet meer. Opnieuw laden?",
+      "reload": "Opnieuw laden",
+      "quit": "Afsluiten",
+      "fatalBody": "World of ClaudeCraft is op een onverwachte fout gestuit en moet worden afgesloten."
     }
   },
   "realm": {
@@ -3335,13 +3614,16 @@ export const nl_NL: EnTranslations = {
     },
     "cast": {
       "fishing": "Vissen",
-      "demonHeal": "Demonengenezing"
+      "demonHeal": "Demonengenezing",
+      "thunzharrStormcall": "Stormroep"
     }
   },
   "questUi": {
     "tracker": {
       "title": "Quests",
-      "complete": "Voltooid"
+      "complete": "Voltooid",
+      "showOnMap": "Show {name} on the map",
+      "hideFromMap": "Hide {name} from the map"
     },
     "log": {
       "title": "Questlogboek",
@@ -3627,6 +3909,26 @@ export const nl_NL: EnTranslations = {
   },
   "entities": {
     "abilities": {
+      "flamestrike": {
+        "name": "Vlammenslag",
+        "description": "Roept een vuurexplosie op in het doelgebied die vijanden in de explosie {damage} Vuurschade toebrengt."
+      },
+      "rain_of_fire": {
+        "name": "Vuurregen",
+        "description": "Laat een vuurregen neerdalen op het doelgebied en verbrandt vijanden voor {damage} Vuurschade."
+      },
+      "volley": {
+        "name": "Pijlenregen",
+        "description": "Laat een pijlenregen neerdalen op het doelgebied en richt {damage} schade aan bij vijanden erin."
+      },
+      "hurricane": {
+        "name": "Orkaan",
+        "description": "Ontketent een orkaan boven het doelgebied en treft vijanden voor {damage} Natuurschade."
+      },
+      "earthquake": {
+        "name": "Aardbeving",
+        "description": "Laat het doelgebied beven, treft vijanden voor {damage} Natuurschade."
+      },
       "heroic_strike": {
         "name": "Heroïsche Slag",
         "description": "Een sterke aanval die de slagschade met {damage} verhoogt. Activeert bij je volgende slag."
@@ -4768,6 +5070,33 @@ export const nl_NL: EnTranslations = {
       "monarch_crown_helm": {
         "name": "Monarchenkroon"
       },
+      "copper_mining_pick": {
+        "name": "Koperen Mijnpik"
+      },
+      "iron_mining_pick": {
+        "name": "IJzeren Mijnpik"
+      },
+      "mithril_mining_pick": {
+        "name": "Mithril Mijnpik"
+      },
+      "handaxe": {
+        "name": "Handbijl"
+      },
+      "felling_axe": {
+        "name": "Velbijl"
+      },
+      "ironbark_axe": {
+        "name": "IJzerschors Bijl"
+      },
+      "gathering_sickle": {
+        "name": "Oogstsikkel"
+      },
+      "bronze_sickle": {
+        "name": "Bronzen Sikkel"
+      },
+      "silverleaf_sickle": {
+        "name": "Zilverbladsikkel"
+      },
       "bristleback_maul": {
         "name": "Borstelrug-Strijdhamer"
       },
@@ -5250,6 +5579,30 @@ export const nl_NL: EnTranslations = {
       },
       "vanguard_chrome_armor_plate": {
         "name": "Voorhoede-Chroom"
+      },
+      "crownforged_gauntlets": {
+        "name": "Kroongesmede Handschoenen"
+      },
+      "nighttalon_grips": {
+        "name": "Nachtklauw-Grepen"
+      },
+      "soulflame_gloves": {
+        "name": "Zielsvlam-Handschoenen"
+      },
+      "stormcallers_handguards": {
+        "name": "Handbeschermers van de Stormroeper"
+      },
+      "crownforged_girdle": {
+        "name": "Kroongesmede Gordel"
+      },
+      "nighttalon_waistband": {
+        "name": "Nachtklauw-Lendenband"
+      },
+      "soulflame_cord": {
+        "name": "Zielsvlam-Koord"
+      },
+      "stormcallers_waistguard": {
+        "name": "Lendenbescherming van de Stormroeper"
       }
     },
     "mobs": {
@@ -5441,6 +5794,12 @@ export const nl_NL: EnTranslations = {
       },
       "acolyte_tessa": {
         "name": "Acoliet Tessa"
+      },
+      "thunzharr_waking_peak": {
+        "name": "Thunzharr, the Waking Peak"
+      },
+      "thunzharr_stormling": {
+        "name": "Roused Stormling"
       },
       "ironvein_foreman": {
         "name": "IJzerader-Voorman"
@@ -5646,6 +6005,11 @@ export const nl_NL: EnTranslations = {
         "name": "Verhalenmeester Caddis",
         "title": "Verhalenmeester",
         "greeting": "Pas op voor de losse leisteen, {className}. De berg is... rusteloos geweest de laatste tijd. Ik ben van plan uit te zoeken waarom."
+      },
+      "auctioneer_voss": {
+        "name": "Veilingmeester Voss",
+        "title": "Hoeder van de Wereldmarkt",
+        "greeting": "De Wereldmarkt is hier ook geopend, {className}. Koop van elke avonturier in het rijk, of stal je eigen waren uit."
       },
       "brother_aldric_raid": {
         "name": "Broeder Aldric",
@@ -6096,6 +6460,36 @@ export const nl_NL: EnTranslations = {
         "objectives": {
           "0": {
             "label": "Richelstruiner-Huid"
+          }
+        }
+      },
+      "q_stalkers_return": {
+        "title": "The Stalkers Return",
+        "text": "Twelve dead, and the ridge crawls thicker than the day you started, {playerName}. Beasts do not throw themselves at a wall out of hunger. Something on the high ridge is pushing them down, and until I know what, the culling does not stop. Fourteen more.",
+        "completion": "Fourteen more, and still my patrols count fresh tracks by morning. My scout came back from the high ridge white as the snowline: prints the size of a shield, she says, and old kills no stalker would leave. Whatever walks up there is no ordinary cat.",
+        "objectives": {
+          "0": {
+            "label": "Ridge Stalker slain"
+          }
+        }
+      },
+      "q_stalker_cloaks": {
+        "title": "Cloaks for the Watch",
+        "text": "Eight pelts lined the officers' cloaks, and now every soldier on the wall wants the same, {playerName}. They are right to want it: winter takes fingers first and apologies never. Ten more pelts from the ridges south of the gate, and the whole watch sleeps warm.",
+        "completion": "Ten good pelts, thick as any I have... no, look at these, {playerName}. Torn, half of them, and by no blade or spear. Claw marks wide as my hand, right through the winter coat. Something on that ridge is savaging its own kind.",
+        "objectives": {
+          "0": {
+            "label": "Ridge Stalker Pelt"
+          }
+        }
+      },
+      "q_old_cragmaw": {
+        "title": "Old Cragmaw",
+        "text": "The mountain folk put a name to the prints my scout found: Old Cragmaw, a scar-pelted tyrant of a cat that has outlived three generations of its own pack. It is the reason the stalkers flood my road, {playerName}. Its den sits on the western ridge above the road south. Bring a friend, and put the old devil down.",
+        "completion": "Down at last. The mountain folk swore that cat would outlive the wall itself. The stalkers will keep to their high snows now, {playerName}, and my patrols will walk the road without bleeding for it. The whole ridge is quieter for your work.",
+        "objectives": {
+          "0": {
+            "label": "Old Cragmaw slain"
           }
         }
       },
@@ -6623,6 +7017,28 @@ export const nl_NL: EnTranslations = {
         "leaveText": "Je klimt terug omhoog naar Broeder Halven bij de reliekschrijnruïne."
       }
     },
+    "letters": {
+      "ravenpost_welcome": {
+        "sender": "De Ravenpost",
+        "subject": "De raven vliegen nu voor jou",
+        "body": "Reiziger,\n\nde Ravenpost heeft haar roestplaatsen door de hele vallei geopend. Zoek de ravenzuilen in Eastbrook, Fenbridge en Highwatch: vanaf elke zuil kun je brieven, munten en goederen naar andere avonturiers sturen en ophalen wat de raven je brengen.\n\nBijgesloten een kleine attentie voor je eerste postzegel.\n\nVleugels omhoog,\nDe Ravenpost"
+      },
+      "letter_q_wolves": {
+        "sender": "Maarschalk Redbrook",
+        "subject": "De kralen zijn weer rustig",
+        "body": "De herders kunnen eindelijk weer met beide ogen dicht slapen, en dat is jouw verdienste. Ik heb de Ravenpost gevraagd je een kleinigheid uit de wachtkas te bezorgen.\n\nHoud je kling geolied.\n- Maarschalk Redbrook"
+      },
+      "letter_q_greyjaw": {
+        "sender": "Maarschalk Redbrook",
+        "subject": "Oude Grauwkaak, eindelijk",
+        "body": "Nieuws reist snel in zo’n klein stadje. De herders dronken gisteravond op je gezondheid, en Wilkes zweert dat de wolf zo groot was als een kar. Laat ze maar aandikken: je hebt het verdiend.\n\nEet een maaltijd op kosten van de wacht.\n- Maarschalk Redbrook"
+      },
+      "letter_q_hollow": {
+        "sender": "Broeder Aldric",
+        "subject": "Wat je in het donker hebt gedaan",
+        "body": "Weinigen zullen ooit weten wat er in die kom begraven lag, en nog minder zouden het geloven. Ik weet het, en ik zal het niet vergeten.\n\nMoge je pad verlicht blijven.\n- Broeder Aldric"
+      }
+    },
     "itemSets": {
       "crownforged": {
         "name": "Kroongesmede gevechtsuitrusting",
@@ -6636,8 +7052,8 @@ export const nl_NL: EnTranslations = {
       },
       "necromancers": {
         "name": "Gewaden van de necromant",
-        "bonus2": "Vermindert terugslag bij spreuken door schade met 50%.",
-        "bonus3": "Opgelopen schade vertraagt je spreuken niet."
+        "bonus2": "Je kunt niet worden teruggeslagen (100% terugslagweerstand).",
+        "bonus3": "Verhoogt intellect met 10 en uithoudingsvermogen met 10."
       },
       "nighttalon": {
         "name": "Nachtklauw leren uitrusting",
@@ -6646,13 +7062,13 @@ export const nl_NL: EnTranslations = {
       },
       "soulflame": {
         "name": "Zielenvlamgewaden",
-        "bonus2": "Vermindert terugslag bij spreuken door schade met 50%.",
-        "bonus3": "Opgelopen schade vertraagt je spreuken niet."
+        "bonus2": "Je kunt niet worden teruggeslagen (100% terugslagweerstand).",
+        "bonus3": "Verhoogt intellect met 15 en geest met 15."
       },
       "stormcallers": {
         "name": "Gewaden van de Stormroeper",
-        "bonus2": "Vermindert terugslag bij spreuken door schade met 50%.",
-        "bonus3": "Opgelopen schade vertraagt je spreuken niet."
+        "bonus2": "Je kunt niet worden teruggeslagen (100% terugslagweerstand).",
+        "bonus3": "Verhoogt intellect met 15 en geest met 15."
       },
       "wyrmshadow": {
         "name": "Wurmschaduw-uitrusting",
@@ -6668,6 +7084,7 @@ export const nl_NL: EnTranslations = {
     "dungeonInstanceBusy": "Alle instanties van {name} zijn bezet. Probeer het zo weer.",
     "delveLockedChestInteract": "Druk op F om het slot te kraken",
     "delveRewardChestInteract": "Druk op F om de buit op te eisen",
-    "delveSurfaceExitInteract": "Druk op F om te klimmen"
+    "delveSurfaceExitInteract": "Druk op F om te klimmen",
+    "mailboxName": "Mailbox"
   }
 };

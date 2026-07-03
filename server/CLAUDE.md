@@ -17,6 +17,7 @@ Postgres and serves the built client from `dist/`.
 | `social.ts`/`social_db.ts` | friends/guilds/blocks/presence, logic / SQL |
 | `admin.ts`/`admin_db.ts`, `moderation_db.ts` | admin API + dashboard reads / moderation writes |
 | `chat_filter.ts`/`chat_filter_db.ts` | host-agnostic profanity/slur filter (soft cosmetic + hard server-enforced tiers) / admin word-list SQL |
+| `housekeeping.ts`/`housekeeping_api.ts`/`housekeeping_db.ts` | game-config override layer (the admin Housekeeping section): boot-time apply + admin catalogs (DB-free logic) / `/admin/api/housekeeping/*` wiring / per-realm JSONB SQL. Overrides validate + apply via `src/sim/game_config.ts` BEFORE `new GameServer()` in `main()`; saved edits take effect on the next restart |
 | `bot_detector/contract.ts` / `stub.ts` | `BotDetector` seam (`#bot-detector`): the contract interface / the no-op stub used when the private clone is absent |
 | `turnstile.ts`, `web_login_guard.ts` | Cloudflare Turnstile siteverify / auth-endpoint Origin guard (anti-bot) |
 | `realm.ts` | `REALM`, `REALM_DIRECTORY`, `REALM_ORIGINS` from `REALM_NAME`/`REALMS` env |
@@ -47,7 +48,7 @@ Postgres and serves the built client from `dist/`.
 - Character level + full state (gear/bags/quests/position/money/talents/arena/lifetimeXp)
   stored as **JSONB** in `characters.state`; `serializeCharacter` converts to and from the `Sim`.
 - Save cadence: autosave every **30 s** (`AUTOSAVE_SECONDS`), on `leave`, and on
-  `SIGINT`/`SIGTERM` shutdown (`saveAll`). World Market is one global JSONB row (`world_state` key `'market'`).
+  `SIGINT`/`SIGTERM` shutdown (`saveAll`). World Market is a per-realm JSONB row (`world_state` key `market:<realm>`), realm-scoped like everything else; a pre-scoping bare `'market'` row is migrated into the realm key on first boot.
 - **Character names are globally `UNIQUE`** (catch `23505`, return 409 "name taken").
 - Leaderboards (`topLifetimeXp`, `topArenaRatings`) sort on JSONB expressions and
   are read through the **in-memory cache in main.ts**, never per-request under load.
