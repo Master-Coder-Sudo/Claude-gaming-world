@@ -78,8 +78,10 @@ composite tee shape end to end), and a NEW guard tests/server/http/logger_call_h
 Conscious keeps: Logger.child() + health.isLive() are spec-mandated; the no-store constant dup
 stands. CARRIED-FORWARD WARNING: Phase 24 MUST land the /metrics exposure gate BEFORE
 API_DISPATCH=new reaches production (unauthenticated route-template + process/runtime
-disclosure today, by phase design); the optional redactor email value-pattern rides the same P24
-privacy batch. Validation after fixes: tsc 0, ci:changed clean, npm run gate PASS all 9 steps
+disclosure today, by phase design); the redactor email value-pattern rides the same P24
+privacy batch, upgraded from optional to strongly recommended by the v0.20.0 merge (signup
+email is now MANDATORY, so raw email values flow on every register body, the set-initial
+body, and the Discord capture path). Validation after fixes: tsc 0, ci:changed clean, npm run gate PASS all 9 steps
 (731 files / 8269 tests). NEXT: Phase 24 (phase-24-config-timeouts.md).
 
 Phase 22 (REST i18n matcher + per-surface code-parity guard + the coded-emission pass) DONE
@@ -205,7 +207,8 @@ The single home is `server/http/types.ts` (TYPE-ONLY, zero runtime emit). Verbat
 - No heavy web framework. Zero new runtime dependencies; the ONE weighed exception is
   `prom-client`, and ONLY when the `/metrics` exporter lands (Phase 23).
 - All `file:line` anchors in the source SPEC (`docs/api-pipeline/source-spec.md`) are STALE
-  (main.ts ~1695 lines). Re-anchor on SYMBOL NAMES and route strings, never line numbers.
+  (main.ts ~2080 lines as of the v0.20.0 merge). Re-anchor on SYMBOL NAMES and route
+  strings, never line numbers.
 
 ### Target architecture
 - Domain-agnostic spine under `server/http/`: `router.ts`, `compose.ts`, `context.ts`,
@@ -540,7 +543,7 @@ the X-ms constant; X is TBD, see open items.)
   but does NOT do a per-object 403 denial - the admin operator has universal authority, so
   requireAdmin's 401 is the operator gate and the handlers keep their own legacy 404 (parity-first;
   the doc's "denial 403" is the seam for a future finer sub-scope, not a current behavior).
-- **P13 (account):** `/api/account/*` family (password/logout/email(+change/verify)/
+- **P13 (account, +v0.20.0):** `/api/account/*` family (password/logout/email(+change/verify/set-initial, set-initial added at the v0.20.0 merge)/
   deactivate/export/marketing/2fa(setup/enable/disable)/companion-token); `email/verify` +
   `email-unsubscribe` classified PROBLEM_JSON (both answer application/json; Phase 3 QA
   corrected an initial HTML misclassification).
@@ -576,6 +579,25 @@ the X-ms constant; X is TBD, see open items.)
   for flag-off rollback. Corpus rows for all 12 are FILED (daily-rewards six at the
   2026-07-02 drift audit; the rest at their merges; the create row flipped bearer -> full
   with the scope fix).
+- **v0.20.0 merge (c916d296a, 2026-07-03, migrated inside the merge commit):**
+  `POST /api/account/email/set-initial` (the mandatory-email backfill; account family,
+  activeGuard, shared handleAccountSetInitialEmail on both arms; accountBodyValidationRemap
+  applies); `GET /api/daily-rewards/leaderboard` + `POST /internal/daily-rewards/leaderboard`
+  (paginated leaderboard reads; both families now FOUR routes each, same guards/gates and
+  shared sub-dispatcher cores as their siblings); `GET /admin/api/detection-calibration`
+  (bot-detector calibration histograms; requireAdmin, AdminRuntime pick extended with
+  detectionCalibration). Corpus rows filed at the merge (SURFACE_INVENTORY 120 -> 124,
+  content-type + completeness + mounting sweeps extended, captureBothModes db-free re-pins
+  added for all three authed arrivals; the internal ladder derivation is now 15, the ops
+  family 4, completeness MIGRATED_ROUTES 65 rows). The same merge made signup email MANDATORY
+  (register 400s a missing/invalid email with the existing email.invalid code; register and
+  login answer emailMissing; both arms mirrored), and added the WS-side global inbound
+  message limiter `server/msg_rate_limit.ts` (a per-connection token bucket in
+  game.ts handleMessage; SEPARATE from the Phase 19 REST two-tier limiter, a Phase 24
+  tunables-inventory item). The set-initial 409 'use verified email change' bodies stay
+  UNCODED by decision, matching the Phase 22 adjudication of the sibling 410
+  handleAccountSetEmail (flow-control refusals the client handles by flow; a code, e.g.
+  email.already_set, can be appended later without breaking the prose fallback).
 
 ## New DB tables / columns per phase
 - **P16:** WIRE `DISCORD_SCHEMA` (5 tables: `discord_links`, `discord_oauth_states`,
@@ -699,7 +721,14 @@ the X-ms constant; X is TBD, see open items.)
 ## OPEN items + known gotchas
 - **Phase 18b LANDED (2026-07-02), unblocking Phase 25's ladder deletion.** All twelve
   release-merge routes (github 4, desktop-login 2, daily-rewards 6) are now router-owned
-  under 'new' AND legacy-served under 'legacy'. The Phase 25 exit criteria must still carve
+  under 'new' AND legacy-served under 'legacy'. The v0.20.0 merge (c916d296a, 2026-07-03)
+  grew that release-merge set to SIXTEEN, all four migrated inside the merge commit itself:
+  POST /api/account/email/set-initial (account family, activeGuard),
+  GET /api/daily-rewards/leaderboard + POST /internal/daily-rewards/leaderboard (the
+  daily-rewards families are now 4 player + 4 ops), and GET /admin/api/detection-calibration
+  (the admin ladder is now 33 branches / 19 GET reads). Each is router-owned AND
+  legacy-served with corpus rows, mounting-sweep coverage, and captureBothModes re-pins
+  filed at the merge. The Phase 25 exit criteria must still carve
   out the deliberately delegate-served shapes (the oauthInternalOffTable405 set +
   HEAD-to-GET + the 18b remainder: the daily-rewards prefix-arm oddities [wrong method,
   unknown subpath, the no-slash sibling], the github callback's non-GET arm [only GET is
@@ -748,8 +777,9 @@ the X-ms constant; X is TBD, see open items.)
   rather than becoming a 500. The migration phase MUST keep the per-request onion the sole failure
   channel: the throw-capable work belongs inside `runOnion` (already the case for the handler and
   route middleware), not in the synchronous pre-onion prefix.
-- **Stale anchors.** Every main.ts/db.ts line anchor in the SPEC is stale (main.ts ~1695
-  lines). Re-anchor on symbol names and route strings, never line numbers. Phase 03 does the
+- **Stale anchors.** Every main.ts/db.ts line anchor in the SPEC is stale (main.ts ~2080
+  lines as of the v0.20.0 merge). Re-anchor on symbol names and route strings, never line
+  numbers. Phase 03 does the
   re-inventory + a route-count freshness gate; the market/em-dash fixes anchor on function
   names and the literal strings.
 - **Non-JSON `/api` classification.** A blanket 415 + JSON-only `withBody` + blanket

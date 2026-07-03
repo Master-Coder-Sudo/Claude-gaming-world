@@ -851,7 +851,8 @@ export async function handleDailyRewardInternalApi(
 // mark-payout SELF-READS via the core's un-caught readBody (the
 // dailyRewardsOpsBodyValidationRemap deviation). Off-table shapes (wrong
 // method, unknown subpath, the no-slash '/api/daily-rewardsX' sibling, HEAD)
-// resolve unmatched and delegate to the ladder unchanged.
+// resolve unmatched and delegate to the ladder unchanged. v0.20.0 grew each
+// family by its paginated leaderboard read (four player + four ops routes).
 //
 // The player guard is the shared legacy-body createActiveGuard (mirrors the
 // prefix arm's bearerActiveAccount byte-for-byte). The ops gate is the
@@ -862,7 +863,7 @@ export async function handleDailyRewardInternalApi(
 // internalAuthorized check (same env + header, per request), which passes
 // whenever the gate passed; keeping the core's check intact is what keeps the
 // composite delegate's legacy behavior frozen. NO rate limiter on any of the
-// six (legacy has none; the spin throttle decision is handed to Phase 19).
+// eight (legacy has none; the spin throttle decision is handed to Phase 19).
 // dailyRewardService stays module-owned and importable by game.ts regardless of
 // route-table state; no boot injection is needed.
 
@@ -896,7 +897,7 @@ export function resetDailyRewardDbForTests(): void {
 /** Full active session gate (mirrors the prefix arm's bearerActiveAccount). */
 const activeGuard = createActiveGuard(() => dailyRewardGuardDb());
 
-/** The fail-closed payout-service gate, one instance shared by the ops trio. */
+/** The fail-closed payout-service gate, one instance shared by the four ops routes. */
 const dailyRewardOpsGate = requireInternalSecretFailClosed({
   header: DAILY_REWARD_SECRET_HEADER,
   envVar: DAILY_REWARD_SECRET_ENV,

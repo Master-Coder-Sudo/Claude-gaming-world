@@ -1,21 +1,22 @@
 // Unit coverage for the Phase 18b daily-rewards route layer (server/daily_rewards.ts).
 //
 // Phase 18b lifted BOTH daily-rewards families off their legacy ladders onto RouteDefs
-// the shared dispatcher serves:
-//   - the PLAYER trio (GET /api/daily-rewards, POST /api/daily-rewards/spin,
-//     GET /api/daily-rewards/history), each gated by the shared legacy-body activeGuard
-//     (createActiveGuard over the lazy guard db), calling handleDailyRewardApi UNCHANGED;
-//   - the OPS trio (POST /internal/daily-rewards/{pending-payouts,payout-history,
-//     mark-payout}), surface 'internal' + meta.envelope 'admin', each gated by the
-//     FAIL-CLOSED requireInternalSecretFailClosed gate (401 on both an unset env secret
-//     AND a mismatch, never a feature-off 404, never a fallback secret), calling
+// the shared dispatcher serves (v0.20.0 grew each family by its paginated leaderboard):
+//   - the PLAYER family (GET /api/daily-rewards, GET /api/daily-rewards/leaderboard,
+//     POST /api/daily-rewards/spin, GET /api/daily-rewards/history), each gated by the
+//     shared legacy-body activeGuard (createActiveGuard over the lazy guard db),
+//     calling handleDailyRewardApi UNCHANGED;
+//   - the OPS family (POST /internal/daily-rewards/{pending-payouts,payout-history,
+//     leaderboard,mark-payout}), surface 'internal' + meta.envelope 'admin', each gated
+//     by the FAIL-CLOSED requireInternalSecretFailClosed gate (401 on both an unset env
+//     secret AND a mismatch, never a feature-off 404, never a fallback secret), calling
 //     handleDailyRewardInternalApi UNCHANGED (the core re-checks the same secret).
 //
 // It is a PARITY-FIRST migration: each thin handler reuses the same sub-dispatcher the
 // ladder serves, so every body, the lenient Number(...)||limit decode, and mark-payout's
 // validation prose are byte-identical. There is NO withBody anywhere (spin reads no body;
 // mark-payout self-reads via the core's un-caught readBody, the
-// dailyRewardsOpsBodyValidationRemap deviation) and NO rate limiter on any of the six
+// dailyRewardsOpsBodyValidationRemap deviation) and NO rate limiter on any of the eight
 // (legacy has none; the spin throttle decision is Phase 19's).
 //
 // This file pins the ROUTE LAYER. The existing tests/daily_rewards.test.ts covers the
@@ -349,7 +350,7 @@ describe('daily-rewards route table', () => {
     ]);
   });
 
-  it('marks the player trio surface api with NO meta.envelope', () => {
+  it('marks the player family surface api with NO meta.envelope', () => {
     for (const [method, path] of PLAYER_PATHS) {
       const r = routeFor(method, path);
       expect(r.surface, path).toBe('api');
@@ -357,7 +358,7 @@ describe('daily-rewards route table', () => {
     }
   });
 
-  it('marks the ops trio surface internal with meta.envelope admin', () => {
+  it('marks the ops family surface internal with meta.envelope admin', () => {
     for (const [method, path] of OPS_PATHS) {
       const r = routeFor(method, path);
       expect(r.surface, path).toBe('internal');
@@ -372,7 +373,7 @@ describe('daily-rewards route table', () => {
     }
   });
 
-  it('shares one activeGuard across the player trio and one gate across the ops trio, distinct from each other', () => {
+  it('shares one activeGuard across the player family and one gate across the ops family, distinct from each other', () => {
     const playerGuards = new Set(PLAYER_PATHS.map(([m, p]) => routeFor(m, p).middleware?.[0]));
     const opsGates = new Set(OPS_PATHS.map(([m, p]) => routeFor(m, p).middleware?.[0]));
     // All three player routes carry the SAME guard instance; all three ops routes the SAME

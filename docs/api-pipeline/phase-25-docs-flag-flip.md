@@ -37,7 +37,7 @@ STEP 0 - PRE-FLIGHT
 
 STEP 1 - LOAD CONTEXT (do NOT read planning docs directly; spawn ONE Explore agent)
 Have the Explore agent read and summarize, anchored on SYMBOL NAMES and route strings (never line
-numbers; main.ts is ~1695 lines):
+numbers; main.ts is ~2080 lines):
 - docs/api-pipeline/state.md and docs/api-pipeline/progress.md (the running ledger: which phases
   landed, the accumulated knownDeviation list, the deferred-items list).
 - docs/api-pipeline/phase-25-docs-flag-flip.md (this file).
@@ -141,7 +141,10 @@ OUT OF SCOPE (do not do these here)
 - DELETING the old ladder. This phase only NAMES the exit criteria; the deletion is a separate
   next-release PR.
 - Migrating, adding, or changing any endpoint (all domains migrated in Phases 10 to 18 plus the
-  Phase 18b late arrivals: github, desktop-login, daily-rewards). The scaffold emits a STUB only.
+  Phase 18b late arrivals: github, desktop-login, daily-rewards, plus the FOUR routes migrated
+  inside the v0.20.0 merge commit c916d296a itself: account email/set-initial, the daily-rewards
+  leaderboard pair, and admin detection-calibration; a provenance sweep should attribute those
+  four to the merge, they have no owning phase). The scaffold emits a STUB only.
   PRECONDITION: Phase 18b MUST have landed before this phase runs; if any route family in server
   source still lacks either a RouteDef or a recorded permanent-delegate decision, STOP (see the
   stopping rules). The `oauthInternalOffTable405` deviation directs THIS phase to decide the off-table
@@ -257,7 +260,9 @@ STOPPING RULES
   literals, not just the four dispatcher files: the daily-rewards family hid behind a startsWith
   prefix in server/daily_rewards.ts once) lacks BOTH a RouteDef and a recorded permanent-delegate
   decision: that family would silently break at the next-release ladder deletion. Phase 18b is the
-  precondition that clears today's known set (github, desktop-login, daily-rewards).
+  precondition that cleared the 2026-07-02 known set (github, desktop-login, daily-rewards); the
+  v0.20.0 merge (c916d296a) then migrated its own four arrivals in the merge commit, so the sweep
+  must still run fresh here, release merges keep growing the set.
 - STOP if a migrated route's parity fixture diffs after the default flip without a documented
   knownDeviation.
 - STOP if any change would alter the WS wire protocol.

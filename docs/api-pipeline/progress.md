@@ -61,6 +61,7 @@ Mark a row's Status as "In progress" or "Done" and fill Started / Completed
 | Phase 22 QA | Done | 2026-07-02 | 2026-07-02 |
 | Phase 23 | Done | 2026-07-02 | 2026-07-03 |
 | Phase 23 QA | Done | 2026-07-03 | 2026-07-03 |
+| v0.20.0 release merge + audit | Done | 2026-07-03 | 2026-07-03 |
 | Phase 24 | Not started |  |  |
 | Phase 24 QA | Not started |  |  |
 | Phase 25 | Not started |  |  |
@@ -1426,6 +1427,36 @@ code-parity not in play; release-malware-audit owns prom-client at release).
   flattening to {message,stack}).
 - Validation after fixes: tsc 0; the 11 touched/adjacent suites green (150 tests incl. the new
   guard); ci:changed clean (pre-existing warnings only); full npm run gate PASS re-run unpiped.
+
+## v0.20.0 release merge (2026-07-03): merge c916d296a + release-merge audit
+
+The FULL v0.20.0 merge (distinct from the earlier client-UI-only slice c582aec7 the Phase 21
+QA note records; this one DOES touch the API surface). Merged release/v0.20.0
+(tip 1e1883d6a) with the router-side reconciliation folded into the merge commit, then ran
+the release-merge-audit skill over it (11 parallel auditors: 8 overlap slices reading the
+merged result against both parents, plus injections / endpoints / planning-docs sweeps).
+Verdict: ZERO blocking; the merge is a verified clean union on every overlap slice.
+
+What the merge brought onto the pipeline, all migrated INSIDE the merge commit (no owning
+phase; provenance = c916d296a): POST /api/account/email/set-initial (mandatory-email
+backfill, activeGuard, shared handler both arms, the release's rateLimited(req) boolean call
+adapted to the Phase 19 .allowed outcome shape), GET /api/daily-rewards/leaderboard +
+POST /internal/daily-rewards/leaderboard (both daily families now four routes each, shared
+sub-dispatcher cores), GET /admin/api/detection-calibration (AdminRuntime pick extended).
+Auth contract change mirrored into auth_routes.ts: register 400s a missing/invalid signup
+email (email.invalid, the existing catalog code) before the username lookup and always
+stores the address; register and login answer emailMissing. Harness deltas:
+SURFACE_INVENTORY 120 -> 124, MIGRATED_ROUTES 65 rows, internal ladder derivation 15 (ops
+4), auth + secret mounting sweeps 9 authed /api routes, content-type rows +4,
+captureBothModes re-pins for the three authed arrivals, admin ladder 33 branches. Also in
+the release: server/msg_rate_limit.ts (WS-side global inbound message token bucket, a Phase
+24 tunables-inventory item, NOT part of the REST limiter), bot-detector calibration
+histograms (contract + stub + the private overlay implementation, which lives outside this
+repo's git), discord_email capture columns, and the world-boss/quest-UI content. Audit
+findings applied: the missing leaderboard parity pins, daily_rewards.ts route-banner counts,
+and the state.md/phase-24/phase-25 premise corrections (route-set 12 -> 16, the WS limiter
+carve-out, main.ts ~2080 lines, the redactor email pattern upgraded to strongly
+recommended).
 
 ## Phase 24: Validated config + server timeouts + no-magic-values consolidation
 

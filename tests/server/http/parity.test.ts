@@ -1021,8 +1021,12 @@ describe('/api + /internal Phase 18b late-arrival dispatch parity (legacy flag v
     { method: 'DELETE', url: '/api/github' },
     { method: 'POST', url: '/api/desktop-login/create', body: {} },
     { method: 'GET', url: '/api/daily-rewards' },
+    { method: 'GET', url: '/api/daily-rewards/leaderboard' },
     { method: 'POST', url: '/api/daily-rewards/spin', body: {} },
     { method: 'GET', url: '/api/daily-rewards/history' },
+    // The v0.20.0 account arrival rides the same masked family (the
+    // accountBodyValidationRemap deviation), so its db-free 401 is re-pinned here.
+    { method: 'POST', url: '/api/account/email/set-initial', body: {} },
     // The prefix-arm oddities stay delegate-served: an unknown subpath and the
     // no-slash sibling resolve unmatched, delegate to the ladder's startsWith
     // arm, and 401 before the in-family 404, byte-identical.
@@ -1173,6 +1177,28 @@ describe('/api + /internal Phase 18b late-arrival dispatch parity (legacy flag v
       makeReq({
         method: 'POST',
         url: '/internal/daily-rewards/payout-history',
+        headers: { [DAILY_HEADER]: 'wrong-secret' },
+        body: {},
+      }),
+    );
+    expect(oldCap.status).toBe(401);
+    expect(JSON.parse(oldCap.body as string)).toEqual({
+      success: false,
+      data: null,
+      error: 'not authenticated',
+    });
+    expect(stableStringify(newCap)).toBe(stableStringify(oldCap));
+  });
+
+  it('POST /internal/daily-rewards/leaderboard with a wrong secret is the fail-closed 401, identical old-vs-new', async () => {
+    // The v0.20.0 ops arrival: same masked family, same re-pin as its siblings.
+    // The wrong-secret 401 is the route's only db-free branch, byte-identical
+    // through the RouteDef gate ('new') and the composite's in-handler gate
+    // ('legacy').
+    const { oldCap, newCap } = await captureWithEnv({ [DAILY_ENV]: PARITY_SECRET }, () =>
+      makeReq({
+        method: 'POST',
+        url: '/internal/daily-rewards/leaderboard',
         headers: { [DAILY_HEADER]: 'wrong-secret' },
         body: {},
       }),
