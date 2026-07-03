@@ -173,6 +173,7 @@ export interface IWorld
 // `unequip_item`, ...) intentionally differ from the IWorld member names.
 export const COMMAND_NAMES = [
   'castSlot',
+  'castAt',
   'cast',
   'cancel_aura',
   'target',
@@ -352,6 +353,7 @@ export const COMMAND_FACETS = {
   // IWorldCombat: ability casts, auto-attack, spirit release.
   cast: 'IWorldCombat',
   castSlot: 'IWorldCombat',
+  castAt: 'IWorldCombat',
   cancel_aura: 'IWorldCombat',
   attack: 'IWorldCombat',
   stopattack: 'IWorldCombat',
