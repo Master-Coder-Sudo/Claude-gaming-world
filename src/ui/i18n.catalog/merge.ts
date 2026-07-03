@@ -3683,25 +3683,25 @@ const mergeExtraEn = {
   abilities: abilityTranslations([
     [
       'bear_charge',
-      'Bear Charge',
-      'Charge an enemy, generating 9 rage and stunning it for 1 sec. 8-25 yd range. Bear Form only.',
+      'Bruin Rush',
+      'Charge an enemy, generating 9 rage and stunning it for 1 sec. 8-25 yd range. Bruin Form only.',
     ],
     [
       'demoralizing_roar',
-      'Demoralizing Roar',
-      'Demoralizes nearby enemies, reducing their attack power by 20 for 20 sec. Bear Form only.',
+      'Craven Roar',
+      'Demoralizes nearby enemies, reducing their attack power by 20 for 20 sec. Bruin Form only.',
     ],
     [
       'prowl',
-      'Prowl',
+      'Stalk',
       'Enter stealth while in Wolf Form, moving 50% slower. Cannot be used in combat.',
     ],
     [
       'rake',
-      'Rake',
+      'Flense',
       'A stealth opener that rakes the enemy for weapon damage plus {damage} and causes bleeding damage over 9 sec. Awards 1 combo point. Wolf Form only.',
     ],
-    ['revive_pet', 'Revive Pet', 'Revives your dead pet and returns it to your side.'],
+    ['revive_pet', 'Rouse Companion', 'Revives your dead pet and returns it to your side.'],
   ]),
   items: {
     ...mergeNameTranslations(

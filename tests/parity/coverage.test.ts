@@ -2,6 +2,8 @@
 // name it in a comment). These assertions inspect the live events + final state of
 // a recorded run. If a future content change breaks a recipe, this fails loudly so
 // the golden never silently stops exercising a system.
+// Display-name literals follow the LOCKED NAME-MAP (authorized gate-text edit per the
+// OPERATOR RULING, 2026-07-02, ip-refactor/02-WORKING-MEMORY.md); ability/aura IDS are frozen.
 
 import { describe, expect, it } from 'vitest';
 import type { Recorder } from './record';
@@ -49,7 +51,7 @@ describe('coverage: each scenario fires its subsystem', () => {
       (e) =>
         e.type === 'damage' &&
         typeof e.ability === 'string' &&
-        e.ability.toLowerCase().includes('sinister'),
+        e.ability.toLowerCase().includes('wicked'),
     );
     const playerDealt = ev.some((e) => e.type === 'damage' && e.sourceId === pid);
     expect(sinister || playerDealt).toBe(true);
@@ -166,7 +168,7 @@ describe('coverage: each scenario fires its subsystem', () => {
       (e) =>
         e.type === 'damage' &&
         typeof e.ability === 'string' &&
-        e.ability.toLowerCase().includes('consecrat'),
+        e.ability.toLowerCase().includes('holy ground'),
     );
     // 1 immediate on-cast pulse (~4097) + >=1 deferred interval pulse (~3052).
     expect(hits.length).toBeGreaterThanOrEqual(2);
@@ -566,7 +568,7 @@ describe('coverage: each scenario fires its subsystem', () => {
           (e) =>
             e.type === 'damage' &&
             typeof e.ability === 'string' &&
-            e.ability.toLowerCase().includes('consecrat'),
+            e.ability.toLowerCase().includes('holy ground'),
         )
         .map((e) => e.targetId),
     );
@@ -662,7 +664,7 @@ describe('coverage: each scenario fires its subsystem', () => {
         e.type === 'damage' &&
         e.kind === 'miss' &&
         typeof e.ability === 'string' &&
-        e.ability.toLowerCase().includes('sunder'),
+        e.ability.toLowerCase().includes('shear'),
     );
     expect(Boolean(warriorMob) || sunderMiss).toBe(true);
     // mage arcane_explosion: the per-target aoeDamage hit BOTH in-radius mobs.
@@ -718,7 +720,7 @@ describe('coverage: each scenario fires its subsystem', () => {
     expect(
       ev.some(
         (e) =>
-          e.type === 'damage' && (e.ability === 'Heroic Strike' || e.ability === 'Raptor Strike'),
+          e.type === 'damage' && (e.ability === 'Reaver Strike' || e.ability === 'Gutting Strike'),
       ),
     ).toBe(true);
   });
