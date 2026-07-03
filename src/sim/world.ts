@@ -69,8 +69,12 @@ function world(): WorldDerived {
   return derivedCache;
 }
 
-const RIDGE_HEIGHT = 22;
-const RIDGE_SIGMA = 18; // gaussian width of the wall
+// Tall and narrow on purpose: every crossing outside the road pass must be
+// steeper than the movement climb limit (rise/run 1.5, see sim.ts
+// MAX_CLIMB_SLOPE) so the walls are genuinely impassable, not scenery.
+// tests/terrain_walls.test.ts guards this.
+const RIDGE_HEIGHT = 40;
+const RIDGE_SIGMA = 10; // gaussian width of the wall
 const PASS_HALF_WIDTH = 10; // flat opening around the road
 const PASS_SHOULDER = 34; // ...rising to full wall by this far from the pass
 
@@ -341,21 +345,100 @@ export function terrainHeight(x: number, z: number, seed: number): number {
     if (dz < RIDGE_SIGMA * 3) {
       const profile = Math.exp(-(dz * dz) / (2 * RIDGE_SIGMA * RIDGE_SIGMA));
       const pass = smoothstep(PASS_HALF_WIDTH, PASS_SHOULDER, Math.abs(x - ridge.passX));
-      // jagged crest so the wall reads as mountains, not a berm
-      const crest = 1 + (fbm2(x * 0.03, ridge.z * 0.03, seed + 19, 2) - 0.5) * 0.7;
+      // jagged crest so the wall reads as mountains, not a berm (variance kept
+      // tight so the lowest saddle still beats the climb limit)
+      const crest = 1 + (fbm2(x * 0.03, ridge.z * 0.03, seed + 19, 2) - 0.5) * 0.4;
       h += RIDGE_HEIGHT * crest * profile * pass;
     }
   }
 
-  // Raise the world rim so the player naturally stays in bounds
-  const rimX = smoothstep(WORLD_MAX_X - 30, WORLD_MAX_X, Math.abs(x));
-  const rimS = smoothstep(w.minZ + 30, w.minZ, z);
-  const rimN = smoothstep(w.maxZ - 30, w.maxZ, z);
+  // Raise the world rim so the player naturally stays in bounds. Like the zone
+  // ridges, the rise is steeper than the climb limit everywhere (guarded by
+  // tests/terrain_walls.test.ts); it starts where it always did (30yd inside,
+  // the Mirefen impact site leans on that wall base) but peaks before the
+  // boundary so the whole climb happens in-world.
+  const rimX = smoothstep(WORLD_MAX_X - 30, WORLD_MAX_X - 6, Math.abs(x));
+  const rimS = smoothstep(w.minZ + 30, w.minZ + 6, z);
+  const rimN = smoothstep(w.maxZ - 30, w.maxZ - 6, z);
   const rim = Math.max(rimX, rimS, rimN);
-  h += rim * 40;
+  h += rim * 55;
   h += mirefenImpactCraterOffset(x, z);
   h = applyEditLayer(x, z, h);
   return h;
+}
+
+// Steepest local rise/run of the walkable heightfield at (x, z), independent of
+// travel direction. Movement gates on this (not just the slope along the step)
+// so a diagonal switchback approach cannot beat the straight-line climb limit.
+const STEEPNESS_SAMPLE = 0.35; // yards; about one movement tick of run
+export function terrainSteepness(x: number, z: number, seed: number): number {
+  const e = STEEPNESS_SAMPLE;
+  const hx = (groundHeight(x + e, z, seed) - groundHeight(x - e, z, seed)) / (2 * e);
+  const hz = (groundHeight(x, z + e, seed) - groundHeight(x, z - e, seed)) / (2 * e);
+  return Math.hypot(hx, hz);
+}
+
+// Memoized 1-yard-cell view of terrainSteepness for the per-tick movement
+// gates (every moving mob evaluates its step fan every tick; the exact helper
+// costs four heightfield samples). A cache over a pure function of
+// (cell, seed) stays fully deterministic; the cap just bounds memory on
+// long-running hosts. Cell granularity only shifts a gate line by under a
+// yard, far inside the walls' steepness margin (tests/terrain_walls.test.ts).
+const steepnessCache = new Map<number, Map<number, number>>(); // seed -> cell -> steepness
+const STEEPNESS_CACHE_MAX = 400_000; // cells per seed; ~the whole overworld
+const STEEPNESS_CACHE_MAX_SEEDS = 4; // hosts run one seed; only test runs see more
+const STEEPNESS_CELL_SPAN = 16384; // cells per axis in the packed key
+export function terrainSteepnessAt(x: number, z: number, seed: number): number {
+  // Instanced interiors (dungeons/arena/delves) are flat floors; skip the cache
+  // entirely so their far-off coordinates never enter (or overflow) the packed
+  // key space, which is sized for the overworld.
+  if (x > DUNGEON_X_THRESHOLD) return 0;
+  const cx = Math.round(x);
+  const cz = Math.round(z);
+  let bySeed = steepnessCache.get(seed);
+  if (!bySeed) {
+    if (steepnessCache.size >= STEEPNESS_CACHE_MAX_SEEDS) steepnessCache.clear();
+    bySeed = new Map();
+    steepnessCache.set(seed, bySeed);
+  }
+  const key = (cx + STEEPNESS_CELL_SPAN / 2) * STEEPNESS_CELL_SPAN + (cz + STEEPNESS_CELL_SPAN / 2);
+  let v = bySeed.get(key);
+  if (v === undefined) {
+    if (bySeed.size >= STEEPNESS_CACHE_MAX) bySeed.clear();
+    v = terrainSteepness(cx, cz, seed);
+    bySeed.set(key, v);
+  }
+  return v;
+}
+
+// True inside the terrain bands that hold the deliberate unwalkable walls: the
+// zone-ridge walls and the world rim (with margin). The per-tick mob movement
+// gate screens with this so the steepness memo never runs over the open world;
+// rare interior steep spots stay mob-walkable, exactly as they always were
+// (players get the full gate everywhere in sim.ts).
+export function nearSteepWalls(x: number, z: number): boolean {
+  if (x > DUNGEON_X_THRESHOLD) return false; // instanced interiors: flat floors
+  const w = world();
+  if (Math.abs(x) > WORLD_MAX_X - 40 || z < w.minZ + 40 || z > w.maxZ - 40) return true;
+  for (const ridge of w.ridges) {
+    if (Math.abs(z - ridge.z) < RIDGE_SIGMA * 4) return true;
+  }
+  return false;
+}
+
+// Unit downhill direction at (x, z), or null on (near-)flat ground. Drives the
+// slide that carries a player off ground steeper than the climb limit.
+export function terrainDownhill(
+  x: number,
+  z: number,
+  seed: number,
+): { x: number; z: number } | null {
+  const e = STEEPNESS_SAMPLE;
+  const hx = (groundHeight(x + e, z, seed) - groundHeight(x - e, z, seed)) / (2 * e);
+  const hz = (groundHeight(x, z + e, seed) - groundHeight(x, z - e, seed)) / (2 * e);
+  const mag = Math.hypot(hx, hz);
+  if (mag < 1e-6) return null;
+  return { x: -hx / mag, z: -hz / mag };
 }
 
 // Distance from (x,z) to the nearest road polyline segment.

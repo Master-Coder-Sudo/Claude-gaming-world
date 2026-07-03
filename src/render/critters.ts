@@ -8,7 +8,7 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { DUNGEON_X_THRESHOLD, WORLD_MAX_X, WORLD_MAX_Z, WORLD_MIN_Z } from '../sim/data';
-import { terrainHeight, waterLevel } from '../sim/world';
+import { terrainHeight, terrainSteepnessAt, waterLevel } from '../sim/world';
 import { GFX } from './gfx';
 
 export interface CritterField {
@@ -21,6 +21,9 @@ const SPAWN_MIN = 16; // relocate ring around the player (min..max yd)
 const SPAWN_MAX = 30;
 const FLEE_DIST = 6; // critters bolt when the player gets this close
 const EDGE = 8; // keep clear of the world edges
+// Same rise/run limit the sim's movement uses (MAX_CLIMB_SLOPE): wildlife stays
+// off the unclimbable mountain walls and the world rim, like everything else.
+const MAX_WALK_SLOPE = 1.5;
 
 // The Eastbrook Vale / Mirefen Marsh boundary runs along the causeway at z=180.
 // Cheerful overworld critters (rabbits/squirrels/songbirds) thin out as the dry
@@ -168,6 +171,7 @@ export function buildCritters(seed: number): CritterField {
     if (Math.abs(x) > WORLD_MAX_X - EDGE) return false;
     if (z < WORLD_MIN_Z + EDGE || z > WORLD_MAX_Z - EDGE) return false;
     if (x > DUNGEON_X_THRESHOLD - 24) return false;
+    if (terrainSteepnessAt(x, z, seed) > MAX_WALK_SLOPE) return false;
     return terrainHeight(x, z, seed) > waterLevel() + 0.8;
   };
 
@@ -239,9 +243,18 @@ export function buildCritters(seed: number): CritterField {
         const baseSpeed = c.species === 'bird' ? 2.4 : 1.5;
         c.speed = c.moving ? (fleeing ? baseSpeed * 2.4 : baseSpeed) : 0;
         if (c.speed > 0) {
-          c.x += Math.cos(c.heading) * c.speed * dt;
-          c.z += Math.sin(c.heading) * c.speed * dt;
-          c.hopPhase += dt * (c.species === 'bird' ? 18 : 9);
+          const nx = c.x + Math.cos(c.heading) * c.speed * dt;
+          const nz = c.z + Math.sin(c.heading) * c.speed * dt;
+          if (validGround(nx, nz)) {
+            c.x = nx;
+            c.z = nz;
+            c.hopPhase += dt * (c.species === 'bird' ? 18 : 9);
+          } else {
+            // wall, water, or the world edge ahead: turn back instead of
+            // hopping up a face nothing can walk
+            c.heading += Math.PI + (rng() - 0.5);
+            c.turnT = 0.4 + rng();
+          }
         }
 
         const groundY = terrainHeight(c.x, c.z, seed);
