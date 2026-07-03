@@ -2,6 +2,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { ERROR_CODES } from '../server/http/error_codes';
 import { API_ERROR_KEYS } from '../src/ui/api_error_i18n';
 import { ensureLocaleLoaded, setLanguage, supportedLanguages, tOptional } from '../src/ui/i18n';
+import { apiErrorStrings } from '../src/ui/i18n.catalog/api_error';
 
 // Per-surface code-parity guard for the REST error matcher (Phase 22 of the API
 // pipeline, docs/api-pipeline/phase-22-rest-i18n.md). The S3 guard
@@ -11,7 +12,8 @@ import { ensureLocaleLoaded, setLanguage, supportedLanguages, tOptional } from '
 // it enumerates every code from the single source of truth (server/http/error_codes.ts),
 // proves each resolves through the client catalog in every locale, proves Agent A's
 // declarative code-to-key table is the exact identity, pins the parametric placeholder
-// tokens, and freezes the code set append-only (AIP-193).
+// tokens, freezes the code set append-only (AIP-193), and proves the catalog carries
+// no phantom leaf and no placeholder the matcher never fills.
 //
 // Cross-agent contract (fixed): a code 'domain.reason' maps VERBATIM to the nested catalog
 // key 'apiError.<domain>.<reason>' (i.e. 'apiError.' + code).
@@ -262,5 +264,44 @@ describe('REST apiError.* code parity (Phase 22)', () => {
       'AIP-193 violation: a code was removed or renamed (codes are permanent, append-only)',
     ).toEqual([]);
     expect(actual, 'ERROR_CODES must equal the append-only literal snapshot').toEqual(known);
+  });
+
+  it('dimension 6: the catalog carries exactly the code set, with only the contract tokens', () => {
+    // Flatten the nested English catalog domain to its 'domain.reason' leaf set. Depth
+    // is exactly two for apiError.* (domain -> reason -> string); fail loud otherwise.
+    const leaves: Record<string, string> = {};
+    for (const [domain, reasons] of Object.entries(apiErrorStrings as Record<string, unknown>)) {
+      expect(
+        reasons !== null && typeof reasons === 'object',
+        `apiError.${domain} must be a nested domain object`,
+      ).toBe(true);
+      for (const [reason, value] of Object.entries(reasons as Record<string, unknown>)) {
+        expect(typeof value, `apiError.${domain}.${reason} must be a string leaf`).toBe('string');
+        leaves[`${domain}.${reason}`] = value as string;
+      }
+    }
+    // (a) Set equality with ERROR_CODES seals the direction nothing above covers:
+    // dimension 2 catches a code with no catalog entry, but a PHANTOM apiError.* leaf
+    // with no server code would pass every other dimension (shipping dead prose and,
+    // when wordy, demanding five non-Latin fills for nothing).
+    const leafCodes = Object.keys(leaves).sort();
+    const phantom = leafCodes.filter((code) => !(code in ERROR_CODES));
+    expect(
+      phantom,
+      'apiError.* catalog leaves with no ERROR_CODES entry (phantom catalog prose)',
+    ).toEqual([]);
+    expect(leafCodes, 'the apiError.* catalog leaf set must equal ERROR_CODES').toEqual(codes);
+    // (b) The matcher fills ONLY the PARAMETRIC_TOKEN_PINS tokens; resolveByCode calls
+    // a bare t(key) for every other code, so any other {token} in an apiError English
+    // value would render literally to the player. Dimension 4 propagates this rule to
+    // every locale via its placeholder-set equality with English.
+    const contract = new Map(PARAMETRIC_TOKEN_PINS);
+    const leaks = Object.entries(leaves)
+      .filter(([code, value]) => ph(value) !== (contract.get(code) ?? ''))
+      .map(([code, value]) => `${keyForCode(code)} carries {${ph(value)}} the matcher never fills`);
+    expect(
+      leaks,
+      'apiError.* values may carry only the matcher-contract placeholder tokens',
+    ).toEqual([]);
   });
 });

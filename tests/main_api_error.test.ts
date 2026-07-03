@@ -66,6 +66,20 @@ describe('userFacingApiError parametric codes', () => {
     );
   });
 
+  it('falls through to prose when moderation.suspended_until carries no date param', () => {
+    // A coded suspension body with no date must defer to the prose arm (which still
+    // captures the legacy toUTCString from the message), never render the literal
+    // "until undefined".
+    const err = new ApiError(
+      'This account is suspended until Wed, 09 Jul 2026 12:00:00 GMT.',
+      403,
+      'moderation.suspended_until',
+    );
+    expect(userFacingApiError(err)).toBe(
+      t('errors.api.accountSuspended', { date: 'Wed, 09 Jul 2026 12:00:00 GMT' }),
+    );
+  });
+
   it('formats a rate-limit retry as a localized duration phrase, not a bare number', () => {
     const err = new ApiError('rate limited', 429, 'rate_limit.exceeded', { retryAfterSeconds: 30 });
     const duration = formatDuration(30);
@@ -185,5 +199,48 @@ describe('ApiError captures the stable code and params from the response body', 
     expect(userFacingApiError(err)).toBe(
       t('apiError.rate_limit.exceeded', { seconds: formatDuration(30) }),
     );
+  });
+
+  it('end-to-end: a captured suspension error renders the client-formatted date', async () => {
+    // The moderationErrorBody legacy shape: prose + code + top-level machine ISO date.
+    const iso = '2026-07-09T12:00:00.000Z';
+    mockJson(403, {
+      error: 'This account is suspended until Wed, 09 Jul 2026 12:00:00 GMT.',
+      code: 'moderation.suspended_until',
+      date: iso,
+    });
+    const err = await rejection(new Api().login('u', 'p'));
+    expect(err.params).toMatchObject({ date: iso });
+    setLanguage('en');
+    expect(userFacingApiError(err)).toBe(
+      t('apiError.moderation.suspended_until', { date: formatDateTime(new Date(iso)) }),
+    );
+  });
+
+  it('captures the code on an exportData failure (the text-parsing fetch path)', async () => {
+    // exportData reads res.text() (the success body is a raw download), so its error
+    // path builds the ApiError from the parsed text instead of the json() helpers; it
+    // must still capture the additive code.
+    fetchSpy.mockResolvedValueOnce({
+      ok: false,
+      status: 401,
+      text: () =>
+        Promise.resolve(JSON.stringify({ error: 'not authenticated', code: 'auth.required' })),
+    } as unknown as Response);
+    const err = await rejection(new Api().exportData());
+    expect(err.message).toBe('not authenticated');
+    expect(err.code).toBe('auth.required');
+    expect(userFacingApiError(err)).toBe(t('apiError.auth.required'));
+  });
+
+  it('keeps the diagnostic message for a non-JSON exportData error body', async () => {
+    fetchSpy.mockResolvedValueOnce({
+      ok: false,
+      status: 502,
+      text: () => Promise.resolve('<html>bad gateway</html>'),
+    } as unknown as Response);
+    const err = await rejection(new Api().exportData());
+    expect(err.message).toBe('request failed (502)');
+    expect(err.code).toBeUndefined();
   });
 });
