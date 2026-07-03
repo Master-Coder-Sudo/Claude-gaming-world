@@ -155,7 +155,8 @@ describe('model: build + diff + patch', () => {
   it('detects moved markers via a live point reference', () => {
     const ents = buildEntities(content);
     const base = snapshot(ents);
-    const poi = ents.find((e) => e.kind === 'poi')!;
+    const poi = ents.find((e) => e.kind === 'poi');
+    if (!poi) throw new Error('fixture has no poi entity');
     poi.point.x = 99; // simulate a drag mutating the live ref
     poi.point.z = 88;
     const moved = diffMoved(ents, base);
