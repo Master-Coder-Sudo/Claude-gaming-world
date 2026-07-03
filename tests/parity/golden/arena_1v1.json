@@ -29,7 +29,7 @@
       "tick": 25,
       "time": 1.25,
       "nextId": 391,
-      "state": "2b7ebf2b",
+      "state": "8316d1cf",
       "events": "e139c8ea",
       "rng": {
         "draws": 0,
@@ -40,7 +40,7 @@
       "tick": 50,
       "time": 2.5,
       "nextId": 391,
-      "state": "372a9cc7",
+      "state": "46ebef4b",
       "events": "70f07b73",
       "rng": {
         "draws": 34,
@@ -51,7 +51,7 @@
       "tick": 75,
       "time": 3.75,
       "nextId": 391,
-      "state": "e09547f3",
+      "state": "f7d9bf37",
       "events": "104802ff",
       "rng": {
         "draws": 134,
@@ -62,7 +62,7 @@
       "tick": 100,
       "time": 5,
       "nextId": 391,
-      "state": "64fd0ee3",
+      "state": "41ec63e7",
       "events": "a6010c17",
       "rng": {
         "draws": 254,
@@ -73,7 +73,7 @@
       "tick": 125,
       "time": 6.25,
       "nextId": 391,
-      "state": "82dbaab4",
+      "state": "9aee8480",
       "events": "55bc7862",
       "rng": {
         "draws": 384,
@@ -84,7 +84,7 @@
       "tick": 142,
       "time": 7.1,
       "nextId": 391,
-      "state": "b0fcc974",
+      "state": "7a170940",
       "events": "741638a5",
       "rng": {
         "draws": 482,
@@ -113,10 +113,12 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         },
         {
           "activeLoadout": -1,
@@ -141,10 +143,12 @@
             "chest": "apprentice_robe",
             "mainhand": "gnarled_staff"
           },
+          "gatheringProficiency": {},
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [

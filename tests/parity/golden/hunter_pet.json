@@ -15,7 +15,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "d2b63c53",
+      "state": "0a49710f",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -44,10 +44,12 @@
             "chest": "footpad_jerkin",
             "mainhand": "rusty_hatchet"
           },
+          "gatheringProficiency": {},
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -107,7 +109,7 @@
       "tick": 20,
       "time": 1,
       "nextId": 393,
-      "state": "867cd03a",
+      "state": "cf3a1942",
       "events": "a23edd09",
       "rng": {
         "draws": 6,
@@ -118,7 +120,7 @@
       "tick": 40,
       "time": 2,
       "nextId": 393,
-      "state": "1374d5be",
+      "state": "41884b16",
       "events": "741638a5",
       "rng": {
         "draws": 6,
@@ -129,7 +131,7 @@
       "tick": 60,
       "time": 3,
       "nextId": 393,
-      "state": "49a6621c",
+      "state": "464f7a10",
       "events": "16b6719a",
       "rng": {
         "draws": 96,
@@ -140,7 +142,7 @@
       "tick": 80,
       "time": 4,
       "nextId": 393,
-      "state": "a4c536e0",
+      "state": "8ea38704",
       "events": "741638a5",
       "rng": {
         "draws": 195,
@@ -151,7 +153,7 @@
       "tick": 100,
       "time": 5,
       "nextId": 393,
-      "state": "5fae209e",
+      "state": "9257a736",
       "events": "7c92ca7b",
       "rng": {
         "draws": 294,
@@ -162,7 +164,7 @@
       "tick": 120,
       "time": 6,
       "nextId": 393,
-      "state": "75ee527e",
+      "state": "da9fc6d6",
       "events": "741638a5",
       "rng": {
         "draws": 398,
@@ -173,7 +175,7 @@
       "tick": 120,
       "time": 6,
       "nextId": 393,
-      "state": "75ee527e",
+      "state": "da9fc6d6",
       "events": "741638a5",
       "rng": {
         "draws": 398,
@@ -202,11 +204,13 @@
             "chest": "footpad_jerkin",
             "mainhand": "rusty_hatchet"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 44000,
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [

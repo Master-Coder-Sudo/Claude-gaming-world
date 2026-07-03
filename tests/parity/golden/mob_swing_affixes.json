@@ -17,7 +17,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "056cc550",
+      "state": "9975d274",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -46,10 +46,12 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -107,7 +109,7 @@
       "tick": 20,
       "time": 1,
       "nextId": 396,
-      "state": "4cc8ebe0",
+      "state": "a88d92f4",
       "events": "cbad9b0e",
       "rng": {
         "draws": 54,
@@ -118,7 +120,7 @@
       "tick": 40,
       "time": 2,
       "nextId": 396,
-      "state": "e52765fb",
+      "state": "db4e99ef",
       "events": "0155f151",
       "rng": {
         "draws": 95,
@@ -129,7 +131,7 @@
       "tick": 60,
       "time": 3,
       "nextId": 396,
-      "state": "47f8eeec",
+      "state": "c8822640",
       "events": "cc11abbc",
       "rng": {
         "draws": 224,
@@ -140,7 +142,7 @@
       "tick": 60,
       "time": 3,
       "nextId": 396,
-      "state": "5bbdc402",
+      "state": "d0fa777a",
       "events": "741638a5",
       "rng": {
         "draws": 224,
@@ -171,11 +173,13 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 92800,
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -568,7 +572,7 @@
       "tick": 64,
       "time": 3.2,
       "nextId": 396,
-      "state": "fad6d60b",
+      "state": "b780db3f",
       "events": "741638a5",
       "rng": {
         "draws": 244,
@@ -599,11 +603,13 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 92800,
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [

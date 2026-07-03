@@ -17,7 +17,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "056cc550",
+      "state": "9975d274",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -46,10 +46,12 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -107,7 +109,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "659f085c",
+      "state": "65ed0c48",
       "events": "799cce3e",
       "rng": {
         "draws": 0,
@@ -136,6 +138,7 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 167200,
           "talents": {
             "choices": {},
@@ -144,7 +147,8 @@
               "war_cruelty": 2
             },
             "spec": "arms"
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -202,7 +206,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "4370dc6f",
+      "state": "9f5f35e3",
       "events": "a8848b3e",
       "rng": {
         "draws": 0,
@@ -231,12 +235,14 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 167200,
           "talents": {
             "choices": {},
             "ranks": {},
             "spec": "arms"
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -294,7 +300,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "42f3d868",
+      "state": "84020624",
       "events": "f3824701",
       "rng": {
         "draws": 0,
@@ -322,6 +328,7 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 167200,
           "loadouts": [
             {
@@ -346,7 +353,8 @@
               "war_cruelty": 3
             },
             "spec": "arms"
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -404,7 +412,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "8bddea39",
+      "state": "e080a929",
       "events": "68e599fc",
       "rng": {
         "draws": 0,
@@ -432,6 +440,7 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 167200,
           "loadouts": [
             {
@@ -456,7 +465,8 @@
               "arms_imp_overpower": 2
             },
             "spec": "arms"
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -514,7 +524,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "43b4e86b",
+      "state": "6b55c64f",
       "events": "799cce3e",
       "rng": {
         "draws": 0,
@@ -542,6 +552,7 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 167200,
           "loadouts": [
             {
@@ -564,7 +575,8 @@
             "choices": {},
             "ranks": {},
             "spec": "fury"
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -622,7 +634,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "43b4e86b",
+      "state": "6b55c64f",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -650,6 +662,7 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 167200,
           "loadouts": [
             {
@@ -672,7 +685,8 @@
             "choices": {},
             "ranks": {},
             "spec": "fury"
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [

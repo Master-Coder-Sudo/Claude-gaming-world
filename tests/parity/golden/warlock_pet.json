@@ -16,7 +16,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "88728dc8",
+      "state": "7c1799cc",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -45,10 +45,12 @@
             "chest": "apprentice_robe",
             "mainhand": "gnarled_staff"
           },
+          "gatheringProficiency": {},
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -107,7 +109,7 @@
       "tick": 20,
       "time": 1,
       "nextId": 390,
-      "state": "61c34eb2",
+      "state": "dbc05efa",
       "events": "6cfe2d3c",
       "rng": {
         "draws": 0,
@@ -118,7 +120,7 @@
       "tick": 40,
       "time": 2,
       "nextId": 390,
-      "state": "f38fc1b4",
+      "state": "d5968e28",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -129,7 +131,7 @@
       "tick": 60,
       "time": 3,
       "nextId": 390,
-      "state": "e9c1a7a9",
+      "state": "19488079",
       "events": "741638a5",
       "rng": {
         "draws": 100,
@@ -140,7 +142,7 @@
       "tick": 80,
       "time": 4,
       "nextId": 390,
-      "state": "30dfdb6a",
+      "state": "2991f9f2",
       "events": "741638a5",
       "rng": {
         "draws": 186,
@@ -151,7 +153,7 @@
       "tick": 100,
       "time": 5,
       "nextId": 391,
-      "state": "bcdfbe52",
+      "state": "5dce7fda",
       "events": "cdb555f8",
       "rng": {
         "draws": 271,
@@ -162,7 +164,7 @@
       "tick": 120,
       "time": 6,
       "nextId": 392,
-      "state": "9df5dd64",
+      "state": "f2f60ad8",
       "events": "2c9cc785",
       "rng": {
         "draws": 366,
@@ -173,7 +175,7 @@
       "tick": 140,
       "time": 7,
       "nextId": 392,
-      "state": "00db4c2f",
+      "state": "0129011b",
       "events": "ab979bb9",
       "rng": {
         "draws": 495,
@@ -184,7 +186,7 @@
       "tick": 160,
       "time": 8,
       "nextId": 392,
-      "state": "4d6e4b5f",
+      "state": "1446c38b",
       "events": "14cbbc7b",
       "rng": {
         "draws": 636,
@@ -195,7 +197,7 @@
       "tick": 180,
       "time": 9,
       "nextId": 392,
-      "state": "3de5e6b8",
+      "state": "5bf5b03c",
       "events": "4960e740",
       "rng": {
         "draws": 774,
@@ -206,7 +208,7 @@
       "tick": 200,
       "time": 10,
       "nextId": 392,
-      "state": "44dfc722",
+      "state": "9892caaa",
       "events": "461f49ea",
       "rng": {
         "draws": 943,
@@ -217,7 +219,7 @@
       "tick": 220,
       "time": 11,
       "nextId": 392,
-      "state": "f074466b",
+      "state": "222e83e7",
       "events": "4960e740",
       "rng": {
         "draws": 1021,
@@ -228,7 +230,7 @@
       "tick": 220,
       "time": 11,
       "nextId": 392,
-      "state": "5548e666",
+      "state": "a8bc49be",
       "events": "741638a5",
       "rng": {
         "draws": 1021,
@@ -259,11 +261,13 @@
             "chest": "apprentice_robe",
             "mainhand": "gnarled_staff"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 44000,
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -434,7 +438,7 @@
       "tick": 224,
       "time": 11.2,
       "nextId": 392,
-      "state": "18157963",
+      "state": "8b25853f",
       "events": "0c74a289",
       "rng": {
         "draws": 1050,
@@ -465,11 +469,13 @@
             "chest": "apprentice_robe",
             "mainhand": "gnarled_staff"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 44000,
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [

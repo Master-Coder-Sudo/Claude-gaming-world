@@ -645,11 +645,9 @@ describe('hunter pets', () => {
   it('right-click autocast state lets a pet Growl whenever the cooldown is ready', () => {
     const { sim, wolf: pet } = tamedSetup();
     const boar = nearestMob(sim, 'wild_boar');
-    // The scenario exercises Growl, not the kill: give the boar a deep hp pool so
-    // it cannot die to pet auto-attacks before the taunt lands (the exact swing
-    // outcomes shift whenever an upstream rng draw is added, e.g. a new loot row).
-    boar.maxHp = 100000;
-    boar.hp = boar.maxHp;
+    // The pet kills a stock boar inside the fixed 5s pre-phase since the #1325
+    // locomotion change (a dead mob cannot be Growl-forced), so keep it alive.
+    beefUp(boar);
     teleport(sim, sim.player, boar.pos.x + 4, boar.pos.z);
     teleport(sim, pet, boar.pos.x + 5, boar.pos.z);
     hit(sim, sim.player, boar, 5);

@@ -16,7 +16,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "056cc550",
+      "state": "9975d274",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -45,10 +45,12 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -106,7 +108,7 @@
       "tick": 5,
       "time": 0.25,
       "nextId": 399,
-      "state": "737609ce",
+      "state": "ff6b20ce",
       "events": "6d1becaa",
       "rng": {
         "draws": 4,
@@ -117,7 +119,7 @@
       "tick": 10,
       "time": 0.5,
       "nextId": 399,
-      "state": "8c6c5665",
+      "state": "ede00a4d",
       "events": "741638a5",
       "rng": {
         "draws": 4,
@@ -128,7 +130,7 @@
       "tick": 15,
       "time": 0.75,
       "nextId": 399,
-      "state": "cacc9715",
+      "state": "6d5a6afd",
       "events": "741638a5",
       "rng": {
         "draws": 4,
@@ -139,7 +141,7 @@
       "tick": 20,
       "time": 1,
       "nextId": 399,
-      "state": "0a4b904a",
+      "state": "c564faea",
       "events": "741638a5",
       "rng": {
         "draws": 4,
@@ -150,7 +152,7 @@
       "tick": 25,
       "time": 1.25,
       "nextId": 399,
-      "state": "96d717bf",
+      "state": "aa22528b",
       "events": "741638a5",
       "rng": {
         "draws": 4,
@@ -161,7 +163,7 @@
       "tick": 30,
       "time": 1.5,
       "nextId": 399,
-      "state": "094a8c20",
+      "state": "ef5edc94",
       "events": "741638a5",
       "rng": {
         "draws": 4,
@@ -172,7 +174,7 @@
       "tick": 35,
       "time": 1.75,
       "nextId": 399,
-      "state": "cc737771",
+      "state": "8820c599",
       "events": "6a16bd54",
       "rng": {
         "draws": 6,
@@ -183,7 +185,7 @@
       "tick": 40,
       "time": 2,
       "nextId": 399,
-      "state": "ab8a1dc1",
+      "state": "d4f25ea9",
       "events": "741638a5",
       "rng": {
         "draws": 6,
@@ -194,7 +196,7 @@
       "tick": 40,
       "time": 2,
       "nextId": 399,
-      "state": "ab8a1dc1",
+      "state": "d4f25ea9",
       "events": "741638a5",
       "rng": {
         "draws": 6,
@@ -225,11 +227,13 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 11200,
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -367,7 +371,7 @@
       "tick": 41,
       "time": 2.05,
       "nextId": 399,
-      "state": "3b93d3e6",
+      "state": "9390cf66",
       "events": "b98b9587",
       "rng": {
         "draws": 8,
@@ -398,11 +402,13 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 11200,
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -554,7 +560,7 @@
       "tick": 45,
       "time": 2.25,
       "nextId": 399,
-      "state": "3f4d1742",
+      "state": "0623a562",
       "events": "741638a5",
       "rng": {
         "draws": 8,
@@ -565,7 +571,7 @@
       "tick": 49,
       "time": 2.45,
       "nextId": 399,
-      "state": "dd559e10",
+      "state": "5f4edc04",
       "events": "741638a5",
       "rng": {
         "draws": 8,
@@ -596,11 +602,13 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 11200,
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -697,7 +705,7 @@
       "tick": 50,
       "time": 2.5,
       "nextId": 399,
-      "state": "e3d9763f",
+      "state": "2b3fcd0b",
       "events": "741638a5",
       "rng": {
         "draws": 8,
@@ -708,7 +716,7 @@
       "tick": 51,
       "time": 2.55,
       "nextId": 399,
-      "state": "11ea606c",
+      "state": "2e3f4650",
       "events": "741638a5",
       "rng": {
         "draws": 8,
@@ -739,11 +747,13 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 11200,
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -841,7 +851,7 @@
       "tick": 51,
       "time": 2.55,
       "nextId": 399,
-      "state": "11ea606c",
+      "state": "2e3f4650",
       "events": "741638a5",
       "rng": {
         "draws": 8,
@@ -872,11 +882,13 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 11200,
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [

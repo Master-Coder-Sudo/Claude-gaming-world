@@ -16,7 +16,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "056cc550",
+      "state": "9975d274",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -45,10 +45,12 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -106,7 +108,7 @@
       "tick": 20,
       "time": 1,
       "nextId": 392,
-      "state": "cfead33c",
+      "state": "b89a3fd0",
       "events": "36e55fc9",
       "rng": {
         "draws": 14,
@@ -117,7 +119,7 @@
       "tick": 40,
       "time": 2,
       "nextId": 392,
-      "state": "a9156ea4",
+      "state": "9f8855f8",
       "events": "8e795b72",
       "rng": {
         "draws": 28,
@@ -128,7 +130,7 @@
       "tick": 50,
       "time": 2.5,
       "nextId": 392,
-      "state": "647fac78",
+      "state": "fad83afc",
       "events": "93c017e2",
       "rng": {
         "draws": 57,
@@ -160,11 +162,13 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 54100,
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
@@ -357,7 +361,7 @@
       "tick": 54,
       "time": 2.7,
       "nextId": 392,
-      "state": "96d4bdc1",
+      "state": "d5520931",
       "events": "741638a5",
       "rng": {
         "draws": 71,
@@ -389,11 +393,13 @@
             "chest": "recruit_tunic",
             "mainhand": "worn_sword"
           },
+          "gatheringProficiency": {},
           "lifetimeXp": 54100,
           "talents": {
             "choices": {},
             "ranks": {}
-          }
+          },
+          "worldBossDaily": {}
         }
       ],
       "entities": [
