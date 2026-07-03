@@ -2125,6 +2125,9 @@ export class Hud {
 
   private initFrameMovers(): void {
     const isMobileLayout = () => this.isMobileLayout();
+    // A live desktop-to-mobile viewport flip must re-home the anchored aura
+    // bars (mobile owns its own aura placement), and the flip back re-anchors.
+    window.addEventListener('resize', () => this.applyAuraAnchor());
     if (this.targetFrameEl) {
       this.targetFrameMover = new MovableFrame({
         frame: this.targetFrameEl,
@@ -2173,6 +2176,38 @@ export class Hud {
     } else {
       const stack = $('#actionbar-stack');
       if (frame.parentElement !== stack) stack.insertBefore(frame, stack.firstChild);
+    }
+  }
+
+  // Auras on the Player Frame (aurasOnPlayerFrame): reparent the player's own
+  // buff/debuff rows into #player-frame, where CSS anchors them to the frame
+  // (above it while docked over the action bars, below it once moved) and the
+  // frame's children-zoom scale applies. Off (or the mobile layout, which owns
+  // its stock aura placement) returns the bars to their #ui home; the aura
+  // painters' element refs are live nodes, so they survive both moves.
+  private aurasOnPlayerFrame = false;
+  private auraBarsHome: { parent: ParentNode; next: Node | null } | null = null;
+
+  setAurasOnPlayerFrame(on: boolean): void {
+    this.aurasOnPlayerFrame = on;
+    this.applyAuraAnchor();
+  }
+
+  private applyAuraAnchor(): void {
+    const on = this.aurasOnPlayerFrame && !this.isMobileLayout();
+    const frame = this.playerFrameEl;
+    this.auraBarsHome ??= {
+      parent: this.buffBarEl.parentNode as ParentNode,
+      next: this.debuffBarEl.nextSibling,
+    };
+    if (on) {
+      if (this.buffBarEl.parentElement !== frame) {
+        frame.appendChild(this.buffBarEl);
+        frame.appendChild(this.debuffBarEl);
+      }
+    } else if (this.buffBarEl.parentElement === frame) {
+      this.auraBarsHome.parent.insertBefore(this.debuffBarEl, this.auraBarsHome.next);
+      this.auraBarsHome.parent.insertBefore(this.buffBarEl, this.debuffBarEl);
     }
   }
 

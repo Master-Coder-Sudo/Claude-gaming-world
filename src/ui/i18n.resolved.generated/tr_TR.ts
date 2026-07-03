@@ -394,6 +394,7 @@ export const tr_TR: EnTranslations = {
       "uiScale": "Arayüz Ölçeği",
       "playerFrameScale": "Player Frame Scale",
       "targetFrameScale": "Target Frame Scale",
+      "aurasOnPlayerFrame": "Auras on the Player Frame",
       "highContrastBackground": "Yüksek Kontrastlı Arka Plan",
       "startAttackOnAbility": "Yetenek Kullanımında Otomatik Saldırı",
       "walkByAutoloot": "Walk-by Autoloot",

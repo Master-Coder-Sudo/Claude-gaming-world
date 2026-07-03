@@ -394,6 +394,7 @@ export const ru_RU: EnTranslations = {
       "uiScale": "Масштаб интерфейса",
       "playerFrameScale": "Размер рамки игрока",
       "targetFrameScale": "Размер рамки цели",
+      "aurasOnPlayerFrame": "Ауры у рамки игрока",
       "highContrastBackground": "Фон высокой контрастности",
       "startAttackOnAbility": "Автоатака при использовании способности",
       "walkByAutoloot": "Автосбор добычи при проходе",

@@ -394,6 +394,7 @@ export const id_ID: EnTranslations = {
       "uiScale": "Skala UI",
       "playerFrameScale": "Player Frame Scale",
       "targetFrameScale": "Target Frame Scale",
+      "aurasOnPlayerFrame": "Auras on the Player Frame",
       "highContrastBackground": "Latar Kontras Tinggi",
       "startAttackOnAbility": "Serangan Otomatis Saat Memakai Kemampuan",
       "walkByAutoloot": "Walk-by Autoloot",

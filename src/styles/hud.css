@@ -872,6 +872,34 @@
     max-width: 320px;
     pointer-events: auto;
   }
+  /* Auras on the Player Frame (aurasOnPlayerFrame): hud.ts reparents both aura
+     bars into #player-frame, where they inherit its position and children-zoom
+     scale. Docked, the rows sit ABOVE the frame (the xp/action bars live
+     below); moved (pf-detached), they sit BELOW it, reading like the target
+     frame's debuff strip. Rows run left-to-right from the frame's left edge. */
+  #player-frame > #buff-bar,
+  #player-frame > #debuff-bar {
+    right: auto;
+    left: 0;
+    flex-direction: row;
+    max-width: 100%;
+  }
+  #player-frame > #buff-bar {
+    top: auto;
+    bottom: calc(100% + 8px);
+  }
+  #player-frame > #debuff-bar {
+    top: auto;
+    bottom: calc(100% + 48px);
+  }
+  #player-frame.pf-detached > #buff-bar {
+    bottom: auto;
+    top: calc(100% + 8px);
+  }
+  #player-frame.pf-detached > #debuff-bar {
+    bottom: auto;
+    top: calc(100% + 48px);
+  }
   .buff {
     width: 28px;
     height: 28px;

@@ -394,6 +394,7 @@ export const pt_BR: EnTranslations = {
       "uiScale": "Escala da interface",
       "playerFrameScale": "Player Frame Scale",
       "targetFrameScale": "Target Frame Scale",
+      "aurasOnPlayerFrame": "Auras on the Player Frame",
       "highContrastBackground": "Fundo de alto contraste",
       "startAttackOnAbility": "Ataque Automático ao Usar Habilidade",
       "walkByAutoloot": "Walk-by Autoloot",
