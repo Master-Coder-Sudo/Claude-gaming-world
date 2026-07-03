@@ -31,7 +31,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 394,
-      "state": "d3fffe04",
+      "state": "29e2fd4e",
       "events": "c4f6a5ca",
       "rng": {
         "draws": 4,
@@ -41,6 +41,7 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
@@ -50,6 +51,7 @@
             "kills": 1,
             "xpGained": 84
           },
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -59,6 +61,7 @@
           },
           "gatheringProficiency": {},
           "lifetimeXp": 84,
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -347,7 +350,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 395,
-      "state": "d8841a67",
+      "state": "56b95b6f",
       "events": "29d51e67",
       "rng": {
         "draws": 7,
@@ -357,6 +360,7 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
@@ -366,6 +370,7 @@
             "kills": 2,
             "xpGained": 198
           },
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -375,6 +380,7 @@
           },
           "gatheringProficiency": {},
           "lifetimeXp": 198,
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -721,7 +727,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 395,
-      "state": "d085b150",
+      "state": "32beeec2",
       "events": "82e45265",
       "rng": {
         "draws": 8,
@@ -731,6 +737,7 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
@@ -741,6 +748,7 @@
             "kills": 2,
             "xpGained": 198
           },
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -750,6 +758,7 @@
           },
           "gatheringProficiency": {},
           "lifetimeXp": 198,
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -1097,7 +1106,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 397,
-      "state": "c3bb6fda",
+      "state": "5eabe06a",
       "events": "a2b8439c",
       "rng": {
         "draws": 13,
@@ -1107,6 +1116,7 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
@@ -1117,6 +1127,7 @@
             "kills": 3,
             "xpGained": 282
           },
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -1126,6 +1137,7 @@
           },
           "gatheringProficiency": {},
           "lifetimeXp": 282,
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -1515,7 +1527,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 398,
-      "state": "180c6cbf",
+      "state": "1975c11b",
       "events": "d877e3e8",
       "rng": {
         "draws": 17,
@@ -1525,6 +1537,7 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
@@ -1535,6 +1548,7 @@
             "kills": 4,
             "xpGained": 366
           },
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -1544,6 +1558,7 @@
           },
           "gatheringProficiency": {},
           "lifetimeXp": 366,
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -1987,7 +2002,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 398,
-      "state": "180c6cbf",
+      "state": "1975c11b",
       "events": "741638a5",
       "rng": {
         "draws": 17,
@@ -1997,6 +2012,7 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
@@ -2007,6 +2023,7 @@
             "kills": 4,
             "xpGained": 366
           },
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -2016,6 +2033,7 @@
           },
           "gatheringProficiency": {},
           "lifetimeXp": 366,
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}

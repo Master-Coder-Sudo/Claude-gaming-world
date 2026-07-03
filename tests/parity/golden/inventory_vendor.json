@@ -35,7 +35,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "45f65602",
+      "state": "f26e269c",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -45,12 +45,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
           "companionUpgrades": {},
           "copper": 1000,
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -59,6 +61,7 @@
             "mainhand": "worn_sword"
           },
           "gatheringProficiency": {},
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -121,7 +124,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "dd2a2468",
+      "state": "e8a2a620",
       "events": "7bf95546",
       "rng": {
         "draws": 0,
@@ -131,12 +134,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
           "companionUpgrades": {},
           "copper": 710,
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -159,6 +164,7 @@
               "itemId": "minor_healing_potion"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -221,7 +227,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "4e06aa18",
+      "state": "8930d14c",
       "events": "f3f760b9",
       "rng": {
         "draws": 0,
@@ -231,12 +237,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
           "companionUpgrades": {},
           "copper": 710,
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -264,6 +272,7 @@
               "itemId": "roadwardens_helm"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -326,7 +335,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "10456170",
+      "state": "2d55674c",
       "events": "458e51dd",
       "rng": {
         "draws": 0,
@@ -336,12 +345,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
           "companionUpgrades": {},
           "copper": 710,
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -369,6 +380,7 @@
               "itemId": "cryptbone_helm"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -431,7 +443,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "1e3e4276",
+      "state": "0ed86f92",
       "events": "2490dbf8",
       "rng": {
         "draws": 0,
@@ -441,12 +453,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
           "companionUpgrades": {},
           "copper": 710,
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -477,6 +491,7 @@
               "itemId": "roadwardens_helm"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -539,7 +554,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "eca0b99d",
+      "state": "763bcb19",
       "events": "fed0e7d1",
       "rng": {
         "draws": 0,
@@ -549,12 +564,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
           "companionUpgrades": {},
           "copper": 710,
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -585,6 +602,7 @@
               "itemId": "roadwardens_helm"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -660,7 +678,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "afedc5c8",
+      "state": "14826a04",
       "events": "70823a2c",
       "rng": {
         "draws": 0,
@@ -670,12 +688,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
           "companionUpgrades": {},
           "copper": 710,
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -702,6 +722,7 @@
               "itemId": "roadwardens_helm"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -777,7 +798,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "6b3fbfbd",
+      "state": "dd4ba5f5",
       "events": "41e1197e",
       "rng": {
         "draws": 0,
@@ -787,12 +808,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
           "companionUpgrades": {},
           "copper": 710,
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -819,6 +842,7 @@
               "itemId": "roadwardens_helm"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -906,7 +930,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "df530c29",
+      "state": "ee90f92f",
       "events": "059e38cc",
       "rng": {
         "draws": 0,
@@ -916,12 +940,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
           "companionUpgrades": {},
           "copper": 710,
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -952,6 +978,7 @@
               "itemId": "wolf_fang"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -1039,7 +1066,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "e9e0b604",
+      "state": "54c84ef6",
       "events": "960bfa6c",
       "rng": {
         "draws": 0,
@@ -1049,12 +1076,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
           "companionUpgrades": {},
           "copper": 714,
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -1085,6 +1114,7 @@
               "itemId": "wolf_fang"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -1178,7 +1208,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "ac77d963",
+      "state": "c27138e9",
       "events": "f32f2351",
       "rng": {
         "draws": 0,
@@ -1188,12 +1218,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
           "companionUpgrades": {},
           "copper": 724,
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -1220,6 +1252,7 @@
               "itemId": "roadwardens_helm"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -1317,7 +1350,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "88dde53f",
+      "state": "e6e21ccf",
       "events": "a5f485e1",
       "rng": {
         "draws": 0,
@@ -1327,12 +1360,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
           "companionUpgrades": {},
           "copper": 720,
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -1363,6 +1398,7 @@
               "itemId": "wolf_fang"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -1460,7 +1496,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "88dde53f",
+      "state": "e6e21ccf",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -1470,12 +1506,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
           "companionUpgrades": {},
           "copper": 720,
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -1506,6 +1544,7 @@
               "itemId": "wolf_fang"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}

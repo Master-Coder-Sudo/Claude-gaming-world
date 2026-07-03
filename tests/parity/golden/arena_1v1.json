@@ -29,7 +29,7 @@
       "tick": 25,
       "time": 1.25,
       "nextId": 391,
-      "state": "c519cb5f",
+      "state": "2d28519f",
       "events": "e139c8ea",
       "rng": {
         "draws": 0,
@@ -40,7 +40,7 @@
       "tick": 50,
       "time": 2.5,
       "nextId": 391,
-      "state": "6300fd8b",
+      "state": "a20812fb",
       "events": "70f07b73",
       "rng": {
         "draws": 34,
@@ -51,7 +51,7 @@
       "tick": 75,
       "time": 3.75,
       "nextId": 391,
-      "state": "a9c5fa87",
+      "state": "07458447",
       "events": "104802ff",
       "rng": {
         "draws": 134,
@@ -62,7 +62,7 @@
       "tick": 100,
       "time": 5,
       "nextId": 391,
-      "state": "c67c3037",
+      "state": "12da1bf7",
       "events": "a6010c17",
       "rng": {
         "draws": 254,
@@ -73,7 +73,7 @@
       "tick": 125,
       "time": 6.25,
       "nextId": 391,
-      "state": "66478038",
+      "state": "21600014",
       "events": "55bc7862",
       "rng": {
         "draws": 384,
@@ -84,7 +84,7 @@
       "tick": 142,
       "time": 7.1,
       "nextId": 391,
-      "state": "5b7855f8",
+      "state": "6ff9b7d4",
       "events": "741638a5",
       "rng": {
         "draws": 482,
@@ -94,12 +94,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1516,
           "arenaWins": 1,
           "cls": "warrior",
           "companionUpgrades": {},
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -108,6 +110,7 @@
             "mainhand": "worn_sword"
           },
           "gatheringProficiency": {},
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -116,6 +119,7 @@
         },
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaLosses": 1,
           "arenaRating": 1484,
@@ -124,6 +128,7 @@
           "counters": {
             "deaths": 1
           },
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 390,
@@ -132,6 +137,7 @@
             "mainhand": "gnarled_staff"
           },
           "gatheringProficiency": {},
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}

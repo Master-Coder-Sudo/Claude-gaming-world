@@ -17,7 +17,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "d4492b11",
+      "state": "62089c53",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -27,12 +27,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
           "cls": "warrior",
           "companionUpgrades": {},
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -41,6 +43,7 @@
             "mainhand": "worn_sword"
           },
           "gatheringProficiency": {},
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -103,7 +106,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "311349a1",
+      "state": "5fa967b7",
       "events": "799cce3e",
       "rng": {
         "draws": 0,
@@ -113,12 +116,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
           "cls": "warrior",
           "companionUpgrades": {},
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -128,6 +133,7 @@
           },
           "gatheringProficiency": {},
           "lifetimeXp": 167200,
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {
@@ -194,7 +200,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "ff375eaa",
+      "state": "6ec51d4c",
       "events": "a8848b3e",
       "rng": {
         "draws": 0,
@@ -204,12 +210,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
           "cls": "warrior",
           "companionUpgrades": {},
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -219,6 +227,7 @@
           },
           "gatheringProficiency": {},
           "lifetimeXp": 167200,
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {},
@@ -282,7 +291,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "771c9529",
+      "state": "da442677",
       "events": "f3824701",
       "rng": {
         "draws": 0,
@@ -291,12 +300,14 @@
       "label": "second-build",
       "players": [
         {
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
           "cls": "warrior",
           "companionUpgrades": {},
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -323,6 +334,7 @@
               "name": "Arms"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {
@@ -388,7 +400,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "7ae60fbc",
+      "state": "f0ddeada",
       "events": "68e599fc",
       "rng": {
         "draws": 0,
@@ -397,12 +409,14 @@
       "label": "switch-loadout",
       "players": [
         {
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
           "cls": "warrior",
           "companionUpgrades": {},
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -429,6 +443,7 @@
               "name": "Arms"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {
@@ -494,7 +509,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "c73de368",
+      "state": "17d9288e",
       "events": "799cce3e",
       "rng": {
         "draws": 0,
@@ -503,12 +518,14 @@
       "label": "set-spec",
       "players": [
         {
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
           "cls": "warrior",
           "companionUpgrades": {},
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -535,6 +552,7 @@
               "name": "Arms"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {},
@@ -598,7 +616,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "c73de368",
+      "state": "17d9288e",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -607,12 +625,14 @@
       "label": "final",
       "players": [
         {
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
           "cls": "warrior",
           "companionUpgrades": {},
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -639,6 +659,7 @@
               "name": "Arms"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {},

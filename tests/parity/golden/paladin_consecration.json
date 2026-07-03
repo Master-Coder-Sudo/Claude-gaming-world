@@ -15,7 +15,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "5d366d4a",
+      "state": "c9dd457c",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -25,12 +25,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
           "cls": "paladin",
           "companionUpgrades": {},
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -39,6 +41,7 @@
             "mainhand": "training_mace"
           },
           "gatheringProficiency": {},
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -102,7 +105,7 @@
       "tick": 20,
       "time": 1,
       "nextId": 391,
-      "state": "856a57b7",
+      "state": "f39b0e39",
       "events": "b4299a02",
       "rng": {
         "draws": 4,
@@ -113,7 +116,7 @@
       "tick": 40,
       "time": 2,
       "nextId": 391,
-      "state": "77958922",
+      "state": "3b30c380",
       "events": "741638a5",
       "rng": {
         "draws": 4,
@@ -124,7 +127,7 @@
       "tick": 60,
       "time": 3,
       "nextId": 391,
-      "state": "fd463862",
+      "state": "3cc4b52a",
       "events": "51b826d4",
       "rng": {
         "draws": 80,
@@ -135,7 +138,7 @@
       "tick": 80,
       "time": 4,
       "nextId": 391,
-      "state": "eb237b4d",
+      "state": "e6718489",
       "events": "741638a5",
       "rng": {
         "draws": 170,
@@ -146,7 +149,7 @@
       "tick": 100,
       "time": 5,
       "nextId": 391,
-      "state": "20050e17",
+      "state": "fb5ddd1d",
       "events": "bfd845e5",
       "rng": {
         "draws": 270,
@@ -157,7 +160,7 @@
       "tick": 120,
       "time": 6,
       "nextId": 391,
-      "state": "18100012",
+      "state": "f74ee0bc",
       "events": "741638a5",
       "rng": {
         "draws": 387,
@@ -168,7 +171,7 @@
       "tick": 140,
       "time": 7,
       "nextId": 391,
-      "state": "ad31a44a",
+      "state": "f6ffc2e4",
       "events": "b26de961",
       "rng": {
         "draws": 501,
@@ -179,7 +182,7 @@
       "tick": 160,
       "time": 8,
       "nextId": 391,
-      "state": "f9e27c74",
+      "state": "0347c8be",
       "events": "741638a5",
       "rng": {
         "draws": 627,
@@ -190,7 +193,7 @@
       "tick": 180,
       "time": 9,
       "nextId": 391,
-      "state": "eaef534a",
+      "state": "8abb5210",
       "events": "edc2d1e7",
       "rng": {
         "draws": 765,
@@ -201,7 +204,7 @@
       "tick": 200,
       "time": 10,
       "nextId": 391,
-      "state": "a90162af",
+      "state": "a0572151",
       "events": "741638a5",
       "rng": {
         "draws": 931,
@@ -212,7 +215,7 @@
       "tick": 201,
       "time": 10.05,
       "nextId": 391,
-      "state": "233823ab",
+      "state": "d49c58e5",
       "events": "741638a5",
       "rng": {
         "draws": 932,
@@ -222,6 +225,7 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -231,6 +235,7 @@
             "damageDealt": 164,
             "damageTaken": 22
           },
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -240,6 +245,7 @@
           },
           "gatheringProficiency": {},
           "lifetimeXp": 167200,
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}

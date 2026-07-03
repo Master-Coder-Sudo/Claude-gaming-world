@@ -15,7 +15,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "23e43980",
+      "state": "840f8a60",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -25,12 +25,14 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
           "cls": "rogue",
           "companionUpgrades": {},
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -39,6 +41,7 @@
             "mainhand": "rusty_dagger"
           },
           "gatheringProficiency": {},
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -103,7 +106,7 @@
       "tick": 20,
       "time": 1,
       "nextId": 391,
-      "state": "2660635f",
+      "state": "93df1f93",
       "events": "046941dc",
       "rng": {
         "draws": 9,
@@ -114,7 +117,7 @@
       "tick": 40,
       "time": 2,
       "nextId": 391,
-      "state": "5f23e47c",
+      "state": "c65595e0",
       "events": "731af17e",
       "rng": {
         "draws": 15,
@@ -125,7 +128,7 @@
       "tick": 60,
       "time": 3,
       "nextId": 391,
-      "state": "7c4f7ce3",
+      "state": "4bd96e4d",
       "events": "f2487ec0",
       "rng": {
         "draws": 90,
@@ -136,7 +139,7 @@
       "tick": 72,
       "time": 3.6,
       "nextId": 391,
-      "state": "0e8d288f",
+      "state": "9f3ac451",
       "events": "741638a5",
       "rng": {
         "draws": 143,
@@ -146,6 +149,7 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -155,6 +159,7 @@
             "damageDealt": 79,
             "damageTaken": 9
           },
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -164,6 +169,7 @@
           },
           "gatheringProficiency": {},
           "lifetimeXp": 27600,
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}

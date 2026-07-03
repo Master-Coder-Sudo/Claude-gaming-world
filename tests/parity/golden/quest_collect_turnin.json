@@ -16,7 +16,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "812c3f60",
+      "state": "dfc3d322",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -26,11 +26,13 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
           "companionUpgrades": {},
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -39,6 +41,7 @@
             "mainhand": "worn_sword"
           },
           "gatheringProficiency": {},
+          "nodeHarvestReadyAt": {},
           "talents": {
             "choices": {},
             "ranks": {}
@@ -101,7 +104,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "d41f26f8",
+      "state": "7f305912",
       "events": "714d6ddf",
       "rng": {
         "draws": 0,
@@ -111,11 +114,13 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
           "companionUpgrades": {},
           "counters": {},
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -124,6 +129,7 @@
             "mainhand": "worn_sword"
           },
           "gatheringProficiency": {},
+          "nodeHarvestReadyAt": {},
           "questLog": [
             [
               "q_boars",
@@ -198,7 +204,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "88748d29",
+      "state": "76700a1f",
       "events": "f5ba3286",
       "rng": {
         "draws": 0,
@@ -208,6 +214,7 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
@@ -215,6 +222,7 @@
           "counters": {
             "questProgress": 5
           },
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -229,6 +237,7 @@
               "itemId": "boar_hide"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "questLog": [
             [
               "q_boars",
@@ -303,7 +312,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "d5e99404",
+      "state": "8bb5d486",
       "events": "1858db2d",
       "rng": {
         "draws": 0,
@@ -313,6 +322,7 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
@@ -320,6 +330,7 @@
           "counters": {
             "questProgress": 5
           },
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -334,6 +345,7 @@
               "itemId": "boar_hide"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "questLog": [
             [
               "q_boars",
@@ -408,7 +420,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "14373cd2",
+      "state": "f4b03ff2",
       "events": "3b371ba6",
       "rng": {
         "draws": 0,
@@ -418,6 +430,7 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
@@ -425,6 +438,7 @@
           "counters": {
             "questProgress": 6
           },
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -439,6 +453,7 @@
               "itemId": "boar_hide"
             }
           ],
+          "nodeHarvestReadyAt": {},
           "questLog": [
             [
               "q_boars",
@@ -513,7 +528,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 390,
-      "state": "9fbc07fd",
+      "state": "5eebcb9b",
       "events": "5c5c3b4e",
       "rng": {
         "draws": 0,
@@ -523,6 +538,7 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
@@ -533,6 +549,7 @@
             "questsCompleted": 1,
             "xpGained": 350
           },
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -542,6 +559,7 @@
           },
           "gatheringProficiency": {},
           "lifetimeXp": 350,
+          "nodeHarvestReadyAt": {},
           "questsDone": [
             "q_boars"
           ],
@@ -608,7 +626,7 @@
       "tick": 2,
       "time": 0.1,
       "nextId": 390,
-      "state": "d7ea417b",
+      "state": "4293fe49",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -618,6 +636,7 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "cls": "warrior",
@@ -628,6 +647,7 @@
             "questsCompleted": 1,
             "xpGained": 350
           },
+          "craftSkills": {},
           "delveClears": {},
           "delveDaily": {},
           "entityId": 389,
@@ -637,6 +657,7 @@
           },
           "gatheringProficiency": {},
           "lifetimeXp": 350,
+          "nodeHarvestReadyAt": {},
           "questsDone": [
             "q_boars"
           ],
