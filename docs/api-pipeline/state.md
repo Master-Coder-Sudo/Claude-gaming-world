@@ -60,8 +60,27 @@ FROM it (stopgap discarded, nothing committed upstream), and its
 environment_probe.test.ts is locally removed (imports src/game/client_env, main-repo
 client work that has not shipped). Validation: tsc 0, npm run gate PASS all 9 steps (752
 files / 8580 passed + 13 skipped), build:server green. Full record: progress.md Phase 24
-Notes. NEXT: the Phase 24 QA gate (phase-24-qa.md), then Phase 25
-(phase-25-docs-flag-flip.md).
+Notes. NEXT: Phase 25 (phase-25-docs-flag-flip.md), the LAST phase.
+
+Phase 24 QA gate (phase-24-qa.md) DONE (2026-07-03): PASS, apply-all, 0 BLOCKING, 3
+SHOULD-FIX found and fixed (a76ccbc37 + 3ce3702f3 + 73ca3de65). All ten ACs MET (AC2/AC5
+as amended by the corrected premises). The three fixes: (1) the SET-BUT-EMPTY numeric env
+default-shift ('CHAT_LOG_RETENTION_DAYS=' meant 0 = keep forever pre-P24 via Number(''),
+now the 90-day default so pruning silently turns on; semantics KEPT and pinned in
+config.test.ts, explicit 0 stays keep-forever, hazard added to maintainer action 1 + a
+DEPLOY.md env-hygiene bullet); (2) the startServer timeout wiring is now source-pinned in
+tunables.test.ts (createServer maxHeaderSize + applyServerTimeouts; deleting the wiring
+used to stay green); (3) the perf-gate header's O(1)-dispatch overclaim reworded to the
+honest counted-seam scope (an O(routes) matcher scan internal to one dispatch counts 1 at
+every seam) and the PERF_GATE_WALLCLOCK=1 arm added to Phase 25's pre-flip validation
+(run in this QA: 10/10 pass). Nits applied: exceptions block trued up (the two /api/perf
+gates, the daily-rewards TTL knob, MARKET_BACKFILL_DRY_RUN, ambient-NODE_ENV scope,
+Config.allowDevCommands has NO live consumer yet, a P25 wire-or-drop decision item);
+purity pinned both directions; isBareOrigin credential/query/hash negatives;
+activeConfig() memoization pin; literal-spelling bans; bearerCredential doc fix.
+Dead-code audit CLEAN; privacy-security-review 0/0 (+2 nits applied); qa-checklist READY
+0/0. Validation after fixes: tsc 0, ci:changed 0, build:server 0, npm run gate PASS all
+9 steps (760 files / 8667 passed + 13 skipped).
 
 Phase 23 (structured logging + /metrics exporter + drain-aware health) DONE (2026-07-03).
 The Phase 8 observability seam is now LIVE: server/main.ts injects a composite

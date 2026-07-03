@@ -63,7 +63,7 @@ Mark a row's Status as "In progress" or "Done" and fill Started / Completed
 | Phase 23 QA | Done | 2026-07-03 | 2026-07-03 |
 | v0.20.0 release merge + audit | Done | 2026-07-03 | 2026-07-03 |
 | Phase 24 | Done | 2026-07-03 | 2026-07-03 |
-| Phase 24 QA | Not started |  |  |
+| Phase 24 QA | Done | 2026-07-03 | 2026-07-03 |
 | Phase 25 | Not started |  |  |
 | Phase 25 QA | Not started |  |  |
 
@@ -1467,10 +1467,10 @@ Deliverables:
 - [x] Add the perf/tick-jitter acceptance gate (pipeline adds < X ms p99, tick p95 stays under 0.8 x DT)
 
 QA:
-- [ ] Fixes applied
-- [ ] Tests added
-- [ ] Dead code removed
-- [ ] Reviews clean
+- [x] Fixes applied
+- [x] Tests added
+- [x] Dead code removed (audit CLEAN: nothing to remove; six letter-unclassified env reads adjudicated intentional-keep, exceptions block trued up)
+- [x] Reviews clean
 
 Notes:
 
@@ -1530,6 +1530,50 @@ committing the merge-session stopgap upstream; its environment_probe.test.ts is 
 removed (imports src/game/client_env, unshipped main-repo client work). Validation:
 tsc 0, npm run gate PASS all 9 steps (752 files / 8580 passed + 13 skipped),
 build:server green. NEXT: Phase 24 QA gate (phase-24-qa.md).
+
+Phase 24 QA gate (phase-24-qa.md) DONE (2026-07-03): PASS, apply-all, 0 BLOCKING.
+Five-track audit over the phase-scoped diff 260bfb916..309874bd6 (raw main...HEAD carries
+out-of-scope v0.20.0 release content per the packet's premise correction): a 12-agent
+workflow (correctness vs the ten STEP 5 ACs, test-coverage, dead-code; every
+BLOCKING/SHOULD-FIX finding verified by 3 adversarial lenses, 9/9 upholds) plus
+privacy-security-review and qa-checklist as direct reviewers. All ten ACs MET (AC2/AC5
+as amended by the corrected premises: the validated key set is DATABASE_URL /
+REQUIRE_WEB_LOGIN / the two enforce flags / PUBLIC_ORIGIN / REALMS / API_DISPATCH, and
+the card comment cites the 4 MiB MAX_CARD_BYTES). THREE SHOULD-FIX found, all fixed
+(a76ccbc37 comments, 3ce3702f3 tests, 73ca3de65 docs):
+(1) SET-BUT-EMPTY numeric env default-shift: pre-P24 'CHAT_LOG_RETENTION_DAYS=' meant
+Number('') = 0 = keep chat logs forever; numberOr reads empty as unset, so the same
+placeholder line now means the 90-day default and pruning silently turns ON
+(irreversible). Semantics deliberately KEPT (empty = ambiguous = default; the legacy 0
+was a JS quirk) and pinned in config.test.ts (explicit 0 stays keep-forever), with the
+hazard added to maintainer action 1 and a DEPLOY.md env-hygiene bullet.
+(2) The startServer timeout wiring was asserted only by inspection (deleting
+applyServerTimeouts(server) stayed green); tunables.test.ts now source-pins
+createServer({ maxHeaderSize: MAX_HEADER_SIZE_BYTES }) + applyServerTimeouts(server).
+(3) The perf-gate header overclaimed O(1) dispatch: counted seams cannot see an
+O(routes) matcher scan internal to one dispatch (it still counts 1 per seam), so the
+header now states the honest counted-seam scope and Phase 25's pre-flip validation
+gains the PERF_GATE_WALLCLOCK=1 arm (run in this QA: 10/10 pass, wall-clock arms
+included, added-p99 and tick p95 well under budget).
+Nits applied (apply-all): the conscious-exceptions block trued up (the two /api/perf
+ALLOW_DEV_COMMANDS request-time gates with the dual-arm-parity rationale, the
+daily-rewards module-load TTL knob, db.ts MARKET_BACKFILL_DRY_RUN, an ambient-NODE_ENV
+scope note, and an honest Config.allowDevCommands role comment: it has NO live consumer
+yet, a P25 wire-or-drop decision item); loadConfig purity pinned in BOTH directions
+(ambient keys absent from the arg cannot fall through); isBareOrigin per-dimension
+negatives (credentials / query / hash, plus a credentialed REALMS entry); an
+activeConfig() memoization pin through the /metrics gate (env mutation without reset
+must NOT re-read); literal-spelling bans (16_384, 1_048_576, and a generic
+daily-rewards decode-default digit ban); the bearerCredential repeated-header doc fix.
+Dead-code audit CLEAN: no orphaned module consts, no re-typed literals, no commented-out
+code, every new export has a real importer, zero genuinely missed env reads. Reviewers:
+privacy-security-review 0 BLOCKING / 0 SHOULD-FIX (2 nits, applied; notes the
+legacy-in-prod ALERT fires on every prod boot until the P25 flip, by design);
+qa-checklist READY 0/0 (its three VERIFY items closed: full gate re-run PASS, wall-clock
+arm 10/10, deploy-env audit extended by finding 1). Validation after fixes: tsc 0, the
+six phase files 102 passed + 2 env-gated skips, ci:changed exit 0, build:server exit 0,
+npm run gate PASS all 9 steps (760 files / 8667 passed + 13 skipped). NEXT: Phase 25
+(phase-25-docs-flag-flip.md), the LAST phase.
 
 ## v0.20.0 release merge, second slice (2026-07-03): housekeeping family + deferred GameServer construction
 
