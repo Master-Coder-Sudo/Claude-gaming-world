@@ -13,7 +13,10 @@
 //   (g) wallet private-key-shaped fields (private_key / mnemonic / seed_phrase);
 //   (h) raw byte values (Buffer / TypedArray / ArrayBuffer) collapse to the
 //       placeholder wholesale, so a secret held as bytes under a non-secret key
-//       name can never serialize into a line.
+//       name can never serialize into a line;
+//   (i) email addresses (local@domain.tld) anywhere in a string. Signup requires an
+//       email, so raw addresses flow through register / set-initial / Discord-capture
+//       bodies and must never land in a swept log field.
 //
 // It is defensive by construction: it recurses into nested objects and arrays with
 // path-based cycle protection, is idempotent (redact(redact(x)) deep-equals
@@ -100,10 +103,22 @@ function isSecretKey(name: string): boolean {
 const BEARER_RE = /Bearer\s+[\w.\-~+/=]+/gi;
 // A standalone 64-hex bearer token (the newToken() shape) anywhere in a string.
 const HEX64_RE = /\b[a-f0-9]{64}\b/gi;
+// An email address (local@domain.tld) anywhere in a string. Deliberately RFC-lite and
+// conservative: it requires a dotted TLD of 2 to 24 letters, so a bare '@handle' or a
+// 'name@build' version tag (no dot-TLD) survives while a real address is redacted.
+// BOUNDED quantifiers (the RFC 5321 caps: 64-char local part, 255-char domain) keep the
+// per-position backtracking constant, so a non-matching adversarial value scans in time
+// linear in its length. The unbounded form was measurably quadratic (seconds on a 60 KB
+// value), and the redactor runs on the same event-loop thread as the 20 Hz world loop,
+// so that mattered. A local part longer than 64 chars is not a real email; its tail 64
+// chars still redact, which destroys the address linkage either way.
+const EMAIL_RE = /[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{1,255}\.[A-Za-z]{2,24}/g;
 
-/** Scrub inline Bearer credentials and standalone 64-hex tokens out of a string. */
+/** Scrub inline Bearer credentials, 64-hex tokens, and email addresses from a string. */
 function redactString(raw: string): string {
-  return raw.replace(BEARER_RE, REDACTED).replace(HEX64_RE, REDACTED);
+  const scrubbed = raw.replace(BEARER_RE, REDACTED).replace(HEX64_RE, REDACTED);
+  // The '@' probe skips the email pass entirely for the common no-address value.
+  return scrubbed.includes('@') ? scrubbed.replace(EMAIL_RE, REDACTED) : scrubbed;
 }
 
 /**

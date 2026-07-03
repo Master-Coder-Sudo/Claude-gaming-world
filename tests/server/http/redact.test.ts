@@ -162,3 +162,71 @@ describe('redact: structure and totality', () => {
     expect(out.note).toBe('plain');
   });
 });
+
+describe('redact: email value pattern', () => {
+  it('(a) scrubs a plain email address in a string value', () => {
+    const out = redact({ email: 'fernando@example.com' }) as Record<string, unknown>;
+    expect(out.email).toBe(REDACTED);
+  });
+
+  it('(b) scrubs an email embedded mid-sentence, preserving surrounding text', () => {
+    expect(redact('reset link sent to fernando@example.com now')).toBe(
+      'reset link sent to [redacted] now',
+    );
+  });
+
+  it('(c) scrubs multiple emails in one value', () => {
+    expect(redact('cc alice@example.com and bob@mail.co.uk please')).toBe(
+      'cc [redacted] and [redacted] please',
+    );
+  });
+
+  it('(d) scrubs an email nested inside an object and inside an array value', () => {
+    const out = redact({
+      contact: { primary: 'user@domain.io' },
+      recipients: ['a@b.com', 'plain text'],
+    }) as { contact: Record<string, unknown>; recipients: unknown[] };
+    expect(out.contact.primary).toBe(REDACTED);
+    expect(out.recipients[0]).toBe(REDACTED);
+    expect(out.recipients[1]).toBe('plain text');
+  });
+
+  it('(e) negative: a bare @handle without a dot-TLD survives', () => {
+    expect(redact('ping @fernando in chat')).toBe('ping @fernando in chat');
+  });
+
+  it('(f) negative: a version-style name@tag without a dotted TLD survives', () => {
+    // 'sha256' has no dot-TLD, so this build tag is not email-shaped and must survive.
+    expect(redact('artifact build-7@sha256 ready')).toBe('artifact build-7@sha256 ready');
+  });
+
+  it('(f) negative: a bare domain with no local part survives', () => {
+    expect(redact('see example.com for the docs')).toBe('see example.com for the docs');
+  });
+
+  it('(g) still scrubs a maximum-length RFC-shaped address', () => {
+    // 64-char local part + a long dotted domain: inside the bounded quantifiers.
+    // 'z' keeps the local part out of HEX64_RE's [a-f0-9]{64} (which would
+    // otherwise redact it first and split the address before the email pass).
+    const email = `${'z'.repeat(64)}@${'sub.'.repeat(10)}example.com`;
+    expect(redact(`contact ${email} now`)).toBe(`contact ${REDACTED} now`);
+  });
+
+  it('(h) pathological non-matching values complete in linear time', () => {
+    // Regression pin for the bounded-quantifier EMAIL_RE: with the earlier unbounded
+    // pattern each of these 80 KB non-matching shapes backtracked quadratically
+    // (about 3 seconds each, blowing this test's 2 s cap); the bounded pattern
+    // scans each in about 10 ms, so the cap has two orders of magnitude of slack
+    // while still failing loudly on a quadratic regression.
+    const shapes = [
+      `a@${'a.'.repeat(40_000)}`,
+      `${'a'.repeat(40_000)}@${'b'.repeat(40_000)}`,
+      `x@${'.'.repeat(80_000)}`,
+      `x@${'a.-'.repeat(26_000)}`,
+    ];
+    for (const value of shapes) {
+      const out = redact({ blob: value }) as Record<string, unknown>;
+      expect(out.blob).toBe(value);
+    }
+  }, 2_000);
+});

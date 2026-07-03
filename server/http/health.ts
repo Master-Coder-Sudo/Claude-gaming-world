@@ -15,6 +15,7 @@
 // drain state. markDraining() is idempotent and one-way for the process lifetime;
 // resetHealthForTests() restores the initial state so a test file stays isolated.
 
+import { timingSafeEqual } from 'node:crypto';
 import type * as http from 'node:http';
 import { logger } from './logger';
 
@@ -93,4 +94,56 @@ export async function handleMetrics(res: http.ServerResponse, deps: MetricsSourc
     logger.error({ err }, 'metrics exposition failed');
     writePlain(res, 500, 'metrics unavailable');
   }
+}
+
+// Length-guarded constant-time compare, mirroring
+// server/http/middleware/require_internal_secret.ts secretsMatch (which mirrors
+// server/internal.ts): the length check short-circuits (timingSafeEqual requires
+// equal-length buffers) and the value compare is constant-time, so a mismatch
+// reveals nothing about the expected token through timing. Never logs a value.
+function secretsMatch(actual: string, expected: string): boolean {
+  const actualBuffer = Buffer.from(actual);
+  const expectedBuffer = Buffer.from(expected);
+  return (
+    actualBuffer.length === expectedBuffer.length && timingSafeEqual(actualBuffer, expectedBuffer)
+  );
+}
+
+// Extract the credential from an Authorization: Bearer <token> header, or '' when
+// the header is absent, repeated, or not a Bearer scheme. Case-insensitive scheme.
+function bearerCredential(header: string | string[] | undefined): string {
+  const raw = Array.isArray(header) ? header[0] : header;
+  if (typeof raw !== 'string') return '';
+  const match = raw.match(/^Bearer\s+(.+)$/i);
+  return match ? match[1] : '';
+}
+
+/**
+ * GET /metrics access gate. The Prometheus exposition can leak operational shape,
+ * so it is protected by a bearer token read from config (never a literal):
+ *  - token empty (unset): the endpoint is feature-off, answered 404 so it hides
+ *    entirely (mirrors require_internal_secret's feature-off 404, anti-enumeration).
+ *  - token set, Authorization: Bearer <token> matches (length-guarded constant-time
+ *    compare): serve the exposition via handleMetrics (200 + no-store).
+ *  - token set, credential missing or wrong: an opaque 401 that never echoes the
+ *    token (mirrors require_internal_secret's mismatch 401).
+ * Every arm carries Cache-Control: no-store. /livez and /readyz stay open (the
+ * caller mounts them separately). Dev-channel English bodies, never a t() key.
+ */
+export async function handleMetricsGate(
+  req: http.IncomingMessage,
+  res: http.ServerResponse,
+  deps: MetricsSource,
+  token: string,
+): Promise<void> {
+  if (!token) {
+    writePlain(res, 404, 'not found');
+    return;
+  }
+  const presented = bearerCredential(req.headers.authorization);
+  if (!secretsMatch(presented, token)) {
+    writePlain(res, 401, 'unauthorized');
+    return;
+  }
+  await handleMetrics(res, deps);
 }
