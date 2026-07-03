@@ -62,19 +62,20 @@ export function startAutoAttack(ctx: SimContext, pid?: number): void {
   if (p.sitting) ctx.standUp(p);
   p.autoAttack = true;
   r.meta.lastActiveTick = ctx.tickCount; // starting auto-attack is a deliberate action
+  // Engaging MELEE auto-attack seeds aggro at once, because the swing lands almost
+  // immediately. Ranged auto-attack (wand / auto shot, up to 30-35yd) must NOT pre-aggro
+  // at engage: its threat comes from the shot LANDING (rangedSwing schedules a projectile
+  // whose impact aggros, like the spell it accompanies). Otherwise the "Attack on Ability
+  // Use" QoL, which engages auto-attack when you cast a damaging spell, pulls a distant
+  // mob the instant the cast starts, before anything lands.
   const d = dist2d(p.pos, t.pos);
-  const ranged = CLASSES[r.meta.cls].ranged;
-  const inAutoAttackRange = ranged
-    ? d <= ranged.maxRange && d >= (ranged.wand ? 0 : ranged.minRange) && ctx.hasLineOfSight(p, t)
-    : d <= MELEE_RANGE;
-  // Engaging pulls the idle target into combat, but ONLY when a swing can
-  // actually happen now: while a cast is in progress the swing loop is paused
-  // (updatePlayerAutoAttack bails on castingAbility), so a mid-cast Attack
-  // press must not aggro an untouched mob (the aggro-before-damage bug). The
-  // toggle still arms autoAttack above; once the cast resolves, the first
-  // landed swing (or the spell's own damage) aggros the target legitimately.
+  // The melee seed is additionally gated on no cast in progress: the swing loop is
+  // paused while casting (updatePlayerAutoAttack bails on castingAbility), so a
+  // mid-cast Attack press must not aggro an untouched mob (the aggro-before-damage
+  // bug, #1324). The toggle still arms autoAttack above; once the cast resolves, the
+  // first landed swing (or the spell's own damage) aggros the target legitimately.
   if (
-    inAutoAttackRange &&
+    d <= MELEE_RANGE &&
     !p.castingAbility &&
     t.kind === 'mob' &&
     t.hostile &&

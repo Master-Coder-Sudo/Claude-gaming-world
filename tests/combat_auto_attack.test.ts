@@ -235,6 +235,40 @@ describe('auto_attack start/stopAutoAttack', () => {
   });
 });
 
+describe('auto_attack startAutoAttack: ranged engage must not pre-aggro (issue #1)', () => {
+  // Casting a damaging spell engages the wand / auto-shot via the "Attack on Ability
+  // Use" QoL (default on). That must NOT aggro a distant mob the instant the cast
+  // starts: ranged threat comes from the shot LANDING (rangedSwing schedules a
+  // projectile), exactly like the spell it accompanies. Only melee, where a swing
+  // lands at once, seeds aggro on engage.
+  it('a wand caster engaging at ranged distance does NOT aggro an idle mob', () => {
+    const { sim, p } = makeSim('mage', 12);
+    const mob = spawnDummy(sim, p, 12, 25); // 25yd: inside the 30yd wand range, beyond melee
+    startAutoAttack(sim.ctx, p.id);
+    expect(p.autoAttack).toBe(true); // auto-attack still engages
+    expect(mob.aiState).toBe('idle'); // but the mob is NOT pulled at engage time
+    expect(mob.aggroTargetId).toBe(null);
+  });
+
+  it('melee engage still seeds aggro immediately (unchanged behavior)', () => {
+    const { sim, p } = makeSim('warrior', 12);
+    const mob = spawnDummy(sim, p, 12, 2); // 2yd: melee range, a swing lands at once
+    startAutoAttack(sim.ctx, p.id);
+    expect(p.autoAttack).toBe(true);
+    expect(mob.aggroTargetId).toBe(p.id);
+  });
+
+  it('a wand caster still aggros the mob when the shot actually lands', () => {
+    const { sim, p } = makeSim('mage', 12);
+    const mob = spawnDummy(sim, p, 12, 25);
+    const events = capture(sim);
+    startAutoAttack(sim.ctx, p.id);
+    expect(mob.aggroTargetId).toBe(null); // not at engage
+    landProjectiles(sim, events, (e) => e.type === 'damage' && e.sourceId === p.id, 60);
+    expect(mob.aggroTargetId).toBe(p.id); // aggroed on impact, the classic-correct moment
+  });
+});
+
 describe('auto_attack determinism', () => {
   it('identical seeds produce an identical swing-damage sequence (seeded replay)', () => {
     const run = (): number[] => {
