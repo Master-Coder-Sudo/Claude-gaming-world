@@ -815,6 +815,9 @@ export class Hud {
   // shown, and drives both the log filter and the send channel.
   private chatTabs: ChatOpenTab[] = [];
   private activeChatTab: ChatTabId = 'all';
+  // Bind the tab-strip wheel-to-horizontal-scroll listener exactly once (renderChatTabs
+  // rebuilds the strip's children but the bar element itself persists).
+  private chatTabsWheelBound = false;
   private errorEl = $('#error-msg');
   private bannerEl = $('#banner');
   // The WoW-style quest-progress flash (quest_progress_banner.ts): yellow
@@ -2310,6 +2313,22 @@ export class Hud {
 
   private renderChatTabs(): void {
     const bar = $('#chatlog-tabs');
+    // Overflowed tabs scroll horizontally (see #chatlog-tabs in hud.css); translate
+    // a vertical wheel into that scroll (bound once, the bar element persists across
+    // these innerHTML rebuilds) so a mouse without a horizontal wheel can still reach
+    // them. A no-op until the strip actually overflows.
+    if (!this.chatTabsWheelBound) {
+      this.chatTabsWheelBound = true;
+      bar.addEventListener(
+        'wheel',
+        (ev) => {
+          if (ev.deltaY === 0 || bar.scrollWidth <= bar.clientWidth) return;
+          ev.preventDefault();
+          bar.scrollLeft += ev.deltaY;
+        },
+        { passive: false },
+      );
+    }
     bar.innerHTML = '';
     bar.setAttribute('role', 'tablist');
     const makeTab = (id: ChatTabId, label: string): HTMLButtonElement => {
