@@ -18,12 +18,12 @@ import type * as http from 'node:http';
 import { allowedCorsOrigin } from '../../web_login_guard';
 import { HttpError } from '../errors';
 import type { Ctx, Middleware, Next, RouteDef } from '../types';
+// The shared mutating-method set: single-sourced in the sibling gate so the two
+// Phase 21 gates cannot diverge on which methods they cover.
+import { MUTATING_METHODS } from './content_type';
 
 /** Env var that flips the cross-site Origin check from log-only to enforce. */
 export const ORIGIN_CHECK_ENFORCE_ENV = 'API_ORIGIN_CHECK_ENFORCE';
-
-/** The mutating methods the check gates; GET/HEAD/OPTIONS are safe and never gated. */
-const MUTATING_METHODS: ReadonlySet<string> = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 
 /**
  * True only when the enforce flag is '1' or 'true'. Any other value (including an
@@ -142,7 +142,7 @@ export function withOriginCheck(
     if (typeof origin !== 'string' || origin === '') return next();
     if (isSameOriginHost(origin, ctx.req) || allowOrigin(origin)) return next();
 
-    const enforced = originCheckEnforced(opts.env ?? process.env);
+    const enforced = originCheckEnforced(opts.env);
     sink({
       route: route.path,
       method: ctx.method,

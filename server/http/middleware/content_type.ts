@@ -29,10 +29,16 @@ const APPLICATION_JSON = 'application/json';
 
 /**
  * The methods that carry a request-body contract. A GET/HEAD/OPTIONS request has
- * no body to type, so the gate never touches one. Frozen so the set is a single
- * source of truth, not an inline literal rebuilt per request.
+ * no body to type, so the gate never touches one. Exported as the ONE mutating-set
+ * source of truth: the sibling origin_check gate keys on this same set, so the two
+ * Phase 21 gates cannot silently diverge on which methods they cover.
  */
-const MUTATING_METHODS: ReadonlySet<Method> = new Set<Method>(['POST', 'PUT', 'PATCH', 'DELETE']);
+export const MUTATING_METHODS: ReadonlySet<Method> = new Set<Method>([
+  'POST',
+  'PUT',
+  'PATCH',
+  'DELETE',
+]);
 
 /**
  * Whether the gate enforces (throws 415) or only logs. True ONLY for '1' or
