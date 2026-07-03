@@ -392,6 +392,8 @@ export const vi_VN: EnTranslations = {
       "showDevBadges": "Hiện Huy Hiệu Nhà Phát Triển",
       "showOwnNameplate": "Show My Nameplate",
       "uiScale": "Tỷ Lệ Giao Diện",
+      "playerFrameScale": "Player Frame Scale",
+      "targetFrameScale": "Target Frame Scale",
       "highContrastBackground": "Nền Tương Phản Cao",
       "startAttackOnAbility": "Tự Đánh Khi Dùng Kỹ Năng",
       "walkByAutoloot": "Walk-by Autoloot",
@@ -850,6 +852,13 @@ export const vi_VN: EnTranslations = {
     "targetFrame": {
       "unlock": "Move target frame",
       "lock": "Lock target frame"
+    },
+    "playerFrame": {
+      "unlock": "Move player frame",
+      "lock": "Lock player frame"
+    },
+    "frameReset": {
+      "label": "Reset Frame Positions"
     },
     "itemTooltip": {
       "requiresLevel": "Yêu cầu Cấp {level}"
@@ -5044,6 +5053,33 @@ export const vi_VN: EnTranslations = {
       },
       "monarch_crown_helm": {
         "name": "Vương Miện Quân Vương"
+      },
+      "copper_mining_pick": {
+        "name": "Cuốc Khai Khoáng Đồng"
+      },
+      "iron_mining_pick": {
+        "name": "Cuốc Khai Khoáng Sắt"
+      },
+      "mithril_mining_pick": {
+        "name": "Cuốc Khai Khoáng Mithril"
+      },
+      "handaxe": {
+        "name": "Rìu Tay"
+      },
+      "felling_axe": {
+        "name": "Rìu Đốn Gỗ"
+      },
+      "ironbark_axe": {
+        "name": "Rìu Vỏ Sắt"
+      },
+      "gathering_sickle": {
+        "name": "Liềm Thu Hoạch"
+      },
+      "bronze_sickle": {
+        "name": "Liềm Đồng"
+      },
+      "silverleaf_sickle": {
+        "name": "Liềm Lá Bạc"
       },
       "bristleback_maul": {
         "name": "Vồ Lưng Gai"

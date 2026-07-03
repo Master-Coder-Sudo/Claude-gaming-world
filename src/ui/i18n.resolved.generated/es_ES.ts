@@ -392,6 +392,8 @@ export const es_ES: EnTranslations = {
       "showDevBadges": "Mostrar insignias de desarrollador",
       "showOwnNameplate": "Show My Nameplate",
       "uiScale": "Escala de la interfaz",
+      "playerFrameScale": "Escala del marco del jugador",
+      "targetFrameScale": "Escala del marco del objetivo",
       "highContrastBackground": "Fondo de alto contraste",
       "startAttackOnAbility": "Ataque automático al usar habilidad",
       "walkByAutoloot": "Walk-by Autoloot",
@@ -850,6 +852,13 @@ export const es_ES: EnTranslations = {
     "targetFrame": {
       "unlock": "Move target frame",
       "lock": "Lock target frame"
+    },
+    "playerFrame": {
+      "unlock": "Mover marco del jugador",
+      "lock": "Fijar marco del jugador"
+    },
+    "frameReset": {
+      "label": "Restablecer posición de los marcos"
     },
     "itemTooltip": {
       "requiresLevel": "Requiere nivel {level}"
@@ -5044,6 +5053,33 @@ export const es_ES: EnTranslations = {
       },
       "monarch_crown_helm": {
         "name": "Corona del Monarca"
+      },
+      "copper_mining_pick": {
+        "name": "Pico de Minería de Cobre"
+      },
+      "iron_mining_pick": {
+        "name": "Pico de Minería de Hierro"
+      },
+      "mithril_mining_pick": {
+        "name": "Pico de Minería de Mithril"
+      },
+      "handaxe": {
+        "name": "Hacha de Mano"
+      },
+      "felling_axe": {
+        "name": "Hacha de Tala"
+      },
+      "ironbark_axe": {
+        "name": "Hacha de Corteza de Hierro"
+      },
+      "gathering_sickle": {
+        "name": "Hoz de Recolección"
+      },
+      "bronze_sickle": {
+        "name": "Hoz de Bronce"
+      },
+      "silverleaf_sickle": {
+        "name": "Hoz de Hoja de Plata"
       },
       "bristleback_maul": {
         "name": "Maza Bristleback"

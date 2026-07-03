@@ -392,6 +392,8 @@ export const en_XA: EnTranslations = {
       "showDevBadges": "[Šĥóŵ Ðéʋéļóþéŕ Ɓáðĝéš]",
       "showOwnNameplate": "[Šĥóŵ Ɱý Ñáɱéþļáţé]",
       "uiScale": "[ÚÍ Šçáļé]",
+      "playerFrameScale": "[Þļáýéŕ Ƒŕáɱé Šçáļé]",
+      "targetFrameScale": "[Ţáŕĝéţ Ƒŕáɱé Šçáļé]",
       "highContrastBackground": "[Ĥíĝĥ-Çóñţŕášţ Ɓáçķĝŕóúñð]",
       "startAttackOnAbility": "[Áúţó-Áţţáçķ óñ Áƀíļíţý Úšé]",
       "walkByAutoloot": "[Ŵáļķ-ƀý Áúţóļóóţ]",
@@ -850,6 +852,13 @@ export const en_XA: EnTranslations = {
     "targetFrame": {
       "unlock": "[Ɱóʋé ţáŕĝéţ ƒŕáɱé]",
       "lock": "[Ļóçķ ţáŕĝéţ ƒŕáɱé]"
+    },
+    "playerFrame": {
+      "unlock": "[Ɱóʋé þļáýéŕ ƒŕáɱé]",
+      "lock": "[Ļóçķ þļáýéŕ ƒŕáɱé]"
+    },
+    "frameReset": {
+      "label": "[Ŕéšéţ Ƒŕáɱé Þóšíţíóñš]"
     },
     "itemTooltip": {
       "requiresLevel": "[Ŕéɋúíŕéš Ļéʋéļ {level}]"
@@ -5044,6 +5053,33 @@ export const en_XA: EnTranslations = {
       },
       "monarch_crown_helm": {
         "name": "[Ɱóñáŕçĥ'š Çŕóŵñ]"
+      },
+      "copper_mining_pick": {
+        "name": "[Çóþþéŕ Ɱíñíñĝ Þíçķ]"
+      },
+      "iron_mining_pick": {
+        "name": "[Íŕóñ Ɱíñíñĝ Þíçķ]"
+      },
+      "mithril_mining_pick": {
+        "name": "[Ɱíţĥŕíļ Ɱíñíñĝ Þíçķ]"
+      },
+      "handaxe": {
+        "name": "[Ĥáñðáẋé]"
+      },
+      "felling_axe": {
+        "name": "[Ƒéļļíñĝ Áẋé]"
+      },
+      "ironbark_axe": {
+        "name": "[Íŕóñƀáŕķ Áẋé]"
+      },
+      "gathering_sickle": {
+        "name": "[Ĝáţĥéŕíñĝ Šíçķļé]"
+      },
+      "bronze_sickle": {
+        "name": "[Ɓŕóñžé Šíçķļé]"
+      },
+      "silverleaf_sickle": {
+        "name": "[Šíļʋéŕļéáƒ Šíçķļé]"
       },
       "bristleback_maul": {
         "name": "[Ɓŕíšţļéƀáçķ Ɱáúļ]"

@@ -392,6 +392,8 @@ export const nl_NL: EnTranslations = {
       "showDevBadges": "Ontwikkelaarsinsignes tonen",
       "showOwnNameplate": "Show My Nameplate",
       "uiScale": "UI-schaal",
+      "playerFrameScale": "Player Frame Scale",
+      "targetFrameScale": "Target Frame Scale",
       "highContrastBackground": "Hoog-contrastachtergrond",
       "startAttackOnAbility": "Auto-aanval bij gebruik van vaardigheid",
       "walkByAutoloot": "Walk-by Autoloot",
@@ -850,6 +852,13 @@ export const nl_NL: EnTranslations = {
     "targetFrame": {
       "unlock": "Move target frame",
       "lock": "Lock target frame"
+    },
+    "playerFrame": {
+      "unlock": "Move player frame",
+      "lock": "Lock player frame"
+    },
+    "frameReset": {
+      "label": "Reset Frame Positions"
     },
     "itemTooltip": {
       "requiresLevel": "Vereist niveau {level}"
@@ -5044,6 +5053,33 @@ export const nl_NL: EnTranslations = {
       },
       "monarch_crown_helm": {
         "name": "Monarchenkroon"
+      },
+      "copper_mining_pick": {
+        "name": "Koperen Mijnpik"
+      },
+      "iron_mining_pick": {
+        "name": "IJzeren Mijnpik"
+      },
+      "mithril_mining_pick": {
+        "name": "Mithril Mijnpik"
+      },
+      "handaxe": {
+        "name": "Handbijl"
+      },
+      "felling_axe": {
+        "name": "Velbijl"
+      },
+      "ironbark_axe": {
+        "name": "IJzerschors Bijl"
+      },
+      "gathering_sickle": {
+        "name": "Oogstsikkel"
+      },
+      "bronze_sickle": {
+        "name": "Bronzen Sikkel"
+      },
+      "silverleaf_sickle": {
+        "name": "Zilverbladsikkel"
       },
       "bristleback_maul": {
         "name": "Borstelrug-Strijdhamer"

@@ -2,6 +2,7 @@ import * as fs from 'node:fs';
 import * as http from 'node:http';
 import * as path from 'node:path';
 import { WebSocketServer } from 'ws';
+import { TUNING } from '../src/sim/game_config';
 import {
   LEADERBOARD_MAX,
   LEADERBOARD_PAGE_SIZE,
@@ -117,6 +118,8 @@ import {
 } from './github';
 import { configureGithubContributorsRuntime, topContributors } from './github_contributors';
 import { pruneGitHubOAuthStates } from './github_db';
+import { applyGameConfigAtBoot } from './housekeeping';
+import { loadGameConfigOverrides } from './housekeeping_db';
 import { createAccessLogSink } from './http/access_log';
 import { handleClientError } from './http/client_error';
 import { type Config, DEFAULT_DISPATCH, type DispatchMode, loadConfig } from './http/config';
@@ -259,14 +262,33 @@ const DB_BOOT_RETRY_MS = 2_000;
 // runs once a day.
 const DAILY_PRUNE_INTERVAL_MS = 24 * 3600 * 1000;
 
-const game = new GameServer();
+// The live GameServer, constructed on FIRST TOUCH via liveGame() (the
+// activeConfig() memoization pattern). Production takes that first touch inside
+// startServer() AFTER the housekeeping game-config overrides are loaded and
+// applied: the Sim ctor reads the content tables (spawns, rolled levels), so the
+// world must not be built before they are overridden; nothing else touches the
+// game until then (routes, timers, and the WS server are all wired later inside
+// startServer(), and every module-scope configure*Runtime closure defers its
+// liveGame() read to request time). The parity/characterization harnesses import
+// this module and drive routeHttpRequest WITHOUT running startServer(), so their
+// first request constructs the world lazily against the default (override-free)
+// content, matching the pre-housekeeping module-load construction they pinned
+// their goldens on.
+let gameInstance: GameServer | null = null;
+function liveGame(): GameServer {
+  gameInstance ??= new GameServer();
+  return gameInstance;
+}
 
 function initialCharacterState(
   cls: PlayerClass,
   name: string,
   skin: number,
 ): import('../src/sim/sim').CharacterState {
-  const sim = new Sim({ seed: 20061, playerClass: cls, playerName: name });
+  // Deliberate: a worldSeed override retargets this template sim too, so new
+  // characters serialize against the same world the realm actually runs
+  // (historically a fixed 20061, independent of WORLD_SEED).
+  const sim = new Sim({ seed: TUNING.worldSeed ?? 20061, playerClass: cls, playerName: name });
   sim.setPlayerSkin(sim.playerId, skin);
   const character = sim.serializeCharacter(sim.playerId);
   if (!character) throw new Error('failed to serialize initial character');
@@ -467,7 +489,7 @@ function characterListPayload(chars: CharacterRow[]): {
       class: c.class,
       level: c.level,
       skin: c.state?.skin ?? 0,
-      online: [...game.clients.values()].some((s) => s.characterId === c.id),
+      online: [...liveGame().clients.values()].some((s) => s.characterId === c.id),
       forceRename: c.force_rename,
       lastPlayed: c.last_played ? new Date(c.last_played).toISOString() : null,
       playtimeSeconds: Number(c.playtime_seconds ?? 0),
@@ -735,7 +757,11 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
     // Reuse the rate-limit message so a blocked client gets no signal that the
     // block exists. Login is gated separately below, after the account is known,
     // so admins can bypass; registration has no account to check.
-    if (req.method === 'POST' && url === '/api/register' && game.isIpBlocked(requestIp(req))) {
+    if (
+      req.method === 'POST' &&
+      url === '/api/register' &&
+      liveGame().isIpBlocked(requestIp(req))
+    ) {
       return json(res, 429, {
         error: 'too many attempts, wait a minute and try again',
         code: 'auth.too_many_attempts',
@@ -848,7 +874,7 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
       // password) are never locked out. This does mean a blocked IP gets 429 on a
       // correct password vs 401 on a wrong one, a small credential-validity tell
       // we accept, since moving the check before the password would lock admins out.
-      if (game.isIpBlocked(requestIp(req)) && !(await isAdminAccount(account.id))) {
+      if (liveGame().isIpBlocked(requestIp(req)) && !(await isAdminAccount(account.id))) {
         return json(res, 429, {
           error: 'too many attempts, wait a minute and try again',
           code: 'auth.too_many_attempts',
@@ -1093,7 +1119,7 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
       // /api/status). Renaming an online character desyncs that copy and, worse
       // lets a force-renamed player already in the world clear the moderation
       // flag without ever leaving. Mirror the DELETE guard and require offline.
-      if ([...game.clients.values()].some((s) => s.characterId === characterId)) {
+      if ([...liveGame().clients.values()].some((s) => s.characterId === characterId)) {
         return json(res, 400, { error: 'character is currently online', code: 'character.online' });
       }
       try {
@@ -1113,8 +1139,8 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
           }
           return json(res, 404, { error: 'character not found', code: 'character.not_found' });
         }
-        if (game.rekeyMarketSeller(characterId, character.name, c.name)) {
-          await game.saveMarket();
+        if (liveGame().rekeyMarketSeller(characterId, character.name, c.name)) {
+          await liveGame().saveMarket();
         }
         return json(res, 200, {
           id: c.id,
@@ -1138,7 +1164,7 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
       const characterId = Number(takeoverMatch[1]);
       const character = await getCharacter(accountId, characterId);
       if (!character) return json(res, 404, { error: 'not found', code: 'character.not_found' });
-      const result = await game.takeOverCharacter(accountId, characterId);
+      const result = await liveGame().takeOverCharacter(accountId, characterId);
       return json(res, 200, { ok: true, takenOver: result === 'taken-over' });
     }
     if (req.method === 'DELETE' && delMatch) {
@@ -1148,7 +1174,7 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
       const body = await readBody(req);
       const character = await getCharacter(accountId, characterId);
       if (!character) return json(res, 404, { error: 'not found', code: 'character.not_found' });
-      if ([...game.clients.values()].some((s) => s.characterId === characterId)) {
+      if ([...liveGame().clients.values()].some((s) => s.characterId === characterId)) {
         return json(res, 400, { error: 'character is currently online', code: 'character.online' });
       }
       if (normalizeDeleteConfirmation(body.name) !== normalizeDeleteConfirmation(character.name)) {
@@ -1191,7 +1217,7 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
       const reporter = await getCharacter(accountId, reporterCharacterId);
       if (!reporter) return json(res, 404, { error: 'reporting character not found' });
       const resolved = await resolveReportTarget(body, {
-        reportTargetForPid: (pid) => game.reportTargetForPid(pid),
+        reportTargetForPid: (pid) => liveGame().reportTargetForPid(pid),
         findCharacterReportTargetByName,
       });
       if (!resolved.ok) return json(res, resolved.status, { error: resolved.error });
@@ -1273,7 +1299,7 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
       const accountsCount = await getAccountsCount();
       return json(res, 200, {
         accounts_created: accountsCount,
-        players_online: game.clients.size,
+        players_online: liveGame().clients.size,
         realm: REALM,
       });
     }
@@ -1281,14 +1307,14 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
       return json(res, 200, {
         ok: true,
         realm: REALM,
-        players_online: game.clients.size,
-        names: [...game.clients.values()].map((s) => s.name),
+        players_online: liveGame().clients.size,
+        names: [...liveGame().clients.values()].map((s) => s.name),
       });
     }
     // Dev-only world-loop perf profile (per-phase tick p95/max), for the load
     // harness. Gated by ALLOW_DEV_COMMANDS so it is never exposed in production.
     if (req.method === 'GET' && url === '/api/perf' && process.env.ALLOW_DEV_COMMANDS === '1') {
-      return json(res, 200, game.perfProfile());
+      return json(res, 200, liveGame().perfProfile());
     }
     if (req.method === 'GET' && url === '/api/arena/leaderboard') {
       // public all-time Ashen Coliseum ladder (top rated characters)
@@ -1419,10 +1445,10 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
       if (accountId === null) return;
       return handleAccountDeactivate(req, res, accountId, {
         anyCharacterOnline: (characterIds) =>
-          [...game.clients.values()].some(
+          [...liveGame().clients.values()].some(
             (s) => s.characterId != null && characterIds.includes(s.characterId),
           ),
-        disconnectAccount: (id, reason) => game.disconnectAccount(id, reason),
+        disconnectAccount: (id, reason) => liveGame().disconnectAccount(id, reason),
       });
     }
     // Companion read-only tokens: a 90-day scope='read' token a user can paste
@@ -1541,10 +1567,10 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
     // verified Discord OAuth), and the handlers carry their own Discord rate-limit
     // bucket + (for the link path) the same password/2FA/moderation checks as login.
     if (req.method === 'POST' && url === '/api/auth/discord/login/new') {
-      return handleDiscordLoginNew(req, res, (ip) => game.isIpBlocked(ip));
+      return handleDiscordLoginNew(req, res, (ip) => liveGame().isIpBlocked(ip));
     }
     if (req.method === 'POST' && url === '/api/auth/discord/login/link') {
-      return handleDiscordLoginLink(req, res, (ip) => game.isIpBlocked(ip));
+      return handleDiscordLoginLink(req, res, (ip) => liveGame().isIpBlocked(ip));
     }
     if (req.method === 'GET' && url === '/api/discord') {
       const accountId = await bearerActiveAccount(req, res);
@@ -1623,7 +1649,7 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
         return json(res, 429, { error: 'rate limited' });
       }
       return handleCardUpload(req, res, accountId, (characterId) =>
-        game.liveLevelForCharacter(characterId),
+        liveGame().liveLevelForCharacter(characterId),
       );
     }
     if (req.method === 'GET' && url === '/api/referrals') {
@@ -1657,8 +1683,8 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
 // request-shaped helpers. Done at module load, before any request, so the static
 // `routes` array registry.ts already spread in can serve.
 configureLeaderboardRuntime({
-  playersOnline: () => game.clients.size,
-  perfProfile: () => game.perfProfile(),
+  playersOnline: () => liveGame().clients.size,
+  perfProfile: () => liveGame().perfProfile(),
   getLeaderboard,
   getGuildLeaderboard,
   getDevLeaderboard: () => topContributors(),
@@ -1680,7 +1706,7 @@ configureLeaderboardRuntime({
 // one Turnstile / native-attestation decision, and the request-metadata stamp. Done
 // at module load, before any request, mirroring configureLeaderboardRuntime above.
 configureAuthRuntime({
-  isIpBlocked: (ip) => game.isIpBlocked(ip),
+  isIpBlocked: (ip) => liveGame().isIpBlocked(ip),
   // Bind the secret here so the migrated register/login arm runs the exact same
   // bot gate (incl. the native-attestation and desktop-origin branches) as the
   // legacy handleApi arm above.
@@ -1695,11 +1721,12 @@ configureAuthRuntime({
 // above. The legacy handleApi character arms stay intact as the flag-off rollback path.
 configureCharactersRuntime({
   isCharacterOnline: (characterId) =>
-    [...game.clients.values()].some((s) => s.characterId === characterId),
-  takeOverCharacter: (accountId, characterId) => game.takeOverCharacter(accountId, characterId),
+    [...liveGame().clients.values()].some((s) => s.characterId === characterId),
+  takeOverCharacter: (accountId, characterId) =>
+    liveGame().takeOverCharacter(accountId, characterId),
   rekeyMarketSeller: (characterId, oldName, newName) =>
-    game.rekeyMarketSeller(characterId, oldName, newName),
-  saveMarket: () => game.saveMarket(),
+    liveGame().rekeyMarketSeller(characterId, oldName, newName),
+  saveMarket: () => liveGame().saveMarket(),
   initialCharacterState,
   publicOrigin,
 });
@@ -1711,10 +1738,10 @@ configureCharactersRuntime({
 // built inline; the legacy account arms stay intact as the flag-off rollback path.
 configureAccountRuntime({
   anyCharacterOnline: (characterIds) =>
-    [...game.clients.values()].some(
+    [...liveGame().clients.values()].some(
       (s) => s.characterId != null && characterIds.includes(s.characterId),
     ),
-  disconnectAccount: (id, reason) => game.disconnectAccount(id, reason),
+  disconnectAccount: (id, reason) => liveGame().disconnectAccount(id, reason),
 });
 
 // Inject the one main.ts-local singleton the ported wallet handlers
@@ -1724,7 +1751,7 @@ configureAccountRuntime({
 // legacy /api/card arm passed to handleCardUpload; the legacy wallet/card/referral
 // arms stay intact as the flag-off rollback path.
 configureWalletRuntime({
-  liveLevelForCharacter: (characterId) => game.liveLevelForCharacter(characterId),
+  liveLevelForCharacter: (characterId) => liveGame().liveLevelForCharacter(characterId),
 });
 
 // Inject the one main.ts-local singleton the ported report handler
@@ -1734,7 +1761,7 @@ configureWalletRuntime({
 // resolveReportTarget; the legacy reports/bug-report/perf-report/site-presence arms
 // stay intact as the flag-off rollback path.
 configureReportsRuntime({
-  reportTargetForPid: (pid) => game.reportTargetForPid(pid),
+  reportTargetForPid: (pid) => liveGame().reportTargetForPid(pid),
 });
 
 // Inject the two main.ts-local game-session hooks the ported Discord routes
@@ -1743,22 +1770,18 @@ configureReportsRuntime({
 // gap) and the live mech-chroma grant for a cosmetic swag claim. The legacy
 // handleApi Discord arms stay intact as the flag-off rollback path.
 configureDiscordRuntime({
-  isIpBlocked: (ip) => game.isIpBlocked(ip),
-  grantCosmetic: (accountId, chromaId) => game.grantMechChromaToAccount(accountId, chromaId),
+  isIpBlocked: (ip) => liveGame().isIpBlocked(ip),
+  grantCosmetic: (accountId, chromaId) => liveGame().grantMechChromaToAccount(accountId, chromaId),
 });
 
-// Inject the game-session methods the ported admin routes (server/admin.ts) call for
-// their live reads + side effects (adminStats/liveSessions/disconnectAccount/muteAccountChat/
-// reloadChatFilter/reloadBlockedIps/disconnectByIp/...). AdminRuntime is a subset of
-// GameServer, so the live game satisfies it directly. The legacy handleAdminApi ladder
-// stays intact as the flag-off rollback path (and is the admin dispatcher's delegate).
-configureAdminRuntime(game);
-
-// Inject the one game-loop side effect the ported /internal restart-countdown route
-// calls (InternalRuntime is Pick<GameServer, 'startRestartCountdown'>, so the live
-// game satisfies it directly). The legacy handleInternalApi ladder stays intact as
-// the flag-off rollback path (and is the internal dispatcher's delegate).
-configureInternalRuntime(game);
+// configureAdminRuntime(game) and configureInternalRuntime(game) pass the live
+// GameServer BY VALUE (AdminRuntime / InternalRuntime are Picks of GameServer, so
+// the live game satisfies them directly). Since the housekeeping override layer
+// moved construction off module load (liveGame()'s first touch happens in
+// startServer(), after the overrides apply), those two injections now happen in
+// startServer() right after that first touch, unlike the closure-based
+// configure* calls above, which defer every liveGame() read to request time and
+// stay at module scope.
 
 // The RED /metrics exporter (Phase 23): ONE prom-client registry with the default
 // process/runtime metrics attached, paired with the structured access-log sink
@@ -1805,7 +1828,7 @@ let apiEntry: ApiDispatcher = selectApiEntry(DEFAULT_DISPATCH, apiDispatcher, ha
 // game). Under API_DISPATCH 'new' a matched admin RouteDef runs the onion; every
 // unmatched admin path (an unknown endpoint, a wrong method, a HEAD) delegates to
 // handleAdminApi UNCHANGED, so behavior stays byte-identical until Phase 25 removes it.
-const adminLegacy: ApiDelegate = (req, res) => handleAdminApi(req, res, game);
+const adminLegacy: ApiDelegate = (req, res) => handleAdminApi(req, res, liveGame());
 const adminApiDispatcher = createApiDispatcher({
   registry: apiRegistry,
   delegate: adminLegacy,
@@ -1842,7 +1865,7 @@ let oauthApiEntry: ApiDispatcher = selectApiEntry(
 // the flag-off rollback path).
 const internalLegacy: ApiDelegate = async (req, res) => {
   if (await handleDailyRewardInternalApi(req, res)) return;
-  await handleInternalApi(req, res, game);
+  await handleInternalApi(req, res, liveGame());
 };
 const internalApiDispatcher = createApiDispatcher({
   registry: apiRegistry,
@@ -1923,8 +1946,8 @@ function applyCorsAndPreflight(
 }
 
 // The createServer prefix-dispatch ladder, lifted to module scope as an
-// importable pure function. Every symbol it touches (game, the imported route
-// handlers, the CORS + dispatch helpers) is module-level, so it moves cleanly.
+// importable pure function. Every symbol it touches (liveGame(), the imported
+// route handlers, the CORS + dispatch helpers) is module-level, so it moves cleanly.
 // The exact prefix order, the url-vs-path arm asymmetry, the CORS + OPTIONS-204
 // short-circuit position, and every fire-and-forget `void` are preserved 1:1; the
 // only change from Phase 8 is the /api, /admin/api, /oauth, and /internal arms route
@@ -2004,6 +2027,24 @@ export async function startServer(): Promise<http.Server> {
   }
   await ensureSchema();
   await seedOAuthClients();
+  // Housekeeping: load + apply this realm's game-config overrides BEFORE the
+  // world exists; the GameServer ctor builds the Sim from the content tables.
+  const storedOverrides = await loadGameConfigOverrides();
+  const overrideWarnings = applyGameConfigAtBoot(storedOverrides.data, new Date().toISOString());
+  for (const warning of overrideWarnings) {
+    console.warn(`game-config override dropped: ${warning}`);
+  }
+  const game = liveGame();
+  // Inject the game-session methods the ported admin routes (server/admin.ts) call
+  // for their live reads + side effects (adminStats/liveSessions/disconnectAccount/
+  // muteAccountChat/reloadChatFilter/reloadBlockedIps/disconnectByIp/...), and the
+  // one game-loop side effect the ported /internal restart-countdown route calls
+  // (InternalRuntime is Pick<GameServer, 'startRestartCountdown'>). Both take the
+  // live game BY VALUE, so they must run after the first touch above; the legacy
+  // handleAdminApi / handleInternalApi ladders stay intact as the flag-off rollback
+  // paths (and are the corresponding dispatchers' delegates).
+  configureAdminRuntime(game);
+  configureInternalRuntime(game);
   const orphans = await closeOrphanSessions();
   if (orphans > 0) console.log(`closed ${orphans} orphaned play session(s) from a previous run`);
   const pruned = await pruneChatLogs(config.chatLogRetentionDays);

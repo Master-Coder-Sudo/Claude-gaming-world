@@ -24,12 +24,21 @@
 //   * PARAM routes: every `const <name>Match = /<regex>/.exec(...)` whose regex
 //     source begins with `^/<api-prefix>/`. This excludes the `^Bearer ...`
 //     auth regexes.
+//   * REGISTERED RouteDefs: every exact (non-:param) path in the route registry
+//     (server/http/registry.ts apiRoutes). A registered RouteDef is a dispatch
+//     arm all the same; until Phase 25 almost every migrated route ALSO keeps its
+//     legacy `=== '<path>'` arm, so this union is a no-op for them. It exists for
+//     families whose legacy serving is a SUFFIX-comparing sub-dispatcher the text
+//     scan cannot see (the v0.20.0 housekeeping family: handleHousekeepingApi
+//     slices '/admin/api/housekeeping/' off and compares the remainder), and it
+//     keeps the gate correct when Phase 25 deletes the legacy arms outright.
 // To register a NEW route: add its row to SURFACE_INVENTORY (and, for an /api
 // route, an API_CONTENT_TYPE entry). If it is a new `:param` route, give the row
 // a `match` RegExp whose source equals the dispatcher's regex literal.
 
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { apiRoutes } from '../../../server/http/registry';
 import {
   API_CONTENT_TYPE,
   BINARY,
@@ -136,11 +145,29 @@ const inventoryMethodPathPairs = new Set(
 
 const sorted = (s: Set<string>): string[] => [...s].sort();
 
+// Exact paths a registered RouteDef dispatches (the migrated router side of the
+// flag). Param routes (:id) are excluded: their legacy arms are `*Match` regexes
+// covered by the param gate below, and a RouteDef path template is not a regex
+// source. Paths whose inventory row is flagged `unreachable` (the swag claim:
+// registered, but deliberately recorded as having no legacy dispatch arm) keep
+// that classification; the unreachable filter on dispatchedRows already excludes
+// them from the inventory side, so they must not enter the source side either.
+// See the header note on REGISTERED RouteDefs.
+const inventoryUnreachablePaths = new Set(
+  SURFACE_INVENTORY.filter((r) => r.unreachable).map((r) => r.path),
+);
+const registryExactPaths = new Set(
+  apiRoutes
+    .filter((r) => !r.path.includes(':') && !inventoryUnreachablePaths.has(r.path))
+    .map((r) => r.path),
+);
+
 describe('surface inventory: route-count freshness gate', () => {
   it('exact dispatched paths in source equal the inventory exact paths', () => {
     const fromSource = sourceExactPaths(readSources());
     // Guard against a vacuous pass: the scan must actually find routes.
     expect(fromSource.size).toBeGreaterThan(50);
+    for (const p of registryExactPaths) fromSource.add(p);
     expect(sorted(fromSource)).toEqual(sorted(inventoryExactPaths));
   });
 

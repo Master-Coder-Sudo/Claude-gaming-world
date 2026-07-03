@@ -392,6 +392,8 @@ export const ru_RU: EnTranslations = {
       "showDevBadges": "Показывать значки разработчика",
       "showOwnNameplate": "Показывать свою табличку с именем",
       "uiScale": "Масштаб интерфейса",
+      "playerFrameScale": "Размер рамки игрока",
+      "targetFrameScale": "Размер рамки цели",
       "highContrastBackground": "Фон высокой контрастности",
       "startAttackOnAbility": "Автоатака при использовании способности",
       "walkByAutoloot": "Автосбор добычи при проходе",
@@ -850,6 +852,13 @@ export const ru_RU: EnTranslations = {
     "targetFrame": {
       "unlock": "Переместить рамку цели",
       "lock": "Закрепить рамку цели"
+    },
+    "playerFrame": {
+      "unlock": "Переместить рамку игрока",
+      "lock": "Закрепить рамку игрока"
+    },
+    "frameReset": {
+      "label": "Сбросить положение рамок"
     },
     "itemTooltip": {
       "requiresLevel": "Требуется уровень {level}"
@@ -5044,6 +5053,33 @@ export const ru_RU: EnTranslations = {
       },
       "monarch_crown_helm": {
         "name": "Корона Монарха"
+      },
+      "copper_mining_pick": {
+        "name": "Медная кирка"
+      },
+      "iron_mining_pick": {
+        "name": "Железная кирка"
+      },
+      "mithril_mining_pick": {
+        "name": "Мифриловая кирка"
+      },
+      "handaxe": {
+        "name": "Топорик"
+      },
+      "felling_axe": {
+        "name": "Лесорубный топор"
+      },
+      "ironbark_axe": {
+        "name": "Топор из железной коры"
+      },
+      "gathering_sickle": {
+        "name": "Серп для сбора"
+      },
+      "bronze_sickle": {
+        "name": "Бронзовый серп"
+      },
+      "silverleaf_sickle": {
+        "name": "Серебролистный серп"
       },
       "bristleback_maul": {
         "name": "Кувалда Щетиноспина"

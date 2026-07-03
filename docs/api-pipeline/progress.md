@@ -1531,6 +1531,59 @@ removed (imports src/game/client_env, unshipped main-repo client work). Validati
 tsc 0, npm run gate PASS all 9 steps (752 files / 8580 passed + 13 skipped),
 build:server green. NEXT: Phase 24 QA gate (phase-24-qa.md).
 
+## v0.20.0 release merge, second slice (2026-07-03): housekeeping family + deferred GameServer construction
+
+Merged release/v0.20.0 (tip 3e1bc17c4, 27 commits since c916d296a: the admin housekeeping
+section PR #1340, spawn-intro cinematic PR #1330, unit-frame customization PR #1369,
+professions vendor tools PR #1178, i18n regens) with the reconciliation folded into the
+merge commit. Four textual conflicts: the admin.ts + main.ts import blocks (additive both
+sides, kept both) and two generated i18n artifacts (i18n.resolved.sha256 +
+i18n.status.summary.json, REGENERATED via i18n:gen + i18n:admin + i18n_resolved_hash --write,
+never hand-merged).
+
+What the merge brought onto the pipeline, migrated INSIDE the merge commit (no owning
+phase; provenance = this merge):
+- The housekeeping family, 10 routes (GET overview/rates/mobs/quests/items/npcs/spawns/world
+  + POST overrides + POST overrides/clear under /admin/api/housekeeping/), served legacy-side
+  by a POST-auth prefix delegation in handleAdminApi to the handleHousekeepingApi
+  sub-dispatcher (which slices the prefix and compares SUFFIXES). Migrated as 10 RouteDefs
+  (requireAdmin + ADMIN_META) sharing ONE parity-by-construction handler that calls the
+  sub-dispatcher whole (the 18b daily-rewards template), so bodies, the in-family POST 404,
+  and the non-GET/POST 405 are byte-identical on both arms and no known_deviations entry is
+  needed. AdminRuntime Pick extended with housekeepingSummary; handleHousekeepingApi's game
+  param narrowed (type-only) to Pick<GameServer,'housekeepingSummary'> so both arms call the
+  one function. Admin surface is now 43 RouteDefs; the legacy admin ladder itself gained NO
+  new === branches (the delegation is a startsWith arm).
+- THE STRUCTURAL HAZARD OF THIS MERGE: the release moved `new GameServer()` off module load
+  into the boot path (overrides must apply BEFORE the Sim ctor reads the content tables),
+  but this branch wires configureAdminRuntime(game)/configureInternalRuntime(game) at module
+  scope BY VALUE, and the parity/characterization harnesses import main.ts and drive
+  routeHttpRequest WITHOUT running startServer() (they inherited module-load construction
+  implicitly). Resolution: liveGame(), a memoized lazy accessor (the activeConfig()
+  pattern); production takes the first touch in startServer() right after
+  applyGameConfigAtBoot (the two by-value runtime injections moved there with it); every
+  module-scope closure defers its liveGame() read to request time; the harnesses construct
+  lazily on first request against override-free content, exactly the world their goldens
+  pinned. Without this, all game-touching parity captures crash on undefined.
+- Harness deltas: SURFACE_INVENTORY 124 -> 134 (10 admin rows, handler prose
+  'handleHousekeepingApi arm: ...'); the freshness gate learned a third source-side class,
+  REGISTERED RouteDefs (a suffix-comparing sub-dispatcher is invisible to the === text scan;
+  union excludes rows flagged unreachable, i.e. the swag claim), which also future-proofs
+  the gate for the P25 ladder deletion; parity +4 db-free 401 pins (catalog read, override
+  save, unknown sub-path, wrong method; authed bodies stay DB-excluded per the Phase 17
+  policy); the admin auth-mounting sweep covers all 10 automatically (registry-derived).
+- Also in the release, no pipeline interaction: src/sim/game_config.ts (TUNING + override
+  validation, sim-pure, architecture guard green), game_config_overrides JSONB DDL
+  (additive, idempotent), game.ts Sim ctor reading TUNING.worldSeed/respawnSeconds,
+  initialCharacterState retargeting to TUNING.worldSeed ?? 20061, and the client-side
+  spawn-cinematic / unit-frame / professions-tools work.
+
+P25 handoff addition: unknown housekeeping sub-paths and non-GET/POST methods have no
+RouteDef, so today they delegate to the legacy ladder (admin auth 401 precedes the
+in-family 404/405); at the ladder deletion they flip to the table's PRE-AUTH
+404/405 (the systemic planned405BeforeAuth class). Carve out at P25 alongside the 18b
+remainder.
+
 ## Phase 25: Docs + new:endpoint scaffold + flag-default flip
 
 Deliverables:

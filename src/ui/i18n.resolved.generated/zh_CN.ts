@@ -392,6 +392,8 @@ export const zh_CN: EnTranslations = {
       "showDevBadges": "显示开发者徽章",
       "showOwnNameplate": "显示我的姓名板",
       "uiScale": "界面缩放",
+      "playerFrameScale": "玩家框缩放",
+      "targetFrameScale": "目标框缩放",
       "highContrastBackground": "高对比度背景",
       "startAttackOnAbility": "使用技能时自动攻击",
       "walkByAutoloot": "路过自动拾取",
@@ -850,6 +852,13 @@ export const zh_CN: EnTranslations = {
     "targetFrame": {
       "unlock": "移动目标框",
       "lock": "锁定目标框"
+    },
+    "playerFrame": {
+      "unlock": "移动玩家框",
+      "lock": "锁定玩家框"
+    },
+    "frameReset": {
+      "label": "重置框体位置"
     },
     "itemTooltip": {
       "requiresLevel": "需要等级 {level}"
@@ -5044,6 +5053,33 @@ export const zh_CN: EnTranslations = {
       },
       "monarch_crown_helm": {
         "name": "君主之冠"
+      },
+      "copper_mining_pick": {
+        "name": "铜制采矿镐"
+      },
+      "iron_mining_pick": {
+        "name": "铁制采矿镐"
+      },
+      "mithril_mining_pick": {
+        "name": "秘银采矿镐"
+      },
+      "handaxe": {
+        "name": "手斧"
+      },
+      "felling_axe": {
+        "name": "伐木斧"
+      },
+      "ironbark_axe": {
+        "name": "铁树皮斧"
+      },
+      "gathering_sickle": {
+        "name": "采集镰刀"
+      },
+      "bronze_sickle": {
+        "name": "青铜镰刀"
+      },
+      "silverleaf_sickle": {
+        "name": "银叶镰刀"
       },
       "bristleback_maul": {
         "name": "硬鬃重槌"

@@ -1,5 +1,6 @@
 // Core shared types for the simulation. The sim layer has zero DOM/rendering deps.
 
+import type { GatheringProfessionId } from './content/professions';
 import type { LockSession, LootTier, PickAction, StepResult, VisibleCell } from './lockpick';
 
 export const TICK_RATE = 20; // sim ticks per second
@@ -266,7 +267,12 @@ export type ItemUse =
   | { type: 'mechChroma'; chromaId: string }
   // Opens the client-side event skin-select overlay. The server rolls a rank on
   // use (see Sim.openSkinSelect) and the player locks one in via claimEventSkin.
-  | { type: 'skinSelect'; catalog?: SkinCatalog };
+  | { type: 'skinSelect'; catalog?: SkinCatalog }
+  // A base gathering tool (see #1123). `tier` gates which node/material tiers
+  // it can gather: see src/sim/professions/tools.ts (canGatherTier). This item
+  // type never carries a durability field (this repo has no durability
+  // mechanic anywhere), so a base tool can never become unusable.
+  | { type: 'gatherTool'; professionId: GatheringProfessionId; tier: number };
 
 // Rarity ranks for the cosmetic skin-select event, ordered low → high. A rolled
 // rank unlocks its own tier and every tier below it (epic unlocks rare+uncommon).
@@ -1927,7 +1933,7 @@ export const MAX_VIRTUAL_LEVEL = 200; // table bound; far beyond any reachable l
 
 // VLEVEL_CUM[v] = total lifetime XP required to *reach* virtual level v.
 // VLEVEL_CUM[1] = 0; index 0 is unused padding.
-const VLEVEL_CUM: number[] = (() => {
+function buildVlevelCum(): number[] {
   const cum: number[] = [0, 0];
   let total = 0;
   // real levels: 1→2 … 19→20 come straight from XP_TABLE
@@ -1943,7 +1949,18 @@ const VLEVEL_CUM: number[] = (() => {
     step *= POSTCAP_GROWTH;
   }
   return cum;
-})();
+}
+
+const VLEVEL_CUM: number[] = buildVlevelCum();
+
+// The cumulative table above is derived from XP_TABLE at module eval. A host
+// that mutates XP_TABLE (the game-config override layer, src/sim/game_config.ts)
+// must call this afterwards so virtual levels keep matching the live curve.
+export function refreshPostcapXpTable(): void {
+  const next = buildVlevelCum();
+  VLEVEL_CUM.length = 0;
+  VLEVEL_CUM.push(...next);
+}
 
 // Total lifetime XP needed to reach a given (virtual or real) level. Used to
 // backfill `lifetimeXp` for characters saved before the counter existed.

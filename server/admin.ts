@@ -38,6 +38,7 @@ import {
 } from './db';
 import { emailSecurityIncident } from './email';
 import type { GameServer } from './game';
+import { handleHousekeepingApi } from './housekeeping_api';
 import { ctxAccountId } from './http/context';
 import { logger } from './http/logger';
 import {
@@ -184,6 +185,9 @@ export async function handleAdminApi(
 
     const accountId = await adminAccountId(req);
     if (accountId === null) return fail(res, 401, 'admin authentication required');
+
+    // Housekeeping (game-config overrides) routes live in their own module.
+    if (await handleHousekeepingApi(path, req, res, game, accountId)) return;
 
     const actionMatch =
       /^\/admin\/api\/moderation\/accounts\/(\d+)\/(suspend|unsuspend|ban|unban)$/.exec(path);
@@ -641,6 +645,7 @@ export type AdminRuntime = Pick<
   | 'reloadChatFilter'
   | 'reloadBlockedIps'
   | 'disconnectByIp'
+  | 'housekeepingSummary'
 >;
 
 let runtime: AdminRuntime | null = null;
@@ -1191,6 +1196,28 @@ async function charactersHandler(ctx: Ctx): Promise<void> {
   ok(ctx.res, await adminDb().listCharacters(search, sort, dir, page, limit));
 }
 
+/**
+ * All /admin/api/housekeeping/* routes (landed in the v0.20.0 release merge,
+ * migrated in-merge so the Phase 17 admin family stays fully migrated): parity
+ * by construction, the ONE migrated handler calls the WHOLE legacy sub-dispatcher
+ * (handleHousekeepingApi) with the request path, the Phase 18b daily-rewards
+ * template. It re-routes on the path suffix internally, so bodies, the in-family
+ * POST 404, and the non-GET/POST 405 stay byte-identical with zero dual-edit
+ * drift. requireAdmin has already run (it sets ctx.account), mirroring the
+ * legacy ladder where adminAccountId gates before the housekeeping delegation;
+ * an unknown sub-path or unsupported method never matches a RouteDef and falls
+ * through the dispatcher's legacy delegate to the very same function.
+ */
+async function housekeepingHandler(ctx: Ctx): Promise<void> {
+  await handleHousekeepingApi(
+    ctx.url.pathname,
+    ctx.req,
+    ctx.res,
+    useAdminRuntime(),
+    ctxAccountId(ctx),
+  );
+}
+
 // ---------------------------------------------------------------------------
 // The route table. registry.ts spreads this into apiRoutes. login is anonymous
 // (no requireAdmin, its own in-handler limiter); every other route carries
@@ -1474,5 +1501,88 @@ export const routes: RouteDef[] = [
     middleware: [requireAdmin],
     meta: ADMIN_META,
     handler: charactersHandler,
+  },
+
+  // Housekeeping (game-config overrides; v0.20.0 release merge, migrated
+  // in-merge). One shared parity-by-construction handler, see housekeepingHandler.
+  {
+    method: 'GET',
+    path: '/admin/api/housekeeping/overview',
+    surface: 'admin',
+    middleware: [requireAdmin],
+    meta: ADMIN_META,
+    handler: housekeepingHandler,
+  },
+  {
+    method: 'GET',
+    path: '/admin/api/housekeeping/rates',
+    surface: 'admin',
+    middleware: [requireAdmin],
+    meta: ADMIN_META,
+    handler: housekeepingHandler,
+  },
+  {
+    method: 'GET',
+    path: '/admin/api/housekeeping/mobs',
+    surface: 'admin',
+    middleware: [requireAdmin],
+    meta: ADMIN_META,
+    handler: housekeepingHandler,
+  },
+  {
+    method: 'GET',
+    path: '/admin/api/housekeeping/quests',
+    surface: 'admin',
+    middleware: [requireAdmin],
+    meta: ADMIN_META,
+    handler: housekeepingHandler,
+  },
+  {
+    method: 'GET',
+    path: '/admin/api/housekeeping/items',
+    surface: 'admin',
+    middleware: [requireAdmin],
+    meta: ADMIN_META,
+    handler: housekeepingHandler,
+  },
+  {
+    method: 'GET',
+    path: '/admin/api/housekeeping/npcs',
+    surface: 'admin',
+    middleware: [requireAdmin],
+    meta: ADMIN_META,
+    handler: housekeepingHandler,
+  },
+  {
+    method: 'GET',
+    path: '/admin/api/housekeeping/spawns',
+    surface: 'admin',
+    middleware: [requireAdmin],
+    meta: ADMIN_META,
+    handler: housekeepingHandler,
+  },
+  {
+    method: 'GET',
+    path: '/admin/api/housekeeping/world',
+    surface: 'admin',
+    middleware: [requireAdmin],
+    meta: ADMIN_META,
+    handler: housekeepingHandler,
+  },
+  {
+    method: 'POST',
+    path: '/admin/api/housekeeping/overrides',
+    surface: 'admin',
+    middleware: [requireAdmin],
+    meta: ADMIN_META,
+    handler: housekeepingHandler,
+  },
+  {
+    method: 'POST',
+    path: '/admin/api/housekeeping/overrides/clear',
+    surface: 'admin',
+    middleware: [requireAdmin],
+    meta: ADMIN_META,
+    handler: housekeepingHandler,
   },
 ];

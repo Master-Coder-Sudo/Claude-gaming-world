@@ -392,6 +392,8 @@ export const de_DE: EnTranslations = {
       "showDevBadges": "Entwicklerabzeichen anzeigen",
       "showOwnNameplate": "Show My Nameplate",
       "uiScale": "UI-Skalierung",
+      "playerFrameScale": "Player Frame Scale",
+      "targetFrameScale": "Target Frame Scale",
       "highContrastBackground": "Hintergrund mit hohem Kontrast",
       "startAttackOnAbility": "Auto-Angriff bei Fähigkeitseinsatz",
       "walkByAutoloot": "Walk-by Autoloot",
@@ -850,6 +852,13 @@ export const de_DE: EnTranslations = {
     "targetFrame": {
       "unlock": "Move target frame",
       "lock": "Lock target frame"
+    },
+    "playerFrame": {
+      "unlock": "Move player frame",
+      "lock": "Lock player frame"
+    },
+    "frameReset": {
+      "label": "Reset Frame Positions"
     },
     "itemTooltip": {
       "requiresLevel": "Benötigt Stufe {level}"
@@ -5044,6 +5053,33 @@ export const de_DE: EnTranslations = {
       },
       "monarch_crown_helm": {
         "name": "Krone des Monarchen"
+      },
+      "copper_mining_pick": {
+        "name": "Kupfer-Grabpickel"
+      },
+      "iron_mining_pick": {
+        "name": "Eisen-Grabpickel"
+      },
+      "mithril_mining_pick": {
+        "name": "Mithril-Grabpickel"
+      },
+      "handaxe": {
+        "name": "Handaxt"
+      },
+      "felling_axe": {
+        "name": "Fällaxt"
+      },
+      "ironbark_axe": {
+        "name": "Eisenrinden-Axt"
+      },
+      "gathering_sickle": {
+        "name": "Erntesichel"
+      },
+      "bronze_sickle": {
+        "name": "Bronzesichel"
+      },
+      "silverleaf_sickle": {
+        "name": "Silberblatt-Sichel"
       },
       "bristleback_maul": {
         "name": "Bristleback-Schlägel"
