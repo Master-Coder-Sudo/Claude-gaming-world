@@ -356,6 +356,19 @@ describe('append-only insertion helpers (synthetic sources)', () => {
     const out = appendCodeToArray(src, KNOWN_CODES_CONST, 'sample.pinned_row');
     expect(assertAppendOnly(src, out)).toEqual(["  'sample.pinned_row',"]);
   });
+
+  it('throws UsageError when an append anchor or its closing marker is missing', () => {
+    // insertBeforeLine path: the ERROR_CODES tail line is absent entirely.
+    expect(() => appendErrorCode('const nope = 1;\n', 'x.y')).toThrow(UsageError);
+    // insertBeforeMarkerAfter path: the section const is absent...
+    expect(() => appendCodeToArray('const OTHER = [\n];\n', KNOWN_CODES_CONST, 'x.y')).toThrow(
+      UsageError,
+    );
+    // ...and present but never closed by its '];' marker.
+    expect(() => appendCodeToArray(`${KNOWN_CODES_CONST}\n`, KNOWN_CODES_CONST, 'x.y')).toThrow(
+      UsageError,
+    );
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -458,6 +471,9 @@ describe('golden: all three rungs emit, type-check, and pass (one temp root)', (
     testPaths.push(join(root, 'tests', 'server', 'http', 'error_codes.test.ts'));
     const child = runChildVitest(root, testPaths);
     expect(child.status, `emitted tests / snapshot failed:\n${child.out}`).toBe(0);
+    // Belt-and-braces over exit-code-only: the child summary must show real collected
+    // tests passing (an emitted-but-empty suite cannot ride a zero exit).
+    expect(child.out).toMatch(/Tests\s+\d+ passed/);
   }, 180_000);
 });
 
