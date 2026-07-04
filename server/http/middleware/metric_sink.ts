@@ -1,5 +1,5 @@
 // A pluggable per-request metric sink placed directly INSIDE withErrors, so it
-// always observes the FINAL status (Phase 8 of docs/api-pipeline/): the status
+// always observes the FINAL status: the status
 // code on the resolve path, or the status toAppError would map a thrown error
 // to on the throw path. withErrors does not rethrow, so this middleware's own
 // next() still rejects on a throw (withErrors catches ABOVE it); toAppError is
@@ -17,7 +17,7 @@ export interface MetricEvent {
   durationMs: number;
   /**
    * The resolved client IP (X-Forwarded-For aware; from ctx.ip). Optional and
-   * ADDITIVE (Phase 23, for the access log): pre-existing sinks that never read it
+   * ADDITIVE (for the access log): pre-existing sinks that never read it
    * are unaffected.
    */
   ip?: string;
@@ -34,7 +34,7 @@ export const noopMetricSink: MetricSink = {
 };
 
 /**
- * Fan one event out to every sink (Phase 23: the access-log sink and the
+ * Fan one event out to every sink (the access-log sink and the
  * Prometheus sink share one recording point). Each record() is wrapped so a
  * throwing sink neither stops the remaining sinks nor propagates out into the
  * request's finally block; a sink is expected to already swallow its own errors,

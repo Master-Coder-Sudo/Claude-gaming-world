@@ -1,4 +1,4 @@
-// Content-Type 415 gate for the API pipeline onion (Phase 21 of docs/api-pipeline/).
+// Content-Type 415 gate for the API request pipeline onion.
 //
 // A mutating /api request whose body is not application/json is a wrong-media-type
 // request. This middleware records every such mismatch and, ONLY when the named
@@ -10,13 +10,13 @@
 // envelope), never a hardcoded path list, so a route opts out by DECLARING its
 // contract. It runs only inside the new-dispatcher onion for a MATCHED route: a
 // delegate-served path (no RouteDef) never reaches it, so enforcement only ever
-// covers the registered surface (the documented Phase 18b carve-out).
+// covers the registered surface (the documented carve-out).
 //
 // Audited ground truth: the perf-report and site-presence beacons SEND
 // application/json, so they are correctly gated-but-passing, not exempted.
 //
 // Server-side, language-agnostic: the mismatch line is dev-channel English,
-// emitted through the Phase 23 structured logger.
+// emitted through the structured logger.
 
 import { HttpError } from '../errors';
 import { logger } from '../logger';
@@ -32,7 +32,7 @@ const APPLICATION_JSON = 'application/json';
  * The methods that carry a request-body contract. A GET/HEAD/OPTIONS request has
  * no body to type, so the gate never touches one. Exported as the ONE mutating-set
  * source of truth: the sibling origin_check gate keys on this same set, so the two
- * Phase 21 gates cannot silently diverge on which methods they cover.
+ * gates cannot silently diverge on which methods they cover.
  */
 export const MUTATING_METHODS: ReadonlySet<Method> = new Set<Method>([
   'POST',
@@ -67,7 +67,7 @@ export type ContentTypeMismatchSink = (mismatch: ContentTypeMismatch) => void;
 
 /**
  * The default sink: one structured dev-channel line per mismatch, through the
- * Phase 23 structured logger.
+ * structured logger.
  */
 export const defaultContentTypeMismatchSink: ContentTypeMismatchSink = (mismatch) => {
   logger.warn(

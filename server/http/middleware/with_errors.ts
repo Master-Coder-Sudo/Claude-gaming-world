@@ -1,5 +1,5 @@
-// The outermost middleware and single response authority for the API pipeline
-// onion (Phase 8 of docs/api-pipeline/). It runs next() and catches whatever
+// The outermost middleware and single response authority for the API request
+// pipeline onion. It runs next() and catches whatever
 // escapes: the thrown value is normalized and serialized by errors.ts's
 // mapError, then written via the idempotent respondOnce, so a handler that
 // already responded is never double-written (respondOnce is a no-op once

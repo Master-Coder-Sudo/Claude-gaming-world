@@ -1,4 +1,4 @@
-// Error model for the API pipeline (Phase 7 of docs/api-pipeline/).
+// Error model for the API request pipeline.
 //
 // Three pieces, no route wiring:
 //  1. HttpError: the throwable a handler/middleware raises (status + stable code + optional
@@ -8,7 +8,7 @@
 //     code-implied headers (WWW-Authenticate on a 401 auth.* error, Retry-After on a 429).
 //  3. serialize / mapError: the seven per-surface serializers, selected by ErrorSurface, that
 //     RETURN a SerializedError ({ status, headers, contentType, body }). mapError does NOT write
-//     to ctx.res; Phase 8 writes the returned shape.
+//     to ctx.res; the error middleware writes the returned shape.
 //
 // 500 NO-LEAK: an unexpected throwable maps to 500 internal.error. The serialized body and headers
 // are built from the stable code plus generic, leak-free developer text only; the ORIGINAL error
@@ -50,7 +50,7 @@ export type ErrorSurface =
   | 'binary'
   | 'ok_false';
 
-/** A fully serialized error response, ready for Phase 8 to write to res. */
+/** A fully serialized error response, ready for the error middleware to write to res. */
 export interface SerializedError {
   status: number;
   headers: Record<string, string>;
@@ -159,7 +159,7 @@ function wwwAuthenticateFor(code: ErrorCode): string {
 /**
  * Add the code-implied headers (WWW-Authenticate on a 401 auth.* error, Retry-After on a 429),
  * starting from the base headers and only ADDING when absent (never overwriting an explicit one).
- * Retry-After is sourced from params.retryAfterSeconds (Phase 19 supplies it); it is never
+ * Retry-After is sourced from params.retryAfterSeconds (the rate limiter supplies it); it is never
  * fabricated when neither a header nor the param is present.
  *
  * The WWW-Authenticate challenge is scoped to auth.* codes ON PURPOSE. applyImpliedHeaders runs
@@ -194,7 +194,7 @@ function applyImpliedHeaders(
  * X-RateLimit-* trio is deliberately never emitted here (draft 11 supersedes it).
  * Retry-After is included explicitly so applyImpliedHeaders' if-absent guard
  * no-ops: it would otherwise derive the same value from params.retryAfterSeconds,
- * so the two paths agree. Phase 19 supplies these on every rateLimit(policy) 429.
+ * so the two paths agree. The two-tier rate limiter supplies these on every rateLimit(policy) 429.
  */
 export function rateLimit429Headers(
   policy: { name: string; limit: number; windowSeconds: number },
@@ -256,10 +256,10 @@ export function toAppError(err: unknown): AppError {
     return finalize(err.status, err.code, err.params, err.headers);
   }
   // Any SyntaxError is treated as a malformed-JSON client error (400). This is intentionally broad
-  // for the primitive: in the wired pipeline Phase 8's withBody owns body parsing and throws
+  // for the primitive: in the wired pipeline the withBody middleware owns body parsing and throws
   // HttpError(400, 'json.malformed') for a bad body, so a stray internal SyntaxError reaching here
-  // is not expected. Phase 8 may narrow this to body-parse origin (letting other SyntaxErrors fall
-  // to the 500 + onUnexpected branch); see docs/api-pipeline/phase-08-middleware.md.
+  // is not expected. The body middleware may narrow this to body-parse origin (letting other
+  // SyntaxErrors fall to the 500 + onUnexpected branch).
   if (err instanceof SyntaxError) {
     return finalize(400, 'json.malformed');
   }
@@ -303,7 +303,7 @@ export function normalizeSurface(tag?: EnvelopeKind | ErrorSurface): ErrorSurfac
  * Escape the five HTML-significant characters for safe interpolation into the HTML page.
  * Exported so the escaping is pinned by a direct unit test: today serializeHtml only
  * interpolates the static reason/detail phrases, but this is the defense-in-depth guard for
- * any later phase that renders dynamic content into the HTML error surface.
+ * any future change that renders dynamic content into the HTML error surface.
  */
 export function escapeHtml(text: string): string {
   return text
@@ -320,7 +320,7 @@ function baseHeaders(app: AppError, ctx: Ctx): Record<string, string> {
 }
 
 function serializeProblem(app: AppError, ctx: Ctx): SerializedError {
-  // Spread params FIRST so the RFC 9457 reserved members (notably `code`, the Phase 22
+  // Spread params FIRST so the RFC 9457 reserved members (notably `code`, the REST i18n
   // localization key) always win. An extension member must never shadow a standard member
   // (RFC 9457 section 3.2), so a future catalog param named code/status/type/title/detail/instance
   // cannot corrupt the envelope.
@@ -432,7 +432,7 @@ function serialize(app: AppError, surface: ErrorSurface, ctx: Ctx): SerializedEr
 /**
  * Normalize the thrown value, notify onUnexpected ONCE for an unexpected (mapped-to-500) throwable
  * with the ORIGINAL error, then serialize for the selected surface. RETURNS the SerializedError;
- * it does NOT write to ctx.res (Phase 8 owns the write).
+ * it does NOT write to ctx.res (the error middleware owns the write).
  */
 export function mapError(err: unknown, ctx: Ctx, opts?: MapErrorOpts): SerializedError {
   const app = toAppError(err);

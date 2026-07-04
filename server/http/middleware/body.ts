@@ -1,11 +1,11 @@
-// JSON body middleware for the API pipeline (Phase 8 of docs/api-pipeline/).
+// JSON body middleware for the API request pipeline.
 //
 // withBody wraps the existing readBody (server/http_util.ts) as an onion
 // middleware: it parses ctx.req into ctx.body and hands the reject reasons
 // readBody already distinguishes onto stable HttpError codes. It is JSON-only
 // (a binary/card route uses withRawBody instead) and imposes no Content-Type
-// check: enforcing application/json is Phase 21's job. Importable but
-// UNMOUNTED here; Phase 9 places it in front of the JSON routes.
+// check: enforcing application/json is the Content-Type gate's job. Importable but
+// UNMOUNTED here; the route tables place it in front of the JSON routes.
 
 import { DEFAULT_JSON_BODY_MAX_BYTES, readBody } from '../../http_util';
 import { HttpError } from '../errors';

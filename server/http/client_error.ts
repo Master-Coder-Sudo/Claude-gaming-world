@@ -1,5 +1,5 @@
-// The http.Server 'clientError' handler for the API pipeline (Phase 8 of
-// docs/api-pipeline/), extracted to a top-level module so it is unit-testable
+// The http.Server 'clientError' handler for the API request pipeline,
+// extracted to a top-level module so it is unit-testable
 // without booting a real server.
 //
 // Raw node:http leaves a malformed-request socket (a bad request line, an

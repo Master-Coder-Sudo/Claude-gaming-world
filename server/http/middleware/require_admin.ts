@@ -1,7 +1,6 @@
-// Admin-auth gate + admin-scope :id loader for the API pipeline migration
-// (Phase 17 of docs/api-pipeline/). Two transitional, legacy-body middleware the
-// migrated /admin/api routes mount, mirroring the account-owner seam from Phase 12
-// (require_owned.ts) but for the OPERATOR scope:
+// Admin-auth gate + admin-scope :id loader for the API request pipeline. Two
+// transitional, legacy-body middleware the migrated /admin/api routes mount,
+// mirroring the account-owner seam (require_owned.ts) but for the OPERATOR scope:
 //
 //  - createRequireAdmin(getDb): the admin-auth gate. It mirrors the legacy
 //    adminAccountId(req) resolver EXACTLY (server/admin.ts): resolve the 64-hex
@@ -38,7 +37,7 @@
 //
 // This is a transitional artifact like bearer_active_guard.ts: it emits the legacy
 // { success, data, error } admin bodies the operator dashboard keys on, NOT a coded
-// problem+json envelope. Phase 22/25 own the coded end-state.
+// problem+json envelope. The coded end-state lands at the ladder deletion.
 
 import { json } from '../../http_util';
 import { num } from '../schema';

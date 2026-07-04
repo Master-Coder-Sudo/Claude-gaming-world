@@ -1,6 +1,6 @@
-// The access-log MetricSink for the API pipeline (Phase 23 of docs/api-pipeline/).
+// The access-log MetricSink for the API request pipeline.
 //
-// It adapts the Phase 8 MetricSink seam (server/http/middleware/metric_sink.ts) to
+// It adapts the MetricSink seam (server/http/middleware/metric_sink.ts) to
 // the structured logger: one 'access' line per recorded request, carrying the
 // method, the :param ROUTE TEMPLATE (never a concrete id path, to bound log
 // cardinality), the final status, the request duration, and the resolved client
@@ -8,11 +8,11 @@
 // AsyncLocalStorage (withMetrics records inside the onion's runWithReqId scope), so
 // it is not re-passed here.
 //
-// The IP is TRUNCATED at this log surface (privacy review, Phase 23): the last
+// The IP is TRUNCATED at this log surface (privacy review): the last
 // IPv4 octet is masked and IPv6 keeps its first three hextets, which preserves
 // subnet-level abuse correlation without writing a full client IP to stdout. The
-// in-memory MetricEvent keeps the full value for non-log consumers; the Phase 24
-// exposure gate owns any future full-IP exception.
+// in-memory MetricEvent keeps the full value for non-log consumers; the
+// validated-config exposure gate owns any future full-IP exception.
 
 import type { Logger } from './logger';
 import type { MetricEvent, MetricSink } from './middleware/metric_sink';

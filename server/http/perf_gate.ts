@@ -1,6 +1,5 @@
-// Acceptance-gate constants for the API pipeline's realtime-neutrality budget
-// (Phase 24 of docs/api-pipeline/). The gate that reads these lives in
-// tests/server/perf_gate.test.ts.
+// Acceptance-gate constants for the API request pipeline's realtime-neutrality
+// budget. The gate that reads these lives in tests/server/perf_gate.test.ts.
 //
 // Two independent ceilings, both grounded in the sim's fixed tick so a change to
 // the tick rate (or to a ratio here) fails the gate loudly rather than silently

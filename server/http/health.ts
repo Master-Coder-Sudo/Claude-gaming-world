@@ -1,5 +1,5 @@
 // Drain-aware liveness/readiness plus the /metrics exposition handlers for the
-// API pipeline (Phase 23 of docs/api-pipeline/).
+// API request pipeline.
 //
 // Liveness (/livez) answers 200 as long as the process runs; readiness (/readyz)
 // answers 200 until shutdown calls markDraining(), then 503 so a load balancer or

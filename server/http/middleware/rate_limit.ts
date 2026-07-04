@@ -1,13 +1,13 @@
-// Two-tier rate-limit middleware for the API pipeline onion (Phase 19 of
-// docs/api-pipeline/). Each policy resolves in two ordered tiers:
+// Two-tier rate-limit middleware for the API request pipeline onion. Each policy
+// resolves in two ordered tiers:
 //   tier-1: the in-process sliding-window limiter (server/ratelimit.ts), the
 //           SAME per-realm memory buckets the legacy arms used, checked FIRST.
 //   tier-2: a pg-backed GLOBAL fixed-window counter (server/ratelimit_db.ts),
 //           shared across every realm process, checked ONLY when tier-1 allows.
 // On a rejection the adapter throws HttpError(429, 'rate_limit.exceeded', {
-// retryAfterSeconds }, <draft-11 headers>); the Phase 7/8 error boundary
-// serializes it. The effective tier-1 behavior of every policy is bit-identical
-// to Phase 8 (same limiter fn, same named limit, same window), so a single
+// retryAfterSeconds }, <draft-11 headers>); the withErrors error boundary
+// serializes it. The effective tier-1 behavior of every policy is bit-identical to
+// its single-tier predecessor (same limiter fn, same named limit, same window), so a single
 // process sees no change: tier-1 records first and the fixed window counts a
 // subset of the sliding window, so tier-2 can never reject when tier-1 allowed.
 //
@@ -199,7 +199,7 @@ export const WALLET_LINK_POLICY: RateLimitPolicy = {
   tier2: 'global',
 };
 
-// The character-mutation policies (Phase 12). Each is 'ip+account' (so it must be
+// The character-mutation policies. Each is 'ip+account' (so it must be
 // mounted BEHIND the route's auth guard, which populates ctx.account) and runs the
 // per-action limiter keyed on its OWN bucket, so create/rename/delete/takeover never
 // share a window. These are NEW limiters (character mutations had none before): a 429
@@ -236,7 +236,7 @@ export const CHARACTER_TAKEOVER_POLICY: RateLimitPolicy = characterMutationPolic
   'takeover',
 );
 
-// The report-creation limiter (Phase 15). 'ip+account' (so it mounts BEHIND the
+// The report-creation limiter. 'ip+account' (so it mounts BEHIND the
 // route's auth guard, which populates ctx.account), running the fused per-IP AND
 // per-account limiter keyed on the caller. It is a NEW limiter (report creation had
 // none before): a 429 is now possible where none was, recorded as the

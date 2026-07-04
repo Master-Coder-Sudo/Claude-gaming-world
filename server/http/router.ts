@@ -1,17 +1,17 @@
-// In-house table router for the API pipeline (Phase 4 of docs/api-pipeline/).
+// In-house table router for the API request pipeline.
 //
 // A pure (method, path) -> MatchResult function over a static-Map + dynamic
-// table. It is the match PRIMITIVE the Phase 9 dispatcher places ahead of the
+// table. It is the match PRIMITIVE the dispatcher places ahead of the
 // legacy handleApi ladder. It writes no response, sets no header, parses no
 // body, runs no middleware, and chooses no error envelope: it returns a small
-// discriminated MatchResult and lets the dispatcher (Phase 9) and the error
-// model (Phase 7) own every write.
+// discriminated MatchResult and lets the dispatcher (dispatch.ts) and the error
+// model (errors.ts) own every write.
 //
 // HEAD is served as GET (with head: true on the result); OPTIONS is synthesized
 // from the real method set for the path (the dispatcher serves it as 204 with
 // Allow + Vary: Origin); a known path under an unsupported method returns an
 // honest 405 + Allow (the anti-enumeration 404-instead-of-405 override on auth
-// routes is applied by Phase 9 from an explicit list, never here). Matching is
+// routes is applied by the dispatcher from an explicit list, never here). Matching is
 // no-regex by construction: it delegates to the pure path_pattern helpers, so
 // there is no per-request regex.
 
@@ -89,7 +89,7 @@ interface MethodTable<R> {
    * wins over any dynamic pattern (static is checked first), so a literal segment
    * beats a ':param' at the same position. Two dynamic patterns of DIFFERENT
    * shape that overlap on some path (e.g. '/:a/b' and '/x/:c' both match '/x/b')
-   * resolve to the FIRST registered; ordering those by specificity is the Phase 9
+   * resolve to the FIRST registered; ordering those by specificity is the
    * registry's job. Same-shape dynamic duplicates are rejected at build time (see
    * createRouter).
    */

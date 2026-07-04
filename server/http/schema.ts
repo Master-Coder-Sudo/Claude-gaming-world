@@ -1,9 +1,9 @@
-// In-house typed schema validator for the API pipeline (Phase 6 of docs/api-pipeline/).
+// In-house typed schema validator for the API request pipeline.
 //
 // A zero-dependency body/params/query decoder: object/str/num/bool/enum/optional combinators
 // that validate and TYPE request input, derive the handler input type via Infer<typeof S>, and
 // collect EVERY field issue in one pass as stable CODES, never English (the server stays
-// language-agnostic; the client re-localizes a code in Phase 22). Each schema conforms to
+// language-agnostic; the client code-matcher re-localizes the code). Each schema conforms to
 // Standard Schema v1, already vendored in ./types as the frozen single home of the spine type
 // contracts, so this module IMPORTS it rather than redefining it. params and query arrive as
 // STRINGS, so num()/bool() coerce a string and num() rejects NaN (a :id never reaches a DB call

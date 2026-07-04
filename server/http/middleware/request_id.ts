@@ -1,8 +1,7 @@
 // Re-establishes the reqId AsyncLocalStorage binding around next() AND echoes the
-// id as the X-Request-Id response header (Phase 8 bind + Phase 23 echo, of
-// docs/api-pipeline/). buildContext already sets ctx.reqId and runOnion already
-// wraps the whole onion run in runWithReqId, so the ALS rebind is redundant in the
-// wired pipeline; it matters whenever a middleware stack is composed and run
+// id as the X-Request-Id response header. buildContext already sets ctx.reqId and
+// runOnion already wraps the whole onion run in runWithReqId, so the ALS rebind is
+// redundant in the wired pipeline; it matters whenever a middleware stack is composed and run
 // WITHOUT runOnion (e.g. a focused unit test), where currentReqId() would otherwise
 // read undefined downstream. The header echo is the new load-bearing behavior.
 

@@ -1,5 +1,5 @@
-// The RED /metrics exporter core (Phase 23 of docs/api-pipeline/): a prom-client
-// registry plus a MetricSink (server/http/middleware/metric_sink.ts) that turns
+// The RED /metrics exporter core: a prom-client registry plus a MetricSink
+// (server/http/middleware/metric_sink.ts) that turns
 // each per-request MetricEvent into a Prometheus Counter increment and Histogram
 // observation. RED = Rate (the request counter), Errors (the status label), and
 // Duration (the latency histogram).

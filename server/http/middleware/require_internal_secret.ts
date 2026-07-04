@@ -1,5 +1,5 @@
-// The shared-secret header gate for the /internal ops surface (Phase 18 of
-// docs/api-pipeline/). PARITY-FIRST: on a reject it writes the LEGACY
+// The shared-secret header gate for the /internal ops surface. PARITY-FIRST: on a
+// reject it writes the LEGACY
 // { success, data, error } bodies byte-for-byte (the fail() envelope in
 // server/internal.ts), via json() directly, never problem+json: the feature-off
 // 404 when the env secret is unset (the endpoint hides entirely,
@@ -26,7 +26,7 @@ export const DISCORD_SECRET_ENV = 'DISCORD_BOT_SECRET';
 
 /**
  * Header + env pair for the daily-rewards payout-service gate (the
- * /internal/daily-rewards/* ops family, Phase 18b). Unlike the two pairs above,
+ * /internal/daily-rewards/* ops family). Unlike the two pairs above,
  * this gate FAILS CLOSED (requireInternalSecretFailClosed below): an unset env
  * secret answers 401, never the feature-off 404, and it never falls back to
  * RESTART_COUNTDOWN_SECRET (that is an unrelated ops secret whose holder must
@@ -80,7 +80,7 @@ export function requireInternalSecret(gate: InternalSecretGate): Middleware {
 }
 
 /**
- * The FAIL-CLOSED variant (Phase 18b, the daily-rewards ops family): an unset
+ * The FAIL-CLOSED variant (the daily-rewards ops family): an unset
  * env secret AND a mismatched header BOTH answer the legacy 401 { success:
  * false, data: null, error: 'not authenticated' } (daily_rewards.ts
  * internalAuthorized returns false when the env is empty, and the ladder writes

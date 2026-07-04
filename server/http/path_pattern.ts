@@ -1,5 +1,5 @@
 // Pure path-pattern compiler, no-regex routing guard, and matcher for the API
-// pipeline table router (Phase 4 of docs/api-pipeline/).
+// request pipeline table router.
 //
 // Host-agnostic and PURE: this module imports nothing from src/sim, render, ui,
 // game, or net, touches no DOM/Three, and references no req/res and no node:http
@@ -17,7 +17,7 @@ import type { Method } from './types';
 /**
  * The HTTP method union the router subsystem speaks. This is an ALIAS of the
  * canonical Method (server/http/types.ts), which stays the single source of
- * truth; the Phase 4 contract refers to it as HttpMethod, so we expose that
+ * truth; the router contract refers to it as HttpMethod, so we expose that
  * name without re-declaring the method set.
  */
 export type HttpMethod = Method;
@@ -113,7 +113,7 @@ function splitSegments(path: string): string[] {
 /**
  * Strip exactly one trailing slash from a path, unless the path is the root '/'.
  * Does NOT collapse internal slashes, decode percent-encoding, or resolve '..';
- * the dispatcher (Phase 5) owns URL parsing and hands the router a clean
+ * the request-context builder (context.ts) owns URL parsing and hands the router a clean
  * pathname. Idempotent for a single trailing slash; a path with two trailing
  * slashes loses one per call.
  */

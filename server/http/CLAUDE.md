@@ -1,8 +1,8 @@
 <!-- server/http/: the REST request pipeline spine. Local conventions only.
      Root CLAUDE.md (architecture, invariants) and server/CLAUDE.md (the game
      server, the "Adding an endpoint" recipe) load alongside this; don't repeat
-     them. This directory is the in-house pipeline the migration phases
-     (docs/api-pipeline/) built to replace the legacy main.ts handler ladder. -->
+     them. This directory is the in-house pipeline built to replace the legacy
+     main.ts handler ladder. -->
 
 # server/http/: the REST request pipeline spine
 
@@ -79,7 +79,7 @@ discord, github, desktop-login, daily-rewards, maps, user-assets, admin, oauth, 
 ## Dual-edit maintenance (until the ladder is deleted)
 A migrated route lives in BOTH the `RouteDef` table (here) and the legacy ladder (`main.ts`). Until
 the ladder is removed, any behavior edit to one twin MUST land in the other in the same change (the
-Phase 18/18b rule). This obligation expires with the ladder-deletion follow-up PR. That deletion is
+dual-edit rule). This obligation expires with the ladder-deletion follow-up PR. That deletion is
 gated by exit criteria the release records in `docs/api-pipeline/state.md` under
 `## Old-ladder deletion exit criteria (next release)`; do not delete the ladder before they are met.
 

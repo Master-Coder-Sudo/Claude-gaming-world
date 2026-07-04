@@ -1,10 +1,10 @@
-// Stable error-code catalog for the API pipeline (Phase 7 of docs/api-pipeline/).
+// Stable error-code catalog for the API request pipeline.
 //
 // The SINGLE source of truth for machine error codes. A code is a stable
-// `domain.reason` identifier, NEVER English prose: the Phase 7 serializers
+// `domain.reason` identifier, NEVER English prose: the error-model serializers
 // (errors.ts) reference these literally and the client re-localizes a code to
-// player text in Phase 22. This module is pure data plus types: it has ZERO
-// imports, no DOM, and no sim/client dependency.
+// player text (the code-matcher, src/ui/api_error_i18n.ts). This module is pure
+// data plus types: it has ZERO imports, no DOM, and no sim/client dependency.
 //
 // APPEND-ONLY (AIP-193): codes are permanent. Never renumber, rename, or remove an
 // existing code; only ADD new ones. Renaming a code silently breaks the client
@@ -28,7 +28,7 @@ function deepFreeze<T>(value: T): T {
 }
 
 export const ERROR_CODES = deepFreeze({
-  // --- Structural codes (the 9 pipeline primitives; the Phase 7 serializers map an
+  // --- Structural codes (the 9 pipeline primitives; the error-model serializers map an
   // HTTP status onto these). Do not change these names or param keys. ---
   'validation.failed': { params: ['issues'] },
   'json.malformed': { params: [] },
@@ -41,7 +41,7 @@ export const ERROR_CODES = deepFreeze({
   'internal.error': { params: [] },
 
   // --- Harvested user-facing identities (seeded from src/main.ts userFacingApiError;
-  // Phase 22 wires the client matcher to these). One code per existing identity; the
+  // the client matcher localizes these). One code per existing identity; the
   // identity comment names the English source string(s) the code stands in for. ---
 
   // auth: authentication, session, and credential-check failures.
@@ -134,10 +134,10 @@ export const ERROR_CODES = deepFreeze({
   // identity: "two-factor is not enabled"
   'two_factor.not_enabled': { params: [] },
 
-  // --- Phase 21 hardening codes (new contracts, no legacy English identity).
-  // Emitted only when the matching gate runs in enforce mode; both gates ship
-  // log-only, so no response carries these until the native-traffic audit flips
-  // the flags. Phase 22 wires the client matcher. ---
+  // --- Content-Type / Origin gate hardening codes (new contracts, no legacy English
+  // identity). Emitted only when the matching gate runs in enforce mode; both gates
+  // ship log-only, so no response carries these until the native-traffic audit flips
+  // the flags. The client matcher is wired to these. ---
 
   // The request Content-Type is not application/json on a JSON /api route
   // (the Content-Type 415 gate, server/http/middleware/content_type.ts).
@@ -146,7 +146,7 @@ export const ERROR_CODES = deepFreeze({
   // same-origin nor allowlisted (server/http/middleware/origin_check.ts).
   'origin.cross_site': { params: [] },
 
-  // --- Phase 22 Discord family codes. These ride ALONGSIDE the untouched legacy
+  // --- Discord family codes. These ride ALONGSIDE the untouched legacy
   // prose in the server/discord.ts { error } bodies (additive; the format stays
   // JSON, never problem+json). The shared rate-limit prose { error: 'rate limited' }
   // is NOT coded here: it is the cross-cutting rate_limit.exceeded identity whose

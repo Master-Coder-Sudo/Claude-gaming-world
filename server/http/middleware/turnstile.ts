@@ -1,5 +1,4 @@
-// Per-route Turnstile (anti-bot) middleware for the API pipeline (Phase 11 of
-// docs/api-pipeline/).
+// Per-route Turnstile (anti-bot) middleware for the API request pipeline.
 //
 // The credential surface (register + login) gates account creation and login
 // behind Cloudflare Turnstile (or a native-app attestation). This middleware runs
@@ -11,8 +10,8 @@
 // handleApi arm wrote, byte-for-byte, so the client prose-matcher (src/main.ts
 // userFacingApiError) still resolves it to the localized "verification failed"
 // key. It does NOT throw an HttpError: routing the failure through the RFC 9457
-// error model (a problem+json body with a stable code) is Phase 22; here parity
-// with the legacy body is what the migration preserves.
+// error model (a problem+json body with a stable code) waits for the ladder-deletion
+// give-way; here parity with the legacy body is what the migration preserves.
 
 import type * as http from 'node:http';
 import { json } from '../../http_util';

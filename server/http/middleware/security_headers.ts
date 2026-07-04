@@ -1,5 +1,5 @@
-// Top-level security-header setter for every HTTP response the server emits
-// (Phase 21 of docs/api-pipeline/). By locked decision this is a plain top-level
+// Top-level security-header setter for every HTTP response the server emits.
+// By locked decision this is a plain top-level
 // wrapper, NOT an onion Middleware: it runs in routeHttpRequest before the
 // prefix ladder, so it covers BOTH the legacy handleApi ladder and the new
 // flag-gated dispatcher. A dispatch-flag rollback can never drop a header, and

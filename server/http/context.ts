@@ -1,10 +1,10 @@
 // The request-context builder plus the reqId AsyncLocalStorage carrier for the
-// API pipeline (Phase 5 of docs/api-pipeline/).
+// API request pipeline.
 //
 // buildContext turns a (req, res, MatchResult) triple into the frozen Ctx
 // (server/http/types.ts) that handlers and middleware read instead of touching
 // req/res directly. Per the frozen contract, body and account stay undefined
-// here: Phase 8's withBody/auth middleware fill them. Client IP is REUSED from
+// here: the withBody/auth middleware fill them. Client IP is REUSED from
 // ratelimit.requestIp (X-Forwarded-For aware), never re-derived from the socket.
 
 import { AsyncLocalStorage } from 'node:async_hooks';
@@ -17,7 +17,7 @@ import type { Ctx, Method, RouteDef } from './types';
 
 // node:http req.url is origin-form (path + query) and carries no scheme/host, so
 // `new URL` needs a base. This placeholder authority lets us parse it; only
-// pathname/search are load-bearing this phase (it matches the Phase 2 fakeCtx base).
+// pathname/search are load-bearing (it matches the fakeCtx test-harness base).
 const PLACEHOLDER_ORIGIN = 'http://localhost';
 // Fallback request target when req.url is absent or unparseable. The leading slash
 // keeps it a valid origin-form path that resolves against PLACEHOLDER_ORIGIN.
@@ -27,8 +27,8 @@ const DEFAULT_REQUEST_PATH = '/';
 const DEFAULT_METHOD = 'GET';
 
 // Per-request id carrier. It lets db.ts and other domain code read currentReqId()
-// for logging/correlation WITHOUT threading ctx through every call; runOnion (the
-// Phase 5 compose.ts) wraps the composed run in runWithReqId so the same id spans
+// for logging/correlation WITHOUT threading ctx through every call; runOnion
+// (compose.ts) wraps the composed run in runWithReqId so the same id spans
 // every await on the request.
 export const reqIdStorage = new AsyncLocalStorage<string>();
 
@@ -82,10 +82,10 @@ function parseQuery(searchParams: URLSearchParams): Record<string, string | stri
  * (GET http://host/path), where `new URL(input, base)` ignores the base and adopts
  * the client's host. We rebuild by ASSIGNING the parsed path + search onto a fresh
  * placeholder-authority URL (never by re-parsing them as a string), so a client can
- * never inject a foreign authority into ctx.url (which a later phase might trust for a
+ * never inject a foreign authority into ctx.url (which downstream code might trust for a
  * redirect Location or a same-origin check). It never throws: a target `new URL` cannot
  * parse falls back to the default path, keeping buildContext total (it runs before
- * runOnion's safety net once Phase 9 wires the dispatcher).
+ * runOnion's safety net in the dispatcher).
  */
 function buildUrl(target: string): URL {
   try {
@@ -107,7 +107,7 @@ function buildUrl(target: string): URL {
 /**
  * Build the frozen Ctx for one request. Reads ONLY params from the match (the
  * matched variant alone carries them); body and account stay undefined until
- * Phase 8.
+ * the withBody/auth middleware fill them.
  */
 export function buildContext(
   req: http.IncomingMessage,
@@ -115,7 +115,7 @@ export function buildContext(
   match: MatchResult<RouteDef>,
 ): Ctx {
   const url = buildUrl(req.url ?? DEFAULT_REQUEST_PATH);
-  // The router validates the request method before Phase 9 calls buildContext (and
+  // The router validates the request method before the dispatcher calls buildContext (and
   // node delivers it uppercase already), so here we only normalize the case and trust it.
   const method = (req.method ?? DEFAULT_METHOD).toUpperCase() as Method;
   // The matched variant alone carries params; every other variant gets a FRESH,

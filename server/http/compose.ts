@@ -1,5 +1,4 @@
-// Koa-style middleware onion runner for the API pipeline (Phase 5 of
-// docs/api-pipeline/).
+// Koa-style middleware onion runner for the API request pipeline.
 //
 // compose(stack) returns the recursive onion dispatch: each middleware does
 // work, awaits next(), then unwinds in reverse order. The load-bearing rule:
@@ -10,9 +9,9 @@
 // respondOnce is the headersSent/writableEnded-guarded low-level sender that
 // keeps both fallbacks no-ops once any middleware has already responded.
 //
-// withErrors (the real RFC 9457 problem+json mapping) is Phase 8 and sits
-// INSIDE this wrapper later; this phase ships only the structural net so the
-// socket never hangs. No body, stack, SQL, table text, or prose leaks here.
+// withErrors (the real RFC 9457 problem+json mapping) sits INSIDE this
+// wrapper; this module ships only the structural net so the socket never
+// hangs. No body, stack, SQL, table text, or prose leaks here.
 
 import type * as http from 'node:http';
 import { runWithReqId } from './context';
@@ -21,13 +20,14 @@ import type { Ctx, Middleware, Next } from './types';
 
 // The onion resolved without any middleware or handler producing a response.
 // This is a structural safety net so the socket never hangs; it is DISTINCT from
-// the uncaught-throw 500 below. In the live Phase 9 pipeline a matched handler
+// the uncaught-throw 500 below. In the live pipeline a matched handler
 // always responds, so this only fires for a misbehaving middleware stack.
 const FALLBACK_NO_RESPONSE_STATUS = 404;
 // An uncaught error escaped the onion. raw node:http would leave the socket
 // hanging, so we send a bare 500 with NO body (no stack, SQL, table, or prose).
-// Phase 8's withErrors replaces this with the real RFC 9457 problem+json envelope
-// (the envelope and error codes are defined in Phase 7).
+// The withErrors middleware normally maps a throw to the real RFC 9457
+// problem+json envelope (defined by the error model, errors.ts) before it
+// reaches this outermost net.
 const FALLBACK_ERROR_STATUS = 500;
 
 // Echoed on the structural fallbacks so a hung/errored request is still
@@ -97,7 +97,7 @@ export async function runOnion(ctx: Ctx, stack: Middleware[]): Promise<void> {
 /**
  * Guarantee the request ends with EXACTLY ONE response and the socket is never
  * left hanging, and never throw out of the safety net. Three cases: (1) the
- * response is already fully ended (the normal Phase 9 path once a handler runs),
+ * response is already fully ended (the normal dispatch path once a handler runs),
  * so do nothing; (2) nothing was committed, so send the bare fallback; (3) a
  * misbehaving middleware committed headers but never ended, so end() closes the
  * socket without an illegal second writeHead. A throw from an unusable response

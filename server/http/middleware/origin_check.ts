@@ -1,5 +1,5 @@
-// Log-only cross-site Origin check for mutating /api requests (Phase 21 of
-// docs/api-pipeline/). On a mutating method (POST/PUT/PATCH/DELETE) to the /api
+// Log-only cross-site Origin check for mutating /api requests. On a mutating
+// method (POST/PUT/PATCH/DELETE) to the /api
 // surface, a request whose Origin is clearly cross-site (present, and neither
 // same-origin nor allowlisted) is recorded and, in enforce mode, rejected with
 // the stable 'origin.cross_site' code. It ships LOG-ONLY by default: native
@@ -7,7 +7,7 @@
 // that traffic audit (this mirrors the sibling Content-Type 415 gate).
 //
 // It runs only inside the NEW-dispatcher onion for MATCHED routes; delegate-served
-// paths (the Phase 18b registered-surface carve-out) never reach it, so the check
+// paths (the documented registered-surface carve-out) never reach it, so the check
 // only ever covers the registered /api surface.
 //
 // The surface is bearer-only with NO cookies, so CSRF risk is minimal and an
@@ -20,7 +20,7 @@ import { HttpError } from '../errors';
 import { logger } from '../logger';
 import type { Ctx, Middleware, Next, RouteDef } from '../types';
 // The shared mutating-method set: single-sourced in the sibling gate so the two
-// Phase 21 gates cannot diverge on which methods they cover.
+// gates cannot diverge on which methods they cover.
 import { MUTATING_METHODS } from './content_type';
 
 /** Env var that flips the cross-site Origin check from log-only to enforce. */
@@ -53,7 +53,7 @@ export interface CrossSiteMismatch {
 export type CrossSiteMismatchSink = (mismatch: CrossSiteMismatch) => void;
 
 /**
- * The default sink: emit ONE structured dev-channel warning via the Phase 23
+ * The default sink: emit ONE structured dev-channel warning via the
  * structured logger. English only: this is a dev/ops channel, not player-facing text.
  */
 export const defaultCrossSiteMismatchSink: CrossSiteMismatchSink = (mismatch) => {

@@ -1,9 +1,9 @@
 // Bearer-token authentication plus the moderation gate, as an onion middleware
-// for the API pipeline (Phase 8 of docs/api-pipeline/). Mirrors the live
+// for the API request pipeline. Mirrors the live
 // bearerActiveAccount / bearerReadAccount resolvers (server/main.ts): extract
 // and validate the bearer token, enforce the route's scope tier, then apply the
-// ban/suspension check. Importable but UNMOUNTED here; Phase 9 places it in
-// front of the routes that need it.
+// ban/suspension check. Importable but UNMOUNTED here; the route tables place it
+// in front of the routes that need it.
 
 import {
   type AccountModerationStatus,
@@ -33,7 +33,7 @@ const BEARER_PATTERN = /^Bearer ([a-f0-9]{64})$/;
 export interface RequireAccountDeps {
   scope: RequiredScope;
   /**
-   * Anonymous-friendly mode (Phase 10 authz-gap-close). When true and NO
+   * Anonymous-friendly mode (the public-read authz-gap-close). When true and NO
    * Authorization header is present, next() runs with ctx.account left undefined
    * (the route serves anonymously). A header that IS present is still validated:
    * a malformed or unresolvable token is rejected exactly as in required mode, so

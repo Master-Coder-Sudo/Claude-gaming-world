@@ -1,4 +1,4 @@
-// Shared legacy-body bearer guard for the API pipeline migration (docs/api-pipeline/).
+// Shared legacy-body bearer guard for the API request pipeline.
 //
 // A per-route middleware that mirrors server/main.ts bearerActiveAccount EXACTLY:
 // it resolves the 64-hex bearer token, requires a full (mutating) scope, and
@@ -9,20 +9,20 @@
 //
 // Why a shared factory (rule-of-three): server/wallet.ts, server/characters.ts,
 // and server/account.ts each grew a byte-identical `const activeGuard` copy during
-// their migrations, and their Phase 14 review filed the consolidation as a
-// follow-up ("do NOT add a 4th copy in Phase 15+; extract when the next domain
-// needs the guard"). Phase 15 (server/reports.ts) is that next domain, so the
+// their migrations, and the wallet-surface review filed the consolidation as a
+// follow-up ("do NOT add a 4th copy; extract when the next domain needs the
+// guard"). The reports surface (server/reports.ts) is that next domain, so the
 // guard is extracted here and reports.ts consumes it. Retrofitting the three
 // existing copies onto this factory is deliberately deferred to the dedicated
-// bearer-resolver step (a natural fit alongside Phase 22/25): those surfaces are
+// bearer-resolver step (a natural fit alongside the ladder deletion): those surfaces are
 // already shipped and byte-parity-pinned, and each carries a sibling guard
 // (readGuard / logoutGuard) that this active-only factory does not cover, so the
 // retrofit belongs in its own change, not this small migration.
 //
 // This is a transitional artifact: it emits the legacy prose { error } bodies the
 // client prose-matcher (src/main.ts userFacingApiError) still keys on, NOT the
-// RFC 9457 problem+json requireAccount middleware. The Phase 22 code-matcher and the
-// Phase 25 default flip are both live, but the give-way to the coded requireAccount
+// RFC 9457 problem+json requireAccount middleware. The client code-matcher and the
+// 'new' dispatch default are both live, but the give-way to the coded requireAccount
 // path happens at the ladder-deletion PR (next release): until then these guards keep
 // emitting the legacy-parity bodies on both dispatch arms.
 
@@ -31,8 +31,8 @@ import { type AccountModerationStatus, scopeAllowsMutation, type TokenScope } fr
 import { json, moderationErrorBody } from '../../http_util';
 import type { Ctx, Middleware, Next } from '../types';
 
-// The exact legacy { error } identities bearerActiveAccount emits, plus the additive
-// Phase 22 machine `code` alongside the untouched prose. Named constants so they
+// The exact legacy { error } identities bearerActiveAccount emits, plus the additive machine
+// `code` the client code-matcher keys on, alongside the untouched prose. Named constants so they
 // cannot drift from the resolver they mirror. No em dash appears in any (the legacy
 // strings never used one).
 export const NOT_AUTHENTICATED = { error: 'not authenticated', code: 'auth.required' } as const;

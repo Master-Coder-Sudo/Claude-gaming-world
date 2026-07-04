@@ -34,7 +34,7 @@
 //       arm and the leaderboard.ts migrated arm, each kept a live per-request read
 //       so the two dispatch arms cannot diverge while the legacy ladder is retained
 //       behind the flag). The old-ladder deletion is the NEXT-RELEASE follow-up PR
-//       (not Phase 25): that PR removes the legacy /api/perf arm and wires the
+//       (the default flip already shipped): that PR removes the legacy /api/perf arm and wires the
 //       surviving migrated arm onto Config.allowDevCommands (the validated
 //       single-source pin); the game.ts per-command env reads stay per-command by
 //       design.
@@ -54,7 +54,7 @@
 //   (5) db.ts module-scope DATABASE_URL read + pool construction (a pg pool
 //       connects lazily, so a bare import opens nothing; loadConfig owns the
 //       fail-fast throw on an empty DATABASE_URL). db.ts also reads the one-shot
-//       MARKET_BACKFILL_DRY_RUN ops flag at the point of the Phase 20 backfill
+//       MARKET_BACKFILL_DRY_RUN ops flag at the point of the World Market backfill
 //       inside ensureSchema ('1' deliberately halts boot for inspection; any other
 //       value is off, no garbage state).
 //   (6) The realm/origin keys (server/realm.ts) that resolve at module load with a
@@ -73,7 +73,7 @@ export type DispatchMode = 'legacy' | 'new';
 export interface Config {
   // The SINGLE all-or-nothing API dispatch flag (canonical env name API_DISPATCH).
   // 'legacy' keeps the existing route handling; 'new' selects the re-architected
-  // pipeline. The DEFAULT is 'new' (flipped in Phase 25); API_DISPATCH=legacy is the
+  // pipeline. The DEFAULT is 'new'; API_DISPATCH=legacy is the
   // one-flag rollback. An unset flag defaults to DEFAULT_DISPATCH; a set-but-invalid
   // flag THROWS (see parseDispatch).
   readonly dispatch: DispatchMode;
@@ -109,7 +109,7 @@ const DISPATCH_NEW = 'new' as const;
 // The single source of truth for the default dispatch mode. Exported so the boot
 // wiring (server/main.ts) uses the SAME default for its pre-boot/test-import value
 // as loadConfig uses when API_DISPATCH is unset, rather than re-typing the literal.
-// Phase 25 flipped this to 'new' (the new pipeline is the production default);
+// The production default is 'new' (the new pipeline serves every surface);
 // API_DISPATCH=legacy is the one-flag rollback to the retained legacy ladder.
 export const DEFAULT_DISPATCH: DispatchMode = DISPATCH_NEW;
 

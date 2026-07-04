@@ -1,4 +1,4 @@
-// Raw (binary) body middleware for the API pipeline (Phase 8 of docs/api-pipeline/).
+// Raw (binary) body middleware for the API request pipeline.
 //
 // withRawBody wraps readBinaryBody (server/http_util.ts) as an onion
 // middleware for a binary route (e.g. the shareable player-card PNG upload):
@@ -7,7 +7,7 @@
 // exceeds the cap rejects before a byte is read, and either that check or a
 // mid-stream overflow marks the connection non-keep-alive (Connection: close)
 // so a client that ignored its own declared length cannot keep the socket.
-// Importable but UNMOUNTED here; Phase 9 places it in front of the card route.
+// Importable but UNMOUNTED here; the route tables place it in front of the card route.
 
 import type * as http from 'node:http';
 import { readBinaryBody } from '../../http_util';

@@ -1,5 +1,5 @@
 // Object-level authorization (BOLA) load-then-authorize middleware for the API
-// pipeline (Phase 12 of docs/api-pipeline/).
+// request pipeline.
 //
 // requireOwned(config) is the generic loader factory the owner-gated :id routes
 // mount AFTER their auth guard. It is a load-then-authorize seam, scope-before-find:
@@ -17,9 +17,9 @@
 //      caller cannot tell "exists but not yours" apart from "does not exist".
 //
 // The denial writes the LEGACY { error } body byte-for-byte and short-circuits (no
-// next(), no throw), exactly like the Phase 11 credential guards: the migrated
+// next(), no throw), exactly like the auth-surface credential guards: the migrated
 // character routes preserve their legacy prose bodies (the client prose-matcher in
-// src/main.ts keys on them until Phase 22), so a 404 here must not become a
+// src/main.ts keys on them until the ladder deletion), so a 404 here must not become a
 // problem+json envelope. The num() 422 is the one path that DOES surface through the
 // RFC 9457 error model (it throws the decode failure that withErrors maps), because a
 // malformed :id has no legacy body to preserve: legacy's `\d+` route regexes never
@@ -61,11 +61,11 @@ export interface BolaDenyEvent {
 
 /**
  * A structured sink for BOLA denials; defaults to a single stderr warn line. It is
- * INJECTABLE per loader so a later phase can wrap it (sampling / rate-limiting) without
+ * INJECTABLE per loader so a later change can wrap it (sampling / rate-limiting) without
  * touching this module: the deny-log fires on EVERY miss (a deliberate per-denial audit
  * signal, so a cross-account probe is always recorded), so its volume on the unlimited
  * owner READ routes (sheet/standing carry no per-action limiter, matching legacy) is
- * bounded downstream by the real structured-logging sink (Phase 23), not by adding a
+ * bounded downstream by the real structured-logging sink, not by adding a
  * read limiter here (which would 429 reads where legacy never did).
  */
 export type BolaDenyLogger = (event: BolaDenyEvent) => void;

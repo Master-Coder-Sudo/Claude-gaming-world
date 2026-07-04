@@ -1,5 +1,5 @@
-// A pure, host-agnostic secret/PII redactor for the structured logger (Phase 23
-// of docs/api-pipeline/). It scrubs the known secret and PII classes out of any
+// A pure, host-agnostic secret/PII redactor for the structured logger
+// (logger.ts). It scrubs the known secret and PII classes out of any
 // value BEFORE it is serialized to a log line, so an operational log can never
 // carry a live credential:
 //   (a) Authorization header values (any key casing) and inline 'Bearer <token>'

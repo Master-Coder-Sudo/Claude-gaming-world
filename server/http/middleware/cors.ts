@@ -1,5 +1,5 @@
-// CORS header middleware for the API pipeline onion (Phase 8 of
-// docs/api-pipeline/). Two allow classes: 'api' reflects an allow-listed
+// CORS header middleware for the API request pipeline onion. Two allow classes:
+// 'api' reflects an allow-listed
 // realm/native-app origin (credentialed bearer-token routes), 'public' always
 // answers with the wildcard (uncredentialed public reads, e.g. the character
 // sheet and avatar art; see realm.ts's isPublicCorsPath). Headers are set via

@@ -1,5 +1,5 @@
-// An in-house, pino-shaped structured JSON logger for the API pipeline (Phase 23
-// of docs/api-pipeline/). No dependency (pino is deliberately forbidden here); it
+// An in-house, pino-shaped structured JSON logger for the API request pipeline.
+// No dependency (pino is deliberately forbidden here); it
 // is a thin facade over process.stdout / process.stderr that writes EXACTLY ONE
 // JSON object per line.
 //
