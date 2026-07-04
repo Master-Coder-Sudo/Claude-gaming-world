@@ -155,9 +155,9 @@ export const vi_VN: EnTranslations = {
       "banner": "Đang xem {name}"
     },
     "death": {
-      "resurrectAtCorpse": "Resurrect at Corpse",
-      "resurrectAtHealer": "The Pale Keeper (Keeper's Toll)",
-      "spiritHealerAlive": "The Pale Keeper watches over the dead. You are still among the living."
+      "resurrectAtCorpse": "Hồi Sinh Tại Xác Chết",
+      "resurrectAtHealer": "Người Canh Giữ Nhợt Nhạt (Cái Giá của Người Canh Giữ)",
+      "spiritHealerAlive": "Người Canh Giữ Nhợt Nhạt trông nom kẻ chết. Bạn vẫn còn ở giữa cõi sống."
     },
     "emotes": {
       "wave": "Vẫy Tay",
@@ -188,7 +188,7 @@ export const vi_VN: EnTranslations = {
       "loading": "Đang tải phần thưởng hằng ngày...",
       "error": "Không thể tải phần thưởng hằng ngày.",
       "intro": "Giữ đủ WOC trong ví đã xác minh của bạn để mở khóa phần thưởng hằng ngày. Kiếm điểm bằng một lượt quay mỗi ngày và các nhiệm vụ luân phiên, rồi leo lên bảng xếp hạng hằng ngày để nhận phần chia từ quỹ giải thưởng.",
-      "disclaimer": "WOC price can move quickly. We recommend holding more than the $20 USD minimum so normal price swings do not lock you out. This is not financial advice.",
+      "disclaimer": "Giá WOC có thể biến động nhanh. Chúng tôi khuyên bạn nên giữ nhiều hơn mức tối thiểu 20 USD để những dao động giá thông thường không khóa bạn ở ngoài. Đây không phải lời khuyên tài chính.",
       "prize": "Quỹ Giải Thưởng",
       "reset": "Đặt Lại",
       "endsIn": "Kết thúc sau {time}",
@@ -208,13 +208,17 @@ export const vi_VN: EnTranslations = {
       "spinResult": "+{points} điểm",
       "spinButton": "Quay",
       "tasks": "Nhiệm Vụ",
-      "taskMultiplier": "x{multiplier} multiplier",
-      "pointsGained": "{points} daily rewards points gained.",
+      "taskMultiplier": "hệ số x{multiplier}",
+      "pointsGained": "Nhận được {points} điểm phần thưởng hằng ngày.",
       "showChestButton": "Hiện rương",
       "hideChestButton": "Ẩn rương",
+      "hideChestConfirmTitle": "Ẩn Rương Phần Thưởng Hằng Ngày?",
+      "hideChestConfirmBody": "Thao tác này gỡ lối tắt rương khỏi HUD của bạn. Phần thưởng, điều kiện nhận và bảng này vẫn khả dụng; bạn có thể bật lại lối tắt từ Tùy Chọn.",
+      "hideChestConfirmOk": "Ẩn Rương",
+      "hideChestConfirmCancel": "Hủy",
       "leaderboard": "Bảng Xếp Hạng Hằng Ngày",
-      "totalPlayer": "{count} player today",
-      "totalPlayers": "{count} players today",
+      "totalPlayer": "{count} người chơi hôm nay",
+      "totalPlayers": "{count} người chơi hôm nay",
       "history": "Người Thắng Trước Đây",
       "noLeaders": "Chưa có điểm nào.",
       "noHistory": "Chưa có khoản chi trả nào.",
@@ -289,9 +293,9 @@ export const vi_VN: EnTranslations = {
       "partyLabel": "Đội Của Bạn",
       "partyGroup": "Nhóm {n}",
       "durationUnitSeconds": "s",
-      "durationUnitMinutes": "m",
-      "durationUnitHours": "h",
-      "durationUnitDays": "d"
+      "durationUnitMinutes": "ph",
+      "durationUnitHours": "g",
+      "durationUnitDays": "ng"
     },
     "character": {
       "modelPreview": "Xem Trước Mô Hình Nhân Vật"
@@ -401,20 +405,20 @@ export const vi_VN: EnTranslations = {
       "showWalletOnCharacterScreen": "Hiện Ví Tiền Ở Màn Hình Nhân Vật",
       "showWalletOnPlayerCard": "Hiện Ví Tiền Trên Thẻ Người Chơi",
       "showDevBadges": "Hiện Huy Hiệu Nhà Phát Triển",
-      "showOwnNameplate": "Show My Nameplate",
+      "showOwnNameplate": "Hiện Bảng Tên Của Tôi",
       "uiScale": "Tỷ Lệ Giao Diện",
-      "playerFrameScale": "Player Frame Scale",
-      "targetFrameScale": "Target Frame Scale",
-      "aurasOnPlayerFrame": "Buffs on the Player Frame",
+      "playerFrameScale": "Tỷ Lệ Khung Người Chơi",
+      "targetFrameScale": "Tỷ Lệ Khung Mục Tiêu",
+      "aurasOnPlayerFrame": "Hiệu Ứng Có Lợi Trên Khung Người Chơi",
       "highContrastBackground": "Nền Tương Phản Cao",
       "startAttackOnAbility": "Tự Đánh Khi Dùng Kỹ Năng",
-      "walkByAutoloot": "Walk-by Autoloot",
+      "walkByAutoloot": "Tự Nhặt Đồ Khi Đi Ngang",
       "groundReticle": "Vòng ngắm mục tiêu mặt đất",
       "showItemLevel": "Hiển Thị Cấp Vật Phẩm",
       "itemLevelLine": "Cấp Vật Phẩm {level}",
       "itemScoreLine": "Điểm {score}",
       "showSecondaryActionBar": "Hiện Thanh Hành Động Phụ",
-      "showDailyRewardsChest": "Show Daily Rewards Chest"
+      "showDailyRewardsChest": "Hiện Rương Phần Thưởng Hằng Ngày"
     },
     "controller": {
       "title": "Tay Cầm",
@@ -734,7 +738,7 @@ export const vi_VN: EnTranslations = {
     },
     "party": {
       "promoteLeader": "Thăng Làm Đội Trưởng",
-      "inviteUsage": "Invite whom? Usage: /invite <name>."
+      "inviteUsage": "Mời ai? Cách dùng: /invite <name>."
     },
     "lootSettings": {
       "title": "Cài Đặt Chiến Lợi Phẩm",
@@ -763,11 +767,11 @@ export const vi_VN: EnTranslations = {
       "searchAria": "Tìm vật phẩm trong túi theo tên",
       "noMatch": "Không có vật phẩm nào khớp với bộ lọc của bạn.",
       "capacity": "{used}/{total}",
-      "capacityAria": "Bag slots used: {used} of {total}",
-      "backpack": "Backpack",
+      "capacityAria": "Ô túi đã dùng: {used} trên {total}",
+      "backpack": "Ba Lô",
       "bagSocketAria": "{name}: {slots}",
-      "socketEmpty": "Empty bag slot",
-      "unequipHint": "Click to remove this bag"
+      "socketEmpty": "Ô túi trống",
+      "unequipHint": "Nhấp để tháo chiếc túi này"
     },
     "raidConvert": {
       "toPartyDone": "Raid của bạn đã chuyển trở lại thành tổ đội.",
@@ -810,7 +814,7 @@ export const vi_VN: EnTranslations = {
         "spi": "Reduce el espíritu en {value}",
         "allStats": "Reduce todos los atributos en {value}"
       },
-      "allStatsPctReduce": "Reduces all attributes by {pct}%",
+      "allStatsPctReduce": "Giảm tất cả thuộc tính đi {pct}%",
       "dodge": "Aumenta la probabilidad de esquivar un {pct}%",
       "dodgeReduce": "Reduce la probabilidad de esquivar un {pct}%",
       "armorFlat": "Reduce la armadura en {value}",
@@ -851,7 +855,7 @@ export const vi_VN: EnTranslations = {
       }
     },
     "worldBoss": {
-      "spawn": "{name} rises over Thornpeak Heights!"
+      "spawn": "{name} trỗi dậy trên Cao Nguyên Đỉnh Gai!"
     },
     "loot": {
       "chestTitle": "Rương"
@@ -865,21 +869,21 @@ export const vi_VN: EnTranslations = {
       "mobElite": "[{level}+] {name}"
     },
     "mobTooltip": {
-      "levelFamily": "Level {level} {family}",
-      "familyDemon": "Demon",
-      "hostile": "Hostile",
-      "friendly": "Friendly"
+      "levelFamily": "{family} cấp {level}",
+      "familyDemon": "Ác Quỷ",
+      "hostile": "Thù Địch",
+      "friendly": "Thân Thiện"
     },
     "targetFrame": {
-      "unlock": "Move target frame",
-      "lock": "Lock target frame"
+      "unlock": "Di chuyển khung mục tiêu",
+      "lock": "Khóa khung mục tiêu"
     },
     "playerFrame": {
-      "unlock": "Move player frame",
-      "lock": "Lock player frame"
+      "unlock": "Di chuyển khung người chơi",
+      "lock": "Khóa khung người chơi"
     },
     "frameReset": {
-      "label": "Reset Frame Positions"
+      "label": "Đặt Lại Vị Trí Các Khung"
     },
     "itemTooltip": {
       "requiresLevel": "Yêu cầu Cấp {level}"
@@ -962,7 +966,7 @@ export const vi_VN: EnTranslations = {
       "memberSinceDays": "{days} ngày trong Discord",
       "roleTag": {
         "levyst": "Levy St",
-        "admin": "Admin",
+        "admin": "Quản Trị Viên",
         "devs": "Lập Trình Viên",
         "mods": "Điều Hành Viên",
         "artists": "Họa Sĩ"
@@ -1057,114 +1061,114 @@ export const vi_VN: EnTranslations = {
       "unlink": "Hủy liên kết GitHub"
     },
     "mailbox": {
-      "title": "Mailbox",
-      "subtitle": "The Ravenpost",
-      "close": "Close mailbox",
-      "tabInbox": "Inbox",
-      "tabInboxWithCount": "Inbox ({count})",
-      "tabSend": "Send",
-      "empty": "Your mailbox is empty.",
-      "truncated": "Showing the newest {shown} of {total} letters.",
-      "attachmentsBadge": "Parcel attached",
-      "unreadBadge": "Unread",
-      "back": "Back",
-      "take": "Take attachments",
-      "delete": "Delete letter",
-      "deleteAria": "Delete the letter {subject}",
-      "openAria": "Read the letter {subject} from {name}",
-      "noSubject": "(no subject)",
-      "toLabel": "To",
-      "toPlaceholder": "Character name",
-      "subjectLabel": "Subject",
-      "bodyLabel": "Message",
-      "coinLabel": "Attach coin",
-      "parcelsLabel": "Parcels",
-      "parcelsHint": "Click an item in your bags to attach it.",
-      "removeParcelAria": "Remove {item} from the letter",
-      "sendButton": "Send letter",
-      "postageNote": "Postage: {amount}. The raven flies for about {seconds}s.",
-      "arrivedBanner": "The raven has landed: mail from {name}.",
-      "arrivedLog": "You have new mail from {name}.",
-      "indicatorAria": "Unread mail: {count}",
-      "indicatorTip": "You have {count} unread letters. Visit a mailbox to read them.",
-      "clickAttach": "Click to attach to your letter.",
-      "cannotMail": "This cannot be mailed.",
+      "title": "Hòm Thư",
+      "subtitle": "Bưu Quạ",
+      "close": "Đóng hòm thư",
+      "tabInbox": "Hộp Thư Đến",
+      "tabInboxWithCount": "Hộp Thư Đến ({count})",
+      "tabSend": "Gửi",
+      "empty": "Hòm thư của bạn trống rỗng.",
+      "truncated": "Đang hiển thị {shown} lá thư mới nhất trên tổng {total}.",
+      "attachmentsBadge": "Có bưu kiện đính kèm",
+      "unreadBadge": "Chưa đọc",
+      "back": "Quay lại",
+      "take": "Lấy vật đính kèm",
+      "delete": "Xóa thư",
+      "deleteAria": "Xóa lá thư {subject}",
+      "openAria": "Đọc lá thư {subject} từ {name}",
+      "noSubject": "(không tiêu đề)",
+      "toLabel": "Người nhận",
+      "toPlaceholder": "Tên nhân vật",
+      "subjectLabel": "Tiêu đề",
+      "bodyLabel": "Nội dung",
+      "coinLabel": "Đính kèm tiền",
+      "parcelsLabel": "Bưu Kiện",
+      "parcelsHint": "Nhấp một vật phẩm trong túi để đính kèm.",
+      "removeParcelAria": "Gỡ {item} khỏi lá thư",
+      "sendButton": "Gửi thư",
+      "postageNote": "Bưu phí: {amount}. Quạ thư bay mất khoảng {seconds} giây.",
+      "arrivedBanner": "Quạ thư đã đáp xuống: thư từ {name}.",
+      "arrivedLog": "Bạn có thư mới từ {name}.",
+      "indicatorAria": "Thư chưa đọc: {count}",
+      "indicatorTip": "Bạn có {count} lá thư chưa đọc. Hãy ghé một hòm thư để đọc.",
+      "clickAttach": "Nhấp để đính kèm vào lá thư của bạn.",
+      "cannotMail": "Thứ này không thể gửi qua thư.",
       "result": {
-        "sent": "A raven takes wing with your letter to {name} ({postage} postage).",
-        "collected": "You collect {amount} from the letter.",
-        "tooFar": "You must be at a mailbox to tend your post.",
-        "needRecipient": "Name a recipient for your letter.",
-        "noRecipient": "No one by that name holds a mailbox here.",
-        "tooManyParcels": "A letter carries at most {count} parcels.",
-        "noMailQuestItems": "You cannot mail quest items.",
-        "notEnoughItems": "You do not have that many to send.",
-        "cantAffordPostage": "You cannot afford the postage.",
-        "recipientBoxFull": "Their mailbox is full.",
-        "letterGone": "That letter is no longer in your box.",
-        "takeParcelsFirst": "Take the parcels out before discarding the letter."
+        "sent": "Một con quạ tung cánh mang lá thư của bạn đến {name} (bưu phí {postage}).",
+        "collected": "Bạn nhận {amount} từ lá thư.",
+        "tooFar": "Bạn phải ở cạnh một hòm thư để xử lý thư từ.",
+        "needRecipient": "Hãy ghi tên người nhận cho lá thư của bạn.",
+        "noRecipient": "Không ai mang tên đó có hòm thư ở đây.",
+        "tooManyParcels": "Một lá thư chở tối đa {count} bưu kiện.",
+        "noMailQuestItems": "Bạn không thể gửi vật phẩm nhiệm vụ qua thư.",
+        "notEnoughItems": "Bạn không có đủ số lượng đó để gửi.",
+        "cantAffordPostage": "Bạn không đủ tiền trả bưu phí.",
+        "recipientBoxFull": "Hòm thư của người nhận đã đầy.",
+        "letterGone": "Lá thư đó không còn trong hòm thư của bạn.",
+        "takeParcelsFirst": "Hãy lấy bưu kiện ra trước khi bỏ lá thư."
       }
     },
     "calendar": {
-      "title": "Event Calendar",
-      "close": "Close calendar",
-      "keybindLabel": "Event Calendar",
-      "prevMonth": "Previous month",
-      "nextMonth": "Next month",
-      "dayAria": "{date}: {count} events",
-      "noEvents": "Nothing planned for this day.",
-      "allDay": "All day",
-      "bookedBy": "Booked by {name}",
-      "deleteAria": "Remove the event {title}",
-      "bookTitle": "Book a guild event",
-      "titlePlaceholder": "Event title",
-      "notePlaceholder": "Note (optional)",
-      "hourLabel": "Hour (UTC)",
-      "hourAllDay": "All day",
-      "addButton": "Book event",
-      "guildOnlyNote": "Join a guild to plan events together.",
+      "title": "Lịch Sự Kiện",
+      "close": "Đóng lịch",
+      "keybindLabel": "Lịch Sự Kiện",
+      "prevMonth": "Tháng trước",
+      "nextMonth": "Tháng sau",
+      "dayAria": "{date}: {count} sự kiện",
+      "noEvents": "Không có gì được lên lịch cho ngày này.",
+      "allDay": "Cả ngày",
+      "bookedBy": "Đặt bởi {name}",
+      "deleteAria": "Gỡ sự kiện {title}",
+      "bookTitle": "Đặt một sự kiện bang hội",
+      "titlePlaceholder": "Tiêu đề sự kiện",
+      "notePlaceholder": "Ghi chú (tùy chọn)",
+      "hourLabel": "Giờ (UTC)",
+      "hourAllDay": "Cả ngày",
+      "addButton": "Đặt sự kiện",
+      "guildOnlyNote": "Gia nhập một bang hội để cùng nhau lên kế hoạch sự kiện.",
       "result": {
-        "created": "The event is on the guild calendar.",
-        "removed": "The event was taken off the calendar.",
-        "notInGuild": "You are not in a guild.",
-        "notOfficer": "Only officers and the Guild Master may manage guild events.",
-        "badInput": "Give the event a title and a valid day.",
-        "calendarFull": "The guild calendar is full.",
-        "eventGone": "That event is no longer on the calendar."
+        "created": "Sự kiện đã có trên lịch bang hội.",
+        "removed": "Sự kiện đã được gỡ khỏi lịch.",
+        "notInGuild": "Bạn không ở trong bang hội nào.",
+        "notOfficer": "Chỉ sĩ quan và Hội Chủ mới có thể quản lý sự kiện bang hội.",
+        "badInput": "Hãy đặt tiêu đề cho sự kiện và chọn một ngày hợp lệ.",
+        "calendarFull": "Lịch bang hội đã đầy.",
+        "eventGone": "Sự kiện đó không còn trên lịch."
       },
       "events": {
         "raidCall": {
-          "title": "Raid Call",
-          "note": "Wardens sound the horn: gather a party for the crypts and the raid."
+          "title": "Hiệu Triệu Raid",
+          "note": "Các vệ quan thổi tù và: hãy tập hợp tổ đội cho hầm mộ và trận raid."
         },
         "marketDay": {
-          "title": "Market Day",
-          "note": "The Merchant expects fresh stock. A fine day to browse the World Market."
+          "title": "Ngày Họp Chợ",
+          "note": "Thương Nhân chờ đợi hàng mới về. Một ngày lành để dạo Chợ Thế Giới."
         },
         "fiestaNight": {
-          "title": "Fiesta Night",
-          "note": "The 2v2 Fiesta ring draws its loudest crowds tonight."
+          "title": "Đêm Fiesta",
+          "note": "Võ đài Fiesta 2v2 đón đám đông cuồng nhiệt nhất vào tối nay."
         },
         "arenaClash": {
-          "title": "Arena Clash",
-          "note": "Duelists flock to the Ashen Coliseum. Queue up and climb the ladder."
+          "title": "Đại Chiến Đấu Trường",
+          "note": "Các đấu sĩ đổ về Đấu Trường Tro Tàn. Hãy xếp hàng và leo bảng xếp hạng."
         },
         "fishingDerby": {
-          "title": "Fishing Derby",
-          "note": "Anglers line the lakes. Bring a pole and swap fishing tales."
+          "title": "Hội Thi Câu Cá",
+          "note": "Cần thủ xếp hàng quanh các hồ nước. Hãy mang theo cần câu và trao đổi chuyện câu cá."
         },
         "delveDay": {
-          "title": "Delve Day",
-          "note": "Brother Halven marks his charts: a fine day to brave the Collapsed Reliquary."
+          "title": "Ngày Hang Sâu",
+          "note": "Tu Huynh Halven đánh dấu vào những tấm bản đồ của mình: một ngày lành để thử sức Thánh Tích Sụp Đổ."
         },
         "moongateCommunion": {
-          "title": "Moongate Communion",
-          "note": "Pilgrims gather at the temple moongate under the mid-month moon."
+          "title": "Hội Ngộ Nguyệt Môn",
+          "note": "Khách hành hương tụ họp tại nguyệt môn của ngôi đền dưới ánh trăng giữa tháng."
         }
       }
     },
     "social": {
-      "lastSeen": "Last seen: {when}",
-      "lastSeenNever": "never"
+      "lastSeen": "Lần cuối trực tuyến: {when}",
+      "lastSeenNever": "chưa bao giờ"
     }
   },
   "guide": {
@@ -1994,427 +1998,427 @@ export const vi_VN: EnTranslations = {
     }
   },
   "editor": {
-    "appTitle": "Map Editor",
-    "docTitle": "Map Editor - World of ClaudeCraft",
-    "untitledMap": "Untitled Map",
-    "playtestPlayerName": "Mapmaker",
+    "appTitle": "Trình Chỉnh Sửa Bản Đồ",
+    "docTitle": "Trình Chỉnh Sửa Bản Đồ - World of ClaudeCraft",
+    "untitledMap": "Bản Đồ Chưa Đặt Tên",
+    "playtestPlayerName": "Người Tạo Bản Đồ",
     "topbar": {
-      "label": "Editor actions",
-      "mapNameLabel": "Map name",
-      "dirty": "Unsaved changes",
-      "dirtyDot": "This map has unsaved changes",
-      "clean": "All changes saved",
-      "savedLocal": "Saved in this browser",
-      "savedServer": "Saved to server (v{version})",
-      "saving": "Saving...",
-      "neverSaved": "Not saved yet",
-      "new": "New",
-      "newTitle": "Start a new map from the built-in world",
-      "open": "Open",
-      "openTitle": "Open a saved map (browser or server)",
-      "save": "Save",
-      "saveTitle": "Save to this browser, and to the server when signed in (Ctrl+S)",
-      "saveAs": "Save As",
-      "saveAsTitle": "Save a copy under a new name",
-      "fork": "Fork",
-      "forkTitle": "Create your own server-side copy of this map",
-      "forkDisabledTitle": "Open a server map first to fork it",
-      "import": "Import",
-      "importTitle": "Import a map from a JSON file",
-      "export": "Export",
-      "exportTitle": "Download this map as a JSON file",
-      "uploadAsset": "Upload Asset",
-      "uploadAssetTitle": "Upload a GLB model (up to 8 MiB) to place in your maps",
-      "uploadAssetDisabledTitle": "Sign in from the game to upload assets",
-      "playtest": "Playtest",
-      "playtestTitle": "Boot the game on this map (offline, current edits included)",
-      "viewLabel": "View mode",
+      "label": "Thao tác trình chỉnh sửa",
+      "mapNameLabel": "Tên bản đồ",
+      "dirty": "Thay đổi chưa lưu",
+      "dirtyDot": "Bản đồ này có thay đổi chưa lưu",
+      "clean": "Đã lưu mọi thay đổi",
+      "savedLocal": "Đã lưu trong trình duyệt này",
+      "savedServer": "Đã lưu lên máy chủ (v{version})",
+      "saving": "Đang lưu...",
+      "neverSaved": "Chưa lưu",
+      "new": "Mới",
+      "newTitle": "Bắt đầu bản đồ mới từ thế giới dựng sẵn",
+      "open": "Mở",
+      "openTitle": "Mở một bản đồ đã lưu (trình duyệt hoặc máy chủ)",
+      "save": "Lưu",
+      "saveTitle": "Lưu vào trình duyệt này, và lên máy chủ khi đã đăng nhập (Ctrl+S)",
+      "saveAs": "Lưu Thành",
+      "saveAsTitle": "Lưu một bản sao dưới tên mới",
+      "fork": "Rẽ Nhánh",
+      "forkTitle": "Tạo bản sao trên máy chủ của riêng bạn cho bản đồ này",
+      "forkDisabledTitle": "Hãy mở một bản đồ trên máy chủ trước để rẽ nhánh",
+      "import": "Nhập",
+      "importTitle": "Nhập bản đồ từ một tệp JSON",
+      "export": "Xuất",
+      "exportTitle": "Tải bản đồ này xuống dưới dạng tệp JSON",
+      "uploadAsset": "Tải Lên Vật Thể",
+      "uploadAssetTitle": "Tải lên một mô hình GLB (tối đa 8 MiB) để đặt vào bản đồ của bạn",
+      "uploadAssetDisabledTitle": "Đăng nhập từ trò chơi để tải lên vật thể",
+      "playtest": "Chơi Thử",
+      "playtestTitle": "Khởi động trò chơi trên bản đồ này (ngoại tuyến, gồm cả chỉnh sửa hiện tại)",
+      "viewLabel": "Chế độ xem",
       "view3d": "3D",
-      "view3dTitle": "Edit in the rendered world",
+      "view3dTitle": "Chỉnh sửa trong thế giới được kết xuất",
       "view2d": "2D",
-      "view2dTitle": "Edit on the symbolic overhead map",
-      "undoCount": "Undo: {count}",
-      "undoCountTitle": "{count} undoable steps (Ctrl+Z to undo, Ctrl+Y to redo)",
-      "autosave": "Autosave",
-      "autosaveTitle": "Automatically save the map while there are unsaved changes. Turns itself off if a save fails.",
-      "undo": "Undo",
-      "undoTitle": "Undo the last change (Ctrl+Z)",
-      "redo": "Redo",
-      "redoTitle": "Redo the last undone change (Ctrl+Y)",
-      "offline": "Offline",
-      "offlineTitle": "Not signed in: maps save to this browser only. Sign in from the game to save online.",
-      "signIn": "Sign in",
-      "signInTitle": "Open the game login screen in a new tab",
-      "help": "Help",
-      "helpTitle": "Editor guide: tools, shortcuts, and the tutorial"
+      "view2dTitle": "Chỉnh sửa trên bản đồ 2D ký hiệu nhìn từ trên cao",
+      "undoCount": "Hoàn tác: {count}",
+      "undoCountTitle": "{count} bước có thể hoàn tác (Ctrl+Z để hoàn tác, Ctrl+Y để làm lại)",
+      "autosave": "Tự Động Lưu",
+      "autosaveTitle": "Tự động lưu bản đồ khi có thay đổi chưa lưu. Tự tắt nếu một lần lưu thất bại.",
+      "undo": "Hoàn Tác",
+      "undoTitle": "Hoàn tác thay đổi gần nhất (Ctrl+Z)",
+      "redo": "Làm Lại",
+      "redoTitle": "Làm lại thay đổi vừa hoàn tác (Ctrl+Y)",
+      "offline": "Ngoại tuyến",
+      "offlineTitle": "Chưa đăng nhập: bản đồ chỉ lưu vào trình duyệt này. Đăng nhập từ trò chơi để lưu trực tuyến.",
+      "signIn": "Đăng nhập",
+      "signInTitle": "Mở màn hình đăng nhập trò chơi trong thẻ mới",
+      "help": "Trợ Giúp",
+      "helpTitle": "Cẩm nang trình chỉnh sửa: công cụ, phím tắt và phần hướng dẫn"
     },
     "tool": {
-      "listLabel": "Editor tools",
+      "listLabel": "Công cụ chỉnh sửa",
       "keyHint": "{name} ({key})",
-      "select": "Select",
-      "raise": "Raise",
-      "lower": "Lower",
-      "smooth": "Smooth",
-      "flatten": "Flatten",
-      "paint": "Paint Biome",
-      "water": "Water",
-      "place": "Place Asset",
-      "blocker": "Blocker Wall",
-      "camp": "Camp",
-      "spawn": "Spawn Point",
-      "region": "Region",
-      "erase": "Erase"
+      "select": "Chọn",
+      "raise": "Nâng Cao",
+      "lower": "Hạ Thấp",
+      "smooth": "Làm Mịn",
+      "flatten": "San Phẳng",
+      "paint": "Tô Quần Xã",
+      "water": "Nước",
+      "place": "Đặt Vật Thể",
+      "blocker": "Tường Chắn",
+      "camp": "Trại Quái",
+      "spawn": "Điểm Xuất Hiện",
+      "region": "Vùng Chọn",
+      "erase": "Xóa"
     },
     "inspector": {
-      "label": "Tool options"
+      "label": "Tùy chọn công cụ"
     },
     "brush": {
-      "title": "Brush",
-      "size": "Brush size",
-      "strength": "Strength",
-      "sizeHint": "Keys: [ and ] resize the brush; Shift+[ and Shift+] change strength.",
-      "editCount": "Terrain edits: {count} / {max}"
+      "title": "Cọ",
+      "size": "Cỡ cọ",
+      "strength": "Cường độ",
+      "sizeHint": "Phím: [ và ] đổi cỡ cọ; Shift+[ và Shift+] đổi cường độ.",
+      "editCount": "Chỉnh sửa địa hình: {count} / {max}"
     },
     "biome": {
-      "title": "Biome",
-      "paletteLabel": "Biome to paint",
-      "vale": "Vale",
-      "marsh": "Marsh",
-      "peaks": "Peaks",
-      "beach": "Beach",
-      "desert": "Desert",
-      "volcano": "Volcano",
-      "cave": "Cave",
-      "erase": "Erase paint",
-      "hint": "Painted cells override the zone biome for terrain shape and color.",
-      "clear": "Clear all biome paint",
-      "clearConfirm": "Remove every painted biome cell from this map?"
+      "title": "Quần Xã",
+      "paletteLabel": "Quần xã cần tô",
+      "vale": "Thung Lũng",
+      "marsh": "Đầm Lầy",
+      "peaks": "Đỉnh Núi",
+      "beach": "Bãi Biển",
+      "desert": "Sa Mạc",
+      "volcano": "Núi Lửa",
+      "cave": "Hang Động",
+      "erase": "Tẩy lớp tô",
+      "hint": "Các ô đã tô sẽ ghi đè quần xã của vùng về hình dạng và màu sắc địa hình.",
+      "clear": "Xóa toàn bộ lớp tô quần xã",
+      "clearConfirm": "Gỡ mọi ô quần xã đã tô khỏi bản đồ này?"
     },
     "flatten": {
-      "hint": "Flatten levels the ground to the height under the cursor when the drag starts.",
-      "hardEdge": "Hard edge"
+      "hint": "San Phẳng đưa mặt đất về độ cao dưới con trỏ tại thời điểm bắt đầu kéo.",
+      "hardEdge": "Cạnh cứng"
     },
     "water": {
-      "title": "Water Level",
-      "level": "Water level",
-      "hint": "Sets the map-wide water surface height, from {min} to {max} yards.",
-      "reset": "Reset to the built-in level"
+      "title": "Mực Nước",
+      "level": "Mực nước",
+      "hint": "Đặt độ cao mặt nước cho toàn bản đồ, từ {min} đến {max} thước.",
+      "reset": "Đặt lại về mực dựng sẵn"
     },
     "place": {
-      "title": "Place Asset",
-      "scale": "Scale",
-      "collide": "Blocks movement",
-      "collideHint": "A blocking asset gets a collision footprint players cannot walk through.",
-      "randomRotation": "Random rotation",
-      "chosen": "Placing: {name}",
-      "none": "Pick an asset from the browser below, then click the ground to place it."
+      "title": "Đặt Vật Thể",
+      "scale": "Tỷ lệ",
+      "collide": "Chặn di chuyển",
+      "collideHint": "Vật thể chặn sẽ có một vùng va chạm mà người chơi không thể đi xuyên qua.",
+      "randomRotation": "Xoay ngẫu nhiên",
+      "chosen": "Đang đặt: {name}",
+      "none": "Chọn một vật thể từ trình duyệt bên dưới, rồi nhấp xuống mặt đất để đặt nó."
     },
     "blockerTool": {
-      "title": "Blocker Wall",
-      "hint": "Drag along the ground to draw an invisible wall players cannot walk or jump through. Release to place it; a wall shorter than half a yard is discarded.",
-      "count": "Blocker walls: {count} / {max}"
+      "title": "Tường Chắn",
+      "hint": "Kéo dọc mặt đất để vẽ một bức tường vô hình mà người chơi không thể đi hay nhảy xuyên qua. Thả tay để đặt tường; tường ngắn hơn nửa thước sẽ bị loại bỏ.",
+      "count": "Tường chắn: {count} / {max}"
     },
     "camp": {
-      "title": "Mob Camp",
-      "mob": "Mob",
-      "count": "Count",
-      "radius": "Radius",
-      "delete": "Delete camp",
-      "hint": "Click open ground to add a camp, or click an existing camp to edit it.",
-      "playtestNote": "Mobs spawn only in playtest, never in the editor view.",
-      "selected": "Camp: {mob}",
-      "none": "No camp selected."
+      "title": "Trại Quái",
+      "mob": "Quái",
+      "count": "Số lượng",
+      "radius": "Bán kính",
+      "delete": "Xóa trại",
+      "hint": "Nhấp vào khoảng đất trống để thêm một trại, hoặc nhấp vào trại có sẵn để chỉnh sửa.",
+      "playtestNote": "Quái chỉ xuất hiện khi chơi thử, không bao giờ xuất hiện trong khung nhìn chỉnh sửa.",
+      "selected": "Trại: {mob}",
+      "none": "Chưa chọn trại nào."
     },
     "spawn": {
-      "title": "Spawn Point",
-      "hint": "Click the ground to set where playtest drops the player.",
-      "position": "Spawn: {x}, {z}",
-      "unset": "Using the built-in start position.",
-      "clear": "Clear spawn point"
+      "title": "Điểm Xuất Hiện",
+      "hint": "Nhấp xuống mặt đất để đặt nơi chơi thử thả người chơi xuống.",
+      "position": "Xuất hiện: {x}, {z}",
+      "unset": "Đang dùng vị trí bắt đầu dựng sẵn.",
+      "clear": "Xóa điểm xuất hiện"
     },
     "region": {
-      "title": "Region",
-      "hint": "Drag a box to select placements and terrain edits. Copy, then click to paste.",
-      "hint3d": "Region boxes draw in the 2D view; copy and paste work in both views.",
-      "copy": "Copy region",
-      "pasteBeside": "Paste beside",
-      "copied": "Copied {assets} assets and {edits} terrain edits.",
-      "pasted": "Pasted {count} items.",
-      "needBox": "Draw a region box first.",
-      "needClipboard": "Copy a region first."
+      "title": "Vùng Chọn",
+      "hint": "Kéo một khung để chọn các vật thể đã đặt và chỉnh sửa địa hình. Sao chép, rồi nhấp để dán.",
+      "hint3d": "Khung vùng chọn được vẽ trong chế độ 2D; sao chép và dán hoạt động ở cả hai chế độ.",
+      "copy": "Sao chép vùng",
+      "pasteBeside": "Dán bên cạnh",
+      "copied": "Đã sao chép {assets} vật thể và {edits} chỉnh sửa địa hình.",
+      "pasted": "Đã dán {count} mục.",
+      "needBox": "Hãy vẽ một khung vùng chọn trước.",
+      "needClipboard": "Hãy sao chép một vùng trước."
     },
     "eraseTool": {
-      "title": "Erase",
-      "hint": "Click a placed asset to remove it, or click sculpted ground to remove the newest stamp under the cursor.",
-      "blockerHint": "Clicking near a blocker wall removes that wall instead."
+      "title": "Xóa",
+      "hint": "Nhấp vào một vật thể đã đặt để gỡ nó, hoặc nhấp vào nền đất đã điêu khắc để gỡ dấu mới nhất dưới con trỏ.",
+      "blockerHint": "Nhấp gần một tường chắn sẽ gỡ bức tường đó thay vì thứ khác."
     },
     "selection": {
-      "title": "Selection",
-      "none": "Nothing selected. Use Select and click a placed asset.",
-      "asset": "Asset: {name}",
+      "title": "Lựa Chọn",
+      "none": "Chưa chọn gì. Hãy dùng công cụ Chọn và nhấp vào một vật thể đã đặt.",
+      "asset": "Vật thể: {name}",
       "x": "X",
       "z": "Z",
-      "rotation": "Rotation",
-      "scale": "Scale",
-      "collide": "Blocks movement",
-      "radius": "Collision radius",
-      "radiusAuto": "Auto",
-      "radiusAutoTitle": "Reset the collision radius to follow the asset scale",
-      "radiusHint": "Auto derives the collision radius from the asset scale; drag the slider to override it.",
-      "footprints": "Show collision footprints",
-      "duplicate": "Duplicate",
-      "delete": "Delete",
-      "deleteHint": "Delete removes the selection; Ctrl+Z restores it.",
-      "moveHint": "Move: drag the asset along the ground in the 3D view, or nudge it with the arrow keys (0.5 yd, Shift for 2 yd).",
-      "wheelHint": "Shift+scroll rotates the asset, Alt+scroll scales it, Ctrl+D duplicates it."
+      "rotation": "Góc xoay",
+      "scale": "Tỷ lệ",
+      "collide": "Chặn di chuyển",
+      "radius": "Bán kính va chạm",
+      "radiusAuto": "Tự động",
+      "radiusAutoTitle": "Đặt lại bán kính va chạm theo tỷ lệ vật thể",
+      "radiusHint": "Tự động suy ra bán kính va chạm từ tỷ lệ vật thể; kéo thanh trượt để ghi đè.",
+      "footprints": "Hiện vùng va chạm",
+      "duplicate": "Nhân bản",
+      "delete": "Xóa",
+      "deleteHint": "Delete gỡ lựa chọn hiện tại; Ctrl+Z khôi phục lại.",
+      "moveHint": "Di chuyển: kéo vật thể trên mặt đất trong chế độ 3D, hoặc dịch bằng phím mũi tên (0,5 thước, giữ Shift cho 2 thước).",
+      "wheelHint": "Shift+lăn chuột xoay vật thể, Alt+lăn chuột chỉnh tỷ lệ, Ctrl+D nhân bản."
     },
     "marker": {
-      "title": "Marker",
-      "reset": "Reset position",
-      "moved": "{count} markers moved from the built-in layout."
+      "title": "Điểm Đánh Dấu",
+      "reset": "Đặt lại vị trí",
+      "moved": "{count} điểm đánh dấu đã dời khỏi bố cục dựng sẵn."
     },
     "layers": {
-      "title": "Layers",
-      "hub": "Hubs",
-      "graveyard": "Graveyards",
-      "lake": "Lakes",
-      "poi": "Points of interest",
-      "camp": "Camps",
-      "npc": "NPCs",
-      "object": "Objects",
-      "blocker": "Blocker walls"
+      "title": "Lớp",
+      "hub": "Tụ điểm",
+      "graveyard": "Nghĩa địa",
+      "lake": "Hồ nước",
+      "poi": "Địa danh",
+      "camp": "Trại quái",
+      "npc": "NPC",
+      "object": "Đồ vật",
+      "blocker": "Tường chắn"
     },
     "frame": {
-      "title": "Frame",
-      "all": "All"
+      "title": "Căn Khung",
+      "all": "Tất cả"
     },
     "procgen": {
-      "title": "Procedural",
-      "count": "Count",
-      "scatter": "Scatter category assets",
-      "hills": "Generate rolling hills",
-      "scattered": "Scattered {count} assets from {category}.",
-      "hillsAdded": "Added {count} hills.",
-      "noAssets": "No assets in that category."
+      "title": "Tạo Tự Động",
+      "count": "Số lượng",
+      "scatter": "Rải vật thể theo danh mục",
+      "hills": "Tạo đồi thoai thoải",
+      "scattered": "Đã rải {count} vật thể từ {category}.",
+      "hillsAdded": "Đã thêm {count} ngọn đồi.",
+      "noAssets": "Không có vật thể nào trong danh mục đó."
     },
     "assets": {
-      "title": "Asset Browser",
-      "label": "Asset browser",
-      "search": "Search assets",
-      "searchPlaceholder": "Search assets...",
-      "empty": "No matching assets.",
-      "uploadedTab": "Uploaded",
-      "uploadedEmpty": "No uploaded assets yet. Use Upload Asset to add a GLB model (up to 8 MiB).",
-      "uploadedSignIn": "Sign in from the game to upload and place your own GLB models.",
-      "uploadedLoadFailed": "Could not load your uploaded assets.",
-      "deleteAsset": "Delete uploaded asset",
-      "deleteAssetConfirm": "Delete the uploaded asset \"{name}\"? Maps that use it lose the model.",
-      "pick": "Place {name}",
+      "title": "Trình Duyệt Vật Thể",
+      "label": "Trình duyệt vật thể",
+      "search": "Tìm vật thể",
+      "searchPlaceholder": "Tìm vật thể...",
+      "empty": "Không có vật thể nào khớp.",
+      "uploadedTab": "Đã Tải Lên",
+      "uploadedEmpty": "Chưa có vật thể nào được tải lên. Dùng Tải Lên Vật Thể để thêm một mô hình GLB (tối đa 8 MiB).",
+      "uploadedSignIn": "Đăng nhập từ trò chơi để tải lên và đặt các mô hình GLB của riêng bạn.",
+      "uploadedLoadFailed": "Không thể tải các vật thể bạn đã tải lên.",
+      "deleteAsset": "Xóa vật thể đã tải lên",
+      "deleteAssetConfirm": "Xóa vật thể đã tải lên \"{name}\"? Các bản đồ đang dùng nó sẽ mất mô hình này.",
+      "pick": "Đặt {name}",
       "categoryTab": "{category} ({count})",
       "category": {
-        "biome": "Biome",
-        "chars": "Characters",
-        "creatures": "Creatures",
-        "dungeon": "Dungeon",
-        "foliage": "Foliage",
-        "props": "Props",
-        "quest": "Quest",
-        "resources": "Resources",
-        "tools": "Tools",
-        "weapons": "Weapons"
+        "biome": "Quần Xã",
+        "chars": "Nhân Vật",
+        "creatures": "Sinh Vật",
+        "dungeon": "Hầm Ngục",
+        "foliage": "Cây Cỏ",
+        "props": "Đạo Cụ",
+        "quest": "Nhiệm Vụ",
+        "resources": "Tài Nguyên",
+        "tools": "Dụng Cụ",
+        "weapons": "Vũ Khí"
       }
     },
     "upload": {
-      "notGlb": "Pick a .glb file.",
-      "tooLarge": "That file is over the 8 MiB limit.",
-      "uploading": "Uploading asset...",
-      "uploaded": "Asset uploaded: {name}",
-      "uploadedExisting": "That model was already on the server; reusing it.",
-      "deleted": "Uploaded asset deleted."
+      "notGlb": "Hãy chọn một tệp .glb.",
+      "tooLarge": "Tệp đó vượt quá giới hạn 8 MiB.",
+      "uploading": "Đang tải lên vật thể...",
+      "uploaded": "Đã tải lên vật thể: {name}",
+      "uploadedExisting": "Mô hình đó đã có sẵn trên máy chủ; đang dùng lại.",
+      "deleted": "Đã xóa vật thể tải lên."
     },
     "openDrawer": {
-      "title": "Open Map",
-      "close": "Close",
-      "tabLocal": "This Browser",
-      "tabMine": "My Server Maps",
-      "tabPublic": "Public Maps",
-      "colName": "Name",
-      "colUpdated": "Updated",
-      "colStatus": "Status",
-      "statusPublic": "Public",
-      "statusPrivate": "Private",
-      "open": "Open",
-      "fork": "Fork",
-      "publish": "Publish",
-      "unpublish": "Unpublish",
-      "delete": "Delete",
-      "draft": "Autosaved draft",
-      "emptyLocal": "No maps saved in this browser yet. Save one and it appears here.",
-      "emptyMine": "No maps on the server yet. Save while signed in to create one.",
-      "emptyPublic": "No public maps yet.",
-      "loading": "Loading maps...",
-      "loadFailed": "Could not load maps from the server.",
-      "signInHint": "Sign in from the game to browse, save, and fork server maps.",
-      "deleteLocalConfirm": "Delete the local map \"{name}\"?",
-      "deleteServerConfirm": "Delete the server map \"{name}\"? This cannot be undone.",
-      "prev": "Previous page",
-      "next": "Next page",
-      "page": "Page {page}"
+      "title": "Mở Bản Đồ",
+      "close": "Đóng",
+      "tabLocal": "Trình Duyệt Này",
+      "tabMine": "Bản Đồ Máy Chủ Của Tôi",
+      "tabPublic": "Bản Đồ Công Khai",
+      "colName": "Tên",
+      "colUpdated": "Cập nhật",
+      "colStatus": "Trạng thái",
+      "statusPublic": "Công khai",
+      "statusPrivate": "Riêng tư",
+      "open": "Mở",
+      "fork": "Rẽ Nhánh",
+      "publish": "Công Khai",
+      "unpublish": "Hủy Công Khai",
+      "delete": "Xóa",
+      "draft": "Bản nháp tự động lưu",
+      "emptyLocal": "Chưa có bản đồ nào được lưu trong trình duyệt này. Hãy lưu một bản đồ và nó sẽ xuất hiện ở đây.",
+      "emptyMine": "Chưa có bản đồ nào trên máy chủ. Hãy lưu khi đã đăng nhập để tạo một bản đồ.",
+      "emptyPublic": "Chưa có bản đồ công khai nào.",
+      "loading": "Đang tải bản đồ...",
+      "loadFailed": "Không thể tải bản đồ từ máy chủ.",
+      "signInHint": "Đăng nhập từ trò chơi để duyệt, lưu và rẽ nhánh các bản đồ trên máy chủ.",
+      "deleteLocalConfirm": "Xóa bản đồ cục bộ \"{name}\"?",
+      "deleteServerConfirm": "Xóa bản đồ trên máy chủ \"{name}\"? Không thể hoàn tác thao tác này.",
+      "prev": "Trang trước",
+      "next": "Trang sau",
+      "page": "Trang {page}"
     },
     "status": {
-      "savedLocal": "Saved \"{name}\" to this browser.",
-      "savedServer": "Saved \"{name}\" to the server (v{version}).",
-      "savedLocalOnly": "Saved \"{name}\" to this browser. Sign in to save online.",
-      "saveFailedLocal": "Local save failed (storage blocked).",
-      "opened": "Opened \"{name}\".",
-      "imported": "Imported \"{name}\".",
-      "importFailed": "Import cancelled, or the file is not a valid map.",
-      "exported": "Downloaded \"{name}\".",
-      "newMap": "New map started from the built-in world.",
-      "forked": "Forked to \"{name}\". You are editing your own copy now.",
-      "published": "Map published. Anyone can now find and fork it.",
-      "unpublished": "Map unpublished.",
-      "deleted": "Map deleted.",
-      "assetPlacedFirst": "Pick an asset in the browser first.",
-      "loading3d": "Loading the world...",
-      "playtestLaunch": "Launching playtest...",
-      "playtestFailed": "Could not start the playtest (storage blocked).",
-      "draftSaved": "Draft autosaved.",
-      "draftRestored": "Restored the autosaved draft.",
-      "autosaveFailed": "Autosave failed (browser storage is full or blocked). Export the map to keep a backup.",
-      "terrainCapReached": "Terrain edit limit reached ({max}). Extra sculpt stamps were not added.",
-      "placementCapReached": "Placement limit reached ({max}). Extra assets were not added.",
-      "blockerCapReached": "Blocker wall limit reached ({max}). The new wall was not added.",
-      "autosaveOff": "Autosave turned off: {reason} Save manually, then turn it back on."
+      "savedLocal": "Đã lưu \"{name}\" vào trình duyệt này.",
+      "savedServer": "Đã lưu \"{name}\" lên máy chủ (v{version}).",
+      "savedLocalOnly": "Đã lưu \"{name}\" vào trình duyệt này. Đăng nhập để lưu trực tuyến.",
+      "saveFailedLocal": "Lưu cục bộ thất bại (bộ nhớ bị chặn).",
+      "opened": "Đã mở \"{name}\".",
+      "imported": "Đã nhập \"{name}\".",
+      "importFailed": "Đã hủy nhập, hoặc tệp không phải là một bản đồ hợp lệ.",
+      "exported": "Đã tải xuống \"{name}\".",
+      "newMap": "Đã bắt đầu bản đồ mới từ thế giới dựng sẵn.",
+      "forked": "Đã rẽ nhánh thành \"{name}\". Giờ bạn đang chỉnh sửa bản sao của riêng mình.",
+      "published": "Bản đồ đã được công khai. Giờ đây ai cũng có thể tìm thấy và rẽ nhánh nó.",
+      "unpublished": "Đã hủy công khai bản đồ.",
+      "deleted": "Đã xóa bản đồ.",
+      "assetPlacedFirst": "Hãy chọn một vật thể trong trình duyệt trước.",
+      "loading3d": "Đang tải thế giới...",
+      "playtestLaunch": "Đang khởi chạy chơi thử...",
+      "playtestFailed": "Không thể bắt đầu chơi thử (bộ nhớ bị chặn).",
+      "draftSaved": "Đã tự động lưu bản nháp.",
+      "draftRestored": "Đã khôi phục bản nháp tự động lưu.",
+      "autosaveFailed": "Tự động lưu thất bại (bộ nhớ trình duyệt đầy hoặc bị chặn). Hãy xuất bản đồ để giữ một bản dự phòng.",
+      "terrainCapReached": "Đã chạm giới hạn chỉnh sửa địa hình ({max}). Các dấu điêu khắc dư không được thêm.",
+      "placementCapReached": "Đã chạm giới hạn đặt vật thể ({max}). Các vật thể dư không được thêm.",
+      "blockerCapReached": "Đã chạm giới hạn tường chắn ({max}). Bức tường mới không được thêm.",
+      "autosaveOff": "Tự động lưu đã tắt: {reason} Hãy lưu thủ công, rồi bật lại."
     },
     "confirm": {
       "ok": "OK",
-      "cancel": "Cancel",
-      "discardTitle": "Discard changes?",
-      "discardBody": "You have unsaved changes on \"{name}\". Discard them?",
-      "discard": "Discard",
-      "conflictTitle": "Save conflict",
-      "conflictBody": "This map changed on the server since you opened it (now v{version}). Save your version as a new copy?",
-      "conflictSaveCopy": "Save As Copy"
+      "cancel": "Hủy",
+      "discardTitle": "Bỏ các thay đổi?",
+      "discardBody": "Bạn có thay đổi chưa lưu trên \"{name}\". Bỏ chúng đi?",
+      "discard": "Bỏ",
+      "conflictTitle": "Xung đột khi lưu",
+      "conflictBody": "Bản đồ này đã thay đổi trên máy chủ kể từ khi bạn mở nó (hiện là v{version}). Lưu phiên bản của bạn thành một bản sao mới?",
+      "conflictSaveCopy": "Lưu Thành Bản Sao"
     },
     "prompt": {
-      "saveAsTitle": "Save As",
-      "nameLabel": "New map name"
+      "saveAsTitle": "Lưu Thành",
+      "nameLabel": "Tên bản đồ mới"
     },
     "serverError": {
-      "invalid_map_name": "That map name is not allowed. Use letters, numbers, spaces, apostrophes, or hyphens.",
-      "map_name_not_allowed": "That map name is not allowed.",
-      "invalid_map_doc": "The server rejected the map document.",
-      "invalid_version": "The save request was malformed. Reload and try again.",
-      "map_limit_reached": "You have reached the server map limit. Delete a map to save more.",
-      "map_not_found": "That map no longer exists on the server.",
-      "version_conflict": "The map changed on the server since you opened it.",
-      "slug_unavailable": "The server could not make a link for that name. Try a different name.",
-      "map_too_large": "The map document is too large to save on the server.",
-      "invalid_glb": "That file is not a valid GLB model.",
-      "asset_blocked": "That asset has been blocked by moderation.",
-      "asset_limit_reached": "You have reached the uploaded asset limit. Delete one to upload more.",
-      "asset_storage_limit_reached": "You are out of asset storage space. Delete an asset first.",
-      "asset_too_large": "That model is over the upload size limit.",
-      "asset_not_found": "That asset no longer exists on the server.",
-      "rate_limited": "Slow down a little and try again.",
-      "unauthorized": "Your session has expired. Sign in from the game again.",
-      "network": "Could not reach the server. Check your connection and try again.",
-      "timeout": "The server took too long to respond. Try again.",
-      "unknown": "Something went wrong talking to the server."
+      "invalid_map_name": "Tên bản đồ đó không được phép. Hãy dùng chữ cái, chữ số, dấu cách, dấu nháy đơn hoặc dấu gạch nối.",
+      "map_name_not_allowed": "Tên bản đồ đó không được phép.",
+      "invalid_map_doc": "Máy chủ đã từ chối tài liệu bản đồ.",
+      "invalid_version": "Yêu cầu lưu bị sai định dạng. Hãy tải lại trang và thử lại.",
+      "map_limit_reached": "Bạn đã chạm giới hạn bản đồ trên máy chủ. Hãy xóa một bản đồ để lưu thêm.",
+      "map_not_found": "Bản đồ đó không còn tồn tại trên máy chủ.",
+      "version_conflict": "Bản đồ đã thay đổi trên máy chủ kể từ khi bạn mở nó.",
+      "slug_unavailable": "Máy chủ không thể tạo liên kết cho tên đó. Hãy thử một tên khác.",
+      "map_too_large": "Tài liệu bản đồ quá lớn để lưu trên máy chủ.",
+      "invalid_glb": "Tệp đó không phải là một mô hình GLB hợp lệ.",
+      "asset_blocked": "Vật thể đó đã bị đội điều hành chặn.",
+      "asset_limit_reached": "Bạn đã chạm giới hạn vật thể tải lên. Hãy xóa bớt một cái để tải lên thêm.",
+      "asset_storage_limit_reached": "Bạn đã hết dung lượng lưu trữ vật thể. Hãy xóa một vật thể trước.",
+      "asset_too_large": "Mô hình đó vượt quá giới hạn kích thước tải lên.",
+      "asset_not_found": "Vật thể đó không còn tồn tại trên máy chủ.",
+      "rate_limited": "Hãy chậm lại một chút rồi thử lại.",
+      "unauthorized": "Phiên của bạn đã hết hạn. Hãy đăng nhập lại từ trò chơi.",
+      "network": "Không thể kết nối đến máy chủ. Hãy kiểm tra kết nối của bạn và thử lại.",
+      "timeout": "Máy chủ phản hồi quá lâu. Hãy thử lại.",
+      "unknown": "Đã có lỗi khi trao đổi với máy chủ."
     },
     "hints": {
-      "nav3d": "Drag to orbit, scroll to zoom. While dragging, WASD flies and Q/E changes height.",
-      "nav2d": "Drag to pan, scroll to zoom."
+      "nav3d": "Kéo để xoay quanh, lăn chuột để thu phóng. Trong khi kéo, WASD bay và Q/E đổi độ cao.",
+      "nav2d": "Kéo để rê khung nhìn, lăn chuột để thu phóng."
     },
     "help": {
-      "title": "Editor Help",
-      "toolsTitle": "Tools",
-      "shortcutsTitle": "Keyboard shortcuts",
-      "mouseTitle": "Mouse and navigation",
-      "flowTitle": "Saving and playtesting",
-      "beginTutorial": "Begin tutorial",
-      "close": "Close",
+      "title": "Trợ Giúp Trình Chỉnh Sửa",
+      "toolsTitle": "Công Cụ",
+      "shortcutsTitle": "Phím tắt",
+      "mouseTitle": "Chuột và điều hướng",
+      "flowTitle": "Lưu và chơi thử",
+      "beginTutorial": "Bắt đầu hướng dẫn",
+      "close": "Đóng",
       "tool": {
-        "select": "Pick placed assets to move, rotate, and scale them; click a 2D marker to edit it.",
-        "raise": "Raise the terrain under the brush.",
-        "lower": "Lower the terrain under the brush.",
-        "smooth": "Smooth bumps toward the local average height.",
-        "flatten": "Level the ground to the height where the drag starts.",
-        "paint": "Paint biome ground cover over the zone default.",
-        "water": "Set the map-wide water level.",
-        "place": "Place catalog or uploaded assets on the ground.",
-        "blocker": "Drag invisible walls that block movement in playtest.",
-        "camp": "Add and edit mob camps that spawn in playtest.",
-        "spawn": "Set where playtest drops the player.",
-        "region": "Box-select terrain and assets to copy and paste.",
-        "erase": "Remove placed assets or sculpt stamps under the cursor."
+        "select": "Chọn vật thể đã đặt để di chuyển, xoay và chỉnh tỷ lệ; nhấp một điểm đánh dấu 2D để chỉnh sửa.",
+        "raise": "Nâng cao địa hình dưới cọ.",
+        "lower": "Hạ thấp địa hình dưới cọ.",
+        "smooth": "Làm mịn các gồ ghề về độ cao trung bình quanh đó.",
+        "flatten": "San mặt đất về độ cao tại điểm bắt đầu kéo.",
+        "paint": "Tô lớp phủ quần xã đè lên mặc định của vùng.",
+        "water": "Đặt mực nước cho toàn bản đồ.",
+        "place": "Đặt vật thể từ danh mục hoặc đã tải lên xuống mặt đất.",
+        "blocker": "Kéo để tạo các bức tường vô hình chặn di chuyển khi chơi thử.",
+        "camp": "Thêm và chỉnh sửa các trại quái xuất hiện khi chơi thử.",
+        "spawn": "Đặt nơi chơi thử thả người chơi xuống.",
+        "region": "Chọn theo khung địa hình và vật thể để sao chép và dán.",
+        "erase": "Gỡ vật thể đã đặt hoặc dấu điêu khắc dưới con trỏ."
       },
       "key": {
-        "tools": "Every tool has a single-letter shortcut, shown on its button in the tool rail.",
-        "brush": "[ and ] resize the brush; Shift+[ and Shift+] change its strength.",
-        "undo": "Ctrl+Z undoes the last change; Ctrl+Y or Ctrl+Shift+Z redoes it.",
-        "save": "Ctrl+S saves the map.",
-        "duplicate": "Ctrl+D duplicates the selected asset.",
-        "nudge": "Arrow keys nudge the selected asset by 0.5 yards; hold Shift for 2 yards.",
-        "wheel": "Shift+scroll rotates the selected asset; Alt+scroll scales it.",
-        "delete": "Delete removes the selected asset or camp.",
-        "escape": "Esc clears the selection first, then returns to the Select tool."
+        "tools": "Mỗi công cụ có một phím tắt một chữ cái, hiển thị trên nút của nó ở thanh công cụ.",
+        "brush": "[ và ] đổi cỡ cọ; Shift+[ và Shift+] đổi cường độ.",
+        "undo": "Ctrl+Z hoàn tác thay đổi gần nhất; Ctrl+Y hoặc Ctrl+Shift+Z làm lại.",
+        "save": "Ctrl+S lưu bản đồ.",
+        "duplicate": "Ctrl+D nhân bản vật thể đang chọn.",
+        "nudge": "Phím mũi tên dịch vật thể đang chọn 0,5 thước; giữ Shift để dịch 2 thước.",
+        "wheel": "Shift+lăn chuột xoay vật thể đang chọn; Alt+lăn chuột chỉnh tỷ lệ.",
+        "delete": "Phím Delete gỡ vật thể hoặc trại đang chọn.",
+        "escape": "Esc bỏ lựa chọn trước, rồi quay về công cụ Chọn."
       },
       "mouse": {
-        "orbit3d": "3D view: drag to orbit and scroll to zoom; middle-drag or Shift+drag pans.",
-        "fly3d": "While holding a drag in 3D, WASD flies the camera and Q/E changes height.",
-        "move": "With Select active, drag a placed asset to move it across the ground.",
-        "pan2d": "2D view: drag to pan and scroll to zoom."
+        "orbit3d": "Chế độ 3D: kéo để xoay quanh và lăn chuột để thu phóng; kéo chuột giữa hoặc Shift+kéo để rê khung nhìn.",
+        "fly3d": "Khi đang giữ kéo trong chế độ 3D, WASD cho máy quay bay và Q/E đổi độ cao.",
+        "move": "Khi công cụ Chọn đang bật, kéo một vật thể đã đặt để di chuyển nó trên mặt đất.",
+        "pan2d": "Chế độ 2D: kéo để rê khung nhìn và lăn chuột để thu phóng."
       },
       "flow": {
-        "save": "Save keeps the map in this browser, and on the server when you are signed in.",
-        "draft": "While you have unsaved changes, a draft is autosaved every 30 seconds; Open restores it.",
-        "playtest": "Playtest boots the real game on this map, including your unsaved edits."
+        "save": "Lưu giữ bản đồ trong trình duyệt này, và trên máy chủ khi bạn đã đăng nhập.",
+        "draft": "Khi bạn có thay đổi chưa lưu, một bản nháp được tự động lưu mỗi 30 giây; nút Mở sẽ khôi phục nó.",
+        "playtest": "Chơi Thử khởi động trò chơi thật trên bản đồ này, bao gồm cả các chỉnh sửa chưa lưu của bạn."
       }
     },
     "tutorial": {
-      "title": "Editor tutorial",
-      "back": "Back",
-      "next": "Next",
-      "finish": "Finish",
-      "skip": "Skip tour",
-      "counter": "Step {current} of {total}",
+      "title": "Hướng dẫn trình chỉnh sửa",
+      "back": "Quay lại",
+      "next": "Tiếp",
+      "finish": "Hoàn tất",
+      "skip": "Bỏ qua phần giới thiệu",
+      "counter": "Bước {current} trên {total}",
       "steps": {
         "toolbar": {
-          "title": "The tool rail",
-          "body": "Every editing tool lives here: sculpting brushes, biome paint, water, asset placement, camps, and more. Each one has a single-key shortcut, shown in its corner."
+          "title": "Thanh công cụ",
+          "body": "Mọi công cụ chỉnh sửa nằm ở đây: cọ điêu khắc, tô quần xã, nước, đặt vật thể, trại quái và hơn thế nữa. Mỗi công cụ có một phím tắt một phím, hiển thị ở góc của nó."
         },
         "stage": {
-          "title": "The world",
-          "body": "This is your map, rendered with the real game engine. Drag to orbit, scroll to zoom, and middle-drag or Shift+drag to pan. Click the ground with a tool to edit."
+          "title": "Thế giới",
+          "body": "Đây là bản đồ của bạn, được kết xuất bằng chính engine của trò chơi. Kéo để xoay quanh, lăn chuột để thu phóng, kéo chuột giữa hoặc Shift+kéo để rê khung nhìn. Nhấp xuống mặt đất bằng một công cụ để chỉnh sửa."
         },
         "inspector": {
-          "title": "Tool options",
-          "body": "The options for the active tool appear here: brush size, the biome palette, asset scale, camp settings, and the properties of whatever you select."
+          "title": "Tùy chọn công cụ",
+          "body": "Các tùy chọn của công cụ đang dùng hiển thị ở đây: cỡ cọ, bảng màu quần xã, tỷ lệ vật thể, cài đặt trại, và thuộc tính của bất cứ thứ gì bạn chọn."
         },
         "viewToggle": {
-          "title": "3D and 2D",
-          "body": "Switch between the rendered 3D world and the symbolic overhead 2D map. The 2D view is best for moving zone markers and framing large areas."
+          "title": "3D và 2D",
+          "body": "Chuyển giữa thế giới 3D được kết xuất và bản đồ 2D ký hiệu nhìn từ trên cao. Chế độ 2D phù hợp nhất để di chuyển các điểm đánh dấu vùng và bao quát các khu vực rộng."
         },
         "save": {
-          "title": "Save your work",
-          "body": "Save stores the map in this browser, and on the server when you are signed in. Export downloads a JSON backup, and Open brings back saved maps and drafts."
+          "title": "Lưu thành quả của bạn",
+          "body": "Lưu cất bản đồ trong trình duyệt này, và trên máy chủ khi bạn đã đăng nhập. Xuất tải xuống một bản dự phòng JSON, còn Mở đưa các bản đồ và bản nháp đã lưu trở lại."
         },
         "playtest": {
-          "title": "Playtest",
-          "body": "Boot the real game on your map at any time, with your current edits included. Close the playtest tab to come back and keep editing."
+          "title": "Chơi Thử",
+          "body": "Khởi động trò chơi thật trên bản đồ của bạn bất cứ lúc nào, gồm cả các chỉnh sửa hiện tại. Đóng thẻ chơi thử để quay lại và tiếp tục chỉnh sửa."
         },
         "help": {
-          "title": "Help is here",
-          "body": "That is the whole loop. Open Help any time for the full tool list and every shortcut, or to run this tour again."
+          "title": "Trợ giúp ở đây",
+          "body": "Đó là toàn bộ vòng lặp làm việc. Mở Trợ Giúp bất cứ lúc nào để xem danh sách công cụ đầy đủ và mọi phím tắt, hoặc để chạy lại phần giới thiệu này."
         }
       }
     },
     "a11y": {
-      "stage": "Map viewport",
-      "toasts": "Editor notifications",
-      "dialog": "Editor dialog"
+      "stage": "Khung nhìn bản đồ",
+      "toasts": "Thông báo của trình chỉnh sửa",
+      "dialog": "Hộp thoại trình chỉnh sửa"
     }
   },
   "skinEvent": {
@@ -2539,7 +2543,7 @@ export const vi_VN: EnTranslations = {
     "passwordPlaceholder": "Nhập mật khẩu",
     "email": "Email",
     "emailPlaceholder": "you@example.com",
-    "emailError": "Please enter a valid email address.",
+    "emailError": "Vui lòng nhập một địa chỉ email hợp lệ.",
     "showPassword": "Hiện mật khẩu",
     "hidePassword": "Ẩn mật khẩu",
     "logIn": "Đăng Nhập",
@@ -2567,12 +2571,12 @@ export const vi_VN: EnTranslations = {
     "twoFactorPlaceholder": "Mã 6 chữ số hoặc mã khôi phục",
     "twoFactorHint": "Nhập mã từ ứng dụng xác thực của bạn, hoặc một trong các mã khôi phục.",
     "recovery": {
-      "title": "Add a recovery email",
-      "body": "Set an email address so you can recover your account. We only use it to confirm you own this account if you ever need to reset your password.",
-      "save": "Save email",
-      "logOut": "Log out",
-      "invalid": "Please enter a valid email address.",
-      "failed": "Could not save your email. Please try again."
+      "title": "Thêm email khôi phục",
+      "body": "Hãy đặt một địa chỉ email để bạn có thể khôi phục tài khoản. Chúng tôi chỉ dùng nó để xác nhận bạn sở hữu tài khoản này nếu bạn cần đặt lại mật khẩu.",
+      "save": "Lưu email",
+      "logOut": "Đăng xuất",
+      "invalid": "Vui lòng nhập một địa chỉ email hợp lệ.",
+      "failed": "Không thể lưu email của bạn. Vui lòng thử lại."
     }
   },
   "wallet": {
@@ -2627,7 +2631,7 @@ export const vi_VN: EnTranslations = {
     "helpLinkedWithBalance": "Đặc quyền chủ sở hữu đang hoạt động. Ứng dụng ví đã kết nối trên trình duyệt này.",
     "helpLinkedDisconnected": "Đặc quyền chủ sở hữu đang hoạt động. Kết nối ứng dụng khi bạn cần ký hoặc chi tiêu.",
     "helpLinkedDisconnectedWithBalance": "Đặc quyền chủ sở hữu đang hoạt động. Kết nối ứng dụng khi bạn cần ký hoặc chi tiêu.",
-    "extensionHelp": "To see a wallet here, keep a browser wallet extension such as Solflare Wallet active.",
+    "extensionHelp": "Để thấy ví ở đây, hãy giữ một tiện ích ví trình duyệt như Solflare Wallet đang hoạt động.",
     "flowConnect": "Chọn một ví. Quá trình xác minh sẽ tiếp tục tự động.",
     "flowSign": "Ký vào thông điệp xác minh trong ứng dụng ví của bạn. Không cần giao dịch hay SOL.",
     "flowVerify": "Đang xác minh quyền sở hữu ví...",
@@ -2813,7 +2817,7 @@ export const vi_VN: EnTranslations = {
       "unknownTier": "Cấp bậc hầm thám hiểm không xác định.",
       "levelRequired": "Bạn phải đạt cấp {level} để vào {name}.",
       "levelRequiredTier": "Bạn phải đạt cấp {level} để vào {name} ở {tier}.",
-      "partyTooLarge": "{name} is meant for solo or duo delves. Parties of {max} or more may not enter.",
+      "partyTooLarge": "{name} chỉ dành cho các chuyến hầm thám hiểm đơn hoặc đôi. Tổ đội từ {max} người trở lên không thể vào.",
       "instancesBusy": "Tất cả các phiên bản của {name} đều đang bận. Hãy thử lại sớm.",
       "runFailed": "Lượt chạy {name} thất bại.",
       "complete": "Đã hoàn thành {name}.",
@@ -2823,14 +2827,14 @@ export const vi_VN: EnTranslations = {
       "doorAlreadyOpen": "Cánh cửa đã mở rồi.",
       "companionRankUp": "{name} đạt tới hạng {rank}.",
       "bossChest": "Trùm gục ngã. Một rương thánh tích có ếm bùa trồi lên trên bệ đá. Hãy cạy khóa để giành chiến lợi phẩm.",
-      "drownedLitanyReliquaryRise": "Sister Nhalia falls silent. The Drowned Reliquary rises from the blackwater. Approach it to begin the rite.",
-      "riteSequenceReady": "The shrines fall dark. Repeat the sequence.",
-      "riteSequencePlaying": "The shrines replay the rite. Wait.",
-      "riteCorrect": "A soft chime answers your touch.",
-      "riteWrong": "A harsh bell crack. Black water splashes at your feet.",
-      "riteReliquaryOpen": "The Drowned Reliquary opens.",
-      "riteReliquaryLocked": "Complete the shrine rite to open the reliquary.",
-      "riteReliquaryEmpty": "The reliquary is empty.",
+      "drownedLitanyReliquaryRise": "Sơ Nhalia im bặt. Hộp Thánh Tích Chết Chìm trồi lên từ làn nước đen. Hãy lại gần nó để bắt đầu nghi lễ.",
+      "riteSequenceReady": "Các miếu thờ tắt lửa. Hãy lặp lại chuỗi.",
+      "riteSequencePlaying": "Các miếu thờ đang phát lại nghi lễ. Hãy chờ.",
+      "riteCorrect": "Một tiếng ngân êm đáp lại cái chạm của bạn.",
+      "riteWrong": "Một tiếng chuông rè chát chúa. Nước đen bắn tung dưới chân bạn.",
+      "riteReliquaryOpen": "Hộp Thánh Tích Chết Chìm mở ra.",
+      "riteReliquaryLocked": "Hoàn thành nghi lễ miếu thờ để mở hộp thánh tích.",
+      "riteReliquaryEmpty": "Hộp thánh tích trống rỗng.",
       "surfaceStairs": "Một cầu thang dẫn lên mặt đất mở ra. Nhấn F tại cầu thang để rời đi.",
       "moduleEnter": "{name}: {objective}",
       "objectiveClearRoom": "Quét sạch căn phòng.",
@@ -2838,13 +2842,13 @@ export const vi_VN: EnTranslations = {
       "tombstoneHint": "Một lối đi bia mộ mở ra về phía bắc khi căn phòng được quét sạch.",
       "tombstoneOpen": "Một lối đi bia mộ bị niêm phong rền rĩ mở ra về phía bắc. Hãy bước vào để tiếp tục.",
       "tombstoneInto": "Bạn đi xuyên qua bia mộ vào {name}.",
-      "bellRopeShock": "The bell rope snaps taut. Drowned Cantors reel from the shock.",
-      "eggSacBurst": "The egg-sac bursts. Spiderlings skitter free across the baptistry rim.",
-      "baptistryEggs": "The baptistry falls quiet. Spider egg-sacs cling wetly to the rim.",
-      "baptistrySpidersSealed": "You should try to destroy the spider sacs.",
-      "puzzleSealed": "You need to open the seal by applying pressure somewhere in the room.",
-      "ropesSealed": "You should try pulling the bell ropes.",
-      "baptistryWave": "Something stirs in the black baptistry water.",
+      "bellRopeShock": "Dây chuông căng bật. Các Lĩnh Xướng Chết Chìm loạng choạng vì chấn động.",
+      "eggSacBurst": "Bọc trứng vỡ tung. Lũ nhện con tán loạn khắp miệng giếng rửa tội.",
+      "baptistryEggs": "Giếng rửa tội lặng đi. Những bọc trứng nhện bám ướt nhẹp quanh miệng giếng.",
+      "baptistrySpidersSealed": "Bạn nên thử phá hủy các bọc trứng nhện.",
+      "puzzleSealed": "Bạn cần mở dấu niêm bằng cách tạo áp lực ở đâu đó trong căn phòng.",
+      "ropesSealed": "Bạn nên thử kéo các dây chuông.",
+      "baptistryWave": "Có thứ gì đó khuấy động trong làn nước đen của giếng rửa tội.",
       "chestEmpty": "Chiếc rương trống rỗng.",
       "notInDelve": "Bạn không ở trong một hầm thám hiểm.",
       "cannotInteract": "Bạn không thể tương tác với thứ đó.",
@@ -2863,12 +2867,12 @@ export const vi_VN: EnTranslations = {
       "passageSealed": "Lối đi đã bị niêm phong.",
       "moveCloserPassage": "Hãy lại gần lối đi hơn.",
       "moveCloserChest": "Hãy lại gần chiếc rương hơn.",
-      "moveCloserReliquary": "Move closer to the reliquary.",
+      "moveCloserReliquary": "Hãy lại gần hộp thánh tích hơn.",
       "nothingToTake": "Không còn gì để lấy.",
       "wayOutNotOpen": "Lối ra vẫn chưa mở.",
       "moveCloserStairs": "Hãy lại gần cầu thang hơn.",
-      "nhaliaCantorShield": "Cantors, hold the note!",
-      "nhaliaBlackwaterMark": "{name} marks {player} with Blackwater!"
+      "nhaliaCantorShield": "Các Lĩnh Xướng, giữ vững nốt ngân!",
+      "nhaliaBlackwaterMark": "{name} đánh dấu {player} bằng Nước Đen!"
     },
     "lockpick": {
       "lockYields": "Ổ khóa bật mở! Chiến lợi phẩm {tier}.",
@@ -2932,24 +2936,24 @@ export const vi_VN: EnTranslations = {
     }
   },
   "delveRiteUi": {
-    "title": "The Drowned Reliquary Rite",
-    "blurb": "The shrines will light in order. Repeat the sequence by activating each shrine in turn. A wrong touch fails the attempt and replays the sequence, a flawless attempt earns the richest spoils, and running out of tries opens the reliquary on its meanest. Choose how the rite tests you.",
-    "easy": "Easy",
-    "medium": "Medium",
-    "hard": "Hard",
-    "guideWatch": "After you choose, the four shrines light up one at a time. Memorize the order.",
-    "guideRepeat": "When the shrines fall dark, walk to each shrine and press F (Interact) in that same order.",
-    "guideStakes": "A wrong shrine splashes you with blackwater and costs a try. Complete the sequence to open the reliquary.",
-    "showsTimes": "Sequence shown {count} times",
-    "showsOnce": "Sequence shown once",
-    "symbols": "{count} symbols",
-    "tries": "{count} tries",
+    "title": "Nghi Lễ Hộp Thánh Tích Chết Chìm",
+    "blurb": "Các miếu thờ sẽ sáng lên theo thứ tự. Hãy lặp lại chuỗi bằng cách kích hoạt từng miếu theo lượt. Chạm sai sẽ làm hỏng lượt thử và phát lại chuỗi, một lượt hoàn hảo mang về chiến lợi phẩm hậu hĩnh nhất, còn hết lượt thử thì hộp thánh tích chỉ mở ra phần bèo bọt nhất. Hãy chọn cách nghi lễ thử thách ngươi.",
+    "easy": "Dễ",
+    "medium": "Trung Bình",
+    "hard": "Khó",
+    "guideWatch": "Sau khi chọn, bốn miếu thờ sẽ lần lượt sáng lên. Hãy ghi nhớ thứ tự.",
+    "guideRepeat": "Khi các miếu thờ tắt lửa, hãy đi đến từng miếu và nhấn F (Tương Tác) theo đúng thứ tự đó.",
+    "guideStakes": "Chạm sai miếu, nước đen sẽ bắn lên người và tốn một lượt thử. Hoàn thành chuỗi để mở hộp thánh tích.",
+    "showsTimes": "Chuỗi hiển thị {count} lần",
+    "showsOnce": "Chuỗi hiển thị một lần",
+    "symbols": "{count} ký hiệu",
+    "tries": "{count} lượt thử",
     "reward": {
-      "easy": "Modest spoils",
-      "medium": "Rich spoils",
-      "hard": "Premium spoils"
+      "easy": "Chiến lợi phẩm khiêm tốn",
+      "medium": "Chiến lợi phẩm hậu hĩnh",
+      "hard": "Chiến lợi phẩm thượng hạng"
     },
-    "closeAria": "Close"
+    "closeAria": "Đóng"
   },
   "delveUi": {
     "board": {
@@ -2960,7 +2964,7 @@ export const vi_VN: EnTranslations = {
       "openDelveAria": "Mở Bảng Hang Sâu từ {name}",
       "marks": "Huy Hiệu Hang Sâu: {count}",
       "minLevel": "Yêu cầu Cấp {level}",
-      "partyTooLarge": "Solo or duo only ({max} players max)",
+      "partyTooLarge": "Chỉ đi đơn hoặc đôi (tối đa {max} người chơi)",
       "tier": {
         "normal": "Thường",
         "heroic": "Anh Hùng"
@@ -2995,10 +2999,10 @@ export const vi_VN: EnTranslations = {
       "marks": "Huy Hiệu Hang Sâu: {count}",
       "exitHintOpen": "Bước vào lối đi bia mộ (hướng bắc)",
       "exitHintLocked": "Dọn sạch quái lính để mở lối đi về hướng bắc",
-      "riteChoose": "Approach the Drowned Reliquary and press F to begin the rite",
-      "ritePlayback": "Watch the shrines: memorize the order they light up",
-      "riteInput": "Press F at each shrine in the order they lit ({current}/{total})",
-      "riteOpen": "The reliquary is open: press F on it to claim your spoils"
+      "riteChoose": "Lại gần Hộp Thánh Tích Chết Chìm và nhấn F để bắt đầu nghi lễ",
+      "ritePlayback": "Quan sát các miếu thờ: ghi nhớ thứ tự chúng sáng lên",
+      "riteInput": "Nhấn F tại từng miếu thờ theo thứ tự chúng đã sáng ({current}/{total})",
+      "riteOpen": "Hộp thánh tích đã mở: nhấn F vào nó để nhận chiến lợi phẩm"
     },
     "objective": {
       "kill_boss": "Hạ gục {boss}",
@@ -3021,52 +3025,52 @@ export const vi_VN: EnTranslations = {
         "greeting": "Hộp thánh tích bên dưới lại dịch chuyển lần nữa. Chúng tôi nghe tiếng tụng kinh xuyên qua nền nhà sau nửa đêm, và Tu Sinh Tessa thề rằng những cuốn sổ tang lễ đang tự thay đổi mực của chính chúng. Nếu ngươi đủ can đảm, {playerName}, hãy cầm một cây nến và đi xuống dưới. Đừng tin mọi giọng nói ngươi nghe thấy dưới đó. Một vài trong số chúng đã biết tên ngươi từ trước khi ngươi chào đời."
       },
       "halvenMarsh": {
-        "greeting": "The trail led north to the marsh, {playerName}. Another reliquary sings under the black water, and the drowned dead answer the bells. Acolyte Edda knows these reeds better than I do, stay close to her lantern. Choose your tier, and I will hold the rope until you return."
+        "greeting": "Dấu vết dẫn lên phía bắc đến đầm lầy, {playerName}. Một hộp thánh tích nữa đang ngân nga dưới làn nước đen, và những kẻ chết chìm đáp lại tiếng chuông. Tu Sinh Edda thông thuộc đám lau sậy này hơn ta, hãy bám sát ánh đèn lồng của cô ấy. Chọn độ khó của ngươi đi, và ta sẽ giữ dây thừng cho đến khi ngươi trở về."
       }
     },
     "intro": {
       "normal": "Lối cầu thang lạnh lẽo và tối tăm. Những phiến đá thánh vỡ vụn rải khắp đường xuống, và một nốt chuông khẽ vang treo lơ lửng trong bầu không khí ẩm ướt. Tu Sinh Tessa thì thầm, \"Hộp thánh tích lẽ ra không nên mở rộng đến vậy. Bám sát ta nhé, {playerName}.\"",
       "heroic": "Cánh cửa rên rỉ đóng sập sau lưng ngươi. Những cái tên cào lên đá như móng tay. Cây nến của Tessa cháy lên màu xanh lam. \"Giờ chúng không gọi kẻ chết nữa, {playerName}. Chúng đang đáp lại thứ gì đó.\"",
-      "litanyNormal": "Reed-choked stairs drop beneath Fenbridge. Edda Reedhand lifts her lantern. \"The marsh remembers every name they drowned, {playerName}. Stay in the light.\"",
-      "litanyHeroic": "Blackwater laps the causeway stones. Edda's flame gutters green. \"They are singing again below, {playerName}. Do not answer the choir.\""
+      "litanyNormal": "Những bậc thang nghẹt lau sậy đổ xuống bên dưới Fenbridge. Edda Reedhand nâng cao chiếc đèn lồng. \"Đầm lầy nhớ từng cái tên chúng đã dìm chết, {playerName}. Hãy ở trong vùng sáng.\"",
+      "litanyHeroic": "Nước đen vỗ vào những phiến đá đường đắp. Ngọn lửa của Edda leo lét ánh xanh lục. \"Chúng lại đang hát dưới kia, {playerName}. Đừng đáp lời dàn hợp ca.\""
     },
     "module": {
       "reliquary_sunken_ossuary": "Nước rỉ qua những giá kệ chôn cất, cuốn theo tro tàn cổ xưa thành những dòng đen ánh bạc.",
       "reliquary_bell_niche": "Hàng chục chiếc chuông tay treo trong im lặng, mỗi chiếc buộc một dải vải tang.",
       "reliquary_saintless_hall": "Những bức tượng với khuôn mặt bị đục đi bằng sự căm hờn cẩn trọng.",
       "reliquary_finale": "Chiếc chuông bị chôn ngân lên một lần dưới đôi ủng của ngươi.",
-      "litany_sluice": "Moss-choked sluice gates drip blackwater into the old choir crypt.",
-      "litany_ledger": "Ledger islands rise from flooded channels, ink bleeding into the marsh.",
-      "litany_ring": "A reliquary ring loops around a sealed central font of black water.",
-      "litany_baptistry": "A sinkhole baptistry yawns beneath cracked saint-stones and egg-sacs.",
-      "litany_choir_loft": "Fanning choir lofts echo with rope-hung bells that never quite stop.",
-      "litany_causeway": "A Y-split causeway forks over waist-deep fen water.",
-      "litany_apse": "The drowned apse opens onto Sister Nhalia's altar island."
+      "litany_sluice": "Những cửa cống phủ rêu nhỏ giọt nước đen xuống hầm mộ hợp ca cổ.",
+      "litany_ledger": "Những hòn đảo sổ sách nhô lên từ các lạch nước ngập, mực loang vào đầm lầy.",
+      "litany_ring": "Một vành đai thánh tích vòng quanh bể nước đen trung tâm bị niêm phong.",
+      "litany_baptistry": "Một giếng rửa tội sụt lún há miệng bên dưới những phiến đá thánh nứt vỡ và các bọc trứng.",
+      "litany_choir_loft": "Những gác hợp ca tỏa hình quạt vang vọng tiếng chuông treo dây chẳng bao giờ ngưng hẳn.",
+      "litany_causeway": "Một con đường đắp tách chữ Y rẽ nhánh trên làn nước đầm sâu ngang hông.",
+      "litany_apse": "Hậu cung chết chìm mở ra hòn đảo bàn thờ của Sơ Nhalia."
     },
     "moduleName": {
       "reliquary_sunken_ossuary": "Hầm Xương Chìm",
       "reliquary_bell_niche": "Hốc Chuông",
       "reliquary_saintless_hall": "Sảnh Không Thánh",
       "reliquary_finale": "Căn Phòng Chôn Chuông",
-      "litany_sluice": "The Crescent Sluice",
-      "litany_ledger": "The Island Ledger",
-      "litany_ring": "The Ring Reliquary",
-      "litany_baptistry": "The Sinkhole Baptistry",
-      "litany_choir_loft": "The Reedsong Gallery",
-      "litany_causeway": "The Y-Split Causeway",
-      "litany_apse": "The Drowned Apse"
+      "litany_sluice": "Cống Lưỡi Liềm",
+      "litany_ledger": "Đảo Sổ Sách",
+      "litany_ring": "Vành Đai Thánh Tích",
+      "litany_baptistry": "Giếng Rửa Tội Sụt Lún",
+      "litany_choir_loft": "Hành Lang Sậy Ca",
+      "litany_causeway": "Đường Đắp Chữ Y",
+      "litany_apse": "Hậu Cung Chết Chìm"
     },
     "object": {
-      "sluice_valve": "Sluice Valve",
-      "grave_tablet": "Grave Tablet",
-      "corpse_candle": "Corpse-Candle",
-      "bell_rope": "Bell Rope"
+      "sluice_valve": "Van Cống",
+      "grave_tablet": "Phiến Đá Mộ",
+      "corpse_candle": "Nến Tử Thi",
+      "bell_rope": "Dây Chuông"
     },
     "companion": {
       "barkLine": "{name}: {line}",
       "tessa": {
-        "run_start": "I have my candle and my ledger, {playerName}. Lead on.",
-        "ally_revive": "Up now. Tonight's ledger does not carry your name.",
+        "run_start": "Ta đã có cây nến và cuốn sổ của mình, {playerName}. Dẫn đường đi.",
+        "ally_revive": "Dậy nào. Cuốn sổ đêm nay không mang tên ngươi.",
         "combat_start": "Giữ vững chân, {playerName}. Kẻ chết nơi đây không yên nghỉ.",
         "low_hp": "Hít thở đi. Ta vẫn còn những lời nguyện cầu dành cho ngươi.",
         "trap_spotted": "Khoan đã. Có thứ gì đó trong nền nhà nhớ rõ tiếng bước chân.",
@@ -3081,17 +3085,17 @@ export const vi_VN: EnTranslations = {
         }
       },
       "edda": {
-        "run_start": "Keep to the plank-line, {playerName}. The silt takes the proud-footed.",
-        "ally_revive": "Up, now. The marsh does not get you today.",
-        "combat_start": "Mind the blackwater, {playerName}. The marsh listens.",
-        "low_hp": "Steady. My lantern is not out yet.",
-        "trap_spotted": "Wait. The reeds are wrong here.",
-        "boss_pull": "That canticle knows your name, {playerName}. Do not sing back.",
-        "completion": "The fen can swallow its secrets for one more night.",
+        "run_start": "Bám theo lối ván gỗ, {playerName}. Bùn lầy chuyên nuốt những bàn chân kiêu ngạo.",
+        "ally_revive": "Dậy nào. Hôm nay đầm lầy chưa bắt được ngươi đâu.",
+        "combat_start": "Coi chừng làn nước đen, {playerName}. Đầm lầy đang lắng nghe.",
+        "low_hp": "Bình tĩnh. Đèn lồng của ta vẫn chưa tắt.",
+        "trap_spotted": "Khoan. Đám lau sậy ở đây không ổn.",
+        "boss_pull": "Bản thánh ca đó biết tên ngươi, {playerName}. Đừng hát đáp lại.",
+        "completion": "Đầm lầy có thể nuốt giữ những bí mật của nó thêm một đêm nữa.",
         "rank": {
-          "1": "Lantern-Bearer",
-          "2": "Reed-Watcher",
-          "3": "Fenbridge Acolyte"
+          "1": "Người Cầm Đèn Lồng",
+          "2": "Người Canh Lau Sậy",
+          "3": "Tu Sinh Fenbridge"
         }
       }
     },
@@ -3136,9 +3140,9 @@ export const vi_VN: EnTranslations = {
       "grave_tax": "Thuế Mộ Phần",
       "unstable_roof": "Mái Vòm Bất Ổn",
       "cult_remnants": "Tàn Dư Giáo Phái",
-      "high_water": "High Water",
-      "lively_choir": "Lively Choir",
-      "belligerent_dead": "Belligerent Dead"
+      "high_water": "Nước Dâng Cao",
+      "lively_choir": "Hợp Ca Náo Động",
+      "belligerent_dead": "Kẻ Chết Hiếu Chiến"
     },
     "blessing": {
       "chapel_candle": "Nến Nguyện Đường: lượt chạy an toàn hơn, giảm một Dấu Ấn khi hoàn thành."
@@ -4159,8 +4163,8 @@ export const vi_VN: EnTranslations = {
     "tracker": {
       "title": "Nhiệm Vụ",
       "complete": "Hoàn Thành",
-      "showOnMap": "Show {name} on the map",
-      "hideFromMap": "Hide {name} from the map"
+      "showOnMap": "Hiện {name} trên bản đồ",
+      "hideFromMap": "Ẩn {name} khỏi bản đồ"
     },
     "log": {
       "title": "Nhật Ký Nhiệm Vụ",
@@ -4264,7 +4268,7 @@ export const vi_VN: EnTranslations = {
       "tool": "Dụng Cụ",
       "potion": "Thuốc",
       "elixir": "Tiên Dược",
-      "bag": "Bag"
+      "bag": "Túi"
     },
     "stats": {
       "armor": "Giáp",
@@ -4307,7 +4311,7 @@ export const vi_VN: EnTranslations = {
       "clickUseInstant": "Nhấp để dùng tức thời trong chiến đấu",
       "clickUse": "Nhấp để sử dụng",
       "clickBuyback": "Nhấp để mua lại",
-      "bagSlots": "{slots} Slot Bag"
+      "bagSlots": "Túi {slots} Ô"
     },
     "bags": {
       "title": "Túi Đồ",
@@ -6015,67 +6019,67 @@ export const vi_VN: EnTranslations = {
         "name": "Mũ Trùm Bóng Tối của Varric"
       },
       "siltguard_helm": {
-        "name": "Siltguard Helm"
+        "name": "Mũ Giáp Hộ Bùn"
       },
       "bulwark_rusted_pauldrons": {
-        "name": "Bulwark-Rusted Pauldrons"
+        "name": "Giáp Vai Rỉ Sét Thành Lũy"
       },
       "nhalias_bell_maul": {
-        "name": "Nhalia's Bell-Maul"
+        "name": "Chùy Chuông của Nhalia"
       },
       "reedstalker_jerkin": {
-        "name": "Reedstalker Jerkin"
+        "name": "Áo Da Kẻ Rình Lau Sậy"
       },
       "mirejaw_fang_knife": {
-        "name": "Mirejaw Fang-Knife"
+        "name": "Dao Nanh Mirejaw"
       },
       "widow_silk_hood": {
-        "name": "Widow-Silk Hood"
+        "name": "Mũ Trùm Tơ Góa Phụ"
       },
       "cantors_drowned_sash": {
-        "name": "Cantor's Drowned Sash"
+        "name": "Đai Lưng Chết Chìm của Lĩnh Xướng"
       },
       "corpse_candle_focus": {
-        "name": "Corpse-Candle Focus"
+        "name": "Pháp Khí Nến Tử Thi"
       },
       "nhalias_litany_rod": {
-        "name": "Nhalia's Litany Rod"
+        "name": "Gậy Kinh Cầu của Nhalia"
       },
       "blackwater_vanguard_chest": {
-        "name": "Blackwater Vanguard Chestguard"
+        "name": "Hộ Ngực Tiên Phong Nước Đen"
       },
       "siltstep_leggings": {
-        "name": "Siltstep Leggings"
+        "name": "Quần Giáp Bước Bùn"
       },
       "sunken_reliquary_hood": {
-        "name": "Sunken Reliquary Hood"
+        "name": "Mũ Trùm Thánh Tích Chìm"
       },
       "litany_legs": {
-        "name": "Silt-Walker Greaves"
+        "name": "Giáp Chân Kẻ Lội Bùn"
       },
       "litany_shoulder": {
-        "name": "Blackwater Drift Mantle"
+        "name": "Giáp Vai Trôi Dạt Nước Đen"
       },
       "litany_gloves_rog": {
-        "name": "Reed-Bound Handwraps"
+        "name": "Quấn Tay Bó Sậy"
       },
       "litany_plate_chest": {
-        "name": "Sump-Warden Cuirass"
+        "name": "Áo Giáp Vệ Quan Vũng Lầy"
       },
       "litany_leather_chest": {
-        "name": "Silt-Deep Vestment"
+        "name": "Y Phục Ngập Bùn"
       },
       "litany_cloth_chest": {
-        "name": "Choir-Drowned Raiment"
+        "name": "Lễ Phục Hợp Ca Chết Chìm"
       },
       "litany_helm": {
-        "name": "Reliquant's Drowned Cowl"
+        "name": "Mũ Trùm Chết Chìm của Người Giữ Thánh Tích"
       },
       "sister_nhalia_choir_plate": {
-        "name": "Sister Nhalia's Choir-Forged Plate"
+        "name": "Áo Giáp Rèn Hợp Ca của Sơ Nhalia"
       },
       "drowned_choir_fang": {
-        "name": "Drowned Choir-Fang"
+        "name": "Nanh Hợp Ca Chết Chìm"
       },
       "the_codfather": {
         "name": "Cá Bố Già"
@@ -6413,43 +6417,43 @@ export const vi_VN: EnTranslations = {
         "name": "Tế Đồ Tessa"
       },
       "drowned_cantor": {
-        "name": "Drowned Cantor"
+        "name": "Lĩnh Xướng Chết Chìm"
       },
       "reedbound_acolyte": {
-        "name": "Reedbound Acolyte"
+        "name": "Tu Đồ Bó Sậy"
       },
       "deepfen_spearjaw": {
-        "name": "Deepfen Spearjaw"
+        "name": "Hàm Giáo Deepfen"
       },
       "mirefen_widowling": {
-        "name": "Mirefen Widowling"
+        "name": "Góa Phụ Non Bùn Sâu"
       },
       "spider_egg_sac": {
-        "name": "Spider Egg-Sac"
+        "name": "Bọc Trứng Nhện"
       },
       "grave_silt_bulwark": {
-        "name": "Grave-Silt Bulwark"
+        "name": "Thành Lũy Bùn Mộ"
       },
       "sump_troll_devourer": {
-        "name": "Sump Troll Devourer"
+        "name": "Troll Vũng Lầy Háu Ăn"
       },
       "choir_thrall": {
-        "name": "Bog Thrall"
+        "name": "Nô Lệ Đầm Lầy"
       },
       "sister_nhalia_drowned_canticle": {
-        "name": "Sister Nhalia, the Drowned Canticle"
+        "name": "Sơ Nhalia, Bản Thánh Ca Chết Chìm"
       },
       "edda_reedhand": {
         "name": "Edda Reedhand"
       },
       "tolling_bell": {
-        "name": "Tolling Bell"
+        "name": "Chuông Ngân Vang"
       },
       "thunzharr_waking_peak": {
-        "name": "Thunzharr, the Waking Peak"
+        "name": "Thunzharr, Đỉnh Núi Thức Giấc"
       },
       "thunzharr_stormling": {
-        "name": "Roused Stormling"
+        "name": "Tinh Linh Bão Trỗi Dậy"
       },
       "ironvein_foreman": {
         "name": "Quản Đốc Mạch Sắt"
@@ -6672,14 +6676,14 @@ export const vi_VN: EnTranslations = {
         "greeting": "Hầm thánh tích bên dưới lại dịch chuyển lần nữa."
       },
       "brother_halven_marsh": {
-        "name": "Brother Halven",
-        "title": "Reliquary Keeper",
-        "greeting": "The trail led north. Another reliquary, another rite. Choose your tier, and I'll hold the rope until you return."
+        "name": "Tu Huynh Halven",
+        "title": "Người Giữ Thánh Tích",
+        "greeting": "Dấu vết dẫn về phương bắc. Lại một hộp thánh tích nữa, lại một nghi lễ nữa. Chọn độ khó của ngươi đi, và ta sẽ giữ dây thừng cho đến khi ngươi trở về."
       },
       "spirit_healer": {
-        "name": "The Pale Keeper",
-        "title": "Warden of the Dead",
-        "greeting": "Rest now, spirit. I can return you to your body, but the crossing back leaves you weak."
+        "name": "Người Canh Giữ Nhợt Nhạt",
+        "title": "Người Gác Cõi Chết",
+        "greeting": "Nghỉ ngơi đi, hỡi linh hồn. Ta có thể đưa ngươi trở lại thân xác, nhưng chuyến vượt trở về sẽ khiến ngươi suy yếu."
       },
       "tidewatcher_ondrel": {
         "name": "Ondrel Vane",
@@ -7124,32 +7128,32 @@ export const vi_VN: EnTranslations = {
         }
       },
       "q_stalkers_return": {
-        "title": "The Stalkers Return",
-        "text": "Twelve dead, and the ridge crawls thicker than the day you started, {playerName}. Beasts do not throw themselves at a wall out of hunger. Something on the high ridge is pushing them down, and until I know what, the culling does not stop. Fourteen more.",
-        "completion": "Fourteen more, and still my patrols count fresh tracks by morning. My scout came back from the high ridge white as the snowline: prints the size of a shield, she says, and old kills no stalker would leave. Whatever walks up there is no ordinary cat.",
+        "title": "Lũ Rình Mồi Trở Lại",
+        "text": "Mười hai con đã chết, vậy mà sườn núi còn lúc nhúc hơn cả ngày ngươi bắt đầu, {playerName}. Thú dữ không tự lao mình vào tường thành chỉ vì đói. Có thứ gì đó trên sườn núi cao đang dồn chúng xuống, và chừng nào ta chưa biết đó là gì, cuộc tỉa bớt này chưa dừng lại. Thêm mười bốn con nữa.",
+        "completion": "Thêm mười bốn con, vậy mà sáng ra các đội tuần tra của ta vẫn đếm được dấu chân mới. Trinh sát của ta trở về từ sườn núi cao, mặt trắng bệch như ranh tuyết: cô ấy nói có những dấu chân to bằng tấm khiên, và những xác mồi cũ mà không con rình mồi nào chịu bỏ lại. Thứ đang đi lại trên đó không phải một con mèo bình thường.",
         "objectives": {
           "0": {
-            "label": "Ridge Stalker slain"
+            "label": "Đã hạ Kẻ Rình Sườn Núi"
           }
         }
       },
       "q_stalker_cloaks": {
-        "title": "Cloaks for the Watch",
-        "text": "Eight pelts lined the officers' cloaks, and now every soldier on the wall wants the same, {playerName}. They are right to want it: winter takes fingers first and apologies never. Ten more pelts from the ridges south of the gate, and the whole watch sleeps warm.",
-        "completion": "Ten good pelts, thick as any I have... no, look at these, {playerName}. Torn, half of them, and by no blade or spear. Claw marks wide as my hand, right through the winter coat. Something on that ridge is savaging its own kind.",
+        "title": "Áo Choàng Cho Đội Canh Gác",
+        "text": "Tám tấm da đã lót áo choàng cho các sĩ quan, và giờ mọi người lính trên tường thành đều muốn thứ tương tự, {playerName}. Họ muốn vậy là phải: mùa đông lấy đi những ngón tay trước tiên và chẳng bao giờ xin lỗi. Thêm mười tấm da từ các sườn núi phía nam cổng, và cả đội canh gác sẽ được ngủ ấm.",
+        "completion": "Mười tấm da tốt, dày chẳng kém bất kỳ tấm nào ta có... khoan, nhìn những tấm này xem, {playerName}. Một nửa bị xé rách, mà chẳng phải do lưỡi kiếm hay ngọn giáo nào. Vết vuốt rộng bằng bàn tay ta, xuyên thẳng qua lớp lông mùa đông. Có thứ gì đó trên sườn núi ấy đang cắn xé chính đồng loại của nó.",
         "objectives": {
           "0": {
-            "label": "Ridge Stalker Pelt"
+            "label": "Da Lông Rình Mồi Sườn Núi"
           }
         }
       },
       "q_old_cragmaw": {
-        "title": "Old Cragmaw",
-        "text": "The mountain folk put a name to the prints my scout found: Old Cragmaw, a scar-pelted tyrant of a cat that has outlived three generations of its own pack. It is the reason the stalkers flood my road, {playerName}. Its den sits on the western ridge above the road south. Bring a friend, and put the old devil down.",
-        "completion": "Down at last. The mountain folk swore that cat would outlive the wall itself. The stalkers will keep to their high snows now, {playerName}, and my patrols will walk the road without bleeding for it. The whole ridge is quieter for your work.",
+        "title": "Lão Cragmaw",
+        "text": "Dân miền núi đã gọi tên những dấu chân mà trinh sát của ta tìm thấy: Lão Cragmaw, một bạo chúa mèo lông đầy sẹo đã sống lâu hơn ba thế hệ của chính bầy đàn nó. Nó chính là lý do lũ rình mồi tràn xuống con đường của ta, {playerName}. Hang ổ của nó nằm trên sườn núi phía tây, bên trên con đường về nam. Hãy dẫn theo một người bạn, và hạ gục con quỷ già ấy.",
+        "completion": "Cuối cùng nó cũng gục ngã. Dân miền núi từng thề rằng con mèo ấy sẽ sống lâu hơn cả bức tường. Giờ lũ rình mồi sẽ chịu ở yên trên vùng tuyết cao của chúng, {playerName}, và các đội tuần tra của ta sẽ đi trên đường mà không phải đổ máu. Cả dải sườn núi yên ắng hơn nhờ công của ngươi.",
         "objectives": {
           "0": {
-            "label": "Old Cragmaw slain"
+            "label": "Đã hạ Lão Cragmaw"
           }
         }
       },
@@ -7677,9 +7681,9 @@ export const vi_VN: EnTranslations = {
         "leaveText": "Bạn trèo trở lại chỗ Tu Huynh Halven tại tàn tích thánh tích."
       },
       "drowned_litany": {
-        "name": "The Drowned Litany",
-        "enterText": "You descend into the drowned shrine at the marsh's edge.",
-        "leaveText": "You climb back to Brother Halven at the marsh's edge."
+        "name": "Kinh Cầu Chết Chìm",
+        "enterText": "Bạn đi xuống ngôi miếu chết chìm nơi rìa đầm lầy.",
+        "leaveText": "Bạn trèo trở lại chỗ Tu Huynh Halven nơi rìa đầm lầy."
       }
     },
     "letters": {
@@ -7762,11 +7766,11 @@ export const vi_VN: EnTranslations = {
     "delveLockedChestInteract": "Nhấn F để cạy khóa",
     "delveRewardChestInteract": "Nhấn F để nhận chiến lợi phẩm",
     "delveSurfaceExitInteract": "Nhấn F để leo lên",
-    "delveReliquaryInteract": "Drowned Reliquary: Press F to begin the rite",
-    "delveRiteShrineBellInteract": "Bell Shrine: Press F to ring it",
-    "delveRiteShrineCandleInteract": "Candle Shrine: Press F to touch it",
-    "delveRiteShrineReedInteract": "Reed Shrine: Press F to touch it",
-    "delveRiteShrineSkullInteract": "Skull Shrine: Press F to touch it",
-    "mailboxName": "Mailbox"
+    "delveReliquaryInteract": "Hộp Thánh Tích Chết Chìm: Nhấn F để bắt đầu nghi lễ",
+    "delveRiteShrineBellInteract": "Miếu Chuông: Nhấn F để rung chuông",
+    "delveRiteShrineCandleInteract": "Miếu Nến: Nhấn F để chạm vào",
+    "delveRiteShrineReedInteract": "Miếu Lau Sậy: Nhấn F để chạm vào",
+    "delveRiteShrineSkullInteract": "Miếu Đầu Lâu: Nhấn F để chạm vào",
+    "mailboxName": "Hòm Thư"
   }
 };

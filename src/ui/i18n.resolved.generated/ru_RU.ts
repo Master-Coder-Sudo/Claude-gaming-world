@@ -212,6 +212,10 @@ export const ru_RU: EnTranslations = {
       "pointsGained": "Получено {points} очков ежедневных наград.",
       "showChestButton": "Показать сундук",
       "hideChestButton": "Скрыть сундук",
+      "hideChestConfirmTitle": "Скрыть сундук ежедневных наград?",
+      "hideChestConfirmBody": "Это уберёт ярлык сундука с вашего HUD. Награды, право на участие и эта панель останутся доступны; вернуть ярлык можно в настройках.",
+      "hideChestConfirmOk": "Скрыть сундук",
+      "hideChestConfirmCancel": "Отмена",
       "leaderboard": "Ежедневная таблица лидеров",
       "totalPlayer": "Сегодня {count} игрок",
       "totalPlayers": "Сегодня {count} игроков",
@@ -1062,18 +1066,18 @@ export const ru_RU: EnTranslations = {
       "close": "Закрыть почтовый ящик",
       "tabInbox": "Входящие",
       "tabInboxWithCount": "Входящие ({count})",
-      "tabSend": "Send",
+      "tabSend": "Отправить",
       "empty": "Ваш почтовый ящик пуст.",
       "truncated": "Показаны последние {shown} из {total} писем.",
       "attachmentsBadge": "Вложение",
       "unreadBadge": "Непрочитано",
-      "back": "Back",
+      "back": "Назад",
       "take": "Забрать вложения",
       "delete": "Удалить письмо",
       "deleteAria": "Удалить письмо {subject}",
       "openAria": "Прочитать письмо {subject} от {name}",
       "noSubject": "(без темы)",
-      "toLabel": "To",
+      "toLabel": "Кому",
       "toPlaceholder": "Имя персонажа",
       "subjectLabel": "Тема",
       "bodyLabel": "Сообщение",
@@ -2037,9 +2041,9 @@ export const ru_RU: EnTranslations = {
       "undoCountTitle": "Можно отменить {count} шагов (Ctrl+Z отмена, Ctrl+Y повтор)",
       "autosave": "Автосохранение",
       "autosaveTitle": "Автоматически сохранять карту, пока есть несохраненные изменения. Отключается само при ошибке сохранения.",
-      "undo": "Undo",
+      "undo": "Отменить",
       "undoTitle": "Отменить последнее изменение (Ctrl+Z)",
-      "redo": "Redo",
+      "redo": "Повторить",
       "redoTitle": "Вернуть отмененное изменение (Ctrl+Y)",
       "offline": "Офлайн",
       "offlineTitle": "Вы не вошли: карты сохраняются только в этом браузере. Войдите в игру, чтобы сохранять онлайн.",
@@ -2538,7 +2542,7 @@ export const ru_RU: EnTranslations = {
     "passwordError": "Пожалуйста, введите пароль.",
     "passwordPlaceholder": "Введите пароль",
     "email": "Эл. почта",
-    "emailPlaceholder": "you@example.com",
+    "emailPlaceholder": "ivan@example.com",
     "emailError": "Введите корректный адрес эл. почты.",
     "showPassword": "Показать пароль",
     "hidePassword": "Скрыть пароль",
@@ -2570,7 +2574,7 @@ export const ru_RU: EnTranslations = {
       "title": "Добавьте резервный адрес эл. почты",
       "body": "Укажите адрес эл. почты, чтобы вы могли восстановить доступ к аккаунту. Мы используем его только для подтверждения того, что аккаунт принадлежит вам, если вам когда-нибудь понадобится сбросить пароль.",
       "save": "Сохранить почту",
-      "logOut": "Log out",
+      "logOut": "Выйти",
       "invalid": "Введите корректный адрес эл. почты.",
       "failed": "Не удалось сохранить вашу почту. Пожалуйста, попробуйте ещё раз."
     }
@@ -2934,9 +2938,9 @@ export const ru_RU: EnTranslations = {
   "delveRiteUi": {
     "title": "Обряд Утонувшего Реликвария",
     "blurb": "Святилища загорятся по порядку. Повторите последовательность, активируя каждое святилище по очереди. Неверное касание проваливает попытку и повторяет последовательность, безупречная попытка приносит богатейшую добычу, а исчерпание попыток открывает реликварий с самой скудной добычей. Выберите, как обряд испытает вас.",
-    "easy": "Easy",
+    "easy": "Лёгкий",
     "medium": "Средний",
-    "hard": "Hard",
+    "hard": "Сложный",
     "guideWatch": "После выбора четыре святилища будут загораться по очереди. Запомните порядок.",
     "guideRepeat": "Когда святилища погаснут, подойдите к каждому в том же порядке и нажмите F (взаимодействие).",
     "guideStakes": "Ошибка окатит вас черной водой и отнимет попытку. Завершите последовательность, чтобы открыть реликварий.",
@@ -3060,7 +3064,7 @@ export const ru_RU: EnTranslations = {
       "sluice_valve": "Шлюзовой Клапан",
       "grave_tablet": "Могильная Табличка",
       "corpse_candle": "Трупная Свеча",
-      "bell_rope": "Bell Rope"
+      "bell_rope": "Колокольная Верёвка"
     },
     "companion": {
       "barkLine": "{name}: {line}",
@@ -4264,7 +4268,7 @@ export const ru_RU: EnTranslations = {
       "tool": "Инструмент",
       "potion": "Зелье",
       "elixir": "Эликсир",
-      "bag": "Bag"
+      "bag": "Сумка"
     },
     "stats": {
       "armor": "Броня",
@@ -4307,7 +4311,7 @@ export const ru_RU: EnTranslations = {
       "clickUseInstant": "Нажмите, чтобы мгновенно использовать в бою",
       "clickUse": "Нажмите, чтобы использовать",
       "clickBuyback": "Нажмите, чтобы выкупить",
-      "bagSlots": "{slots} Slot Bag"
+      "bagSlots": "Сумка на {slots} ячеек"
     },
     "bags": {
       "title": "Сумки",

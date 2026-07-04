@@ -155,9 +155,9 @@ export const id_ID: EnTranslations = {
       "banner": "Menonton {name}"
     },
     "death": {
-      "resurrectAtCorpse": "Resurrect at Corpse",
-      "resurrectAtHealer": "The Pale Keeper (Keeper's Toll)",
-      "spiritHealerAlive": "The Pale Keeper watches over the dead. You are still among the living."
+      "resurrectAtCorpse": "Bangkit di Jasad",
+      "resurrectAtHealer": "Sang Penjaga Pucat (Upeti Sang Penjaga)",
+      "spiritHealerAlive": "Sang Penjaga Pucat mengawasi para mati. Kamu masih termasuk yang hidup."
     },
     "emotes": {
       "wave": "Melambai",
@@ -188,7 +188,7 @@ export const id_ID: EnTranslations = {
       "loading": "Memuat hadiah harian...",
       "error": "Tidak dapat memuat hadiah harian.",
       "intro": "Simpan cukup WOC di dompet terverifikasimu untuk membuka hadiah harian. Kumpulkan poin lewat satu putaran harian dan tugas yang bergilir, lalu naiki papan peringkat harian untuk mendapat bagian dari kolam hadiah.",
-      "disclaimer": "WOC price can move quickly. We recommend holding more than the $20 USD minimum so normal price swings do not lock you out. This is not financial advice.",
+      "disclaimer": "Harga WOC dapat bergerak cepat. Kami menyarankan untuk menyimpan lebih dari batas minimum $20 USD agar gejolak harga yang wajar tidak mengunci aksesmu. Ini bukan nasihat keuangan.",
       "prize": "Kolam Hadiah",
       "reset": "Atur Ulang",
       "endsIn": "Berakhir dalam {time}",
@@ -208,13 +208,17 @@ export const id_ID: EnTranslations = {
       "spinResult": "+{points} poin",
       "spinButton": "Putar",
       "tasks": "Tugas",
-      "taskMultiplier": "x{multiplier} multiplier",
-      "pointsGained": "{points} daily rewards points gained.",
+      "taskMultiplier": "pengali x{multiplier}",
+      "pointsGained": "{points} poin hadiah harian diperoleh.",
       "showChestButton": "Tampilkan Peti",
       "hideChestButton": "Sembunyikan Peti",
+      "hideChestConfirmTitle": "Sembunyikan Peti Hadiah Harian?",
+      "hideChestConfirmBody": "Ini menghapus pintasan peti dari HUD-mu. Hadiah, kelayakan, dan panel ini tetap tersedia; kamu bisa mengembalikan pintasannya dari Opsi.",
+      "hideChestConfirmOk": "Sembunyikan Peti",
+      "hideChestConfirmCancel": "Batal",
       "leaderboard": "Papan Peringkat Harian",
-      "totalPlayer": "{count} player today",
-      "totalPlayers": "{count} players today",
+      "totalPlayer": "{count} pemain hari ini",
+      "totalPlayers": "{count} pemain hari ini",
       "history": "Pemenang Sebelumnya",
       "noLeaders": "Belum ada poin.",
       "noHistory": "Belum ada pembayaran.",
@@ -290,8 +294,8 @@ export const id_ID: EnTranslations = {
       "partyGroup": "Grup {n}",
       "durationUnitSeconds": "d",
       "durationUnitMinutes": "m",
-      "durationUnitHours": "h",
-      "durationUnitDays": "d"
+      "durationUnitHours": "j",
+      "durationUnitDays": "h"
     },
     "character": {
       "modelPreview": "Pratinjau Model Karakter"
@@ -401,20 +405,20 @@ export const id_ID: EnTranslations = {
       "showWalletOnCharacterScreen": "Tampilkan Dompet di Layar Karakter",
       "showWalletOnPlayerCard": "Tampilkan Dompet di Kartu Pemain",
       "showDevBadges": "Tampilkan Lencana Pengembang",
-      "showOwnNameplate": "Show My Nameplate",
+      "showOwnNameplate": "Tampilkan Papan Namaku",
       "uiScale": "Skala UI",
-      "playerFrameScale": "Player Frame Scale",
-      "targetFrameScale": "Target Frame Scale",
-      "aurasOnPlayerFrame": "Buffs on the Player Frame",
+      "playerFrameScale": "Skala Bingkai Pemain",
+      "targetFrameScale": "Skala Bingkai Sasaran",
+      "aurasOnPlayerFrame": "Buff pada Bingkai Pemain",
       "highContrastBackground": "Latar Kontras Tinggi",
       "startAttackOnAbility": "Serangan Otomatis Saat Memakai Kemampuan",
-      "walkByAutoloot": "Walk-by Autoloot",
+      "walkByAutoloot": "Jarah Otomatis Sambil Lewat",
       "groundReticle": "Retikel bidik darat",
       "showItemLevel": "Tampilkan Level Item",
       "itemLevelLine": "Level Item {level}",
       "itemScoreLine": "Skor {score}",
       "showSecondaryActionBar": "Tampilkan Bilah Aksi Sekunder",
-      "showDailyRewardsChest": "Show Daily Rewards Chest"
+      "showDailyRewardsChest": "Tampilkan Peti Hadiah Harian"
     },
     "controller": {
       "title": "Kontroler",
@@ -734,7 +738,7 @@ export const id_ID: EnTranslations = {
     },
     "party": {
       "promoteLeader": "Angkat jadi Pemimpin",
-      "inviteUsage": "Invite whom? Usage: /invite <name>."
+      "inviteUsage": "Mengundang siapa? Penggunaan: /invite <name>."
     },
     "lootSettings": {
       "title": "Pengaturan Jarahan",
@@ -763,11 +767,11 @@ export const id_ID: EnTranslations = {
       "searchAria": "Cari barang tas berdasarkan nama",
       "noMatch": "Tidak ada barang yang cocok dengan saringanmu.",
       "capacity": "{used}/{total}",
-      "capacityAria": "Bag slots used: {used} of {total}",
-      "backpack": "Backpack",
+      "capacityAria": "Slot tas terpakai: {used} dari {total}",
+      "backpack": "Ransel",
       "bagSocketAria": "{name}: {slots}",
-      "socketEmpty": "Empty bag slot",
-      "unequipHint": "Click to remove this bag"
+      "socketEmpty": "Slot tas kosong",
+      "unequipHint": "Klik untuk melepas tas ini"
     },
     "raidConvert": {
       "toPartyDone": "Raid Anda telah diubah kembali menjadi rombongan.",
@@ -810,7 +814,7 @@ export const id_ID: EnTranslations = {
         "spi": "Reduce el espíritu en {value}",
         "allStats": "Reduce todos los atributos en {value}"
       },
-      "allStatsPctReduce": "Reduces all attributes by {pct}%",
+      "allStatsPctReduce": "Mengurangi semua atribut sebesar {pct}%",
       "dodge": "Aumenta la probabilidad de esquivar un {pct}%",
       "dodgeReduce": "Reduce la probabilidad de esquivar un {pct}%",
       "armorFlat": "Reduce la armadura en {value}",
@@ -851,7 +855,7 @@ export const id_ID: EnTranslations = {
       }
     },
     "worldBoss": {
-      "spawn": "{name} rises over Thornpeak Heights!"
+      "spawn": "{name} bangkit di atas Dataran Tinggi Thornpeak!"
     },
     "loot": {
       "chestTitle": "Peti"
@@ -865,21 +869,21 @@ export const id_ID: EnTranslations = {
       "mobElite": "[{level}+] {name}"
     },
     "mobTooltip": {
-      "levelFamily": "Level {level} {family}",
-      "familyDemon": "Demon",
-      "hostile": "Hostile",
-      "friendly": "Friendly"
+      "levelFamily": "{family} Level {level}",
+      "familyDemon": "Iblis",
+      "hostile": "Bermusuhan",
+      "friendly": "Ramah"
     },
     "targetFrame": {
-      "unlock": "Move target frame",
-      "lock": "Lock target frame"
+      "unlock": "Pindahkan bingkai sasaran",
+      "lock": "Kunci bingkai sasaran"
     },
     "playerFrame": {
-      "unlock": "Move player frame",
-      "lock": "Lock player frame"
+      "unlock": "Pindahkan bingkai pemain",
+      "lock": "Kunci bingkai pemain"
     },
     "frameReset": {
-      "label": "Reset Frame Positions"
+      "label": "Atur Ulang Posisi Bingkai"
     },
     "itemTooltip": {
       "requiresLevel": "Membutuhkan Level {level}"
@@ -1057,114 +1061,114 @@ export const id_ID: EnTranslations = {
       "unlink": "Putuskan Tautan GitHub"
     },
     "mailbox": {
-      "title": "Mailbox",
-      "subtitle": "The Ravenpost",
-      "close": "Close mailbox",
-      "tabInbox": "Inbox",
-      "tabInboxWithCount": "Inbox ({count})",
-      "tabSend": "Send",
-      "empty": "Your mailbox is empty.",
-      "truncated": "Showing the newest {shown} of {total} letters.",
-      "attachmentsBadge": "Parcel attached",
-      "unreadBadge": "Unread",
-      "back": "Back",
-      "take": "Take attachments",
-      "delete": "Delete letter",
-      "deleteAria": "Delete the letter {subject}",
-      "openAria": "Read the letter {subject} from {name}",
-      "noSubject": "(no subject)",
-      "toLabel": "To",
-      "toPlaceholder": "Character name",
-      "subjectLabel": "Subject",
-      "bodyLabel": "Message",
-      "coinLabel": "Attach coin",
-      "parcelsLabel": "Parcels",
-      "parcelsHint": "Click an item in your bags to attach it.",
-      "removeParcelAria": "Remove {item} from the letter",
-      "sendButton": "Send letter",
-      "postageNote": "Postage: {amount}. The raven flies for about {seconds}s.",
-      "arrivedBanner": "The raven has landed: mail from {name}.",
-      "arrivedLog": "You have new mail from {name}.",
-      "indicatorAria": "Unread mail: {count}",
-      "indicatorTip": "You have {count} unread letters. Visit a mailbox to read them.",
-      "clickAttach": "Click to attach to your letter.",
-      "cannotMail": "This cannot be mailed.",
+      "title": "Kotak Surat",
+      "subtitle": "Pos Gagak",
+      "close": "Tutup kotak surat",
+      "tabInbox": "Kotak Masuk",
+      "tabInboxWithCount": "Kotak Masuk ({count})",
+      "tabSend": "Kirim",
+      "empty": "Kotak suratmu kosong.",
+      "truncated": "Menampilkan {shown} surat terbaru dari {total}.",
+      "attachmentsBadge": "Bingkisan terlampir",
+      "unreadBadge": "Belum dibaca",
+      "back": "Kembali",
+      "take": "Ambil lampiran",
+      "delete": "Hapus surat",
+      "deleteAria": "Hapus surat {subject}",
+      "openAria": "Baca surat {subject} dari {name}",
+      "noSubject": "(tanpa subjek)",
+      "toLabel": "Kepada",
+      "toPlaceholder": "Nama karakter",
+      "subjectLabel": "Subjek",
+      "bodyLabel": "Pesan",
+      "coinLabel": "Lampirkan koin",
+      "parcelsLabel": "Bingkisan",
+      "parcelsHint": "Klik barang di tasmu untuk melampirkannya.",
+      "removeParcelAria": "Keluarkan {item} dari surat",
+      "sendButton": "Kirim surat",
+      "postageNote": "Perangko: {amount}. Gagak terbang selama sekitar {seconds} detik.",
+      "arrivedBanner": "Gagak telah mendarat: surat dari {name}.",
+      "arrivedLog": "Kamu mendapat surat baru dari {name}.",
+      "indicatorAria": "Surat belum dibaca: {count}",
+      "indicatorTip": "Kamu punya {count} surat belum dibaca. Kunjungi kotak surat untuk membacanya.",
+      "clickAttach": "Klik untuk melampirkan ke suratmu.",
+      "cannotMail": "Ini tidak bisa dikirim lewat surat.",
       "result": {
-        "sent": "A raven takes wing with your letter to {name} ({postage} postage).",
-        "collected": "You collect {amount} from the letter.",
-        "tooFar": "You must be at a mailbox to tend your post.",
-        "needRecipient": "Name a recipient for your letter.",
-        "noRecipient": "No one by that name holds a mailbox here.",
-        "tooManyParcels": "A letter carries at most {count} parcels.",
-        "noMailQuestItems": "You cannot mail quest items.",
-        "notEnoughItems": "You do not have that many to send.",
-        "cantAffordPostage": "You cannot afford the postage.",
-        "recipientBoxFull": "Their mailbox is full.",
-        "letterGone": "That letter is no longer in your box.",
-        "takeParcelsFirst": "Take the parcels out before discarding the letter."
+        "sent": "Seekor gagak terbang membawa suratmu kepada {name} (perangko {postage}).",
+        "collected": "Kamu mengambil {amount} dari surat itu.",
+        "tooFar": "Kamu harus berada di kotak surat untuk mengurus kirimanmu.",
+        "needRecipient": "Sebutkan penerima untuk suratmu.",
+        "noRecipient": "Tidak ada orang dengan nama itu yang memiliki kotak surat di sini.",
+        "tooManyParcels": "Satu surat memuat paling banyak {count} bingkisan.",
+        "noMailQuestItems": "Kamu tidak bisa mengirim barang misi lewat surat.",
+        "notEnoughItems": "Kamu tidak punya sebanyak itu untuk dikirim.",
+        "cantAffordPostage": "Kamu tidak mampu membayar perangkonya.",
+        "recipientBoxFull": "Kotak surat mereka penuh.",
+        "letterGone": "Surat itu sudah tidak ada di kotakmu.",
+        "takeParcelsFirst": "Keluarkan bingkisannya dulu sebelum membuang surat itu."
       }
     },
     "calendar": {
-      "title": "Event Calendar",
-      "close": "Close calendar",
-      "keybindLabel": "Event Calendar",
-      "prevMonth": "Previous month",
-      "nextMonth": "Next month",
-      "dayAria": "{date}: {count} events",
-      "noEvents": "Nothing planned for this day.",
-      "allDay": "All day",
-      "bookedBy": "Booked by {name}",
-      "deleteAria": "Remove the event {title}",
-      "bookTitle": "Book a guild event",
-      "titlePlaceholder": "Event title",
-      "notePlaceholder": "Note (optional)",
-      "hourLabel": "Hour (UTC)",
-      "hourAllDay": "All day",
-      "addButton": "Book event",
-      "guildOnlyNote": "Join a guild to plan events together.",
+      "title": "Kalender Acara",
+      "close": "Tutup kalender",
+      "keybindLabel": "Kalender Acara",
+      "prevMonth": "Bulan sebelumnya",
+      "nextMonth": "Bulan berikutnya",
+      "dayAria": "{date}: {count} acara",
+      "noEvents": "Tidak ada rencana untuk hari ini.",
+      "allDay": "Sepanjang hari",
+      "bookedBy": "Dijadwalkan oleh {name}",
+      "deleteAria": "Hapus acara {title}",
+      "bookTitle": "Jadwalkan acara guild",
+      "titlePlaceholder": "Judul acara",
+      "notePlaceholder": "Catatan (opsional)",
+      "hourLabel": "Jam (UTC)",
+      "hourAllDay": "Sepanjang hari",
+      "addButton": "Jadwalkan acara",
+      "guildOnlyNote": "Bergabunglah dengan guild untuk merencanakan acara bersama.",
       "result": {
-        "created": "The event is on the guild calendar.",
-        "removed": "The event was taken off the calendar.",
-        "notInGuild": "You are not in a guild.",
-        "notOfficer": "Only officers and the Guild Master may manage guild events.",
-        "badInput": "Give the event a title and a valid day.",
-        "calendarFull": "The guild calendar is full.",
-        "eventGone": "That event is no longer on the calendar."
+        "created": "Acara sudah masuk kalender guild.",
+        "removed": "Acara itu telah dihapus dari kalender.",
+        "notInGuild": "Kamu tidak tergabung dalam guild.",
+        "notOfficer": "Hanya perwira dan Pemimpin Serikat yang boleh mengelola acara guild.",
+        "badInput": "Beri acara itu judul dan hari yang valid.",
+        "calendarFull": "Kalender guild sudah penuh.",
+        "eventGone": "Acara itu sudah tidak ada di kalender."
       },
       "events": {
         "raidCall": {
-          "title": "Raid Call",
-          "note": "Wardens sound the horn: gather a party for the crypts and the raid."
+          "title": "Panggilan Raid",
+          "note": "Para penjaga membunyikan terompet: kumpulkan party untuk kripta dan raid."
         },
         "marketDay": {
-          "title": "Market Day",
-          "note": "The Merchant expects fresh stock. A fine day to browse the World Market."
+          "title": "Hari Pasar",
+          "note": "Sang Pedagang menantikan stok segar. Hari yang baik untuk menjelajahi Pasar Dunia."
         },
         "fiestaNight": {
-          "title": "Fiesta Night",
-          "note": "The 2v2 Fiesta ring draws its loudest crowds tonight."
+          "title": "Malam Fiesta",
+          "note": "Gelanggang Fiesta 2v2 menarik penonton paling riuh malam ini."
         },
         "arenaClash": {
-          "title": "Arena Clash",
-          "note": "Duelists flock to the Ashen Coliseum. Queue up and climb the ladder."
+          "title": "Bentrokan Arena",
+          "note": "Para duelis berbondong-bondong ke Koloseum Abu. Masuklah antrean dan panjat tangga peringkat."
         },
         "fishingDerby": {
-          "title": "Fishing Derby",
-          "note": "Anglers line the lakes. Bring a pole and swap fishing tales."
+          "title": "Lomba Memancing",
+          "note": "Para pemancing berjajar di tepi danau. Bawalah joran dan saling bertukar kisah memancing."
         },
         "delveDay": {
-          "title": "Delve Day",
-          "note": "Brother Halven marks his charts: a fine day to brave the Collapsed Reliquary."
+          "title": "Hari Delve",
+          "note": "Bruder Halven menandai petanya: hari yang baik untuk menantang Relikuari Runtuh."
         },
         "moongateCommunion": {
-          "title": "Moongate Communion",
-          "note": "Pilgrims gather at the temple moongate under the mid-month moon."
+          "title": "Komuni Gerbang Bulan",
+          "note": "Para peziarah berkumpul di gerbang bulan kuil di bawah rembulan pertengahan bulan."
         }
       }
     },
     "social": {
-      "lastSeen": "Last seen: {when}",
-      "lastSeenNever": "never"
+      "lastSeen": "Terakhir terlihat: {when}",
+      "lastSeenNever": "tidak pernah"
     }
   },
   "guide": {
@@ -1994,427 +1998,427 @@ export const id_ID: EnTranslations = {
     }
   },
   "editor": {
-    "appTitle": "Map Editor",
-    "docTitle": "Map Editor - World of ClaudeCraft",
-    "untitledMap": "Untitled Map",
-    "playtestPlayerName": "Mapmaker",
+    "appTitle": "Editor Peta",
+    "docTitle": "Editor Peta - World of ClaudeCraft",
+    "untitledMap": "Peta Tanpa Judul",
+    "playtestPlayerName": "Pembuat Peta",
     "topbar": {
-      "label": "Editor actions",
-      "mapNameLabel": "Map name",
-      "dirty": "Unsaved changes",
-      "dirtyDot": "This map has unsaved changes",
-      "clean": "All changes saved",
-      "savedLocal": "Saved in this browser",
-      "savedServer": "Saved to server (v{version})",
-      "saving": "Saving...",
-      "neverSaved": "Not saved yet",
-      "new": "New",
-      "newTitle": "Start a new map from the built-in world",
-      "open": "Open",
-      "openTitle": "Open a saved map (browser or server)",
-      "save": "Save",
-      "saveTitle": "Save to this browser, and to the server when signed in (Ctrl+S)",
-      "saveAs": "Save As",
-      "saveAsTitle": "Save a copy under a new name",
+      "label": "Aksi editor",
+      "mapNameLabel": "Nama peta",
+      "dirty": "Perubahan belum tersimpan",
+      "dirtyDot": "Peta ini punya perubahan belum tersimpan",
+      "clean": "Semua perubahan tersimpan",
+      "savedLocal": "Tersimpan di peramban ini",
+      "savedServer": "Tersimpan ke server (v{version})",
+      "saving": "Menyimpan...",
+      "neverSaved": "Belum disimpan",
+      "new": "Baru",
+      "newTitle": "Mulai peta baru dari dunia bawaan",
+      "open": "Buka",
+      "openTitle": "Buka peta tersimpan (peramban atau server)",
+      "save": "Simpan",
+      "saveTitle": "Simpan ke peramban ini, dan ke server saat sudah masuk (Ctrl+S)",
+      "saveAs": "Simpan Sebagai",
+      "saveAsTitle": "Simpan salinan dengan nama baru",
       "fork": "Fork",
-      "forkTitle": "Create your own server-side copy of this map",
-      "forkDisabledTitle": "Open a server map first to fork it",
-      "import": "Import",
-      "importTitle": "Import a map from a JSON file",
-      "export": "Export",
-      "exportTitle": "Download this map as a JSON file",
-      "uploadAsset": "Upload Asset",
-      "uploadAssetTitle": "Upload a GLB model (up to 8 MiB) to place in your maps",
-      "uploadAssetDisabledTitle": "Sign in from the game to upload assets",
-      "playtest": "Playtest",
-      "playtestTitle": "Boot the game on this map (offline, current edits included)",
-      "viewLabel": "View mode",
+      "forkTitle": "Buat salinan sisi server milikmu dari peta ini",
+      "forkDisabledTitle": "Buka peta server terlebih dahulu untuk membuat fork-nya",
+      "import": "Impor",
+      "importTitle": "Impor peta dari berkas JSON",
+      "export": "Ekspor",
+      "exportTitle": "Unduh peta ini sebagai berkas JSON",
+      "uploadAsset": "Unggah Aset",
+      "uploadAssetTitle": "Unggah model GLB (hingga 8 MiB) untuk ditempatkan di petamu",
+      "uploadAssetDisabledTitle": "Masuk dari permainan untuk mengunggah aset",
+      "playtest": "Uji Main",
+      "playtestTitle": "Jalankan permainan pada peta ini (luring, termasuk suntingan saat ini)",
+      "viewLabel": "Mode tampilan",
       "view3d": "3D",
-      "view3dTitle": "Edit in the rendered world",
+      "view3dTitle": "Sunting di dunia yang dirender",
       "view2d": "2D",
-      "view2dTitle": "Edit on the symbolic overhead map",
-      "undoCount": "Undo: {count}",
-      "undoCountTitle": "{count} undoable steps (Ctrl+Z to undo, Ctrl+Y to redo)",
-      "autosave": "Autosave",
-      "autosaveTitle": "Automatically save the map while there are unsaved changes. Turns itself off if a save fails.",
-      "undo": "Undo",
-      "undoTitle": "Undo the last change (Ctrl+Z)",
-      "redo": "Redo",
-      "redoTitle": "Redo the last undone change (Ctrl+Y)",
-      "offline": "Offline",
-      "offlineTitle": "Not signed in: maps save to this browser only. Sign in from the game to save online.",
-      "signIn": "Sign in",
-      "signInTitle": "Open the game login screen in a new tab",
-      "help": "Help",
-      "helpTitle": "Editor guide: tools, shortcuts, and the tutorial"
+      "view2dTitle": "Sunting pada peta atas simbolis",
+      "undoCount": "Urungkan: {count}",
+      "undoCountTitle": "{count} langkah dapat diurungkan (Ctrl+Z untuk mengurungkan, Ctrl+Y untuk mengulangi)",
+      "autosave": "Simpan Otomatis",
+      "autosaveTitle": "Menyimpan peta secara otomatis selama ada perubahan belum tersimpan. Mati sendiri jika penyimpanan gagal.",
+      "undo": "Urungkan",
+      "undoTitle": "Urungkan perubahan terakhir (Ctrl+Z)",
+      "redo": "Ulangi",
+      "redoTitle": "Ulangi perubahan yang terakhir diurungkan (Ctrl+Y)",
+      "offline": "Luring",
+      "offlineTitle": "Tidak masuk: peta hanya tersimpan di peramban ini. Masuk dari permainan untuk menyimpan daring.",
+      "signIn": "Masuk",
+      "signInTitle": "Buka layar masuk permainan di tab baru",
+      "help": "Bantuan",
+      "helpTitle": "Panduan editor: alat, pintasan, dan tutorial"
     },
     "tool": {
-      "listLabel": "Editor tools",
+      "listLabel": "Alat editor",
       "keyHint": "{name} ({key})",
-      "select": "Select",
-      "raise": "Raise",
-      "lower": "Lower",
-      "smooth": "Smooth",
-      "flatten": "Flatten",
-      "paint": "Paint Biome",
-      "water": "Water",
-      "place": "Place Asset",
-      "blocker": "Blocker Wall",
-      "camp": "Camp",
-      "spawn": "Spawn Point",
-      "region": "Region",
-      "erase": "Erase"
+      "select": "Pilih",
+      "raise": "Naikkan",
+      "lower": "Turunkan",
+      "smooth": "Haluskan",
+      "flatten": "Ratakan",
+      "paint": "Cat Bioma",
+      "water": "Air",
+      "place": "Tempatkan Aset",
+      "blocker": "Dinding Penghalang",
+      "camp": "Kemah",
+      "spawn": "Titik Kemunculan",
+      "region": "Wilayah",
+      "erase": "Hapus"
     },
     "inspector": {
-      "label": "Tool options"
+      "label": "Opsi alat"
     },
     "brush": {
-      "title": "Brush",
-      "size": "Brush size",
-      "strength": "Strength",
-      "sizeHint": "Keys: [ and ] resize the brush; Shift+[ and Shift+] change strength.",
-      "editCount": "Terrain edits: {count} / {max}"
+      "title": "Kuas",
+      "size": "Ukuran kuas",
+      "strength": "Kekuatan",
+      "sizeHint": "Tombol: [ dan ] mengubah ukuran kuas; Shift+[ dan Shift+] mengubah kekuatannya.",
+      "editCount": "Suntingan medan: {count} / {max}"
     },
     "biome": {
-      "title": "Biome",
-      "paletteLabel": "Biome to paint",
-      "vale": "Vale",
-      "marsh": "Marsh",
-      "peaks": "Peaks",
-      "beach": "Beach",
-      "desert": "Desert",
-      "volcano": "Volcano",
-      "cave": "Cave",
-      "erase": "Erase paint",
-      "hint": "Painted cells override the zone biome for terrain shape and color.",
-      "clear": "Clear all biome paint",
-      "clearConfirm": "Remove every painted biome cell from this map?"
+      "title": "Bioma",
+      "paletteLabel": "Bioma untuk dicat",
+      "vale": "Lembah",
+      "marsh": "Rawa",
+      "peaks": "Puncak",
+      "beach": "Pantai",
+      "desert": "Gurun",
+      "volcano": "Gunung Berapi",
+      "cave": "Gua",
+      "erase": "Hapus cat",
+      "hint": "Sel yang dicat menimpa bioma zona untuk bentuk dan warna medan.",
+      "clear": "Bersihkan semua cat bioma",
+      "clearConfirm": "Hapus setiap sel bioma yang dicat dari peta ini?"
     },
     "flatten": {
-      "hint": "Flatten levels the ground to the height under the cursor when the drag starts.",
-      "hardEdge": "Hard edge"
+      "hint": "Ratakan menyamakan tanah ke ketinggian di bawah kursor saat seretan dimulai.",
+      "hardEdge": "Tepi tajam"
     },
     "water": {
-      "title": "Water Level",
-      "level": "Water level",
-      "hint": "Sets the map-wide water surface height, from {min} to {max} yards.",
-      "reset": "Reset to the built-in level"
+      "title": "Ketinggian Air",
+      "level": "Ketinggian air",
+      "hint": "Mengatur ketinggian permukaan air seluruh peta, dari {min} hingga {max} yard.",
+      "reset": "Atur ulang ke ketinggian bawaan"
     },
     "place": {
-      "title": "Place Asset",
-      "scale": "Scale",
-      "collide": "Blocks movement",
-      "collideHint": "A blocking asset gets a collision footprint players cannot walk through.",
-      "randomRotation": "Random rotation",
-      "chosen": "Placing: {name}",
-      "none": "Pick an asset from the browser below, then click the ground to place it."
+      "title": "Tempatkan Aset",
+      "scale": "Skala",
+      "collide": "Menghalangi pergerakan",
+      "collideHint": "Aset penghalang mendapat jejak tabrakan yang tidak bisa dilewati pemain dengan berjalan.",
+      "randomRotation": "Rotasi acak",
+      "chosen": "Menempatkan: {name}",
+      "none": "Pilih aset dari peramban di bawah, lalu klik tanah untuk menempatkannya."
     },
     "blockerTool": {
-      "title": "Blocker Wall",
-      "hint": "Drag along the ground to draw an invisible wall players cannot walk or jump through. Release to place it; a wall shorter than half a yard is discarded.",
-      "count": "Blocker walls: {count} / {max}"
+      "title": "Dinding Penghalang",
+      "hint": "Seret di sepanjang tanah untuk menggambar dinding tak kasatmata yang tidak bisa dilewati pemain dengan berjalan atau melompat. Lepaskan untuk menempatkannya; dinding yang lebih pendek dari setengah yard akan dibuang.",
+      "count": "Dinding penghalang: {count} / {max}"
     },
     "camp": {
-      "title": "Mob Camp",
+      "title": "Kemah Mob",
       "mob": "Mob",
-      "count": "Count",
+      "count": "Jumlah",
       "radius": "Radius",
-      "delete": "Delete camp",
-      "hint": "Click open ground to add a camp, or click an existing camp to edit it.",
-      "playtestNote": "Mobs spawn only in playtest, never in the editor view.",
-      "selected": "Camp: {mob}",
-      "none": "No camp selected."
+      "delete": "Hapus kemah",
+      "hint": "Klik tanah kosong untuk menambah kemah, atau klik kemah yang ada untuk menyuntingnya.",
+      "playtestNote": "Mob hanya muncul saat uji main, tidak pernah di tampilan editor.",
+      "selected": "Kemah: {mob}",
+      "none": "Tidak ada kemah yang dipilih."
     },
     "spawn": {
-      "title": "Spawn Point",
-      "hint": "Click the ground to set where playtest drops the player.",
-      "position": "Spawn: {x}, {z}",
-      "unset": "Using the built-in start position.",
-      "clear": "Clear spawn point"
+      "title": "Titik Kemunculan",
+      "hint": "Klik tanah untuk menentukan tempat pemain muncul saat uji main.",
+      "position": "Kemunculan: {x}, {z}",
+      "unset": "Menggunakan posisi awal bawaan.",
+      "clear": "Hapus titik kemunculan"
     },
     "region": {
-      "title": "Region",
-      "hint": "Drag a box to select placements and terrain edits. Copy, then click to paste.",
-      "hint3d": "Region boxes draw in the 2D view; copy and paste work in both views.",
-      "copy": "Copy region",
-      "pasteBeside": "Paste beside",
-      "copied": "Copied {assets} assets and {edits} terrain edits.",
-      "pasted": "Pasted {count} items.",
-      "needBox": "Draw a region box first.",
-      "needClipboard": "Copy a region first."
+      "title": "Wilayah",
+      "hint": "Seret kotak untuk memilih penempatan dan suntingan medan. Salin, lalu klik untuk menempel.",
+      "hint3d": "Kotak wilayah digambar di tampilan 2D; salin dan tempel berfungsi di kedua tampilan.",
+      "copy": "Salin wilayah",
+      "pasteBeside": "Tempel di samping",
+      "copied": "Menyalin {assets} aset dan {edits} suntingan medan.",
+      "pasted": "Menempel {count} item.",
+      "needBox": "Gambar kotak wilayah terlebih dahulu.",
+      "needClipboard": "Salin wilayah terlebih dahulu."
     },
     "eraseTool": {
-      "title": "Erase",
-      "hint": "Click a placed asset to remove it, or click sculpted ground to remove the newest stamp under the cursor.",
-      "blockerHint": "Clicking near a blocker wall removes that wall instead."
+      "title": "Hapus",
+      "hint": "Klik aset terpasang untuk menghapusnya, atau klik tanah pahatan untuk menghapus cap terbaru di bawah kursor.",
+      "blockerHint": "Mengeklik di dekat dinding penghalang akan menghapus dinding itu."
     },
     "selection": {
-      "title": "Selection",
-      "none": "Nothing selected. Use Select and click a placed asset.",
-      "asset": "Asset: {name}",
+      "title": "Seleksi",
+      "none": "Tidak ada yang dipilih. Gunakan Pilih dan klik aset yang terpasang.",
+      "asset": "Aset: {name}",
       "x": "X",
       "z": "Z",
-      "rotation": "Rotation",
-      "scale": "Scale",
-      "collide": "Blocks movement",
-      "radius": "Collision radius",
-      "radiusAuto": "Auto",
-      "radiusAutoTitle": "Reset the collision radius to follow the asset scale",
-      "radiusHint": "Auto derives the collision radius from the asset scale; drag the slider to override it.",
-      "footprints": "Show collision footprints",
-      "duplicate": "Duplicate",
-      "delete": "Delete",
-      "deleteHint": "Delete removes the selection; Ctrl+Z restores it.",
-      "moveHint": "Move: drag the asset along the ground in the 3D view, or nudge it with the arrow keys (0.5 yd, Shift for 2 yd).",
-      "wheelHint": "Shift+scroll rotates the asset, Alt+scroll scales it, Ctrl+D duplicates it."
+      "rotation": "Rotasi",
+      "scale": "Skala",
+      "collide": "Menghalangi pergerakan",
+      "radius": "Radius tabrakan",
+      "radiusAuto": "Otomatis",
+      "radiusAutoTitle": "Atur ulang radius tabrakan agar mengikuti skala aset",
+      "radiusHint": "Otomatis menurunkan radius tabrakan dari skala aset; seret penggeser untuk menimpanya.",
+      "footprints": "Tampilkan jejak tabrakan",
+      "duplicate": "Duplikasi",
+      "delete": "Hapus",
+      "deleteHint": "Hapus akan membuang seleksi; Ctrl+Z mengembalikannya.",
+      "moveHint": "Pindah: seret aset di sepanjang tanah pada tampilan 3D, atau geser dengan tombol panah (0,5 yard, Shift untuk 2 yard).",
+      "wheelHint": "Shift+gulir memutar aset, Alt+gulir mengubah skalanya, Ctrl+D menduplikasinya."
     },
     "marker": {
-      "title": "Marker",
-      "reset": "Reset position",
-      "moved": "{count} markers moved from the built-in layout."
+      "title": "Penanda",
+      "reset": "Atur ulang posisi",
+      "moved": "{count} penanda dipindahkan dari tata letak bawaan."
     },
     "layers": {
-      "title": "Layers",
-      "hub": "Hubs",
-      "graveyard": "Graveyards",
-      "lake": "Lakes",
-      "poi": "Points of interest",
-      "camp": "Camps",
-      "npc": "NPCs",
-      "object": "Objects",
-      "blocker": "Blocker walls"
+      "title": "Lapisan",
+      "hub": "Hub",
+      "graveyard": "Kuburan",
+      "lake": "Danau",
+      "poi": "Titik menarik",
+      "camp": "Kemah",
+      "npc": "NPC",
+      "object": "Objek",
+      "blocker": "Dinding penghalang"
     },
     "frame": {
-      "title": "Frame",
-      "all": "All"
+      "title": "Bingkai",
+      "all": "Semua"
     },
     "procgen": {
-      "title": "Procedural",
-      "count": "Count",
-      "scatter": "Scatter category assets",
-      "hills": "Generate rolling hills",
-      "scattered": "Scattered {count} assets from {category}.",
-      "hillsAdded": "Added {count} hills.",
-      "noAssets": "No assets in that category."
+      "title": "Prosedural",
+      "count": "Jumlah",
+      "scatter": "Sebar aset kategori",
+      "hills": "Buat perbukitan landai",
+      "scattered": "Menyebar {count} aset dari {category}.",
+      "hillsAdded": "Menambahkan {count} bukit.",
+      "noAssets": "Tidak ada aset dalam kategori itu."
     },
     "assets": {
-      "title": "Asset Browser",
-      "label": "Asset browser",
-      "search": "Search assets",
-      "searchPlaceholder": "Search assets...",
-      "empty": "No matching assets.",
-      "uploadedTab": "Uploaded",
-      "uploadedEmpty": "No uploaded assets yet. Use Upload Asset to add a GLB model (up to 8 MiB).",
-      "uploadedSignIn": "Sign in from the game to upload and place your own GLB models.",
-      "uploadedLoadFailed": "Could not load your uploaded assets.",
-      "deleteAsset": "Delete uploaded asset",
-      "deleteAssetConfirm": "Delete the uploaded asset \"{name}\"? Maps that use it lose the model.",
-      "pick": "Place {name}",
+      "title": "Peramban Aset",
+      "label": "Peramban aset",
+      "search": "Cari aset",
+      "searchPlaceholder": "Cari aset...",
+      "empty": "Tidak ada aset yang cocok.",
+      "uploadedTab": "Unggahan",
+      "uploadedEmpty": "Belum ada aset yang diunggah. Gunakan Unggah Aset untuk menambahkan model GLB (hingga 8 MiB).",
+      "uploadedSignIn": "Masuk dari permainan untuk mengunggah dan menempatkan model GLB milikmu sendiri.",
+      "uploadedLoadFailed": "Tidak dapat memuat aset unggahanmu.",
+      "deleteAsset": "Hapus aset yang diunggah",
+      "deleteAssetConfirm": "Hapus aset unggahan \"{name}\"? Peta yang memakainya akan kehilangan modelnya.",
+      "pick": "Tempatkan {name}",
       "categoryTab": "{category} ({count})",
       "category": {
-        "biome": "Biome",
-        "chars": "Characters",
-        "creatures": "Creatures",
+        "biome": "Bioma",
+        "chars": "Karakter",
+        "creatures": "Makhluk",
         "dungeon": "Dungeon",
-        "foliage": "Foliage",
-        "props": "Props",
-        "quest": "Quest",
-        "resources": "Resources",
-        "tools": "Tools",
-        "weapons": "Weapons"
+        "foliage": "Dedaunan",
+        "props": "Properti",
+        "quest": "Misi",
+        "resources": "Sumber Daya",
+        "tools": "Perkakas",
+        "weapons": "Senjata"
       }
     },
     "upload": {
-      "notGlb": "Pick a .glb file.",
-      "tooLarge": "That file is over the 8 MiB limit.",
-      "uploading": "Uploading asset...",
-      "uploaded": "Asset uploaded: {name}",
-      "uploadedExisting": "That model was already on the server; reusing it.",
-      "deleted": "Uploaded asset deleted."
+      "notGlb": "Pilih berkas .glb.",
+      "tooLarge": "Berkas itu melebihi batas 8 MiB.",
+      "uploading": "Mengunggah aset...",
+      "uploaded": "Aset terunggah: {name}",
+      "uploadedExisting": "Model itu sudah ada di server; menggunakannya kembali.",
+      "deleted": "Aset yang diunggah dihapus."
     },
     "openDrawer": {
-      "title": "Open Map",
-      "close": "Close",
-      "tabLocal": "This Browser",
-      "tabMine": "My Server Maps",
-      "tabPublic": "Public Maps",
-      "colName": "Name",
-      "colUpdated": "Updated",
+      "title": "Buka Peta",
+      "close": "Tutup",
+      "tabLocal": "Peramban Ini",
+      "tabMine": "Peta Server Saya",
+      "tabPublic": "Peta Publik",
+      "colName": "Nama",
+      "colUpdated": "Diperbarui",
       "colStatus": "Status",
-      "statusPublic": "Public",
-      "statusPrivate": "Private",
-      "open": "Open",
+      "statusPublic": "Publik",
+      "statusPrivate": "Privat",
+      "open": "Buka",
       "fork": "Fork",
-      "publish": "Publish",
-      "unpublish": "Unpublish",
-      "delete": "Delete",
-      "draft": "Autosaved draft",
-      "emptyLocal": "No maps saved in this browser yet. Save one and it appears here.",
-      "emptyMine": "No maps on the server yet. Save while signed in to create one.",
-      "emptyPublic": "No public maps yet.",
-      "loading": "Loading maps...",
-      "loadFailed": "Could not load maps from the server.",
-      "signInHint": "Sign in from the game to browse, save, and fork server maps.",
-      "deleteLocalConfirm": "Delete the local map \"{name}\"?",
-      "deleteServerConfirm": "Delete the server map \"{name}\"? This cannot be undone.",
-      "prev": "Previous page",
-      "next": "Next page",
-      "page": "Page {page}"
+      "publish": "Terbitkan",
+      "unpublish": "Batalkan Terbit",
+      "delete": "Hapus",
+      "draft": "Draf tersimpan otomatis",
+      "emptyLocal": "Belum ada peta tersimpan di peramban ini. Simpan satu dan peta itu akan muncul di sini.",
+      "emptyMine": "Belum ada peta di server. Simpan saat sudah masuk untuk membuatnya.",
+      "emptyPublic": "Belum ada peta publik.",
+      "loading": "Memuat peta...",
+      "loadFailed": "Tidak dapat memuat peta dari server.",
+      "signInHint": "Masuk dari permainan untuk menelusuri, menyimpan, dan membuat fork peta server.",
+      "deleteLocalConfirm": "Hapus peta lokal \"{name}\"?",
+      "deleteServerConfirm": "Hapus peta server \"{name}\"? Ini tidak dapat dibatalkan.",
+      "prev": "Halaman sebelumnya",
+      "next": "Halaman berikutnya",
+      "page": "Halaman {page}"
     },
     "status": {
-      "savedLocal": "Saved \"{name}\" to this browser.",
-      "savedServer": "Saved \"{name}\" to the server (v{version}).",
-      "savedLocalOnly": "Saved \"{name}\" to this browser. Sign in to save online.",
-      "saveFailedLocal": "Local save failed (storage blocked).",
-      "opened": "Opened \"{name}\".",
-      "imported": "Imported \"{name}\".",
-      "importFailed": "Import cancelled, or the file is not a valid map.",
-      "exported": "Downloaded \"{name}\".",
-      "newMap": "New map started from the built-in world.",
-      "forked": "Forked to \"{name}\". You are editing your own copy now.",
-      "published": "Map published. Anyone can now find and fork it.",
-      "unpublished": "Map unpublished.",
-      "deleted": "Map deleted.",
-      "assetPlacedFirst": "Pick an asset in the browser first.",
-      "loading3d": "Loading the world...",
-      "playtestLaunch": "Launching playtest...",
-      "playtestFailed": "Could not start the playtest (storage blocked).",
-      "draftSaved": "Draft autosaved.",
-      "draftRestored": "Restored the autosaved draft.",
-      "autosaveFailed": "Autosave failed (browser storage is full or blocked). Export the map to keep a backup.",
-      "terrainCapReached": "Terrain edit limit reached ({max}). Extra sculpt stamps were not added.",
-      "placementCapReached": "Placement limit reached ({max}). Extra assets were not added.",
-      "blockerCapReached": "Blocker wall limit reached ({max}). The new wall was not added.",
-      "autosaveOff": "Autosave turned off: {reason} Save manually, then turn it back on."
+      "savedLocal": "Menyimpan \"{name}\" ke peramban ini.",
+      "savedServer": "Menyimpan \"{name}\" ke server (v{version}).",
+      "savedLocalOnly": "Menyimpan \"{name}\" ke peramban ini. Masuk untuk menyimpan daring.",
+      "saveFailedLocal": "Penyimpanan lokal gagal (penyimpanan diblokir).",
+      "opened": "Membuka \"{name}\".",
+      "imported": "Mengimpor \"{name}\".",
+      "importFailed": "Impor dibatalkan, atau berkas itu bukan peta yang valid.",
+      "exported": "Mengunduh \"{name}\".",
+      "newMap": "Peta baru dimulai dari dunia bawaan.",
+      "forked": "Fork dibuat menjadi \"{name}\". Kini kamu menyunting salinanmu sendiri.",
+      "published": "Peta diterbitkan. Kini siapa pun dapat menemukannya dan membuat fork.",
+      "unpublished": "Penerbitan peta dibatalkan.",
+      "deleted": "Peta dihapus.",
+      "assetPlacedFirst": "Pilih aset di peramban terlebih dahulu.",
+      "loading3d": "Memuat dunia...",
+      "playtestLaunch": "Meluncurkan uji main...",
+      "playtestFailed": "Tidak dapat memulai uji main (penyimpanan diblokir).",
+      "draftSaved": "Draf tersimpan otomatis.",
+      "draftRestored": "Draf tersimpan otomatis dipulihkan.",
+      "autosaveFailed": "Simpan otomatis gagal (penyimpanan peramban penuh atau diblokir). Ekspor peta untuk menyimpan cadangan.",
+      "terrainCapReached": "Batas suntingan medan tercapai ({max}). Cap pahatan berlebih tidak ditambahkan.",
+      "placementCapReached": "Batas penempatan tercapai ({max}). Aset berlebih tidak ditambahkan.",
+      "blockerCapReached": "Batas dinding penghalang tercapai ({max}). Dinding baru tidak ditambahkan.",
+      "autosaveOff": "Simpan otomatis dimatikan: {reason} Simpan secara manual, lalu nyalakan kembali."
     },
     "confirm": {
       "ok": "OK",
-      "cancel": "Cancel",
-      "discardTitle": "Discard changes?",
-      "discardBody": "You have unsaved changes on \"{name}\". Discard them?",
-      "discard": "Discard",
-      "conflictTitle": "Save conflict",
-      "conflictBody": "This map changed on the server since you opened it (now v{version}). Save your version as a new copy?",
-      "conflictSaveCopy": "Save As Copy"
+      "cancel": "Batal",
+      "discardTitle": "Buang perubahan?",
+      "discardBody": "Kamu punya perubahan belum tersimpan pada \"{name}\". Buang perubahan itu?",
+      "discard": "Buang",
+      "conflictTitle": "Konflik penyimpanan",
+      "conflictBody": "Peta ini berubah di server sejak kamu membukanya (sekarang v{version}). Simpan versimu sebagai salinan baru?",
+      "conflictSaveCopy": "Simpan Sebagai Salinan"
     },
     "prompt": {
-      "saveAsTitle": "Save As",
-      "nameLabel": "New map name"
+      "saveAsTitle": "Simpan Sebagai",
+      "nameLabel": "Nama peta baru"
     },
     "serverError": {
-      "invalid_map_name": "That map name is not allowed. Use letters, numbers, spaces, apostrophes, or hyphens.",
-      "map_name_not_allowed": "That map name is not allowed.",
-      "invalid_map_doc": "The server rejected the map document.",
-      "invalid_version": "The save request was malformed. Reload and try again.",
-      "map_limit_reached": "You have reached the server map limit. Delete a map to save more.",
-      "map_not_found": "That map no longer exists on the server.",
-      "version_conflict": "The map changed on the server since you opened it.",
-      "slug_unavailable": "The server could not make a link for that name. Try a different name.",
-      "map_too_large": "The map document is too large to save on the server.",
-      "invalid_glb": "That file is not a valid GLB model.",
-      "asset_blocked": "That asset has been blocked by moderation.",
-      "asset_limit_reached": "You have reached the uploaded asset limit. Delete one to upload more.",
-      "asset_storage_limit_reached": "You are out of asset storage space. Delete an asset first.",
-      "asset_too_large": "That model is over the upload size limit.",
-      "asset_not_found": "That asset no longer exists on the server.",
-      "rate_limited": "Slow down a little and try again.",
-      "unauthorized": "Your session has expired. Sign in from the game again.",
-      "network": "Could not reach the server. Check your connection and try again.",
-      "timeout": "The server took too long to respond. Try again.",
-      "unknown": "Something went wrong talking to the server."
+      "invalid_map_name": "Nama peta itu tidak diizinkan. Gunakan huruf, angka, spasi, apostrof, atau tanda hubung.",
+      "map_name_not_allowed": "Nama peta itu tidak diizinkan.",
+      "invalid_map_doc": "Server menolak dokumen peta itu.",
+      "invalid_version": "Permintaan penyimpanan tidak valid. Muat ulang dan coba lagi.",
+      "map_limit_reached": "Kamu telah mencapai batas peta server. Hapus sebuah peta untuk menyimpan lagi.",
+      "map_not_found": "Peta itu sudah tidak ada di server.",
+      "version_conflict": "Peta ini berubah di server sejak kamu membukanya.",
+      "slug_unavailable": "Server tidak dapat membuat tautan untuk nama itu. Coba nama lain.",
+      "map_too_large": "Dokumen peta terlalu besar untuk disimpan di server.",
+      "invalid_glb": "Berkas itu bukan model GLB yang valid.",
+      "asset_blocked": "Aset itu telah diblokir oleh moderasi.",
+      "asset_limit_reached": "Kamu telah mencapai batas aset yang diunggah. Hapus satu untuk mengunggah lagi.",
+      "asset_storage_limit_reached": "Ruang penyimpanan asetmu habis. Hapus sebuah aset terlebih dahulu.",
+      "asset_too_large": "Model itu melebihi batas ukuran unggahan.",
+      "asset_not_found": "Aset itu sudah tidak ada di server.",
+      "rate_limited": "Pelankan sedikit dan coba lagi.",
+      "unauthorized": "Sesimu telah kedaluwarsa. Masuk lagi dari permainan.",
+      "network": "Tidak dapat menghubungi server. Periksa koneksimu dan coba lagi.",
+      "timeout": "Server terlalu lama merespons. Coba lagi.",
+      "unknown": "Terjadi kesalahan saat berkomunikasi dengan server."
     },
     "hints": {
-      "nav3d": "Drag to orbit, scroll to zoom. While dragging, WASD flies and Q/E changes height.",
-      "nav2d": "Drag to pan, scroll to zoom."
+      "nav3d": "Seret untuk mengorbit, gulir untuk memperbesar. Saat menyeret, WASD menerbangkan kamera dan Q/E mengubah ketinggian.",
+      "nav2d": "Seret untuk menggeser, gulir untuk memperbesar."
     },
     "help": {
-      "title": "Editor Help",
-      "toolsTitle": "Tools",
-      "shortcutsTitle": "Keyboard shortcuts",
-      "mouseTitle": "Mouse and navigation",
-      "flowTitle": "Saving and playtesting",
-      "beginTutorial": "Begin tutorial",
-      "close": "Close",
+      "title": "Bantuan Editor",
+      "toolsTitle": "Alat",
+      "shortcutsTitle": "Pintasan papan ketik",
+      "mouseTitle": "Tetikus dan navigasi",
+      "flowTitle": "Menyimpan dan menguji main",
+      "beginTutorial": "Mulai tutorial",
+      "close": "Tutup",
       "tool": {
-        "select": "Pick placed assets to move, rotate, and scale them; click a 2D marker to edit it.",
-        "raise": "Raise the terrain under the brush.",
-        "lower": "Lower the terrain under the brush.",
-        "smooth": "Smooth bumps toward the local average height.",
-        "flatten": "Level the ground to the height where the drag starts.",
-        "paint": "Paint biome ground cover over the zone default.",
-        "water": "Set the map-wide water level.",
-        "place": "Place catalog or uploaded assets on the ground.",
-        "blocker": "Drag invisible walls that block movement in playtest.",
-        "camp": "Add and edit mob camps that spawn in playtest.",
-        "spawn": "Set where playtest drops the player.",
-        "region": "Box-select terrain and assets to copy and paste.",
-        "erase": "Remove placed assets or sculpt stamps under the cursor."
+        "select": "Pilih aset terpasang untuk memindahkan, memutar, dan mengubah skalanya; klik penanda 2D untuk menyuntingnya.",
+        "raise": "Naikkan medan di bawah kuas.",
+        "lower": "Turunkan medan di bawah kuas.",
+        "smooth": "Haluskan gundukan menuju rata-rata ketinggian setempat.",
+        "flatten": "Ratakan tanah ke ketinggian tempat seretan dimulai.",
+        "paint": "Cat penutup tanah bioma di atas bawaan zona.",
+        "water": "Atur ketinggian air seluruh peta.",
+        "place": "Tempatkan aset katalog atau aset unggahan di atas tanah.",
+        "blocker": "Seret dinding tak kasatmata yang menghalangi pergerakan saat uji main.",
+        "camp": "Tambah dan sunting kemah mob yang memunculkan mob saat uji main.",
+        "spawn": "Tentukan tempat pemain muncul saat uji main.",
+        "region": "Pilih medan dan aset dengan kotak untuk disalin dan ditempel.",
+        "erase": "Hapus aset terpasang atau cap pahatan di bawah kursor."
       },
       "key": {
-        "tools": "Every tool has a single-letter shortcut, shown on its button in the tool rail.",
-        "brush": "[ and ] resize the brush; Shift+[ and Shift+] change its strength.",
-        "undo": "Ctrl+Z undoes the last change; Ctrl+Y or Ctrl+Shift+Z redoes it.",
-        "save": "Ctrl+S saves the map.",
-        "duplicate": "Ctrl+D duplicates the selected asset.",
-        "nudge": "Arrow keys nudge the selected asset by 0.5 yards; hold Shift for 2 yards.",
-        "wheel": "Shift+scroll rotates the selected asset; Alt+scroll scales it.",
-        "delete": "Delete removes the selected asset or camp.",
-        "escape": "Esc clears the selection first, then returns to the Select tool."
+        "tools": "Setiap alat punya pintasan satu huruf, ditampilkan pada tombolnya di bilah alat.",
+        "brush": "[ dan ] mengubah ukuran kuas; Shift+[ dan Shift+] mengubah kekuatannya.",
+        "undo": "Ctrl+Z mengurungkan perubahan terakhir; Ctrl+Y atau Ctrl+Shift+Z mengulanginya.",
+        "save": "Ctrl+S menyimpan peta.",
+        "duplicate": "Ctrl+D menduplikasi aset yang dipilih.",
+        "nudge": "Tombol panah menggeser aset yang dipilih sejauh 0,5 yard; tahan Shift untuk 2 yard.",
+        "wheel": "Shift+gulir memutar aset yang dipilih; Alt+gulir mengubah skalanya.",
+        "delete": "Delete menghapus aset atau kemah yang dipilih.",
+        "escape": "Esc menghapus seleksi lebih dulu, lalu kembali ke alat Pilih."
       },
       "mouse": {
-        "orbit3d": "3D view: drag to orbit and scroll to zoom; middle-drag or Shift+drag pans.",
-        "fly3d": "While holding a drag in 3D, WASD flies the camera and Q/E changes height.",
-        "move": "With Select active, drag a placed asset to move it across the ground.",
-        "pan2d": "2D view: drag to pan and scroll to zoom."
+        "orbit3d": "Tampilan 3D: seret untuk mengorbit dan gulir untuk memperbesar; seret-tengah atau Shift+seret untuk menggeser.",
+        "fly3d": "Saat menahan seretan di 3D, WASD menerbangkan kamera dan Q/E mengubah ketinggian.",
+        "move": "Dengan alat Pilih aktif, seret aset terpasang untuk memindahkannya di atas tanah.",
+        "pan2d": "Tampilan 2D: seret untuk menggeser dan gulir untuk memperbesar."
       },
       "flow": {
-        "save": "Save keeps the map in this browser, and on the server when you are signed in.",
-        "draft": "While you have unsaved changes, a draft is autosaved every 30 seconds; Open restores it.",
-        "playtest": "Playtest boots the real game on this map, including your unsaved edits."
+        "save": "Simpan menyimpan peta di peramban ini, dan di server saat kamu masuk.",
+        "draft": "Selama ada perubahan belum tersimpan, draf disimpan otomatis setiap 30 detik; Buka akan memulihkannya.",
+        "playtest": "Uji Main menjalankan permainan sungguhan pada peta ini, termasuk suntinganmu yang belum tersimpan."
       }
     },
     "tutorial": {
-      "title": "Editor tutorial",
-      "back": "Back",
-      "next": "Next",
-      "finish": "Finish",
-      "skip": "Skip tour",
-      "counter": "Step {current} of {total}",
+      "title": "Tutorial editor",
+      "back": "Kembali",
+      "next": "Berikutnya",
+      "finish": "Selesai",
+      "skip": "Lewati tur",
+      "counter": "Langkah {current} dari {total}",
       "steps": {
         "toolbar": {
-          "title": "The tool rail",
-          "body": "Every editing tool lives here: sculpting brushes, biome paint, water, asset placement, camps, and more. Each one has a single-key shortcut, shown in its corner."
+          "title": "Bilah alat",
+          "body": "Semua alat penyuntingan ada di sini: kuas pahat, cat bioma, air, penempatan aset, kemah, dan lainnya. Masing-masing punya pintasan satu tombol, ditampilkan di sudutnya."
         },
         "stage": {
-          "title": "The world",
-          "body": "This is your map, rendered with the real game engine. Drag to orbit, scroll to zoom, and middle-drag or Shift+drag to pan. Click the ground with a tool to edit."
+          "title": "Dunia",
+          "body": "Ini petamu, dirender dengan mesin permainan sungguhan. Seret untuk mengorbit, gulir untuk memperbesar, dan seret-tengah atau Shift+seret untuk menggeser. Klik tanah dengan sebuah alat untuk menyunting."
         },
         "inspector": {
-          "title": "Tool options",
-          "body": "The options for the active tool appear here: brush size, the biome palette, asset scale, camp settings, and the properties of whatever you select."
+          "title": "Opsi alat",
+          "body": "Opsi untuk alat yang aktif muncul di sini: ukuran kuas, palet bioma, skala aset, pengaturan kemah, dan properti apa pun yang kamu pilih."
         },
         "viewToggle": {
-          "title": "3D and 2D",
-          "body": "Switch between the rendered 3D world and the symbolic overhead 2D map. The 2D view is best for moving zone markers and framing large areas."
+          "title": "3D dan 2D",
+          "body": "Beralih antara dunia 3D yang dirender dan peta atas 2D simbolis. Tampilan 2D paling cocok untuk memindahkan penanda zona dan membingkai area luas."
         },
         "save": {
-          "title": "Save your work",
-          "body": "Save stores the map in this browser, and on the server when you are signed in. Export downloads a JSON backup, and Open brings back saved maps and drafts."
+          "title": "Simpan karyamu",
+          "body": "Simpan menyimpan peta di peramban ini, dan di server saat kamu masuk. Ekspor mengunduh cadangan JSON, dan Buka mengembalikan peta serta draf tersimpan."
         },
         "playtest": {
-          "title": "Playtest",
-          "body": "Boot the real game on your map at any time, with your current edits included. Close the playtest tab to come back and keep editing."
+          "title": "Uji Main",
+          "body": "Jalankan permainan sungguhan pada petamu kapan saja, termasuk suntingan saat ini. Tutup tab uji main untuk kembali dan lanjut menyunting."
         },
         "help": {
-          "title": "Help is here",
-          "body": "That is the whole loop. Open Help any time for the full tool list and every shortcut, or to run this tour again."
+          "title": "Bantuan ada di sini",
+          "body": "Itulah keseluruhan alurnya. Buka Bantuan kapan saja untuk daftar alat lengkap dan semua pintasan, atau untuk menjalankan tur ini lagi."
         }
       }
     },
     "a11y": {
-      "stage": "Map viewport",
-      "toasts": "Editor notifications",
-      "dialog": "Editor dialog"
+      "stage": "Area pandang peta",
+      "toasts": "Pemberitahuan editor",
+      "dialog": "Dialog editor"
     }
   },
   "skinEvent": {
@@ -2538,8 +2542,8 @@ export const id_ID: EnTranslations = {
     "passwordError": "Silakan masukkan kata sandimu.",
     "passwordPlaceholder": "Masukkan kata sandi",
     "email": "Email",
-    "emailPlaceholder": "you@example.com",
-    "emailError": "Please enter a valid email address.",
+    "emailPlaceholder": "kamu@contoh.com",
+    "emailError": "Silakan masukkan alamat email yang valid.",
     "showPassword": "Tampilkan kata sandi",
     "hidePassword": "Sembunyikan kata sandi",
     "logIn": "Masuk",
@@ -2567,12 +2571,12 @@ export const id_ID: EnTranslations = {
     "twoFactorPlaceholder": "Kode 6 digit atau pemulihan",
     "twoFactorHint": "Masukkan kode dari aplikasi autentikatormu, atau salah satu kode pemulihanmu.",
     "recovery": {
-      "title": "Add a recovery email",
-      "body": "Set an email address so you can recover your account. We only use it to confirm you own this account if you ever need to reset your password.",
-      "save": "Save email",
-      "logOut": "Log out",
-      "invalid": "Please enter a valid email address.",
-      "failed": "Could not save your email. Please try again."
+      "title": "Tambahkan email pemulihan",
+      "body": "Atur alamat email agar kamu bisa memulihkan akunmu. Kami hanya memakainya untuk memastikan kamu pemilik akun ini jika suatu saat kamu perlu mengatur ulang kata sandimu.",
+      "save": "Simpan email",
+      "logOut": "Keluar",
+      "invalid": "Silakan masukkan alamat email yang valid.",
+      "failed": "Tidak dapat menyimpan emailmu. Silakan coba lagi."
     }
   },
   "wallet": {
@@ -2627,7 +2631,7 @@ export const id_ID: EnTranslations = {
     "helpLinkedWithBalance": "Manfaat pemegang aktif. Aplikasi dompet terhubung di peramban ini.",
     "helpLinkedDisconnected": "Manfaat pemegang aktif. Hubungkan aplikasi saat Anda perlu menandatangani atau membelanjakan.",
     "helpLinkedDisconnectedWithBalance": "Manfaat pemegang aktif. Hubungkan aplikasi saat Anda perlu menandatangani atau membelanjakan.",
-    "extensionHelp": "To see a wallet here, keep a browser wallet extension such as Solflare Wallet active.",
+    "extensionHelp": "Agar dompet tampil di sini, biarkan ekstensi dompet peramban seperti Solflare Wallet tetap aktif.",
     "flowConnect": "Pilih sebuah dompet. Verifikasi berlanjut secara otomatis.",
     "flowSign": "Tanda tangani pesan verifikasi di aplikasi dompet Anda. Tidak perlu transaksi atau SOL.",
     "flowVerify": "Memverifikasi kepemilikan dompet...",
@@ -2813,7 +2817,7 @@ export const id_ID: EnTranslations = {
       "unknownTier": "Tingkat delve tak dikenal.",
       "levelRequired": "Kamu harus mencapai level {level} untuk memasuki {name}.",
       "levelRequiredTier": "Kamu harus mencapai level {level} untuk memasuki {name} pada {tier}.",
-      "partyTooLarge": "{name} is meant for solo or duo delves. Parties of {max} or more may not enter.",
+      "partyTooLarge": "{name} ditujukan untuk delve solo atau duo. Party berisi {max} pemain atau lebih tidak boleh masuk.",
       "instancesBusy": "Semua instansi {name} sedang sibuk. Coba lagi sebentar lagi.",
       "runFailed": "Penjelajahan {name} gagal.",
       "complete": "{name} selesai.",
@@ -2823,14 +2827,14 @@ export const id_ID: EnTranslations = {
       "doorAlreadyOpen": "Pintu itu sudah terbuka.",
       "companionRankUp": "{name} mencapai peringkat {rank}.",
       "bossChest": "Bos tumbang. Sebuah peti relikui berpengaman muncul di mimbar. Bobol kuncinya untuk merebut rampasanmu.",
-      "drownedLitanyReliquaryRise": "Sister Nhalia falls silent. The Drowned Reliquary rises from the blackwater. Approach it to begin the rite.",
-      "riteSequenceReady": "The shrines fall dark. Repeat the sequence.",
-      "riteSequencePlaying": "The shrines replay the rite. Wait.",
-      "riteCorrect": "A soft chime answers your touch.",
-      "riteWrong": "A harsh bell crack. Black water splashes at your feet.",
-      "riteReliquaryOpen": "The Drowned Reliquary opens.",
-      "riteReliquaryLocked": "Complete the shrine rite to open the reliquary.",
-      "riteReliquaryEmpty": "The reliquary is empty.",
+      "drownedLitanyReliquaryRise": "Suster Nhalia terdiam. Relikuari Tenggelam bangkit dari air hitam. Dekati untuk memulai ritus.",
+      "riteSequenceReady": "Altar-altar menjadi gelap. Ulangi urutannya.",
+      "riteSequencePlaying": "Altar-altar mengulang ritusnya. Tunggu.",
+      "riteCorrect": "Denting lembut menjawab sentuhanmu.",
+      "riteWrong": "Bunyi lonceng retak yang kasar. Air hitam menciprat di kakimu.",
+      "riteReliquaryOpen": "Relikuari Tenggelam terbuka.",
+      "riteReliquaryLocked": "Selesaikan ritus altar untuk membuka relikuari.",
+      "riteReliquaryEmpty": "Relikuari itu kosong.",
       "surfaceStairs": "Sebuah tangga menuju permukaan terbuka. Tekan F di tangga untuk pergi.",
       "moduleEnter": "{name}: {objective}",
       "objectiveClearRoom": "Bersihkan ruangan.",
@@ -2838,13 +2842,13 @@ export const id_ID: EnTranslations = {
       "tombstoneHint": "Sebuah lorong batu nisan terbuka ke utara saat ruangan dibersihkan.",
       "tombstoneOpen": "Sebuah lorong batu nisan tersegel berderak terbuka ke utara. Masuklah ke dalamnya untuk melanjutkan.",
       "tombstoneInto": "Kamu menembus batu nisan menuju {name}.",
-      "bellRopeShock": "The bell rope snaps taut. Drowned Cantors reel from the shock.",
-      "eggSacBurst": "The egg-sac bursts. Spiderlings skitter free across the baptistry rim.",
-      "baptistryEggs": "The baptistry falls quiet. Spider egg-sacs cling wetly to the rim.",
-      "baptistrySpidersSealed": "You should try to destroy the spider sacs.",
-      "puzzleSealed": "You need to open the seal by applying pressure somewhere in the room.",
-      "ropesSealed": "You should try pulling the bell ropes.",
-      "baptistryWave": "Something stirs in the black baptistry water.",
+      "bellRopeShock": "Tali lonceng menegang tiba-tiba. Para Pelantun Tenggelam terhuyung karena guncangannya.",
+      "eggSacBurst": "Kantung telur itu pecah. Anak-anak laba-laba berhamburan di tepian baptisterium.",
+      "baptistryEggs": "Baptisterium menjadi sunyi. Kantung-kantung telur laba-laba menempel basah di tepiannya.",
+      "baptistrySpidersSealed": "Sebaiknya kamu coba menghancurkan kantung-kantung laba-laba itu.",
+      "puzzleSealed": "Kamu perlu membuka segelnya dengan memberi tekanan di suatu tempat di ruangan ini.",
+      "ropesSealed": "Sebaiknya kamu coba menarik tali-tali lonceng itu.",
+      "baptistryWave": "Sesuatu bergerak dalam air hitam baptisterium.",
       "chestEmpty": "Peti itu kosong.",
       "notInDelve": "Kamu tidak berada di dalam delve.",
       "cannotInteract": "Kamu tidak dapat berinteraksi dengan itu.",
@@ -2863,12 +2867,12 @@ export const id_ID: EnTranslations = {
       "passageSealed": "Lorong itu tersegel.",
       "moveCloserPassage": "Mendekatlah ke lorong.",
       "moveCloserChest": "Mendekatlah ke peti.",
-      "moveCloserReliquary": "Move closer to the reliquary.",
+      "moveCloserReliquary": "Mendekatlah ke relikuari.",
       "nothingToTake": "Tidak ada lagi yang bisa diambil.",
       "wayOutNotOpen": "Jalan keluar belum terbuka.",
       "moveCloserStairs": "Mendekatlah ke tangga.",
-      "nhaliaCantorShield": "Cantors, hold the note!",
-      "nhaliaBlackwaterMark": "{name} marks {player} with Blackwater!"
+      "nhaliaCantorShield": "Para Pelantun, tahan nadanya!",
+      "nhaliaBlackwaterMark": "{name} menandai {player} dengan Air Hitam!"
     },
     "lockpick": {
       "lockYields": "Kunci terbuka! Rampasan {tier}.",
@@ -2932,24 +2936,24 @@ export const id_ID: EnTranslations = {
     }
   },
   "delveRiteUi": {
-    "title": "The Drowned Reliquary Rite",
-    "blurb": "The shrines will light in order. Repeat the sequence by activating each shrine in turn. A wrong touch fails the attempt and replays the sequence, a flawless attempt earns the richest spoils, and running out of tries opens the reliquary on its meanest. Choose how the rite tests you.",
-    "easy": "Easy",
-    "medium": "Medium",
-    "hard": "Hard",
-    "guideWatch": "After you choose, the four shrines light up one at a time. Memorize the order.",
-    "guideRepeat": "When the shrines fall dark, walk to each shrine and press F (Interact) in that same order.",
-    "guideStakes": "A wrong shrine splashes you with blackwater and costs a try. Complete the sequence to open the reliquary.",
-    "showsTimes": "Sequence shown {count} times",
-    "showsOnce": "Sequence shown once",
-    "symbols": "{count} symbols",
-    "tries": "{count} tries",
+    "title": "Ritus Relikuari Tenggelam",
+    "blurb": "Altar-altar akan menyala secara berurutan. Ulangi urutannya dengan mengaktifkan setiap altar satu per satu. Sentuhan yang salah menggagalkan percobaan dan memutar ulang urutannya, percobaan tanpa cela menghasilkan jarahan terkaya, dan kehabisan percobaan membuka relikuari dalam keadaan paling kikir. Pilih bagaimana ritus ini mengujimu.",
+    "easy": "Mudah",
+    "medium": "Sedang",
+    "hard": "Sulit",
+    "guideWatch": "Setelah kamu memilih, keempat altar menyala satu per satu. Hafalkan urutannya.",
+    "guideRepeat": "Saat altar-altar menjadi gelap, hampiri setiap altar dan tekan F (Interaksi) dalam urutan yang sama.",
+    "guideStakes": "Altar yang salah akan menciprati dirimu dengan air hitam dan menghabiskan satu percobaan. Selesaikan urutannya untuk membuka relikuari.",
+    "showsTimes": "Urutan ditampilkan {count} kali",
+    "showsOnce": "Urutan ditampilkan sekali",
+    "symbols": "{count} simbol",
+    "tries": "{count} percobaan",
     "reward": {
-      "easy": "Modest spoils",
-      "medium": "Rich spoils",
-      "hard": "Premium spoils"
+      "easy": "Jarahan sederhana",
+      "medium": "Jarahan melimpah",
+      "hard": "Jarahan terbaik"
     },
-    "closeAria": "Close"
+    "closeAria": "Tutup"
   },
   "delveUi": {
     "board": {
@@ -2960,7 +2964,7 @@ export const id_ID: EnTranslations = {
       "openDelveAria": "Buka Papan Delve dari {name}",
       "marks": "Tanda Delve: {count}",
       "minLevel": "Membutuhkan Level {level}",
-      "partyTooLarge": "Solo or duo only ({max} players max)",
+      "partyTooLarge": "Hanya solo atau duo (maksimal {max} pemain)",
       "tier": {
         "normal": "Normal",
         "heroic": "Heroik"
@@ -2995,10 +2999,10 @@ export const id_ID: EnTranslations = {
       "marks": "Tanda Delve: {count}",
       "exitHintOpen": "Masuki lorong batu nisan (utara)",
       "exitHintLocked": "Bersihkan gerombolan musuh untuk membuka lorong di utara",
-      "riteChoose": "Approach the Drowned Reliquary and press F to begin the rite",
-      "ritePlayback": "Watch the shrines: memorize the order they light up",
-      "riteInput": "Press F at each shrine in the order they lit ({current}/{total})",
-      "riteOpen": "The reliquary is open: press F on it to claim your spoils"
+      "riteChoose": "Dekati Relikuari Tenggelam dan tekan F untuk memulai ritus",
+      "ritePlayback": "Perhatikan altar-altar itu: hafalkan urutan menyalanya",
+      "riteInput": "Tekan F di setiap altar sesuai urutan menyalanya ({current}/{total})",
+      "riteOpen": "Relikuari terbuka: tekan F padanya untuk mengambil jarahanmu"
     },
     "objective": {
       "kill_boss": "Bunuh {boss}",
@@ -3021,52 +3025,52 @@ export const id_ID: EnTranslations = {
         "greeting": "Relikuari di bawah telah bergeser lagi. Kami mendengar nyanyian melalui lantai sesudah tengah malam, dan Akolit Tessa bersumpah buku catatan pemakaman mengubah tintanya sendiri. Jika kau cukup berani, {playerName}, ambillah sebuah lilin dan turunlah ke bawah. Jangan percaya setiap suara yang kau dengar di bawah sana. Sebagian dari mereka mengetahui namamu sebelum kau lahir."
       },
       "halvenMarsh": {
-        "greeting": "The trail led north to the marsh, {playerName}. Another reliquary sings under the black water, and the drowned dead answer the bells. Acolyte Edda knows these reeds better than I do, stay close to her lantern. Choose your tier, and I will hold the rope until you return."
+        "greeting": "Jejak itu menuntun ke utara menuju rawa, {playerName}. Relikuari lain bernyanyi di bawah air hitam, dan para mati yang tenggelam menjawab lonceng-loncengnya. Akolit Edda mengenal buluh-buluh ini lebih baik dariku, tetaplah dekat dengan lenteranya. Pilih tingkat kesulitanmu, dan aku akan memegangi talinya sampai kau kembali."
       }
     },
     "intro": {
       "normal": "Tangga itu dingin dan gelap. Pecahan batu santo berserakan di sepanjang turunan, dan nada lonceng yang lembut menggantung di udara lembap. Akolit Tessa berbisik, \"Relikuari ini seharusnya tidak terbuka sejauh ini. Tetaplah dekat, {playerName}.\"",
       "heroic": "Pintu-pintu mengerang menutup di belakangmu. Nama-nama tergores di batu bagai kuku jari. Lilin Tessa menyala biru. \"Mereka tidak memanggil para mati sekarang, {playerName}. Mereka sedang menjawab sesuatu.\"",
-      "litanyNormal": "Reed-choked stairs drop beneath Fenbridge. Edda Reedhand lifts her lantern. \"The marsh remembers every name they drowned, {playerName}. Stay in the light.\"",
-      "litanyHeroic": "Blackwater laps the causeway stones. Edda's flame gutters green. \"They are singing again below, {playerName}. Do not answer the choir.\""
+      "litanyNormal": "Tangga yang tersumbat buluh menurun di bawah Fenbridge. Edda Reedhand mengangkat lenteranya. \"Rawa mengingat setiap nama yang mereka tenggelamkan, {playerName}. Tetaplah dalam cahaya.\"",
+      "litanyHeroic": "Air hitam menjilat batu-batu jalan layang. Nyala api Edda meredup kehijauan. \"Mereka bernyanyi lagi di bawah, {playerName}. Jangan jawab paduan suara itu.\""
     },
     "module": {
       "reliquary_sunken_ossuary": "Air merembes melalui rak pemakaman, membawa abu tua dalam aliran perak kehitaman.",
       "reliquary_bell_niche": "Puluhan lonceng tangan tergantung dalam sunyi, masing-masing diikat dengan kain pemakaman.",
       "reliquary_saintless_hall": "Patung-patung dengan wajah yang dipahat hilang dengan kebencian yang cermat.",
       "reliquary_finale": "Lonceng terkubur berdentang sekali di bawah sepatu botmu.",
-      "litany_sluice": "Moss-choked sluice gates drip blackwater into the old choir crypt.",
-      "litany_ledger": "Ledger islands rise from flooded channels, ink bleeding into the marsh.",
-      "litany_ring": "A reliquary ring loops around a sealed central font of black water.",
-      "litany_baptistry": "A sinkhole baptistry yawns beneath cracked saint-stones and egg-sacs.",
-      "litany_choir_loft": "Fanning choir lofts echo with rope-hung bells that never quite stop.",
-      "litany_causeway": "A Y-split causeway forks over waist-deep fen water.",
-      "litany_apse": "The drowned apse opens onto Sister Nhalia's altar island."
+      "litany_sluice": "Pintu-pintu air yang tersumbat lumut meneteskan air hitam ke dalam kripta paduan suara tua.",
+      "litany_ledger": "Pulau-pulau buku catatan muncul dari kanal-kanal yang tergenang, tintanya luntur ke dalam rawa.",
+      "litany_ring": "Cincin relikuari melingkari sebuah kolam pembaptisan pusat berair hitam yang tersegel.",
+      "litany_baptistry": "Baptisterium ambles menganga di bawah batu-batu santo yang retak dan kantung-kantung telur.",
+      "litany_choir_loft": "Loteng-loteng paduan suara yang mengembang menggemakan lonceng-lonceng bergantung tali yang tak pernah benar-benar berhenti.",
+      "litany_causeway": "Jalan layang bercabang Y terbelah di atas air rawa sedalam pinggang.",
+      "litany_apse": "Apsis tenggelam itu terbuka menuju pulau altar Suster Nhalia."
     },
     "moduleName": {
       "reliquary_sunken_ossuary": "Osuarium Tenggelam",
       "reliquary_bell_niche": "Relung Lonceng",
       "reliquary_saintless_hall": "Aula Tanpa Santo",
       "reliquary_finale": "Ruang Terkubur Lonceng",
-      "litany_sluice": "The Crescent Sluice",
-      "litany_ledger": "The Island Ledger",
-      "litany_ring": "The Ring Reliquary",
-      "litany_baptistry": "The Sinkhole Baptistry",
-      "litany_choir_loft": "The Reedsong Gallery",
-      "litany_causeway": "The Y-Split Causeway",
-      "litany_apse": "The Drowned Apse"
+      "litany_sluice": "Pintu Air Sabit",
+      "litany_ledger": "Pulau Buku Catatan",
+      "litany_ring": "Relikuari Cincin",
+      "litany_baptistry": "Baptisterium Ambles",
+      "litany_choir_loft": "Galeri Nyanyian Buluh",
+      "litany_causeway": "Jalan Layang Bercabang Y",
+      "litany_apse": "Apsis Tenggelam"
     },
     "object": {
-      "sluice_valve": "Sluice Valve",
-      "grave_tablet": "Grave Tablet",
-      "corpse_candle": "Corpse-Candle",
-      "bell_rope": "Bell Rope"
+      "sluice_valve": "Katup Pintu Air",
+      "grave_tablet": "Prasasti Kubur",
+      "corpse_candle": "Lilin Mayat",
+      "bell_rope": "Tali Lonceng"
     },
     "companion": {
       "barkLine": "{name}: {line}",
       "tessa": {
-        "run_start": "I have my candle and my ledger, {playerName}. Lead on.",
-        "ally_revive": "Up now. Tonight's ledger does not carry your name.",
+        "run_start": "Lilinku dan buku catatanku sudah kubawa, {playerName}. Pimpinlah jalan.",
+        "ally_revive": "Bangunlah. Buku catatan malam ini tidak memuat namamu.",
         "combat_start": "Jaga pijakanmu, {playerName}. Para mati gelisah di sini.",
         "low_hp": "Tarik napas. Aku masih menyimpan doa untukmu.",
         "trap_spotted": "Tahan. Ada sesuatu di lantai yang mengingat langkah kaki.",
@@ -3081,17 +3085,17 @@ export const id_ID: EnTranslations = {
         }
       },
       "edda": {
-        "run_start": "Keep to the plank-line, {playerName}. The silt takes the proud-footed.",
-        "ally_revive": "Up, now. The marsh does not get you today.",
-        "combat_start": "Mind the blackwater, {playerName}. The marsh listens.",
-        "low_hp": "Steady. My lantern is not out yet.",
-        "trap_spotted": "Wait. The reeds are wrong here.",
-        "boss_pull": "That canticle knows your name, {playerName}. Do not sing back.",
-        "completion": "The fen can swallow its secrets for one more night.",
+        "run_start": "Tetap di jalur papan, {playerName}. Lanau menelan mereka yang jumawa melangkah.",
+        "ally_revive": "Bangun, sekarang. Rawa tidak akan merenggutmu hari ini.",
+        "combat_start": "Waspadai air hitam, {playerName}. Rawa ini mendengarkan.",
+        "low_hp": "Tenang. Lenteraku belum padam.",
+        "trap_spotted": "Tunggu. Buluh-buluh di sini tidak wajar.",
+        "boss_pull": "Kidung itu tahu namamu, {playerName}. Jangan balas bernyanyi.",
+        "completion": "Rawa boleh menelan rahasianya satu malam lagi.",
         "rank": {
-          "1": "Lantern-Bearer",
-          "2": "Reed-Watcher",
-          "3": "Fenbridge Acolyte"
+          "1": "Pembawa Lentera",
+          "2": "Pengawas Buluh",
+          "3": "Akolit Fenbridge"
         }
       }
     },
@@ -3136,9 +3140,9 @@ export const id_ID: EnTranslations = {
       "grave_tax": "Pajak Kubur",
       "unstable_roof": "Atap Rapuh",
       "cult_remnants": "Sisa-sisa Kultus",
-      "high_water": "High Water",
-      "lively_choir": "Lively Choir",
-      "belligerent_dead": "Belligerent Dead"
+      "high_water": "Air Pasang",
+      "lively_choir": "Paduan Suara Ramai",
+      "belligerent_dead": "Mayat Beringas"
     },
     "blessing": {
       "chapel_candle": "Lilin Kapel: penjelajahan lebih aman, satu Tanda lebih sedikit saat tuntas."
@@ -4159,8 +4163,8 @@ export const id_ID: EnTranslations = {
     "tracker": {
       "title": "Misi",
       "complete": "Selesai",
-      "showOnMap": "Show {name} on the map",
-      "hideFromMap": "Hide {name} from the map"
+      "showOnMap": "Tampilkan {name} di peta",
+      "hideFromMap": "Sembunyikan {name} dari peta"
     },
     "log": {
       "title": "Catatan Misi",
@@ -4264,7 +4268,7 @@ export const id_ID: EnTranslations = {
       "tool": "Perkakas",
       "potion": "Ramuan",
       "elixir": "Eliksir",
-      "bag": "Bag"
+      "bag": "Tas"
     },
     "stats": {
       "armor": "Zirah",
@@ -4307,7 +4311,7 @@ export const id_ID: EnTranslations = {
       "clickUseInstant": "Klik untuk memakai seketika dalam pertempuran",
       "clickUse": "Klik untuk memakai",
       "clickBuyback": "Klik untuk membeli kembali",
-      "bagSlots": "{slots} Slot Bag"
+      "bagSlots": "Tas {slots} Slot"
     },
     "bags": {
       "title": "Tas",
@@ -4585,7 +4589,7 @@ export const id_ID: EnTranslations = {
         "description": "Melontarkan bongkahan berkobar raksasa yang menimbulkan {damage} kerusakan Api ditambah kerusakan tambahan seiring waktu."
       },
       "ice_barrier": {
-        "name": "Frostveil",
+        "name": "Selubung Beku",
         "description": "Melindungimu dengan es, menyerap 130 kerusakan selama 60 detik."
       },
       "sinister_strike": {
@@ -4897,7 +4901,7 @@ export const id_ID: EnTranslations = {
         "description": "Membakar musuh dengan api menyiksa sebesar {damage} kerusakan Api. Cepat dirapal."
       },
       "shadowburn": {
-        "name": "Duskfire",
+        "name": "Api Senja",
         "description": "Seketika menghantam target dengan bayangan membara sebesar {damage} kerusakan Bayangan."
       },
       "wrath": {
@@ -4961,7 +4965,7 @@ export const id_ID: EnTranslations = {
         "description": "Menyembuhkan target sekutu sebesar {damage} dan jumlah tambahan selama 21 detik."
       },
       "barkskin": {
-        "name": "Oakhide",
+        "name": "Kulit Ek",
         "description": "Kulitmu mengeras bagai kulit kayu, meningkatkan zirah sebesar 150 selama 15 detik."
       },
       "starfire": {
@@ -6015,67 +6019,67 @@ export const id_ID: EnTranslations = {
         "name": "Tudung Bayangan Varric"
       },
       "siltguard_helm": {
-        "name": "Siltguard Helm"
+        "name": "Helm Penjaga Lanau"
       },
       "bulwark_rusted_pauldrons": {
-        "name": "Bulwark-Rusted Pauldrons"
+        "name": "Bahu Karat Benteng"
       },
       "nhalias_bell_maul": {
-        "name": "Nhalia's Bell-Maul"
+        "name": "Godam Lonceng Nhalia"
       },
       "reedstalker_jerkin": {
-        "name": "Reedstalker Jerkin"
+        "name": "Rompi Pengintai Buluh"
       },
       "mirejaw_fang_knife": {
-        "name": "Mirejaw Fang-Knife"
+        "name": "Pisau Taring Mirejaw"
       },
       "widow_silk_hood": {
-        "name": "Widow-Silk Hood"
+        "name": "Tudung Sutra Janda"
       },
       "cantors_drowned_sash": {
-        "name": "Cantor's Drowned Sash"
+        "name": "Selempang Tenggelam Pelantun"
       },
       "corpse_candle_focus": {
-        "name": "Corpse-Candle Focus"
+        "name": "Fokus Lilin Mayat"
       },
       "nhalias_litany_rod": {
-        "name": "Nhalia's Litany Rod"
+        "name": "Tongkat Litani Nhalia"
       },
       "blackwater_vanguard_chest": {
-        "name": "Blackwater Vanguard Chestguard"
+        "name": "Pelindung Dada Garda Depan Air Hitam"
       },
       "siltstep_leggings": {
-        "name": "Siltstep Leggings"
+        "name": "Celana Langkah Lanau"
       },
       "sunken_reliquary_hood": {
-        "name": "Sunken Reliquary Hood"
+        "name": "Tudung Relikuari Karam"
       },
       "litany_legs": {
-        "name": "Silt-Walker Greaves"
+        "name": "Pelindung Kaki Pelangkah Lanau"
       },
       "litany_shoulder": {
-        "name": "Blackwater Drift Mantle"
+        "name": "Mantel Hanyutan Air Hitam"
       },
       "litany_gloves_rog": {
-        "name": "Reed-Bound Handwraps"
+        "name": "Pembalut Tangan Terikat Buluh"
       },
       "litany_plate_chest": {
-        "name": "Sump-Warden Cuirass"
+        "name": "Zirah Dada Penjaga Kubangan"
       },
       "litany_leather_chest": {
-        "name": "Silt-Deep Vestment"
+        "name": "Busana Lanau Dalam"
       },
       "litany_cloth_chest": {
-        "name": "Choir-Drowned Raiment"
+        "name": "Busana Paduan Suara Tenggelam"
       },
       "litany_helm": {
-        "name": "Reliquant's Drowned Cowl"
+        "name": "Tudung Tenggelam Sang Reliquant"
       },
       "sister_nhalia_choir_plate": {
-        "name": "Sister Nhalia's Choir-Forged Plate"
+        "name": "Zirah Tempaan Paduan Suara Suster Nhalia"
       },
       "drowned_choir_fang": {
-        "name": "Drowned Choir-Fang"
+        "name": "Taring Paduan Suara Tenggelam"
       },
       "the_codfather": {
         "name": "Sang Bapak Kod"
@@ -6413,43 +6417,43 @@ export const id_ID: EnTranslations = {
         "name": "Akolit Tessa"
       },
       "drowned_cantor": {
-        "name": "Drowned Cantor"
+        "name": "Pelantun Tenggelam"
       },
       "reedbound_acolyte": {
-        "name": "Reedbound Acolyte"
+        "name": "Akolit Terikat Buluh"
       },
       "deepfen_spearjaw": {
-        "name": "Deepfen Spearjaw"
+        "name": "Rahang Tombak Rawa Dalam"
       },
       "mirefen_widowling": {
-        "name": "Mirefen Widowling"
+        "name": "Anak Janda Mirefen"
       },
       "spider_egg_sac": {
-        "name": "Spider Egg-Sac"
+        "name": "Kantung Telur Laba-laba"
       },
       "grave_silt_bulwark": {
-        "name": "Grave-Silt Bulwark"
+        "name": "Benteng Lanau Kubur"
       },
       "sump_troll_devourer": {
-        "name": "Sump Troll Devourer"
+        "name": "Troll Kubangan Pelahap"
       },
       "choir_thrall": {
-        "name": "Bog Thrall"
+        "name": "Budak Rawa"
       },
       "sister_nhalia_drowned_canticle": {
-        "name": "Sister Nhalia, the Drowned Canticle"
+        "name": "Suster Nhalia, Sang Kidung Tenggelam"
       },
       "edda_reedhand": {
         "name": "Edda Reedhand"
       },
       "tolling_bell": {
-        "name": "Tolling Bell"
+        "name": "Lonceng Berdentang"
       },
       "thunzharr_waking_peak": {
-        "name": "Thunzharr, the Waking Peak"
+        "name": "Thunzharr, Puncak yang Terjaga"
       },
       "thunzharr_stormling": {
-        "name": "Roused Stormling"
+        "name": "Anak Badai Terjaga"
       },
       "ironvein_foreman": {
         "name": "Mandor Ironvein"
@@ -6672,14 +6676,14 @@ export const id_ID: EnTranslations = {
         "greeting": "Relikuari di bawah bergeser lagi."
       },
       "brother_halven_marsh": {
-        "name": "Brother Halven",
-        "title": "Reliquary Keeper",
-        "greeting": "The trail led north. Another reliquary, another rite. Choose your tier, and I'll hold the rope until you return."
+        "name": "Bruder Halven",
+        "title": "Penjaga Relikuari",
+        "greeting": "Jejak itu menuntun ke utara. Relikuari lain, ritus lain. Pilih tingkat kesulitanmu, dan aku akan memegangi talinya sampai kau kembali."
       },
       "spirit_healer": {
-        "name": "The Pale Keeper",
-        "title": "Warden of the Dead",
-        "greeting": "Rest now, spirit. I can return you to your body, but the crossing back leaves you weak."
+        "name": "Sang Penjaga Pucat",
+        "title": "Penjaga Para Mati",
+        "greeting": "Beristirahatlah, arwah. Aku bisa mengembalikanmu ke tubuhmu, tapi penyeberangan kembali akan membuatmu lemah."
       },
       "tidewatcher_ondrel": {
         "name": "Ondrel Vane",
@@ -7124,32 +7128,32 @@ export const id_ID: EnTranslations = {
         }
       },
       "q_stalkers_return": {
-        "title": "The Stalkers Return",
-        "text": "Twelve dead, and the ridge crawls thicker than the day you started, {playerName}. Beasts do not throw themselves at a wall out of hunger. Something on the high ridge is pushing them down, and until I know what, the culling does not stop. Fourteen more.",
-        "completion": "Fourteen more, and still my patrols count fresh tracks by morning. My scout came back from the high ridge white as the snowline: prints the size of a shield, she says, and old kills no stalker would leave. Whatever walks up there is no ordinary cat.",
+        "title": "Para Pengintai Kembali",
+        "text": "Dua belas mati, dan punggung bukit itu kian penuh dibanding hari kamu memulai, {playerName}. Binatang buas tidak melemparkan diri ke tembok karena lapar semata. Sesuatu di punggung bukit tinggi mendorong mereka turun, dan sampai aku tahu apa itu, pemusnahan ini tidak berhenti. Empat belas lagi.",
+        "completion": "Empat belas lagi, dan patroliku masih menghitung jejak baru di pagi hari. Peninjauku kembali dari punggung bukit tinggi dengan wajah seputih garis salju: jejak sebesar perisai, katanya, dan bangkai buruan lama yang takkan ditinggalkan pengintai mana pun. Apa pun yang berjalan di atas sana bukan kucing biasa.",
         "objectives": {
           "0": {
-            "label": "Ridge Stalker slain"
+            "label": "Pengintai Punggung Bukit terbunuh"
           }
         }
       },
       "q_stalker_cloaks": {
-        "title": "Cloaks for the Watch",
-        "text": "Eight pelts lined the officers' cloaks, and now every soldier on the wall wants the same, {playerName}. They are right to want it: winter takes fingers first and apologies never. Ten more pelts from the ridges south of the gate, and the whole watch sleeps warm.",
-        "completion": "Ten good pelts, thick as any I have... no, look at these, {playerName}. Torn, half of them, and by no blade or spear. Claw marks wide as my hand, right through the winter coat. Something on that ridge is savaging its own kind.",
+        "title": "Jubah untuk Regu Jaga",
+        "text": "Delapan kulit bulu melapisi jubah para perwira, dan kini setiap prajurit di tembok menginginkan hal yang sama, {playerName}. Mereka pantas menginginkannya: musim dingin merenggut jari lebih dulu dan tak pernah meminta maaf. Sepuluh kulit bulu lagi dari punggung bukit di selatan gerbang, dan seluruh regu jaga tidur hangat.",
+        "completion": "Sepuluh kulit bulu yang bagus, setebal apa pun yang pernah kumiliki... tidak, lihat ini, {playerName}. Separuhnya robek, dan bukan oleh bilah atau tombak. Bekas cakar selebar tanganku, menembus bulu musim dingin. Sesuatu di punggung bukit itu sedang mencabik bangsanya sendiri.",
         "objectives": {
           "0": {
-            "label": "Ridge Stalker Pelt"
+            "label": "Bulu Pengintai Bukit"
           }
         }
       },
       "q_old_cragmaw": {
-        "title": "Old Cragmaw",
-        "text": "The mountain folk put a name to the prints my scout found: Old Cragmaw, a scar-pelted tyrant of a cat that has outlived three generations of its own pack. It is the reason the stalkers flood my road, {playerName}. Its den sits on the western ridge above the road south. Bring a friend, and put the old devil down.",
-        "completion": "Down at last. The mountain folk swore that cat would outlive the wall itself. The stalkers will keep to their high snows now, {playerName}, and my patrols will walk the road without bleeding for it. The whole ridge is quieter for your work.",
+        "title": "Cragmaw Tua",
+        "text": "Orang-orang gunung memberi nama pada jejak yang ditemukan peninjauku: Cragmaw Tua, kucing tiran berbulu penuh bekas luka yang telah hidup melampaui tiga generasi kawanannya sendiri. Dialah alasan para pengintai membanjiri jalanku, {playerName}. Sarangnya berada di punggung bukit barat di atas jalan ke selatan. Bawalah seorang kawan, dan habisi iblis tua itu.",
+        "completion": "Akhirnya tumbang juga. Orang-orang gunung bersumpah kucing itu akan hidup lebih lama dari temboknya sendiri. Para pengintai kini akan bertahan di salju tinggi mereka, {playerName}, dan patroliku akan menyusuri jalan tanpa harus berdarah karenanya. Seluruh punggung bukit menjadi lebih tenang berkat kerjamu.",
         "objectives": {
           "0": {
-            "label": "Old Cragmaw slain"
+            "label": "Cragmaw Tua terbunuh"
           }
         }
       },
@@ -7677,9 +7681,9 @@ export const id_ID: EnTranslations = {
         "leaveText": "Kau memanjat kembali menuju Bruder Halven di reruntuhan reliquary."
       },
       "drowned_litany": {
-        "name": "The Drowned Litany",
-        "enterText": "You descend into the drowned shrine at the marsh's edge.",
-        "leaveText": "You climb back to Brother Halven at the marsh's edge."
+        "name": "Litani Tenggelam",
+        "enterText": "Kau turun ke dalam kuil tenggelam di tepi rawa.",
+        "leaveText": "Kau memanjat kembali menuju Bruder Halven di tepi rawa."
       }
     },
     "letters": {
@@ -7762,11 +7766,11 @@ export const id_ID: EnTranslations = {
     "delveLockedChestInteract": "Tekan F untuk membuka kunci",
     "delveRewardChestInteract": "Tekan F untuk mengklaim rampasan",
     "delveSurfaceExitInteract": "Tekan F untuk memanjat",
-    "delveReliquaryInteract": "Drowned Reliquary: Press F to begin the rite",
-    "delveRiteShrineBellInteract": "Bell Shrine: Press F to ring it",
-    "delveRiteShrineCandleInteract": "Candle Shrine: Press F to touch it",
-    "delveRiteShrineReedInteract": "Reed Shrine: Press F to touch it",
-    "delveRiteShrineSkullInteract": "Skull Shrine: Press F to touch it",
-    "mailboxName": "Mailbox"
+    "delveReliquaryInteract": "Relikuari Tenggelam: Tekan F untuk memulai ritus",
+    "delveRiteShrineBellInteract": "Altar Lonceng: Tekan F untuk membunyikannya",
+    "delveRiteShrineCandleInteract": "Altar Lilin: Tekan F untuk menyentuhnya",
+    "delveRiteShrineReedInteract": "Altar Buluh: Tekan F untuk menyentuhnya",
+    "delveRiteShrineSkullInteract": "Altar Tengkorak: Tekan F untuk menyentuhnya",
+    "mailboxName": "Kotak Surat"
   }
 };

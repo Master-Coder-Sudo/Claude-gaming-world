@@ -212,6 +212,10 @@ export const zh_TW: EnTranslations = {
       "pointsGained": "已獲得 {points} 每日獎勵點數。",
       "showChestButton": "顯示寶箱",
       "hideChestButton": "隱藏寶箱",
+      "hideChestConfirmTitle": "隱藏每日獎勵寶箱？",
+      "hideChestConfirmBody": "這會從您的介面上移除寶箱捷徑。獎勵、資格和此面板仍然可用；您可以在選項中重新顯示該捷徑。",
+      "hideChestConfirmOk": "隱藏寶箱",
+      "hideChestConfirmCancel": "取消",
       "leaderboard": "每日排行榜",
       "totalPlayer": "今天 {count} 名玩家",
       "totalPlayers": "今天 {count} 名玩家",
@@ -765,7 +769,7 @@ export const zh_TW: EnTranslations = {
       "capacity": "{used}/{total}",
       "capacityAria": "背包格已用：{used}/{total}",
       "backpack": "背包",
-      "bagSocketAria": "{name}: {slots}",
+      "bagSocketAria": "{name}：{slots}",
       "socketEmpty": "空背包欄位",
       "unequipHint": "點擊移除此背包"
     },
@@ -1062,18 +1066,18 @@ export const zh_TW: EnTranslations = {
       "close": "關閉郵箱",
       "tabInbox": "收件匣",
       "tabInboxWithCount": "收件匣（{count}）",
-      "tabSend": "Send",
+      "tabSend": "寄信",
       "empty": "你的郵箱是空的。",
       "truncated": "顯示最新的 {shown} 封信（共 {total} 封）。",
       "attachmentsBadge": "附有包裹",
       "unreadBadge": "未讀",
-      "back": "Back",
+      "back": "返回",
       "take": "領取附件",
       "delete": "刪除信件",
       "deleteAria": "刪除信件 {subject}",
       "openAria": "閱讀來自 {name} 的信件 {subject}",
       "noSubject": "（無主題）",
-      "toLabel": "To",
+      "toLabel": "收件人",
       "toPlaceholder": "角色名字",
       "subjectLabel": "主題",
       "bodyLabel": "內容",
@@ -2037,9 +2041,9 @@ export const zh_TW: EnTranslations = {
       "undoCountTitle": "可復原 {count} 步（Ctrl+Z 復原，Ctrl+Y 重做）",
       "autosave": "自動儲存",
       "autosaveTitle": "有未儲存的變更時自動儲存地圖。儲存失敗時會自動關閉。",
-      "undo": "Undo",
+      "undo": "復原",
       "undoTitle": "復原上一次變更（Ctrl+Z）",
-      "redo": "Redo",
+      "redo": "重做",
       "redoTitle": "重做上一次復原的變更（Ctrl+Y）",
       "offline": "離線",
       "offlineTitle": "未登入：地圖只會儲存到此瀏覽器。請在遊戲中登入以線上儲存。",
@@ -2570,7 +2574,7 @@ export const zh_TW: EnTranslations = {
       "title": "新增復原電子郵件",
       "body": "設定一個電子郵件地址，以便您可以復原自己的帳號。我們僅在您需要重設密碼時，用它來確認您是本帳號的擁有者。",
       "save": "儲存電子郵件",
-      "logOut": "Log out",
+      "logOut": "登出",
       "invalid": "請輸入有效的電子郵件地址。",
       "failed": "無法儲存您的電子郵件，請重試。"
     }
@@ -2934,9 +2938,9 @@ export const zh_TW: EnTranslations = {
   "delveRiteUi": {
     "title": "溺亡聖髑儀式",
     "blurb": "神龕將依序亮起。依次啟動每一座神龕以重複順序。觸碰錯誤會導致本次嘗試失敗並重演順序，完美無誤的嘗試將贏得最豐厚的戰利品，而用盡嘗試次數則會以最寒酸的方式打開聖髑匣。選擇儀式將如何考驗你。",
-    "easy": "Easy",
+    "easy": "簡單",
     "medium": "中等",
-    "hard": "Hard",
+    "hard": "困難",
     "guideWatch": "選擇後，四座神龕會依序亮起。記住順序。",
     "guideRepeat": "神龕熄滅後，按同樣的順序走到每座神龕前按 F（互動）。",
     "guideStakes": "按錯神龕會被黑水潑濺並損失一次嘗試。完成整個順序即可開啟聖物匣。",
@@ -3060,7 +3064,7 @@ export const zh_TW: EnTranslations = {
       "sluice_valve": "水閘閥門",
       "grave_tablet": "墓碑石板",
       "corpse_candle": "屍燭",
-      "bell_rope": "Bell Rope"
+      "bell_rope": "鐘繩"
     },
     "companion": {
       "barkLine": "{name}：{line}",
@@ -4264,7 +4268,7 @@ export const zh_TW: EnTranslations = {
       "tool": "工具",
       "potion": "藥水",
       "elixir": "藥劑",
-      "bag": "Bag"
+      "bag": "背包"
     },
     "stats": {
       "armor": "護甲",
@@ -4307,7 +4311,7 @@ export const zh_TW: EnTranslations = {
       "clickUseInstant": "點擊在戰鬥中立即使用",
       "clickUse": "點擊使用",
       "clickBuyback": "點擊買回",
-      "bagSlots": "{slots} Slot Bag"
+      "bagSlots": "{slots}格背包"
     },
     "bags": {
       "title": "背包",

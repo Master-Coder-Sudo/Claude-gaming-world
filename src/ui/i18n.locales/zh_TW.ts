@@ -14,6 +14,20 @@
 import type { TranslationKey } from '../i18n.catalog';
 
 export const zh_TW: Partial<Record<TranslationKey, string>> = {
+  'auth.emailPlaceholder': 'you@example.com',
+  'auth.recovery.logOut': '登出',
+  'delveRiteUi.easy': '簡單',
+  'delveRiteUi.hard': '困難',
+  'delveUi.object.bell_rope': '鐘繩',
+  'editor.topbar.redo': '重做',
+  'editor.topbar.undo': '復原',
+  'hudChrome.bags.bagSocketAria': '{name}：{slots}',
+  'hudChrome.bags.capacity': '{used}/{total}',
+  'hudChrome.mailbox.back': '返回',
+  'hudChrome.mailbox.tabSend': '寄信',
+  'hudChrome.mailbox.toLabel': '收件人',
+  'itemUi.kind.bag': '背包',
+  'itemUi.tooltip.bagSlots': '{slots}格背包',
   // Guild roster last-seen (M16 non-Latin fill)
   'hudChrome.social.lastSeen': '最後上線: {when}',
   'hudChrome.social.lastSeenNever': '從未',
@@ -43,6 +57,11 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'hudChrome.dailyRewards.pointsGained': '已獲得 {points} 每日獎勵點數。',
   'hudChrome.dailyRewards.showChestButton': '顯示寶箱',
   'hudChrome.dailyRewards.hideChestButton': '隱藏寶箱',
+  'hudChrome.dailyRewards.hideChestConfirmTitle': '隱藏每日獎勵寶箱？',
+  'hudChrome.dailyRewards.hideChestConfirmBody':
+    '這會從您的介面上移除寶箱捷徑。獎勵、資格和此面板仍然可用；您可以在選項中重新顯示該捷徑。',
+  'hudChrome.dailyRewards.hideChestConfirmOk': '隱藏寶箱',
+  'hudChrome.dailyRewards.hideChestConfirmCancel': '取消',
   'hudChrome.dailyRewards.leaderboard': '每日排行榜',
   'hudChrome.dailyRewards.totalPlayer': '今天 {count} 名玩家',
   'hudChrome.dailyRewards.totalPlayers': '今天 {count} 名玩家',

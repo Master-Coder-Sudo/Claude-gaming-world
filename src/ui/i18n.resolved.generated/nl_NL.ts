@@ -155,9 +155,9 @@ export const nl_NL: EnTranslations = {
       "banner": "Toeschouwer bij {name}"
     },
     "death": {
-      "resurrectAtCorpse": "Resurrect at Corpse",
-      "resurrectAtHealer": "The Pale Keeper (Keeper's Toll)",
-      "spiritHealerAlive": "The Pale Keeper watches over the dead. You are still among the living."
+      "resurrectAtCorpse": "Herrijs bij je lijk",
+      "resurrectAtHealer": "De Bleke Hoeder (Tol van de Hoeder)",
+      "spiritHealerAlive": "De Bleke Hoeder waakt over de doden. Jij bent nog onder de levenden."
     },
     "emotes": {
       "wave": "Zwaaien",
@@ -188,7 +188,7 @@ export const nl_NL: EnTranslations = {
       "loading": "Dagelijkse beloningen worden geladen...",
       "error": "Kon de dagelijkse beloningen niet laden.",
       "intro": "Houd genoeg WOC in je geverifieerde portemonnee om dagelijkse beloningen te ontgrendelen. Verdien punten met één dagelijkse draai en wisselende taken, en klim daarna op in de dagelijkse ranglijst voor een deel van de prijzenpot.",
-      "disclaimer": "WOC price can move quickly. We recommend holding more than the $20 USD minimum so normal price swings do not lock you out. This is not financial advice.",
+      "disclaimer": "De WOC-prijs kan snel bewegen. We raden aan meer aan te houden dan het minimum van $20 USD, zodat normale koersschommelingen je niet buitensluiten. Dit is geen financieel advies.",
       "prize": "Prijzenpot",
       "reset": "Reset",
       "endsIn": "Eindigt over {time}",
@@ -208,13 +208,17 @@ export const nl_NL: EnTranslations = {
       "spinResult": "+{points} punten",
       "spinButton": "Draaien",
       "tasks": "Taken",
-      "taskMultiplier": "x{multiplier} multiplier",
-      "pointsGained": "{points} daily rewards points gained.",
+      "taskMultiplier": "x{multiplier} vermenigvuldiger",
+      "pointsGained": "{points} punten voor dagelijkse beloningen verdiend.",
       "showChestButton": "Kist tonen",
       "hideChestButton": "Kist verbergen",
+      "hideChestConfirmTitle": "Kist met dagelijkse beloningen verbergen?",
+      "hideChestConfirmBody": "Dit verwijdert de kistsnelkoppeling uit je HUD. Beloningen, geschiktheid en dit paneel blijven beschikbaar; je kunt de snelkoppeling terughalen via Opties.",
+      "hideChestConfirmOk": "Kist verbergen",
+      "hideChestConfirmCancel": "Annuleren",
       "leaderboard": "Dagelijkse ranglijst",
-      "totalPlayer": "{count} player today",
-      "totalPlayers": "{count} players today",
+      "totalPlayer": "{count} speler vandaag",
+      "totalPlayers": "{count} spelers vandaag",
       "history": "Eerdere winnaars",
       "noLeaders": "Nog geen punten.",
       "noHistory": "Nog geen uitbetalingen.",
@@ -290,7 +294,7 @@ export const nl_NL: EnTranslations = {
       "partyGroup": "Groep {n}",
       "durationUnitSeconds": "s",
       "durationUnitMinutes": "m",
-      "durationUnitHours": "h",
+      "durationUnitHours": "u",
       "durationUnitDays": "d"
     },
     "character": {
@@ -401,20 +405,20 @@ export const nl_NL: EnTranslations = {
       "showWalletOnCharacterScreen": "Portemonnee tonen op personagescherm",
       "showWalletOnPlayerCard": "Portemonnee tonen op spelerskaart",
       "showDevBadges": "Ontwikkelaarsinsignes tonen",
-      "showOwnNameplate": "Show My Nameplate",
+      "showOwnNameplate": "Mijn naambordje tonen",
       "uiScale": "UI-schaal",
-      "playerFrameScale": "Player Frame Scale",
-      "targetFrameScale": "Target Frame Scale",
-      "aurasOnPlayerFrame": "Buffs on the Player Frame",
+      "playerFrameScale": "Schaal spelerframe",
+      "targetFrameScale": "Schaal doelwitframe",
+      "aurasOnPlayerFrame": "Buffs op het spelerframe",
       "highContrastBackground": "Hoog-contrastachtergrond",
       "startAttackOnAbility": "Auto-aanval bij gebruik van vaardigheid",
-      "walkByAutoloot": "Walk-by Autoloot",
+      "walkByAutoloot": "Buit oprapen in het voorbijgaan",
       "groundReticle": "Grondrichtkruis",
       "showItemLevel": "Itemniveau tonen",
       "itemLevelLine": "Itemniveau {level}",
       "itemScoreLine": "Score {score}",
       "showSecondaryActionBar": "Secundaire actiebalk tonen",
-      "showDailyRewardsChest": "Show Daily Rewards Chest"
+      "showDailyRewardsChest": "Kist met dagelijkse beloningen tonen"
     },
     "controller": {
       "title": "Controller",
@@ -734,7 +738,7 @@ export const nl_NL: EnTranslations = {
     },
     "party": {
       "promoteLeader": "Bevorderen tot leider",
-      "inviteUsage": "Invite whom? Usage: /invite <name>."
+      "inviteUsage": "Wie wil je uitnodigen? Gebruik: /invite <naam>."
     },
     "lootSettings": {
       "title": "Buitinstellingen",
@@ -763,11 +767,11 @@ export const nl_NL: EnTranslations = {
       "searchAria": "Tasitems zoeken op naam",
       "noMatch": "Geen items komen overeen met je filters.",
       "capacity": "{used}/{total}",
-      "capacityAria": "Bag slots used: {used} of {total}",
-      "backpack": "Backpack",
+      "capacityAria": "Tasvakken gebruikt: {used} van {total}",
+      "backpack": "Rugzak",
       "bagSocketAria": "{name}: {slots}",
-      "socketEmpty": "Empty bag slot",
-      "unequipHint": "Click to remove this bag"
+      "socketEmpty": "Leeg tasvak",
+      "unequipHint": "Klik om deze tas af te doen"
     },
     "raidConvert": {
       "toPartyDone": "Je raid is terug omgezet naar een groep.",
@@ -810,7 +814,7 @@ export const nl_NL: EnTranslations = {
         "spi": "Verringert Willenskraft um {value}",
         "allStats": "Verringert alle Attribute um {value}"
       },
-      "allStatsPctReduce": "Reduces all attributes by {pct}%",
+      "allStatsPctReduce": "Vermindert alle statistieken met {pct}%",
       "dodge": "Erhöht Ausweichchance um {pct}%",
       "dodgeReduce": "Verringert Ausweichchance um {pct}%",
       "armorFlat": "Verringert Rüstung um {value}",
@@ -851,7 +855,7 @@ export const nl_NL: EnTranslations = {
       }
     },
     "worldBoss": {
-      "spawn": "{name} rises over Thornpeak Heights!"
+      "spawn": "{name} verrijst boven Doorntop-Hoogten!"
     },
     "loot": {
       "chestTitle": "Kist"
@@ -865,21 +869,21 @@ export const nl_NL: EnTranslations = {
       "mobElite": "[{level}+] {name}"
     },
     "mobTooltip": {
-      "levelFamily": "Level {level} {family}",
+      "levelFamily": "Niveau {level} {family}",
       "familyDemon": "Demon",
-      "hostile": "Hostile",
-      "friendly": "Friendly"
+      "hostile": "Vijandig",
+      "friendly": "Vriendelijk"
     },
     "targetFrame": {
-      "unlock": "Move target frame",
-      "lock": "Lock target frame"
+      "unlock": "Doelwitframe verplaatsen",
+      "lock": "Doelwitframe vergrendelen"
     },
     "playerFrame": {
-      "unlock": "Move player frame",
-      "lock": "Lock player frame"
+      "unlock": "Spelerframe verplaatsen",
+      "lock": "Spelerframe vergrendelen"
     },
     "frameReset": {
-      "label": "Reset Frame Positions"
+      "label": "Frameposities herstellen"
     },
     "itemTooltip": {
       "requiresLevel": "Vereist niveau {level}"
@@ -1057,114 +1061,114 @@ export const nl_NL: EnTranslations = {
       "unlink": "GitHub ontkoppelen"
     },
     "mailbox": {
-      "title": "Mailbox",
-      "subtitle": "The Ravenpost",
-      "close": "Close mailbox",
-      "tabInbox": "Inbox",
-      "tabInboxWithCount": "Inbox ({count})",
-      "tabSend": "Send",
-      "empty": "Your mailbox is empty.",
-      "truncated": "Showing the newest {shown} of {total} letters.",
-      "attachmentsBadge": "Parcel attached",
-      "unreadBadge": "Unread",
-      "back": "Back",
-      "take": "Take attachments",
-      "delete": "Delete letter",
-      "deleteAria": "Delete the letter {subject}",
-      "openAria": "Read the letter {subject} from {name}",
-      "noSubject": "(no subject)",
-      "toLabel": "To",
-      "toPlaceholder": "Character name",
-      "subjectLabel": "Subject",
-      "bodyLabel": "Message",
-      "coinLabel": "Attach coin",
-      "parcelsLabel": "Parcels",
-      "parcelsHint": "Click an item in your bags to attach it.",
-      "removeParcelAria": "Remove {item} from the letter",
-      "sendButton": "Send letter",
-      "postageNote": "Postage: {amount}. The raven flies for about {seconds}s.",
-      "arrivedBanner": "The raven has landed: mail from {name}.",
-      "arrivedLog": "You have new mail from {name}.",
-      "indicatorAria": "Unread mail: {count}",
-      "indicatorTip": "You have {count} unread letters. Visit a mailbox to read them.",
-      "clickAttach": "Click to attach to your letter.",
-      "cannotMail": "This cannot be mailed.",
+      "title": "Brievenbus",
+      "subtitle": "De Ravenpost",
+      "close": "Brievenbus sluiten",
+      "tabInbox": "Postvak In",
+      "tabInboxWithCount": "Postvak In ({count})",
+      "tabSend": "Versturen",
+      "empty": "Je brievenbus is leeg.",
+      "truncated": "De nieuwste {shown} van {total} brieven worden getoond.",
+      "attachmentsBadge": "Pakket bijgevoegd",
+      "unreadBadge": "Ongelezen",
+      "back": "Terug",
+      "take": "Bijlagen pakken",
+      "delete": "Brief verwijderen",
+      "deleteAria": "Verwijder de brief {subject}",
+      "openAria": "Lees de brief {subject} van {name}",
+      "noSubject": "(geen onderwerp)",
+      "toLabel": "Aan",
+      "toPlaceholder": "Personagenaam",
+      "subjectLabel": "Onderwerp",
+      "bodyLabel": "Bericht",
+      "coinLabel": "Munten bijvoegen",
+      "parcelsLabel": "Pakketten",
+      "parcelsHint": "Klik op een voorwerp in je tassen om het bij te voegen.",
+      "removeParcelAria": "Verwijder {item} uit de brief",
+      "sendButton": "Brief versturen",
+      "postageNote": "Porto: {amount}. De raaf vliegt ongeveer {seconds}s.",
+      "arrivedBanner": "De raaf is geland: post van {name}.",
+      "arrivedLog": "Je hebt nieuwe post van {name}.",
+      "indicatorAria": "Ongelezen post: {count}",
+      "indicatorTip": "Je hebt {count} ongelezen brieven. Ga naar een brievenbus om ze te lezen.",
+      "clickAttach": "Klik om aan je brief toe te voegen.",
+      "cannotMail": "Dit kan niet per post worden verstuurd.",
       "result": {
-        "sent": "A raven takes wing with your letter to {name} ({postage} postage).",
-        "collected": "You collect {amount} from the letter.",
-        "tooFar": "You must be at a mailbox to tend your post.",
-        "needRecipient": "Name a recipient for your letter.",
-        "noRecipient": "No one by that name holds a mailbox here.",
-        "tooManyParcels": "A letter carries at most {count} parcels.",
-        "noMailQuestItems": "You cannot mail quest items.",
-        "notEnoughItems": "You do not have that many to send.",
-        "cantAffordPostage": "You cannot afford the postage.",
-        "recipientBoxFull": "Their mailbox is full.",
-        "letterGone": "That letter is no longer in your box.",
-        "takeParcelsFirst": "Take the parcels out before discarding the letter."
+        "sent": "Een raaf vliegt op met je brief naar {name} ({postage} porto).",
+        "collected": "Je haalt {amount} uit de brief.",
+        "tooFar": "Je moet bij een brievenbus zijn om je post te beheren.",
+        "needRecipient": "Noem een ontvanger voor je brief.",
+        "noRecipient": "Niemand met die naam heeft hier een brievenbus.",
+        "tooManyParcels": "Een brief draagt hoogstens {count} pakketten.",
+        "noMailQuestItems": "Je kunt geen opdrachtvoorwerpen versturen.",
+        "notEnoughItems": "Zoveel heb je er niet om te versturen.",
+        "cantAffordPostage": "Je kunt de porto niet betalen.",
+        "recipientBoxFull": "Hun brievenbus is vol.",
+        "letterGone": "Die brief zit niet meer in je brievenbus.",
+        "takeParcelsFirst": "Haal de pakketten eruit voordat je de brief weggooit."
       }
     },
     "calendar": {
-      "title": "Event Calendar",
-      "close": "Close calendar",
-      "keybindLabel": "Event Calendar",
-      "prevMonth": "Previous month",
-      "nextMonth": "Next month",
-      "dayAria": "{date}: {count} events",
-      "noEvents": "Nothing planned for this day.",
-      "allDay": "All day",
-      "bookedBy": "Booked by {name}",
-      "deleteAria": "Remove the event {title}",
-      "bookTitle": "Book a guild event",
-      "titlePlaceholder": "Event title",
-      "notePlaceholder": "Note (optional)",
-      "hourLabel": "Hour (UTC)",
-      "hourAllDay": "All day",
-      "addButton": "Book event",
-      "guildOnlyNote": "Join a guild to plan events together.",
+      "title": "Evenementenkalender",
+      "close": "Kalender sluiten",
+      "keybindLabel": "Evenementenkalender",
+      "prevMonth": "Vorige maand",
+      "nextMonth": "Volgende maand",
+      "dayAria": "{date}: {count} evenementen",
+      "noEvents": "Niets gepland voor deze dag.",
+      "allDay": "Hele dag",
+      "bookedBy": "Geboekt door {name}",
+      "deleteAria": "Verwijder het evenement {title}",
+      "bookTitle": "Een gilde-evenement boeken",
+      "titlePlaceholder": "Titel van het evenement",
+      "notePlaceholder": "Notitie (optioneel)",
+      "hourLabel": "Uur (UTC)",
+      "hourAllDay": "Hele dag",
+      "addButton": "Evenement boeken",
+      "guildOnlyNote": "Word lid van een gilde om samen evenementen te plannen.",
       "result": {
-        "created": "The event is on the guild calendar.",
-        "removed": "The event was taken off the calendar.",
-        "notInGuild": "You are not in a guild.",
-        "notOfficer": "Only officers and the Guild Master may manage guild events.",
-        "badInput": "Give the event a title and a valid day.",
-        "calendarFull": "The guild calendar is full.",
-        "eventGone": "That event is no longer on the calendar."
+        "created": "Het evenement staat op de gildekalender.",
+        "removed": "Het evenement is van de kalender gehaald.",
+        "notInGuild": "Je zit niet in een gilde.",
+        "notOfficer": "Alleen officieren en de Gildemeester mogen gilde-evenementen beheren.",
+        "badInput": "Geef het evenement een titel en een geldige dag.",
+        "calendarFull": "De gildekalender is vol.",
+        "eventGone": "Dat evenement staat niet meer op de kalender."
       },
       "events": {
         "raidCall": {
-          "title": "Raid Call",
-          "note": "Wardens sound the horn: gather a party for the crypts and the raid."
+          "title": "Raidoproep",
+          "note": "Wachters blazen de hoorn: verzamel een groep voor de cryptes en de raid."
         },
         "marketDay": {
-          "title": "Market Day",
-          "note": "The Merchant expects fresh stock. A fine day to browse the World Market."
+          "title": "Marktdag",
+          "note": "De Koopman verwacht verse voorraad. Een mooie dag om de Wereldmarkt af te struinen."
         },
         "fiestaNight": {
-          "title": "Fiesta Night",
-          "note": "The 2v2 Fiesta ring draws its loudest crowds tonight."
+          "title": "Fiesta-avond",
+          "note": "De 2v2 Fiesta-ring trekt vanavond zijn luidruchtigste publiek."
         },
         "arenaClash": {
-          "title": "Arena Clash",
-          "note": "Duelists flock to the Ashen Coliseum. Queue up and climb the ladder."
+          "title": "Arenatreffen",
+          "note": "Duellisten stromen naar het Asgrauwe Colosseum. Sluit aan in de wachtrij en klim de ladder op."
         },
         "fishingDerby": {
-          "title": "Fishing Derby",
-          "note": "Anglers line the lakes. Bring a pole and swap fishing tales."
+          "title": "Visderby",
+          "note": "Hengelaars staan langs de meren. Neem een hengel mee en wissel visverhalen uit."
         },
         "delveDay": {
-          "title": "Delve Day",
-          "note": "Brother Halven marks his charts: a fine day to brave the Collapsed Reliquary."
+          "title": "Delvedag",
+          "note": "Broeder Halven markeert zijn kaarten: een mooie dag om het Ingestorte Reliekschrijn te trotseren."
         },
         "moongateCommunion": {
-          "title": "Moongate Communion",
-          "note": "Pilgrims gather at the temple moongate under the mid-month moon."
+          "title": "Maanpoort-Communie",
+          "note": "Pelgrims verzamelen zich bij de maanpoort van de tempel onder de maan van halverwege de maand."
         }
       }
     },
     "social": {
-      "lastSeen": "Last seen: {when}",
-      "lastSeenNever": "never"
+      "lastSeen": "Laatst gezien: {when}",
+      "lastSeenNever": "nooit"
     }
   },
   "guide": {
@@ -1994,427 +1998,427 @@ export const nl_NL: EnTranslations = {
     }
   },
   "editor": {
-    "appTitle": "Map Editor",
-    "docTitle": "Map Editor - World of ClaudeCraft",
-    "untitledMap": "Untitled Map",
-    "playtestPlayerName": "Mapmaker",
+    "appTitle": "Kaarteditor",
+    "docTitle": "Kaarteditor - World of ClaudeCraft",
+    "untitledMap": "Naamloze kaart",
+    "playtestPlayerName": "Kaartenmaker",
     "topbar": {
-      "label": "Editor actions",
-      "mapNameLabel": "Map name",
-      "dirty": "Unsaved changes",
-      "dirtyDot": "This map has unsaved changes",
-      "clean": "All changes saved",
-      "savedLocal": "Saved in this browser",
-      "savedServer": "Saved to server (v{version})",
-      "saving": "Saving...",
-      "neverSaved": "Not saved yet",
-      "new": "New",
-      "newTitle": "Start a new map from the built-in world",
-      "open": "Open",
-      "openTitle": "Open a saved map (browser or server)",
-      "save": "Save",
-      "saveTitle": "Save to this browser, and to the server when signed in (Ctrl+S)",
-      "saveAs": "Save As",
-      "saveAsTitle": "Save a copy under a new name",
-      "fork": "Fork",
-      "forkTitle": "Create your own server-side copy of this map",
-      "forkDisabledTitle": "Open a server map first to fork it",
-      "import": "Import",
-      "importTitle": "Import a map from a JSON file",
-      "export": "Export",
-      "exportTitle": "Download this map as a JSON file",
-      "uploadAsset": "Upload Asset",
-      "uploadAssetTitle": "Upload a GLB model (up to 8 MiB) to place in your maps",
-      "uploadAssetDisabledTitle": "Sign in from the game to upload assets",
-      "playtest": "Playtest",
-      "playtestTitle": "Boot the game on this map (offline, current edits included)",
-      "viewLabel": "View mode",
+      "label": "Editoracties",
+      "mapNameLabel": "Kaartnaam",
+      "dirty": "Niet-opgeslagen wijzigingen",
+      "dirtyDot": "Deze kaart heeft niet-opgeslagen wijzigingen",
+      "clean": "Alle wijzigingen opgeslagen",
+      "savedLocal": "Opgeslagen in deze browser",
+      "savedServer": "Opgeslagen op de server (v{version})",
+      "saving": "Opslaan...",
+      "neverSaved": "Nog niet opgeslagen",
+      "new": "Nieuw",
+      "newTitle": "Begin een nieuwe kaart vanuit de ingebouwde wereld",
+      "open": "Openen",
+      "openTitle": "Open een opgeslagen kaart (browser of server)",
+      "save": "Opslaan",
+      "saveTitle": "Sla op in deze browser, en op de server wanneer je bent ingelogd (Ctrl+S)",
+      "saveAs": "Opslaan als",
+      "saveAsTitle": "Sla een kopie op onder een nieuwe naam",
+      "fork": "Forken",
+      "forkTitle": "Maak je eigen serverkopie van deze kaart",
+      "forkDisabledTitle": "Open eerst een serverkaart om deze te forken",
+      "import": "Importeren",
+      "importTitle": "Importeer een kaart uit een JSON-bestand",
+      "export": "Exporteren",
+      "exportTitle": "Download deze kaart als JSON-bestand",
+      "uploadAsset": "Asset uploaden",
+      "uploadAssetTitle": "Upload een GLB-model (tot 8 MiB) om in je kaarten te plaatsen",
+      "uploadAssetDisabledTitle": "Log in vanuit het spel om assets te uploaden",
+      "playtest": "Speeltest",
+      "playtestTitle": "Start het spel op deze kaart (offline, inclusief huidige bewerkingen)",
+      "viewLabel": "Weergavemodus",
       "view3d": "3D",
-      "view3dTitle": "Edit in the rendered world",
+      "view3dTitle": "Bewerk in de gerenderde wereld",
       "view2d": "2D",
-      "view2dTitle": "Edit on the symbolic overhead map",
-      "undoCount": "Undo: {count}",
-      "undoCountTitle": "{count} undoable steps (Ctrl+Z to undo, Ctrl+Y to redo)",
-      "autosave": "Autosave",
-      "autosaveTitle": "Automatically save the map while there are unsaved changes. Turns itself off if a save fails.",
-      "undo": "Undo",
-      "undoTitle": "Undo the last change (Ctrl+Z)",
-      "redo": "Redo",
-      "redoTitle": "Redo the last undone change (Ctrl+Y)",
+      "view2dTitle": "Bewerk op de symbolische bovenaanzichtkaart",
+      "undoCount": "Ongedaan maken: {count}",
+      "undoCountTitle": "{count} ongedaan te maken stappen (Ctrl+Z om ongedaan te maken, Ctrl+Y om opnieuw uit te voeren)",
+      "autosave": "Automatisch opslaan",
+      "autosaveTitle": "Sla de kaart automatisch op zolang er niet-opgeslagen wijzigingen zijn. Schakelt zichzelf uit als opslaan mislukt.",
+      "undo": "Ongedaan maken",
+      "undoTitle": "Maak de laatste wijziging ongedaan (Ctrl+Z)",
+      "redo": "Opnieuw",
+      "redoTitle": "Voer de laatst ongedaan gemaakte wijziging opnieuw uit (Ctrl+Y)",
       "offline": "Offline",
-      "offlineTitle": "Not signed in: maps save to this browser only. Sign in from the game to save online.",
-      "signIn": "Sign in",
-      "signInTitle": "Open the game login screen in a new tab",
-      "help": "Help",
-      "helpTitle": "Editor guide: tools, shortcuts, and the tutorial"
+      "offlineTitle": "Niet ingelogd: kaarten worden alleen in deze browser opgeslagen. Log in vanuit het spel om online op te slaan.",
+      "signIn": "Inloggen",
+      "signInTitle": "Open het inlogscherm van het spel in een nieuw tabblad",
+      "help": "Hulp",
+      "helpTitle": "Editorgids: gereedschappen, sneltoetsen en de tutorial"
     },
     "tool": {
-      "listLabel": "Editor tools",
+      "listLabel": "Editorgereedschappen",
       "keyHint": "{name} ({key})",
-      "select": "Select",
-      "raise": "Raise",
-      "lower": "Lower",
-      "smooth": "Smooth",
-      "flatten": "Flatten",
-      "paint": "Paint Biome",
+      "select": "Selecteren",
+      "raise": "Verhogen",
+      "lower": "Verlagen",
+      "smooth": "Gladstrijken",
+      "flatten": "Vlakmaken",
+      "paint": "Bioom verven",
       "water": "Water",
-      "place": "Place Asset",
-      "blocker": "Blocker Wall",
-      "camp": "Camp",
-      "spawn": "Spawn Point",
-      "region": "Region",
-      "erase": "Erase"
+      "place": "Asset plaatsen",
+      "blocker": "Blokkademuur",
+      "camp": "Kamp",
+      "spawn": "Spawnpunt",
+      "region": "Regio",
+      "erase": "Wissen"
     },
     "inspector": {
-      "label": "Tool options"
+      "label": "Gereedschapsopties"
     },
     "brush": {
-      "title": "Brush",
-      "size": "Brush size",
-      "strength": "Strength",
-      "sizeHint": "Keys: [ and ] resize the brush; Shift+[ and Shift+] change strength.",
-      "editCount": "Terrain edits: {count} / {max}"
+      "title": "Penseel",
+      "size": "Penseelgrootte",
+      "strength": "Sterkte",
+      "sizeHint": "Toetsen: [ en ] veranderen de penseelgrootte; Shift+[ en Shift+] veranderen de sterkte.",
+      "editCount": "Terreinbewerkingen: {count} / {max}"
     },
     "biome": {
-      "title": "Biome",
-      "paletteLabel": "Biome to paint",
-      "vale": "Vale",
-      "marsh": "Marsh",
-      "peaks": "Peaks",
-      "beach": "Beach",
-      "desert": "Desert",
-      "volcano": "Volcano",
-      "cave": "Cave",
-      "erase": "Erase paint",
-      "hint": "Painted cells override the zone biome for terrain shape and color.",
-      "clear": "Clear all biome paint",
-      "clearConfirm": "Remove every painted biome cell from this map?"
+      "title": "Bioom",
+      "paletteLabel": "Te verven bioom",
+      "vale": "Dal",
+      "marsh": "Moeras",
+      "peaks": "Toppen",
+      "beach": "Strand",
+      "desert": "Woestijn",
+      "volcano": "Vulkaan",
+      "cave": "Grot",
+      "erase": "Verf wissen",
+      "hint": "Geverfde cellen overschrijven het gebiedsbioom voor terreinvorm en kleur.",
+      "clear": "Alle bioomverf wissen",
+      "clearConfirm": "Elke geverfde bioomcel van deze kaart verwijderen?"
     },
     "flatten": {
-      "hint": "Flatten levels the ground to the height under the cursor when the drag starts.",
-      "hardEdge": "Hard edge"
+      "hint": "Vlakmaken egaliseert de grond naar de hoogte onder de cursor op het moment dat het slepen begint.",
+      "hardEdge": "Harde rand"
     },
     "water": {
-      "title": "Water Level",
-      "level": "Water level",
-      "hint": "Sets the map-wide water surface height, from {min} to {max} yards.",
-      "reset": "Reset to the built-in level"
+      "title": "Waterpeil",
+      "level": "Waterpeil",
+      "hint": "Stelt de hoogte van het wateroppervlak voor de hele kaart in, van {min} tot {max} m.",
+      "reset": "Herstel naar het ingebouwde peil"
     },
     "place": {
-      "title": "Place Asset",
-      "scale": "Scale",
-      "collide": "Blocks movement",
-      "collideHint": "A blocking asset gets a collision footprint players cannot walk through.",
-      "randomRotation": "Random rotation",
-      "chosen": "Placing: {name}",
-      "none": "Pick an asset from the browser below, then click the ground to place it."
+      "title": "Asset plaatsen",
+      "scale": "Schaal",
+      "collide": "Blokkeert beweging",
+      "collideHint": "Een blokkerende asset krijgt een botsingsvoetafdruk waar spelers niet doorheen kunnen lopen.",
+      "randomRotation": "Willekeurige draaiing",
+      "chosen": "Plaatsen: {name}",
+      "none": "Kies een asset uit de browser hieronder en klik dan op de grond om hem te plaatsen."
     },
     "blockerTool": {
-      "title": "Blocker Wall",
-      "hint": "Drag along the ground to draw an invisible wall players cannot walk or jump through. Release to place it; a wall shorter than half a yard is discarded.",
-      "count": "Blocker walls: {count} / {max}"
+      "title": "Blokkademuur",
+      "hint": "Sleep over de grond om een onzichtbare muur te tekenen waar spelers niet doorheen kunnen lopen of springen. Laat los om hem te plaatsen; een muur korter dan een halve meter wordt weggegooid.",
+      "count": "Blokkademuren: {count} / {max}"
     },
     "camp": {
-      "title": "Mob Camp",
+      "title": "Mobkamp",
       "mob": "Mob",
-      "count": "Count",
-      "radius": "Radius",
-      "delete": "Delete camp",
-      "hint": "Click open ground to add a camp, or click an existing camp to edit it.",
-      "playtestNote": "Mobs spawn only in playtest, never in the editor view.",
-      "selected": "Camp: {mob}",
-      "none": "No camp selected."
+      "count": "Aantal",
+      "radius": "Straal",
+      "delete": "Kamp verwijderen",
+      "hint": "Klik op open grond om een kamp toe te voegen, of klik op een bestaand kamp om het te bewerken.",
+      "playtestNote": "Mobs verschijnen alleen in de speeltest, nooit in de editorweergave.",
+      "selected": "Kamp: {mob}",
+      "none": "Geen kamp geselecteerd."
     },
     "spawn": {
-      "title": "Spawn Point",
-      "hint": "Click the ground to set where playtest drops the player.",
+      "title": "Spawnpunt",
+      "hint": "Klik op de grond om te bepalen waar de speeltest de speler neerzet.",
       "position": "Spawn: {x}, {z}",
-      "unset": "Using the built-in start position.",
-      "clear": "Clear spawn point"
+      "unset": "De ingebouwde startpositie wordt gebruikt.",
+      "clear": "Spawnpunt wissen"
     },
     "region": {
-      "title": "Region",
-      "hint": "Drag a box to select placements and terrain edits. Copy, then click to paste.",
-      "hint3d": "Region boxes draw in the 2D view; copy and paste work in both views.",
-      "copy": "Copy region",
-      "pasteBeside": "Paste beside",
-      "copied": "Copied {assets} assets and {edits} terrain edits.",
-      "pasted": "Pasted {count} items.",
-      "needBox": "Draw a region box first.",
-      "needClipboard": "Copy a region first."
+      "title": "Regio",
+      "hint": "Sleep een kader om plaatsingen en terreinbewerkingen te selecteren. Kopieer, en klik dan om te plakken.",
+      "hint3d": "Regiokaders teken je in de 2D-weergave; kopiëren en plakken werken in beide weergaven.",
+      "copy": "Regio kopiëren",
+      "pasteBeside": "Ernaast plakken",
+      "copied": "{assets} assets en {edits} terreinbewerkingen gekopieerd.",
+      "pasted": "{count} items geplakt.",
+      "needBox": "Teken eerst een regiokader.",
+      "needClipboard": "Kopieer eerst een regio."
     },
     "eraseTool": {
-      "title": "Erase",
-      "hint": "Click a placed asset to remove it, or click sculpted ground to remove the newest stamp under the cursor.",
-      "blockerHint": "Clicking near a blocker wall removes that wall instead."
+      "title": "Wissen",
+      "hint": "Klik op een geplaatste asset om hem te verwijderen, of klik op gebeeldhouwde grond om de nieuwste stempel onder de cursor te verwijderen.",
+      "blockerHint": "Klikken bij een blokkademuur verwijdert in plaats daarvan die muur."
     },
     "selection": {
-      "title": "Selection",
-      "none": "Nothing selected. Use Select and click a placed asset.",
+      "title": "Selectie",
+      "none": "Niets geselecteerd. Gebruik Selecteren en klik op een geplaatste asset.",
       "asset": "Asset: {name}",
       "x": "X",
       "z": "Z",
-      "rotation": "Rotation",
-      "scale": "Scale",
-      "collide": "Blocks movement",
-      "radius": "Collision radius",
+      "rotation": "Draaiing",
+      "scale": "Schaal",
+      "collide": "Blokkeert beweging",
+      "radius": "Botsingsstraal",
       "radiusAuto": "Auto",
-      "radiusAutoTitle": "Reset the collision radius to follow the asset scale",
-      "radiusHint": "Auto derives the collision radius from the asset scale; drag the slider to override it.",
-      "footprints": "Show collision footprints",
-      "duplicate": "Duplicate",
-      "delete": "Delete",
-      "deleteHint": "Delete removes the selection; Ctrl+Z restores it.",
-      "moveHint": "Move: drag the asset along the ground in the 3D view, or nudge it with the arrow keys (0.5 yd, Shift for 2 yd).",
-      "wheelHint": "Shift+scroll rotates the asset, Alt+scroll scales it, Ctrl+D duplicates it."
+      "radiusAutoTitle": "Herstel de botsingsstraal zodat hij de schaal van de asset volgt",
+      "radiusHint": "Auto leidt de botsingsstraal af van de schaal van de asset; versleep de schuifregelaar om hem te overschrijven.",
+      "footprints": "Botsingsvoetafdrukken tonen",
+      "duplicate": "Dupliceren",
+      "delete": "Verwijderen",
+      "deleteHint": "Delete verwijdert de selectie; Ctrl+Z zet die terug.",
+      "moveHint": "Verplaatsen: sleep de asset over de grond in de 3D-weergave, of verschuif hem met de pijltjestoetsen (0,5 m, Shift voor 2 m).",
+      "wheelHint": "Shift+scrollen draait de asset, Alt+scrollen schaalt hem, Ctrl+D dupliceert hem."
     },
     "marker": {
-      "title": "Marker",
-      "reset": "Reset position",
-      "moved": "{count} markers moved from the built-in layout."
+      "title": "Markering",
+      "reset": "Positie herstellen",
+      "moved": "{count} markeringen verplaatst ten opzichte van de ingebouwde indeling."
     },
     "layers": {
-      "title": "Layers",
+      "title": "Lagen",
       "hub": "Hubs",
-      "graveyard": "Graveyards",
-      "lake": "Lakes",
-      "poi": "Points of interest",
-      "camp": "Camps",
-      "npc": "NPCs",
-      "object": "Objects",
-      "blocker": "Blocker walls"
+      "graveyard": "Begraafplaatsen",
+      "lake": "Meren",
+      "poi": "Interessante punten",
+      "camp": "Kampen",
+      "npc": "NPC's",
+      "object": "Objecten",
+      "blocker": "Blokkademuren"
     },
     "frame": {
-      "title": "Frame",
-      "all": "All"
+      "title": "Kadreren",
+      "all": "Alles"
     },
     "procgen": {
-      "title": "Procedural",
-      "count": "Count",
-      "scatter": "Scatter category assets",
-      "hills": "Generate rolling hills",
-      "scattered": "Scattered {count} assets from {category}.",
-      "hillsAdded": "Added {count} hills.",
-      "noAssets": "No assets in that category."
+      "title": "Procedureel",
+      "count": "Aantal",
+      "scatter": "Assets uit categorie verspreiden",
+      "hills": "Glooiende heuvels genereren",
+      "scattered": "{count} assets uit {category} verspreid.",
+      "hillsAdded": "{count} heuvels toegevoegd.",
+      "noAssets": "Geen assets in die categorie."
     },
     "assets": {
-      "title": "Asset Browser",
-      "label": "Asset browser",
-      "search": "Search assets",
-      "searchPlaceholder": "Search assets...",
-      "empty": "No matching assets.",
-      "uploadedTab": "Uploaded",
-      "uploadedEmpty": "No uploaded assets yet. Use Upload Asset to add a GLB model (up to 8 MiB).",
-      "uploadedSignIn": "Sign in from the game to upload and place your own GLB models.",
-      "uploadedLoadFailed": "Could not load your uploaded assets.",
-      "deleteAsset": "Delete uploaded asset",
-      "deleteAssetConfirm": "Delete the uploaded asset \"{name}\"? Maps that use it lose the model.",
-      "pick": "Place {name}",
+      "title": "Assetbrowser",
+      "label": "Assetbrowser",
+      "search": "Assets zoeken",
+      "searchPlaceholder": "Assets zoeken...",
+      "empty": "Geen overeenkomende assets.",
+      "uploadedTab": "Geüpload",
+      "uploadedEmpty": "Nog geen geüploade assets. Gebruik Asset uploaden om een GLB-model toe te voegen (tot 8 MiB).",
+      "uploadedSignIn": "Log in vanuit het spel om je eigen GLB-modellen te uploaden en te plaatsen.",
+      "uploadedLoadFailed": "Kon je geüploade assets niet laden.",
+      "deleteAsset": "Geüploade asset verwijderen",
+      "deleteAssetConfirm": "De geüploade asset \"{name}\" verwijderen? Kaarten die hem gebruiken verliezen het model.",
+      "pick": "Plaats {name}",
       "categoryTab": "{category} ({count})",
       "category": {
-        "biome": "Biome",
-        "chars": "Characters",
-        "creatures": "Creatures",
-        "dungeon": "Dungeon",
-        "foliage": "Foliage",
-        "props": "Props",
+        "biome": "Bioom",
+        "chars": "Personages",
+        "creatures": "Wezens",
+        "dungeon": "Kerker",
+        "foliage": "Begroeiing",
+        "props": "Rekwisieten",
         "quest": "Quest",
-        "resources": "Resources",
-        "tools": "Tools",
-        "weapons": "Weapons"
+        "resources": "Grondstoffen",
+        "tools": "Gereedschap",
+        "weapons": "Wapens"
       }
     },
     "upload": {
-      "notGlb": "Pick a .glb file.",
-      "tooLarge": "That file is over the 8 MiB limit.",
-      "uploading": "Uploading asset...",
-      "uploaded": "Asset uploaded: {name}",
-      "uploadedExisting": "That model was already on the server; reusing it.",
-      "deleted": "Uploaded asset deleted."
+      "notGlb": "Kies een .glb-bestand.",
+      "tooLarge": "Dat bestand is groter dan de limiet van 8 MiB.",
+      "uploading": "Asset wordt geüpload...",
+      "uploaded": "Asset geüpload: {name}",
+      "uploadedExisting": "Dat model stond al op de server; het wordt hergebruikt.",
+      "deleted": "Geüploade asset verwijderd."
     },
     "openDrawer": {
-      "title": "Open Map",
-      "close": "Close",
-      "tabLocal": "This Browser",
-      "tabMine": "My Server Maps",
-      "tabPublic": "Public Maps",
-      "colName": "Name",
-      "colUpdated": "Updated",
+      "title": "Kaart openen",
+      "close": "Sluiten",
+      "tabLocal": "Deze browser",
+      "tabMine": "Mijn serverkaarten",
+      "tabPublic": "Openbare kaarten",
+      "colName": "Naam",
+      "colUpdated": "Bijgewerkt",
       "colStatus": "Status",
-      "statusPublic": "Public",
-      "statusPrivate": "Private",
-      "open": "Open",
-      "fork": "Fork",
-      "publish": "Publish",
-      "unpublish": "Unpublish",
-      "delete": "Delete",
-      "draft": "Autosaved draft",
-      "emptyLocal": "No maps saved in this browser yet. Save one and it appears here.",
-      "emptyMine": "No maps on the server yet. Save while signed in to create one.",
-      "emptyPublic": "No public maps yet.",
-      "loading": "Loading maps...",
-      "loadFailed": "Could not load maps from the server.",
-      "signInHint": "Sign in from the game to browse, save, and fork server maps.",
-      "deleteLocalConfirm": "Delete the local map \"{name}\"?",
-      "deleteServerConfirm": "Delete the server map \"{name}\"? This cannot be undone.",
-      "prev": "Previous page",
-      "next": "Next page",
-      "page": "Page {page}"
+      "statusPublic": "Openbaar",
+      "statusPrivate": "Privé",
+      "open": "Openen",
+      "fork": "Forken",
+      "publish": "Publiceren",
+      "unpublish": "Publicatie intrekken",
+      "delete": "Verwijderen",
+      "draft": "Automatisch opgeslagen concept",
+      "emptyLocal": "Nog geen kaarten opgeslagen in deze browser. Sla er een op en hij verschijnt hier.",
+      "emptyMine": "Nog geen kaarten op de server. Sla op terwijl je bent ingelogd om er een te maken.",
+      "emptyPublic": "Nog geen openbare kaarten.",
+      "loading": "Kaarten laden...",
+      "loadFailed": "Kon geen kaarten van de server laden.",
+      "signInHint": "Log in vanuit het spel om serverkaarten te bekijken, op te slaan en te forken.",
+      "deleteLocalConfirm": "De lokale kaart \"{name}\" verwijderen?",
+      "deleteServerConfirm": "De serverkaart \"{name}\" verwijderen? Dit kan niet ongedaan worden gemaakt.",
+      "prev": "Vorige pagina",
+      "next": "Volgende pagina",
+      "page": "Pagina {page}"
     },
     "status": {
-      "savedLocal": "Saved \"{name}\" to this browser.",
-      "savedServer": "Saved \"{name}\" to the server (v{version}).",
-      "savedLocalOnly": "Saved \"{name}\" to this browser. Sign in to save online.",
-      "saveFailedLocal": "Local save failed (storage blocked).",
-      "opened": "Opened \"{name}\".",
-      "imported": "Imported \"{name}\".",
-      "importFailed": "Import cancelled, or the file is not a valid map.",
-      "exported": "Downloaded \"{name}\".",
-      "newMap": "New map started from the built-in world.",
-      "forked": "Forked to \"{name}\". You are editing your own copy now.",
-      "published": "Map published. Anyone can now find and fork it.",
-      "unpublished": "Map unpublished.",
-      "deleted": "Map deleted.",
-      "assetPlacedFirst": "Pick an asset in the browser first.",
-      "loading3d": "Loading the world...",
-      "playtestLaunch": "Launching playtest...",
-      "playtestFailed": "Could not start the playtest (storage blocked).",
-      "draftSaved": "Draft autosaved.",
-      "draftRestored": "Restored the autosaved draft.",
-      "autosaveFailed": "Autosave failed (browser storage is full or blocked). Export the map to keep a backup.",
-      "terrainCapReached": "Terrain edit limit reached ({max}). Extra sculpt stamps were not added.",
-      "placementCapReached": "Placement limit reached ({max}). Extra assets were not added.",
-      "blockerCapReached": "Blocker wall limit reached ({max}). The new wall was not added.",
-      "autosaveOff": "Autosave turned off: {reason} Save manually, then turn it back on."
+      "savedLocal": "\"{name}\" opgeslagen in deze browser.",
+      "savedServer": "\"{name}\" opgeslagen op de server (v{version}).",
+      "savedLocalOnly": "\"{name}\" opgeslagen in deze browser. Log in om online op te slaan.",
+      "saveFailedLocal": "Lokaal opslaan mislukt (opslag geblokkeerd).",
+      "opened": "\"{name}\" geopend.",
+      "imported": "\"{name}\" geïmporteerd.",
+      "importFailed": "Import geannuleerd, of het bestand is geen geldige kaart.",
+      "exported": "\"{name}\" gedownload.",
+      "newMap": "Nieuwe kaart gestart vanuit de ingebouwde wereld.",
+      "forked": "Geforkt naar \"{name}\". Je bewerkt nu je eigen kopie.",
+      "published": "Kaart gepubliceerd. Iedereen kan hem nu vinden en forken.",
+      "unpublished": "Publicatie van kaart ingetrokken.",
+      "deleted": "Kaart verwijderd.",
+      "assetPlacedFirst": "Kies eerst een asset in de browser.",
+      "loading3d": "De wereld wordt geladen...",
+      "playtestLaunch": "Speeltest wordt gestart...",
+      "playtestFailed": "Kon de speeltest niet starten (opslag geblokkeerd).",
+      "draftSaved": "Concept automatisch opgeslagen.",
+      "draftRestored": "Het automatisch opgeslagen concept is hersteld.",
+      "autosaveFailed": "Automatisch opslaan mislukt (browseropslag is vol of geblokkeerd). Exporteer de kaart om een back-up te bewaren.",
+      "terrainCapReached": "Limiet voor terreinbewerkingen bereikt ({max}). Extra beeldhouwstempels zijn niet toegevoegd.",
+      "placementCapReached": "Plaatsingslimiet bereikt ({max}). Extra assets zijn niet toegevoegd.",
+      "blockerCapReached": "Limiet voor blokkademuren bereikt ({max}). De nieuwe muur is niet toegevoegd.",
+      "autosaveOff": "Automatisch opslaan uitgeschakeld: {reason} Sla handmatig op en zet het daarna weer aan."
     },
     "confirm": {
       "ok": "OK",
-      "cancel": "Cancel",
-      "discardTitle": "Discard changes?",
-      "discardBody": "You have unsaved changes on \"{name}\". Discard them?",
-      "discard": "Discard",
-      "conflictTitle": "Save conflict",
-      "conflictBody": "This map changed on the server since you opened it (now v{version}). Save your version as a new copy?",
-      "conflictSaveCopy": "Save As Copy"
+      "cancel": "Annuleren",
+      "discardTitle": "Wijzigingen verwerpen?",
+      "discardBody": "Je hebt niet-opgeslagen wijzigingen in \"{name}\". Deze verwerpen?",
+      "discard": "Verwerpen",
+      "conflictTitle": "Opslagconflict",
+      "conflictBody": "Deze kaart is op de server gewijzigd sinds je hem opende (nu v{version}). Jouw versie als nieuwe kopie opslaan?",
+      "conflictSaveCopy": "Opslaan als kopie"
     },
     "prompt": {
-      "saveAsTitle": "Save As",
-      "nameLabel": "New map name"
+      "saveAsTitle": "Opslaan als",
+      "nameLabel": "Naam nieuwe kaart"
     },
     "serverError": {
-      "invalid_map_name": "That map name is not allowed. Use letters, numbers, spaces, apostrophes, or hyphens.",
-      "map_name_not_allowed": "That map name is not allowed.",
-      "invalid_map_doc": "The server rejected the map document.",
-      "invalid_version": "The save request was malformed. Reload and try again.",
-      "map_limit_reached": "You have reached the server map limit. Delete a map to save more.",
-      "map_not_found": "That map no longer exists on the server.",
-      "version_conflict": "The map changed on the server since you opened it.",
-      "slug_unavailable": "The server could not make a link for that name. Try a different name.",
-      "map_too_large": "The map document is too large to save on the server.",
-      "invalid_glb": "That file is not a valid GLB model.",
-      "asset_blocked": "That asset has been blocked by moderation.",
-      "asset_limit_reached": "You have reached the uploaded asset limit. Delete one to upload more.",
-      "asset_storage_limit_reached": "You are out of asset storage space. Delete an asset first.",
-      "asset_too_large": "That model is over the upload size limit.",
-      "asset_not_found": "That asset no longer exists on the server.",
-      "rate_limited": "Slow down a little and try again.",
-      "unauthorized": "Your session has expired. Sign in from the game again.",
-      "network": "Could not reach the server. Check your connection and try again.",
-      "timeout": "The server took too long to respond. Try again.",
-      "unknown": "Something went wrong talking to the server."
+      "invalid_map_name": "Die kaartnaam is niet toegestaan. Gebruik letters, cijfers, spaties, apostrofs of koppeltekens.",
+      "map_name_not_allowed": "Die kaartnaam is niet toegestaan.",
+      "invalid_map_doc": "De server heeft het kaartdocument geweigerd.",
+      "invalid_version": "Het opslagverzoek was ongeldig. Herlaad de pagina en probeer het opnieuw.",
+      "map_limit_reached": "Je hebt de limiet voor serverkaarten bereikt. Verwijder een kaart om meer op te slaan.",
+      "map_not_found": "Die kaart bestaat niet meer op de server.",
+      "version_conflict": "De kaart is op de server gewijzigd sinds je hem opende.",
+      "slug_unavailable": "De server kon geen link maken voor die naam. Probeer een andere naam.",
+      "map_too_large": "Het kaartdocument is te groot om op de server op te slaan.",
+      "invalid_glb": "Dat bestand is geen geldig GLB-model.",
+      "asset_blocked": "Die asset is door moderatie geblokkeerd.",
+      "asset_limit_reached": "Je hebt de limiet voor geüploade assets bereikt. Verwijder er een om meer te uploaden.",
+      "asset_storage_limit_reached": "Je opslagruimte voor assets is vol. Verwijder eerst een asset.",
+      "asset_too_large": "Dat model is groter dan de uploadlimiet.",
+      "asset_not_found": "Die asset bestaat niet meer op de server.",
+      "rate_limited": "Doe wat rustiger aan en probeer het opnieuw.",
+      "unauthorized": "Je sessie is verlopen. Log opnieuw in vanuit het spel.",
+      "network": "Kon de server niet bereiken. Controleer je verbinding en probeer het opnieuw.",
+      "timeout": "De server deed er te lang over om te antwoorden. Probeer het opnieuw.",
+      "unknown": "Er ging iets mis in de communicatie met de server."
     },
     "hints": {
-      "nav3d": "Drag to orbit, scroll to zoom. While dragging, WASD flies and Q/E changes height.",
-      "nav2d": "Drag to pan, scroll to zoom."
+      "nav3d": "Sleep om te draaien, scroll om te zoomen. Tijdens het slepen vlieg je met WASD en verandert Q/E de hoogte.",
+      "nav2d": "Sleep om te verschuiven, scroll om te zoomen."
     },
     "help": {
-      "title": "Editor Help",
-      "toolsTitle": "Tools",
-      "shortcutsTitle": "Keyboard shortcuts",
-      "mouseTitle": "Mouse and navigation",
-      "flowTitle": "Saving and playtesting",
-      "beginTutorial": "Begin tutorial",
-      "close": "Close",
+      "title": "Editorhulp",
+      "toolsTitle": "Gereedschappen",
+      "shortcutsTitle": "Sneltoetsen",
+      "mouseTitle": "Muis en navigatie",
+      "flowTitle": "Opslaan en speeltesten",
+      "beginTutorial": "Tutorial starten",
+      "close": "Sluiten",
       "tool": {
-        "select": "Pick placed assets to move, rotate, and scale them; click a 2D marker to edit it.",
-        "raise": "Raise the terrain under the brush.",
-        "lower": "Lower the terrain under the brush.",
-        "smooth": "Smooth bumps toward the local average height.",
-        "flatten": "Level the ground to the height where the drag starts.",
-        "paint": "Paint biome ground cover over the zone default.",
-        "water": "Set the map-wide water level.",
-        "place": "Place catalog or uploaded assets on the ground.",
-        "blocker": "Drag invisible walls that block movement in playtest.",
-        "camp": "Add and edit mob camps that spawn in playtest.",
-        "spawn": "Set where playtest drops the player.",
-        "region": "Box-select terrain and assets to copy and paste.",
-        "erase": "Remove placed assets or sculpt stamps under the cursor."
+        "select": "Kies geplaatste assets om ze te verplaatsen, te draaien en te schalen; klik op een 2D-markering om die te bewerken.",
+        "raise": "Verhoog het terrein onder het penseel.",
+        "lower": "Verlaag het terrein onder het penseel.",
+        "smooth": "Strijk hobbels glad richting de plaatselijke gemiddelde hoogte.",
+        "flatten": "Egaliseer de grond naar de hoogte waar het slepen begint.",
+        "paint": "Verf bioombegroeiing over de standaard van het gebied.",
+        "water": "Stel het waterpeil voor de hele kaart in.",
+        "place": "Plaats catalogus-assets of geüploade assets op de grond.",
+        "blocker": "Sleep onzichtbare muren die beweging blokkeren in de speeltest.",
+        "camp": "Voeg mobkampen toe en bewerk ze; ze verschijnen in de speeltest.",
+        "spawn": "Bepaal waar de speeltest de speler neerzet.",
+        "region": "Selecteer terrein en assets met een kader om ze te kopiëren en te plakken.",
+        "erase": "Verwijder geplaatste assets of beeldhouwstempels onder de cursor."
       },
       "key": {
-        "tools": "Every tool has a single-letter shortcut, shown on its button in the tool rail.",
-        "brush": "[ and ] resize the brush; Shift+[ and Shift+] change its strength.",
-        "undo": "Ctrl+Z undoes the last change; Ctrl+Y or Ctrl+Shift+Z redoes it.",
-        "save": "Ctrl+S saves the map.",
-        "duplicate": "Ctrl+D duplicates the selected asset.",
-        "nudge": "Arrow keys nudge the selected asset by 0.5 yards; hold Shift for 2 yards.",
-        "wheel": "Shift+scroll rotates the selected asset; Alt+scroll scales it.",
-        "delete": "Delete removes the selected asset or camp.",
-        "escape": "Esc clears the selection first, then returns to the Select tool."
+        "tools": "Elk gereedschap heeft een sneltoets van een enkele letter, getoond op zijn knop in de gereedschapsbalk.",
+        "brush": "[ en ] veranderen de penseelgrootte; Shift+[ en Shift+] veranderen de sterkte.",
+        "undo": "Ctrl+Z maakt de laatste wijziging ongedaan; Ctrl+Y of Ctrl+Shift+Z voert hem opnieuw uit.",
+        "save": "Ctrl+S slaat de kaart op.",
+        "duplicate": "Ctrl+D dupliceert de geselecteerde asset.",
+        "nudge": "Pijltjestoetsen verschuiven de geselecteerde asset 0,5 m; houd Shift ingedrukt voor 2 m.",
+        "wheel": "Shift+scrollen draait de geselecteerde asset; Alt+scrollen schaalt hem.",
+        "delete": "Delete verwijdert de geselecteerde asset of het geselecteerde kamp.",
+        "escape": "Esc wist eerst de selectie en keert daarna terug naar het gereedschap Selecteren."
       },
       "mouse": {
-        "orbit3d": "3D view: drag to orbit and scroll to zoom; middle-drag or Shift+drag pans.",
-        "fly3d": "While holding a drag in 3D, WASD flies the camera and Q/E changes height.",
-        "move": "With Select active, drag a placed asset to move it across the ground.",
-        "pan2d": "2D view: drag to pan and scroll to zoom."
+        "orbit3d": "3D-weergave: sleep om te draaien en scroll om te zoomen; slepen met de middelste muisknop of Shift+slepen verschuift het beeld.",
+        "fly3d": "Terwijl je in 3D sleept, vliegt de camera met WASD en verandert Q/E de hoogte.",
+        "move": "Met Selecteren actief sleep je een geplaatste asset om hem over de grond te verplaatsen.",
+        "pan2d": "2D-weergave: sleep om te verschuiven en scroll om te zoomen."
       },
       "flow": {
-        "save": "Save keeps the map in this browser, and on the server when you are signed in.",
-        "draft": "While you have unsaved changes, a draft is autosaved every 30 seconds; Open restores it.",
-        "playtest": "Playtest boots the real game on this map, including your unsaved edits."
+        "save": "Opslaan bewaart de kaart in deze browser, en op de server wanneer je bent ingelogd.",
+        "draft": "Zolang je niet-opgeslagen wijzigingen hebt, wordt er elke 30 seconden automatisch een concept opgeslagen; Openen herstelt het.",
+        "playtest": "Speeltest start het echte spel op deze kaart, inclusief je niet-opgeslagen bewerkingen."
       }
     },
     "tutorial": {
-      "title": "Editor tutorial",
-      "back": "Back",
-      "next": "Next",
-      "finish": "Finish",
-      "skip": "Skip tour",
-      "counter": "Step {current} of {total}",
+      "title": "Editortutorial",
+      "back": "Terug",
+      "next": "Volgende",
+      "finish": "Voltooien",
+      "skip": "Rondleiding overslaan",
+      "counter": "Stap {current} van {total}",
       "steps": {
         "toolbar": {
-          "title": "The tool rail",
-          "body": "Every editing tool lives here: sculpting brushes, biome paint, water, asset placement, camps, and more. Each one has a single-key shortcut, shown in its corner."
+          "title": "De gereedschapsbalk",
+          "body": "Elk bewerkingsgereedschap staat hier: beeldhouwpenselen, bioomverf, water, assetplaatsing, kampen en meer. Elk heeft een sneltoets van een enkele toets, getoond in zijn hoek."
         },
         "stage": {
-          "title": "The world",
-          "body": "This is your map, rendered with the real game engine. Drag to orbit, scroll to zoom, and middle-drag or Shift+drag to pan. Click the ground with a tool to edit."
+          "title": "De wereld",
+          "body": "Dit is jouw kaart, gerenderd met de echte game-engine. Sleep om te draaien, scroll om te zoomen, en sleep met de middelste muisknop of Shift+slepen om te verschuiven. Klik met een gereedschap op de grond om te bewerken."
         },
         "inspector": {
-          "title": "Tool options",
-          "body": "The options for the active tool appear here: brush size, the biome palette, asset scale, camp settings, and the properties of whatever you select."
+          "title": "Gereedschapsopties",
+          "body": "De opties voor het actieve gereedschap verschijnen hier: penseelgrootte, het bioompalet, assetschaal, kampinstellingen en de eigenschappen van wat je ook selecteert."
         },
         "viewToggle": {
-          "title": "3D and 2D",
-          "body": "Switch between the rendered 3D world and the symbolic overhead 2D map. The 2D view is best for moving zone markers and framing large areas."
+          "title": "3D en 2D",
+          "body": "Wissel tussen de gerenderde 3D-wereld en de symbolische 2D-bovenaanzichtkaart. De 2D-weergave is het best voor het verplaatsen van gebiedsmarkeringen en het kadreren van grote gebieden."
         },
         "save": {
-          "title": "Save your work",
-          "body": "Save stores the map in this browser, and on the server when you are signed in. Export downloads a JSON backup, and Open brings back saved maps and drafts."
+          "title": "Sla je werk op",
+          "body": "Opslaan bewaart de kaart in deze browser, en op de server wanneer je bent ingelogd. Exporteren downloadt een JSON-back-up, en Openen haalt opgeslagen kaarten en concepten terug."
         },
         "playtest": {
-          "title": "Playtest",
-          "body": "Boot the real game on your map at any time, with your current edits included. Close the playtest tab to come back and keep editing."
+          "title": "Speeltest",
+          "body": "Start op elk moment het echte spel op je kaart, inclusief je huidige bewerkingen. Sluit het speeltesttabblad om terug te komen en verder te bewerken."
         },
         "help": {
-          "title": "Help is here",
-          "body": "That is the whole loop. Open Help any time for the full tool list and every shortcut, or to run this tour again."
+          "title": "Hulp is hier",
+          "body": "Dat is de hele cyclus. Open Hulp wanneer je maar wilt voor de volledige gereedschapslijst en elke sneltoets, of om deze rondleiding opnieuw te doen."
         }
       }
     },
     "a11y": {
-      "stage": "Map viewport",
-      "toasts": "Editor notifications",
-      "dialog": "Editor dialog"
+      "stage": "Kaartweergave",
+      "toasts": "Editormeldingen",
+      "dialog": "Editordialoog"
     }
   },
   "skinEvent": {
@@ -2537,9 +2541,9 @@ export const nl_NL: EnTranslations = {
     "password": "Wachtwoord",
     "passwordError": "Voer je wachtwoord in.",
     "passwordPlaceholder": "Wachtwoord invoeren",
-    "email": "Email",
-    "emailPlaceholder": "you@example.com",
-    "emailError": "Please enter a valid email address.",
+    "email": "E-mail",
+    "emailPlaceholder": "jij@voorbeeld.nl",
+    "emailError": "Voer een geldig e-mailadres in.",
     "showPassword": "Wachtwoord tonen",
     "hidePassword": "Wachtwoord verbergen",
     "logIn": "Inloggen",
@@ -2567,12 +2571,12 @@ export const nl_NL: EnTranslations = {
     "twoFactorPlaceholder": "6-cijferige of herstelcode",
     "twoFactorHint": "Voer de code uit je authenticator-app in, of een van je herstelcodes.",
     "recovery": {
-      "title": "Add a recovery email",
-      "body": "Set an email address so you can recover your account. We only use it to confirm you own this account if you ever need to reset your password.",
-      "save": "Save email",
-      "logOut": "Log out",
-      "invalid": "Please enter a valid email address.",
-      "failed": "Could not save your email. Please try again."
+      "title": "Herstel-e-mailadres toevoegen",
+      "body": "Stel een e-mailadres in zodat je je account kunt herstellen. We gebruiken het alleen om te bevestigen dat dit account van jou is als je ooit je wachtwoord opnieuw moet instellen.",
+      "save": "E-mailadres opslaan",
+      "logOut": "Uitloggen",
+      "invalid": "Voer een geldig e-mailadres in.",
+      "failed": "Kon je e-mailadres niet opslaan. Probeer het opnieuw."
     }
   },
   "wallet": {
@@ -2627,7 +2631,7 @@ export const nl_NL: EnTranslations = {
     "helpLinkedWithBalance": "Houdervoordelen zijn actief. Portemonnee-app verbonden in deze browser.",
     "helpLinkedDisconnected": "Houdervoordelen zijn actief. Verbind de app wanneer je moet ondertekenen of uitgeven.",
     "helpLinkedDisconnectedWithBalance": "Houdervoordelen zijn actief. Verbind de app wanneer je moet ondertekenen of uitgeven.",
-    "extensionHelp": "To see a wallet here, keep a browser wallet extension such as Solflare Wallet active.",
+    "extensionHelp": "Om hier een portemonnee te zien, houd je een browserextensie voor portemonnees zoals Solflare Wallet actief.",
     "flowConnect": "Kies een portemonnee. De verificatie gaat automatisch verder.",
     "flowSign": "Onderteken het verificatiebericht in je portemonnee-app. Geen transactie of SOL vereist.",
     "flowVerify": "Eigendom van portemonnee verifiëren...",
@@ -2813,7 +2817,7 @@ export const nl_NL: EnTranslations = {
       "unknownTier": "Onbekende delve-tier.",
       "levelRequired": "Je moet niveau {level} zijn om {name} te betreden.",
       "levelRequiredTier": "Je moet niveau {level} zijn om {name} op {tier} te betreden.",
-      "partyTooLarge": "{name} is meant for solo or duo delves. Parties of {max} or more may not enter.",
+      "partyTooLarge": "{name} is bedoeld voor solo- of duo-delves. Groepen van {max} of meer mogen niet naar binnen.",
       "instancesBusy": "Alle instanties van {name} zijn bezet. Probeer het binnenkort opnieuw.",
       "runFailed": "Run van {name} mislukt.",
       "complete": "{name} voltooid.",
@@ -2823,14 +2827,14 @@ export const nl_NL: EnTranslations = {
       "doorAlreadyOpen": "De deur is al open.",
       "companionRankUp": "{name} bereikt rang {rank}.",
       "bossChest": "De baas valt. Een betoverde relikwiekist verrijst op het podium. Forceer het slot om je buit op te eisen.",
-      "drownedLitanyReliquaryRise": "Sister Nhalia falls silent. The Drowned Reliquary rises from the blackwater. Approach it to begin the rite.",
-      "riteSequenceReady": "The shrines fall dark. Repeat the sequence.",
-      "riteSequencePlaying": "The shrines replay the rite. Wait.",
-      "riteCorrect": "A soft chime answers your touch.",
-      "riteWrong": "A harsh bell crack. Black water splashes at your feet.",
-      "riteReliquaryOpen": "The Drowned Reliquary opens.",
-      "riteReliquaryLocked": "Complete the shrine rite to open the reliquary.",
-      "riteReliquaryEmpty": "The reliquary is empty.",
+      "drownedLitanyReliquaryRise": "Zuster Nhalia valt stil. Het Verdronken Reliekschrijn rijst op uit het zwartwater. Ga ernaartoe om het ritueel te beginnen.",
+      "riteSequenceReady": "De schrijnen doven. Herhaal de reeks.",
+      "riteSequencePlaying": "De schrijnen spelen het ritueel opnieuw af. Wacht.",
+      "riteCorrect": "Een zachte toon beantwoordt je aanraking.",
+      "riteWrong": "Een schrille klokkenkraak. Zwart water spat op aan je voeten.",
+      "riteReliquaryOpen": "Het Verdronken Reliekschrijn opent zich.",
+      "riteReliquaryLocked": "Voltooi het schrijnritueel om het reliekschrijn te openen.",
+      "riteReliquaryEmpty": "Het reliekschrijn is leeg.",
       "surfaceStairs": "Een trap naar de oppervlakte opent zich. Druk op F bij de trap om te vertrekken.",
       "moduleEnter": "{name}: {objective}",
       "objectiveClearRoom": "Maak de kamer leeg.",
@@ -2838,13 +2842,13 @@ export const nl_NL: EnTranslations = {
       "tombstoneHint": "Een grafsteendoorgang opent zich naar het noorden zodra de kamer is opgeruimd.",
       "tombstoneOpen": "Een verzegelde grafsteendoorgang knarst open naar het noorden. Loop erin om verder te gaan.",
       "tombstoneInto": "Je gaat door de grafsteen naar {name}.",
-      "bellRopeShock": "The bell rope snaps taut. Drowned Cantors reel from the shock.",
-      "eggSacBurst": "The egg-sac bursts. Spiderlings skitter free across the baptistry rim.",
-      "baptistryEggs": "The baptistry falls quiet. Spider egg-sacs cling wetly to the rim.",
-      "baptistrySpidersSealed": "You should try to destroy the spider sacs.",
-      "puzzleSealed": "You need to open the seal by applying pressure somewhere in the room.",
-      "ropesSealed": "You should try pulling the bell ropes.",
-      "baptistryWave": "Something stirs in the black baptistry water.",
+      "bellRopeShock": "Het klokkentouw schiet strak. Verdronken Cantors wankelen van de schok.",
+      "eggSacBurst": "De eierzak barst open. Spinnenbroed krioelt vrij over de rand van de doopkapel.",
+      "baptistryEggs": "De doopkapel valt stil. Spinnen-eierzakken kleven vochtig aan de rand.",
+      "baptistrySpidersSealed": "Probeer de spinnenzakken te vernietigen.",
+      "puzzleSealed": "Je moet het zegel openen door ergens in de kamer druk uit te oefenen.",
+      "ropesSealed": "Probeer aan de klokkentouwen te trekken.",
+      "baptistryWave": "Er roert zich iets in het zwarte water van de doopkapel.",
       "chestEmpty": "De kist is leeg.",
       "notInDelve": "Je bevindt je niet in een delve.",
       "cannotInteract": "Je kunt daar niet mee interageren.",
@@ -2863,12 +2867,12 @@ export const nl_NL: EnTranslations = {
       "passageSealed": "De doorgang is verzegeld.",
       "moveCloserPassage": "Kom dichter bij de doorgang.",
       "moveCloserChest": "Kom dichter bij de kist.",
-      "moveCloserReliquary": "Move closer to the reliquary.",
+      "moveCloserReliquary": "Kom dichter bij het reliekschrijn.",
       "nothingToTake": "Er is niets meer om te pakken.",
       "wayOutNotOpen": "De weg naar buiten is nog niet open.",
       "moveCloserStairs": "Kom dichter bij de trap.",
-      "nhaliaCantorShield": "Cantors, hold the note!",
-      "nhaliaBlackwaterMark": "{name} marks {player} with Blackwater!"
+      "nhaliaCantorShield": "Cantors, houd de noot aan!",
+      "nhaliaBlackwaterMark": "{name} markeert {player} met Zwartwater!"
     },
     "lockpick": {
       "lockYields": "Het slot geeft toe! {tier} buit.",
@@ -2932,24 +2936,24 @@ export const nl_NL: EnTranslations = {
     }
   },
   "delveRiteUi": {
-    "title": "The Drowned Reliquary Rite",
-    "blurb": "The shrines will light in order. Repeat the sequence by activating each shrine in turn. A wrong touch fails the attempt and replays the sequence, a flawless attempt earns the richest spoils, and running out of tries opens the reliquary on its meanest. Choose how the rite tests you.",
-    "easy": "Easy",
-    "medium": "Medium",
-    "hard": "Hard",
-    "guideWatch": "After you choose, the four shrines light up one at a time. Memorize the order.",
-    "guideRepeat": "When the shrines fall dark, walk to each shrine and press F (Interact) in that same order.",
-    "guideStakes": "A wrong shrine splashes you with blackwater and costs a try. Complete the sequence to open the reliquary.",
-    "showsTimes": "Sequence shown {count} times",
-    "showsOnce": "Sequence shown once",
-    "symbols": "{count} symbols",
-    "tries": "{count} tries",
+    "title": "Het Ritueel van het Verdronken Reliekschrijn",
+    "blurb": "De schrijnen lichten in volgorde op. Herhaal de reeks door elk schrijn om de beurt te activeren. Een verkeerde aanraking laat de poging mislukken en speelt de reeks opnieuw af, een foutloze poging levert de rijkste buit op, en wie door zijn pogingen heen raakt, ziet het reliekschrijn op zijn zuinigst opengaan. Kies hoe het ritueel je op de proef stelt.",
+    "easy": "Makkelijk",
+    "medium": "Gemiddeld",
+    "hard": "Moeilijk",
+    "guideWatch": "Nadat je kiest, lichten de vier schrijnen een voor een op. Onthoud de volgorde.",
+    "guideRepeat": "Wanneer de schrijnen doven, loop je naar elk schrijn en druk je op F (Interactie) in diezelfde volgorde.",
+    "guideStakes": "Een verkeerd schrijn bespat je met zwartwater en kost een poging. Voltooi de reeks om het reliekschrijn te openen.",
+    "showsTimes": "Reeks {count} keer getoond",
+    "showsOnce": "Reeks eenmaal getoond",
+    "symbols": "{count} symbolen",
+    "tries": "{count} pogingen",
     "reward": {
-      "easy": "Modest spoils",
-      "medium": "Rich spoils",
-      "hard": "Premium spoils"
+      "easy": "Bescheiden buit",
+      "medium": "Rijke buit",
+      "hard": "Voortreffelijke buit"
     },
-    "closeAria": "Close"
+    "closeAria": "Sluiten"
   },
   "delveUi": {
     "board": {
@@ -2960,7 +2964,7 @@ export const nl_NL: EnTranslations = {
       "openDelveAria": "Open Delvebord bij {name}",
       "marks": "Delve-Tekens: {count}",
       "minLevel": "Vereist Niveau {level}",
-      "partyTooLarge": "Solo or duo only ({max} players max)",
+      "partyTooLarge": "Alleen solo of duo (maximaal {max} spelers)",
       "tier": {
         "normal": "Normaal",
         "heroic": "Heroïsch"
@@ -2995,10 +2999,10 @@ export const nl_NL: EnTranslations = {
       "marks": "Delve-Tekens: {count}",
       "exitHintOpen": "Loop de grafsteendoorgang in (noord)",
       "exitHintLocked": "Ruim de gewone vijanden op om de noordelijke doorgang te openen",
-      "riteChoose": "Approach the Drowned Reliquary and press F to begin the rite",
-      "ritePlayback": "Watch the shrines: memorize the order they light up",
-      "riteInput": "Press F at each shrine in the order they lit ({current}/{total})",
-      "riteOpen": "The reliquary is open: press F on it to claim your spoils"
+      "riteChoose": "Ga naar het Verdronken Reliekschrijn en druk op F om het ritueel te beginnen",
+      "ritePlayback": "Kijk naar de schrijnen: onthoud de volgorde waarin ze oplichten",
+      "riteInput": "Druk op F bij elk schrijn in de volgorde waarin ze oplichtten ({current}/{total})",
+      "riteOpen": "Het reliekschrijn is open: druk op F om je buit op te eisen"
     },
     "objective": {
       "kill_boss": "Versla {boss}",
@@ -3021,52 +3025,52 @@ export const nl_NL: EnTranslations = {
         "greeting": "Het reliekschrijn beneden is opnieuw verschoven. We horen na middernacht gezang door de vloer, en Acoliet Tessa zweert dat de grafregisters hun eigen inkt veranderen. Als je moed genoeg hebt, {playerName}, neem dan een kaars en ga naar beneden. Vertrouw niet elke stem die je daar beneden hoort. Sommige kenden jouw naam al voordat je geboren werd."
       },
       "halvenMarsh": {
-        "greeting": "The trail led north to the marsh, {playerName}. Another reliquary sings under the black water, and the drowned dead answer the bells. Acolyte Edda knows these reeds better than I do, stay close to her lantern. Choose your tier, and I will hold the rope until you return."
+        "greeting": "Het spoor leidde noordwaarts naar het moeras, {playerName}. Weer zingt er een reliekschrijn onder het zwarte water, en de verdronken doden geven gehoor aan de klokken. Acoliet Edda kent dit riet beter dan ik, blijf dicht bij haar lantaarn. Kies je moeilijkheid, en ik houd het touw vast tot je terugkeert."
       }
     },
     "intro": {
       "normal": "De trappenkoker is koud en donker. Gebroken heiligenstenen bezaaien de afdaling, en een zachte klokslag hangt in de vochtige lucht. Acoliet Tessa fluistert: \"Het reliekschrijn zou niet zo ver open mogen zijn. Blijf dichtbij, {playerName}.\"",
       "heroic": "De deuren kreunen achter je dicht. Namen schrapen over de steen als vingernagels. Tessa's kaars brandt blauw. \"Ze roepen nu niet de doden op, {playerName}. Ze geven gehoor aan iets.\"",
-      "litanyNormal": "Reed-choked stairs drop beneath Fenbridge. Edda Reedhand lifts her lantern. \"The marsh remembers every name they drowned, {playerName}. Stay in the light.\"",
-      "litanyHeroic": "Blackwater laps the causeway stones. Edda's flame gutters green. \"They are singing again below, {playerName}. Do not answer the choir.\""
+      "litanyNormal": "Met riet verstikte trappen dalen af onder Veenbrug. Edda Reedhand heft haar lantaarn. \"Het moeras herinnert zich elke naam die ze verdronken hebben, {playerName}. Blijf in het licht.\"",
+      "litanyHeroic": "Zwartwater klotst tegen de stenen van de dijk. Edda's vlam flakkert groen. \"Ze zingen weer daar beneden, {playerName}. Geef het koor geen antwoord.\""
     },
     "module": {
       "reliquary_sunken_ossuary": "Water sijpelt door de grafschappen en voert oude as mee in zilverzwarte stromen.",
       "reliquary_bell_niche": "Tientallen handbellen hangen in stilte, elk omwonden met rouwdoek.",
       "reliquary_saintless_hall": "Standbeelden met gezichten die met zorgvuldige haat zijn weggebeiteld.",
       "reliquary_finale": "De begraven klok luidt eenmaal onder je laarzen.",
-      "litany_sluice": "Moss-choked sluice gates drip blackwater into the old choir crypt.",
-      "litany_ledger": "Ledger islands rise from flooded channels, ink bleeding into the marsh.",
-      "litany_ring": "A reliquary ring loops around a sealed central font of black water.",
-      "litany_baptistry": "A sinkhole baptistry yawns beneath cracked saint-stones and egg-sacs.",
-      "litany_choir_loft": "Fanning choir lofts echo with rope-hung bells that never quite stop.",
-      "litany_causeway": "A Y-split causeway forks over waist-deep fen water.",
-      "litany_apse": "The drowned apse opens onto Sister Nhalia's altar island."
+      "litany_sluice": "Met mos verstopte sluisdeuren druppelen zwartwater in de oude koorcrypte.",
+      "litany_ledger": "Registereilanden rijzen op uit ondergelopen geulen, en inkt vloeit uit in het moeras.",
+      "litany_ring": "Een reliekschrijnring loopt om een verzegelde centrale doopvont van zwart water.",
+      "litany_baptistry": "Een doopkapel in een zinkgat gaapt onder gebarsten heiligenstenen en eierzakken.",
+      "litany_choir_loft": "Uitwaaierende koorzolders galmen van klokken aan touwen die nooit helemaal verstommen.",
+      "litany_causeway": "Een Y-gesplitste dijk vertakt zich boven veenwater tot aan je middel.",
+      "litany_apse": "De verdronken apsis komt uit op het altaareiland van Zuster Nhalia."
     },
     "moduleName": {
       "reliquary_sunken_ossuary": "Het Verzonken Knekelhuis",
       "reliquary_bell_niche": "De Klokennis",
       "reliquary_saintless_hall": "De Heiligenloze Hal",
       "reliquary_finale": "De Klokbegraven Kamer",
-      "litany_sluice": "The Crescent Sluice",
-      "litany_ledger": "The Island Ledger",
-      "litany_ring": "The Ring Reliquary",
-      "litany_baptistry": "The Sinkhole Baptistry",
-      "litany_choir_loft": "The Reedsong Gallery",
-      "litany_causeway": "The Y-Split Causeway",
-      "litany_apse": "The Drowned Apse"
+      "litany_sluice": "De Halvemaansluis",
+      "litany_ledger": "Het Eilandregister",
+      "litany_ring": "Het Ring-Reliekschrijn",
+      "litany_baptistry": "De Zinkgat-Doopkapel",
+      "litany_choir_loft": "De Rietzanggalerij",
+      "litany_causeway": "De Y-Gesplitste Dijk",
+      "litany_apse": "De Verdronken Apsis"
     },
     "object": {
-      "sluice_valve": "Sluice Valve",
-      "grave_tablet": "Grave Tablet",
-      "corpse_candle": "Corpse-Candle",
-      "bell_rope": "Bell Rope"
+      "sluice_valve": "Sluisklep",
+      "grave_tablet": "Graftablet",
+      "corpse_candle": "Lijkkaars",
+      "bell_rope": "Klokkentouw"
     },
     "companion": {
       "barkLine": "{name}: {line}",
       "tessa": {
-        "run_start": "I have my candle and my ledger, {playerName}. Lead on.",
-        "ally_revive": "Up now. Tonight's ledger does not carry your name.",
+        "run_start": "Ik heb mijn kaars en mijn register, {playerName}. Ga voor.",
+        "ally_revive": "Overeind. Het register van vanavond draagt jouw naam niet.",
         "combat_start": "Blijf op de been, {playerName}. De doden zijn hier rusteloos.",
         "low_hp": "Adem. Ik heb nog gebeden voor je over.",
         "trap_spotted": "Wacht. Iets in de vloer herinnert zich voetstappen.",
@@ -3081,17 +3085,17 @@ export const nl_NL: EnTranslations = {
         }
       },
       "edda": {
-        "run_start": "Keep to the plank-line, {playerName}. The silt takes the proud-footed.",
-        "ally_revive": "Up, now. The marsh does not get you today.",
-        "combat_start": "Mind the blackwater, {playerName}. The marsh listens.",
-        "low_hp": "Steady. My lantern is not out yet.",
-        "trap_spotted": "Wait. The reeds are wrong here.",
-        "boss_pull": "That canticle knows your name, {playerName}. Do not sing back.",
-        "completion": "The fen can swallow its secrets for one more night.",
+        "run_start": "Blijf op de plankenlijn, {playerName}. Het slib neemt wie te trots stapt.",
+        "ally_revive": "Overeind, nu. Het moeras krijgt je vandaag niet.",
+        "combat_start": "Pas op voor het zwartwater, {playerName}. Het moeras luistert.",
+        "low_hp": "Rustig aan. Mijn lantaarn is nog niet gedoofd.",
+        "trap_spotted": "Wacht. Het riet klopt hier niet.",
+        "boss_pull": "Die lofzang kent je naam, {playerName}. Zing niet terug.",
+        "completion": "Het veen mag zijn geheimen nog een nacht inslikken.",
         "rank": {
-          "1": "Lantern-Bearer",
-          "2": "Reed-Watcher",
-          "3": "Fenbridge Acolyte"
+          "1": "Lantaarndrager",
+          "2": "Rietwachter",
+          "3": "Veenbrug-Acoliet"
         }
       }
     },
@@ -3136,9 +3140,9 @@ export const nl_NL: EnTranslations = {
       "grave_tax": "Grafheffing",
       "unstable_roof": "Instabiel Dak",
       "cult_remnants": "Cultusresten",
-      "high_water": "High Water",
-      "lively_choir": "Lively Choir",
-      "belligerent_dead": "Belligerent Dead"
+      "high_water": "Hoogwater",
+      "lively_choir": "Levendig Koor",
+      "belligerent_dead": "Strijdlustige Doden"
     },
     "blessing": {
       "chapel_candle": "Kapelkaars: veiligere tocht, één Markering minder bij voltooiing."
@@ -4159,8 +4163,8 @@ export const nl_NL: EnTranslations = {
     "tracker": {
       "title": "Quests",
       "complete": "Voltooid",
-      "showOnMap": "Show {name} on the map",
-      "hideFromMap": "Hide {name} from the map"
+      "showOnMap": "Toon {name} op de kaart",
+      "hideFromMap": "Verberg {name} op de kaart"
     },
     "log": {
       "title": "Questlogboek",
@@ -4264,7 +4268,7 @@ export const nl_NL: EnTranslations = {
       "tool": "Gereedschap",
       "potion": "Toverdrank",
       "elixir": "Elixer",
-      "bag": "Bag"
+      "bag": "Tas"
     },
     "stats": {
       "armor": "Pantser",
@@ -4307,7 +4311,7 @@ export const nl_NL: EnTranslations = {
       "clickUseInstant": "Klik om direct te gebruiken in gevecht",
       "clickUse": "Klik om te gebruiken",
       "clickBuyback": "Klik om terug te kopen",
-      "bagSlots": "{slots} Slot Bag"
+      "bagSlots": "Tas met {slots} vakken"
     },
     "bags": {
       "title": "Tassen",
@@ -6015,67 +6019,67 @@ export const nl_NL: EnTranslations = {
         "name": "Varrics Schaduwkap"
       },
       "siltguard_helm": {
-        "name": "Siltguard Helm"
+        "name": "Slibwacht-Helm"
       },
       "bulwark_rusted_pauldrons": {
-        "name": "Bulwark-Rusted Pauldrons"
+        "name": "Bolwerk-Verroeste Schouderstukken"
       },
       "nhalias_bell_maul": {
-        "name": "Nhalia's Bell-Maul"
+        "name": "Nhalia's Klok-Strijdhamer"
       },
       "reedstalker_jerkin": {
-        "name": "Reedstalker Jerkin"
+        "name": "Rietsluiper-Wambuis"
       },
       "mirejaw_fang_knife": {
-        "name": "Mirejaw Fang-Knife"
+        "name": "Slijkkaak-Slagtandmes"
       },
       "widow_silk_hood": {
-        "name": "Widow-Silk Hood"
+        "name": "Weduwezijden Kap"
       },
       "cantors_drowned_sash": {
-        "name": "Cantor's Drowned Sash"
+        "name": "Verdronken Sjerp van de Cantor"
       },
       "corpse_candle_focus": {
-        "name": "Corpse-Candle Focus"
+        "name": "Lijkkaars-Focus"
       },
       "nhalias_litany_rod": {
-        "name": "Nhalia's Litany Rod"
+        "name": "Nhalia's Litaniestaf"
       },
       "blackwater_vanguard_chest": {
-        "name": "Blackwater Vanguard Chestguard"
+        "name": "Borstbescherming van de Zwartwater-Voorhoede"
       },
       "siltstep_leggings": {
-        "name": "Siltstep Leggings"
+        "name": "Slibtred-Beenstukken"
       },
       "sunken_reliquary_hood": {
-        "name": "Sunken Reliquary Hood"
+        "name": "Kap van het Verzonken Reliekschrijn"
       },
       "litany_legs": {
-        "name": "Silt-Walker Greaves"
+        "name": "Slibloper-Scheenplaten"
       },
       "litany_shoulder": {
-        "name": "Blackwater Drift Mantle"
+        "name": "Zwartwater-Drijfmantel"
       },
       "litany_gloves_rog": {
-        "name": "Reed-Bound Handwraps"
+        "name": "Rietgebonden Handwindsels"
       },
       "litany_plate_chest": {
-        "name": "Sump-Warden Cuirass"
+        "name": "Zompwachter-Kuras"
       },
       "litany_leather_chest": {
-        "name": "Silt-Deep Vestment"
+        "name": "Slibdiep Habijt"
       },
       "litany_cloth_chest": {
-        "name": "Choir-Drowned Raiment"
+        "name": "Koorverdronken Gewaad"
       },
       "litany_helm": {
-        "name": "Reliquant's Drowned Cowl"
+        "name": "Verdronken Kap van de Reliquant"
       },
       "sister_nhalia_choir_plate": {
-        "name": "Sister Nhalia's Choir-Forged Plate"
+        "name": "Koorgesmeed Harnas van Zuster Nhalia"
       },
       "drowned_choir_fang": {
-        "name": "Drowned Choir-Fang"
+        "name": "Slagtand van het Verdronken Koor"
       },
       "the_codfather": {
         "name": "De Kabeljauwvader"
@@ -6413,43 +6417,43 @@ export const nl_NL: EnTranslations = {
         "name": "Acoliet Tessa"
       },
       "drowned_cantor": {
-        "name": "Drowned Cantor"
+        "name": "Verdronken Cantor"
       },
       "reedbound_acolyte": {
-        "name": "Reedbound Acolyte"
+        "name": "Rietgebonden Acoliet"
       },
       "deepfen_spearjaw": {
-        "name": "Deepfen Spearjaw"
+        "name": "Diepveen-Speerkaak"
       },
       "mirefen_widowling": {
-        "name": "Mirefen Widowling"
+        "name": "Slijkveen-Weduweling"
       },
       "spider_egg_sac": {
-        "name": "Spider Egg-Sac"
+        "name": "Spinnen-Eierzak"
       },
       "grave_silt_bulwark": {
-        "name": "Grave-Silt Bulwark"
+        "name": "Grafslib-Bolwerk"
       },
       "sump_troll_devourer": {
-        "name": "Sump Troll Devourer"
+        "name": "Zomptrol-Verslinder"
       },
       "choir_thrall": {
-        "name": "Bog Thrall"
+        "name": "Moeras-Lijfeigene"
       },
       "sister_nhalia_drowned_canticle": {
-        "name": "Sister Nhalia, the Drowned Canticle"
+        "name": "Zuster Nhalia, de Verdronken Lofzang"
       },
       "edda_reedhand": {
         "name": "Edda Reedhand"
       },
       "tolling_bell": {
-        "name": "Tolling Bell"
+        "name": "Luidende Klok"
       },
       "thunzharr_waking_peak": {
-        "name": "Thunzharr, the Waking Peak"
+        "name": "Thunzharr, de Ontwakende Piek"
       },
       "thunzharr_stormling": {
-        "name": "Roused Stormling"
+        "name": "Gewekte Stormling"
       },
       "ironvein_foreman": {
         "name": "IJzerader-Voorman"
@@ -6672,14 +6676,14 @@ export const nl_NL: EnTranslations = {
         "greeting": "Het reliekschrijn beneden is opnieuw verschoven."
       },
       "brother_halven_marsh": {
-        "name": "Brother Halven",
-        "title": "Reliquary Keeper",
-        "greeting": "The trail led north. Another reliquary, another rite. Choose your tier, and I'll hold the rope until you return."
+        "name": "Broeder Halven",
+        "title": "Reliekbewaarder",
+        "greeting": "Het spoor leidde noordwaarts. Weer een reliekschrijn, weer een ritueel. Kies je moeilijkheid, en ik houd het touw vast tot je terugkeert."
       },
       "spirit_healer": {
-        "name": "The Pale Keeper",
-        "title": "Warden of the Dead",
-        "greeting": "Rest now, spirit. I can return you to your body, but the crossing back leaves you weak."
+        "name": "De Bleke Hoeder",
+        "title": "Wachter van de Doden",
+        "greeting": "Rust nu, geest. Ik kan je terugbrengen naar je lichaam, maar de overtocht terug laat je verzwakt achter."
       },
       "tidewatcher_ondrel": {
         "name": "Ondrel Vane",
@@ -7124,32 +7128,32 @@ export const nl_NL: EnTranslations = {
         }
       },
       "q_stalkers_return": {
-        "title": "The Stalkers Return",
-        "text": "Twelve dead, and the ridge crawls thicker than the day you started, {playerName}. Beasts do not throw themselves at a wall out of hunger. Something on the high ridge is pushing them down, and until I know what, the culling does not stop. Fourteen more.",
-        "completion": "Fourteen more, and still my patrols count fresh tracks by morning. My scout came back from the high ridge white as the snowline: prints the size of a shield, she says, and old kills no stalker would leave. Whatever walks up there is no ordinary cat.",
+        "title": "De Sluipers Keren Terug",
+        "text": "Twaalf dood, en de bergkam krioelt dichter dan op de dag dat je begon, {playerName}. Beesten werpen zich niet uit honger tegen een muur. Iets op de hoge bergkam drijft ze omlaag, en tot ik weet wat, stopt het uitdunnen niet. Nog veertien.",
+        "completion": "Nog veertien, en toch tellen mijn patrouilles tegen de ochtend verse sporen. Mijn verkenner kwam zo wit als de sneeuwgrens terug van de hoge bergkam: afdrukken zo groot als een schild, zegt ze, en oude prooiresten die geen sluiper zou achterlaten. Wat daar boven rondloopt, is geen gewone kat.",
         "objectives": {
           "0": {
-            "label": "Ridge Stalker slain"
+            "label": "Bergkam-Sluiper gedood"
           }
         }
       },
       "q_stalker_cloaks": {
-        "title": "Cloaks for the Watch",
-        "text": "Eight pelts lined the officers' cloaks, and now every soldier on the wall wants the same, {playerName}. They are right to want it: winter takes fingers first and apologies never. Ten more pelts from the ridges south of the gate, and the whole watch sleeps warm.",
-        "completion": "Ten good pelts, thick as any I have... no, look at these, {playerName}. Torn, half of them, and by no blade or spear. Claw marks wide as my hand, right through the winter coat. Something on that ridge is savaging its own kind.",
+        "title": "Mantels voor de Wacht",
+        "text": "Acht pelzen voerden de mantels van de officieren, en nu wil elke soldaat op de muur hetzelfde, {playerName}. Ze willen het terecht: de winter neemt eerst vingers en aanvaardt nooit excuses. Nog tien pelzen van de bergkammen ten zuiden van de poort, en de hele wacht slaapt warm.",
+        "completion": "Tien goede pelzen, zo dik als ik er ooit... nee, kijk hier eens naar, {playerName}. De helft gescheurd, en niet door kling of speer. Klauwsporen zo breed als mijn hand, dwars door de wintervacht. Iets op die bergkam verscheurt zijn eigen soort.",
         "objectives": {
           "0": {
-            "label": "Ridge Stalker Pelt"
+            "label": "Bergkam-Sluiperpels"
           }
         }
       },
       "q_old_cragmaw": {
-        "title": "Old Cragmaw",
-        "text": "The mountain folk put a name to the prints my scout found: Old Cragmaw, a scar-pelted tyrant of a cat that has outlived three generations of its own pack. It is the reason the stalkers flood my road, {playerName}. Its den sits on the western ridge above the road south. Bring a friend, and put the old devil down.",
-        "completion": "Down at last. The mountain folk swore that cat would outlive the wall itself. The stalkers will keep to their high snows now, {playerName}, and my patrols will walk the road without bleeding for it. The whole ridge is quieter for your work.",
+        "title": "Oude Cragmaw",
+        "text": "Het bergvolk gaf een naam aan de afdrukken die mijn verkenner vond: Oude Cragmaw, een tiran van een kat met een littekenvacht, die drie generaties van zijn eigen roedel heeft overleefd. Hij is de reden dat de sluipers mijn weg overspoelen, {playerName}. Zijn leger ligt op de westelijke bergkam boven de zuidelijke weg. Neem een vriend mee en leg de oude duivel om.",
+        "completion": "Eindelijk geveld. Het bergvolk zwoer dat die kat de muur zelf zou overleven. De sluipers houden zich nu bij hun hoge sneeuw, {playerName}, en mijn patrouilles lopen de weg zonder ervoor te bloeden. De hele bergkam is stiller door jouw werk.",
         "objectives": {
           "0": {
-            "label": "Old Cragmaw slain"
+            "label": "Oude Cragmaw gedood"
           }
         }
       },
@@ -7677,9 +7681,9 @@ export const nl_NL: EnTranslations = {
         "leaveText": "Je klimt terug omhoog naar Broeder Halven bij de reliekschrijnruïne."
       },
       "drowned_litany": {
-        "name": "The Drowned Litany",
-        "enterText": "You descend into the drowned shrine at the marsh's edge.",
-        "leaveText": "You climb back to Brother Halven at the marsh's edge."
+        "name": "De Verdronken Litanie",
+        "enterText": "Je daalt af in het verdronken heiligdom aan de rand van het moeras.",
+        "leaveText": "Je klimt terug omhoog naar Broeder Halven aan de rand van het moeras."
       }
     },
     "letters": {
@@ -7762,11 +7766,11 @@ export const nl_NL: EnTranslations = {
     "delveLockedChestInteract": "Druk op F om het slot te kraken",
     "delveRewardChestInteract": "Druk op F om de buit op te eisen",
     "delveSurfaceExitInteract": "Druk op F om te klimmen",
-    "delveReliquaryInteract": "Drowned Reliquary: Press F to begin the rite",
-    "delveRiteShrineBellInteract": "Bell Shrine: Press F to ring it",
-    "delveRiteShrineCandleInteract": "Candle Shrine: Press F to touch it",
-    "delveRiteShrineReedInteract": "Reed Shrine: Press F to touch it",
-    "delveRiteShrineSkullInteract": "Skull Shrine: Press F to touch it",
-    "mailboxName": "Mailbox"
+    "delveReliquaryInteract": "Verdronken Reliekschrijn: druk op F om het ritueel te beginnen",
+    "delveRiteShrineBellInteract": "Klokkenschrijn: druk op F om de klok te luiden",
+    "delveRiteShrineCandleInteract": "Kaarsenschrijn: druk op F om het aan te raken",
+    "delveRiteShrineReedInteract": "Rietschrijn: druk op F om het aan te raken",
+    "delveRiteShrineSkullInteract": "Schedelschrijn: druk op F om het aan te raken",
+    "mailboxName": "Brievenbus"
   }
 };

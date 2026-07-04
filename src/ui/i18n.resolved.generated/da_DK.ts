@@ -155,9 +155,9 @@ export const da_DK: EnTranslations = {
       "banner": "Tilskuer til {name}"
     },
     "death": {
-      "resurrectAtCorpse": "Resurrect at Corpse",
-      "resurrectAtHealer": "The Pale Keeper (Keeper's Toll)",
-      "spiritHealerAlive": "The Pale Keeper watches over the dead. You are still among the living."
+      "resurrectAtCorpse": "Genopstå ved liget",
+      "resurrectAtHealer": "Den Blege Vogter (Vogterens Klokke)",
+      "spiritHealerAlive": "Den Blege Vogter våger over de døde. Du er stadig blandt de levende."
     },
     "emotes": {
       "wave": "Vink",
@@ -188,7 +188,7 @@ export const da_DK: EnTranslations = {
       "loading": "Indlæser daglige belønninger...",
       "error": "Kunne ikke indlæse daglige belønninger.",
       "intro": "Behold nok WOC i din verificerede wallet for at låse daglige belønninger op. Optjen point med én daglig drejning og skiftende opgaver, og klatr så op ad den daglige resultattavle for en andel af præmiepuljen.",
-      "disclaimer": "WOC price can move quickly. We recommend holding more than the $20 USD minimum so normal price swings do not lock you out. This is not financial advice.",
+      "disclaimer": "WOC-kursen kan bevæge sig hurtigt. Vi anbefaler at holde mere end minimummet på 20 USD, så normale kursudsving ikke lukker dig ude. Dette er ikke finansiel rådgivning.",
       "prize": "Præmiepulje",
       "reset": "Nulstil",
       "endsIn": "Slutter om {time}",
@@ -208,13 +208,17 @@ export const da_DK: EnTranslations = {
       "spinResult": "+{points} point",
       "spinButton": "Drej",
       "tasks": "Opgaver",
-      "taskMultiplier": "x{multiplier} multiplier",
-      "pointsGained": "{points} daily rewards points gained.",
+      "taskMultiplier": "x{multiplier} multiplikator",
+      "pointsGained": "{points} daglige belønningspoint optjent.",
       "showChestButton": "Vis kiste",
       "hideChestButton": "Skjul kiste",
+      "hideChestConfirmTitle": "Skjul kisten med daglige belønninger?",
+      "hideChestConfirmBody": "Dette fjerner kiste-genvejen fra dit HUD. Belønninger, adgang og dette panel forbliver tilgængelige; du kan hente genvejen tilbage fra indstillingerne.",
+      "hideChestConfirmOk": "Skjul kiste",
+      "hideChestConfirmCancel": "Annuller",
       "leaderboard": "Daglig resultattavle",
-      "totalPlayer": "{count} player today",
-      "totalPlayers": "{count} players today",
+      "totalPlayer": "{count} spiller i dag",
+      "totalPlayers": "{count} spillere i dag",
       "history": "Tidligere vindere",
       "noLeaders": "Ingen point endnu.",
       "noHistory": "Ingen udbetalinger endnu.",
@@ -290,7 +294,7 @@ export const da_DK: EnTranslations = {
       "partyGroup": "Gruppe {n}",
       "durationUnitSeconds": "s",
       "durationUnitMinutes": "m",
-      "durationUnitHours": "h",
+      "durationUnitHours": "t",
       "durationUnitDays": "d"
     },
     "character": {
@@ -401,20 +405,20 @@ export const da_DK: EnTranslations = {
       "showWalletOnCharacterScreen": "Vis pengepung på karakterskærm",
       "showWalletOnPlayerCard": "Vis pengepung på spillerkort",
       "showDevBadges": "Vis udviklermærker",
-      "showOwnNameplate": "Show My Nameplate",
+      "showOwnNameplate": "Vis mit navneskilt",
       "uiScale": "UI-skala",
-      "playerFrameScale": "Player Frame Scale",
-      "targetFrameScale": "Target Frame Scale",
-      "aurasOnPlayerFrame": "Buffs on the Player Frame",
+      "playerFrameScale": "Spillerrammens skala",
+      "targetFrameScale": "Målrammens skala",
+      "aurasOnPlayerFrame": "Buffs på spillerrammen",
       "highContrastBackground": "Baggrund med høj kontrast",
       "startAttackOnAbility": "Autoangreb ved brug af evne",
-      "walkByAutoloot": "Walk-by Autoloot",
+      "walkByAutoloot": "Auto-plyndring i forbifarten",
       "groundReticle": "Jordsigte-retikel",
       "showItemLevel": "Vis genstandsniveau",
       "itemLevelLine": "Genstandsniveau {level}",
       "itemScoreLine": "Score {score}",
       "showSecondaryActionBar": "Vis sekundær handlingslinje",
-      "showDailyRewardsChest": "Show Daily Rewards Chest"
+      "showDailyRewardsChest": "Vis kisten med daglige belønninger"
     },
     "controller": {
       "title": "Controller",
@@ -734,7 +738,7 @@ export const da_DK: EnTranslations = {
     },
     "party": {
       "promoteLeader": "Forfrem til leder",
-      "inviteUsage": "Invite whom? Usage: /invite <name>."
+      "inviteUsage": "Invitér hvem? Brug: /invite <navn>."
     },
     "lootSettings": {
       "title": "Bytteindstillinger",
@@ -763,11 +767,11 @@ export const da_DK: EnTranslations = {
       "searchAria": "Søg i taskegenstande efter navn",
       "noMatch": "Ingen genstande matcher dine filtre.",
       "capacity": "{used}/{total}",
-      "capacityAria": "Bag slots used: {used} of {total}",
-      "backpack": "Backpack",
+      "capacityAria": "Taskepladser brugt: {used} af {total}",
+      "backpack": "Rygsæk",
       "bagSocketAria": "{name}: {slots}",
-      "socketEmpty": "Empty bag slot",
-      "unequipHint": "Click to remove this bag"
+      "socketEmpty": "Tom taskeplads",
+      "unequipHint": "Klik for at fjerne denne taske"
     },
     "raidConvert": {
       "toPartyDone": "Dit raid er konverteret tilbage til en gruppe.",
@@ -810,7 +814,7 @@ export const da_DK: EnTranslations = {
         "spi": "Verringert Willenskraft um {value}",
         "allStats": "Verringert alle Attribute um {value}"
       },
-      "allStatsPctReduce": "Reduces all attributes by {pct}%",
+      "allStatsPctReduce": "Reducerer alle attributter med {pct}%",
       "dodge": "Erhöht Ausweichchance um {pct}%",
       "dodgeReduce": "Verringert Ausweichchance um {pct}%",
       "armorFlat": "Verringert Rüstung um {value}",
@@ -851,7 +855,7 @@ export const da_DK: EnTranslations = {
       }
     },
     "worldBoss": {
-      "spawn": "{name} rises over Thornpeak Heights!"
+      "spawn": "{name} rejser sig over Tornetop Højder!"
     },
     "loot": {
       "chestTitle": "Kiste"
@@ -865,21 +869,21 @@ export const da_DK: EnTranslations = {
       "mobElite": "[{level}+] {name}"
     },
     "mobTooltip": {
-      "levelFamily": "Level {level} {family}",
-      "familyDemon": "Demon",
-      "hostile": "Hostile",
-      "friendly": "Friendly"
+      "levelFamily": "Niveau {level} {family}",
+      "familyDemon": "Dæmon",
+      "hostile": "Fjendtlig",
+      "friendly": "Venlig"
     },
     "targetFrame": {
-      "unlock": "Move target frame",
-      "lock": "Lock target frame"
+      "unlock": "Flyt målrammen",
+      "lock": "Lås målrammen"
     },
     "playerFrame": {
-      "unlock": "Move player frame",
-      "lock": "Lock player frame"
+      "unlock": "Flyt spillerrammen",
+      "lock": "Lås spillerrammen"
     },
     "frameReset": {
-      "label": "Reset Frame Positions"
+      "label": "Nulstil rammepositioner"
     },
     "itemTooltip": {
       "requiresLevel": "Kræver niveau {level}"
@@ -1057,114 +1061,114 @@ export const da_DK: EnTranslations = {
       "unlink": "Fjern GitHub-tilknytning"
     },
     "mailbox": {
-      "title": "Mailbox",
-      "subtitle": "The Ravenpost",
-      "close": "Close mailbox",
-      "tabInbox": "Inbox",
-      "tabInboxWithCount": "Inbox ({count})",
+      "title": "Postkasse",
+      "subtitle": "Ravneposten",
+      "close": "Luk postkassen",
+      "tabInbox": "Indbakke",
+      "tabInboxWithCount": "Indbakke ({count})",
       "tabSend": "Send",
-      "empty": "Your mailbox is empty.",
-      "truncated": "Showing the newest {shown} of {total} letters.",
-      "attachmentsBadge": "Parcel attached",
-      "unreadBadge": "Unread",
-      "back": "Back",
-      "take": "Take attachments",
-      "delete": "Delete letter",
-      "deleteAria": "Delete the letter {subject}",
-      "openAria": "Read the letter {subject} from {name}",
-      "noSubject": "(no subject)",
-      "toLabel": "To",
-      "toPlaceholder": "Character name",
-      "subjectLabel": "Subject",
-      "bodyLabel": "Message",
-      "coinLabel": "Attach coin",
-      "parcelsLabel": "Parcels",
-      "parcelsHint": "Click an item in your bags to attach it.",
-      "removeParcelAria": "Remove {item} from the letter",
-      "sendButton": "Send letter",
-      "postageNote": "Postage: {amount}. The raven flies for about {seconds}s.",
-      "arrivedBanner": "The raven has landed: mail from {name}.",
-      "arrivedLog": "You have new mail from {name}.",
-      "indicatorAria": "Unread mail: {count}",
-      "indicatorTip": "You have {count} unread letters. Visit a mailbox to read them.",
-      "clickAttach": "Click to attach to your letter.",
-      "cannotMail": "This cannot be mailed.",
+      "empty": "Din postkasse er tom.",
+      "truncated": "Viser de nyeste {shown} af {total} breve.",
+      "attachmentsBadge": "Pakke vedhæftet",
+      "unreadBadge": "Ulæst",
+      "back": "Tilbage",
+      "take": "Tag vedhæftninger",
+      "delete": "Slet brev",
+      "deleteAria": "Slet brevet {subject}",
+      "openAria": "Læs brevet {subject} fra {name}",
+      "noSubject": "(intet emne)",
+      "toLabel": "Til",
+      "toPlaceholder": "Karakternavn",
+      "subjectLabel": "Emne",
+      "bodyLabel": "Besked",
+      "coinLabel": "Vedhæft mønter",
+      "parcelsLabel": "Pakker",
+      "parcelsHint": "Klik på en genstand i dine tasker for at vedhæfte den.",
+      "removeParcelAria": "Fjern {item} fra brevet",
+      "sendButton": "Send brev",
+      "postageNote": "Porto: {amount}. Ravnen er undervejs i omtrent {seconds}s.",
+      "arrivedBanner": "Ravnen er landet: post fra {name}.",
+      "arrivedLog": "Du har ny post fra {name}.",
+      "indicatorAria": "Ulæst post: {count}",
+      "indicatorTip": "Du har {count} ulæste breve. Besøg en postkasse for at læse dem.",
+      "clickAttach": "Klik for at vedhæfte til dit brev.",
+      "cannotMail": "Dette kan ikke sendes med posten.",
       "result": {
-        "sent": "A raven takes wing with your letter to {name} ({postage} postage).",
-        "collected": "You collect {amount} from the letter.",
-        "tooFar": "You must be at a mailbox to tend your post.",
-        "needRecipient": "Name a recipient for your letter.",
-        "noRecipient": "No one by that name holds a mailbox here.",
-        "tooManyParcels": "A letter carries at most {count} parcels.",
-        "noMailQuestItems": "You cannot mail quest items.",
-        "notEnoughItems": "You do not have that many to send.",
-        "cantAffordPostage": "You cannot afford the postage.",
-        "recipientBoxFull": "Their mailbox is full.",
-        "letterGone": "That letter is no longer in your box.",
-        "takeParcelsFirst": "Take the parcels out before discarding the letter."
+        "sent": "En ravn letter med dit brev til {name} ({postage} i porto).",
+        "collected": "Du henter {amount} fra brevet.",
+        "tooFar": "Du skal stå ved en postkasse for at ordne din post.",
+        "needRecipient": "Angiv en modtager til dit brev.",
+        "noRecipient": "Ingen med det navn har en postkasse her.",
+        "tooManyParcels": "Et brev kan højst rumme {count} pakker.",
+        "noMailQuestItems": "Du kan ikke sende opgavegenstande med posten.",
+        "notEnoughItems": "Du har ikke så mange at sende.",
+        "cantAffordPostage": "Du har ikke råd til portoen.",
+        "recipientBoxFull": "Modtagerens postkasse er fuld.",
+        "letterGone": "Det brev er ikke længere i din postkasse.",
+        "takeParcelsFirst": "Tag pakkerne ud, før du kasserer brevet."
       }
     },
     "calendar": {
-      "title": "Event Calendar",
-      "close": "Close calendar",
-      "keybindLabel": "Event Calendar",
-      "prevMonth": "Previous month",
-      "nextMonth": "Next month",
-      "dayAria": "{date}: {count} events",
-      "noEvents": "Nothing planned for this day.",
-      "allDay": "All day",
-      "bookedBy": "Booked by {name}",
-      "deleteAria": "Remove the event {title}",
-      "bookTitle": "Book a guild event",
-      "titlePlaceholder": "Event title",
-      "notePlaceholder": "Note (optional)",
-      "hourLabel": "Hour (UTC)",
-      "hourAllDay": "All day",
-      "addButton": "Book event",
-      "guildOnlyNote": "Join a guild to plan events together.",
+      "title": "Begivenhedskalender",
+      "close": "Luk kalenderen",
+      "keybindLabel": "Begivenhedskalender",
+      "prevMonth": "Forrige måned",
+      "nextMonth": "Næste måned",
+      "dayAria": "{date}: {count} begivenheder",
+      "noEvents": "Intet planlagt for denne dag.",
+      "allDay": "Hele dagen",
+      "bookedBy": "Booket af {name}",
+      "deleteAria": "Fjern begivenheden {title}",
+      "bookTitle": "Book en laugsbegivenhed",
+      "titlePlaceholder": "Begivenhedstitel",
+      "notePlaceholder": "Note (valgfrit)",
+      "hourLabel": "Time (UTC)",
+      "hourAllDay": "Hele dagen",
+      "addButton": "Book begivenhed",
+      "guildOnlyNote": "Slut dig til et laug for at planlægge begivenheder sammen.",
       "result": {
-        "created": "The event is on the guild calendar.",
-        "removed": "The event was taken off the calendar.",
-        "notInGuild": "You are not in a guild.",
-        "notOfficer": "Only officers and the Guild Master may manage guild events.",
-        "badInput": "Give the event a title and a valid day.",
-        "calendarFull": "The guild calendar is full.",
-        "eventGone": "That event is no longer on the calendar."
+        "created": "Begivenheden står nu i laugskalenderen.",
+        "removed": "Begivenheden blev fjernet fra kalenderen.",
+        "notInGuild": "Du er ikke i et laug.",
+        "notOfficer": "Kun officerer og lavsmesteren kan administrere laugsbegivenheder.",
+        "badInput": "Giv begivenheden en titel og en gyldig dag.",
+        "calendarFull": "Laugskalenderen er fuld.",
+        "eventGone": "Den begivenhed står ikke længere i kalenderen."
       },
       "events": {
         "raidCall": {
-          "title": "Raid Call",
-          "note": "Wardens sound the horn: gather a party for the crypts and the raid."
+          "title": "Raidkald",
+          "note": "Vogtere blæser i hornet: saml en gruppe til krypterne og raidet."
         },
         "marketDay": {
-          "title": "Market Day",
-          "note": "The Merchant expects fresh stock. A fine day to browse the World Market."
+          "title": "Markedsdag",
+          "note": "Købmanden venter friske varer. En fin dag at kigge på Verdensmarkedet."
         },
         "fiestaNight": {
-          "title": "Fiesta Night",
-          "note": "The 2v2 Fiesta ring draws its loudest crowds tonight."
+          "title": "Fiesta-Aften",
+          "note": "2v2-Fiesta-ringen trækker sine mest højrøstede tilskuere i aften."
         },
         "arenaClash": {
-          "title": "Arena Clash",
-          "note": "Duelists flock to the Ashen Coliseum. Queue up and climb the ladder."
+          "title": "Arenasammenstød",
+          "note": "Duellanter strømmer til Askekolosseet. Stil dig i kø, og klatr op ad ranglisten."
         },
         "fishingDerby": {
-          "title": "Fishing Derby",
-          "note": "Anglers line the lakes. Bring a pole and swap fishing tales."
+          "title": "Fiskederby",
+          "note": "Lystfiskere står langs søerne. Tag en stang med, og udveksl fiskehistorier."
         },
         "delveDay": {
-          "title": "Delve Day",
-          "note": "Brother Halven marks his charts: a fine day to brave the Collapsed Reliquary."
+          "title": "Delve-Dag",
+          "note": "Broder Halven markerer sine kort: en fin dag at trodse Det Sammenstyrtede Relikvarium."
         },
         "moongateCommunion": {
-          "title": "Moongate Communion",
-          "note": "Pilgrims gather at the temple moongate under the mid-month moon."
+          "title": "Måneports-Andagt",
+          "note": "Pilgrimme samles ved templets måneport under midtmånedens måne."
         }
       }
     },
     "social": {
-      "lastSeen": "Last seen: {when}",
-      "lastSeenNever": "never"
+      "lastSeen": "Sidst set: {when}",
+      "lastSeenNever": "aldrig"
     }
   },
   "guide": {
@@ -1994,427 +1998,427 @@ export const da_DK: EnTranslations = {
     }
   },
   "editor": {
-    "appTitle": "Map Editor",
-    "docTitle": "Map Editor - World of ClaudeCraft",
-    "untitledMap": "Untitled Map",
-    "playtestPlayerName": "Mapmaker",
+    "appTitle": "Korteditor",
+    "docTitle": "Korteditor - World of ClaudeCraft",
+    "untitledMap": "Unavngivet kort",
+    "playtestPlayerName": "Kortmager",
     "topbar": {
-      "label": "Editor actions",
-      "mapNameLabel": "Map name",
-      "dirty": "Unsaved changes",
-      "dirtyDot": "This map has unsaved changes",
-      "clean": "All changes saved",
-      "savedLocal": "Saved in this browser",
-      "savedServer": "Saved to server (v{version})",
-      "saving": "Saving...",
-      "neverSaved": "Not saved yet",
-      "new": "New",
-      "newTitle": "Start a new map from the built-in world",
-      "open": "Open",
-      "openTitle": "Open a saved map (browser or server)",
-      "save": "Save",
-      "saveTitle": "Save to this browser, and to the server when signed in (Ctrl+S)",
-      "saveAs": "Save As",
-      "saveAsTitle": "Save a copy under a new name",
-      "fork": "Fork",
-      "forkTitle": "Create your own server-side copy of this map",
-      "forkDisabledTitle": "Open a server map first to fork it",
-      "import": "Import",
-      "importTitle": "Import a map from a JSON file",
-      "export": "Export",
-      "exportTitle": "Download this map as a JSON file",
-      "uploadAsset": "Upload Asset",
-      "uploadAssetTitle": "Upload a GLB model (up to 8 MiB) to place in your maps",
-      "uploadAssetDisabledTitle": "Sign in from the game to upload assets",
-      "playtest": "Playtest",
-      "playtestTitle": "Boot the game on this map (offline, current edits included)",
-      "viewLabel": "View mode",
+      "label": "Editorhandlinger",
+      "mapNameLabel": "Kortnavn",
+      "dirty": "Ugemte ændringer",
+      "dirtyDot": "Dette kort har ugemte ændringer",
+      "clean": "Alle ændringer er gemt",
+      "savedLocal": "Gemt i denne browser",
+      "savedServer": "Gemt på serveren (v{version})",
+      "saving": "Gemmer...",
+      "neverSaved": "Ikke gemt endnu",
+      "new": "Nyt",
+      "newTitle": "Start et nyt kort fra den indbyggede verden",
+      "open": "Åbn",
+      "openTitle": "Åbn et gemt kort (browser eller server)",
+      "save": "Gem",
+      "saveTitle": "Gem i denne browser, og på serveren når du er logget ind (Ctrl+S)",
+      "saveAs": "Gem som",
+      "saveAsTitle": "Gem en kopi under et nyt navn",
+      "fork": "Forgren",
+      "forkTitle": "Opret din egen serverkopi af dette kort",
+      "forkDisabledTitle": "Åbn først et serverkort for at forgrene det",
+      "import": "Importér",
+      "importTitle": "Importér et kort fra en JSON-fil",
+      "export": "Eksportér",
+      "exportTitle": "Download dette kort som en JSON-fil",
+      "uploadAsset": "Upload asset",
+      "uploadAssetTitle": "Upload en GLB-model (op til 8 MiB) til at placere på dine kort",
+      "uploadAssetDisabledTitle": "Log ind fra spillet for at uploade assets",
+      "playtest": "Prøvespil",
+      "playtestTitle": "Start spillet på dette kort (offline, med dine aktuelle ændringer)",
+      "viewLabel": "Visningstilstand",
       "view3d": "3D",
-      "view3dTitle": "Edit in the rendered world",
+      "view3dTitle": "Rediger i den renderede verden",
       "view2d": "2D",
-      "view2dTitle": "Edit on the symbolic overhead map",
-      "undoCount": "Undo: {count}",
-      "undoCountTitle": "{count} undoable steps (Ctrl+Z to undo, Ctrl+Y to redo)",
-      "autosave": "Autosave",
-      "autosaveTitle": "Automatically save the map while there are unsaved changes. Turns itself off if a save fails.",
-      "undo": "Undo",
-      "undoTitle": "Undo the last change (Ctrl+Z)",
-      "redo": "Redo",
-      "redoTitle": "Redo the last undone change (Ctrl+Y)",
+      "view2dTitle": "Rediger på det symbolske oversigtskort",
+      "undoCount": "Fortryd: {count}",
+      "undoCountTitle": "{count} trin kan fortrydes (Ctrl+Z for at fortryde, Ctrl+Y for at gentage)",
+      "autosave": "Autogem",
+      "autosaveTitle": "Gem automatisk kortet, mens der er ugemte ændringer. Slår sig selv fra, hvis et gem mislykkes.",
+      "undo": "Fortryd",
+      "undoTitle": "Fortryd den seneste ændring (Ctrl+Z)",
+      "redo": "Gentag",
+      "redoTitle": "Gentag den senest fortrudte ændring (Ctrl+Y)",
       "offline": "Offline",
-      "offlineTitle": "Not signed in: maps save to this browser only. Sign in from the game to save online.",
-      "signIn": "Sign in",
-      "signInTitle": "Open the game login screen in a new tab",
-      "help": "Help",
-      "helpTitle": "Editor guide: tools, shortcuts, and the tutorial"
+      "offlineTitle": "Ikke logget ind: kort gemmes kun i denne browser. Log ind fra spillet for at gemme online.",
+      "signIn": "Log ind",
+      "signInTitle": "Åbn spillets loginskærm i en ny fane",
+      "help": "Hjælp",
+      "helpTitle": "Editorguide: værktøjer, genveje og rundvisningen"
     },
     "tool": {
-      "listLabel": "Editor tools",
+      "listLabel": "Editorværktøjer",
       "keyHint": "{name} ({key})",
-      "select": "Select",
-      "raise": "Raise",
-      "lower": "Lower",
-      "smooth": "Smooth",
-      "flatten": "Flatten",
-      "paint": "Paint Biome",
-      "water": "Water",
-      "place": "Place Asset",
-      "blocker": "Blocker Wall",
-      "camp": "Camp",
-      "spawn": "Spawn Point",
+      "select": "Vælg",
+      "raise": "Hæv",
+      "lower": "Sænk",
+      "smooth": "Udglat",
+      "flatten": "Planér",
+      "paint": "Mal biom",
+      "water": "Vand",
+      "place": "Placér asset",
+      "blocker": "Spærrevæg",
+      "camp": "Lejr",
+      "spawn": "Startpunkt",
       "region": "Region",
-      "erase": "Erase"
+      "erase": "Visk ud"
     },
     "inspector": {
-      "label": "Tool options"
+      "label": "Værktøjsindstillinger"
     },
     "brush": {
-      "title": "Brush",
-      "size": "Brush size",
-      "strength": "Strength",
-      "sizeHint": "Keys: [ and ] resize the brush; Shift+[ and Shift+] change strength.",
-      "editCount": "Terrain edits: {count} / {max}"
+      "title": "Pensel",
+      "size": "Penselstørrelse",
+      "strength": "Styrke",
+      "sizeHint": "Taster: [ og ] ændrer penslens størrelse; Shift+[ og Shift+] ændrer styrken.",
+      "editCount": "Terrænændringer: {count} / {max}"
     },
     "biome": {
-      "title": "Biome",
-      "paletteLabel": "Biome to paint",
-      "vale": "Vale",
-      "marsh": "Marsh",
-      "peaks": "Peaks",
-      "beach": "Beach",
-      "desert": "Desert",
-      "volcano": "Volcano",
-      "cave": "Cave",
-      "erase": "Erase paint",
-      "hint": "Painted cells override the zone biome for terrain shape and color.",
-      "clear": "Clear all biome paint",
-      "clearConfirm": "Remove every painted biome cell from this map?"
+      "title": "Biom",
+      "paletteLabel": "Biom at male",
+      "vale": "Dal",
+      "marsh": "Sump",
+      "peaks": "Tinder",
+      "beach": "Strand",
+      "desert": "Ørken",
+      "volcano": "Vulkan",
+      "cave": "Hule",
+      "erase": "Visk maling ud",
+      "hint": "Malede celler tilsidesætter zonens biom for terrænform og farve.",
+      "clear": "Ryd al biommaling",
+      "clearConfirm": "Fjern alle malede biomceller fra dette kort?"
     },
     "flatten": {
-      "hint": "Flatten levels the ground to the height under the cursor when the drag starts.",
-      "hardEdge": "Hard edge"
+      "hint": "Planér jævner jorden til højden under markøren, dér hvor trækket begynder.",
+      "hardEdge": "Hård kant"
     },
     "water": {
-      "title": "Water Level",
-      "level": "Water level",
-      "hint": "Sets the map-wide water surface height, from {min} to {max} yards.",
-      "reset": "Reset to the built-in level"
+      "title": "Vandstand",
+      "level": "Vandstand",
+      "hint": "Angiver vandoverfladens højde for hele kortet, fra {min} til {max} yard.",
+      "reset": "Nulstil til det indbyggede niveau"
     },
     "place": {
-      "title": "Place Asset",
-      "scale": "Scale",
-      "collide": "Blocks movement",
-      "collideHint": "A blocking asset gets a collision footprint players cannot walk through.",
-      "randomRotation": "Random rotation",
-      "chosen": "Placing: {name}",
-      "none": "Pick an asset from the browser below, then click the ground to place it."
+      "title": "Placér asset",
+      "scale": "Skala",
+      "collide": "Blokerer bevægelse",
+      "collideHint": "Et blokerende asset får et kollisionsaftryk, som spillere ikke kan gå igennem.",
+      "randomRotation": "Tilfældig rotation",
+      "chosen": "Placerer: {name}",
+      "none": "Vælg et asset i browseren nedenfor, og klik derefter på jorden for at placere det."
     },
     "blockerTool": {
-      "title": "Blocker Wall",
-      "hint": "Drag along the ground to draw an invisible wall players cannot walk or jump through. Release to place it; a wall shorter than half a yard is discarded.",
-      "count": "Blocker walls: {count} / {max}"
+      "title": "Spærrevæg",
+      "hint": "Træk hen over jorden for at tegne en usynlig væg, som spillere ikke kan gå eller hoppe igennem. Slip for at placere den; en væg kortere end en halv yard kasseres.",
+      "count": "Spærrevægge: {count} / {max}"
     },
     "camp": {
-      "title": "Mob Camp",
+      "title": "Mob-lejr",
       "mob": "Mob",
-      "count": "Count",
+      "count": "Antal",
       "radius": "Radius",
-      "delete": "Delete camp",
-      "hint": "Click open ground to add a camp, or click an existing camp to edit it.",
-      "playtestNote": "Mobs spawn only in playtest, never in the editor view.",
-      "selected": "Camp: {mob}",
-      "none": "No camp selected."
+      "delete": "Slet lejr",
+      "hint": "Klik på åben jord for at tilføje en lejr, eller klik på en eksisterende lejr for at redigere den.",
+      "playtestNote": "Mobs spawner kun i prøvespil, aldrig i editorvisningen.",
+      "selected": "Lejr: {mob}",
+      "none": "Ingen lejr valgt."
     },
     "spawn": {
-      "title": "Spawn Point",
-      "hint": "Click the ground to set where playtest drops the player.",
-      "position": "Spawn: {x}, {z}",
-      "unset": "Using the built-in start position.",
-      "clear": "Clear spawn point"
+      "title": "Startpunkt",
+      "hint": "Klik på jorden for at angive, hvor prøvespillet sætter spilleren af.",
+      "position": "Start: {x}, {z}",
+      "unset": "Bruger den indbyggede startposition.",
+      "clear": "Ryd startpunkt"
     },
     "region": {
       "title": "Region",
-      "hint": "Drag a box to select placements and terrain edits. Copy, then click to paste.",
-      "hint3d": "Region boxes draw in the 2D view; copy and paste work in both views.",
-      "copy": "Copy region",
-      "pasteBeside": "Paste beside",
-      "copied": "Copied {assets} assets and {edits} terrain edits.",
-      "pasted": "Pasted {count} items.",
-      "needBox": "Draw a region box first.",
-      "needClipboard": "Copy a region first."
+      "hint": "Træk en boks for at markere placeringer og terrænændringer. Kopiér, og klik derefter for at indsætte.",
+      "hint3d": "Regionbokse tegnes i 2D-visningen; kopiér og indsæt virker i begge visninger.",
+      "copy": "Kopiér region",
+      "pasteBeside": "Indsæt ved siden af",
+      "copied": "Kopierede {assets} assets og {edits} terrænændringer.",
+      "pasted": "Indsatte {count} elementer.",
+      "needBox": "Tegn først en regionboks.",
+      "needClipboard": "Kopiér først en region."
     },
     "eraseTool": {
-      "title": "Erase",
-      "hint": "Click a placed asset to remove it, or click sculpted ground to remove the newest stamp under the cursor.",
-      "blockerHint": "Clicking near a blocker wall removes that wall instead."
+      "title": "Visk ud",
+      "hint": "Klik på et placeret asset for at fjerne det, eller klik på skulpteret jord for at fjerne det nyeste stempel under markøren.",
+      "blockerHint": "Klikker du nær en spærrevæg, fjernes den væg i stedet."
     },
     "selection": {
-      "title": "Selection",
-      "none": "Nothing selected. Use Select and click a placed asset.",
+      "title": "Markering",
+      "none": "Intet markeret. Brug Vælg, og klik på et placeret asset.",
       "asset": "Asset: {name}",
       "x": "X",
       "z": "Z",
       "rotation": "Rotation",
-      "scale": "Scale",
-      "collide": "Blocks movement",
-      "radius": "Collision radius",
+      "scale": "Skala",
+      "collide": "Blokerer bevægelse",
+      "radius": "Kollisionsradius",
       "radiusAuto": "Auto",
-      "radiusAutoTitle": "Reset the collision radius to follow the asset scale",
-      "radiusHint": "Auto derives the collision radius from the asset scale; drag the slider to override it.",
-      "footprints": "Show collision footprints",
-      "duplicate": "Duplicate",
-      "delete": "Delete",
-      "deleteHint": "Delete removes the selection; Ctrl+Z restores it.",
-      "moveHint": "Move: drag the asset along the ground in the 3D view, or nudge it with the arrow keys (0.5 yd, Shift for 2 yd).",
-      "wheelHint": "Shift+scroll rotates the asset, Alt+scroll scales it, Ctrl+D duplicates it."
+      "radiusAutoTitle": "Nulstil kollisionsradius, så den følger assetets skala",
+      "radiusHint": "Auto udleder kollisionsradius af assetets skala; træk i skyderen for at tilsidesætte den.",
+      "footprints": "Vis kollisionsaftryk",
+      "duplicate": "Duplikér",
+      "delete": "Slet",
+      "deleteHint": "Delete fjerner markeringen; Ctrl+Z gendanner den.",
+      "moveHint": "Flyt: træk dit asset hen over jorden i 3D-visningen, eller skub det med piletasterne (0,5 yd, Shift for 2 yd).",
+      "wheelHint": "Shift+rul roterer dit asset, Alt+rul skalerer det, Ctrl+D duplikerer det."
     },
     "marker": {
-      "title": "Marker",
-      "reset": "Reset position",
-      "moved": "{count} markers moved from the built-in layout."
+      "title": "Markør",
+      "reset": "Nulstil position",
+      "moved": "{count} markører flyttet fra det indbyggede layout."
     },
     "layers": {
-      "title": "Layers",
-      "hub": "Hubs",
-      "graveyard": "Graveyards",
-      "lake": "Lakes",
-      "poi": "Points of interest",
-      "camp": "Camps",
-      "npc": "NPCs",
-      "object": "Objects",
-      "blocker": "Blocker walls"
+      "title": "Lag",
+      "hub": "Knudepunkter",
+      "graveyard": "Kirkegårde",
+      "lake": "Søer",
+      "poi": "Interessepunkter",
+      "camp": "Lejre",
+      "npc": "NPC'er",
+      "object": "Objekter",
+      "blocker": "Spærrevægge"
     },
     "frame": {
-      "title": "Frame",
-      "all": "All"
+      "title": "Indramning",
+      "all": "Alt"
     },
     "procgen": {
-      "title": "Procedural",
-      "count": "Count",
-      "scatter": "Scatter category assets",
-      "hills": "Generate rolling hills",
-      "scattered": "Scattered {count} assets from {category}.",
-      "hillsAdded": "Added {count} hills.",
-      "noAssets": "No assets in that category."
+      "title": "Procedurel generering",
+      "count": "Antal",
+      "scatter": "Spred assets fra kategori",
+      "hills": "Generér bølgende bakker",
+      "scattered": "Spredte {count} assets fra {category}.",
+      "hillsAdded": "Tilføjede {count} bakker.",
+      "noAssets": "Ingen assets i den kategori."
     },
     "assets": {
-      "title": "Asset Browser",
-      "label": "Asset browser",
-      "search": "Search assets",
-      "searchPlaceholder": "Search assets...",
-      "empty": "No matching assets.",
-      "uploadedTab": "Uploaded",
-      "uploadedEmpty": "No uploaded assets yet. Use Upload Asset to add a GLB model (up to 8 MiB).",
-      "uploadedSignIn": "Sign in from the game to upload and place your own GLB models.",
-      "uploadedLoadFailed": "Could not load your uploaded assets.",
-      "deleteAsset": "Delete uploaded asset",
-      "deleteAssetConfirm": "Delete the uploaded asset \"{name}\"? Maps that use it lose the model.",
-      "pick": "Place {name}",
+      "title": "Asset-browser",
+      "label": "Asset-browser",
+      "search": "Søg i assets",
+      "searchPlaceholder": "Søg i assets...",
+      "empty": "Ingen matchende assets.",
+      "uploadedTab": "Uploadede",
+      "uploadedEmpty": "Ingen uploadede assets endnu. Brug Upload asset til at tilføje en GLB-model (op til 8 MiB).",
+      "uploadedSignIn": "Log ind fra spillet for at uploade og placere dine egne GLB-modeller.",
+      "uploadedLoadFailed": "Kunne ikke indlæse dine uploadede assets.",
+      "deleteAsset": "Slet uploadet asset",
+      "deleteAssetConfirm": "Slet det uploadede asset \"{name}\"? Kort, der bruger det, mister modellen.",
+      "pick": "Placér {name}",
       "categoryTab": "{category} ({count})",
       "category": {
-        "biome": "Biome",
-        "chars": "Characters",
-        "creatures": "Creatures",
-        "dungeon": "Dungeon",
-        "foliage": "Foliage",
-        "props": "Props",
+        "biome": "Biom",
+        "chars": "Karakterer",
+        "creatures": "Skabninger",
+        "dungeon": "Fangekælder",
+        "foliage": "Bevoksning",
+        "props": "Rekvisitter",
         "quest": "Quest",
-        "resources": "Resources",
-        "tools": "Tools",
-        "weapons": "Weapons"
+        "resources": "Ressourcer",
+        "tools": "Værktøj",
+        "weapons": "Våben"
       }
     },
     "upload": {
-      "notGlb": "Pick a .glb file.",
-      "tooLarge": "That file is over the 8 MiB limit.",
-      "uploading": "Uploading asset...",
-      "uploaded": "Asset uploaded: {name}",
-      "uploadedExisting": "That model was already on the server; reusing it.",
-      "deleted": "Uploaded asset deleted."
+      "notGlb": "Vælg en .glb-fil.",
+      "tooLarge": "Den fil er over grænsen på 8 MiB.",
+      "uploading": "Uploader asset...",
+      "uploaded": "Asset uploadet: {name}",
+      "uploadedExisting": "Den model var allerede på serveren; den genbruges.",
+      "deleted": "Uploadet asset slettet."
     },
     "openDrawer": {
-      "title": "Open Map",
-      "close": "Close",
-      "tabLocal": "This Browser",
-      "tabMine": "My Server Maps",
-      "tabPublic": "Public Maps",
-      "colName": "Name",
-      "colUpdated": "Updated",
+      "title": "Åbn kort",
+      "close": "Luk",
+      "tabLocal": "Denne browser",
+      "tabMine": "Mine serverkort",
+      "tabPublic": "Offentlige kort",
+      "colName": "Navn",
+      "colUpdated": "Opdateret",
       "colStatus": "Status",
-      "statusPublic": "Public",
-      "statusPrivate": "Private",
-      "open": "Open",
-      "fork": "Fork",
-      "publish": "Publish",
-      "unpublish": "Unpublish",
-      "delete": "Delete",
-      "draft": "Autosaved draft",
-      "emptyLocal": "No maps saved in this browser yet. Save one and it appears here.",
-      "emptyMine": "No maps on the server yet. Save while signed in to create one.",
-      "emptyPublic": "No public maps yet.",
-      "loading": "Loading maps...",
-      "loadFailed": "Could not load maps from the server.",
-      "signInHint": "Sign in from the game to browse, save, and fork server maps.",
-      "deleteLocalConfirm": "Delete the local map \"{name}\"?",
-      "deleteServerConfirm": "Delete the server map \"{name}\"? This cannot be undone.",
-      "prev": "Previous page",
-      "next": "Next page",
-      "page": "Page {page}"
+      "statusPublic": "Offentlig",
+      "statusPrivate": "Privat",
+      "open": "Åbn",
+      "fork": "Forgren",
+      "publish": "Udgiv",
+      "unpublish": "Afpublicér",
+      "delete": "Slet",
+      "draft": "Autogemt kladde",
+      "emptyLocal": "Ingen kort gemt i denne browser endnu. Gem et, så vises det her.",
+      "emptyMine": "Ingen kort på serveren endnu. Gem, mens du er logget ind, for at oprette et.",
+      "emptyPublic": "Ingen offentlige kort endnu.",
+      "loading": "Indlæser kort...",
+      "loadFailed": "Kunne ikke indlæse kort fra serveren.",
+      "signInHint": "Log ind fra spillet for at gennemse, gemme og forgrene serverkort.",
+      "deleteLocalConfirm": "Slet det lokale kort \"{name}\"?",
+      "deleteServerConfirm": "Slet serverkortet \"{name}\"? Dette kan ikke fortrydes.",
+      "prev": "Forrige side",
+      "next": "Næste side",
+      "page": "Side {page}"
     },
     "status": {
-      "savedLocal": "Saved \"{name}\" to this browser.",
-      "savedServer": "Saved \"{name}\" to the server (v{version}).",
-      "savedLocalOnly": "Saved \"{name}\" to this browser. Sign in to save online.",
-      "saveFailedLocal": "Local save failed (storage blocked).",
-      "opened": "Opened \"{name}\".",
-      "imported": "Imported \"{name}\".",
-      "importFailed": "Import cancelled, or the file is not a valid map.",
-      "exported": "Downloaded \"{name}\".",
-      "newMap": "New map started from the built-in world.",
-      "forked": "Forked to \"{name}\". You are editing your own copy now.",
-      "published": "Map published. Anyone can now find and fork it.",
-      "unpublished": "Map unpublished.",
-      "deleted": "Map deleted.",
-      "assetPlacedFirst": "Pick an asset in the browser first.",
-      "loading3d": "Loading the world...",
-      "playtestLaunch": "Launching playtest...",
-      "playtestFailed": "Could not start the playtest (storage blocked).",
-      "draftSaved": "Draft autosaved.",
-      "draftRestored": "Restored the autosaved draft.",
-      "autosaveFailed": "Autosave failed (browser storage is full or blocked). Export the map to keep a backup.",
-      "terrainCapReached": "Terrain edit limit reached ({max}). Extra sculpt stamps were not added.",
-      "placementCapReached": "Placement limit reached ({max}). Extra assets were not added.",
-      "blockerCapReached": "Blocker wall limit reached ({max}). The new wall was not added.",
-      "autosaveOff": "Autosave turned off: {reason} Save manually, then turn it back on."
+      "savedLocal": "Gemte \"{name}\" i denne browser.",
+      "savedServer": "Gemte \"{name}\" på serveren (v{version}).",
+      "savedLocalOnly": "Gemte \"{name}\" i denne browser. Log ind for at gemme online.",
+      "saveFailedLocal": "Lokalt gem mislykkedes (lager blokeret).",
+      "opened": "Åbnede \"{name}\".",
+      "imported": "Importerede \"{name}\".",
+      "importFailed": "Importen blev annulleret, eller filen er ikke et gyldigt kort.",
+      "exported": "Downloadede \"{name}\".",
+      "newMap": "Nyt kort startet fra den indbyggede verden.",
+      "forked": "Forgrenet til \"{name}\". Du redigerer nu din egen kopi.",
+      "published": "Kortet er udgivet. Alle kan nu finde og forgrene det.",
+      "unpublished": "Kortet er ikke længere udgivet.",
+      "deleted": "Kortet er slettet.",
+      "assetPlacedFirst": "Vælg først et asset i browseren.",
+      "loading3d": "Indlæser verdenen...",
+      "playtestLaunch": "Starter prøvespil...",
+      "playtestFailed": "Kunne ikke starte prøvespillet (lager blokeret).",
+      "draftSaved": "Kladden er autogemt.",
+      "draftRestored": "Den autogemte kladde er gendannet.",
+      "autosaveFailed": "Autogem mislykkedes (browserlageret er fuldt eller blokeret). Eksportér kortet for at have en sikkerhedskopi.",
+      "terrainCapReached": "Grænsen for terrænændringer er nået ({max}). Overskydende stempler blev ikke tilføjet.",
+      "placementCapReached": "Placeringsgrænsen er nået ({max}). Overskydende assets blev ikke tilføjet.",
+      "blockerCapReached": "Grænsen for spærrevægge er nået ({max}). Den nye væg blev ikke tilføjet.",
+      "autosaveOff": "Autogem slået fra: {reason} Gem manuelt, og slå det til igen."
     },
     "confirm": {
       "ok": "OK",
-      "cancel": "Cancel",
-      "discardTitle": "Discard changes?",
-      "discardBody": "You have unsaved changes on \"{name}\". Discard them?",
-      "discard": "Discard",
-      "conflictTitle": "Save conflict",
-      "conflictBody": "This map changed on the server since you opened it (now v{version}). Save your version as a new copy?",
-      "conflictSaveCopy": "Save As Copy"
+      "cancel": "Annuller",
+      "discardTitle": "Kassér ændringer?",
+      "discardBody": "Du har ugemte ændringer på \"{name}\". Kassér dem?",
+      "discard": "Kassér",
+      "conflictTitle": "Gem-konflikt",
+      "conflictBody": "Dette kort er ændret på serveren, siden du åbnede det (nu v{version}). Gem din version som en ny kopi?",
+      "conflictSaveCopy": "Gem som kopi"
     },
     "prompt": {
-      "saveAsTitle": "Save As",
-      "nameLabel": "New map name"
+      "saveAsTitle": "Gem som",
+      "nameLabel": "Nyt kortnavn"
     },
     "serverError": {
-      "invalid_map_name": "That map name is not allowed. Use letters, numbers, spaces, apostrophes, or hyphens.",
-      "map_name_not_allowed": "That map name is not allowed.",
-      "invalid_map_doc": "The server rejected the map document.",
-      "invalid_version": "The save request was malformed. Reload and try again.",
-      "map_limit_reached": "You have reached the server map limit. Delete a map to save more.",
-      "map_not_found": "That map no longer exists on the server.",
-      "version_conflict": "The map changed on the server since you opened it.",
-      "slug_unavailable": "The server could not make a link for that name. Try a different name.",
-      "map_too_large": "The map document is too large to save on the server.",
-      "invalid_glb": "That file is not a valid GLB model.",
-      "asset_blocked": "That asset has been blocked by moderation.",
-      "asset_limit_reached": "You have reached the uploaded asset limit. Delete one to upload more.",
-      "asset_storage_limit_reached": "You are out of asset storage space. Delete an asset first.",
-      "asset_too_large": "That model is over the upload size limit.",
-      "asset_not_found": "That asset no longer exists on the server.",
-      "rate_limited": "Slow down a little and try again.",
-      "unauthorized": "Your session has expired. Sign in from the game again.",
-      "network": "Could not reach the server. Check your connection and try again.",
-      "timeout": "The server took too long to respond. Try again.",
-      "unknown": "Something went wrong talking to the server."
+      "invalid_map_name": "Det kortnavn er ikke tilladt. Brug bogstaver, tal, mellemrum, apostroffer eller bindestreger.",
+      "map_name_not_allowed": "Det kortnavn er ikke tilladt.",
+      "invalid_map_doc": "Serveren afviste kortdokumentet.",
+      "invalid_version": "Gem-anmodningen var ugyldigt udformet. Genindlæs, og prøv igen.",
+      "map_limit_reached": "Du har nået grænsen for serverkort. Slet et kort for at gemme flere.",
+      "map_not_found": "Det kort findes ikke længere på serveren.",
+      "version_conflict": "Kortet er ændret på serveren, siden du åbnede det.",
+      "slug_unavailable": "Serveren kunne ikke lave et link til det navn. Prøv et andet navn.",
+      "map_too_large": "Kortdokumentet er for stort til at blive gemt på serveren.",
+      "invalid_glb": "Den fil er ikke en gyldig GLB-model.",
+      "asset_blocked": "Det asset er blevet blokeret af moderationen.",
+      "asset_limit_reached": "Du har nået grænsen for uploadede assets. Slet et for at uploade flere.",
+      "asset_storage_limit_reached": "Du er løbet tør for lagerplads til assets. Slet først et asset.",
+      "asset_too_large": "Den model er over størrelsesgrænsen for upload.",
+      "asset_not_found": "Det asset findes ikke længere på serveren.",
+      "rate_limited": "Sæt tempoet lidt ned, og prøv igen.",
+      "unauthorized": "Din session er udløbet. Log ind fra spillet igen.",
+      "network": "Kunne ikke nå serveren. Tjek din forbindelse, og prøv igen.",
+      "timeout": "Serveren var for længe om at svare. Prøv igen.",
+      "unknown": "Noget gik galt i kommunikationen med serveren."
     },
     "hints": {
-      "nav3d": "Drag to orbit, scroll to zoom. While dragging, WASD flies and Q/E changes height.",
-      "nav2d": "Drag to pan, scroll to zoom."
+      "nav3d": "Træk for at kredse, rul for at zoome. Mens du trækker, flyver WASD, og Q/E ændrer højden.",
+      "nav2d": "Træk for at panorere, rul for at zoome."
     },
     "help": {
-      "title": "Editor Help",
-      "toolsTitle": "Tools",
-      "shortcutsTitle": "Keyboard shortcuts",
-      "mouseTitle": "Mouse and navigation",
-      "flowTitle": "Saving and playtesting",
-      "beginTutorial": "Begin tutorial",
-      "close": "Close",
+      "title": "Editorhjælp",
+      "toolsTitle": "Værktøjer",
+      "shortcutsTitle": "Tastaturgenveje",
+      "mouseTitle": "Mus og navigation",
+      "flowTitle": "Gem og prøvespil",
+      "beginTutorial": "Begynd rundvisningen",
+      "close": "Luk",
       "tool": {
-        "select": "Pick placed assets to move, rotate, and scale them; click a 2D marker to edit it.",
-        "raise": "Raise the terrain under the brush.",
-        "lower": "Lower the terrain under the brush.",
-        "smooth": "Smooth bumps toward the local average height.",
-        "flatten": "Level the ground to the height where the drag starts.",
-        "paint": "Paint biome ground cover over the zone default.",
-        "water": "Set the map-wide water level.",
-        "place": "Place catalog or uploaded assets on the ground.",
-        "blocker": "Drag invisible walls that block movement in playtest.",
-        "camp": "Add and edit mob camps that spawn in playtest.",
-        "spawn": "Set where playtest drops the player.",
-        "region": "Box-select terrain and assets to copy and paste.",
-        "erase": "Remove placed assets or sculpt stamps under the cursor."
+        "select": "Vælg placerede assets for at flytte, rotere og skalere dem; klik på en 2D-markør for at redigere den.",
+        "raise": "Hæv terrænet under penslen.",
+        "lower": "Sænk terrænet under penslen.",
+        "smooth": "Udglat buler mod den lokale gennemsnitshøjde.",
+        "flatten": "Jævn jorden til højden dér, hvor trækket begynder.",
+        "paint": "Mal biom-bunddække hen over zonens standard.",
+        "water": "Angiv vandstanden for hele kortet.",
+        "place": "Placér katalog-assets eller uploadede assets på jorden.",
+        "blocker": "Træk usynlige vægge, der blokerer bevægelse i prøvespil.",
+        "camp": "Tilføj og rediger mob-lejre, der spawner i prøvespil.",
+        "spawn": "Angiv, hvor prøvespillet sætter spilleren af.",
+        "region": "Boks-markér terræn og assets for at kopiere og indsætte.",
+        "erase": "Fjern placerede assets eller skulpturstempler under markøren."
       },
       "key": {
-        "tools": "Every tool has a single-letter shortcut, shown on its button in the tool rail.",
-        "brush": "[ and ] resize the brush; Shift+[ and Shift+] change its strength.",
-        "undo": "Ctrl+Z undoes the last change; Ctrl+Y or Ctrl+Shift+Z redoes it.",
-        "save": "Ctrl+S saves the map.",
-        "duplicate": "Ctrl+D duplicates the selected asset.",
-        "nudge": "Arrow keys nudge the selected asset by 0.5 yards; hold Shift for 2 yards.",
-        "wheel": "Shift+scroll rotates the selected asset; Alt+scroll scales it.",
-        "delete": "Delete removes the selected asset or camp.",
-        "escape": "Esc clears the selection first, then returns to the Select tool."
+        "tools": "Hvert værktøj har en genvej på ét bogstav, vist på dets knap i værktøjsskinnen.",
+        "brush": "[ og ] ændrer penslens størrelse; Shift+[ og Shift+] ændrer dens styrke.",
+        "undo": "Ctrl+Z fortryder den seneste ændring; Ctrl+Y eller Ctrl+Shift+Z gentager den.",
+        "save": "Ctrl+S gemmer kortet.",
+        "duplicate": "Ctrl+D duplikerer det valgte asset.",
+        "nudge": "Piletasterne skubber det valgte asset 0,5 yard; hold Shift for 2 yard.",
+        "wheel": "Shift+rul roterer det valgte asset; Alt+rul skalerer det.",
+        "delete": "Delete fjerner det valgte asset eller den valgte lejr.",
+        "escape": "Esc rydder først markeringen og vender derefter tilbage til værktøjet Vælg."
       },
       "mouse": {
-        "orbit3d": "3D view: drag to orbit and scroll to zoom; middle-drag or Shift+drag pans.",
-        "fly3d": "While holding a drag in 3D, WASD flies the camera and Q/E changes height.",
-        "move": "With Select active, drag a placed asset to move it across the ground.",
-        "pan2d": "2D view: drag to pan and scroll to zoom."
+        "orbit3d": "3D-visning: træk for at kredse, og rul for at zoome; midtertræk eller Shift+træk panorerer.",
+        "fly3d": "Mens du holder et træk i 3D, flyver WASD kameraet, og Q/E ændrer højden.",
+        "move": "Med Vælg aktivt kan du trække et placeret asset for at flytte det hen over jorden.",
+        "pan2d": "2D-visning: træk for at panorere, og rul for at zoome."
       },
       "flow": {
-        "save": "Save keeps the map in this browser, and on the server when you are signed in.",
-        "draft": "While you have unsaved changes, a draft is autosaved every 30 seconds; Open restores it.",
-        "playtest": "Playtest boots the real game on this map, including your unsaved edits."
+        "save": "Gem beholder kortet i denne browser, og på serveren når du er logget ind.",
+        "draft": "Mens du har ugemte ændringer, autogemmes en kladde hvert 30. sekund; Åbn gendanner den.",
+        "playtest": "Prøvespil starter det rigtige spil på dette kort, inklusive dine ugemte ændringer."
       }
     },
     "tutorial": {
-      "title": "Editor tutorial",
-      "back": "Back",
-      "next": "Next",
-      "finish": "Finish",
-      "skip": "Skip tour",
-      "counter": "Step {current} of {total}",
+      "title": "Editor-rundvisning",
+      "back": "Tilbage",
+      "next": "Næste",
+      "finish": "Afslut",
+      "skip": "Spring rundvisningen over",
+      "counter": "Trin {current} af {total}",
       "steps": {
         "toolbar": {
-          "title": "The tool rail",
-          "body": "Every editing tool lives here: sculpting brushes, biome paint, water, asset placement, camps, and more. Each one has a single-key shortcut, shown in its corner."
+          "title": "Værktøjsskinnen",
+          "body": "Alle redigeringsværktøjer bor her: skulpturpensler, biommaling, vand, asset-placering, lejre og mere. Hvert af dem har en genvej på én tast, vist i hjørnet."
         },
         "stage": {
-          "title": "The world",
-          "body": "This is your map, rendered with the real game engine. Drag to orbit, scroll to zoom, and middle-drag or Shift+drag to pan. Click the ground with a tool to edit."
+          "title": "Verdenen",
+          "body": "Dette er dit kort, renderet med den rigtige spilmotor. Træk for at kredse, rul for at zoome, og midtertræk eller Shift+træk for at panorere. Klik på jorden med et værktøj for at redigere."
         },
         "inspector": {
-          "title": "Tool options",
-          "body": "The options for the active tool appear here: brush size, the biome palette, asset scale, camp settings, and the properties of whatever you select."
+          "title": "Værktøjsindstillinger",
+          "body": "Indstillingerne for det aktive værktøj vises her: penselstørrelse, biompaletten, asset-skala, lejrindstillinger og egenskaberne for det, du markerer."
         },
         "viewToggle": {
-          "title": "3D and 2D",
-          "body": "Switch between the rendered 3D world and the symbolic overhead 2D map. The 2D view is best for moving zone markers and framing large areas."
+          "title": "3D og 2D",
+          "body": "Skift mellem den renderede 3D-verden og det symbolske 2D-oversigtskort. 2D-visningen er bedst til at flytte zonemarkører og indramme store områder."
         },
         "save": {
-          "title": "Save your work",
-          "body": "Save stores the map in this browser, and on the server when you are signed in. Export downloads a JSON backup, and Open brings back saved maps and drafts."
+          "title": "Gem dit arbejde",
+          "body": "Gem lagrer kortet i denne browser, og på serveren når du er logget ind. Eksportér downloader en JSON-sikkerhedskopi, og Åbn henter gemte kort og kladder frem igen."
         },
         "playtest": {
-          "title": "Playtest",
-          "body": "Boot the real game on your map at any time, with your current edits included. Close the playtest tab to come back and keep editing."
+          "title": "Prøvespil",
+          "body": "Start det rigtige spil på dit kort når som helst, med dine aktuelle ændringer inkluderet. Luk prøvespilsfanen for at komme tilbage og redigere videre."
         },
         "help": {
-          "title": "Help is here",
-          "body": "That is the whole loop. Open Help any time for the full tool list and every shortcut, or to run this tour again."
+          "title": "Hjælpen er her",
+          "body": "Det er hele kredsløbet. Åbn Hjælp når som helst for den fulde værktøjsliste og alle genveje, eller for at tage rundvisningen igen."
         }
       }
     },
     "a11y": {
-      "stage": "Map viewport",
-      "toasts": "Editor notifications",
-      "dialog": "Editor dialog"
+      "stage": "Kortvisning",
+      "toasts": "Editornotifikationer",
+      "dialog": "Editordialog"
     }
   },
   "skinEvent": {
@@ -2537,9 +2541,9 @@ export const da_DK: EnTranslations = {
     "password": "Adgangskode",
     "passwordError": "Indtast venligst din adgangskode.",
     "passwordPlaceholder": "Indtast adgangskode",
-    "email": "Email",
-    "emailPlaceholder": "you@example.com",
-    "emailError": "Please enter a valid email address.",
+    "email": "E-mail",
+    "emailPlaceholder": "dig@eksempel.com",
+    "emailError": "Indtast venligst en gyldig e-mailadresse.",
     "showPassword": "Vis adgangskode",
     "hidePassword": "Skjul adgangskode",
     "logIn": "Log ind",
@@ -2567,12 +2571,12 @@ export const da_DK: EnTranslations = {
     "twoFactorPlaceholder": "6-cifret eller gendannelseskode",
     "twoFactorHint": "Indtast koden fra din autentificeringsapp eller en af dine gendannelseskoder.",
     "recovery": {
-      "title": "Add a recovery email",
-      "body": "Set an email address so you can recover your account. We only use it to confirm you own this account if you ever need to reset your password.",
-      "save": "Save email",
-      "logOut": "Log out",
-      "invalid": "Please enter a valid email address.",
-      "failed": "Could not save your email. Please try again."
+      "title": "Tilføj en gendannelses-e-mail",
+      "body": "Angiv en e-mailadresse, så du kan gendanne din konto. Vi bruger den kun til at bekræfte, at du ejer denne konto, hvis du en dag skal nulstille din adgangskode.",
+      "save": "Gem e-mail",
+      "logOut": "Log ud",
+      "invalid": "Indtast venligst en gyldig e-mailadresse.",
+      "failed": "Kunne ikke gemme din e-mail. Prøv igen."
     }
   },
   "wallet": {
@@ -2627,7 +2631,7 @@ export const da_DK: EnTranslations = {
     "helpLinkedWithBalance": "Ejerfordele er aktive. Pung-app forbundet i denne browser.",
     "helpLinkedDisconnected": "Ejerfordele er aktive. Forbind appen, når du har brug for at underskrive eller bruge midler.",
     "helpLinkedDisconnectedWithBalance": "Ejerfordele er aktive. Forbind appen, når du har brug for at underskrive eller bruge midler.",
-    "extensionHelp": "To see a wallet here, keep a browser wallet extension such as Solflare Wallet active.",
+    "extensionHelp": "For at se en pung her skal du holde en browser-pungudvidelse som Solflare Wallet aktiv.",
     "flowConnect": "Vælg en pung. Verificeringen fortsætter automatisk.",
     "flowSign": "Underskriv verificeringsbeskeden i din pung-app. Ingen transaktion eller SOL kræves.",
     "flowVerify": "Verificerer ejerskab af pung...",
@@ -2813,7 +2817,7 @@ export const da_DK: EnTranslations = {
       "unknownTier": "Ukendt delve-niveau.",
       "levelRequired": "Du skal være niveau {level} for at gå ind i {name}.",
       "levelRequiredTier": "Du skal være niveau {level} for at gå ind i {name} på {tier}.",
-      "partyTooLarge": "{name} is meant for solo or duo delves. Parties of {max} or more may not enter.",
+      "partyTooLarge": "{name} er tiltænkt solo- eller duo-delves. Grupper på {max} eller flere kan ikke gå ind.",
       "instancesBusy": "Alle instanser af {name} er optaget. Prøv igen snart.",
       "runFailed": "{name}-forsøg mislykkedes.",
       "complete": "{name} fuldført.",
@@ -2823,14 +2827,14 @@ export const da_DK: EnTranslations = {
       "doorAlreadyOpen": "Døren er allerede åben.",
       "companionRankUp": "{name} når rang {rank}.",
       "bossChest": "Bossen falder. En spærret relikviekiste hæver sig på podiet. Dirk dens lås op for at indtage dit bytte.",
-      "drownedLitanyReliquaryRise": "Sister Nhalia falls silent. The Drowned Reliquary rises from the blackwater. Approach it to begin the rite.",
-      "riteSequenceReady": "The shrines fall dark. Repeat the sequence.",
-      "riteSequencePlaying": "The shrines replay the rite. Wait.",
-      "riteCorrect": "A soft chime answers your touch.",
-      "riteWrong": "A harsh bell crack. Black water splashes at your feet.",
-      "riteReliquaryOpen": "The Drowned Reliquary opens.",
-      "riteReliquaryLocked": "Complete the shrine rite to open the reliquary.",
-      "riteReliquaryEmpty": "The reliquary is empty.",
+      "drownedLitanyReliquaryRise": "Søster Nhalia forstummer. Det Druknede Relikvarium hæver sig af sortvandet. Gå hen til det for at begynde riten.",
+      "riteSequenceReady": "Skrinene bliver mørke. Gentag sekvensen.",
+      "riteSequencePlaying": "Skrinene afspiller riten igen. Vent.",
+      "riteCorrect": "En blid klang svarer din berøring.",
+      "riteWrong": "Et hårdt klokkebrag. Sort vand sprøjter op om dine fødder.",
+      "riteReliquaryOpen": "Det Druknede Relikvarium åbner sig.",
+      "riteReliquaryLocked": "Fuldfør skrin-riten for at åbne relikvariet.",
+      "riteReliquaryEmpty": "Relikvariet er tomt.",
       "surfaceStairs": "En trappe til overfladen åbner sig. Tryk F ved trappen for at forlade.",
       "moduleEnter": "{name}: {objective}",
       "objectiveClearRoom": "Ryd rummet.",
@@ -2838,13 +2842,13 @@ export const da_DK: EnTranslations = {
       "tombstoneHint": "En gravstenspassage åbner mod nord, når rummet er ryddet.",
       "tombstoneOpen": "En forseglet gravstenspassage maler sig op mod nord. Gå ind i den for at fortsætte.",
       "tombstoneInto": "Du går gennem gravstenen ind i {name}.",
-      "bellRopeShock": "The bell rope snaps taut. Drowned Cantors reel from the shock.",
-      "eggSacBurst": "The egg-sac bursts. Spiderlings skitter free across the baptistry rim.",
-      "baptistryEggs": "The baptistry falls quiet. Spider egg-sacs cling wetly to the rim.",
-      "baptistrySpidersSealed": "You should try to destroy the spider sacs.",
-      "puzzleSealed": "You need to open the seal by applying pressure somewhere in the room.",
-      "ropesSealed": "You should try pulling the bell ropes.",
-      "baptistryWave": "Something stirs in the black baptistry water.",
+      "bellRopeShock": "Klokkerebet strammes med et ryk. Druknede Kantorer vakler af chokket.",
+      "eggSacBurst": "Ægsækken brister. Edderkoppeyngel spurter fri hen over dåbskapellets kant.",
+      "baptistryEggs": "Dåbskapellet bliver stille. Edderkoppe-ægsække klæber vådt til kanten.",
+      "baptistrySpidersSealed": "Du bør prøve at ødelægge edderkoppesækkene.",
+      "puzzleSealed": "Du skal åbne seglet ved at lægge tryk et sted i rummet.",
+      "ropesSealed": "Du bør prøve at trække i klokkerebene.",
+      "baptistryWave": "Noget rører sig i dåbskapellets sorte vand.",
       "chestEmpty": "Kisten er tom.",
       "notInDelve": "Du er ikke i et delve.",
       "cannotInteract": "Du kan ikke interagere med det.",
@@ -2863,12 +2867,12 @@ export const da_DK: EnTranslations = {
       "passageSealed": "Passagen er forseglet.",
       "moveCloserPassage": "Gå tættere på passagen.",
       "moveCloserChest": "Gå tættere på kisten.",
-      "moveCloserReliquary": "Move closer to the reliquary.",
+      "moveCloserReliquary": "Gå tættere på relikvariet.",
       "nothingToTake": "Der er ikke mere at tage.",
       "wayOutNotOpen": "Vejen ud er endnu ikke åben.",
       "moveCloserStairs": "Gå tættere på trappen.",
-      "nhaliaCantorShield": "Cantors, hold the note!",
-      "nhaliaBlackwaterMark": "{name} marks {player} with Blackwater!"
+      "nhaliaCantorShield": "Kantorer, hold tonen!",
+      "nhaliaBlackwaterMark": "{name} mærker {player} med Sortvand!"
     },
     "lockpick": {
       "lockYields": "Låsen giver efter! {tier} bytte.",
@@ -2932,24 +2936,24 @@ export const da_DK: EnTranslations = {
     }
   },
   "delveRiteUi": {
-    "title": "The Drowned Reliquary Rite",
-    "blurb": "The shrines will light in order. Repeat the sequence by activating each shrine in turn. A wrong touch fails the attempt and replays the sequence, a flawless attempt earns the richest spoils, and running out of tries opens the reliquary on its meanest. Choose how the rite tests you.",
-    "easy": "Easy",
-    "medium": "Medium",
-    "hard": "Hard",
-    "guideWatch": "After you choose, the four shrines light up one at a time. Memorize the order.",
-    "guideRepeat": "When the shrines fall dark, walk to each shrine and press F (Interact) in that same order.",
-    "guideStakes": "A wrong shrine splashes you with blackwater and costs a try. Complete the sequence to open the reliquary.",
-    "showsTimes": "Sequence shown {count} times",
-    "showsOnce": "Sequence shown once",
-    "symbols": "{count} symbols",
-    "tries": "{count} tries",
+    "title": "Det Druknede Relikvariums Rite",
+    "blurb": "Skrinene lyser op i rækkefølge. Gentag sekvensen ved at aktivere hvert skrin efter tur. En forkert berøring fejler forsøget og afspiller sekvensen igen, et fejlfrit forsøg giver det rigeste bytte, og løber du tør for forsøg, åbner relikvariet sig på sit fattigste. Vælg, hvordan riten skal prøve dig.",
+    "easy": "Let",
+    "medium": "Middel",
+    "hard": "Svær",
+    "guideWatch": "Når du har valgt, lyser de fire skrin op ét ad gangen. Husk rækkefølgen.",
+    "guideRepeat": "Når skrinene bliver mørke, så gå hen til hvert skrin og tryk på F (Interager) i samme rækkefølge.",
+    "guideStakes": "Et forkert skrin overstænker dig med sortvand og koster et forsøg. Fuldfør sekvensen for at åbne relikvariet.",
+    "showsTimes": "Sekvensen vises {count} gange",
+    "showsOnce": "Sekvensen vises én gang",
+    "symbols": "{count} symboler",
+    "tries": "{count} forsøg",
     "reward": {
-      "easy": "Modest spoils",
-      "medium": "Rich spoils",
-      "hard": "Premium spoils"
+      "easy": "Beskedent bytte",
+      "medium": "Rigt bytte",
+      "hard": "Premium-bytte"
     },
-    "closeAria": "Close"
+    "closeAria": "Luk"
   },
   "delveUi": {
     "board": {
@@ -2960,7 +2964,7 @@ export const da_DK: EnTranslations = {
       "openDelveAria": "Åbn Delve-Tavlen fra {name}",
       "marks": "Delve-Mærker: {count}",
       "minLevel": "Kræver Niveau {level}",
-      "partyTooLarge": "Solo or duo only ({max} players max)",
+      "partyTooLarge": "Kun solo eller duo (højst {max} spillere)",
       "tier": {
         "normal": "Normal",
         "heroic": "Heroisk"
@@ -2968,7 +2972,7 @@ export const da_DK: EnTranslations = {
       "companion": {
         "pick": "Vælg en ledsager",
         "tessa": "Akolyt Tessa",
-        "edda": "Edda Reedhand",
+        "edda": "Edda Sivhånd",
         "rank": "Rang {rank}",
         "boon": "Helbreder gruppen mellem kampe. Rang 3 genopliver en falden allieret én gang pr. tur.",
         "upgrade": "Opgrader til Rang {rank} ({marks} Mærker)",
@@ -2995,10 +2999,10 @@ export const da_DK: EnTranslations = {
       "marks": "Delve-Mærker: {count}",
       "exitHintOpen": "Gå ind i gravstenspassagen (nord)",
       "exitHintLocked": "Ryd skidtmonstrene for at åbne passagen mod nord",
-      "riteChoose": "Approach the Drowned Reliquary and press F to begin the rite",
-      "ritePlayback": "Watch the shrines: memorize the order they light up",
-      "riteInput": "Press F at each shrine in the order they lit ({current}/{total})",
-      "riteOpen": "The reliquary is open: press F on it to claim your spoils"
+      "riteChoose": "Gå hen til Det Druknede Relikvarium, og tryk på F for at begynde riten",
+      "ritePlayback": "Hold øje med skrinene: husk den rækkefølge, de lyser op i",
+      "riteInput": "Tryk på F ved hvert skrin i den rækkefølge, de lyste op ({current}/{total})",
+      "riteOpen": "Relikvariet er åbent: tryk på F på det for at kræve dit bytte"
     },
     "objective": {
       "kill_boss": "Dræb {boss}",
@@ -3021,52 +3025,52 @@ export const da_DK: EnTranslations = {
         "greeting": "Relikvariet nedenunder har forskudt sig igen. Vi hører messen gennem gulvet efter midnat, og Akolyt Tessa sværger på, at gravprotokollerne ændrer deres eget blæk. Hvis du har mod nok, {playerName}, så tag et lys og gå derned. Stol ikke på hver stemme, du hører dernede. Nogle af dem kendte dit navn, før du blev født."
       },
       "halvenMarsh": {
-        "greeting": "The trail led north to the marsh, {playerName}. Another reliquary sings under the black water, and the drowned dead answer the bells. Acolyte Edda knows these reeds better than I do, stay close to her lantern. Choose your tier, and I will hold the rope until you return."
+        "greeting": "Sporet førte mod nord til mosen, {playerName}. Endnu et relikvarium synger under det sorte vand, og de druknede døde svarer klokkerne. Akolyt Edda kender disse siv bedre end jeg, hold dig tæt på hendes lanterne. Vælg din sværhedsgrad, så holder jeg rebet, til du vender tilbage."
       }
     },
     "intro": {
       "normal": "Trappeopgangen er kold og mørk. Brudte helgensten ligger spredt ned ad nedstigningen, og en blød klokketone hænger i den fugtige luft. Akolyt Tessa hvisker: \"Relikvariet burde ikke være åbent så langt nede. Hold dig tæt på, {playerName}.\"",
       "heroic": "Dørene stønner i lås bag dig. Navne skraber hen over stenen som fingernegle. Tessas lys brænder blåt. \"De kalder ikke på de døde nu, {playerName}. De svarer på noget.\"",
-      "litanyNormal": "Reed-choked stairs drop beneath Fenbridge. Edda Reedhand lifts her lantern. \"The marsh remembers every name they drowned, {playerName}. Stay in the light.\"",
-      "litanyHeroic": "Blackwater laps the causeway stones. Edda's flame gutters green. \"They are singing again below, {playerName}. Do not answer the choir.\""
+      "litanyNormal": "Sivkvalte trapper falder ned under Fenbridge. Edda Sivhånd løfter sin lanterne. \"Mosen husker hvert navn, de druknede, {playerName}. Bliv i lyset.\"",
+      "litanyHeroic": "Sortvand skvulper mod dæmningsvejens sten. Eddas flamme blafrer grønt. \"De synger igen dernede, {playerName}. Svar ikke koret.\""
     },
     "module": {
       "reliquary_sunken_ossuary": "Vand siver gennem gravhylderne og fører gammel aske med sig i sølvsorte strømme.",
       "reliquary_bell_niche": "Snesevis af håndklokker hænger i stilhed, hver bundet med ligklæde.",
       "reliquary_saintless_hall": "Statuer med ansigter mejslet væk med omhyggeligt had.",
       "reliquary_finale": "Den begravede klokke ringer én gang under dine støvler.",
-      "litany_sluice": "Moss-choked sluice gates drip blackwater into the old choir crypt.",
-      "litany_ledger": "Ledger islands rise from flooded channels, ink bleeding into the marsh.",
-      "litany_ring": "A reliquary ring loops around a sealed central font of black water.",
-      "litany_baptistry": "A sinkhole baptistry yawns beneath cracked saint-stones and egg-sacs.",
-      "litany_choir_loft": "Fanning choir lofts echo with rope-hung bells that never quite stop.",
-      "litany_causeway": "A Y-split causeway forks over waist-deep fen water.",
-      "litany_apse": "The drowned apse opens onto Sister Nhalia's altar island."
+      "litany_sluice": "Moskvalte sluseporte drypper sortvand ned i den gamle korkrypt.",
+      "litany_ledger": "Protokoløer hæver sig af oversvømmede kanaler, mens blæk bløder ud i mosen.",
+      "litany_ring": "En relikvariering slynger sig om en forseglet døbefont af sort vand i midten.",
+      "litany_baptistry": "Et dåbskapel i et jordfaldshul gaber under revnede helgensten og ægsække.",
+      "litany_choir_loft": "Viftende korpulpiturer genlyder af rebophængte klokker, der aldrig helt tier.",
+      "litany_causeway": "En Y-delt dæmningsvej forgrener sig over hoftedybt kærvand.",
+      "litany_apse": "Den druknede apsis åbner sig mod Søster Nhalias alterø."
     },
     "moduleName": {
       "reliquary_sunken_ossuary": "Det Sunkne Benhus",
       "reliquary_bell_niche": "Klokkenichen",
       "reliquary_saintless_hall": "Den Helgenløse Hal",
       "reliquary_finale": "Det Klokkebegravede Kammer",
-      "litany_sluice": "The Crescent Sluice",
-      "litany_ledger": "The Island Ledger",
-      "litany_ring": "The Ring Reliquary",
-      "litany_baptistry": "The Sinkhole Baptistry",
-      "litany_choir_loft": "The Reedsong Gallery",
-      "litany_causeway": "The Y-Split Causeway",
-      "litany_apse": "The Drowned Apse"
+      "litany_sluice": "Halvmåneslusen",
+      "litany_ledger": "Ø-Protokollen",
+      "litany_ring": "Ringrelikvariet",
+      "litany_baptistry": "Jordfalds-Dåbskapellet",
+      "litany_choir_loft": "Sivsangsgalleriet",
+      "litany_causeway": "Den Y-Delte Dæmningsvej",
+      "litany_apse": "Den Druknede Apsis"
     },
     "object": {
-      "sluice_valve": "Sluice Valve",
-      "grave_tablet": "Grave Tablet",
-      "corpse_candle": "Corpse-Candle",
-      "bell_rope": "Bell Rope"
+      "sluice_valve": "Sluseventil",
+      "grave_tablet": "Gravtavle",
+      "corpse_candle": "Ligkerte",
+      "bell_rope": "Klokkereb"
     },
     "companion": {
       "barkLine": "{name}: {line}",
       "tessa": {
-        "run_start": "I have my candle and my ledger, {playerName}. Lead on.",
-        "ally_revive": "Up now. Tonight's ledger does not carry your name.",
+        "run_start": "Jeg har mit lys og min protokol, {playerName}. Før an.",
+        "ally_revive": "Op med dig. Nattens protokol bærer ikke dit navn.",
         "combat_start": "Hold fodfæstet, {playerName}. De døde er urolige her.",
         "low_hp": "Træk vejret. Jeg har stadig bønner tilbage til dig.",
         "trap_spotted": "Stop. Noget i gulvet husker fodtrin.",
@@ -3081,17 +3085,17 @@ export const da_DK: EnTranslations = {
         }
       },
       "edda": {
-        "run_start": "Keep to the plank-line, {playerName}. The silt takes the proud-footed.",
-        "ally_revive": "Up, now. The marsh does not get you today.",
-        "combat_start": "Mind the blackwater, {playerName}. The marsh listens.",
-        "low_hp": "Steady. My lantern is not out yet.",
-        "trap_spotted": "Wait. The reeds are wrong here.",
-        "boss_pull": "That canticle knows your name, {playerName}. Do not sing back.",
-        "completion": "The fen can swallow its secrets for one more night.",
+        "run_start": "Hold dig til plankestien, {playerName}. Dyndet tager dem, der træder stolt.",
+        "ally_revive": "Op med dig, nu. Mosen får dig ikke i dag.",
+        "combat_start": "Pas på sortvandet, {playerName}. Mosen lytter.",
+        "low_hp": "Rolig. Min lanterne er ikke slukket endnu.",
+        "trap_spotted": "Vent. Sivene er forkerte her.",
+        "boss_pull": "Den kantikel kender dit navn, {playerName}. Syng ikke tilbage.",
+        "completion": "Kæret kan sluge sine hemmeligheder én nat til.",
         "rank": {
-          "1": "Lantern-Bearer",
-          "2": "Reed-Watcher",
-          "3": "Fenbridge Acolyte"
+          "1": "Lanternebærer",
+          "2": "Sivvogter",
+          "3": "Fenbridge-Akolyt"
         }
       }
     },
@@ -3136,9 +3140,9 @@ export const da_DK: EnTranslations = {
       "grave_tax": "Gravskat",
       "unstable_roof": "Ustabilt Tag",
       "cult_remnants": "Kultrester",
-      "high_water": "High Water",
-      "lively_choir": "Lively Choir",
-      "belligerent_dead": "Belligerent Dead"
+      "high_water": "Højvande",
+      "lively_choir": "Livligt Kor",
+      "belligerent_dead": "Stridslystne Døde"
     },
     "blessing": {
       "chapel_candle": "Kapellys: en sikrere tur, ét Mærke mindre ved fuldførelse."
@@ -4159,8 +4163,8 @@ export const da_DK: EnTranslations = {
     "tracker": {
       "title": "Quests",
       "complete": "Klar",
-      "showOnMap": "Show {name} on the map",
-      "hideFromMap": "Hide {name} from the map"
+      "showOnMap": "Vis {name} på kortet",
+      "hideFromMap": "Skjul {name} på kortet"
     },
     "log": {
       "title": "Quest-log",
@@ -4264,7 +4268,7 @@ export const da_DK: EnTranslations = {
       "tool": "Værktøj",
       "potion": "Eliksir",
       "elixir": "Eliksir",
-      "bag": "Bag"
+      "bag": "Taske"
     },
     "stats": {
       "armor": "Rustning",
@@ -4307,7 +4311,7 @@ export const da_DK: EnTranslations = {
       "clickUseInstant": "Klik for at bruge øjeblikkeligt i kamp",
       "clickUse": "Klik for at bruge",
       "clickBuyback": "Klik for at købe tilbage",
-      "bagSlots": "{slots} Slot Bag"
+      "bagSlots": "Taske med {slots} pladser"
     },
     "bags": {
       "title": "Tasker",
@@ -6015,67 +6019,67 @@ export const da_DK: EnTranslations = {
         "name": "Varrics Skyggehætte"
       },
       "siltguard_helm": {
-        "name": "Siltguard Helm"
+        "name": "Dyndvogter-Hjelm"
       },
       "bulwark_rusted_pauldrons": {
-        "name": "Bulwark-Rusted Pauldrons"
+        "name": "Bolværksrustne Skulderplader"
       },
       "nhalias_bell_maul": {
-        "name": "Nhalia's Bell-Maul"
+        "name": "Nhalias Klokkekølle"
       },
       "reedstalker_jerkin": {
-        "name": "Reedstalker Jerkin"
+        "name": "Sivsniger-Vams"
       },
       "mirejaw_fang_knife": {
-        "name": "Mirejaw Fang-Knife"
+        "name": "Sumpkæft-Hugtandskniv"
       },
       "widow_silk_hood": {
-        "name": "Widow-Silk Hood"
+        "name": "Enkesilke-Hætte"
       },
       "cantors_drowned_sash": {
-        "name": "Cantor's Drowned Sash"
+        "name": "Kantorens Druknede Skærf"
       },
       "corpse_candle_focus": {
-        "name": "Corpse-Candle Focus"
+        "name": "Ligkerte-Fokus"
       },
       "nhalias_litany_rod": {
-        "name": "Nhalia's Litany Rod"
+        "name": "Nhalias Litanistav"
       },
       "blackwater_vanguard_chest": {
-        "name": "Blackwater Vanguard Chestguard"
+        "name": "Sortvandsfortroppens Brystværn"
       },
       "siltstep_leggings": {
-        "name": "Siltstep Leggings"
+        "name": "Dyndtrins-Bukser"
       },
       "sunken_reliquary_hood": {
-        "name": "Sunken Reliquary Hood"
+        "name": "Sunket Relikvarie-Hætte"
       },
       "litany_legs": {
-        "name": "Silt-Walker Greaves"
+        "name": "Dyndvandrer-Benskinner"
       },
       "litany_shoulder": {
-        "name": "Blackwater Drift Mantle"
+        "name": "Sortvandsdrift-Kappe"
       },
       "litany_gloves_rog": {
-        "name": "Reed-Bound Handwraps"
+        "name": "Sivbundne Håndsvøb"
       },
       "litany_plate_chest": {
-        "name": "Sump-Warden Cuirass"
+        "name": "Sumpvogter-Brynje"
       },
       "litany_leather_chest": {
-        "name": "Silt-Deep Vestment"
+        "name": "Dynddybt Ornat"
       },
       "litany_cloth_chest": {
-        "name": "Choir-Drowned Raiment"
+        "name": "Kordruknet Skrud"
       },
       "litany_helm": {
-        "name": "Reliquant's Drowned Cowl"
+        "name": "Relikvantens Druknede Kutte"
       },
       "sister_nhalia_choir_plate": {
-        "name": "Sister Nhalia's Choir-Forged Plate"
+        "name": "Søster Nhalias Kor-Smedede Pladebrynje"
       },
       "drowned_choir_fang": {
-        "name": "Drowned Choir-Fang"
+        "name": "Druknet Korhugtand"
       },
       "the_codfather": {
         "name": "Torskefaderen"
@@ -6413,43 +6417,43 @@ export const da_DK: EnTranslations = {
         "name": "Akolyt Tessa"
       },
       "drowned_cantor": {
-        "name": "Drowned Cantor"
+        "name": "Druknet Kantor"
       },
       "reedbound_acolyte": {
-        "name": "Reedbound Acolyte"
+        "name": "Sivbunden Akolyt"
       },
       "deepfen_spearjaw": {
-        "name": "Deepfen Spearjaw"
+        "name": "Dybmose-Spydkæft"
       },
       "mirefen_widowling": {
-        "name": "Mirefen Widowling"
+        "name": "Mosekær-Enkeyngel"
       },
       "spider_egg_sac": {
-        "name": "Spider Egg-Sac"
+        "name": "Edderkoppe-Ægsæk"
       },
       "grave_silt_bulwark": {
-        "name": "Grave-Silt Bulwark"
+        "name": "Gravdynd-Bolværk"
       },
       "sump_troll_devourer": {
-        "name": "Sump Troll Devourer"
+        "name": "Sumptrold-Fortærer"
       },
       "choir_thrall": {
-        "name": "Bog Thrall"
+        "name": "Sumptræl"
       },
       "sister_nhalia_drowned_canticle": {
-        "name": "Sister Nhalia, the Drowned Canticle"
+        "name": "Søster Nhalia, den Druknede Kantikel"
       },
       "edda_reedhand": {
-        "name": "Edda Reedhand"
+        "name": "Edda Sivhånd"
       },
       "tolling_bell": {
-        "name": "Tolling Bell"
+        "name": "Klemtende Klokke"
       },
       "thunzharr_waking_peak": {
-        "name": "Thunzharr, the Waking Peak"
+        "name": "Thunzharr, den Vågnende Tinde"
       },
       "thunzharr_stormling": {
-        "name": "Roused Stormling"
+        "name": "Vækket Stormling"
       },
       "ironvein_foreman": {
         "name": "Jernåre-Formand"
@@ -6672,14 +6676,14 @@ export const da_DK: EnTranslations = {
         "greeting": "Relikvariet nedenunder har flyttet sig igen."
       },
       "brother_halven_marsh": {
-        "name": "Brother Halven",
-        "title": "Reliquary Keeper",
-        "greeting": "The trail led north. Another reliquary, another rite. Choose your tier, and I'll hold the rope until you return."
+        "name": "Broder Halven",
+        "title": "Relikvarievogter",
+        "greeting": "Sporet førte mod nord. Endnu et relikvarium, endnu en rite. Vælg din sværhedsgrad, så holder jeg rebet, til du vender tilbage."
       },
       "spirit_healer": {
-        "name": "The Pale Keeper",
-        "title": "Warden of the Dead",
-        "greeting": "Rest now, spirit. I can return you to your body, but the crossing back leaves you weak."
+        "name": "Den Blege Vogter",
+        "title": "De Dødes Vogter",
+        "greeting": "Hvil nu, ånd. Jeg kan føre dig tilbage til din krop, men overfarten tilbage efterlader dig svækket."
       },
       "tidewatcher_ondrel": {
         "name": "Ondrel Vane",
@@ -7124,32 +7128,32 @@ export const da_DK: EnTranslations = {
         }
       },
       "q_stalkers_return": {
-        "title": "The Stalkers Return",
-        "text": "Twelve dead, and the ridge crawls thicker than the day you started, {playerName}. Beasts do not throw themselves at a wall out of hunger. Something on the high ridge is pushing them down, and until I know what, the culling does not stop. Fourteen more.",
-        "completion": "Fourteen more, and still my patrols count fresh tracks by morning. My scout came back from the high ridge white as the snowline: prints the size of a shield, she says, and old kills no stalker would leave. Whatever walks up there is no ordinary cat.",
+        "title": "Snigerne Vender Tilbage",
+        "text": "Tolv døde, og bjergkammen kryber tættere end den dag, du begyndte, {playerName}. Bæster kaster sig ikke mod en mur af sult alene. Noget på den høje bjergkam presser dem ned, og indtil jeg ved hvad, stopper nedslagtningen ikke. Fjorten til.",
+        "completion": "Fjorten til, og stadig tæller mine patruljer friske spor ved morgengry. Min spejder kom tilbage fra den høje bjergkam hvid som snegrænsen: aftryk på størrelse med et skjold, siger hun, og gamle byttedyr, ingen sniger ville efterlade. Hvad end der går deroppe, er ingen almindelig kat.",
         "objectives": {
           "0": {
-            "label": "Ridge Stalker slain"
+            "label": "Bjergkamssniger dræbt"
           }
         }
       },
       "q_stalker_cloaks": {
-        "title": "Cloaks for the Watch",
-        "text": "Eight pelts lined the officers' cloaks, and now every soldier on the wall wants the same, {playerName}. They are right to want it: winter takes fingers first and apologies never. Ten more pelts from the ridges south of the gate, and the whole watch sleeps warm.",
-        "completion": "Ten good pelts, thick as any I have... no, look at these, {playerName}. Torn, half of them, and by no blade or spear. Claw marks wide as my hand, right through the winter coat. Something on that ridge is savaging its own kind.",
+        "title": "Kapper til Vagten",
+        "text": "Otte pelse forede officerernes kapper, og nu vil hver soldat på muren have det samme, {playerName}. De har ret i at ville det: vinteren tager fingre først og undskylder aldrig. Ti pelse mere fra bjergkammene syd for porten, og hele vagten sover varmt.",
+        "completion": "Ti gode pelse, tykke som nogen, jeg har... nej, se på de her, {playerName}. Flåede, halvdelen af dem, og ikke af nogen klinge eller noget spyd. Klomærker brede som min hånd, lige gennem vinterpelsen. Noget på den bjergkam mishandler sine egne.",
         "objectives": {
           "0": {
-            "label": "Ridge Stalker Pelt"
+            "label": "Bjergkam-Snigerens Pels"
           }
         }
       },
       "q_old_cragmaw": {
-        "title": "Old Cragmaw",
-        "text": "The mountain folk put a name to the prints my scout found: Old Cragmaw, a scar-pelted tyrant of a cat that has outlived three generations of its own pack. It is the reason the stalkers flood my road, {playerName}. Its den sits on the western ridge above the road south. Bring a friend, and put the old devil down.",
-        "completion": "Down at last. The mountain folk swore that cat would outlive the wall itself. The stalkers will keep to their high snows now, {playerName}, and my patrols will walk the road without bleeding for it. The whole ridge is quieter for your work.",
+        "title": "Gamle Klippekæft",
+        "text": "Bjergfolket satte navn på de spor, min spejder fandt: Gamle Klippekæft, en arret tyran af en kat, der har overlevet tre generationer af sin egen flok. Den er grunden til, at snigerne oversvømmer min vej, {playerName}. Dens hule ligger på den vestlige bjergkam over vejen mod syd. Tag en ven med, og læg den gamle djævel ned.",
+        "completion": "Endelig nede. Bjergfolket svor, at den kat ville overleve selve muren. Snigerne holder sig til deres høje sne nu, {playerName}, og mine patruljer kan gå ad vejen uden at bløde for det. Hele bjergkammen er mere stille takket være dit arbejde.",
         "objectives": {
           "0": {
-            "label": "Old Cragmaw slain"
+            "label": "Gamle Klippekæft dræbt"
           }
         }
       },
@@ -7677,9 +7681,9 @@ export const da_DK: EnTranslations = {
         "leaveText": "Du klatrer tilbage til Broder Halven ved relikvariets ruin."
       },
       "drowned_litany": {
-        "name": "The Drowned Litany",
-        "enterText": "You descend into the drowned shrine at the marsh's edge.",
-        "leaveText": "You climb back to Brother Halven at the marsh's edge."
+        "name": "Det Druknede Litani",
+        "enterText": "Du stiger ned i den druknede helligdom ved mosens rand.",
+        "leaveText": "Du klatrer tilbage til Broder Halven ved mosens rand."
       }
     },
     "letters": {
@@ -7762,11 +7766,11 @@ export const da_DK: EnTranslations = {
     "delveLockedChestInteract": "Tryk på F for at dirke låsen op",
     "delveRewardChestInteract": "Tryk på F for at kræve byttet",
     "delveSurfaceExitInteract": "Tryk på F for at klatre",
-    "delveReliquaryInteract": "Drowned Reliquary: Press F to begin the rite",
-    "delveRiteShrineBellInteract": "Bell Shrine: Press F to ring it",
-    "delveRiteShrineCandleInteract": "Candle Shrine: Press F to touch it",
-    "delveRiteShrineReedInteract": "Reed Shrine: Press F to touch it",
-    "delveRiteShrineSkullInteract": "Skull Shrine: Press F to touch it",
-    "mailboxName": "Mailbox"
+    "delveReliquaryInteract": "Det Druknede Relikvarium: Tryk på F for at begynde riten",
+    "delveRiteShrineBellInteract": "Klokkeskrin: Tryk på F for at ringe med klokken",
+    "delveRiteShrineCandleInteract": "Kerteskrin: Tryk på F for at røre det",
+    "delveRiteShrineReedInteract": "Sivskrin: Tryk på F for at røre det",
+    "delveRiteShrineSkullInteract": "Kranieskrin: Tryk på F for at røre det",
+    "mailboxName": "Postkasse"
   }
 };

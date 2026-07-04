@@ -33,6 +33,7 @@ import { solveLockActions } from '../src/sim/lockpick';
 import { PLAYER_BODY_RADIUS } from '../src/sim/pathfind';
 import { Rng } from '../src/sim/rng';
 import { DELVE_IMPLEMENTED_AFFIXES, Sim } from '../src/sim/sim';
+import { DT } from '../src/sim/types';
 import { terrainHeight } from '../src/sim/world';
 
 function makeSim(cls: 'warrior' | 'warlock' = 'warrior', seed = 42) {
@@ -1646,6 +1647,58 @@ describe('The Drowned Litany (Phase 4 enemy kits)', () => {
     }
     expect(p.hp, 'acolyte should land ranged Rotwater Vials').toBeLessThan(hp0);
     expect(minDist, 'acolyte should hold at range, never melee').toBeGreaterThan(8);
+  });
+
+  it('the Reedbound Acolyte telegraphs its vial: windup event, release exactly windup ticks later, cadence preserved', () => {
+    const sim = makeSim('warrior');
+    enterLitany(sim);
+    const run = sim.delveRunForPlayer(sim.playerId)!;
+    const p = sim.player;
+    const acolyte = createMob(990302, MOBS.reedbound_acolyte, 13, {
+      x: p.pos.x,
+      y: 0,
+      z: p.pos.z + 14,
+    });
+    (sim as any).addEntity(acolyte);
+    run.mobIds.push(acolyte.id);
+
+    const spell = MOBS.reedbound_acolyte.petSpell!;
+    expect(spell.windup, 'the vial throw carries a windup for the cast animation').toBeCloseTo(
+      0.85,
+    );
+    const windupTicks = Math.round((spell.windup ?? 0) / DT);
+    const cadenceTicks = Math.round(spell.every / DT);
+
+    // Record the tick of every windup / projectile spellfx the acolyte emits and
+    // every damage event it lands on the player.
+    const windups: number[] = [];
+    const projectiles: number[] = [];
+    const damages: number[] = [];
+    for (let i = 0; i < 20 * 10 && projectiles.length < 2; i++) {
+      // tick() drains and returns this tick's events (sim.events is reset).
+      const evs = sim.tick() as any[];
+      for (const ev of evs) {
+        if (ev.type === 'spellfx' && ev.sourceId === acolyte.id) {
+          if (ev.fx === 'windup') windups.push(i);
+          if (ev.fx === 'projectile') projectiles.push(i);
+        }
+        if (ev.type === 'damage' && ev.sourceId === acolyte.id && ev.targetId === p.id) {
+          damages.push(i);
+        }
+      }
+    }
+
+    expect(windups.length, 'a windup telegraph precedes each vial').toBeGreaterThanOrEqual(2);
+    expect(projectiles.length).toBe(2);
+    // The release (projectile + its damage) lands exactly the windup after the telegraph.
+    expect(projectiles[0] - windups[0]).toBe(windupTicks);
+    expect(projectiles[1] - windups[1]).toBe(windupTicks);
+    expect(damages[0]).toBe(projectiles[0]);
+    // Fire-to-fire cadence stays spell.every (one tick of float wobble on the
+    // swing timer, same as the pre-windup path): the windup eats into the
+    // cycle, it does not extend it to every + windup.
+    expect(projectiles[1] - projectiles[0]).toBeGreaterThanOrEqual(cadenceTicks);
+    expect(projectiles[1] - projectiles[0]).toBeLessThanOrEqual(cadenceTicks + 1);
   });
 });
 

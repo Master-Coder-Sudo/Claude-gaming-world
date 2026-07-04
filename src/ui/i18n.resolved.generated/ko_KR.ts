@@ -212,6 +212,10 @@ export const ko_KR: EnTranslations = {
       "pointsGained": "{points} 일일 보상 포인트를 획득했습니다.",
       "showChestButton": "보물상자 표시",
       "hideChestButton": "보물상자 숨기기",
+      "hideChestConfirmTitle": "일일 보상 보물상자를 숨기시겠습니까?",
+      "hideChestConfirmBody": "HUD에서 보물상자 바로가기가 제거됩니다. 보상, 자격, 이 패널은 계속 이용할 수 있습니다. 바로가기는 옵션에서 다시 표시할 수 있습니다.",
+      "hideChestConfirmOk": "보물상자 숨기기",
+      "hideChestConfirmCancel": "취소",
       "leaderboard": "일일 순위표",
       "totalPlayer": "오늘 플레이어 {count}명",
       "totalPlayers": "오늘 플레이어 {count}명",
@@ -1062,18 +1066,18 @@ export const ko_KR: EnTranslations = {
       "close": "우편함 닫기",
       "tabInbox": "받은 편지함",
       "tabInboxWithCount": "받은 편지함 ({count})",
-      "tabSend": "Send",
+      "tabSend": "보내기",
       "empty": "우편함이 비어 있습니다.",
       "truncated": "전체 {total}통 중 최신 {shown}통을 표시합니다.",
       "attachmentsBadge": "소포 첨부됨",
       "unreadBadge": "읽지 않음",
-      "back": "Back",
+      "back": "뒤로 가기",
       "take": "첨부물 받기",
       "delete": "편지 삭제",
       "deleteAria": "편지 {subject} 삭제",
       "openAria": "{name}이(가) 보낸 편지 {subject} 읽기",
       "noSubject": "(제목 없음)",
-      "toLabel": "To",
+      "toLabel": "받는 사람",
       "toPlaceholder": "캐릭터 이름",
       "subjectLabel": "제목",
       "bodyLabel": "내용",
@@ -2037,9 +2041,9 @@ export const ko_KR: EnTranslations = {
       "undoCountTitle": "{count}단계 되돌릴 수 있음 (Ctrl+Z 실행 취소, Ctrl+Y 다시 실행)",
       "autosave": "자동 저장",
       "autosaveTitle": "저장하지 않은 변경이 있는 동안 맵을 자동으로 저장합니다. 저장에 실패하면 자동으로 꺼집니다.",
-      "undo": "Undo",
+      "undo": "실행 취소",
       "undoTitle": "마지막 변경 실행 취소 (Ctrl+Z)",
-      "redo": "Redo",
+      "redo": "다시 실행",
       "redoTitle": "실행 취소한 변경 다시 실행 (Ctrl+Y)",
       "offline": "오프라인",
       "offlineTitle": "로그인하지 않음: 맵은 이 브라우저에만 저장됩니다. 온라인 저장하려면 게임에서 로그인하세요.",
@@ -2570,7 +2574,7 @@ export const ko_KR: EnTranslations = {
       "title": "복구 이메일 추가",
       "body": "계정을 복구할 수 있도록 이메일 주소를 설정하세요. 비밀번호를 재설정해야 할 경우 이 계정의 소유자임을 확인하는 용도로만 사용됩니다.",
       "save": "이메일 저장",
-      "logOut": "Log out",
+      "logOut": "로그아웃",
       "invalid": "유효한 이메일 주소를 입력하세요.",
       "failed": "이메일을 저장하지 못했습니다. 다시 시도해 주세요."
     }
@@ -2934,9 +2938,9 @@ export const ko_KR: EnTranslations = {
   "delveRiteUi": {
     "title": "익사한 유물 의식",
     "blurb": "성소들이 순서대로 빛난다. 각 성소를 차례로 활성화하여 순서를 반복하라. 잘못된 접촉은 시도를 실패시키고 순서를 다시 재생한다. 완벽한 시도는 가장 풍성한 전리품을 얻고, 시도 횟수를 모두 소진하면 유물함이 가장 초라한 상태로 열린다. 의식이 그대를 어떻게 시험할지 선택하라.",
-    "easy": "Easy",
+    "easy": "쉬움",
     "medium": "보통",
-    "hard": "Hard",
+    "hard": "어려움",
     "guideWatch": "선택하면 네 개의 제단이 차례로 빛납니다. 순서를 기억하세요.",
     "guideRepeat": "제단이 어두워지면 같은 순서로 각 제단에 걸어가 F(상호작용)를 누르세요.",
     "guideStakes": "잘못된 제단을 만지면 검은 물을 뒤집어쓰고 시도 횟수를 잃습니다. 순서를 완성하면 성물함이 열립니다.",
@@ -3060,7 +3064,7 @@ export const ko_KR: EnTranslations = {
       "sluice_valve": "수문 밸브",
       "grave_tablet": "무덤 석판",
       "corpse_candle": "시체양초",
-      "bell_rope": "Bell Rope"
+      "bell_rope": "종 밧줄"
     },
     "companion": {
       "barkLine": "{name}: {line}",
@@ -4264,7 +4268,7 @@ export const ko_KR: EnTranslations = {
       "tool": "도구",
       "potion": "물약",
       "elixir": "비약",
-      "bag": "Bag"
+      "bag": "가방"
     },
     "stats": {
       "armor": "방어도",
@@ -4307,7 +4311,7 @@ export const ko_KR: EnTranslations = {
       "clickUseInstant": "클릭하여 전투 중 즉시 사용",
       "clickUse": "클릭하여 사용",
       "clickBuyback": "클릭하여 되사기",
-      "bagSlots": "{slots} Slot Bag"
+      "bagSlots": "{slots}칸 가방"
     },
     "bags": {
       "title": "가방",

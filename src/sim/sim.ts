@@ -4293,6 +4293,7 @@ export class Sim {
       max: number;
       range: number;
       every: number;
+      windup?: number;
     },
   ): void {
     const d = dist2d(pet.pos, target.pos);
@@ -4303,33 +4304,63 @@ export class Sim {
     }
     pet.facing = angleTo(pet.pos, target.pos);
     pet.swingTimer -= DT;
-    if (pet.swingTimer > 0) return;
-    this.emit({
-      type: 'spellfx',
-      sourceId: pet.id,
-      targetId: target.id,
-      school: spell.school,
-      fx: 'projectile',
-    });
-    // Pet spells are resisted, not missed (same semantics as player casts).
-    if (isSpellResisted(this.rng, pet.level, target.level)) {
+    // Emit the projectile + resolve the hit (resisted, not missed: the same
+    // semantics as player casts). Shared by the instant path and the windup
+    // release below; the caller owns the swing-timer bookkeeping.
+    const fire = () => {
       this.emit({
-        type: 'damage',
+        type: 'spellfx',
         sourceId: pet.id,
         targetId: target.id,
-        amount: 0,
-        crit: false,
         school: spell.school,
-        ability: spell.name,
-        kind: 'resist',
+        fx: 'projectile',
       });
-      this.enterCombat(pet, target);
-    } else {
-      const dmg = Math.round(
-        this.rng.range(spell.min + pet.level * 0.8, spell.max + pet.level * 1.1),
-      );
-      this.dealDamage(pet, target, Math.max(1, dmg), false, spell.school, spell.name, 'hit');
+      if (isSpellResisted(this.rng, pet.level, target.level)) {
+        this.emit({
+          type: 'damage',
+          sourceId: pet.id,
+          targetId: target.id,
+          amount: 0,
+          crit: false,
+          school: spell.school,
+          ability: spell.name,
+          kind: 'resist',
+        });
+        this.enterCombat(pet, target);
+      } else {
+        const dmg = Math.round(
+          this.rng.range(spell.min + pet.level * 0.8, spell.max + pet.level * 1.1),
+        );
+        this.dealDamage(pet, target, Math.max(1, dmg), false, spell.school, spell.name, 'hit');
+      }
+    };
+    // A committed windup releases when its tick arrives, regardless of the
+    // swing timer (which is already counting the NEXT cycle: the windup eats
+    // into the cadence rather than extending it).
+    if (pet.rangedWindupReleaseTick != null) {
+      if (this.tickCount < pet.rangedWindupReleaseTick) return;
+      pet.rangedWindupReleaseTick = null;
+      fire();
+      return;
     }
+    if (pet.swingTimer > 0) return;
+    const windupTicks = Math.round((spell.windup ?? 0) / DT);
+    if (windupTicks > 0) {
+      // Telegraph first: the renderer starts the throw animation on 'windup'
+      // and the projectile leaves the hand at the release tick, lined up with
+      // the animation's release pose.
+      this.emit({
+        type: 'spellfx',
+        sourceId: pet.id,
+        targetId: target.id,
+        school: spell.school,
+        fx: 'windup',
+      });
+      pet.rangedWindupReleaseTick = this.tickCount + windupTicks;
+      pet.swingTimer = spell.every;
+      return;
+    }
+    fire();
     pet.swingTimer = spell.every;
   }
 

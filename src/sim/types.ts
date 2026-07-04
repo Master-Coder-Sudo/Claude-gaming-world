@@ -991,6 +991,12 @@ export interface MobTemplate {
     max: number;
     range: number;
     every: number;
+    /** Telegraph seconds between the windup spellfx (the renderer starts the
+     *  throw animation on it) and the actual release (projectile + damage).
+     *  Eats into `every`, so the fire-to-fire cadence is unchanged; the
+     *  release is committed once the windup starts. Omitted = release at the
+     *  timer with no telegraph, the original behavior (warlock demon bolts). */
+    windup?: number;
   };
   // On-hit mechanic: chance to silence the victim, locking out spell (non-physical) casts for a duration.
   silence?: { chance: number; duration: number; name: string; school?: string };
@@ -1471,6 +1477,9 @@ export interface Entity {
   targetId: number | null;
   autoAttack: boolean;
   swingTimer: number;
+  /** petSpell windup in flight: sim tick the committed release fires on
+   *  (transient combat state like swingTimer; never persisted or wired). */
+  rangedWindupReleaseTick?: number | null;
   inCombat: boolean;
   combatTimer: number; // time since last combat event
   auras: Aura[];
@@ -1860,13 +1869,16 @@ export type SimEvent = { pid?: number } & (
       crit: boolean;
       ability: string;
     }
-  // visual-only cue for the renderer: spell projectiles, channel beams, dot ticks, aoe novas
+  // visual-only cue for the renderer: spell projectiles, channel beams, dot
+  // ticks, aoe novas, and the ranged-mob windup telegraph ('windup' fires at
+  // the START of a petSpell windup so the throw animation leads the release;
+  // the 'projectile' for the same throw follows petSpell.windup later).
   | {
       type: 'spellfx';
       sourceId: number;
       targetId: number;
       school: string;
-      fx: 'projectile' | 'beam' | 'tick' | 'nova';
+      fx: 'projectile' | 'beam' | 'tick' | 'nova' | 'windup';
     }
   // visual-only cue anchored to a WORLD POINT rather than an entity: a
   // ground-targeted spell's impact (the burst/nova lands where it was aimed, not

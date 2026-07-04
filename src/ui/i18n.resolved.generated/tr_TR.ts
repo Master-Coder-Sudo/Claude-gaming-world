@@ -155,9 +155,9 @@ export const tr_TR: EnTranslations = {
       "banner": "{name} izleniyor"
     },
     "death": {
-      "resurrectAtCorpse": "Resurrect at Corpse",
-      "resurrectAtHealer": "The Pale Keeper (Keeper's Toll)",
-      "spiritHealerAlive": "The Pale Keeper watches over the dead. You are still among the living."
+      "resurrectAtCorpse": "Cesedinin Başında Diril",
+      "resurrectAtHealer": "Solgun Bekçi (Bekçinin Bedeli)",
+      "spiritHealerAlive": "Solgun Bekçi ölüleri gözetir. Sen hâlâ yaşayanlar arasındasın."
     },
     "emotes": {
       "wave": "El Salla",
@@ -188,7 +188,7 @@ export const tr_TR: EnTranslations = {
       "loading": "Günlük ödüller yükleniyor...",
       "error": "Günlük ödüller yüklenemedi.",
       "intro": "Günlük ödüllerin kilidini açmak için doğrulanmış cüzdanında yeterince WOC bulundur. Bir günlük çevirme ve dönüşümlü görevlerle puan kazan, ardından ödül havuzundan pay almak için günlük lider tablosunda yüksel.",
-      "disclaimer": "WOC price can move quickly. We recommend holding more than the $20 USD minimum so normal price swings do not lock you out. This is not financial advice.",
+      "disclaimer": "WOC fiyatı hızla değişebilir. Olağan fiyat dalgalanmalarının seni dışarıda bırakmaması için 20 USD asgarisinden fazlasını tutmanı öneririz. Bu bir yatırım tavsiyesi değildir.",
       "prize": "Ödül Havuzu",
       "reset": "Sıfırla",
       "endsIn": "Bitmesine {time}",
@@ -208,13 +208,17 @@ export const tr_TR: EnTranslations = {
       "spinResult": "+{points} puan",
       "spinButton": "Çevir",
       "tasks": "Görevler",
-      "taskMultiplier": "x{multiplier} multiplier",
-      "pointsGained": "{points} daily rewards points gained.",
+      "taskMultiplier": "x{multiplier} çarpan",
+      "pointsGained": "{points} günlük ödül puanı kazanıldı.",
       "showChestButton": "Sandığı Göster",
       "hideChestButton": "Sandığı Gizle",
+      "hideChestConfirmTitle": "Günlük Ödül Sandığı gizlensin mi?",
+      "hideChestConfirmBody": "Bu, sandık kısayolunu HUD'undan kaldırır. Ödüller, uygunluk ve bu panel kullanılabilir kalır; kısayolu Seçenekler'den geri getirebilirsin.",
+      "hideChestConfirmOk": "Sandığı Gizle",
+      "hideChestConfirmCancel": "İptal",
       "leaderboard": "Günlük Lider Tablosu",
-      "totalPlayer": "{count} player today",
-      "totalPlayers": "{count} players today",
+      "totalPlayer": "Bugün {count} oyuncu",
+      "totalPlayers": "Bugün {count} oyuncu",
       "history": "Geçmiş Kazananlar",
       "noLeaders": "Henüz puan yok.",
       "noHistory": "Henüz ödeme yok.",
@@ -289,9 +293,9 @@ export const tr_TR: EnTranslations = {
       "partyLabel": "Takımın",
       "partyGroup": "Grup {n}",
       "durationUnitSeconds": "sn",
-      "durationUnitMinutes": "m",
-      "durationUnitHours": "h",
-      "durationUnitDays": "d"
+      "durationUnitMinutes": "dk",
+      "durationUnitHours": "sa",
+      "durationUnitDays": "g"
     },
     "character": {
       "modelPreview": "Karakter Modeli Önizlemesi"
@@ -401,20 +405,20 @@ export const tr_TR: EnTranslations = {
       "showWalletOnCharacterScreen": "Cüzdanı Karakter Ekranında Göster",
       "showWalletOnPlayerCard": "Cüzdanı Oyuncu Kartında Göster",
       "showDevBadges": "Geliştirici Rozetlerini Göster",
-      "showOwnNameplate": "Show My Nameplate",
+      "showOwnNameplate": "Kendi İsim Etiketimi Göster",
       "uiScale": "Arayüz Ölçeği",
-      "playerFrameScale": "Player Frame Scale",
-      "targetFrameScale": "Target Frame Scale",
-      "aurasOnPlayerFrame": "Buffs on the Player Frame",
+      "playerFrameScale": "Oyuncu Çerçevesi Ölçeği",
+      "targetFrameScale": "Hedef Çerçevesi Ölçeği",
+      "aurasOnPlayerFrame": "Oyuncu Çerçevesinde Güçlendirmeler",
       "highContrastBackground": "Yüksek Kontrastlı Arka Plan",
       "startAttackOnAbility": "Yetenek Kullanımında Otomatik Saldırı",
-      "walkByAutoloot": "Walk-by Autoloot",
+      "walkByAutoloot": "Yanından Geçerken Otomatik Yağma",
       "groundReticle": "Yer hedefleme halkası",
       "showItemLevel": "Eşya Seviyesini Göster",
       "itemLevelLine": "Eşya Seviyesi {level}",
       "itemScoreLine": "Puan {score}",
       "showSecondaryActionBar": "İkincil Eylem Çubuğunu Göster",
-      "showDailyRewardsChest": "Show Daily Rewards Chest"
+      "showDailyRewardsChest": "Günlük Ödül Sandığını Göster"
     },
     "controller": {
       "title": "Oyun Kolu",
@@ -734,7 +738,7 @@ export const tr_TR: EnTranslations = {
     },
     "party": {
       "promoteLeader": "Lider Yap",
-      "inviteUsage": "Invite whom? Usage: /invite <name>."
+      "inviteUsage": "Kimi davet edeyim? Kullanım: /invite <name>."
     },
     "lootSettings": {
       "title": "Ganimet Ayarları",
@@ -763,11 +767,11 @@ export const tr_TR: EnTranslations = {
       "searchAria": "Çanta ögelerini ada göre ara",
       "noMatch": "Filtrelerinizle eşleşen öge yok.",
       "capacity": "{used}/{total}",
-      "capacityAria": "Bag slots used: {used} of {total}",
-      "backpack": "Backpack",
+      "capacityAria": "Kullanılan çanta yuvaları: {used} / {total}",
+      "backpack": "Sırt Çantası",
       "bagSocketAria": "{name}: {slots}",
-      "socketEmpty": "Empty bag slot",
-      "unequipHint": "Click to remove this bag"
+      "socketEmpty": "Boş çanta yuvası",
+      "unequipHint": "Bu çantayı çıkarmak için tıkla"
     },
     "raidConvert": {
       "toPartyDone": "Akının yeniden gruba dönüştü.",
@@ -810,7 +814,7 @@ export const tr_TR: EnTranslations = {
         "spi": "Reduce el espíritu en {value}",
         "allStats": "Reduce todos los atributos en {value}"
       },
-      "allStatsPctReduce": "Reduces all attributes by {pct}%",
+      "allStatsPctReduce": "Tüm nitelikleri %{pct} azaltır",
       "dodge": "Aumenta la probabilidad de esquivar un {pct}%",
       "dodgeReduce": "Reduce la probabilidad de esquivar un {pct}%",
       "armorFlat": "Reduce la armadura en {value}",
@@ -851,7 +855,7 @@ export const tr_TR: EnTranslations = {
       }
     },
     "worldBoss": {
-      "spawn": "{name} rises over Thornpeak Heights!"
+      "spawn": "{name}, Dikenzirve Tepeleri'nin üzerinde yükseliyor!"
     },
     "loot": {
       "chestTitle": "Sandık"
@@ -865,21 +869,21 @@ export const tr_TR: EnTranslations = {
       "mobElite": "[{level}+] {name}"
     },
     "mobTooltip": {
-      "levelFamily": "Level {level} {family}",
-      "familyDemon": "Demon",
-      "hostile": "Hostile",
-      "friendly": "Friendly"
+      "levelFamily": "Seviye {level} {family}",
+      "familyDemon": "İblis",
+      "hostile": "Düşman",
+      "friendly": "Dost"
     },
     "targetFrame": {
-      "unlock": "Move target frame",
-      "lock": "Lock target frame"
+      "unlock": "Hedef çerçevesini taşı",
+      "lock": "Hedef çerçevesini kilitle"
     },
     "playerFrame": {
-      "unlock": "Move player frame",
-      "lock": "Lock player frame"
+      "unlock": "Oyuncu çerçevesini taşı",
+      "lock": "Oyuncu çerçevesini kilitle"
     },
     "frameReset": {
-      "label": "Reset Frame Positions"
+      "label": "Çerçeve Konumlarını Sıfırla"
     },
     "itemTooltip": {
       "requiresLevel": "Gereken Seviye {level}"
@@ -962,7 +966,7 @@ export const tr_TR: EnTranslations = {
       "memberSinceDays": "Discord'da {days}g",
       "roleTag": {
         "levyst": "Levy St",
-        "admin": "Admin",
+        "admin": "Yönetici",
         "devs": "Geliştirici",
         "mods": "Moderatör",
         "artists": "Sanatçı"
@@ -1057,114 +1061,114 @@ export const tr_TR: EnTranslations = {
       "unlink": "GitHub Bağlantısını Kaldır"
     },
     "mailbox": {
-      "title": "Mailbox",
-      "subtitle": "The Ravenpost",
-      "close": "Close mailbox",
-      "tabInbox": "Inbox",
-      "tabInboxWithCount": "Inbox ({count})",
-      "tabSend": "Send",
-      "empty": "Your mailbox is empty.",
-      "truncated": "Showing the newest {shown} of {total} letters.",
-      "attachmentsBadge": "Parcel attached",
-      "unreadBadge": "Unread",
-      "back": "Back",
-      "take": "Take attachments",
-      "delete": "Delete letter",
-      "deleteAria": "Delete the letter {subject}",
-      "openAria": "Read the letter {subject} from {name}",
-      "noSubject": "(no subject)",
-      "toLabel": "To",
-      "toPlaceholder": "Character name",
-      "subjectLabel": "Subject",
-      "bodyLabel": "Message",
-      "coinLabel": "Attach coin",
-      "parcelsLabel": "Parcels",
-      "parcelsHint": "Click an item in your bags to attach it.",
-      "removeParcelAria": "Remove {item} from the letter",
-      "sendButton": "Send letter",
-      "postageNote": "Postage: {amount}. The raven flies for about {seconds}s.",
-      "arrivedBanner": "The raven has landed: mail from {name}.",
-      "arrivedLog": "You have new mail from {name}.",
-      "indicatorAria": "Unread mail: {count}",
-      "indicatorTip": "You have {count} unread letters. Visit a mailbox to read them.",
-      "clickAttach": "Click to attach to your letter.",
-      "cannotMail": "This cannot be mailed.",
+      "title": "Posta Kutusu",
+      "subtitle": "Kuzgun Postası",
+      "close": "Posta kutusunu kapat",
+      "tabInbox": "Gelen Kutusu",
+      "tabInboxWithCount": "Gelen Kutusu ({count})",
+      "tabSend": "Gönder",
+      "empty": "Posta kutun boş.",
+      "truncated": "{total} mektuptan en yeni {shown} tanesi gösteriliyor.",
+      "attachmentsBadge": "Paket ekli",
+      "unreadBadge": "Okunmamış",
+      "back": "Geri",
+      "take": "Ekleri al",
+      "delete": "Mektubu sil",
+      "deleteAria": "{subject} mektubunu sil",
+      "openAria": "{name} tarafından gönderilen {subject} mektubunu oku",
+      "noSubject": "(konu yok)",
+      "toLabel": "Alıcı",
+      "toPlaceholder": "Karakter adı",
+      "subjectLabel": "Konu",
+      "bodyLabel": "İleti",
+      "coinLabel": "Para ekle",
+      "parcelsLabel": "Paketler",
+      "parcelsHint": "Eklemek için çantandaki bir eşyaya tıkla.",
+      "removeParcelAria": "{item} paketini mektuptan çıkar",
+      "sendButton": "Mektubu Gönder",
+      "postageNote": "Posta ücreti: {amount}. Kuzgun yaklaşık {seconds} saniye uçar.",
+      "arrivedBanner": "Kuzgun kondu: {name} sana posta gönderdi.",
+      "arrivedLog": "{name} tarafından gönderilen yeni bir postan var.",
+      "indicatorAria": "Okunmamış posta: {count}",
+      "indicatorTip": "{count} okunmamış mektubun var. Okumak için bir posta kutusuna uğra.",
+      "clickAttach": "Mektubuna eklemek için tıkla.",
+      "cannotMail": "Bu postayla gönderilemez.",
       "result": {
-        "sent": "A raven takes wing with your letter to {name} ({postage} postage).",
-        "collected": "You collect {amount} from the letter.",
-        "tooFar": "You must be at a mailbox to tend your post.",
-        "needRecipient": "Name a recipient for your letter.",
-        "noRecipient": "No one by that name holds a mailbox here.",
-        "tooManyParcels": "A letter carries at most {count} parcels.",
-        "noMailQuestItems": "You cannot mail quest items.",
-        "notEnoughItems": "You do not have that many to send.",
-        "cantAffordPostage": "You cannot afford the postage.",
-        "recipientBoxFull": "Their mailbox is full.",
-        "letterGone": "That letter is no longer in your box.",
-        "takeParcelsFirst": "Take the parcels out before discarding the letter."
+        "sent": "Bir kuzgun, mektubunla {name} adlı alıcıya doğru havalanır (posta ücreti: {postage}).",
+        "collected": "Mektuptan {amount} alırsın.",
+        "tooFar": "Postanla ilgilenmek için bir posta kutusunun başında olmalısın.",
+        "needRecipient": "Mektubun için bir alıcı belirt.",
+        "noRecipient": "Burada bu isimde posta kutusu olan kimse yok.",
+        "tooManyParcels": "Bir mektup en fazla {count} paket taşır.",
+        "noMailQuestItems": "Görev eşyalarını postayla gönderemezsin.",
+        "notEnoughItems": "Gönderecek o kadar tane yok.",
+        "cantAffordPostage": "Posta ücretini karşılayamazsın.",
+        "recipientBoxFull": "Alıcının posta kutusu dolu.",
+        "letterGone": "O mektup artık kutunda değil.",
+        "takeParcelsFirst": "Mektubu atmadan önce paketleri çıkar."
       }
     },
     "calendar": {
-      "title": "Event Calendar",
-      "close": "Close calendar",
-      "keybindLabel": "Event Calendar",
-      "prevMonth": "Previous month",
-      "nextMonth": "Next month",
-      "dayAria": "{date}: {count} events",
-      "noEvents": "Nothing planned for this day.",
-      "allDay": "All day",
-      "bookedBy": "Booked by {name}",
-      "deleteAria": "Remove the event {title}",
-      "bookTitle": "Book a guild event",
-      "titlePlaceholder": "Event title",
-      "notePlaceholder": "Note (optional)",
-      "hourLabel": "Hour (UTC)",
-      "hourAllDay": "All day",
-      "addButton": "Book event",
-      "guildOnlyNote": "Join a guild to plan events together.",
+      "title": "Etkinlik Takvimi",
+      "close": "Takvimi kapat",
+      "keybindLabel": "Etkinlik Takvimi",
+      "prevMonth": "Önceki ay",
+      "nextMonth": "Sonraki ay",
+      "dayAria": "{date}: {count} etkinlik",
+      "noEvents": "Bu gün için planlanmış bir şey yok.",
+      "allDay": "Tüm gün",
+      "bookedBy": "{name} tarafından planlandı",
+      "deleteAria": "{title} etkinliğini kaldır",
+      "bookTitle": "Bir lonca etkinliği planla",
+      "titlePlaceholder": "Etkinlik başlığı",
+      "notePlaceholder": "Not (isteğe bağlı)",
+      "hourLabel": "Saat (UTC)",
+      "hourAllDay": "Tüm gün",
+      "addButton": "Etkinlik Planla",
+      "guildOnlyNote": "Birlikte etkinlik planlamak için bir loncaya katıl.",
       "result": {
-        "created": "The event is on the guild calendar.",
-        "removed": "The event was taken off the calendar.",
-        "notInGuild": "You are not in a guild.",
-        "notOfficer": "Only officers and the Guild Master may manage guild events.",
-        "badInput": "Give the event a title and a valid day.",
-        "calendarFull": "The guild calendar is full.",
-        "eventGone": "That event is no longer on the calendar."
+        "created": "Etkinlik lonca takviminde.",
+        "removed": "Etkinlik takvimden kaldırıldı.",
+        "notInGuild": "Bir loncada değilsin.",
+        "notOfficer": "Lonca etkinliklerini yalnızca subaylar ve Lonca Üstadı yönetebilir.",
+        "badInput": "Etkinliğe bir başlık ve geçerli bir gün ver.",
+        "calendarFull": "Lonca takvimi dolu.",
+        "eventGone": "O etkinlik artık takvimde değil."
       },
       "events": {
         "raidCall": {
-          "title": "Raid Call",
-          "note": "Wardens sound the horn: gather a party for the crypts and the raid."
+          "title": "Akın Çağrısı",
+          "note": "Muhafızlar boruyu çalıyor: mahzenler ve akın için bir grup topla."
         },
         "marketDay": {
-          "title": "Market Day",
-          "note": "The Merchant expects fresh stock. A fine day to browse the World Market."
+          "title": "Pazar Günü",
+          "note": "Tüccar taze mal bekliyor. Dünya Pazarı'na göz atmak için güzel bir gün."
         },
         "fiestaNight": {
-          "title": "Fiesta Night",
-          "note": "The 2v2 Fiesta ring draws its loudest crowds tonight."
+          "title": "Fiesta Gecesi",
+          "note": "İkiye iki Fiesta ringi bu gece en gürültülü kalabalığını topluyor."
         },
         "arenaClash": {
-          "title": "Arena Clash",
-          "note": "Duelists flock to the Ashen Coliseum. Queue up and climb the ladder."
+          "title": "Arena Çatışması",
+          "note": "Düellocular Kül Kolezyumu'na akın ediyor. Sıraya gir ve merdiveni tırman."
         },
         "fishingDerby": {
-          "title": "Fishing Derby",
-          "note": "Anglers line the lakes. Bring a pole and swap fishing tales."
+          "title": "Balık Tutma Yarışması",
+          "note": "Oltacılar göl kıyılarını doldurdu. Bir olta kap ve balıkçı hikayeleri paylaş."
         },
         "delveDay": {
-          "title": "Delve Day",
-          "note": "Brother Halven marks his charts: a fine day to brave the Collapsed Reliquary."
+          "title": "Mağara Günü",
+          "note": "Birader Halven haritalarını işaretliyor: Çökmüş Emanetlik'e meydan okumak için güzel bir gün."
         },
         "moongateCommunion": {
-          "title": "Moongate Communion",
-          "note": "Pilgrims gather at the temple moongate under the mid-month moon."
+          "title": "Ay Geçidi Ayini",
+          "note": "Hacılar, ay ortası ayının altında tapınağın ay geçidinde toplanıyor."
         }
       }
     },
     "social": {
-      "lastSeen": "Last seen: {when}",
-      "lastSeenNever": "never"
+      "lastSeen": "Son görülme: {when}",
+      "lastSeenNever": "hiç"
     }
   },
   "guide": {
@@ -1994,427 +1998,427 @@ export const tr_TR: EnTranslations = {
     }
   },
   "editor": {
-    "appTitle": "Map Editor",
-    "docTitle": "Map Editor - World of ClaudeCraft",
-    "untitledMap": "Untitled Map",
-    "playtestPlayerName": "Mapmaker",
+    "appTitle": "Harita Editörü",
+    "docTitle": "Harita Editörü - World of ClaudeCraft",
+    "untitledMap": "Adsız Harita",
+    "playtestPlayerName": "Haritacı",
     "topbar": {
-      "label": "Editor actions",
-      "mapNameLabel": "Map name",
-      "dirty": "Unsaved changes",
-      "dirtyDot": "This map has unsaved changes",
-      "clean": "All changes saved",
-      "savedLocal": "Saved in this browser",
-      "savedServer": "Saved to server (v{version})",
-      "saving": "Saving...",
-      "neverSaved": "Not saved yet",
-      "new": "New",
-      "newTitle": "Start a new map from the built-in world",
-      "open": "Open",
-      "openTitle": "Open a saved map (browser or server)",
-      "save": "Save",
-      "saveTitle": "Save to this browser, and to the server when signed in (Ctrl+S)",
-      "saveAs": "Save As",
-      "saveAsTitle": "Save a copy under a new name",
-      "fork": "Fork",
-      "forkTitle": "Create your own server-side copy of this map",
-      "forkDisabledTitle": "Open a server map first to fork it",
-      "import": "Import",
-      "importTitle": "Import a map from a JSON file",
-      "export": "Export",
-      "exportTitle": "Download this map as a JSON file",
-      "uploadAsset": "Upload Asset",
-      "uploadAssetTitle": "Upload a GLB model (up to 8 MiB) to place in your maps",
-      "uploadAssetDisabledTitle": "Sign in from the game to upload assets",
-      "playtest": "Playtest",
-      "playtestTitle": "Boot the game on this map (offline, current edits included)",
-      "viewLabel": "View mode",
+      "label": "Editör eylemleri",
+      "mapNameLabel": "Harita adı",
+      "dirty": "Kaydedilmemiş değişiklikler",
+      "dirtyDot": "Bu haritada kaydedilmemiş değişiklikler var",
+      "clean": "Tüm değişiklikler kaydedildi",
+      "savedLocal": "Bu tarayıcıya kaydedildi",
+      "savedServer": "Sunucuya kaydedildi (v{version})",
+      "saving": "Kaydediliyor...",
+      "neverSaved": "Henüz kaydedilmedi",
+      "new": "Yeni",
+      "newTitle": "Yerleşik dünyadan yeni bir harita başlat",
+      "open": "Aç",
+      "openTitle": "Kayıtlı bir harita aç (tarayıcı veya sunucu)",
+      "save": "Kaydet",
+      "saveTitle": "Bu tarayıcıya, giriş yapıldığında sunucuya da kaydet (Ctrl+S)",
+      "saveAs": "Farklı Kaydet",
+      "saveAsTitle": "Yeni bir adla bir kopya kaydet",
+      "fork": "Çatalla",
+      "forkTitle": "Bu haritanın sunucudaki kendi kopyanı oluştur",
+      "forkDisabledTitle": "Çatallamak için önce bir sunucu haritası aç",
+      "import": "İçe Aktar",
+      "importTitle": "JSON dosyasından bir harita içe aktar",
+      "export": "Dışa Aktar",
+      "exportTitle": "Bu haritayı JSON dosyası olarak indir",
+      "uploadAsset": "Varlık Yükle",
+      "uploadAssetTitle": "Haritalarına yerleştirmek için bir GLB modeli yükle (en fazla 8 MiB)",
+      "uploadAssetDisabledTitle": "Varlık yüklemek için oyundan giriş yap",
+      "playtest": "Oyun Testi",
+      "playtestTitle": "Oyunu bu haritada başlat (çevrimdışı, mevcut düzenlemeler dahil)",
+      "viewLabel": "Görünüm modu",
       "view3d": "3D",
-      "view3dTitle": "Edit in the rendered world",
+      "view3dTitle": "Görselleştirilmiş dünyada düzenle",
       "view2d": "2D",
-      "view2dTitle": "Edit on the symbolic overhead map",
-      "undoCount": "Undo: {count}",
-      "undoCountTitle": "{count} undoable steps (Ctrl+Z to undo, Ctrl+Y to redo)",
-      "autosave": "Autosave",
-      "autosaveTitle": "Automatically save the map while there are unsaved changes. Turns itself off if a save fails.",
-      "undo": "Undo",
-      "undoTitle": "Undo the last change (Ctrl+Z)",
-      "redo": "Redo",
-      "redoTitle": "Redo the last undone change (Ctrl+Y)",
-      "offline": "Offline",
-      "offlineTitle": "Not signed in: maps save to this browser only. Sign in from the game to save online.",
-      "signIn": "Sign in",
-      "signInTitle": "Open the game login screen in a new tab",
-      "help": "Help",
-      "helpTitle": "Editor guide: tools, shortcuts, and the tutorial"
+      "view2dTitle": "Sembolik kuş bakışı haritada düzenle",
+      "undoCount": "Geri al: {count}",
+      "undoCountTitle": "{count} geri alınabilir adım (geri almak için Ctrl+Z, yinelemek için Ctrl+Y)",
+      "autosave": "Otomatik Kayıt",
+      "autosaveTitle": "Kaydedilmemiş değişiklikler varken haritayı otomatik kaydeder. Bir kayıt başarısız olursa kendini kapatır.",
+      "undo": "Geri Al",
+      "undoTitle": "Son değişikliği geri al (Ctrl+Z)",
+      "redo": "Yinele",
+      "redoTitle": "Geri alınan son değişikliği yinele (Ctrl+Y)",
+      "offline": "Çevrimdışı",
+      "offlineTitle": "Giriş yapılmadı: haritalar yalnızca bu tarayıcıya kaydedilir. Çevrimiçi kaydetmek için oyundan giriş yap.",
+      "signIn": "Giriş yap",
+      "signInTitle": "Oyun giriş ekranını yeni sekmede aç",
+      "help": "Yardım",
+      "helpTitle": "Editör kılavuzu: araçlar, kısayollar ve öğretici"
     },
     "tool": {
-      "listLabel": "Editor tools",
+      "listLabel": "Editör araçları",
       "keyHint": "{name} ({key})",
-      "select": "Select",
-      "raise": "Raise",
-      "lower": "Lower",
-      "smooth": "Smooth",
-      "flatten": "Flatten",
-      "paint": "Paint Biome",
-      "water": "Water",
-      "place": "Place Asset",
-      "blocker": "Blocker Wall",
-      "camp": "Camp",
-      "spawn": "Spawn Point",
-      "region": "Region",
-      "erase": "Erase"
+      "select": "Seç",
+      "raise": "Yükselt",
+      "lower": "Alçalt",
+      "smooth": "Yumuşat",
+      "flatten": "Düzleştir",
+      "paint": "Biyom Boya",
+      "water": "Su",
+      "place": "Varlık Yerleştir",
+      "blocker": "Engel Duvarı",
+      "camp": "Kamp",
+      "spawn": "Doğuş Noktası",
+      "region": "Bölge",
+      "erase": "Sil"
     },
     "inspector": {
-      "label": "Tool options"
+      "label": "Araç seçenekleri"
     },
     "brush": {
-      "title": "Brush",
-      "size": "Brush size",
-      "strength": "Strength",
-      "sizeHint": "Keys: [ and ] resize the brush; Shift+[ and Shift+] change strength.",
-      "editCount": "Terrain edits: {count} / {max}"
+      "title": "Fırça",
+      "size": "Fırça boyutu",
+      "strength": "Güç",
+      "sizeHint": "Tuşlar: [ ve ] fırçayı boyutlandırır; Shift+[ ve Shift+] gücü değiştirir.",
+      "editCount": "Arazi düzenlemeleri: {count} / {max}"
     },
     "biome": {
-      "title": "Biome",
-      "paletteLabel": "Biome to paint",
-      "vale": "Vale",
-      "marsh": "Marsh",
-      "peaks": "Peaks",
-      "beach": "Beach",
-      "desert": "Desert",
-      "volcano": "Volcano",
-      "cave": "Cave",
-      "erase": "Erase paint",
-      "hint": "Painted cells override the zone biome for terrain shape and color.",
-      "clear": "Clear all biome paint",
-      "clearConfirm": "Remove every painted biome cell from this map?"
+      "title": "Biyom",
+      "paletteLabel": "Boyanacak biyom",
+      "vale": "Vadi",
+      "marsh": "Bataklık",
+      "peaks": "Zirveler",
+      "beach": "Kumsal",
+      "desert": "Çöl",
+      "volcano": "Yanardağ",
+      "cave": "Mağara",
+      "erase": "Boyayı sil",
+      "hint": "Boyanmış hücreler, arazi şekli ve rengi için bölge biyomunun yerine geçer.",
+      "clear": "Tüm biyom boyasını temizle",
+      "clearConfirm": "Bu haritadaki boyanmış tüm biyom hücreleri kaldırılsın mı?"
     },
     "flatten": {
-      "hint": "Flatten levels the ground to the height under the cursor when the drag starts.",
-      "hardEdge": "Hard edge"
+      "hint": "Düzleştir, zemini sürükleme başladığı andaki imlecin altındaki yüksekliğe eşitler.",
+      "hardEdge": "Sert kenar"
     },
     "water": {
-      "title": "Water Level",
-      "level": "Water level",
-      "hint": "Sets the map-wide water surface height, from {min} to {max} yards.",
-      "reset": "Reset to the built-in level"
+      "title": "Su Seviyesi",
+      "level": "Su seviyesi",
+      "hint": "Harita genelindeki su yüzeyi yüksekliğini {min} ile {max} yarda arasında ayarlar.",
+      "reset": "Yerleşik seviyeye sıfırla"
     },
     "place": {
-      "title": "Place Asset",
-      "scale": "Scale",
-      "collide": "Blocks movement",
-      "collideHint": "A blocking asset gets a collision footprint players cannot walk through.",
-      "randomRotation": "Random rotation",
-      "chosen": "Placing: {name}",
-      "none": "Pick an asset from the browser below, then click the ground to place it."
+      "title": "Varlık Yerleştir",
+      "scale": "Ölçek",
+      "collide": "Hareketi engeller",
+      "collideHint": "Engelleyen bir varlık, oyuncuların içinden yürüyemeyeceği bir çarpışma alanı kazanır.",
+      "randomRotation": "Rastgele döndürme",
+      "chosen": "Yerleştiriliyor: {name}",
+      "none": "Aşağıdaki tarayıcıdan bir varlık seç, sonra yerleştirmek için zemine tıkla."
     },
     "blockerTool": {
-      "title": "Blocker Wall",
-      "hint": "Drag along the ground to draw an invisible wall players cannot walk or jump through. Release to place it; a wall shorter than half a yard is discarded.",
-      "count": "Blocker walls: {count} / {max}"
+      "title": "Engel Duvarı",
+      "hint": "Oyuncuların içinden yürüyemeyeceği veya üzerinden atlayamayacağı görünmez bir duvar çizmek için zemin boyunca sürükle. Yerleştirmek için bırak; yarım yardadan kısa bir duvar iptal edilir.",
+      "count": "Engel duvarları: {count} / {max}"
     },
     "camp": {
-      "title": "Mob Camp",
-      "mob": "Mob",
-      "count": "Count",
-      "radius": "Radius",
-      "delete": "Delete camp",
-      "hint": "Click open ground to add a camp, or click an existing camp to edit it.",
-      "playtestNote": "Mobs spawn only in playtest, never in the editor view.",
-      "selected": "Camp: {mob}",
-      "none": "No camp selected."
+      "title": "Yaratık Kampı",
+      "mob": "Yaratık",
+      "count": "Sayı",
+      "radius": "Yarıçap",
+      "delete": "Kampı sil",
+      "hint": "Kamp eklemek için boş zemine tıkla ya da düzenlemek için mevcut bir kampa tıkla.",
+      "playtestNote": "Yaratıklar yalnızca oyun testinde belirir, editör görünümünde asla.",
+      "selected": "Kamp: {mob}",
+      "none": "Seçili kamp yok."
     },
     "spawn": {
-      "title": "Spawn Point",
-      "hint": "Click the ground to set where playtest drops the player.",
-      "position": "Spawn: {x}, {z}",
-      "unset": "Using the built-in start position.",
-      "clear": "Clear spawn point"
+      "title": "Doğuş Noktası",
+      "hint": "Oyun testinin oyuncuyu bırakacağı yeri ayarlamak için zemine tıkla.",
+      "position": "Doğuş: {x}, {z}",
+      "unset": "Yerleşik başlangıç konumu kullanılıyor.",
+      "clear": "Doğuş noktasını temizle"
     },
     "region": {
-      "title": "Region",
-      "hint": "Drag a box to select placements and terrain edits. Copy, then click to paste.",
-      "hint3d": "Region boxes draw in the 2D view; copy and paste work in both views.",
-      "copy": "Copy region",
-      "pasteBeside": "Paste beside",
-      "copied": "Copied {assets} assets and {edits} terrain edits.",
-      "pasted": "Pasted {count} items.",
-      "needBox": "Draw a region box first.",
-      "needClipboard": "Copy a region first."
+      "title": "Bölge",
+      "hint": "Yerleştirmeleri ve arazi düzenlemelerini seçmek için bir kutu sürükle. Kopyala, sonra yapıştırmak için tıkla.",
+      "hint3d": "Bölge kutuları 2D görünümde çizilir; kopyalama ve yapıştırma her iki görünümde de çalışır.",
+      "copy": "Bölgeyi kopyala",
+      "pasteBeside": "Yanına yapıştır",
+      "copied": "{assets} varlık ve {edits} arazi düzenlemesi kopyalandı.",
+      "pasted": "{count} öge yapıştırıldı.",
+      "needBox": "Önce bir bölge kutusu çiz.",
+      "needClipboard": "Önce bir bölge kopyala."
     },
     "eraseTool": {
-      "title": "Erase",
-      "hint": "Click a placed asset to remove it, or click sculpted ground to remove the newest stamp under the cursor.",
-      "blockerHint": "Clicking near a blocker wall removes that wall instead."
+      "title": "Sil",
+      "hint": "Kaldırmak için yerleştirilmiş bir varlığa tıkla ya da imlecin altındaki en yeni damgayı kaldırmak için şekillendirilmiş zemine tıkla.",
+      "blockerHint": "Bir engel duvarının yakınına tıklamak, bunun yerine o duvarı kaldırır."
     },
     "selection": {
-      "title": "Selection",
-      "none": "Nothing selected. Use Select and click a placed asset.",
-      "asset": "Asset: {name}",
+      "title": "Seçim",
+      "none": "Hiçbir şey seçili değil. Seç aracını kullan ve yerleştirilmiş bir varlığa tıkla.",
+      "asset": "Varlık: {name}",
       "x": "X",
       "z": "Z",
-      "rotation": "Rotation",
-      "scale": "Scale",
-      "collide": "Blocks movement",
-      "radius": "Collision radius",
-      "radiusAuto": "Auto",
-      "radiusAutoTitle": "Reset the collision radius to follow the asset scale",
-      "radiusHint": "Auto derives the collision radius from the asset scale; drag the slider to override it.",
-      "footprints": "Show collision footprints",
-      "duplicate": "Duplicate",
-      "delete": "Delete",
-      "deleteHint": "Delete removes the selection; Ctrl+Z restores it.",
-      "moveHint": "Move: drag the asset along the ground in the 3D view, or nudge it with the arrow keys (0.5 yd, Shift for 2 yd).",
-      "wheelHint": "Shift+scroll rotates the asset, Alt+scroll scales it, Ctrl+D duplicates it."
+      "rotation": "Döndürme",
+      "scale": "Ölçek",
+      "collide": "Hareketi engeller",
+      "radius": "Çarpışma yarıçapı",
+      "radiusAuto": "Otomatik",
+      "radiusAutoTitle": "Çarpışma yarıçapını varlık ölçeğini izleyecek şekilde sıfırla",
+      "radiusHint": "Otomatik, çarpışma yarıçapını varlık ölçeğinden türetir; geçersiz kılmak için kaydırıcıyı sürükle.",
+      "footprints": "Çarpışma alanlarını göster",
+      "duplicate": "Çoğalt",
+      "delete": "Sil",
+      "deleteHint": "Delete seçimi kaldırır; Ctrl+Z geri getirir.",
+      "moveHint": "Taşıma: varlığı 3D görünümde zemin boyunca sürükle ya da ok tuşlarıyla kaydır (0,5 yarda, Shift ile 2 yarda).",
+      "wheelHint": "Shift+kaydırma varlığı döndürür, Alt+kaydırma ölçekler, Ctrl+D çoğaltır."
     },
     "marker": {
-      "title": "Marker",
-      "reset": "Reset position",
-      "moved": "{count} markers moved from the built-in layout."
+      "title": "İşaretçi",
+      "reset": "Konumu sıfırla",
+      "moved": "{count} işaretçi yerleşik düzenden taşındı."
     },
     "layers": {
-      "title": "Layers",
-      "hub": "Hubs",
-      "graveyard": "Graveyards",
-      "lake": "Lakes",
-      "poi": "Points of interest",
-      "camp": "Camps",
-      "npc": "NPCs",
-      "object": "Objects",
-      "blocker": "Blocker walls"
+      "title": "Katmanlar",
+      "hub": "Merkezler",
+      "graveyard": "Mezarlıklar",
+      "lake": "Göller",
+      "poi": "Önemli noktalar",
+      "camp": "Kamplar",
+      "npc": "NPC'ler",
+      "object": "Nesneler",
+      "blocker": "Engel duvarları"
     },
     "frame": {
-      "title": "Frame",
-      "all": "All"
+      "title": "Çerçevele",
+      "all": "Tümü"
     },
     "procgen": {
-      "title": "Procedural",
-      "count": "Count",
-      "scatter": "Scatter category assets",
-      "hills": "Generate rolling hills",
-      "scattered": "Scattered {count} assets from {category}.",
-      "hillsAdded": "Added {count} hills.",
-      "noAssets": "No assets in that category."
+      "title": "Prosedürel",
+      "count": "Sayı",
+      "scatter": "Kategori varlıklarını serpiştir",
+      "hills": "İnişli çıkışlı tepeler oluştur",
+      "scattered": "{category} kategorisinden {count} varlık serpiştirildi.",
+      "hillsAdded": "{count} tepe eklendi.",
+      "noAssets": "O kategoride varlık yok."
     },
     "assets": {
-      "title": "Asset Browser",
-      "label": "Asset browser",
-      "search": "Search assets",
-      "searchPlaceholder": "Search assets...",
-      "empty": "No matching assets.",
-      "uploadedTab": "Uploaded",
-      "uploadedEmpty": "No uploaded assets yet. Use Upload Asset to add a GLB model (up to 8 MiB).",
-      "uploadedSignIn": "Sign in from the game to upload and place your own GLB models.",
-      "uploadedLoadFailed": "Could not load your uploaded assets.",
-      "deleteAsset": "Delete uploaded asset",
-      "deleteAssetConfirm": "Delete the uploaded asset \"{name}\"? Maps that use it lose the model.",
-      "pick": "Place {name}",
+      "title": "Varlık Tarayıcısı",
+      "label": "Varlık tarayıcısı",
+      "search": "Varlıklarda ara",
+      "searchPlaceholder": "Varlık ara...",
+      "empty": "Eşleşen varlık yok.",
+      "uploadedTab": "Yüklenenler",
+      "uploadedEmpty": "Henüz yüklenen varlık yok. Bir GLB modeli (en fazla 8 MiB) eklemek için Varlık Yükle'yi kullan.",
+      "uploadedSignIn": "Kendi GLB modellerini yükleyip yerleştirmek için oyundan giriş yap.",
+      "uploadedLoadFailed": "Yüklediğin varlıklar yüklenemedi.",
+      "deleteAsset": "Yüklenen varlığı sil",
+      "deleteAssetConfirm": "\"{name}\" adlı yüklenen varlık silinsin mi? Onu kullanan haritalar modeli kaybeder.",
+      "pick": "{name} yerleştir",
       "categoryTab": "{category} ({count})",
       "category": {
-        "biome": "Biome",
-        "chars": "Characters",
-        "creatures": "Creatures",
-        "dungeon": "Dungeon",
-        "foliage": "Foliage",
-        "props": "Props",
-        "quest": "Quest",
-        "resources": "Resources",
-        "tools": "Tools",
-        "weapons": "Weapons"
+        "biome": "Biyom",
+        "chars": "Karakterler",
+        "creatures": "Yaratıklar",
+        "dungeon": "Zindan",
+        "foliage": "Bitki Örtüsü",
+        "props": "Dekorlar",
+        "quest": "Görev",
+        "resources": "Kaynaklar",
+        "tools": "Aletler",
+        "weapons": "Silahlar"
       }
     },
     "upload": {
-      "notGlb": "Pick a .glb file.",
-      "tooLarge": "That file is over the 8 MiB limit.",
-      "uploading": "Uploading asset...",
-      "uploaded": "Asset uploaded: {name}",
-      "uploadedExisting": "That model was already on the server; reusing it.",
-      "deleted": "Uploaded asset deleted."
+      "notGlb": "Bir .glb dosyası seç.",
+      "tooLarge": "O dosya 8 MiB sınırının üzerinde.",
+      "uploading": "Varlık yükleniyor...",
+      "uploaded": "Varlık yüklendi: {name}",
+      "uploadedExisting": "O model zaten sunucudaydı; yeniden kullanılıyor.",
+      "deleted": "Yüklenen varlık silindi."
     },
     "openDrawer": {
-      "title": "Open Map",
-      "close": "Close",
-      "tabLocal": "This Browser",
-      "tabMine": "My Server Maps",
-      "tabPublic": "Public Maps",
-      "colName": "Name",
-      "colUpdated": "Updated",
-      "colStatus": "Status",
-      "statusPublic": "Public",
-      "statusPrivate": "Private",
-      "open": "Open",
-      "fork": "Fork",
-      "publish": "Publish",
-      "unpublish": "Unpublish",
-      "delete": "Delete",
-      "draft": "Autosaved draft",
-      "emptyLocal": "No maps saved in this browser yet. Save one and it appears here.",
-      "emptyMine": "No maps on the server yet. Save while signed in to create one.",
-      "emptyPublic": "No public maps yet.",
-      "loading": "Loading maps...",
-      "loadFailed": "Could not load maps from the server.",
-      "signInHint": "Sign in from the game to browse, save, and fork server maps.",
-      "deleteLocalConfirm": "Delete the local map \"{name}\"?",
-      "deleteServerConfirm": "Delete the server map \"{name}\"? This cannot be undone.",
-      "prev": "Previous page",
-      "next": "Next page",
-      "page": "Page {page}"
+      "title": "Harita Aç",
+      "close": "Kapat",
+      "tabLocal": "Bu Tarayıcı",
+      "tabMine": "Sunucu Haritalarım",
+      "tabPublic": "Herkese Açık Haritalar",
+      "colName": "Ad",
+      "colUpdated": "Güncellenme",
+      "colStatus": "Durum",
+      "statusPublic": "Herkese Açık",
+      "statusPrivate": "Özel",
+      "open": "Aç",
+      "fork": "Çatalla",
+      "publish": "Yayımla",
+      "unpublish": "Yayımdan Kaldır",
+      "delete": "Sil",
+      "draft": "Otomatik kaydedilen taslak",
+      "emptyLocal": "Bu tarayıcıda henüz kaydedilmiş harita yok. Bir tane kaydet, burada görünsün.",
+      "emptyMine": "Sunucuda henüz harita yok. Bir tane oluşturmak için giriş yapmışken kaydet.",
+      "emptyPublic": "Henüz herkese açık harita yok.",
+      "loading": "Haritalar yükleniyor...",
+      "loadFailed": "Haritalar sunucudan yüklenemedi.",
+      "signInHint": "Sunucu haritalarına göz atmak, onları kaydetmek ve çatallamak için oyundan giriş yap.",
+      "deleteLocalConfirm": "\"{name}\" adlı yerel harita silinsin mi?",
+      "deleteServerConfirm": "\"{name}\" adlı sunucu haritası silinsin mi? Bu geri alınamaz.",
+      "prev": "Önceki sayfa",
+      "next": "Sonraki sayfa",
+      "page": "Sayfa {page}"
     },
     "status": {
-      "savedLocal": "Saved \"{name}\" to this browser.",
-      "savedServer": "Saved \"{name}\" to the server (v{version}).",
-      "savedLocalOnly": "Saved \"{name}\" to this browser. Sign in to save online.",
-      "saveFailedLocal": "Local save failed (storage blocked).",
-      "opened": "Opened \"{name}\".",
-      "imported": "Imported \"{name}\".",
-      "importFailed": "Import cancelled, or the file is not a valid map.",
-      "exported": "Downloaded \"{name}\".",
-      "newMap": "New map started from the built-in world.",
-      "forked": "Forked to \"{name}\". You are editing your own copy now.",
-      "published": "Map published. Anyone can now find and fork it.",
-      "unpublished": "Map unpublished.",
-      "deleted": "Map deleted.",
-      "assetPlacedFirst": "Pick an asset in the browser first.",
-      "loading3d": "Loading the world...",
-      "playtestLaunch": "Launching playtest...",
-      "playtestFailed": "Could not start the playtest (storage blocked).",
-      "draftSaved": "Draft autosaved.",
-      "draftRestored": "Restored the autosaved draft.",
-      "autosaveFailed": "Autosave failed (browser storage is full or blocked). Export the map to keep a backup.",
-      "terrainCapReached": "Terrain edit limit reached ({max}). Extra sculpt stamps were not added.",
-      "placementCapReached": "Placement limit reached ({max}). Extra assets were not added.",
-      "blockerCapReached": "Blocker wall limit reached ({max}). The new wall was not added.",
-      "autosaveOff": "Autosave turned off: {reason} Save manually, then turn it back on."
+      "savedLocal": "\"{name}\" bu tarayıcıya kaydedildi.",
+      "savedServer": "\"{name}\" sunucuya kaydedildi (v{version}).",
+      "savedLocalOnly": "\"{name}\" bu tarayıcıya kaydedildi. Çevrimiçi kaydetmek için giriş yap.",
+      "saveFailedLocal": "Yerel kayıt başarısız oldu (depolama engelli).",
+      "opened": "\"{name}\" açıldı.",
+      "imported": "\"{name}\" içe aktarıldı.",
+      "importFailed": "İçe aktarma iptal edildi ya da dosya geçerli bir harita değil.",
+      "exported": "\"{name}\" indirildi.",
+      "newMap": "Yerleşik dünyadan yeni bir harita başlatıldı.",
+      "forked": "\"{name}\" olarak çatallandı. Artık kendi kopyanı düzenliyorsun.",
+      "published": "Harita yayımlandı. Artık herkes onu bulabilir ve çatallayabilir.",
+      "unpublished": "Harita yayımdan kaldırıldı.",
+      "deleted": "Harita silindi.",
+      "assetPlacedFirst": "Önce tarayıcıdan bir varlık seç.",
+      "loading3d": "Dünya yükleniyor...",
+      "playtestLaunch": "Oyun testi başlatılıyor...",
+      "playtestFailed": "Oyun testi başlatılamadı (depolama engelli).",
+      "draftSaved": "Taslak otomatik kaydedildi.",
+      "draftRestored": "Otomatik kaydedilen taslak geri yüklendi.",
+      "autosaveFailed": "Otomatik kayıt başarısız oldu (tarayıcı depolaması dolu veya engelli). Yedek tutmak için haritayı dışa aktar.",
+      "terrainCapReached": "Arazi düzenleme sınırına ulaşıldı ({max}). Fazladan şekillendirme damgaları eklenmedi.",
+      "placementCapReached": "Yerleştirme sınırına ulaşıldı ({max}). Fazladan varlıklar eklenmedi.",
+      "blockerCapReached": "Engel duvarı sınırına ulaşıldı ({max}). Yeni duvar eklenmedi.",
+      "autosaveOff": "Otomatik kayıt kapatıldı: {reason} Elle kaydet, sonra yeniden aç."
     },
     "confirm": {
-      "ok": "OK",
-      "cancel": "Cancel",
-      "discardTitle": "Discard changes?",
-      "discardBody": "You have unsaved changes on \"{name}\". Discard them?",
-      "discard": "Discard",
-      "conflictTitle": "Save conflict",
-      "conflictBody": "This map changed on the server since you opened it (now v{version}). Save your version as a new copy?",
-      "conflictSaveCopy": "Save As Copy"
+      "ok": "Tamam",
+      "cancel": "İptal",
+      "discardTitle": "Değişiklikler atılsın mı?",
+      "discardBody": "\"{name}\" üzerinde kaydedilmemiş değişikliklerin var. Atılsın mı?",
+      "discard": "Değişiklikleri At",
+      "conflictTitle": "Kayıt çakışması",
+      "conflictBody": "Bu harita, sen açtığından beri sunucuda değişti (şimdi v{version}). Kendi sürümün yeni bir kopya olarak kaydedilsin mi?",
+      "conflictSaveCopy": "Kopya Olarak Kaydet"
     },
     "prompt": {
-      "saveAsTitle": "Save As",
-      "nameLabel": "New map name"
+      "saveAsTitle": "Farklı Kaydet",
+      "nameLabel": "Yeni harita adı"
     },
     "serverError": {
-      "invalid_map_name": "That map name is not allowed. Use letters, numbers, spaces, apostrophes, or hyphens.",
-      "map_name_not_allowed": "That map name is not allowed.",
-      "invalid_map_doc": "The server rejected the map document.",
-      "invalid_version": "The save request was malformed. Reload and try again.",
-      "map_limit_reached": "You have reached the server map limit. Delete a map to save more.",
-      "map_not_found": "That map no longer exists on the server.",
-      "version_conflict": "The map changed on the server since you opened it.",
-      "slug_unavailable": "The server could not make a link for that name. Try a different name.",
-      "map_too_large": "The map document is too large to save on the server.",
-      "invalid_glb": "That file is not a valid GLB model.",
-      "asset_blocked": "That asset has been blocked by moderation.",
-      "asset_limit_reached": "You have reached the uploaded asset limit. Delete one to upload more.",
-      "asset_storage_limit_reached": "You are out of asset storage space. Delete an asset first.",
-      "asset_too_large": "That model is over the upload size limit.",
-      "asset_not_found": "That asset no longer exists on the server.",
-      "rate_limited": "Slow down a little and try again.",
-      "unauthorized": "Your session has expired. Sign in from the game again.",
-      "network": "Could not reach the server. Check your connection and try again.",
-      "timeout": "The server took too long to respond. Try again.",
-      "unknown": "Something went wrong talking to the server."
+      "invalid_map_name": "O harita adına izin verilmiyor. Harf, rakam, boşluk, kesme işareti veya tire kullan.",
+      "map_name_not_allowed": "O harita adına izin verilmiyor.",
+      "invalid_map_doc": "Sunucu harita belgesini reddetti.",
+      "invalid_version": "Kaydetme isteği bozuktu. Sayfayı yenile ve tekrar dene.",
+      "map_limit_reached": "Sunucu harita sınırına ulaştın. Daha fazla kaydetmek için bir harita sil.",
+      "map_not_found": "O harita artık sunucuda yok.",
+      "version_conflict": "Harita, sen açtığından beri sunucuda değişti.",
+      "slug_unavailable": "Sunucu o ad için bir bağlantı oluşturamadı. Farklı bir ad dene.",
+      "map_too_large": "Harita belgesi sunucuya kaydedilemeyecek kadar büyük.",
+      "invalid_glb": "O dosya geçerli bir GLB modeli değil.",
+      "asset_blocked": "O varlık moderasyon tarafından engellendi.",
+      "asset_limit_reached": "Yüklenen varlık sınırına ulaştın. Daha fazla yüklemek için birini sil.",
+      "asset_storage_limit_reached": "Varlık depolama alanın doldu. Önce bir varlık sil.",
+      "asset_too_large": "O model, yükleme boyutu sınırının üzerinde.",
+      "asset_not_found": "O varlık artık sunucuda yok.",
+      "rate_limited": "Biraz yavaşla ve tekrar dene.",
+      "unauthorized": "Oturumunun süresi doldu. Oyundan yeniden giriş yap.",
+      "network": "Sunucuya ulaşılamadı. Bağlantını kontrol et ve tekrar dene.",
+      "timeout": "Sunucu yanıt vermekte çok gecikti. Tekrar dene.",
+      "unknown": "Sunucuyla iletişimde bir şeyler ters gitti."
     },
     "hints": {
-      "nav3d": "Drag to orbit, scroll to zoom. While dragging, WASD flies and Q/E changes height.",
-      "nav2d": "Drag to pan, scroll to zoom."
+      "nav3d": "Yörüngede dönmek için sürükle, yakınlaştırmak için tekerleği çevir. Sürüklerken WASD uçurur, Q/E yüksekliği değiştirir.",
+      "nav2d": "Görünümü kaydırmak için sürükle, yakınlaştırmak için tekerleği çevir."
     },
     "help": {
-      "title": "Editor Help",
-      "toolsTitle": "Tools",
-      "shortcutsTitle": "Keyboard shortcuts",
-      "mouseTitle": "Mouse and navigation",
-      "flowTitle": "Saving and playtesting",
-      "beginTutorial": "Begin tutorial",
-      "close": "Close",
+      "title": "Editör Yardımı",
+      "toolsTitle": "Araçlar",
+      "shortcutsTitle": "Klavye kısayolları",
+      "mouseTitle": "Fare ve gezinme",
+      "flowTitle": "Kaydetme ve oyun testi",
+      "beginTutorial": "Öğreticiyi başlat",
+      "close": "Kapat",
       "tool": {
-        "select": "Pick placed assets to move, rotate, and scale them; click a 2D marker to edit it.",
-        "raise": "Raise the terrain under the brush.",
-        "lower": "Lower the terrain under the brush.",
-        "smooth": "Smooth bumps toward the local average height.",
-        "flatten": "Level the ground to the height where the drag starts.",
-        "paint": "Paint biome ground cover over the zone default.",
-        "water": "Set the map-wide water level.",
-        "place": "Place catalog or uploaded assets on the ground.",
-        "blocker": "Drag invisible walls that block movement in playtest.",
-        "camp": "Add and edit mob camps that spawn in playtest.",
-        "spawn": "Set where playtest drops the player.",
-        "region": "Box-select terrain and assets to copy and paste.",
-        "erase": "Remove placed assets or sculpt stamps under the cursor."
+        "select": "Taşımak, döndürmek ve ölçeklemek için yerleştirilmiş varlıkları seç; düzenlemek için bir 2D işaretçiye tıkla.",
+        "raise": "Fırçanın altındaki araziyi yükselt.",
+        "lower": "Fırçanın altındaki araziyi alçalt.",
+        "smooth": "Tümsekleri yerel ortalama yüksekliğe doğru yumuşat.",
+        "flatten": "Zemini, sürüklemenin başladığı yüksekliğe eşitle.",
+        "paint": "Bölge varsayılanının üzerine biyom zemin örtüsü boya.",
+        "water": "Harita genelindeki su seviyesini ayarla.",
+        "place": "Katalogdaki veya yüklenen varlıkları zemine yerleştir.",
+        "blocker": "Oyun testinde hareketi engelleyen görünmez duvarlar sürükleyerek çiz.",
+        "camp": "Oyun testinde beliren yaratık kamplarını ekle ve düzenle.",
+        "spawn": "Oyun testinin oyuncuyu nereye bırakacağını ayarla.",
+        "region": "Kopyalayıp yapıştırmak için araziyi ve varlıkları kutuyla seç.",
+        "erase": "İmlecin altındaki yerleştirilmiş varlıkları veya şekillendirme damgalarını kaldır."
       },
       "key": {
-        "tools": "Every tool has a single-letter shortcut, shown on its button in the tool rail.",
-        "brush": "[ and ] resize the brush; Shift+[ and Shift+] change its strength.",
-        "undo": "Ctrl+Z undoes the last change; Ctrl+Y or Ctrl+Shift+Z redoes it.",
-        "save": "Ctrl+S saves the map.",
-        "duplicate": "Ctrl+D duplicates the selected asset.",
-        "nudge": "Arrow keys nudge the selected asset by 0.5 yards; hold Shift for 2 yards.",
-        "wheel": "Shift+scroll rotates the selected asset; Alt+scroll scales it.",
-        "delete": "Delete removes the selected asset or camp.",
-        "escape": "Esc clears the selection first, then returns to the Select tool."
+        "tools": "Her aracın, araç çubuğundaki düğmesinde gösterilen tek harfli bir kısayolu vardır.",
+        "brush": "[ ve ] fırçayı boyutlandırır; Shift+[ ve Shift+] gücünü değiştirir.",
+        "undo": "Ctrl+Z son değişikliği geri alır; Ctrl+Y veya Ctrl+Shift+Z yineler.",
+        "save": "Ctrl+S haritayı kaydeder.",
+        "duplicate": "Ctrl+D seçili varlığı çoğaltır.",
+        "nudge": "Ok tuşları seçili varlığı 0,5 yarda kaydırır; 2 yarda için Shift'i basılı tut.",
+        "wheel": "Shift+kaydırma seçili varlığı döndürür; Alt+kaydırma ölçekler.",
+        "delete": "Delete, seçili varlığı veya kampı kaldırır.",
+        "escape": "Esc önce seçimi temizler, sonra Seç aracına döner."
       },
       "mouse": {
-        "orbit3d": "3D view: drag to orbit and scroll to zoom; middle-drag or Shift+drag pans.",
-        "fly3d": "While holding a drag in 3D, WASD flies the camera and Q/E changes height.",
-        "move": "With Select active, drag a placed asset to move it across the ground.",
-        "pan2d": "2D view: drag to pan and scroll to zoom."
+        "orbit3d": "3D görünüm: yörüngede dönmek için sürükle, yakınlaştırmak için tekerleği çevir; orta tuşla ya da Shift ile sürüklemek görünümü kaydırır.",
+        "fly3d": "3D görünümde sürüklemeyi basılı tutarken WASD kamerayı uçurur ve Q/E yüksekliği değiştirir.",
+        "move": "Seç etkinken, yerleştirilmiş bir varlığı zeminde taşımak için sürükle.",
+        "pan2d": "2D görünüm: görünümü kaydırmak için sürükle, yakınlaştırmak için tekerleği çevir."
       },
       "flow": {
-        "save": "Save keeps the map in this browser, and on the server when you are signed in.",
-        "draft": "While you have unsaved changes, a draft is autosaved every 30 seconds; Open restores it.",
-        "playtest": "Playtest boots the real game on this map, including your unsaved edits."
+        "save": "Kaydet, haritayı bu tarayıcıda ve giriş yaptığında sunucuda saklar.",
+        "draft": "Kaydedilmemiş değişikliklerin varken her 30 saniyede bir taslak otomatik kaydedilir; Aç onu geri getirir.",
+        "playtest": "Oyun Testi, kaydedilmemiş düzenlemelerin dahil, gerçek oyunu bu haritada başlatır."
       }
     },
     "tutorial": {
-      "title": "Editor tutorial",
-      "back": "Back",
-      "next": "Next",
-      "finish": "Finish",
-      "skip": "Skip tour",
-      "counter": "Step {current} of {total}",
+      "title": "Editör öğreticisi",
+      "back": "Geri",
+      "next": "İleri",
+      "finish": "Bitir",
+      "skip": "Turu atla",
+      "counter": "Adım {current} / {total}",
       "steps": {
         "toolbar": {
-          "title": "The tool rail",
-          "body": "Every editing tool lives here: sculpting brushes, biome paint, water, asset placement, camps, and more. Each one has a single-key shortcut, shown in its corner."
+          "title": "Araç çubuğu",
+          "body": "Tüm düzenleme araçları burada: şekillendirme fırçaları, biyom boyası, su, varlık yerleştirme, kamplar ve daha fazlası. Her birinin köşesinde gösterilen tek tuşlu bir kısayolu vardır."
         },
         "stage": {
-          "title": "The world",
-          "body": "This is your map, rendered with the real game engine. Drag to orbit, scroll to zoom, and middle-drag or Shift+drag to pan. Click the ground with a tool to edit."
+          "title": "Dünya",
+          "body": "Bu senin haritan, gerçek oyun motoruyla görselleştirilmiş. Yörüngede dönmek için sürükle, yakınlaştırmak için tekerleği çevir, görünümü kaydırmak için orta tuşla ya da Shift ile sürükle. Düzenlemek için bir araçla zemine tıkla."
         },
         "inspector": {
-          "title": "Tool options",
-          "body": "The options for the active tool appear here: brush size, the biome palette, asset scale, camp settings, and the properties of whatever you select."
+          "title": "Araç seçenekleri",
+          "body": "Etkin aracın seçenekleri burada görünür: fırça boyutu, biyom paleti, varlık ölçeği, kamp ayarları ve seçtiğin her şeyin özellikleri."
         },
         "viewToggle": {
-          "title": "3D and 2D",
-          "body": "Switch between the rendered 3D world and the symbolic overhead 2D map. The 2D view is best for moving zone markers and framing large areas."
+          "title": "3D ve 2D",
+          "body": "Görselleştirilmiş 3D dünya ile sembolik kuş bakışı 2D harita arasında geçiş yap. 2D görünüm, bölge işaretçilerini taşımak ve geniş alanları çerçevelemek için en iyisidir."
         },
         "save": {
-          "title": "Save your work",
-          "body": "Save stores the map in this browser, and on the server when you are signed in. Export downloads a JSON backup, and Open brings back saved maps and drafts."
+          "title": "Çalışmanı kaydet",
+          "body": "Kaydet, haritayı bu tarayıcıda ve giriş yaptığında sunucuda saklar. Dışa Aktar bir JSON yedeği indirir; Aç, kayıtlı haritaları ve taslakları geri getirir."
         },
         "playtest": {
-          "title": "Playtest",
-          "body": "Boot the real game on your map at any time, with your current edits included. Close the playtest tab to come back and keep editing."
+          "title": "Oyun Testi",
+          "body": "Gerçek oyunu istediğin an, mevcut düzenlemelerin dahil, kendi haritanda başlat. Geri dönüp düzenlemeye devam etmek için oyun testi sekmesini kapat."
         },
         "help": {
-          "title": "Help is here",
-          "body": "That is the whole loop. Open Help any time for the full tool list and every shortcut, or to run this tour again."
+          "title": "Yardım burada",
+          "body": "Döngünün tamamı bu. Tam araç listesi ve tüm kısayollar için ya da bu turu yeniden başlatmak için istediğin zaman Yardım'ı aç."
         }
       }
     },
     "a11y": {
-      "stage": "Map viewport",
-      "toasts": "Editor notifications",
-      "dialog": "Editor dialog"
+      "stage": "Harita görünümü",
+      "toasts": "Editör bildirimleri",
+      "dialog": "Editör iletişim kutusu"
     }
   },
   "skinEvent": {
@@ -2537,9 +2541,9 @@ export const tr_TR: EnTranslations = {
     "password": "Parola",
     "passwordError": "Lütfen parolanı gir.",
     "passwordPlaceholder": "Parola gir",
-    "email": "Email",
-    "emailPlaceholder": "you@example.com",
-    "emailError": "Please enter a valid email address.",
+    "email": "E-posta",
+    "emailPlaceholder": "sen@ornek.com",
+    "emailError": "Lütfen geçerli bir e-posta adresi gir.",
     "showPassword": "Parolayı göster",
     "hidePassword": "Parolayı gizle",
     "logIn": "Giriş Yap",
@@ -2567,12 +2571,12 @@ export const tr_TR: EnTranslations = {
     "twoFactorPlaceholder": "6 haneli ya da kurtarma kodu",
     "twoFactorHint": "Kimlik doğrulama uygulamandaki kodu ya da kurtarma kodlarından birini gir.",
     "recovery": {
-      "title": "Add a recovery email",
-      "body": "Set an email address so you can recover your account. We only use it to confirm you own this account if you ever need to reset your password.",
-      "save": "Save email",
-      "logOut": "Log out",
-      "invalid": "Please enter a valid email address.",
-      "failed": "Could not save your email. Please try again."
+      "title": "Kurtarma E-postası Ekle",
+      "body": "Hesabını kurtarabilmek için bir e-posta adresi belirle. Onu yalnızca, günün birinde parolanı sıfırlaman gerekirse bu hesabın sana ait olduğunu doğrulamak için kullanırız.",
+      "save": "E-postayı Kaydet",
+      "logOut": "Çıkış Yap",
+      "invalid": "Lütfen geçerli bir e-posta adresi gir.",
+      "failed": "E-postan kaydedilemedi. Lütfen tekrar dene."
     }
   },
   "wallet": {
@@ -2627,7 +2631,7 @@ export const tr_TR: EnTranslations = {
     "helpLinkedWithBalance": "Sahip ayrıcalıkları etkin. Cüzdan uygulaması bu tarayıcıda bağlı.",
     "helpLinkedDisconnected": "Sahip ayrıcalıkları etkin. İmzalamanız veya harcamanız gerektiğinde uygulamayı bağlayın.",
     "helpLinkedDisconnectedWithBalance": "Sahip ayrıcalıkları etkin. İmzalamanız veya harcamanız gerektiğinde uygulamayı bağlayın.",
-    "extensionHelp": "To see a wallet here, keep a browser wallet extension such as Solflare Wallet active.",
+    "extensionHelp": "Burada bir cüzdan görmek için Solflare Wallet gibi bir tarayıcı cüzdan uzantısını etkin tutun.",
     "flowConnect": "Bir cüzdan seçin. Doğrulama otomatik olarak devam eder.",
     "flowSign": "Cüzdan uygulamanızda doğrulama mesajını imzalayın. İşlem veya SOL gerekmez.",
     "flowVerify": "Cüzdan sahipliği doğrulanıyor...",
@@ -2813,7 +2817,7 @@ export const tr_TR: EnTranslations = {
       "unknownTier": "Bilinmeyen delve kademesi.",
       "levelRequired": "{name} bölümüne girmek için {level}. seviyede olmalısın.",
       "levelRequiredTier": "{tier} kademesinde {name} bölümüne girmek için {level}. seviyede olmalısın.",
-      "partyTooLarge": "{name} is meant for solo or duo delves. Parties of {max} or more may not enter.",
+      "partyTooLarge": "{name}, tek ya da iki kişilik delveler içindir. {max} veya daha kalabalık gruplar giremez.",
       "instancesBusy": "{name} için tüm örnekler dolu. Birazdan tekrar dene.",
       "runFailed": "{name} seferi başarısız oldu.",
       "complete": "{name} tamamlandı.",
@@ -2823,14 +2827,14 @@ export const tr_TR: EnTranslations = {
       "doorAlreadyOpen": "Kapı zaten açık.",
       "companionRankUp": "{name} {rank}. dereceye ulaşır.",
       "bossChest": "Patron düşer. Kürsüde mühürlü bir kutsal emanet sandığı yükselir. Ganimetini almak için kilidini aç.",
-      "drownedLitanyReliquaryRise": "Sister Nhalia falls silent. The Drowned Reliquary rises from the blackwater. Approach it to begin the rite.",
-      "riteSequenceReady": "The shrines fall dark. Repeat the sequence.",
-      "riteSequencePlaying": "The shrines replay the rite. Wait.",
-      "riteCorrect": "A soft chime answers your touch.",
-      "riteWrong": "A harsh bell crack. Black water splashes at your feet.",
-      "riteReliquaryOpen": "The Drowned Reliquary opens.",
-      "riteReliquaryLocked": "Complete the shrine rite to open the reliquary.",
-      "riteReliquaryEmpty": "The reliquary is empty.",
+      "drownedLitanyReliquaryRise": "Rahibe Nhalia susar. Boğulmuş Emanetlik kara sudan yükselir. Ayini başlatmak için ona yaklaş.",
+      "riteSequenceReady": "Sunaklar kararır. Diziyi tekrarla.",
+      "riteSequencePlaying": "Sunaklar ayini yeniden oynatıyor. Bekle.",
+      "riteCorrect": "Dokunuşuna yumuşak bir çınlama yanıt verir.",
+      "riteWrong": "Sert bir çan çatlaması. Ayaklarına kara su sıçrar.",
+      "riteReliquaryOpen": "Boğulmuş Emanetlik açılır.",
+      "riteReliquaryLocked": "Emanetliği açmak için sunak ayinini tamamla.",
+      "riteReliquaryEmpty": "Emanetlik boş.",
       "surfaceStairs": "Yüzeye çıkan bir merdiven açılır. Ayrılmak için merdivenlerde F'ye bas.",
       "moduleEnter": "{name}: {objective}",
       "objectiveClearRoom": "Odayı temizle.",
@@ -2838,13 +2842,13 @@ export const tr_TR: EnTranslations = {
       "tombstoneHint": "Oda temizlendiğinde kuzeye doğru bir mezar taşı geçidi açılır.",
       "tombstoneOpen": "Mühürlü bir mezar taşı geçidi kuzeye doğru gıcırdayarak açılır. Devam etmek için içine yürü.",
       "tombstoneInto": "Mezar taşından geçerek {name} içine girersin.",
-      "bellRopeShock": "The bell rope snaps taut. Drowned Cantors reel from the shock.",
-      "eggSacBurst": "The egg-sac bursts. Spiderlings skitter free across the baptistry rim.",
-      "baptistryEggs": "The baptistry falls quiet. Spider egg-sacs cling wetly to the rim.",
-      "baptistrySpidersSealed": "You should try to destroy the spider sacs.",
-      "puzzleSealed": "You need to open the seal by applying pressure somewhere in the room.",
-      "ropesSealed": "You should try pulling the bell ropes.",
-      "baptistryWave": "Something stirs in the black baptistry water.",
+      "bellRopeShock": "Çan ipi aniden gerilir. Boğulmuş Kantorlar şokla sendeler.",
+      "eggSacBurst": "Yumurta kesesi patlar. Örümcek yavruları vaftizhanenin kenarına dağılır.",
+      "baptistryEggs": "Vaftizhane sessizliğe gömülür. Örümcek yumurta keseleri kenarlara ıslak ıslak tutunuyor.",
+      "baptistrySpidersSealed": "Örümcek keselerini yok etmeyi denemelisin.",
+      "puzzleSealed": "Mührü, odanın bir yerine baskı uygulayarak açman gerekiyor.",
+      "ropesSealed": "Çan iplerini çekmeyi denemelisin.",
+      "baptistryWave": "Vaftizhanenin kara suyunda bir şey kıpırdanır.",
       "chestEmpty": "Sandık boş.",
       "notInDelve": "Bir delvede değilsin.",
       "cannotInteract": "Onunla etkileşime giremezsin.",
@@ -2863,12 +2867,12 @@ export const tr_TR: EnTranslations = {
       "passageSealed": "Geçit mühürlü.",
       "moveCloserPassage": "Geçide yaklaş.",
       "moveCloserChest": "Sandığa yaklaş.",
-      "moveCloserReliquary": "Move closer to the reliquary.",
+      "moveCloserReliquary": "Emanetliğe yaklaş.",
       "nothingToTake": "Alınacak başka bir şey kalmadı.",
       "wayOutNotOpen": "Çıkış yolu henüz açık değil.",
       "moveCloserStairs": "Merdivenlere yaklaş.",
-      "nhaliaCantorShield": "Cantors, hold the note!",
-      "nhaliaBlackwaterMark": "{name} marks {player} with Blackwater!"
+      "nhaliaCantorShield": "Kantorlar, notayı tutun!",
+      "nhaliaBlackwaterMark": "{name}, {player} üzerine Kara Su işareti bırakır!"
     },
     "lockpick": {
       "lockYields": "Kilit açılır! {tier} ganimet.",
@@ -2932,24 +2936,24 @@ export const tr_TR: EnTranslations = {
     }
   },
   "delveRiteUi": {
-    "title": "The Drowned Reliquary Rite",
-    "blurb": "The shrines will light in order. Repeat the sequence by activating each shrine in turn. A wrong touch fails the attempt and replays the sequence, a flawless attempt earns the richest spoils, and running out of tries opens the reliquary on its meanest. Choose how the rite tests you.",
-    "easy": "Easy",
-    "medium": "Medium",
-    "hard": "Hard",
-    "guideWatch": "After you choose, the four shrines light up one at a time. Memorize the order.",
-    "guideRepeat": "When the shrines fall dark, walk to each shrine and press F (Interact) in that same order.",
-    "guideStakes": "A wrong shrine splashes you with blackwater and costs a try. Complete the sequence to open the reliquary.",
-    "showsTimes": "Sequence shown {count} times",
-    "showsOnce": "Sequence shown once",
-    "symbols": "{count} symbols",
-    "tries": "{count} tries",
+    "title": "Boğulmuş Emanetlik Ayini",
+    "blurb": "Sunaklar sırayla yanacak. Her sunağı sırasıyla etkinleştirerek diziyi tekrarla. Yanlış bir dokunuş denemeyi boşa çıkarır ve diziyi yeniden oynatır; kusursuz bir deneme en zengin ganimeti kazandırır; denemelerin tükenirse emanetlik en cimri haliyle açılır. Ayinin seni nasıl sınayacağını seç.",
+    "easy": "Kolay",
+    "medium": "Orta",
+    "hard": "Zor",
+    "guideWatch": "Seçimini yaptıktan sonra dört sunak teker teker yanar. Sırayı ezberle.",
+    "guideRepeat": "Sunaklar karardığında, her sunağa aynı sırayla yürü ve F'ye (Etkileşim) bas.",
+    "guideStakes": "Yanlış bir sunak üstüne kara su sıçratır ve bir denemeye mal olur. Emanetliği açmak için diziyi tamamla.",
+    "showsTimes": "Dizi {count} kez gösterilir",
+    "showsOnce": "Dizi bir kez gösterilir",
+    "symbols": "{count} simge",
+    "tries": "{count} deneme",
     "reward": {
-      "easy": "Modest spoils",
-      "medium": "Rich spoils",
-      "hard": "Premium spoils"
+      "easy": "Mütevazı ganimet",
+      "medium": "Zengin ganimet",
+      "hard": "Premium ganimet"
     },
-    "closeAria": "Close"
+    "closeAria": "Kapat"
   },
   "delveUi": {
     "board": {
@@ -2960,7 +2964,7 @@ export const tr_TR: EnTranslations = {
       "openDelveAria": "{name} üzerinden Mağara Panosunu aç",
       "marks": "Mağara Nişanları: {count}",
       "minLevel": "Seviye {level} gerektirir",
-      "partyTooLarge": "Solo or duo only ({max} players max)",
+      "partyTooLarge": "Yalnızca tek veya iki kişi (en fazla {max} oyuncu)",
       "tier": {
         "normal": "Normal",
         "heroic": "Kahramanca"
@@ -2995,10 +2999,10 @@ export const tr_TR: EnTranslations = {
       "marks": "Mağara Nişanları: {count}",
       "exitHintOpen": "Mezar taşı geçidine yürü (kuzey)",
       "exitHintLocked": "Kuzeydeki geçidi açmak için çöp yaratıkları temizle",
-      "riteChoose": "Approach the Drowned Reliquary and press F to begin the rite",
-      "ritePlayback": "Watch the shrines: memorize the order they light up",
-      "riteInput": "Press F at each shrine in the order they lit ({current}/{total})",
-      "riteOpen": "The reliquary is open: press F on it to claim your spoils"
+      "riteChoose": "Boğulmuş Emanetlik'e yaklaş ve ayini başlatmak için F'ye bas",
+      "ritePlayback": "Sunakları izle: yanma sırasını ezberle",
+      "riteInput": "Her sunakta, yandıkları sırayla F'ye bas ({current}/{total})",
+      "riteOpen": "Emanetlik açık: ganimetini almak için üzerinde F'ye bas"
     },
     "objective": {
       "kill_boss": "{boss} adlı düşmanı öldür",
@@ -3021,52 +3025,52 @@ export const tr_TR: EnTranslations = {
         "greeting": "Aşağıdaki kutsal mahzen yine kaydı. Gece yarısından sonra zeminin ardından ilahiler duyuyoruz ve Çömez Tessa defin defterlerinin kendi mürekkeplerini değiştirdiğine yemin ediyor. Yeterince cesaretin varsa, {playerName}, bir mum al ve aşağı in. Orada duyduğun her sese güvenme. Bazıları senin adını sen doğmadan önce biliyordu."
       },
       "halvenMarsh": {
-        "greeting": "The trail led north to the marsh, {playerName}. Another reliquary sings under the black water, and the drowned dead answer the bells. Acolyte Edda knows these reeds better than I do, stay close to her lantern. Choose your tier, and I will hold the rope until you return."
+        "greeting": "İz kuzeye, bataklığa çıktı, {playerName}. Kara suyun altında bir emanetlik daha şarkı söylüyor ve boğulmuş ölüler çanlara yanıt veriyor. Çömez Edda bu sazlıkları benden iyi bilir, fenerinin yakınında kal. Kademeni seç, sen dönene dek ipi ben tutarım."
       }
     },
     "intro": {
       "normal": "Merdiven boşluğu soğuk ve karanlık. İniş boyunca kırık aziz taşları saçılı, nemli havada yumuşak bir çan notası asılı duruyor. Çömez Tessa fısıldar: \"Kutsal mahzen bu kadar açık olmamalıydı. Yakınımda kal, {playerName}.\"",
       "heroic": "Kapılar arkandan inleyerek kapanır. İsimler tırnak gibi taşın üzerinde kazınır. Tessa'nın mumu mavi yanar. \"Artık ölüleri çağırmıyorlar, {playerName}. Bir şeye yanıt veriyorlar.\"",
-      "litanyNormal": "Reed-choked stairs drop beneath Fenbridge. Edda Reedhand lifts her lantern. \"The marsh remembers every name they drowned, {playerName}. Stay in the light.\"",
-      "litanyHeroic": "Blackwater laps the causeway stones. Edda's flame gutters green. \"They are singing again below, {playerName}. Do not answer the choir.\""
+      "litanyNormal": "Sazlarla boğulmuş merdivenler Fenbridge'in altına iniyor. Edda Reedhand fenerini kaldırıyor. \"Bataklık boğdukları her ismi hatırlar, {playerName}. Işıkta kal.\"",
+      "litanyHeroic": "Kara su geçit yolunun taşlarını yalıyor. Edda'nın alevi yeşil yeşil titriyor. \"Aşağıda yine şarkı söylüyorlar, {playerName}. Koroya yanıt verme.\""
     },
     "module": {
       "reliquary_sunken_ossuary": "Su, defin raflarından sızarak gümüş-siyah dereler hâlinde eski külleri taşıyor.",
       "reliquary_bell_niche": "Düzinelerce el çanı sessizlik içinde asılı duruyor, her biri cenaze bezine bağlanmış.",
       "reliquary_saintless_hall": "Yüzleri özenli bir nefretle yontulup silinmiş heykeller.",
       "reliquary_finale": "Gömülü çan botlarının altında bir kez çınlar.",
-      "litany_sluice": "Moss-choked sluice gates drip blackwater into the old choir crypt.",
-      "litany_ledger": "Ledger islands rise from flooded channels, ink bleeding into the marsh.",
-      "litany_ring": "A reliquary ring loops around a sealed central font of black water.",
-      "litany_baptistry": "A sinkhole baptistry yawns beneath cracked saint-stones and egg-sacs.",
-      "litany_choir_loft": "Fanning choir lofts echo with rope-hung bells that never quite stop.",
-      "litany_causeway": "A Y-split causeway forks over waist-deep fen water.",
-      "litany_apse": "The drowned apse opens onto Sister Nhalia's altar island."
+      "litany_sluice": "Yosun kaplı savak kapakları, eski koro mahzenine kara su damlatır.",
+      "litany_ledger": "Su basmış kanallardan defter adaları yükselir; mürekkep bataklığa sızar.",
+      "litany_ring": "Bir emanetlik halkası, mühürlü kara su kurnasının çevresinde döner.",
+      "litany_baptistry": "Çatlamış aziz taşlarının ve yumurta keselerinin altında bir obruk vaftizhanesi ağzını açar.",
+      "litany_choir_loft": "Yelpaze gibi açılan koro mahfilleri, hiç tam susmayan iple asılı çanlarla yankılanır.",
+      "litany_causeway": "Y biçiminde bir geçit yolu, bele kadar gelen bataklık suyunun üzerinde çatallanır.",
+      "litany_apse": "Boğulmuş apsis, Rahibe Nhalia'nın sunak adasına açılır."
     },
     "moduleName": {
       "reliquary_sunken_ossuary": "Batık Kemiklik",
       "reliquary_bell_niche": "Çan Hücresi",
       "reliquary_saintless_hall": "Azizsiz Salon",
       "reliquary_finale": "Çan Gömülü Oda",
-      "litany_sluice": "The Crescent Sluice",
-      "litany_ledger": "The Island Ledger",
-      "litany_ring": "The Ring Reliquary",
-      "litany_baptistry": "The Sinkhole Baptistry",
-      "litany_choir_loft": "The Reedsong Gallery",
-      "litany_causeway": "The Y-Split Causeway",
-      "litany_apse": "The Drowned Apse"
+      "litany_sluice": "Hilal Savağı",
+      "litany_ledger": "Ada Defteri",
+      "litany_ring": "Halka Emanetliği",
+      "litany_baptistry": "Obruk Vaftizhanesi",
+      "litany_choir_loft": "Sazezgisi Galerisi",
+      "litany_causeway": "Y Çatalı Geçidi",
+      "litany_apse": "Boğulmuş Apsis"
     },
     "object": {
-      "sluice_valve": "Sluice Valve",
-      "grave_tablet": "Grave Tablet",
-      "corpse_candle": "Corpse-Candle",
-      "bell_rope": "Bell Rope"
+      "sluice_valve": "Savak Vanası",
+      "grave_tablet": "Mezar Kitabesi",
+      "corpse_candle": "Ceset Mumu",
+      "bell_rope": "Çan İpi"
     },
     "companion": {
       "barkLine": "{name}: {line}",
       "tessa": {
-        "run_start": "I have my candle and my ledger, {playerName}. Lead on.",
-        "ally_revive": "Up now. Tonight's ledger does not carry your name.",
+        "run_start": "Mumum da defterim de yanımda, {playerName}. Yolu göster.",
+        "ally_revive": "Kalk hadi. Bu gecenin defterinde senin adın yazmıyor.",
         "combat_start": "Ayağını sağlam bas, {playerName}. Ölüler burada huzursuz.",
         "low_hp": "Nefes al. Senin için hâlâ dualarım var.",
         "trap_spotted": "Dur. Zeminde bir şey ayak seslerini hatırlıyor.",
@@ -3081,17 +3085,17 @@ export const tr_TR: EnTranslations = {
         }
       },
       "edda": {
-        "run_start": "Keep to the plank-line, {playerName}. The silt takes the proud-footed.",
-        "ally_revive": "Up, now. The marsh does not get you today.",
-        "combat_start": "Mind the blackwater, {playerName}. The marsh listens.",
-        "low_hp": "Steady. My lantern is not out yet.",
-        "trap_spotted": "Wait. The reeds are wrong here.",
-        "boss_pull": "That canticle knows your name, {playerName}. Do not sing back.",
-        "completion": "The fen can swallow its secrets for one more night.",
+        "run_start": "Kalas hattından ayrılma, {playerName}. Balçık, mağrur adım atanı alır.",
+        "ally_revive": "Kalk hadi. Bataklık bugün seni alamaz.",
+        "combat_start": "Kara suya dikkat et, {playerName}. Bataklık dinliyor.",
+        "low_hp": "Sakin ol. Fenerim daha sönmedi.",
+        "trap_spotted": "Dur. Buradaki sazlarda bir terslik var.",
+        "boss_pull": "O ilahi senin adını tanıyor, {playerName}. Sakın karşılık söyleme.",
+        "completion": "Bataklık sırlarını bir gece daha yutabilir.",
         "rank": {
-          "1": "Lantern-Bearer",
-          "2": "Reed-Watcher",
-          "3": "Fenbridge Acolyte"
+          "1": "Fener Taşıyıcısı",
+          "2": "Saz Gözcüsü",
+          "3": "Fenbridge Çömezi"
         }
       }
     },
@@ -3136,9 +3140,9 @@ export const tr_TR: EnTranslations = {
       "grave_tax": "Mezar Vergisi",
       "unstable_roof": "Çökmeye Yakın Tavan",
       "cult_remnants": "Tarikat Kalıntıları",
-      "high_water": "High Water",
-      "lively_choir": "Lively Choir",
-      "belligerent_dead": "Belligerent Dead"
+      "high_water": "Yükselen Sular",
+      "lively_choir": "Coşkun Koro",
+      "belligerent_dead": "Kavgacı Ölüler"
     },
     "blessing": {
       "chapel_candle": "Şapel Mumu: daha güvenli bir koşu, tamamlamada bir eksik İşaret."
@@ -4159,8 +4163,8 @@ export const tr_TR: EnTranslations = {
     "tracker": {
       "title": "Görevler",
       "complete": "Tamamlandı",
-      "showOnMap": "Show {name} on the map",
-      "hideFromMap": "Hide {name} from the map"
+      "showOnMap": "{name} görevini haritada göster",
+      "hideFromMap": "{name} görevini haritadan gizle"
     },
     "log": {
       "title": "Görev Kaydı",
@@ -4264,7 +4268,7 @@ export const tr_TR: EnTranslations = {
       "tool": "Alet",
       "potion": "Şifa İksiri",
       "elixir": "İksir",
-      "bag": "Bag"
+      "bag": "Çanta"
     },
     "stats": {
       "armor": "Zırh",
@@ -4307,7 +4311,7 @@ export const tr_TR: EnTranslations = {
       "clickUseInstant": "Savaşta anında kullanmak için tıkla",
       "clickUse": "Kullanmak için tıkla",
       "clickBuyback": "Geri satın almak için tıkla",
-      "bagSlots": "{slots} Slot Bag"
+      "bagSlots": "{slots} Yuvalı Çanta"
     },
     "bags": {
       "title": "Çantalar",
@@ -6015,67 +6019,67 @@ export const tr_TR: EnTranslations = {
         "name": "Varric'in Gölge Başlığı"
       },
       "siltguard_helm": {
-        "name": "Siltguard Helm"
+        "name": "Balçıkmuhafız Miğferi"
       },
       "bulwark_rusted_pauldrons": {
-        "name": "Bulwark-Rusted Pauldrons"
+        "name": "Siper Pası Omuzlukları"
       },
       "nhalias_bell_maul": {
-        "name": "Nhalia's Bell-Maul"
+        "name": "Nhalia'nın Çan Balyozu"
       },
       "reedstalker_jerkin": {
-        "name": "Reedstalker Jerkin"
+        "name": "Sazsinsisi Cepkeni"
       },
       "mirejaw_fang_knife": {
-        "name": "Mirejaw Fang-Knife"
+        "name": "Mirejaw Diş Bıçağı"
       },
       "widow_silk_hood": {
-        "name": "Widow-Silk Hood"
+        "name": "Dul İpeği Başlığı"
       },
       "cantors_drowned_sash": {
-        "name": "Cantor's Drowned Sash"
+        "name": "Kantorun Boğulmuş Kuşağı"
       },
       "corpse_candle_focus": {
-        "name": "Corpse-Candle Focus"
+        "name": "Ceset Mumu Odağı"
       },
       "nhalias_litany_rod": {
-        "name": "Nhalia's Litany Rod"
+        "name": "Nhalia'nın Litanya Çubuğu"
       },
       "blackwater_vanguard_chest": {
-        "name": "Blackwater Vanguard Chestguard"
+        "name": "Karasu Öncüsü Göğüslüğü"
       },
       "siltstep_leggings": {
-        "name": "Siltstep Leggings"
+        "name": "Balçıkadım Tozlukları"
       },
       "sunken_reliquary_hood": {
-        "name": "Sunken Reliquary Hood"
+        "name": "Batık Emanetlik Başlığı"
       },
       "litany_legs": {
-        "name": "Silt-Walker Greaves"
+        "name": "Balçıkyürüyen Dizlikleri"
       },
       "litany_shoulder": {
-        "name": "Blackwater Drift Mantle"
+        "name": "Karasu Akıntısı Pelerini"
       },
       "litany_gloves_rog": {
-        "name": "Reed-Bound Handwraps"
+        "name": "Sazbağlı El Sargıları"
       },
       "litany_plate_chest": {
-        "name": "Sump-Warden Cuirass"
+        "name": "Batak Muhafızı Zırhı"
       },
       "litany_leather_chest": {
-        "name": "Silt-Deep Vestment"
+        "name": "Derinbalçık Kaftanı"
       },
       "litany_cloth_chest": {
-        "name": "Choir-Drowned Raiment"
+        "name": "Boğulmuş Koro Urbası"
       },
       "litany_helm": {
-        "name": "Reliquant's Drowned Cowl"
+        "name": "Emanetçinin Boğulmuş Başlığı"
       },
       "sister_nhalia_choir_plate": {
-        "name": "Sister Nhalia's Choir-Forged Plate"
+        "name": "Rahibe Nhalia'nın Koroda Dövülmüş Zırhı"
       },
       "drowned_choir_fang": {
-        "name": "Drowned Choir-Fang"
+        "name": "Boğulmuş Koro Dişi"
       },
       "the_codfather": {
         "name": "Morina Baba"
@@ -6413,43 +6417,43 @@ export const tr_TR: EnTranslations = {
         "name": "Çömez Tessa"
       },
       "drowned_cantor": {
-        "name": "Drowned Cantor"
+        "name": "Boğulmuş Kantor"
       },
       "reedbound_acolyte": {
-        "name": "Reedbound Acolyte"
+        "name": "Sazbağlı Çömez"
       },
       "deepfen_spearjaw": {
-        "name": "Deepfen Spearjaw"
+        "name": "Deepfen Mızrakçenesi"
       },
       "mirefen_widowling": {
-        "name": "Mirefen Widowling"
+        "name": "Mirefen Dul Yavrusu"
       },
       "spider_egg_sac": {
-        "name": "Spider Egg-Sac"
+        "name": "Örümcek Yumurta Kesesi"
       },
       "grave_silt_bulwark": {
-        "name": "Grave-Silt Bulwark"
+        "name": "Mezarbalçığı Siperi"
       },
       "sump_troll_devourer": {
-        "name": "Sump Troll Devourer"
+        "name": "Obur Batak Trolü"
       },
       "choir_thrall": {
-        "name": "Bog Thrall"
+        "name": "Bataklık Kölesi"
       },
       "sister_nhalia_drowned_canticle": {
-        "name": "Sister Nhalia, the Drowned Canticle"
+        "name": "Rahibe Nhalia, Boğulmuş İlahi"
       },
       "edda_reedhand": {
         "name": "Edda Reedhand"
       },
       "tolling_bell": {
-        "name": "Tolling Bell"
+        "name": "Çalan Çan"
       },
       "thunzharr_waking_peak": {
-        "name": "Thunzharr, the Waking Peak"
+        "name": "Thunzharr, Uyanan Zirve"
       },
       "thunzharr_stormling": {
-        "name": "Roused Stormling"
+        "name": "Uyanmış Fırtına Dölü"
       },
       "ironvein_foreman": {
         "name": "Demirdamar Ustabaşı"
@@ -6672,14 +6676,14 @@ export const tr_TR: EnTranslations = {
         "greeting": "Aşağıdaki kutsal emanetlik yine yer değiştirdi."
       },
       "brother_halven_marsh": {
-        "name": "Brother Halven",
-        "title": "Reliquary Keeper",
-        "greeting": "The trail led north. Another reliquary, another rite. Choose your tier, and I'll hold the rope until you return."
+        "name": "Birader Halven",
+        "title": "Emanetlik Bekçisi",
+        "greeting": "İz kuzeye çıktı. Bir emanetlik daha, bir ayin daha. Kademeni seç, sen dönene dek ipi ben tutarım."
       },
       "spirit_healer": {
-        "name": "The Pale Keeper",
-        "title": "Warden of the Dead",
-        "greeting": "Rest now, spirit. I can return you to your body, but the crossing back leaves you weak."
+        "name": "Solgun Bekçi",
+        "title": "Ölülerin Muhafızı",
+        "greeting": "Dinlen şimdi, ruh. Seni bedenine geri döndürebilirim, ama geri geçiş seni güçsüz bırakır."
       },
       "tidewatcher_ondrel": {
         "name": "Ondrel Vane",
@@ -7124,32 +7128,32 @@ export const tr_TR: EnTranslations = {
         }
       },
       "q_stalkers_return": {
-        "title": "The Stalkers Return",
-        "text": "Twelve dead, and the ridge crawls thicker than the day you started, {playerName}. Beasts do not throw themselves at a wall out of hunger. Something on the high ridge is pushing them down, and until I know what, the culling does not stop. Fourteen more.",
-        "completion": "Fourteen more, and still my patrols count fresh tracks by morning. My scout came back from the high ridge white as the snowline: prints the size of a shield, she says, and old kills no stalker would leave. Whatever walks up there is no ordinary cat.",
+        "title": "Sinsiler Geri Dönüyor",
+        "text": "On ikisi öldü, ama sırt başladığın günden bile daha kalabalık kaynıyor, {playerName}. Hayvanlar açlıktan bir sura saldırmaz. Yüksek sırttaki bir şey onları aşağı itiyor ve ne olduğunu öğrenene dek bu itlaf durmayacak. On dört tane daha.",
+        "completion": "On dört tane daha, ama devriyelerim sabah olunca hâlâ taze izler sayıyor. Gözcüm yüksek sırttan kar çizgisi kadar bembeyaz döndü: kalkan büyüklüğünde izler var diyor, bir de hiçbir sinsinin bırakmayacağı eski leşler. Yukarıda her ne yürüyorsa, sıradan bir kedi değil.",
         "objectives": {
           "0": {
-            "label": "Ridge Stalker slain"
+            "label": "Sırt Sinsisi öldürüldü"
           }
         }
       },
       "q_stalker_cloaks": {
-        "title": "Cloaks for the Watch",
-        "text": "Eight pelts lined the officers' cloaks, and now every soldier on the wall wants the same, {playerName}. They are right to want it: winter takes fingers first and apologies never. Ten more pelts from the ridges south of the gate, and the whole watch sleeps warm.",
-        "completion": "Ten good pelts, thick as any I have... no, look at these, {playerName}. Torn, half of them, and by no blade or spear. Claw marks wide as my hand, right through the winter coat. Something on that ridge is savaging its own kind.",
+        "title": "Nöbetçilere Pelerinler",
+        "text": "Sekiz post subayların pelerinlerini astarladı ve şimdi surdaki her asker aynısını istiyor, {playerName}. İstemekte haklılar: kış önce parmakları alır ve özür dinlemez. Kapının güneyindeki sırtlardan on post daha, ve bütün nöbetçiler sıcacık uyur.",
+        "completion": "On sağlam post, elimdekiler kadar kalın... hayır, şunlara bak, {playerName}. Yarısı yırtılmış, hem de ne bıçakla ne mızrakla. Elim kadar geniş pençe izleri, kış tüyünün ta içinden geçmiş. O sırtta bir şey kendi türünü parçalıyor.",
         "objectives": {
           "0": {
-            "label": "Ridge Stalker Pelt"
+            "label": "Sırt Avcısı Postu"
           }
         }
       },
       "q_old_cragmaw": {
-        "title": "Old Cragmaw",
-        "text": "The mountain folk put a name to the prints my scout found: Old Cragmaw, a scar-pelted tyrant of a cat that has outlived three generations of its own pack. It is the reason the stalkers flood my road, {playerName}. Its den sits on the western ridge above the road south. Bring a friend, and put the old devil down.",
-        "completion": "Down at last. The mountain folk swore that cat would outlive the wall itself. The stalkers will keep to their high snows now, {playerName}, and my patrols will walk the road without bleeding for it. The whole ridge is quieter for your work.",
+        "title": "İhtiyar Cragmaw",
+        "text": "Dağ halkı, gözcümün bulduğu izlere bir ad koydu: İhtiyar Cragmaw, kendi sürüsünün üç kuşağından uzun yaşamış, postu yara izleriyle kaplı zorba bir kedi. Sinsilerin yolumu doldurmasının nedeni o, {playerName}. İni, güneye giden yolun üstündeki batı sırtında. Yanına bir arkadaş al ve o yaşlı şeytanı yere ser.",
+        "completion": "Sonunda devrildi. Dağ halkı o kedinin surdan bile uzun yaşayacağına yemin ederdi. Sinsiler artık yüksek karlarında kalacak, {playerName}, ve devriyelerim yolda kan dökmeden yürüyecek. Senin sayende bütün sırt daha sessiz.",
         "objectives": {
           "0": {
-            "label": "Old Cragmaw slain"
+            "label": "İhtiyar Cragmaw öldürüldü"
           }
         }
       },
@@ -7677,9 +7681,9 @@ export const tr_TR: EnTranslations = {
         "leaveText": "Emanetlik harabesinde Birader Halven'in yanına tırmanıp geri dönersin."
       },
       "drowned_litany": {
-        "name": "The Drowned Litany",
-        "enterText": "You descend into the drowned shrine at the marsh's edge.",
-        "leaveText": "You climb back to Brother Halven at the marsh's edge."
+        "name": "Boğulmuş Litanya",
+        "enterText": "Bataklığın kıyısındaki boğulmuş mabede inersin.",
+        "leaveText": "Bataklığın kıyısında Birader Halven'in yanına tırmanıp geri dönersin."
       }
     },
     "letters": {
@@ -7762,11 +7766,11 @@ export const tr_TR: EnTranslations = {
     "delveLockedChestInteract": "Kilidi açmak için F'ye bas",
     "delveRewardChestInteract": "Ganimeti almak için F'ye bas",
     "delveSurfaceExitInteract": "Tırmanmak için F'ye bas",
-    "delveReliquaryInteract": "Drowned Reliquary: Press F to begin the rite",
-    "delveRiteShrineBellInteract": "Bell Shrine: Press F to ring it",
-    "delveRiteShrineCandleInteract": "Candle Shrine: Press F to touch it",
-    "delveRiteShrineReedInteract": "Reed Shrine: Press F to touch it",
-    "delveRiteShrineSkullInteract": "Skull Shrine: Press F to touch it",
-    "mailboxName": "Mailbox"
+    "delveReliquaryInteract": "Boğulmuş Emanetlik: Ayini başlatmak için F'ye bas",
+    "delveRiteShrineBellInteract": "Çan Sunağı: Çalmak için F'ye bas",
+    "delveRiteShrineCandleInteract": "Mum Sunağı: Dokunmak için F'ye bas",
+    "delveRiteShrineReedInteract": "Saz Sunağı: Dokunmak için F'ye bas",
+    "delveRiteShrineSkullInteract": "Kafatası Sunağı: Dokunmak için F'ye bas",
+    "mailboxName": "Posta Kutusu"
   }
 };

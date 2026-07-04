@@ -212,6 +212,10 @@ export const ja_JP: EnTranslations = {
       "pointsGained": "{points} デイリー報酬ポイントを獲得しました。",
       "showChestButton": "宝箱を表示",
       "hideChestButton": "宝箱を隠す",
+      "hideChestConfirmTitle": "デイリー報酬の宝箱を非表示にしますか？",
+      "hideChestConfirmBody": "HUDから宝箱のショートカットが削除されます。報酬、受給資格、このパネルは引き続き利用できます。ショートカットはオプションから再表示できます。",
+      "hideChestConfirmOk": "宝箱を隠す",
+      "hideChestConfirmCancel": "キャンセル",
       "leaderboard": "デイリーランキング",
       "totalPlayer": "本日のプレイヤー {count} 人",
       "totalPlayers": "本日のプレイヤー {count} 人",
@@ -1062,18 +1066,18 @@ export const ja_JP: EnTranslations = {
       "close": "メールボックスを閉じる",
       "tabInbox": "受信箱",
       "tabInboxWithCount": "受信箱（{count}）",
-      "tabSend": "Send",
+      "tabSend": "送信",
       "empty": "メールボックスは空です。",
       "truncated": "全{total}通のうち最新の{shown}通を表示しています。",
       "attachmentsBadge": "小包あり",
       "unreadBadge": "未読",
-      "back": "Back",
+      "back": "戻る",
       "take": "添付品を受け取る",
       "delete": "手紙を削除",
       "deleteAria": "手紙「{subject}」を削除",
       "openAria": "{name}からの手紙「{subject}」を読む",
       "noSubject": "（件名なし）",
-      "toLabel": "To",
+      "toLabel": "宛先",
       "toPlaceholder": "キャラクター名",
       "subjectLabel": "件名",
       "bodyLabel": "本文",
@@ -2037,9 +2041,9 @@ export const ja_JP: EnTranslations = {
       "undoCountTitle": "{count} 手戻せます（Ctrl+Z で元に戻す、Ctrl+Y でやり直し）",
       "autosave": "自動保存",
       "autosaveTitle": "未保存の変更がある間、マップを自動保存します。保存に失敗すると自動的にオフになります。",
-      "undo": "Undo",
+      "undo": "元に戻す",
       "undoTitle": "直前の変更を元に戻す（Ctrl+Z）",
-      "redo": "Redo",
+      "redo": "やり直す",
       "redoTitle": "元に戻した変更をやり直す（Ctrl+Y）",
       "offline": "オフライン",
       "offlineTitle": "未ログイン：マップはこのブラウザーにのみ保存されます。オンライン保存するにはゲームでログインしてください。",
@@ -2538,7 +2542,7 @@ export const ja_JP: EnTranslations = {
     "passwordError": "パスワードを入力してください。",
     "passwordPlaceholder": "パスワードを入力",
     "email": "メールアドレス",
-    "emailPlaceholder": "you@example.com",
+    "emailPlaceholder": "mail@example.com",
     "emailError": "有効なメールアドレスを入力してください。",
     "showPassword": "パスワードを表示",
     "hidePassword": "パスワードを非表示",
@@ -2570,7 +2574,7 @@ export const ja_JP: EnTranslations = {
       "title": "復旧用メールアドレスを追加",
       "body": "メールアドレスを設定すると、アカウントを復旧できるようになります。パスワードのリセットが必要になった際に、このアカウントの所有者であることを確認するためだけに使用します。",
       "save": "メールを保存",
-      "logOut": "Log out",
+      "logOut": "ログアウト",
       "invalid": "有効なメールアドレスを入力してください。",
       "failed": "メールアドレスを保存できませんでした。もう一度お試しください。"
     }
@@ -2934,9 +2938,9 @@ export const ja_JP: EnTranslations = {
   "delveRiteUi": {
     "title": "溺れし聖遺物の儀式",
     "blurb": "祠は順番に光る。各祠を順に起動して順序を繰り返せ。誤った接触は試みを失敗させ順序を再生する。完璧な試みは最も豊かな戦利品を得て、試行回数を使い果たすと聖遺物匣は最も貧しい形で開く。儀式がお前をどう試すか選べ。",
-    "easy": "Easy",
+    "easy": "簡単",
     "medium": "普通",
-    "hard": "Hard",
+    "hard": "難しい",
     "guideWatch": "選択すると、4つの祠が順番に光ります。順番を覚えてください。",
     "guideRepeat": "祠が暗くなったら、同じ順番で各祠まで歩きFキー（インタラクト）を押してください。",
     "guideStakes": "間違った祠に触れると黒水を浴び、挑戦回数を1回失います。順番を最後までなぞれば聖遺物匣が開きます。",
@@ -3060,7 +3064,7 @@ export const ja_JP: EnTranslations = {
       "sluice_valve": "水門弁",
       "grave_tablet": "墓碑板",
       "corpse_candle": "死体蝋燭",
-      "bell_rope": "Bell Rope"
+      "bell_rope": "鐘の縄"
     },
     "companion": {
       "barkLine": "{name}: {line}",
@@ -4264,7 +4268,7 @@ export const ja_JP: EnTranslations = {
       "tool": "道具",
       "potion": "ポーション",
       "elixir": "エリクサー",
-      "bag": "Bag"
+      "bag": "バッグ"
     },
     "stats": {
       "armor": "防御力",
@@ -4307,7 +4311,7 @@ export const ja_JP: EnTranslations = {
       "clickUseInstant": "クリックして戦闘中に即使用",
       "clickUse": "クリックして使用",
       "clickBuyback": "クリックして買い戻す",
-      "bagSlots": "{slots} Slot Bag"
+      "bagSlots": "{slots}スロットのバッグ"
     },
     "bags": {
       "title": "バッグ",
