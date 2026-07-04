@@ -63,7 +63,9 @@ polish items, none a correctness or safety blocker, each now a follow-up phase (
   PASS; qa-checklist READY 0/0.
 - Phase 27: the Phase 25 flag flip to 'new' crossed the Phase 21 QA pre-flip watch-item (bound the
   two log-only mismatch sinks before flipping) without clearing it on the record; resolve by
-  bounding the sinks or recording a conscious acceptance.
+  bounding the sinks or recording a conscious acceptance. RESOLVED (2026-07-04, Option A): both
+  default sinks are flood-bounded by server/http/mismatch_warn_throttle.ts; see the OPEN items
+  entry in this file for the full record.
 - Phase 28: only 2 of the 6 source-spec 4.9 "Request layer (RED), this PR" metrics shipped
   (http_requests_total, http_request_duration_seconds); the four attack-signal counters
   (rate_limit_hits_total, auth_failures_total, bola_denied_total, pg_limiter_writes_total) were
@@ -537,6 +539,10 @@ handoff (security review): the two mismatch sinks are un-throttled console.warn 
 that run AHEAD of the route-local rate limiters, a latent log-amplification vector once
 API_DISPATCH=new; Phase 23's structured logger must sample or bound them. Watch-item:
 do not set API_DISPATCH=new in ANY environment before Phase 23 lands those bounds.
+[Watch-item RESOLVED, Phase 27 (2026-07-04): Phase 23 routed both sinks through the
+structured logger with template-bounded cardinality but landed no sampling/throttle;
+Phase 27 landed the bound itself (server/http/mismatch_warn_throttle.ts, wired into both
+default sinks). See the OPEN items entry at the top of this file.]
 
 ### World Market realm-scope fix (Phase 20, own PR, migration-safety reviewer)
 Highest-consequence change (normal-operation item loss). Realm-scope the `world_state`
@@ -697,6 +703,7 @@ the X-ms constant; X is TBD, see open items.)
 | 23 | pino-shaped logger facade + access log; `/metrics` exporter (`prom-client`); `/livez` + `/readyz`; tests. |
 | 24 | validated fail-fast config (extend `server/http/config.ts`); named constants module; timeouts in `startServer()`; perf/tick-jitter gate test. |
 | 25 | docs (`server/CLAUDE.md`, root `CLAUDE.md`, new `server/http/CLAUDE.md`, i18n docs); `npm run new:endpoint` scaffold; flag-default flip. |
+| 27 | `server/http/mismatch_warn_throttle.ts` (the per-(method, route-template) fixed-window flood bound for the two log-only mismatch sinks) + `tests/server/http/mismatch_warn_throttle.test.ts`; sink factories `createContentTypeMismatchSink` / `createCrossSiteMismatchSink` on the two gate modules. |
 
 ## New endpoints / route tables per phase
 - **P10 (public reads) DONE:** `/api/leaderboard` (incl. `?board=guilds`, legacy `?limit=N`,
@@ -915,6 +922,23 @@ the X-ms constant; X is TBD, see open items.)
   with a version comment.
 
 ## OPEN items + known gotchas
+- **The pre-flip mismatch-sink amplification watch-item (Phase 21 QA) is RESOLVED (Phase 27,
+  2026-07-04).** The two log-only mismatch sinks (content_type.ts, origin_check.ts), which run
+  AHEAD of the route-local rate limiters, are bounded by server/http/mismatch_warn_throttle.ts:
+  at most MISMATCH_WARN_MAX_PER_WINDOW (5) warn lines per MISMATCH_WARN_WINDOW_MS (60s) window
+  per (method, route-template) key, per gate. Cardinality stays O(registered routes), never
+  O(request paths). The flood signal is never dropped silently: the first admitted line of each
+  new window carries the prior window's suppressed count. The throttle gates ONLY the warn line;
+  the enforce decision (415/403) is taken in the middleware independently, so a future
+  API_CONTENT_TYPE_ENFORCE / API_ORIGIN_CHECK_ENFORCE flip rejects unaffected (its warn lines
+  ride the same bound). This satisfies, retroactively to the Phase 25 default flip, the Phase 21
+  QA precondition "do not set API_DISPATCH=new in ANY environment before those bounds land":
+  the flip is now consistent with the packet's own gate. Enforce-flip audit note: a suppressed
+  origin-gate line can hide a DISTINCT origin value; a recurring legitimate origin re-surfaces on
+  any (method, route-template) key not saturated by a flood, but under a sustained flood of ONE
+  key a low-rate origin on that same key can stay suppressed every window, so the audit must not
+  treat the warn sample as exhaustive for flooded keys (if that ever matters, capture distinct
+  origins in a separate bounded set rather than widening this bound).
 - **Phase 18b LANDED (2026-07-02), unblocking Phase 25's ladder deletion.** All twelve
   release-merge routes (github 4, desktop-login 2, daily-rewards 6) are now router-owned
   under 'new' AND legacy-served under 'legacy'. The v0.20.0 merge (c916d296a, 2026-07-03)

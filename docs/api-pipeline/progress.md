@@ -2034,3 +2034,84 @@ green; npm run gate PASS all 9 steps; ci:changed 0. Reviews apply-all: two fresh
 reviewers (server diff, tests+ui diff) CLEAN with one nit (a "top-level" misdescription of
 the Content-Type gate in wallet.ts, fixed pre-commit); qa-checklist READY, 0 blocking,
 0 should-fix. NEXT: phase-27-flip-precondition.md.
+
+## Phase 27: closeout, bound the log-only mismatch sinks (the flip precondition) DONE (2026-07-04)
+
+Resolution: OPTION A (implement the promised bound). The Phase 21 QA pre-flip watch-item
+("do not set API_DISPATCH=new in ANY environment before the two log-only mismatch sinks
+are sampled or bounded") is now SATISFIED, retroactively to the Phase 25 default flip.
+Phase 23 had routed both sinks through the structured logger with template-bounded
+cardinality (which made the flip defensible) but landed no sampling or throttle; this
+phase lands the bound itself.
+
+NEW `server/http/mismatch_warn_throttle.ts`: a pure, host-agnostic, per-process
+fixed-window throttle. `createMismatchWarnThrottle({maxPerWindow?, windowMs?, now?})`
+returns `{admit(key) -> {emit, suppressed}}`; named constants
+MISMATCH_WARN_MAX_PER_WINDOW (5) and MISMATCH_WARN_WINDOW_MS (60000), no bare literals.
+State is keyed on the mismatch's `${method} ${route-template}` (RouteDef.path), NEVER the
+concrete URL, so cardinality stays O(registered routes) under an attacker-chosen-path
+flood. The flood signal is never dropped silently: the first admitted line of each NEW
+window carries the prior window's suppressed count (the "message repeated N times" idiom).
+The clock is injected (the same now() seam as metric_sink.ts); only the default binding
+uses Date.now, so every test advances a fake clock deterministically. Server-only; the
+sim is untouched.
+
+Wiring: both default sinks and ONLY those two. content_type.ts and origin_check.ts each
+gained a `create*MismatchSink(throttle?)` factory (injectable for tests); the exported
+`default*MismatchSink` consts are now factory-built instances, each owning its own
+process-wide throttle (the two gates never share window state). A suppressed admission
+returns before logger.warn; an admitted line with a non-zero prior-window tally adds a
+`suppressed` field to the structured record. The throttle gates ONLY the warn line: both
+middleware take their enforce decision (415/403) independently of the sink, so a future
+API_CONTENT_TYPE_ENFORCE / API_ORIGIN_CHECK_ENFORCE flip rejects every flooded request
+while its warn lines ride the same bound (pinned by test). NEITHER enforce flag was
+flipped (that stays gated on the native-traffic audit, out of scope here). Enforce-flip
+audit note (recorded in state.md): a suppressed origin-gate line can hide a DISTINCT
+origin value; a recurring legitimate origin re-surfaces on any key not saturated by a
+flood, but under a sustained flood of ONE (method, template) key a low-rate origin on
+that same key can stay suppressed every window, so the audit must not treat the warn
+sample as exhaustive for flooded keys.
+
+Tests: NEW tests/server/http/mismatch_warn_throttle.test.ts (10 tests: the per-key cap,
+the exactly-once suppressed tally on the next window's first line, the zero-tally case,
+the two-roll tally reset (the second surfaced tally counts only the second window, never
+a carry-forward), the exact window boundary [59999 in / 60000 rolls], per-template
+independence, per-key tallies across the roll, instance independence, and the 5 / 60000
+defaults pinned as literals via injected-clock behavior plus constant literal pins).
+content_type.test.ts + origin_check.test.ts each gained a 4-test flood-bound block: 20
+same-window mismatches on one template collapse to 5 warn lines with the 15-line tally
+riding ONLY the next window's first line (the following line omits the field); two
+templates bounded independently (5 + 5); the enforce path unaffected (8 flooded
+enforce-mode requests all reject 415/403 while warn fires exactly 5 times); and the
+AS-SHIPPED pin: the exported default* sink consts themselves collapse a 20-mismatch
+flood to 5 lines on the real process-wide throttle (a silent revert of the default
+wiring fails green no more), with the origin-side case also proving the two module
+defaults never share one throttle instance. The pre-existing default-sink tests (one
+line per single mismatch) pass unchanged, as does dispatch.test.ts's real-mount
+exactly-one-sink-line pin (single admits sit far under the bound).
+
+Durable record (the part that stops the item floating): state.md OPEN items now leads
+with the RESOLVED entry; the Phase 21 security-headers section's watch-item paragraph
+carries an inline resolution pointer; the closeout-phases list marks Phase 27 RESOLVED;
+the new-files table gained the Phase 27 row; and config.ts carries a mechanism-framed
+clearance note beside DEFAULT_DISPATCH so a reader of the flip sees the precondition was
+addressed, not skipped.
+
+Validation: tsc 0; tests/server/http 42 files / 915 pass (incl. the 18 new tests); biome
+ci clean on all touched code/test files; npm run gate PASS all 9 steps (re-run on the
+final state). Reviewers (the phase doc's three), apply-all honored: privacy-security-
+review APPROVE, 0 blocking / 1 should-fix (the "audit sees every live origin family"
+claim over-stated for a key under sustained flood; softened in origin_check.ts, state.md,
+and this record) / 2 nice (the deliberate no-eviction decision now documented on the
+throttle factory; the idle-window tally-attribution nuance now documented on
+MismatchWarnAdmission.suppressed), all applied. test-coverage-auditor: 2 should-fix (the
+shipping default sinks had no flood test, so a silent revert of the default wiring passed
+green; the two-roll tally reset was unpinned), 2 nice (cross-gate default independence;
+the tally-omission assertion was vacuous on the first window), all four applied as the
+AS-SHIPPED pins, the two-roll test, and the second-line omission assertion.
+qa-checklist: READY, 0 blocking / 0 should-fix / 2 nice (an imprecise "throws before
+consulting it" comment in content_type.ts, fixed to the origin_check phrasing; the
+default-const coverage gap, closed by the AS-SHIPPED pins). Note: the packet contains no
+phase-27-qa.md (the closeout phases run their reviewers in-phase, the Phase 26
+precedent). NEXT: phase-28 (the four missing attack-signal metrics), the last open
+closeout item besides the next-release deletion PR.
