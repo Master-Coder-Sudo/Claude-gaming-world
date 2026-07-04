@@ -213,11 +213,11 @@ import type { ProfessionRecipeRecord as RecipeDef } from './professions/types';
 } from './professions/wheel';
   gatherNodeById,
   gatheringSkillsView,
+  gatherNodeById,
   harvestNode as harvestNodeImpl,
   isNodeHarvestableBy,
   normalizeGatheringProficiency,
 } from './professions/gathering';
-import { type CraftResult, craftItem as craftItemImpl } from './professions/crafting';
 import type { ProfessionRecipeRecord as RecipeDef } from './professions/types';
 import {
   craftSkillsFor,
