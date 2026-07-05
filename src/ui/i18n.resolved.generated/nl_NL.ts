@@ -314,7 +314,8 @@ export const nl_NL: EnTranslations = {
       "toggleHaptics": "Haptiek aan/uit",
       "actionRing": "Combat actions",
       "actionPageToggle": "Switch action page",
-      "actionPageIndicator": "Page {page} of {count}"
+      "actionPageIndicator": "Page {page} of {count}",
+      "spellbookPageLabel": "Page {page}"
     },
     "tutorial": {
       "moveBodyTouch": "Gebruik de bewegingsstick om te bewegen en sleep over het scherm om rond te kijken. Zet een paar stappen om te beginnen.",

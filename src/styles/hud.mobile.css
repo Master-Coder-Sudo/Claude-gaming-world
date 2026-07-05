@@ -352,6 +352,32 @@
     color: #bfb28a;
   }
 
+  /* ---------- mobile window backdrop ---------- */
+  /* Phase 4 of the mobile combat HUD rework: a static full-screen dim layer
+     (#mobile-window-backdrop, in both index.html and play.html) shown whenever a
+     window is open on touch, so a menu explicitly blocks touches to whatever is
+     behind it instead of relying on DOM occlusion order (several windows are
+     translucent / don't fully cover the viewport). Hidden by default and on
+     desktop (no body.mobile-touch): this pass only blocks touches, it does not
+     close windows on tap.
+     Stacking: #mobile-controls sits at z-index 60 (game-active, above), and #ui
+     (the container every `.window` lives inside) rises to z-index 90 only while
+     body.mobile-window-open (see the `#ui` rule above). The backdrop sits at 85:
+     above the base HUD chrome (#mobile-controls at 60, #ui at its normal 80) but
+     below #ui's window-open z-index, so it always renders under the open window
+     it is meant to dim behind, never on top of it. */
+  #mobile-window-backdrop {
+    display: none;
+  }
+  body.mobile-touch.mobile-window-open #mobile-window-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 85;
+    background: rgba(3, 4, 7, 0.55);
+    pointer-events: auto;
+  }
+
   /* ---------- mobile action ring (paged combat buttons) ---------- */
   /* Phase 1 of the mobile combat HUD rework: a bottom-right thumb cluster that
      makes the existing hotbar castable on touch (desktop drag/drop keybinds are
@@ -1196,6 +1222,18 @@
   body.mobile-touch.mobile-window-open #ui {
     z-index: 90;
   }
+  /* ---------- mobile sheet base (shared near-fullscreen window pin) ---------- */
+  /* Phase 4 of the mobile combat HUD rework: the common near-fullscreen "sheet"
+     every big menu window pins to on touch, consolidated from separate per-window
+     copies of the same left/right/top/transform/overflow declarations. Every
+     window below still gets its own exception rule where its real layout differs
+     (a centered clamp width for quest-log/vendor/quest-dialog/spellbook/
+     options-menu, the vendor split-screen state, the bags bottom reservation,
+     the char-window left pin), so this base only carries what they all agree on:
+     edge-pinned within the 10px safe margin, box-sizing so the pin math includes
+     the border, and internal scroll. #market-window is the one window that keeps
+     this exact pin as its FINAL state (its own rule below only adds height/
+     overflow), everything else layers a further exception on top. */
   body.mobile-touch #options-menu,
   body.mobile-touch #quest-log-window,
   body.mobile-touch #spellbook,
@@ -1412,16 +1450,45 @@
     max-width: calc(100vw - 20px);
     max-height: calc(var(--app-vh) / var(--ui-scale, 1) - 20px);
   }
+  /* Shared centered-sheet exception: these windows sit centered (not edge-pinned
+     like the base above) with an internal scroll area, differing only in target
+     width between the two size groups below. Consolidated from separate per-group
+     copies of the same left/right/top/transform declarations; every rule here
+     stays a "mobile sheet base" exception, and both groups still reset transform
+     (the left-pin transform guard, tests/mobile_window_transform.test.ts, only
+     applies to left-pinned windows, not these centered ones, but translateX(-50%)
+     is declared explicitly here regardless so neither group inherits a stale
+     value). */
   body.mobile-touch #quest-log-window,
   body.mobile-touch #vendor-window,
-  body.mobile-touch #quest-dialog {
+  body.mobile-touch #quest-dialog,
+  body.mobile-touch #spellbook,
+  body.mobile-touch #options-menu,
+  body.mobile-touch #options-menu.kb-wide,
+  body.mobile-touch #options-menu.perf-wide {
     left: 50%;
     right: auto;
     top: 12px;
+    transform: translateX(-50%);
+  }
+  /* Wider size group: quest-log/vendor/quest-dialog carry longer scrollable lists
+     (quest text, vendor stock) so they claim more of the viewport width. */
+  body.mobile-touch #quest-log-window,
+  body.mobile-touch #vendor-window,
+  body.mobile-touch #quest-dialog {
     width: clamp(320px, 76vw, 680px);
     max-width: calc(100vw - 20px);
     max-height: calc(var(--app-vh) / var(--ui-scale, 1) - 92px);
-    transform: translateX(-50%);
+  }
+  /* Narrower size group: spellbook rows and the options form controls read fine
+     at a tighter width, so these stay a compact centered card rather than
+     stretching to the wider group's clamp. */
+  body.mobile-touch #spellbook,
+  body.mobile-touch #options-menu,
+  body.mobile-touch #options-menu.kb-wide,
+  body.mobile-touch #options-menu.perf-wide {
+    width: min(560px, calc(100vw - 170px));
+    max-height: calc(var(--app-vh) / var(--ui-scale, 1) - 92px);
   }
   body.mobile-touch.vendor-open #vendor-window,
   body.mobile-touch.vendor-open #bags {
@@ -1463,17 +1530,6 @@
   body.mobile-touch.vendor-open #vendor-window .panel-title .x-btn {
     display: none;
   }
-  body.mobile-touch #spellbook,
-  body.mobile-touch #options-menu,
-  body.mobile-touch #options-menu.kb-wide,
-  body.mobile-touch #options-menu.perf-wide {
-    left: 50%;
-    right: auto;
-    top: 12px;
-    width: min(560px, calc(100vw - 170px));
-    max-height: calc(var(--app-vh) / var(--ui-scale, 1) - 92px);
-    transform: translateX(-50%);
-  }
   /* On touch, stack the categories back into a single column so the large
      touch targets keep their full width. */
   body.mobile-touch .kb-cols {
@@ -1489,16 +1545,46 @@
   body.mobile-touch .perf-card {
     padding: 8px 15px 14px;
   }
+  /* Options/settings row heights (Phase 4, presentation only): every touch-gated
+     settings row (graphics/audio/interface panels via settingsViewShell's bare
+     .set-rows > .set-row, PLUS the .perf-master/.perf-card row variants below)
+     gets a comfortable touch floor and lets its label wrap instead of clipping,
+     rather than the desktop 3-column fixed-width grid. 56px for rows carrying a
+     slider or toggle control (the vast majority; a slider thumb needs the extra
+     vertical room to avoid a cramped drag target), 44px for the plainer note/
+     lang-select rows. options_view.ts itself is untouched, this is CSS only. */
+  body.mobile-touch .set-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    min-height: 44px;
+    padding: 6px 4px;
+  }
+  body.mobile-touch .set-row:has(.set-slider),
+  body.mobile-touch .set-row:has(.set-toggle) {
+    min-height: 56px;
+  }
+  body.mobile-touch .set-name {
+    flex: 1 1 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    font-size: 13.5px;
+  }
+  body.mobile-touch .set-slider {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  body.mobile-touch .set-toggle {
+    flex: 0 0 auto;
+    min-height: 40px;
+  }
   /* The master header stays centered + prominent on touch too. */
   body.mobile-touch .perf-master {
     text-align: center;
   }
   body.mobile-touch .perf-master .set-row {
-    display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    gap: 8px 12px;
     padding: 2px 0;
   }
   body.mobile-touch .perf-master .set-name {
@@ -1510,10 +1596,6 @@
     min-height: 40px;
   }
   body.mobile-touch .perf-card .set-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 7px 10px;
     padding: 9px 0;
   }
   /* Cancel the desktop grid-column placements so children flow in the flex row. */
@@ -1607,6 +1689,20 @@
     align-items: center;
     padding: 0 12px;
     font-size: 14px;
+  }
+  /* Touch-only mobile action-ring page label on bar-assigned spellbook rows
+     (Phase 4). Small, unobtrusive: it only exists to point a touch player at
+     the ring page holding the ability they just added. */
+  body.mobile-touch #spellbook .spell-mobile-page {
+    flex: 0 0 auto;
+    align-self: center;
+    margin-inline-start: 4px;
+    padding: 2px 6px;
+    border: 1px solid #4a3d1d;
+    border-radius: 4px;
+    font-size: 10px;
+    color: #c8b888;
+    white-space: nowrap;
   }
   body.mobile-touch #quest-dialog .qd-list-item,
   body.mobile-touch #quest-log-window .ql-item,

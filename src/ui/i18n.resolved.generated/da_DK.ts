@@ -314,7 +314,8 @@ export const da_DK: EnTranslations = {
       "toggleHaptics": "Slå haptik til/fra",
       "actionRing": "Combat actions",
       "actionPageToggle": "Switch action page",
-      "actionPageIndicator": "Page {page} of {count}"
+      "actionPageIndicator": "Page {page} of {count}",
+      "spellbookPageLabel": "Page {page}"
     },
     "tutorial": {
       "moveBodyTouch": "Brug bevægelsesstikken til at bevæge dig og træk på skærmen for at se dig omkring. Tag et par skridt for at begynde.",

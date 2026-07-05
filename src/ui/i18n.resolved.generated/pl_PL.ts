@@ -314,7 +314,8 @@ export const pl_PL: EnTranslations = {
       "toggleHaptics": "Przełącz wibracje",
       "actionRing": "Combat actions",
       "actionPageToggle": "Switch action page",
-      "actionPageIndicator": "Page {page} of {count}"
+      "actionPageIndicator": "Page {page} of {count}",
+      "spellbookPageLabel": "Page {page}"
     },
     "tutorial": {
       "moveBodyTouch": "Użyj gałki ruchu, aby się poruszać, i przeciągaj ekran, aby się rozglądać. Zrób kilka kroków, by zacząć.",

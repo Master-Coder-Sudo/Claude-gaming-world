@@ -237,6 +237,11 @@ export const hudChromeStrings = {
     actionRing: 'Combat actions',
     actionPageToggle: 'Switch action page',
     actionPageIndicator: 'Page {page} of {count}',
+    // Phase 4: a small touch-only label on each bar-assigned spellbook row,
+    // naming which mobile action-ring page (Phase 1) the ability's bar slot
+    // falls on. "Page {page}" is not wordy (one word plus a token), so it is
+    // exempt from the M16 non-Latin-fill requirement.
+    spellbookPageLabel: 'Page {page}',
   },
   // New-adventurer tutorial copy for the touch interface. The default tutorial
   // bodies (hud.tutorial.*Body) reference keyboard/mouse ("W/A/S/D", "press F"),

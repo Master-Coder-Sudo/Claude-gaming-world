@@ -314,7 +314,8 @@ export const zh_CN: EnTranslations = {
       "toggleHaptics": "切换震动反馈",
       "actionRing": "战斗动作",
       "actionPageToggle": "切换动作页",
-      "actionPageIndicator": "Page {page} of {count}"
+      "actionPageIndicator": "Page {page} of {count}",
+      "spellbookPageLabel": "Page {page}"
     },
     "tutorial": {
       "moveBodyTouch": "使用摇杆移动，拖动屏幕环顾四周。先走几步开始吧。",

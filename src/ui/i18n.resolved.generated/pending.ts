@@ -17,6 +17,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.mobile.actionPageIndicator",
     "hudChrome.mobile.actionPageToggle",
     "hudChrome.mobile.actionRing",
+    "hudChrome.mobile.spellbookPageLabel",
     "hudChrome.options.mobileCameraJoystick",
     "hudChrome.options.mobileLeftHanded"
   ],
@@ -28,6 +29,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.mobile.actionPageIndicator",
     "hudChrome.mobile.actionPageToggle",
     "hudChrome.mobile.actionRing",
+    "hudChrome.mobile.spellbookPageLabel",
     "hudChrome.options.mobileCameraJoystick",
     "hudChrome.options.mobileLeftHanded"
   ],
@@ -39,6 +41,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.mobile.actionPageIndicator",
     "hudChrome.mobile.actionPageToggle",
     "hudChrome.mobile.actionRing",
+    "hudChrome.mobile.spellbookPageLabel",
     "hudChrome.options.mobileCameraJoystick",
     "hudChrome.options.mobileLeftHanded"
   ],
@@ -50,6 +53,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.mobile.actionPageIndicator",
     "hudChrome.mobile.actionPageToggle",
     "hudChrome.mobile.actionRing",
+    "hudChrome.mobile.spellbookPageLabel",
     "hudChrome.options.mobileCameraJoystick",
     "hudChrome.options.mobileLeftHanded"
   ],
@@ -62,6 +66,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.mobile.actionPageIndicator",
     "hudChrome.mobile.actionPageToggle",
     "hudChrome.mobile.actionRing",
+    "hudChrome.mobile.spellbookPageLabel",
     "hudChrome.options.mobileCameraJoystick",
     "hudChrome.options.mobileLeftHanded"
   ],
@@ -73,20 +78,25 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.mobile.actionPageIndicator",
     "hudChrome.mobile.actionPageToggle",
     "hudChrome.mobile.actionRing",
+    "hudChrome.mobile.spellbookPageLabel",
     "hudChrome.options.mobileCameraJoystick",
     "hudChrome.options.mobileLeftHanded"
   ],
   "zh_CN": [
-    "hudChrome.mobile.actionPageIndicator"
+    "hudChrome.mobile.actionPageIndicator",
+    "hudChrome.mobile.spellbookPageLabel"
   ],
   "zh_TW": [
-    "hudChrome.mobile.actionPageIndicator"
+    "hudChrome.mobile.actionPageIndicator",
+    "hudChrome.mobile.spellbookPageLabel"
   ],
   "ko_KR": [
-    "hudChrome.mobile.actionPageIndicator"
+    "hudChrome.mobile.actionPageIndicator",
+    "hudChrome.mobile.spellbookPageLabel"
   ],
   "ja_JP": [
-    "hudChrome.mobile.actionPageIndicator"
+    "hudChrome.mobile.actionPageIndicator",
+    "hudChrome.mobile.spellbookPageLabel"
   ],
   "pt_BR": [
     "hudChrome.gathering.herbalism",
@@ -96,11 +106,13 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.mobile.actionPageIndicator",
     "hudChrome.mobile.actionPageToggle",
     "hudChrome.mobile.actionRing",
+    "hudChrome.mobile.spellbookPageLabel",
     "hudChrome.options.mobileCameraJoystick",
     "hudChrome.options.mobileLeftHanded"
   ],
   "ru_RU": [
-    "hudChrome.mobile.actionPageIndicator"
+    "hudChrome.mobile.actionPageIndicator",
+    "hudChrome.mobile.spellbookPageLabel"
   ],
   "nl_NL": [
     "hudChrome.gathering.herbalism",
@@ -110,6 +122,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.mobile.actionPageIndicator",
     "hudChrome.mobile.actionPageToggle",
     "hudChrome.mobile.actionRing",
+    "hudChrome.mobile.spellbookPageLabel",
     "hudChrome.options.mobileCameraJoystick",
     "hudChrome.options.mobileLeftHanded"
   ],
@@ -121,6 +134,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.mobile.actionPageIndicator",
     "hudChrome.mobile.actionPageToggle",
     "hudChrome.mobile.actionRing",
+    "hudChrome.mobile.spellbookPageLabel",
     "hudChrome.options.mobileCameraJoystick",
     "hudChrome.options.mobileLeftHanded"
   ],
@@ -132,6 +146,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.mobile.actionPageIndicator",
     "hudChrome.mobile.actionPageToggle",
     "hudChrome.mobile.actionRing",
+    "hudChrome.mobile.spellbookPageLabel",
     "hudChrome.options.mobileCameraJoystick",
     "hudChrome.options.mobileLeftHanded"
   ],
@@ -143,6 +158,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.mobile.actionPageIndicator",
     "hudChrome.mobile.actionPageToggle",
     "hudChrome.mobile.actionRing",
+    "hudChrome.mobile.spellbookPageLabel",
     "hudChrome.options.mobileCameraJoystick",
     "hudChrome.options.mobileLeftHanded"
   ],
@@ -154,6 +170,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.mobile.actionPageIndicator",
     "hudChrome.mobile.actionPageToggle",
     "hudChrome.mobile.actionRing",
+    "hudChrome.mobile.spellbookPageLabel",
     "hudChrome.options.mobileCameraJoystick",
     "hudChrome.options.mobileLeftHanded"
   ],
@@ -165,6 +182,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.mobile.actionPageIndicator",
     "hudChrome.mobile.actionPageToggle",
     "hudChrome.mobile.actionRing",
+    "hudChrome.mobile.spellbookPageLabel",
     "hudChrome.options.mobileCameraJoystick",
     "hudChrome.options.mobileLeftHanded"
   ],
@@ -176,6 +194,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.mobile.actionPageIndicator",
     "hudChrome.mobile.actionPageToggle",
     "hudChrome.mobile.actionRing",
+    "hudChrome.mobile.spellbookPageLabel",
     "hudChrome.options.mobileCameraJoystick",
     "hudChrome.options.mobileLeftHanded"
   ]

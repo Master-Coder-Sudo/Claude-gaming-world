@@ -314,7 +314,8 @@ export const ja_JP: EnTranslations = {
       "toggleHaptics": "振動を切り替え",
       "actionRing": "戦闘アクション",
       "actionPageToggle": "行動ページ切替",
-      "actionPageIndicator": "Page {page} of {count}"
+      "actionPageIndicator": "Page {page} of {count}",
+      "spellbookPageLabel": "Page {page}"
     },
     "tutorial": {
       "moveBodyTouch": "移動スティックで移動し、画面をドラッグして周囲を見回します。数歩進んで始めましょう。",
