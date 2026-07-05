@@ -676,6 +676,42 @@ describe('client HTML shell', () => {
     expect(characterPreviewTs).toContain('this.renderer.dispose();');
   });
 
+  it('keeps the desktop character roster readable inside a centered cinematic stage', () => {
+    expect(shellCss).toContain('--cs-stage-gutter: max(26px, calc((100vw - 1780px) / 2));');
+    expect(shellCss).toContain('--cs-roster-width: clamp(340px, 28vw, 440px);');
+    expect(shellCss).toContain('--cs-details-width: var(--cs-roster-width);');
+    expect(shellCss).toContain(
+      '@media (min-width: 861px) {\n    #offline-select.cs-wow,\n    body:not(.mobile-touch) :is(#charselect-panel, #charcreate-panel).cs-wow {',
+    );
+    expect(shellCss).toContain(
+      'body:not(.mobile-touch) #charselect-panel.cs-wow #char-list .char-row {\n      display: grid;\n      grid-template-columns: auto minmax(0, 1fr) auto;',
+    );
+    expect(shellCss).toContain(
+      'body:not(.mobile-touch) #charselect-panel.cs-wow #char-list .char-actions {\n      display: grid;\n      grid-template-columns: minmax(112px, 1fr);',
+    );
+    expect(shellCss).toContain(
+      'body:not(.mobile-touch) #charselect-panel.cs-wow #char-list .char-name {\n      overflow-wrap: anywhere;',
+    );
+    expect(shellCss).toContain(
+      'body:not(.mobile-touch) #charselect-panel.cs-wow .class-details-grid {\n      grid-template-columns: minmax(0, 1fr);',
+    );
+    expect(shellCss).toContain(
+      'overflow-y: auto;\n      scrollbar-width: thin;\n      scrollbar-color: color-mix(in srgb, var(--scrollbar-thumb) 42%, transparent) transparent;',
+    );
+    expect(shellCss).toContain(
+      'body:not(.mobile-touch) #charselect-panel.cs-wow .class-details-panel::-webkit-scrollbar {\n      width: 6px;',
+    );
+    expect(shellCss).toContain(
+      'body:not(.mobile-touch) #charselect-panel.cs-wow .details-gear-row .badge {\n      padding: 0;\n      border: 0;\n      border-radius: 0;\n      background: none;\n      text-transform: none;',
+    );
+    expect(shellCss).toContain('font-size: clamp(13px, 0.72vw, 15px);');
+    expect(characterPreviewTs).toContain('const LIVE_PREVIEW_X = 0;');
+    expect(characterPreviewTs).toContain('this.camera.position.set(LIVE_PREVIEW_X, 1.45, 5.1);');
+    expect(characterPreviewTs).toContain(
+      'this.camera.lookAt(new THREE.Vector3(LIVE_PREVIEW_X, 1.3, 0));',
+    );
+  });
+
   it('offers the quest log in the mobile controls drawer', () => {
     expect(html).toContain('id="mobile-extra-controls"');
     expect(html).toContain('id="mobile-quest"');
@@ -793,7 +829,7 @@ describe('client HTML shell', () => {
     expect(html).toContain('<a class="community-link donate"');
     expect(hudMobileCss).toContain('body.mobile-touch.game-active #ui {\n    z-index: 80;\n  }');
     expect(hudMobileCss).toContain(
-      'body.mobile-touch #community-hud {\n    right: max(8px, env(safe-area-inset-right));\n    top: calc(max(8px, env(safe-area-inset-top)) + 158px);',
+      'body.mobile-touch #community-hud {\n    right: max(20px, calc(env(safe-area-inset-right) + 10px));\n    top: calc(max(8px, env(safe-area-inset-top)) + 158px);',
     );
     expect(hudMobileCss).toContain(
       'body.mobile-touch .community-toggle {\n    width: 44px;\n    height: 44px;',
@@ -860,8 +896,10 @@ describe('client HTML shell', () => {
     expect(hudMobileCss).toContain('conic-gradient(\n      from var(--xp-ring-start),');
     expect(hudMobileCss).toContain('calc(var(--xp-fill, 0) * 360deg)');
     expect(hudMobileCss).toContain('transparent var(--xp-ring-arc) 360deg');
+    // Own HP/mana lives bottom-center (the one part of the screen every
+    // other mobile element deliberately leaves empty), not top-left.
     expect(hudMobileCss).toContain(
-      'body.mobile-touch #player-frame {\n    position: fixed;\n    left: max(8px, env(safe-area-inset-left));\n    top: max(8px, env(safe-area-inset-top));\n    z-index: 21;',
+      'body.mobile-touch #player-frame {\n    position: fixed;\n    left: 50%;\n    top: auto;\n    bottom: calc(14px + env(safe-area-inset-bottom));\n    z-index: 21;',
     );
     expect(hudMobileCss).toContain(
       'body.mobile-touch #player-frame .portrait-wrap {\n    z-index: 3;\n  }',
@@ -879,10 +917,10 @@ describe('client HTML shell', () => {
       'body.mobile-touch #player-frame::before {\n      left: -5px;\n      top: -5px;\n      width: 73px;\n      height: 73px;',
     );
     expect(hudMobileCss).toContain(
-      'body.mobile-touch #target-frame {\n    left: max(8px, env(safe-area-inset-left));\n    top: calc(max(8px, env(safe-area-inset-top)) + 72px);',
+      'body.mobile-touch #target-frame {\n    left: max(20px, calc(env(safe-area-inset-left) + 10px));\n    top: calc(max(8px, env(safe-area-inset-top)) + 72px);',
     );
     expect(hudMobileCss).toContain(
-      'body.mobile-touch #party-frames {\n    position: fixed;\n    left: max(8px, env(safe-area-inset-left));\n    top: calc(max(8px, env(safe-area-inset-top)) + 74px);',
+      'body.mobile-touch #party-frames {\n    position: fixed;\n    left: max(20px, calc(env(safe-area-inset-left) + 10px));\n    top: calc(max(8px, env(safe-area-inset-top)) + 74px);',
     );
     expect(hudMobileCss).toContain(
       'body.mobile-touch #party-frames.below-target {\n    top: calc(max(8px, env(safe-area-inset-top)) + 130px);',
@@ -1147,8 +1185,10 @@ describe('client HTML shell', () => {
     expect(drawerTitleBody).toContain('margin-bottom: 8px;');
     expect(drawerTitleBody).toContain('padding-bottom: 6px;');
     expect(drawerTitleBody).toContain('cursor: move;');
+    // Smaller than the old 560px cap: the More tray only holds short pill
+    // buttons now, not a wide desktop-style panel.
     expect(hudMobileCss).toContain(
-      'width: min(560px, calc(100vw - 32px - env(safe-area-inset-left) - env(safe-area-inset-right)));',
+      'width: min(440px, calc(100vw - 32px - env(safe-area-inset-left) - env(safe-area-inset-right)));',
     );
     expect(hudMobileCss).toContain(
       'body.mobile-touch #mobile-extra-grid {\n    display: grid;\n    grid-template-columns: repeat(3, minmax(0, 1fr));',
@@ -1492,6 +1532,20 @@ describe('client HTML shell', () => {
     // the other, and so the arc's vertical budget on a 360px-tall phone holds.
     expect(hudMobileCss).toContain('transform: scale(0.44);');
     expect(hudMobileCss).toContain('right: calc(max(6px, env(safe-area-inset-right)) + 83px);');
+  });
+
+  it('gates the camera joystick behind its opt-in setting (swipe-look is the primary camera)', () => {
+    // The base's declutter removed the camera joystick outright; this branch
+    // keeps it as an OPT-IN (settings.mobileCameraJoystick stamps
+    // body.mobile-camera-joystick-on), hidden by default with no reserved
+    // layout space. The double-tap recenter gesture therefore also lives on
+    // the swipe-look path, which is the default camera on touch.
+    expect(hudMobileCss).toContain(
+      'body.mobile-touch:not(.mobile-camera-joystick-on) #mobile-camera-joystick {\n    display: none;\n  }',
+    );
+    expect(mobileControlsTs).toContain('private swipeLookDownAt = 0;');
+    expect(mobileControlsTs).toContain('private lastSwipeTapAt = 0;');
+    expect(mobileControlsTs).toContain('this.callbacks.onRecenterCamera();');
   });
 
   it('keeps the mobile spell bar in a scrollable row between the joysticks', () => {
