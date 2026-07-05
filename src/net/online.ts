@@ -980,6 +980,9 @@ export class ClientWorld implements IWorld {
   // all-zero default until the wheel/mass-conservation follow-up wires a self-snap
   // field the way `dmarks`/`dcomp` do for delveMarks/companionUpgrades above.
   craftSkills: Record<string, number> = emptyCraftSkills();
+  // Gathering profession proficiency (Mining/Logging/Herbalism). NOT mirrored over
+  // the wire (see professionsState below, the real read surface); this stub keeps
+  // ClientWorld structurally satisfying IWorldProgressionXp.gatheringProficiency.
   gatheringProficiency: Record<string, number> = {};
   // Per-delve clears (key `${delveId}:${tierId}`), mirrored from the self-wire so
   // delveShopOffers can resolve the shop lock badge client-side.
