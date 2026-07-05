@@ -1347,13 +1347,13 @@ describe('client HTML shell', () => {
     expect(mobileControlsTs).toContain('this.callbacks.onRecenterCamera();');
   });
 
-  it('pages the mobile spell bar as a ring around Attack instead of a long bar', () => {
+  it('pages the mobile spell bar as a 5-slot row above the combat cluster', () => {
     expect(hudMobileCss).toContain('width: min(30vw, 132px);');
     expect(hudMobileCss).toContain('min-width: 112px;');
     expect(hudMobileCss).toContain('height: min(36vh, 172px);');
     expect(hudMobileCss).toContain('body.mobile-touch #actionbar {\n    position: fixed;');
     expect(hudMobileCss).toContain(
-      'body.mobile-touch .action-btn {\n    position: absolute;\n    width: 32px;\n    height: 32px;\n    border-radius: 50%;',
+      'body.mobile-touch .action-btn {\n    position: absolute;\n    width: 44px;\n    height: 44px;\n    bottom: 0;\n    border-radius: 50%;',
     );
     expect(hudMobileCss).toContain(
       '.action-btn.hotbar-ring-0:not(.mobile-hotbar-page-hidden):not(.empty)',
@@ -1366,6 +1366,15 @@ describe('client HTML shell', () => {
     );
     expect(hudMobileCss).toContain(
       '.action-btn.hotbar-ring-3:not(.mobile-hotbar-page-hidden):not(.empty)',
+    );
+    expect(hudMobileCss).toContain(
+      '.action-btn.hotbar-ring-4:not(.mobile-hotbar-page-hidden):not(.empty)',
+    );
+    // #actionbar is a .panel on desktop; on mobile it's a bare positioning
+    // wrapper, so the inherited panel chrome must be stripped or a useless
+    // bordered square renders behind the 5-slot row.
+    expect(hudMobileCss).toMatch(
+      /body\.mobile-touch #actionbar \{[^}]*border: none;[^}]*outline: none;[^}]*border-radius: 0;[^}]*box-shadow: none;[^}]*\}/,
     );
     // #mobile-combat-controls #mobile-hotbar-page (2 IDs), not a bare ID: a
     // bare #mobile-hotbar-page loses its width/height to the icon-only
@@ -1389,9 +1398,10 @@ describe('client HTML shell', () => {
       'body.mobile-touch.mobile-left-handed #mobile-combat-controls #mobile-hotbar-page {',
     );
 
-    // Hud.cycleMobileHotbarPage pages a fixed 4-slot ring across the 11 real
-    // ability slots; drag-to-reorder (bindMobileActionDrag) is untouched.
-    expect(hudTs).toContain('private static readonly MOBILE_HOTBAR_PAGE_SIZE = 4;');
+    // Hud.cycleMobileHotbarPage pages a fixed 5-slot row across two pages
+    // (slots 1-5, 6-10); drag-to-reorder (bindMobileActionDrag) is untouched.
+    expect(hudTs).toContain('private static readonly MOBILE_HOTBAR_PAGE_SIZE = 5;');
+    expect(hudTs).toContain('private static readonly MOBILE_HOTBAR_SLOTS = 10;');
     expect(hudTs).toContain('cycleMobileHotbarPage(): void {');
     expect(hudTs).toContain('private applyMobileHotbarPage(): void {');
     expect(html).toContain('id="mobile-hotbar-page"');
