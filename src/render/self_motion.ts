@@ -50,8 +50,9 @@ export const SELF_MOTION_SNAP_DIST_SQ = 6 * 6;
 const MAX_FRAME_DT = 0.25; // matches the main-loop frame clamp
 const LEASH_SLACK_YD = 0.05;
 // Pose-history ring: enough to look SELF_MOTION_CAP_MAX_MS into the past with
-// headroom at any realistic frame rate (64 entries covers >1 s at 60 fps).
-const HISTORY_SIZE = 64;
+// headroom even on high-refresh displays (128 entries covers 267 ms at 480 fps
+// and over 2 s at 60 fps).
+const HISTORY_SIZE = 128;
 
 export interface SelfMotionFrame {
   /** Gate computed by main.ts: online, not spectating, not frozen/CC'd, not in a delve. */
@@ -289,8 +290,11 @@ export class SelfMotionPredictor {
     }
 
     // Horizontal leash: never show the player farther from the authoritative
-    // anchor than they could legitimately run inside the latency cap. Vertical
-    // is exempt (a jump apex must not be leash-clipped; gravity bounds it).
+    // anchor than they could legitimately RUN inside the latency cap (the
+    // kernel itself moves slower while backpedaling/swimming, so the run
+    // budget is the honest upper bound; only corrections consume the slack).
+    // Vertical is exempt (a jump apex must not be leash-clipped; gravity
+    // bounds it).
     const budget = (RUN_SPEED * moveSpeedMult(actor, 0) * capMs) / 1000 + LEASH_SLACK_YD;
     const ex = actor.pos.x - ax;
     const ez = actor.pos.z - az;

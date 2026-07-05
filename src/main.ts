@@ -2473,7 +2473,11 @@ async function startGame(
           renderer.sync(
             alpha,
             frameDt,
-            net.spectating === null ? (movementFacing ?? kbFacing) : null,
+            // netFacing (mouselook, click-move, release latch) is applied
+            // server-side the moment it arrives, so the model may show it
+            // immediately; without it the click-move yaw would lag the
+            // predicted position by a round trip and corners would slide.
+            net.spectating === null ? (netFacing ?? kbFacing) : null,
             adaptiveSelfAlphaLead(onlineInputEchoMs, onlineJitterMs, net.snapInterval),
             selfMotion,
           ),

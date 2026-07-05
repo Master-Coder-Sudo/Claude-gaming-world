@@ -11,6 +11,12 @@ chosen should get its own spec under `docs/prd/`.
 File references were verified against the tree on the date above; per `docs/CLAUDE.md`,
 trust the intent and re-find exact lines if they have drifted.
 
+Implementation note: Options 1 and 2 below (and the rule amendment) shipped on the
+branch that carries this report; the "current state" this report describes is the
+tree BEFORE that branch. See `src/game/keyboard_turn_facing.ts`,
+`src/game/self_alpha_lead.ts`, `src/sim/player_motion.ts`, and
+`src/render/self_motion.ts`.
+
 ## Executive Read
 
 Offline, a movement key produces visible motion in roughly 30 to 50 ms (one local sim

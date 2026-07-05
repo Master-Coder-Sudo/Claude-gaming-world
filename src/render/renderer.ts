@@ -3877,6 +3877,9 @@ export class Renderer {
       this.lastSelfId = p.id;
       this.selfRenderPositionReady = false;
       this.selfFacingOverride = null;
+      // A still-decaying predictor-handoff offset belongs to the previous
+      // character; leaking it would displace the new one for a few frames.
+      this.selfMotionOffset.set(0, 0, 0);
     }
     const now = performance.now();
     const selfPos = this.updateSelfRenderPosition(alpha, dt, selfAlphaLead, selfMotion);
@@ -4183,11 +4186,14 @@ export class Renderer {
       // animation state machine inputs, derived from render-space motion with
       // hysteresis so a one-frame speed dip can't reset the walk clip.
       // For the local player online, sample the *plain* interpolated sim motion
-      // (ax/ay/az), never the smoothed/predicted self render position (selfPos):
-      // the online self predictor freezes-then-jumps within each snapshot
-      // interval, and feeding that jitter to the cadence/airborne logic
-      // intermittently flips the base state and resets the walk clip. The
-      // predictor moves only the mesh. Offline, ax==x so this is a no-op.
+      // (ax/ay/az), never the smoothed/extrapolated self render position
+      // (selfPos): the lead-smoothing path stutters within a snapshot interval,
+      // and even the continuous self-motion predictor applies glide corrections
+      // whose jitter would intermittently flip the cadence/airborne base state
+      // and reset the walk clip. The tradeoff is authoritative-cadence anim:
+      // online, the run/jump clip starts about one echo after the mesh moves.
+      // The prediction layers move only the mesh (and the camera). Offline,
+      // ax==x so this is a no-op.
       const ax = isSelf ? e.prevPos.x + (e.pos.x - e.prevPos.x) * alpha : x;
       const ay = isSelf ? e.prevPos.y + (e.pos.y - e.prevPos.y) * alpha : y;
       const az = isSelf ? e.prevPos.z + (e.pos.z - e.prevPos.z) * alpha : z;
