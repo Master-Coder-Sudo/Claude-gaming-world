@@ -312,8 +312,8 @@ export const pl_PL: EnTranslations = {
       "haptics": "Wibracje",
       "hapticsOff": "Wibracje wył.",
       "toggleHaptics": "Przełącz wibracje",
-      "hotbarPage": "Skills",
-      "hotbarPageAria": "Show next set of skills"
+      "hotbarPage": "Umiejętności",
+      "hotbarPageAria": "Pokaż następny zestaw umiejętności"
     },
     "tutorial": {
       "moveBodyTouch": "Użyj gałki ruchu, aby się poruszać, i przeciągaj ekran, aby się rozglądać. Zrób kilka kroków, by zacząć.",
@@ -739,20 +739,20 @@ export const pl_PL: EnTranslations = {
       "summaryGroup": "Ustawienia łupów: Łup grupowy."
     },
     "corpseHarvest": {
-      "title": "Harvest",
-      "harvestButton": "Harvest",
-      "concentrateHint": "Fewer chosen components yield a higher tier each.",
-      "alreadyHarvested": "This corpse has already been harvested.",
-      "componentAria": "Harvest {component}",
+      "title": "Zbieranie",
+      "harvestButton": "Zbierz",
+      "concentrateHint": "Im mniej części wybierzesz, tym wyższa jakość każdej z nich.",
+      "alreadyHarvested": "Z tego truchła już wszystko zebrano.",
+      "componentAria": "Zbierz: {component}",
       "components": {
-        "hide": "Hide",
-        "fang": "Fang",
-        "silk": "Silk",
-        "venomSac": "Venom Sac",
-        "gills": "Gills",
-        "claw": "Claw",
-        "horn": "Horn",
-        "tusk": "Tusk"
+        "hide": "Skóra",
+        "fang": "Kieł",
+        "silk": "Jedwab",
+        "venomSac": "Worek jadowy",
+        "gills": "Skrzela",
+        "claw": "Pazur",
+        "horn": "Róg",
+        "tusk": "Cios"
       }
     },
     "party": {

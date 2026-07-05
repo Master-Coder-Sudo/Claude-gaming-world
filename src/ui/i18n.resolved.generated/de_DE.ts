@@ -312,8 +312,8 @@ export const de_DE: EnTranslations = {
       "haptics": "Haptik",
       "hapticsOff": "Haptik aus",
       "toggleHaptics": "Haptik umschalten",
-      "hotbarPage": "Skills",
-      "hotbarPageAria": "Show next set of skills"
+      "hotbarPage": "Fähigkeiten",
+      "hotbarPageAria": "Nächste Fähigkeitengruppe anzeigen"
     },
     "tutorial": {
       "moveBodyTouch": "Nutze den Bewegungsstick zum Bewegen und zieh über den Bildschirm, um dich umzusehen. Mach ein paar Schritte, um zu beginnen.",
@@ -739,20 +739,20 @@ export const de_DE: EnTranslations = {
       "summaryGroup": "Beute-Einstellungen: Gruppenbeute."
     },
     "corpseHarvest": {
-      "title": "Harvest",
-      "harvestButton": "Harvest",
-      "concentrateHint": "Fewer chosen components yield a higher tier each.",
-      "alreadyHarvested": "This corpse has already been harvested.",
-      "componentAria": "Harvest {component}",
+      "title": "Verwerten",
+      "harvestButton": "Verwerten",
+      "concentrateHint": "Je weniger Teile du wählst, desto höher ist die Qualitätsstufe jedes einzelnen Teils.",
+      "alreadyHarvested": "Dieser Kadaver wurde bereits verwertet.",
+      "componentAria": "{component} verwerten",
       "components": {
-        "hide": "Hide",
-        "fang": "Fang",
-        "silk": "Silk",
-        "venomSac": "Venom Sac",
-        "gills": "Gills",
-        "claw": "Claw",
+        "hide": "Haut",
+        "fang": "Fangzahn",
+        "silk": "Seide",
+        "venomSac": "Giftsack",
+        "gills": "Kiemen",
+        "claw": "Klaue",
         "horn": "Horn",
-        "tusk": "Tusk"
+        "tusk": "Stoßzahn"
       }
     },
     "party": {

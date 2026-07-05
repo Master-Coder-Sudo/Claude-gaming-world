@@ -312,8 +312,8 @@ export const sv_SE: EnTranslations = {
       "haptics": "Haptik",
       "hapticsOff": "Haptik av",
       "toggleHaptics": "Växla haptik",
-      "hotbarPage": "Skills",
-      "hotbarPageAria": "Show next set of skills"
+      "hotbarPage": "Förmågor",
+      "hotbarPageAria": "Visa nästa uppsättning förmågor"
     },
     "tutorial": {
       "moveBodyTouch": "Använd rörelsespaken för att gå och dra på skärmen för att se dig omkring. Ta några steg för att börja.",
@@ -739,20 +739,20 @@ export const sv_SE: EnTranslations = {
       "summaryGroup": "Byteinställningar: Gruppbyte."
     },
     "corpseHarvest": {
-      "title": "Harvest",
-      "harvestButton": "Harvest",
-      "concentrateHint": "Fewer chosen components yield a higher tier each.",
-      "alreadyHarvested": "This corpse has already been harvested.",
-      "componentAria": "Harvest {component}",
+      "title": "Skörda",
+      "harvestButton": "Skörda",
+      "concentrateHint": "Ju färre delar du väljer, desto högre kvalitetsnivå får var och en.",
+      "alreadyHarvested": "Det här kadavret har redan skördats.",
+      "componentAria": "Skörda {component}",
       "components": {
-        "hide": "Hide",
-        "fang": "Fang",
-        "silk": "Silk",
-        "venomSac": "Venom Sac",
-        "gills": "Gills",
-        "claw": "Claw",
+        "hide": "Hud",
+        "fang": "Huggtand",
+        "silk": "Silke",
+        "venomSac": "Giftsäck",
+        "gills": "Gälar",
+        "claw": "Klo",
         "horn": "Horn",
-        "tusk": "Tusk"
+        "tusk": "Bete"
       }
     },
     "party": {

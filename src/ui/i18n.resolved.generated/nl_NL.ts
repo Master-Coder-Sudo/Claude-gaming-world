@@ -312,8 +312,8 @@ export const nl_NL: EnTranslations = {
       "haptics": "Haptiek",
       "hapticsOff": "Haptiek uit",
       "toggleHaptics": "Haptiek aan/uit",
-      "hotbarPage": "Skills",
-      "hotbarPageAria": "Show next set of skills"
+      "hotbarPage": "Vaardigheden",
+      "hotbarPageAria": "Toon de volgende set vaardigheden"
     },
     "tutorial": {
       "moveBodyTouch": "Gebruik de bewegingsstick om te bewegen en sleep over het scherm om rond te kijken. Zet een paar stappen om te beginnen.",
@@ -739,20 +739,20 @@ export const nl_NL: EnTranslations = {
       "summaryGroup": "Buitinstellingen: Groepsbuit."
     },
     "corpseHarvest": {
-      "title": "Harvest",
-      "harvestButton": "Harvest",
-      "concentrateHint": "Fewer chosen components yield a higher tier each.",
-      "alreadyHarvested": "This corpse has already been harvested.",
-      "componentAria": "Harvest {component}",
+      "title": "Oogsten",
+      "harvestButton": "Oogsten",
+      "concentrateHint": "Hoe minder delen je kiest, hoe hoger de kwaliteit van elk deel.",
+      "alreadyHarvested": "Dit kadaver is al geoogst.",
+      "componentAria": "Oogst {component}",
       "components": {
-        "hide": "Hide",
-        "fang": "Fang",
-        "silk": "Silk",
-        "venomSac": "Venom Sac",
-        "gills": "Gills",
-        "claw": "Claw",
-        "horn": "Horn",
-        "tusk": "Tusk"
+        "hide": "Huid",
+        "fang": "Tand",
+        "silk": "Zijde",
+        "venomSac": "Gifzak",
+        "gills": "Kieuwen",
+        "claw": "Klauw",
+        "horn": "Hoorn",
+        "tusk": "Slagtand"
       }
     },
     "party": {

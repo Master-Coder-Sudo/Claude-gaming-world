@@ -312,8 +312,8 @@ export const da_DK: EnTranslations = {
       "haptics": "Haptik",
       "hapticsOff": "Haptik fra",
       "toggleHaptics": "Slå haptik til/fra",
-      "hotbarPage": "Skills",
-      "hotbarPageAria": "Show next set of skills"
+      "hotbarPage": "Evner",
+      "hotbarPageAria": "Vis næste sæt evner"
     },
     "tutorial": {
       "moveBodyTouch": "Brug bevægelsesstikken til at bevæge dig og træk på skærmen for at se dig omkring. Tag et par skridt for at begynde.",
@@ -739,20 +739,20 @@ export const da_DK: EnTranslations = {
       "summaryGroup": "Bytteindstillinger: Gruppebytte."
     },
     "corpseHarvest": {
-      "title": "Harvest",
-      "harvestButton": "Harvest",
-      "concentrateHint": "Fewer chosen components yield a higher tier each.",
-      "alreadyHarvested": "This corpse has already been harvested.",
-      "componentAria": "Harvest {component}",
+      "title": "Høst",
+      "harvestButton": "Høst",
+      "concentrateHint": "Jo færre dele du vælger, desto højere kvalitetsgrad får hver enkelt.",
+      "alreadyHarvested": "Dette kadaver er allerede blevet høstet.",
+      "componentAria": "Høst {component}",
       "components": {
-        "hide": "Hide",
-        "fang": "Fang",
-        "silk": "Silk",
-        "venomSac": "Venom Sac",
-        "gills": "Gills",
-        "claw": "Claw",
+        "hide": "Skind",
+        "fang": "Hugtand",
+        "silk": "Silke",
+        "venomSac": "Giftsæk",
+        "gills": "Gæller",
+        "claw": "Klo",
         "horn": "Horn",
-        "tusk": "Tusk"
+        "tusk": "Stødtand"
       }
     },
     "party": {

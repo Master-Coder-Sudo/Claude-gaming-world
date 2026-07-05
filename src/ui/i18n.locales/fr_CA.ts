@@ -169,6 +169,24 @@ export const fr_CA: Partial<Record<TranslationKey, string>> = {
   'sim.lockpick.lockJammed':
     "La serrure est bloquée, impossible à crocheter : terminez l'excavation de nouveau pour une autre tentative.",
   'sim.lockpick.lockYields': 'La serrure cède! Butin {tier}.',
+  // Mobile touch controls: the hotbar page-flip button and its accessible name.
+  'hudChrome.mobile.hotbarPage': 'Techniques',
+  'hudChrome.mobile.hotbarPageAria': 'Afficher la prochaine série de techniques',
+  // Corpse-harvest focus picker (window title, confirm button, component labels).
+  'hudChrome.corpseHarvest.title': 'Dépeçage',
+  'hudChrome.corpseHarvest.harvestButton': 'Dépecer',
+  'hudChrome.corpseHarvest.concentrateHint':
+    'Moins vous choisissez de composants, plus la qualité de chacun est élevée.',
+  'hudChrome.corpseHarvest.alreadyHarvested': 'Ce cadavre a déjà été dépecé.',
+  'hudChrome.corpseHarvest.componentAria': 'Prélever {component}',
+  'hudChrome.corpseHarvest.components.hide': 'Peau',
+  'hudChrome.corpseHarvest.components.fang': 'Croc',
+  'hudChrome.corpseHarvest.components.silk': 'Soie',
+  'hudChrome.corpseHarvest.components.venomSac': 'Sac à venin',
+  'hudChrome.corpseHarvest.components.gills': 'Branchies',
+  'hudChrome.corpseHarvest.components.claw': 'Griffe',
+  'hudChrome.corpseHarvest.components.horn': 'Corne',
+  'hudChrome.corpseHarvest.components.tusk': 'Défense',
   // Aura effect tooltip summaries.
   'hudChrome.auraEffect.dot': 'Cause {value} points de dégâts de {school} toutes les {interval} s',
   'hudChrome.auraEffect.hot': 'Redonne {value} points de vie toutes les {interval} s',

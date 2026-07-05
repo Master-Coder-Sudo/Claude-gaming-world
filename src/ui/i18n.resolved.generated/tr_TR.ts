@@ -312,8 +312,8 @@ export const tr_TR: EnTranslations = {
       "haptics": "Dokunsal Geri Bildirim",
       "hapticsOff": "Dokunsal Kapalı",
       "toggleHaptics": "Dokunsal geri bildirimi aç/kapat",
-      "hotbarPage": "Skills",
-      "hotbarPageAria": "Show next set of skills"
+      "hotbarPage": "Yetenekler",
+      "hotbarPageAria": "Sonraki yetenek grubunu göster"
     },
     "tutorial": {
       "moveBodyTouch": "Hareket etmek için hareket çubuğunu kullan ve etrafa bakmak için ekranı sürükle. Başlamak için birkaç adım at.",
@@ -739,20 +739,20 @@ export const tr_TR: EnTranslations = {
       "summaryGroup": "Ganimet Ayarları: Grup Ganimeti."
     },
     "corpseHarvest": {
-      "title": "Harvest",
-      "harvestButton": "Harvest",
-      "concentrateHint": "Fewer chosen components yield a higher tier each.",
-      "alreadyHarvested": "This corpse has already been harvested.",
-      "componentAria": "Harvest {component}",
+      "title": "Toplama",
+      "harvestButton": "Topla",
+      "concentrateHint": "Ne kadar az parça seçersen, her biri o kadar yüksek kademede olur.",
+      "alreadyHarvested": "Bu leş zaten toplandı.",
+      "componentAria": "{component} topla",
       "components": {
-        "hide": "Hide",
-        "fang": "Fang",
-        "silk": "Silk",
-        "venomSac": "Venom Sac",
-        "gills": "Gills",
-        "claw": "Claw",
-        "horn": "Horn",
-        "tusk": "Tusk"
+        "hide": "Post",
+        "fang": "Diş",
+        "silk": "İpek",
+        "venomSac": "Zehir Kesesi",
+        "gills": "Solungaç",
+        "claw": "Pençe",
+        "horn": "Boynuz",
+        "tusk": "Azı Dişi"
       }
     },
     "party": {

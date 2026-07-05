@@ -312,8 +312,8 @@ export const vi_VN: EnTranslations = {
       "haptics": "Phản Hồi Rung",
       "hapticsOff": "Tắt Phản Hồi Rung",
       "toggleHaptics": "Bật/tắt phản hồi rung",
-      "hotbarPage": "Skills",
-      "hotbarPageAria": "Show next set of skills"
+      "hotbarPage": "Kỹ Năng",
+      "hotbarPageAria": "Hiện bộ kỹ năng tiếp theo"
     },
     "tutorial": {
       "moveBodyTouch": "Dùng cần di chuyển để đi và kéo màn hình để nhìn quanh. Bước vài bước để bắt đầu.",
@@ -739,20 +739,20 @@ export const vi_VN: EnTranslations = {
       "summaryGroup": "Cài Đặt Chiến Lợi Phẩm: Chiến Lợi Phẩm Nhóm."
     },
     "corpseHarvest": {
-      "title": "Harvest",
-      "harvestButton": "Harvest",
-      "concentrateHint": "Fewer chosen components yield a higher tier each.",
-      "alreadyHarvested": "This corpse has already been harvested.",
-      "componentAria": "Harvest {component}",
+      "title": "Thu Hoạch",
+      "harvestButton": "Thu Hoạch",
+      "concentrateHint": "Chọn càng ít bộ phận, mỗi bộ phận thu được sẽ có bậc chất lượng càng cao.",
+      "alreadyHarvested": "Xác này đã bị thu hoạch rồi.",
+      "componentAria": "Thu hoạch {component}",
       "components": {
-        "hide": "Hide",
-        "fang": "Fang",
-        "silk": "Silk",
-        "venomSac": "Venom Sac",
-        "gills": "Gills",
-        "claw": "Claw",
-        "horn": "Horn",
-        "tusk": "Tusk"
+        "hide": "Da",
+        "fang": "Nanh",
+        "silk": "Tơ",
+        "venomSac": "Túi Độc",
+        "gills": "Mang",
+        "claw": "Móng Vuốt",
+        "horn": "Sừng",
+        "tusk": "Ngà"
       }
     },
     "party": {

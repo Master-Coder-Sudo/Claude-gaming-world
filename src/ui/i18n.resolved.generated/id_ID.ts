@@ -312,8 +312,8 @@ export const id_ID: EnTranslations = {
       "haptics": "Haptik",
       "hapticsOff": "Haptik Nonaktif",
       "toggleHaptics": "Alihkan haptik",
-      "hotbarPage": "Skills",
-      "hotbarPageAria": "Show next set of skills"
+      "hotbarPage": "Kemampuan",
+      "hotbarPageAria": "Tampilkan rangkaian kemampuan berikutnya"
     },
     "tutorial": {
       "moveBodyTouch": "Gunakan tuas gerak untuk berpindah dan seret layar untuk melihat sekeliling. Ambil beberapa langkah untuk memulai.",
@@ -739,20 +739,20 @@ export const id_ID: EnTranslations = {
       "summaryGroup": "Pengaturan Jarahan: Jarahan Kelompok."
     },
     "corpseHarvest": {
-      "title": "Harvest",
-      "harvestButton": "Harvest",
-      "concentrateHint": "Fewer chosen components yield a higher tier each.",
-      "alreadyHarvested": "This corpse has already been harvested.",
-      "componentAria": "Harvest {component}",
+      "title": "Panen",
+      "harvestButton": "Panen",
+      "concentrateHint": "Semakin sedikit bagian yang dipilih, semakin tinggi tingkat mutu tiap bagian.",
+      "alreadyHarvested": "Bangkai ini sudah dipanen.",
+      "componentAria": "Panen {component}",
       "components": {
-        "hide": "Hide",
-        "fang": "Fang",
-        "silk": "Silk",
-        "venomSac": "Venom Sac",
-        "gills": "Gills",
-        "claw": "Claw",
-        "horn": "Horn",
-        "tusk": "Tusk"
+        "hide": "Kulit",
+        "fang": "Taring",
+        "silk": "Sutra",
+        "venomSac": "Kantung Bisa",
+        "gills": "Insang",
+        "claw": "Cakar",
+        "horn": "Tanduk",
+        "tusk": "Gading"
       }
     },
     "party": {

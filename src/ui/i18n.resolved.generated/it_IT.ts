@@ -312,8 +312,8 @@ export const it_IT: EnTranslations = {
       "haptics": "Vibrazione",
       "hapticsOff": "Vibrazione disattivata",
       "toggleHaptics": "Attiva/disattiva vibrazione",
-      "hotbarPage": "Skills",
-      "hotbarPageAria": "Show next set of skills"
+      "hotbarPage": "Abilità",
+      "hotbarPageAria": "Mostra la serie successiva di abilità"
     },
     "tutorial": {
       "moveBodyTouch": "Usa il joystick di movimento per muoverti e trascina lo schermo per guardarti intorno. Fai qualche passo per iniziare.",
@@ -739,20 +739,20 @@ export const it_IT: EnTranslations = {
       "summaryGroup": "Impostazioni Bottino: Bottino di Gruppo."
     },
     "corpseHarvest": {
-      "title": "Harvest",
-      "harvestButton": "Harvest",
-      "concentrateHint": "Fewer chosen components yield a higher tier each.",
-      "alreadyHarvested": "This corpse has already been harvested.",
-      "componentAria": "Harvest {component}",
+      "title": "Raccolta",
+      "harvestButton": "Raccogli",
+      "concentrateHint": "Meno componenti scegli, più alta sarà la qualità di ciascuno.",
+      "alreadyHarvested": "Questo cadavere è già stato raccolto.",
+      "componentAria": "Raccogli {component}",
       "components": {
-        "hide": "Hide",
-        "fang": "Fang",
-        "silk": "Silk",
-        "venomSac": "Venom Sac",
-        "gills": "Gills",
-        "claw": "Claw",
-        "horn": "Horn",
-        "tusk": "Tusk"
+        "hide": "Pelle",
+        "fang": "Zanna",
+        "silk": "Seta",
+        "venomSac": "Sacca di veleno",
+        "gills": "Branchie",
+        "claw": "Artiglio",
+        "horn": "Corno",
+        "tusk": "Zanna"
       }
     },
     "party": {

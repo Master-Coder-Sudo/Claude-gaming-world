@@ -289,4 +289,21 @@ export const es_ES: Partial<Record<TranslationKey, string>> = {
   'hudChrome.auraEffect.school.shadow': 'Sombra',
   'hudChrome.auraEffect.school.holy': 'Sagrada',
   'hudChrome.auraEffect.school.nature': 'Natural',
+  // Corpse-harvest window + mobile hotbar page toggle.
+  'hudChrome.corpseHarvest.title': 'Recolección',
+  'hudChrome.corpseHarvest.harvestButton': 'Recolectar',
+  'hudChrome.corpseHarvest.concentrateHint':
+    'Cuantos menos componentes elijas, mayor será la calidad de cada uno.',
+  'hudChrome.corpseHarvest.alreadyHarvested': 'Este cadáver ya ha sido recolectado.',
+  'hudChrome.corpseHarvest.componentAria': 'Recolectar {component}',
+  'hudChrome.corpseHarvest.components.hide': 'Piel',
+  'hudChrome.corpseHarvest.components.fang': 'Colmillo',
+  'hudChrome.corpseHarvest.components.silk': 'Seda',
+  'hudChrome.corpseHarvest.components.venomSac': 'Saco de veneno',
+  'hudChrome.corpseHarvest.components.gills': 'Branquias',
+  'hudChrome.corpseHarvest.components.claw': 'Garra',
+  'hudChrome.corpseHarvest.components.horn': 'Cuerno',
+  'hudChrome.corpseHarvest.components.tusk': 'Colmillo',
+  'hudChrome.mobile.hotbarPage': 'Habilidades',
+  'hudChrome.mobile.hotbarPageAria': 'Mostrar el siguiente conjunto de habilidades',
 };

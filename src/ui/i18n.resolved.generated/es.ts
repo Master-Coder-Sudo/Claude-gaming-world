@@ -312,8 +312,8 @@ export const es: EnTranslations = {
       "haptics": "Vibración",
       "hapticsOff": "Vibración desactivada",
       "toggleHaptics": "Alternar vibración",
-      "hotbarPage": "Skills",
-      "hotbarPageAria": "Show next set of skills"
+      "hotbarPage": "Habilidades",
+      "hotbarPageAria": "Mostrar el siguiente conjunto de habilidades"
     },
     "tutorial": {
       "moveBodyTouch": "Usa el joystick de movimiento para moverte y arrastra la pantalla para mirar alrededor. Da unos pasos para empezar.",
@@ -739,20 +739,20 @@ export const es: EnTranslations = {
       "summaryGroup": "Ajustes de botín: botín de grupo."
     },
     "corpseHarvest": {
-      "title": "Harvest",
-      "harvestButton": "Harvest",
-      "concentrateHint": "Fewer chosen components yield a higher tier each.",
-      "alreadyHarvested": "This corpse has already been harvested.",
-      "componentAria": "Harvest {component}",
+      "title": "Recolectar",
+      "harvestButton": "Recolectar",
+      "concentrateHint": "Cuantos menos componentes elijas, mayor será la calidad de cada uno.",
+      "alreadyHarvested": "Este cadáver ya ha sido recolectado.",
+      "componentAria": "Recolectar {component}",
       "components": {
-        "hide": "Hide",
-        "fang": "Fang",
-        "silk": "Silk",
-        "venomSac": "Venom Sac",
-        "gills": "Gills",
-        "claw": "Claw",
-        "horn": "Horn",
-        "tusk": "Tusk"
+        "hide": "Piel",
+        "fang": "Colmillo",
+        "silk": "Seda",
+        "venomSac": "Saco de veneno",
+        "gills": "Agallas",
+        "claw": "Garra",
+        "horn": "Cuerno",
+        "tusk": "Colmillo"
       }
     },
     "party": {

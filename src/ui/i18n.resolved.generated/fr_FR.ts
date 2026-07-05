@@ -312,8 +312,8 @@ export const fr_FR: EnTranslations = {
       "haptics": "Vibrations",
       "hapticsOff": "Vibrations désactivées",
       "toggleHaptics": "Activer/désactiver les vibrations",
-      "hotbarPage": "Skills",
-      "hotbarPageAria": "Show next set of skills"
+      "hotbarPage": "Techniques",
+      "hotbarPageAria": "Afficher la série de techniques suivante"
     },
     "tutorial": {
       "moveBodyTouch": "Utilise le joystick de déplacement pour te déplacer et fais glisser l'écran pour regarder autour de toi. Fais quelques pas pour commencer.",
@@ -739,20 +739,20 @@ export const fr_FR: EnTranslations = {
       "summaryGroup": "Réglages de butin : Butin de groupe."
     },
     "corpseHarvest": {
-      "title": "Harvest",
-      "harvestButton": "Harvest",
-      "concentrateHint": "Fewer chosen components yield a higher tier each.",
-      "alreadyHarvested": "This corpse has already been harvested.",
-      "componentAria": "Harvest {component}",
+      "title": "Dépeçage",
+      "harvestButton": "Dépecer",
+      "concentrateHint": "Moins vous choisissez de composants, plus la qualité de chacun est élevée.",
+      "alreadyHarvested": "Ce cadavre a déjà été dépecé.",
+      "componentAria": "Prélever {component}",
       "components": {
-        "hide": "Hide",
-        "fang": "Fang",
-        "silk": "Silk",
-        "venomSac": "Venom Sac",
-        "gills": "Gills",
-        "claw": "Claw",
-        "horn": "Horn",
-        "tusk": "Tusk"
+        "hide": "Peau",
+        "fang": "Croc",
+        "silk": "Soie",
+        "venomSac": "Sac à venin",
+        "gills": "Branchies",
+        "claw": "Griffe",
+        "horn": "Corne",
+        "tusk": "Défense"
       }
     },
     "party": {
