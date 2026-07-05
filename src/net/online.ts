@@ -272,7 +272,7 @@ export class Api {
     turnstileToken = '',
     ref = '',
     nativeAttestation: unknown = undefined,
-  ): Promise<void> {
+  ): Promise<{ accountId?: number }> {
     const data = await this.post('/api/register', {
       username,
       password,
@@ -285,6 +285,7 @@ export class Api {
     this.username = data.username;
     // A fresh registration always has the mandatory email; trust the server flag.
     this.emailMissing = data.emailMissing === true;
+    return { accountId: typeof data.accountId === 'number' ? data.accountId : undefined };
   }
 
   // Returns { twoFactorRequired: true } when the account has 2FA on and no code
@@ -942,6 +943,16 @@ export class ClientWorld implements IWorld {
   // Crafting/secondary professions still contribute nothing until later
   // issues (#1120/#1125/#1126/#1140) land.
   professionsState: PlayerProfessionsView = { skills: [] };
+  // Stub for #1121: per-node respawn state is server-authoritative and not yet
+  // wired onto the snapshot (see src/sim/professions/CLAUDE.md), so the client
+  // cannot know another player's, or even its own, real per-node timer yet.
+  // Always reports harvestable; the server re-validates and denies via a
+  // normal error event on an actual attempt, same as every other authoritative
+  // action (see src/net/CLAUDE.md "Never predict an outcome"). Wiring the real
+  // per-player timer is future work once the snapshot carries it.
+  nodeHarvestableByMe(_nodeId: string): boolean {
+    return true;
+  }
   // --- IWorldParty: raid-target marker mirror, from the self-wire `marks` (markerFor
   // reads it, no send). ---
   markers: Record<number, number> = {}; // entityId -> markerId, mirrored from the self-wire
@@ -1852,6 +1863,9 @@ export class ClientWorld implements IWorld {
   }
   buyItem(npcId: number, itemId: string): void {
     this.cmd({ cmd: 'buy', npc: npcId, item: itemId });
+  }
+  harvestNode(nodeId: string): void {
+    this.cmd({ cmd: 'harvest_node', node: nodeId });
   }
   sellItem(itemId: string, count?: number): void {
     this.cmd({ cmd: 'sell', item: itemId, count });
