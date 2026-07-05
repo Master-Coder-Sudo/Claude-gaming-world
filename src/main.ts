@@ -2027,6 +2027,8 @@ async function startGame(
   let pendingReleaseFacing: number | null = null;
   // Local display-only integration of keyboard turns online (see the module docs).
   const kbTurn = newKeyboardTurnState();
+  // One-shot wire latch for a just-released keyboard turn's final heading.
+  let kbReleaseLatch: number | null = null;
   function updateCamera(frameDt: number, interpFacing: number): void {
     const mi = input.readMoveInput();
     const clickMoving = !!input.clickMoveTarget && !input.suspendMovement && !movementFrozen();
@@ -2373,12 +2375,19 @@ async function startGame(
       world.player.facing,
       onlineInputEchoMs,
     );
-    const netFacing = movementFacing ?? resolved.facing;
+    // kbReleaseLatch: the final local heading of a just-released keyboard turn
+    // (set below, sent once here). The server applies a sent facing outright,
+    // so it adopts the exact locally-shown angle; without this its own tick
+    // integration lands up to ~one turn-tick away and the display would have
+    // to re-aim a few degrees moments after every turn.
+    const foreignFacing = movementFacing ?? resolved.facing;
+    const netFacing = foreignFacing ?? kbReleaseLatch;
     Object.assign(net.moveInput, resolved.mi);
     net.setMouselookFacing(netFacing);
-    // Online streams facing every frame, so the latched release yaw is consumed
-    // here; drop it so it is not re-applied next frame.
+    // Online streams facing every frame, so the latched release yaws are
+    // consumed here; drop them so they are not re-applied next frame.
     pendingReleaseFacing = null;
+    kbReleaseLatch = null;
     if (net.flushInput()) perf.markInputSent(performance.now());
     const echoSamples = net.consumeInputEchoSamples();
     for (const sample of echoSamples) {
@@ -2431,10 +2440,20 @@ async function startGame(
       turnLeft: resolved.mi.turnLeft,
       turnRight: resolved.mi.turnRight,
       turnAllowed: net.spectating === null && !movementFrozen() && !isStunned(pe),
-      sentFacing: netFacing,
+      // Only the FOREIGN heading owners (mouselook, click-move, the mouselook
+      // release latch) clear the module; our own kbReleaseLatch must not, or
+      // the camera would fall back to the still-lagging server facing for the
+      // send frame and jerk.
+      sentFacing: foreignFacing,
       serverFacing: interpServerFacing,
       frameDt,
     });
+    // A turn key was just released: latch the final local heading for the next
+    // frame's input send, so the server adopts the exact displayed angle.
+    if (kbTurn.releaseFacingToSend !== null) {
+      kbReleaseLatch = kbTurn.releaseFacingToSend;
+      kbTurn.releaseFacingToSend = null;
+    }
     // Display-only self extrapolation (src/render/self_motion.ts). Off while
     // spectating, corpse-frozen, or CC'd (playerImmobilized covers stun/root/
     // incapacitate/polymorph, and fear is a fear_incap incapacitate aura; the

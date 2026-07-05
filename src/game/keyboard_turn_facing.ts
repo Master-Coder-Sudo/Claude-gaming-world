@@ -14,11 +14,18 @@
 // rewound: the server facing is still one echo behind and converging toward us
 // (both ends integrate the held keys at the same rate for the same duration),
 // so stepping toward its current value would visibly yank the camera backwards
-// and then forwards again on every key release. Instead we wait for the
-// interpolated server facing to catch up and hand off the moment it reaches or
-// crosses the held heading. Only a disagreement that persists past a grace
-// window (a stun that landed mid-turn, a dropped input, tick quantization)
-// is corrected, gently, at RELEASE_CORRECT_RATE rather than TURN_SPEED.
+// and then forwards again on every key release.
+//
+// The release also LATCHES the final local heading for the caller to send on
+// the wire once (releaseFacingToSend, the same channel mouselook streams and
+// the server applies immediately). Without it the server's own integration
+// lands up to one tick of turning away (~9 degrees worst case) and the display
+// would have to adopt that slightly different angle moments later, a visible
+// late re-aim on every turn. With the latch the server adopts the exact local
+// heading, the interpolated server facing converges onto it, and the module
+// hands off the moment it arrives or crosses. The grace-then-gentle-glide
+// correction remains only as the backstop for a latch the server refuses (a
+// corpse) or a genuine misprediction.
 
 import { TURN_SPEED } from '../sim/types';
 import { wrapAngle } from './camera_follow';
@@ -39,10 +46,13 @@ export interface KeyboardTurnState {
   facing: number | null; // null = inactive (the server facing owns the display)
   releaseMs: number; // time spent in the release phase
   releaseGapSign: number; // sign of (server - local) when the release began
+  /** Set once on the turning-to-release edge: the final local heading the
+   *  caller should send on the wire (and then clear). Null otherwise. */
+  releaseFacingToSend: number | null;
 }
 
 export function newKeyboardTurnState(): KeyboardTurnState {
-  return { facing: null, releaseMs: 0, releaseGapSign: 0 };
+  return { facing: null, releaseMs: 0, releaseGapSign: 0, releaseFacingToSend: null };
 }
 
 function approachAngle(current: number, target: number, maxStep: number): number {
@@ -78,7 +88,10 @@ export function stepKeyboardTurnFacing(
   args: KeyboardTurnArgs,
 ): number | null {
   if (args.sentFacing !== null) {
+    // A foreign path (mouselook, click-move) owns the heading and streams it
+    // itself; yield without latching.
     state.facing = null;
+    state.releaseFacingToSend = null;
     return null;
   }
   const dt = Math.min(Math.max(0, args.frameDt), MAX_FRAME_DT);
@@ -88,6 +101,7 @@ export function stepKeyboardTurnFacing(
     const base = state.facing ?? args.serverFacing;
     state.facing = wrapAngle(base + dir * TURN_SPEED * dt);
     state.releaseMs = 0;
+    state.releaseFacingToSend = null;
     // The server integrates the same keys one echo behind, so at release it
     // lags on the side OPPOSITE the turn: that is the gap sign we expect to
     // see while it catches up. A gap already on the other side means it has
@@ -100,6 +114,7 @@ export function stepKeyboardTurnFacing(
   // Release phase: hold the local heading and let the server facing converge
   // onto it. Hand off when it arrives or crosses (the crossing can jump past
   // the eps between frames, so a sign flip counts as caught up).
+  if (state.releaseMs === 0) state.releaseFacingToSend = state.facing;
   const gap = wrapAngle(args.serverFacing - state.facing);
   if (state.releaseGapSign === 0) state.releaseGapSign = Math.sign(gap) || 1;
   if (Math.abs(gap) <= HANDOFF_EPS || Math.sign(gap) !== state.releaseGapSign) {
