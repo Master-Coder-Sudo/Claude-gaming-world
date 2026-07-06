@@ -80,11 +80,10 @@ describe('stepKeyboardTurnFacing', () => {
     expect(st.facing).toBeNull();
   });
 
-  it('holds through a server overshoot instead of riding it out and back', () => {
-    // Between the key release and the latch landing, the server may keep
-    // integrating the in-flight held flags PAST the held heading, then the
-    // latch snaps it back onto it. The display must hold still through the
-    // whole excursion (this was the residual re-aim after every turn).
+  it('holds through a server-mirror excursion instead of riding it out and back', () => {
+    // Robustness: if the mirrored facing transiently swings past the held
+    // heading (a stray in-flight input, a snapshot burst), the display must
+    // hold still through the whole excursion, not ride it out and back.
     const st = newKeyboardTurnState();
     for (let i = 0; i < 20; i++) {
       stepKeyboardTurnFacing(st, args({ turnLeft: true, serverFacing: 0 }));
@@ -167,10 +166,15 @@ describe('stepKeyboardTurnFacing', () => {
     expect(f).toBeCloseTo(engaged, 9);
   });
 
-  it('clamps an over-long frame so a hitch cannot over-rotate', () => {
+  it('credits held time through a hitch up to the main-loop frame clamp', () => {
     const st = newKeyboardTurnState();
-    const f = stepKeyboardTurnFacing(st, args({ turnLeft: true, serverFacing: 0, frameDt: 0.5 }));
-    expect(Math.abs(f as number)).toBeLessThanOrEqual(TURN_SPEED * 0.1 + 1e-9);
+    // a 200ms hitch frame: the full held duration is credited (the heading is
+    // authoritative input; dropping time would slow low-fps hardware's turns)
+    const f = stepKeyboardTurnFacing(st, args({ turnLeft: true, serverFacing: 0, frameDt: 0.2 }));
+    expect(f).toBeCloseTo(TURN_SPEED * 0.2, 6);
+    // but a pathological delta is still capped at the 0.25s main-loop clamp
+    const g = stepKeyboardTurnFacing(st, args({ turnLeft: true, serverFacing: 0, frameDt: 9 }));
+    expect(Math.abs((g as number) - (f as number))).toBeLessThanOrEqual(TURN_SPEED * 0.25 + 1e-9);
   });
 
   it('both keys held stays engaged with net-zero rotation', () => {

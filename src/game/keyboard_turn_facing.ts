@@ -1,12 +1,12 @@
-// Instant local display facing for keyboard turns online.
+// Instant local facing for keyboard turns online.
 //
 // Offline, A/D turning mutates the sim facing the same frame. Online the tl/tr
-// flags are integrated SERVER-side at TURN_SPEED, so the model (and the follow
-// camera) used to wait a full round trip before visibly turning. This module
-// integrates the same TURN_SPEED math locally, display-only: the result feeds
-// the renderer's facing-override chain and the camera follow, never the wire or
-// ClientWorld state (the sanctioned display-layer anticipation, see
-// src/net/CLAUDE.md).
+// flags used to be integrated SERVER-side at TURN_SPEED, so the model (and the
+// follow camera) waited a full round trip before visibly turning. This module
+// integrates the same TURN_SPEED math locally and the result feeds the
+// renderer's facing-override chain, the camera follow, AND the wire facing
+// channel (see below): keyboard turning is now a facing INPUT source with the
+// same client authority mouselook has always had (src/net/CLAUDE.md).
 //
 // While engaged, the caller STREAMS the returned heading on the wire facing
 // channel (the one mouselook streams; the server applies it outright) with
@@ -39,7 +39,12 @@ const RELEASE_GRACE_MS = 350;
 // Gentle glide for a persistent residual (tick quantization is at most one
 // server tick of turning, ~0.16 rad); a fraction of TURN_SPEED on purpose.
 const RELEASE_CORRECT_RATE = 1.5; // rad/s
-const MAX_FRAME_DT = 0.1; // clamp long frames so a hitch cannot over-rotate
+// Matches the main loop's frame clamp: the heading is authoritative input, so
+// every millisecond a key was genuinely held must be credited even through a
+// load hitch, or low-framerate hardware would turn slower than everyone else
+// (the pre-streaming server-side integration never lost time). A large catch-up
+// step renders smoothly anyway: the renderer's facing override is rate-limited.
+const MAX_FRAME_DT = 0.25;
 
 export interface KeyboardTurnState {
   facing: number | null; // null = inactive (the server facing owns the display)

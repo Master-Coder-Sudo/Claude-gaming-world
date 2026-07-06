@@ -2025,8 +2025,12 @@ async function startGame(
   // the release frame would drop the one-shot when release lands on a zero-tick
   // frame. Held here until consumed, then cleared.
   let pendingReleaseFacing: number | null = null;
-  // Local display-only integration of keyboard turns online (see the module docs).
+  // Local integration of keyboard turns online, streamed on the facing channel
+  // (see the module docs). prevKbTurning tracks the engage edge: that one frame
+  // passes the REAL turn flags through so the server still sees a manual turn
+  // (breaks /follow, marks anti-AFK activity) before the flag zeroing begins.
   const kbTurn = newKeyboardTurnState();
+  let prevKbTurning = false;
   function updateCamera(frameDt: number, interpFacing: number): void {
     const mi = input.readMoveInput();
     const clickMoving = !!input.clickMoveTarget && !input.suspendMovement && !movementFrozen();
@@ -2400,10 +2404,17 @@ async function startGame(
     });
     const netFacing = foreignFacing ?? kbFacing;
     Object.assign(net.moveInput, resolved.mi);
-    if (kbFacing !== null) {
+    // The engage-edge frame lets the real flags through once: server behaviors
+    // keyed on a manual turn (breaking /follow, the anti-AFK activity mark)
+    // still fire, and the facing streamed alongside (plus the next frame's
+    // zeroed flags, usually inside the same server tick) overwrites the at
+    // most one tick the server may integrate from them.
+    const kbTurning = kbFacing !== null && (resolved.mi.turnLeft || resolved.mi.turnRight);
+    if (kbFacing !== null && !(kbTurning && !prevKbTurning)) {
       net.moveInput.turnLeft = false;
       net.moveInput.turnRight = false;
     }
+    prevKbTurning = kbTurning;
     net.setMouselookFacing(netFacing);
     // Online streams facing every frame, so the mouselook release yaw is
     // consumed here; drop it so it is not re-applied next frame.
