@@ -7695,6 +7695,26 @@ export const zh_CN: EnTranslations = {
           }
         }
       },
+      "q_archetype_acceptance": {
+        "title": "属于你自己的技艺",
+        "text": "东溪的每一位匠人最终都会选定一门属于自己的技艺。用一件事证明自己吧，{playerName}，宣告你的道路。",
+        "completion": "你的道路已经选定；愿你走得稳当。",
+        "objectives": {
+          "0": {
+            "label": "击败森林之狼"
+          }
+        }
+      },
+      "q_prof_make_amends": {
+        "title": "弥补",
+        "text": "若要放下一门技艺、转投另一门，匠人必须先为放弃的道路做出弥补，{playerName}。",
+        "completion": "弥补已经完成；一条新的道路已向你敞开。",
+        "objectives": {
+          "0": {
+            "label": "击败森林之狼"
+          }
+        }
+      },
       "q_drowned_choir": {
         "title": "溺亡唱诗班",
         "text": "那些涉行者并非孤身行动。它们之中游走着溺亡信徒——随神殿一同沉没的邪教徒，至今仍披着腐烂的法衣，仍在岸边礁石上吟唱祷词。让其中八名永远噤声，再为我带回它们随身携带的六件祭品。我想知道它们打算献给女神什么。",
