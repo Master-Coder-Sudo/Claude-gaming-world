@@ -45,8 +45,11 @@ renamed onto the wrong track cannot flip an install to another backend.
 cross: it emits a production-origin artifact's feed files on the dev track to
 exercise the publish pipeline end to end (no install ever downloads such an
 artifact: dev-origin installs refuse its production origin stamp, which is the
-fail-safe direction). Never rename `dev-*.yml` files to `latest-*.yml` on the
-update host.
+fail-safe direction). Never rename `dev*.yml` files to `latest*.yml` on the
+update host. Dev installs made BEFORE the track split read the `latest`
+channel like everything else did, so they will auto-update onto production
+builds; give dev testers a fresh post-split dev build rather than expecting
+their old installs to stay on dev.
 
 `npm run electron:pack` / `electron:pack:steam` are the fast local variants
 (`--dir`, host arch only, no installers). Release builds use the full arch matrix in
@@ -169,8 +172,9 @@ Fedora atomic desktops (Bazzite, Steam Deck) with no system install, just
    and Linux (AppImage); Windows stays "pending" until its installer is uploaded.
 2. Build on each OS runner with signing env present: `npm run electron:build`,
    with `VITE_DESKTOP_API_ORIGIN` unset or set to the production origin. A
-   production release MUST emit `latest-*.yml` feed files; if the build produced
-   `dev-*.yml` instead, it was baked with a non-production origin: rebuild, do
+   production release MUST emit `latest*.yml` feed files (`latest.yml` on
+   Windows, `latest-mac.yml`, `latest-linux*.yml`); if the build produced
+   `dev*.yml` instead, it was baked with a non-production origin: rebuild, do
    not rename (renamed files still carry the `wocApiOrigin` stamp and every
    production install will refuse them).
    One-time cleanup with the first track-split release: audit the production

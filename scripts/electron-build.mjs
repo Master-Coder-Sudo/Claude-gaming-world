@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   azureSignOptionsFromEnv,
   desktopBuilderConfig,
+  isChannelFeedFile,
   stampChannelFeedFiles,
 } from './electron-builder-config.mjs';
 import { buildElectronVendor } from './electron-vendor.mjs';
@@ -37,9 +38,10 @@ const defaultOrigin = 'https://worldofclaudecraft.com';
 // the wocDesktop stamp below (so the packaged main process always agrees with
 // what the bundle was baked with); loginOrigin is stamped for the main process
 // only. A packaged build ignores VITE_DESKTOP_* from runtime env;
-// electron/desktop_config.cjs reads the stamp instead.
-const apiOrigin = process.env.VITE_DESKTOP_API_ORIGIN ?? defaultOrigin;
-const loginOrigin = process.env.VITE_DESKTOP_LOGIN_ORIGIN ?? apiOrigin;
+// electron/desktop_config.cjs reads the stamp instead. Set-but-empty env vars
+// (CI matrices) mean "unset", hence || rather than ??.
+const apiOrigin = process.env.VITE_DESKTOP_API_ORIGIN || defaultOrigin;
+const loginOrigin = process.env.VITE_DESKTOP_LOGIN_ORIGIN || apiOrigin;
 const env = {
   ...process.env,
   VITE_DESKTOP_APP: '1',
@@ -103,12 +105,27 @@ const config = desktopBuilderConfig({
   // 'latest' feed, anything else 'dev'); WOC_UPDATE_CHANNEL=dev stages a
   // production-origin artifact on the dev track for update-pipeline testing.
   // The one dangerous combination, 'latest' with a non-production origin,
-  // makes desktopBuilderConfig throw before anything is built.
-  updateChannel: process.env.WOC_UPDATE_CHANNEL ?? null,
+  // makes desktopBuilderConfig throw before anything is built. Set-but-empty
+  // means "unset" (derive from the origin), hence || rather than ??.
+  updateChannel: process.env.WOC_UPDATE_CHANNEL || null,
 });
 const configDir = mkdtempSync(path.join(tmpdir(), 'woc-eb-'));
 const configPath = path.join(configDir, 'electron-builder.json');
 writeFileSync(configPath, JSON.stringify(config, null, 2));
+
+// Feed files accumulate across local builds sharing one output dir, and a
+// stale one from a differently-baked earlier build would be re-stamped below
+// with THIS build's origin, misdescribing the artifact it points at. Remove
+// both channels' feed files up front; electron-builder regenerates the
+// current channel's set.
+const outDir = path.join(root, config.directories?.output ?? 'release');
+if (config.publish?.channel && existsSync(outDir)) {
+  for (const name of readdirSync(outDir)) {
+    if (!isChannelFeedFile(name, 'latest') && !isChannelFeedFile(name, 'dev')) continue;
+    rmSync(path.join(outDir, name));
+    console.log(`[electron-build] removed stale feed file ${name}`);
+  }
+}
 
 // --publish never: artifact upload is a deliberate, documented manual step
 // (docs/desktop-release.md); without this, electron-builder auto-publishes on
@@ -131,7 +148,6 @@ rmSync(configDir, { recursive: true, force: true });
 // a no-op there.
 const feedChannel = config.publish?.channel;
 if (feedChannel) {
-  const outDir = path.join(root, config.directories?.output ?? 'release');
   const stamped = stampChannelFeedFiles({
     outDir,
     channel: feedChannel,

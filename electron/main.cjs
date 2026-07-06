@@ -25,6 +25,7 @@ const {
   ALLOWED_PERMISSIONS,
 } = require('./shell_guards.cjs');
 const { resolveDesktopConfig } = require('./desktop_config.cjs');
+const { PRODUCTION_API_ORIGIN } = require('./update_guard.cjs');
 const {
   MAX_FORWARDED_ERRORS,
   MAX_MIRRORED_CONSOLE_LINES,
@@ -77,7 +78,7 @@ const desktopConfig = resolveDesktopConfig({
 // what the Vite client bundle was baked with; loginOrigin is main-process-only);
 // the VITE_DESKTOP_* env pair is honored on unpackaged checkouts only,
 // mirroring the WOC_DISTRIBUTION hatch closure.
-const apiOrigin = deriveOrigin(desktopConfig.apiOrigin) || 'https://worldofclaudecraft.com';
+const apiOrigin = deriveOrigin(desktopConfig.apiOrigin) || PRODUCTION_API_ORIGIN;
 const desktopLoginOrigin = desktopConfig.loginOrigin.replace(/\/+$/, '');
 
 // Crashpad must start before any window exists so native crashes in EVERY

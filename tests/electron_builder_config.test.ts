@@ -1,4 +1,5 @@
 import { existsSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
@@ -82,6 +83,38 @@ describe('desktopBuilderConfig', () => {
         updateChannel: 'beta',
       }),
     ).toThrow(/unknown desktop update channel/);
+  });
+
+  it('treats a set-but-empty WOC_UPDATE_CHANNEL as unset and derives from the origin', () => {
+    const prod = desktopBuilderConfig({
+      base,
+      distribution: 'website',
+      apiOrigin: prodOrigin,
+      updateChannel: '',
+    });
+    expect(prod.publish?.channel).toBe('latest');
+    const dev = desktopBuilderConfig({
+      base,
+      distribution: 'website',
+      apiOrigin: 'http://localhost:8787',
+      updateChannel: '',
+    });
+    expect(dev.publish?.channel).toBe('dev');
+  });
+
+  it('rejects an unparseable non-empty origin at build time (would strand the install)', () => {
+    // A schemeless origin derives the dev channel at build time but normalizes
+    // to production in the runtime guard, refusing every stamped update on its
+    // own track forever; that mistake must die here.
+    for (const apiOrigin of ['localhost:8787', 'worldofclaudecraft.com', 'not a url']) {
+      expect(() => desktopBuilderConfig({ base, distribution: 'website', apiOrigin })).toThrow(
+        /parseable http\(s\) VITE_DESKTOP_API_ORIGIN/,
+      );
+    }
+    // Steam builds publish nothing, so the same origin does not throw there.
+    expect(
+      desktopBuilderConfig({ base, distribution: 'steam', apiOrigin: 'localhost:8787' }).publish,
+    ).toBeNull();
   });
 
   it('never mutates the base config object', () => {
@@ -210,6 +243,24 @@ describe('stampFeedFile', () => {
 
   it('requires the origin: a stamp-less production feed must not be emitted silently', () => {
     expect(() => stampFeedFile(yml, '')).toThrow(/apiOrigin/);
+  });
+
+  it('round-trips through the real electron-updater feed parser onto UpdateInfo', () => {
+    // Guards the load-bearing vendor assumption: parseUpdateInfo is a raw yaml
+    // load with no key whitelist, so the stamp reaches the update-available
+    // handler. If a future electron-updater upgrade starts stripping unknown
+    // keys, the runtime guard silently degrades to accept-everything and THIS
+    // test is the only signal.
+    const require = createRequire(import.meta.url);
+    const { parseUpdateInfo } = require('electron-updater/out/providers/Provider.js');
+    const info = parseUpdateInfo(
+      stampFeedFile(yml, 'https://worldofclaudecraft.com'),
+      'latest-mac.yml',
+      'https://updates.example.com/desktop/latest-mac.yml',
+    );
+    expect(info.wocApiOrigin).toBe('https://worldofclaudecraft.com');
+    expect(info.version).toBe('0.23.0');
+    expect(info.path).toBe('woc.zip');
   });
 });
 

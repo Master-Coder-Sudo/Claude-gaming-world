@@ -2,6 +2,8 @@
 // Vitest suite type-checks its imports (same convention as the electron/*.d.cts
 // files). Keep in sync with the .mjs exports.
 
+import type { UpdateChannel } from '../electron/update_guard.cjs';
+
 export interface AzureSignOptions {
   publisherName: string;
   endpoint: string;
@@ -22,7 +24,7 @@ export interface DesktopBuilderConfig {
       crashSubmitUrl?: string;
     };
   };
-  publish: { channel?: 'latest' | 'dev'; [key: string]: unknown } | null;
+  publish: { channel?: UpdateChannel; [key: string]: unknown } | null;
   directories: { output?: string; [key: string]: unknown };
   mac: { [key: string]: unknown };
   win: { azureSignOptions?: AzureSignOptions; [key: string]: unknown };

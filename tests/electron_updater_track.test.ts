@@ -147,9 +147,11 @@ describe('main.cjs updater wiring pin', () => {
   it('passes apiOrigin and the resolved updateChannel into initUpdater', () => {
     // main.cjs is the electron entry and cannot run under vitest, so pin the
     // wiring textually: dropping either argument would silently break the
-    // origin guard (undefined own origin refuses every stamped update).
+    // origin guard (undefined own origin refuses every stamped update). The
+    // match runs to the call's own `});` closer (a nested `})` mid-args, e.g.
+    // an arrow body, cannot end it), so growing the arg list stays matched.
     const source = readFileSync(new URL('../electron/main.cjs', import.meta.url), 'utf8');
-    const call = source.match(/initUpdater\(\{[\s\S]*?\}\)/)?.[0] ?? '';
+    const call = source.match(/initUpdater\(\{[\s\S]*?\n\s*\}\);/)?.[0] ?? '';
     expect(call).toContain('apiOrigin');
     expect(call).toContain('updateChannel: desktopConfig.updateChannel');
   });

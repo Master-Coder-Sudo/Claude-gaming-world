@@ -28,6 +28,7 @@
 // the channel differences directly.
 
 import {
+  apiOriginKey,
   isProductionApiOrigin,
   PRODUCTION_API_ORIGIN,
   updateChannelForOrigin,
@@ -81,12 +82,26 @@ export function desktopBuilderConfig({
     },
   };
   if (distribution === 'website' && config.publish) {
+    // A non-empty origin that does not parse would strand the install it
+    // bakes: the channel would fail safe to 'dev' while the runtime guard
+    // normalizes its own side to production, refusing every stamped update on
+    // that install's track forever. That mistake dies here instead (a missing
+    // origin stays fail-safe: it only happens on direct calls, never through
+    // scripts/electron-build.mjs, which always resolves one).
+    if (apiOrigin !== '' && apiOriginKey(apiOrigin) === null) {
+      throw new Error(
+        `desktop website builds need a parseable http(s) VITE_DESKTOP_API_ORIGIN ` +
+          `to pick an update track; got "${apiOrigin}"`,
+      );
+    }
     // The update-track split: default the channel from the baked origin, and
     // hard-fail the one dangerous combination (production feed files for an
     // artifact not baked with the production origin). The reverse cross,
     // updateChannel 'dev' with a production origin, is allowed on purpose: it
     // stages a production artifact on the dev track for update-pipeline tests.
-    const channel = updateChannel ?? updateChannelForOrigin(apiOrigin);
+    // An empty updateChannel means "not requested" (set-but-empty env vars are
+    // common in CI matrices), so it derives like null does.
+    const channel = updateChannel || updateChannelForOrigin(apiOrigin);
     if (!UPDATE_CHANNELS.has(channel)) {
       throw new Error(`unknown desktop update channel: ${channel}`);
     }

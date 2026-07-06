@@ -14,7 +14,7 @@
 // code and differ only by this stamp. WOC_DISTRIBUTION overrides it for local
 // testing of either path in `electron .` / electron:dev.
 
-const { updateChannelForOrigin } = require('./update_guard.cjs');
+const { PRODUCTION_API_ORIGIN, updateChannelForOrigin } = require('./update_guard.cjs');
 
 const DISTRIBUTIONS = new Set(['website', 'steam']);
 
@@ -78,8 +78,7 @@ function resolveDesktopOrigins({ packagedMetadata, env, isPackaged } = {}) {
     if (typeof stampedValue === 'string' && stampedValue !== '') return stampedValue;
     return '';
   };
-  const apiOrigin =
-    pick(env?.VITE_DESKTOP_API_ORIGIN, stamped.apiOrigin) || 'https://worldofclaudecraft.com';
+  const apiOrigin = pick(env?.VITE_DESKTOP_API_ORIGIN, stamped.apiOrigin) || PRODUCTION_API_ORIGIN;
   const loginOrigin = pick(env?.VITE_DESKTOP_LOGIN_ORIGIN, stamped.loginOrigin) || apiOrigin;
   return { apiOrigin, loginOrigin };
 }
