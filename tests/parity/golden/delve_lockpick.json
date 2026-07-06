@@ -16,7 +16,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "aa7a44c1",
+      "state": "7be2094c",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -26,6 +26,7 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -120,7 +121,7 @@
       "tick": 10,
       "time": 0.5,
       "nextId": 414,
-      "state": "0140a79d",
+      "state": "86437ef8",
       "events": "a8af5cb6",
       "rng": {
         "draws": 4,
@@ -131,7 +132,7 @@
       "tick": 20,
       "time": 1,
       "nextId": 414,
-      "state": "26c59c76",
+      "state": "d09192ad",
       "events": "b93c7dc5",
       "rng": {
         "draws": 4,
@@ -142,7 +143,7 @@
       "tick": 30,
       "time": 1.5,
       "nextId": 414,
-      "state": "e34a56d5",
+      "state": "f3d882c0",
       "events": "0b43bbc3",
       "rng": {
         "draws": 5,
@@ -153,8 +154,8 @@
       "tick": 38,
       "time": 1.9,
       "nextId": 416,
-      "state": "15e72884",
-      "events": "0a56b75f",
+      "state": "dce1cdcf",
+      "events": "6c6bd0f2",
       "rng": {
         "draws": 8,
         "digest": "20464699"
@@ -163,6 +164,7 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -413,7 +415,7 @@
       "tick": 40,
       "time": 2,
       "nextId": 416,
-      "state": "d7829599",
+      "state": "d884a50c",
       "events": "741638a5",
       "rng": {
         "draws": 8,
@@ -424,7 +426,7 @@
       "tick": 40,
       "time": 2,
       "nextId": 416,
-      "state": "d7829599",
+      "state": "d884a50c",
       "events": "741638a5",
       "rng": {
         "draws": 8,
@@ -434,6 +436,7 @@
       "players": [
         {
           "activeLoadout": -1,
+          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,

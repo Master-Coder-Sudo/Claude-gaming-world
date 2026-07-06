@@ -10,14 +10,6 @@
 
 export const pending: Record<string, readonly string[]> = {
   "es": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.actionPageToggle",
-    "hudChrome.mobile.actionRing",
-    "hudChrome.mobile.spellbookPageLabel",
-    "hudChrome.mobile.targetCycle",
-    "hudChrome.mobile.targetCycleShort",
-    "hudChrome.options.mobileCameraJoystick",
-    "hudChrome.options.mobileLeftHanded",
     "hudChrome.townFocus.budgetLabel",
     "hudChrome.townFocus.decreaseAria",
     "hudChrome.townFocus.hint",
@@ -27,14 +19,6 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.townFocus.title"
   ],
   "es_ES": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.actionPageToggle",
-    "hudChrome.mobile.actionRing",
-    "hudChrome.mobile.spellbookPageLabel",
-    "hudChrome.mobile.targetCycle",
-    "hudChrome.mobile.targetCycleShort",
-    "hudChrome.options.mobileCameraJoystick",
-    "hudChrome.options.mobileLeftHanded",
     "hudChrome.townFocus.budgetLabel",
     "hudChrome.townFocus.decreaseAria",
     "hudChrome.townFocus.hint",
@@ -44,14 +28,6 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.townFocus.title"
   ],
   "fr_FR": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.actionPageToggle",
-    "hudChrome.mobile.actionRing",
-    "hudChrome.mobile.spellbookPageLabel",
-    "hudChrome.mobile.targetCycle",
-    "hudChrome.mobile.targetCycleShort",
-    "hudChrome.options.mobileCameraJoystick",
-    "hudChrome.options.mobileLeftHanded",
     "hudChrome.townFocus.budgetLabel",
     "hudChrome.townFocus.decreaseAria",
     "hudChrome.townFocus.hint",
@@ -61,14 +37,6 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.townFocus.title"
   ],
   "fr_CA": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.actionPageToggle",
-    "hudChrome.mobile.actionRing",
-    "hudChrome.mobile.spellbookPageLabel",
-    "hudChrome.mobile.targetCycle",
-    "hudChrome.mobile.targetCycleShort",
-    "hudChrome.options.mobileCameraJoystick",
-    "hudChrome.options.mobileLeftHanded",
     "hudChrome.townFocus.budgetLabel",
     "hudChrome.townFocus.decreaseAria",
     "hudChrome.townFocus.hint",
@@ -79,14 +47,6 @@ export const pending: Record<string, readonly string[]> = {
   ],
   "en_CA": [],
   "it_IT": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.actionPageToggle",
-    "hudChrome.mobile.actionRing",
-    "hudChrome.mobile.spellbookPageLabel",
-    "hudChrome.mobile.targetCycle",
-    "hudChrome.mobile.targetCycleShort",
-    "hudChrome.options.mobileCameraJoystick",
-    "hudChrome.options.mobileLeftHanded",
     "hudChrome.townFocus.budgetLabel",
     "hudChrome.townFocus.decreaseAria",
     "hudChrome.townFocus.hint",
@@ -96,14 +56,6 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.townFocus.title"
   ],
   "de_DE": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.actionPageToggle",
-    "hudChrome.mobile.actionRing",
-    "hudChrome.mobile.spellbookPageLabel",
-    "hudChrome.mobile.targetCycle",
-    "hudChrome.mobile.targetCycleShort",
-    "hudChrome.options.mobileCameraJoystick",
-    "hudChrome.options.mobileLeftHanded",
     "hudChrome.townFocus.budgetLabel",
     "hudChrome.townFocus.decreaseAria",
     "hudChrome.townFocus.hint",
@@ -112,31 +64,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.townFocus.saveButton",
     "hudChrome.townFocus.title"
   ],
-  "zh_CN": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.spellbookPageLabel"
-  ],
-  "zh_TW": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.spellbookPageLabel"
-  ],
-  "ko_KR": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.spellbookPageLabel"
-  ],
-  "ja_JP": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.spellbookPageLabel"
-  ],
+  "zh_CN": [],
+  "zh_TW": [],
+  "ko_KR": [],
+  "ja_JP": [],
   "pt_BR": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.actionPageToggle",
-    "hudChrome.mobile.actionRing",
-    "hudChrome.mobile.spellbookPageLabel",
-    "hudChrome.mobile.targetCycle",
-    "hudChrome.mobile.targetCycleShort",
-    "hudChrome.options.mobileCameraJoystick",
-    "hudChrome.options.mobileLeftHanded",
     "hudChrome.townFocus.budgetLabel",
     "hudChrome.townFocus.decreaseAria",
     "hudChrome.townFocus.hint",
@@ -145,19 +77,8 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.townFocus.saveButton",
     "hudChrome.townFocus.title"
   ],
-  "ru_RU": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.spellbookPageLabel"
-  ],
+  "ru_RU": [],
   "nl_NL": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.actionPageToggle",
-    "hudChrome.mobile.actionRing",
-    "hudChrome.mobile.spellbookPageLabel",
-    "hudChrome.mobile.targetCycle",
-    "hudChrome.mobile.targetCycleShort",
-    "hudChrome.options.mobileCameraJoystick",
-    "hudChrome.options.mobileLeftHanded",
     "hudChrome.townFocus.budgetLabel",
     "hudChrome.townFocus.decreaseAria",
     "hudChrome.townFocus.hint",
@@ -167,14 +88,6 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.townFocus.title"
   ],
   "pl_PL": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.actionPageToggle",
-    "hudChrome.mobile.actionRing",
-    "hudChrome.mobile.spellbookPageLabel",
-    "hudChrome.mobile.targetCycle",
-    "hudChrome.mobile.targetCycleShort",
-    "hudChrome.options.mobileCameraJoystick",
-    "hudChrome.options.mobileLeftHanded",
     "hudChrome.townFocus.budgetLabel",
     "hudChrome.townFocus.decreaseAria",
     "hudChrome.townFocus.hint",
@@ -184,14 +97,6 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.townFocus.title"
   ],
   "id_ID": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.actionPageToggle",
-    "hudChrome.mobile.actionRing",
-    "hudChrome.mobile.spellbookPageLabel",
-    "hudChrome.mobile.targetCycle",
-    "hudChrome.mobile.targetCycleShort",
-    "hudChrome.options.mobileCameraJoystick",
-    "hudChrome.options.mobileLeftHanded",
     "hudChrome.townFocus.budgetLabel",
     "hudChrome.townFocus.decreaseAria",
     "hudChrome.townFocus.hint",
@@ -201,14 +106,6 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.townFocus.title"
   ],
   "tr_TR": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.actionPageToggle",
-    "hudChrome.mobile.actionRing",
-    "hudChrome.mobile.spellbookPageLabel",
-    "hudChrome.mobile.targetCycle",
-    "hudChrome.mobile.targetCycleShort",
-    "hudChrome.options.mobileCameraJoystick",
-    "hudChrome.options.mobileLeftHanded",
     "hudChrome.townFocus.budgetLabel",
     "hudChrome.townFocus.decreaseAria",
     "hudChrome.townFocus.hint",
@@ -218,14 +115,6 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.townFocus.title"
   ],
   "sv_SE": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.actionPageToggle",
-    "hudChrome.mobile.actionRing",
-    "hudChrome.mobile.spellbookPageLabel",
-    "hudChrome.mobile.targetCycle",
-    "hudChrome.mobile.targetCycleShort",
-    "hudChrome.options.mobileCameraJoystick",
-    "hudChrome.options.mobileLeftHanded",
     "hudChrome.townFocus.budgetLabel",
     "hudChrome.townFocus.decreaseAria",
     "hudChrome.townFocus.hint",
@@ -235,14 +124,6 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.townFocus.title"
   ],
   "vi_VN": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.actionPageToggle",
-    "hudChrome.mobile.actionRing",
-    "hudChrome.mobile.spellbookPageLabel",
-    "hudChrome.mobile.targetCycle",
-    "hudChrome.mobile.targetCycleShort",
-    "hudChrome.options.mobileCameraJoystick",
-    "hudChrome.options.mobileLeftHanded",
     "hudChrome.townFocus.budgetLabel",
     "hudChrome.townFocus.decreaseAria",
     "hudChrome.townFocus.hint",
@@ -252,14 +133,6 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.townFocus.title"
   ],
   "da_DK": [
-    "hudChrome.mobile.actionPageIndicator",
-    "hudChrome.mobile.actionPageToggle",
-    "hudChrome.mobile.actionRing",
-    "hudChrome.mobile.spellbookPageLabel",
-    "hudChrome.mobile.targetCycle",
-    "hudChrome.mobile.targetCycleShort",
-    "hudChrome.options.mobileCameraJoystick",
-    "hudChrome.options.mobileLeftHanded",
     "hudChrome.townFocus.budgetLabel",
     "hudChrome.townFocus.decreaseAria",
     "hudChrome.townFocus.hint",
