@@ -1225,7 +1225,8 @@ export const ru_RU: EnTranslations = {
       "resultAria": "Создать {name}",
       "craftedToast": "Создано: {name}",
       "insufficientMaterials": "У вас недостаточно материалов.",
-      "unknownRecipe": "Такого рецепта не существует."
+      "unknownRecipe": "Такого рецепта не существует.",
+      "comboRequirementUnmet": "У вас нет обоих требуемых ремесел нужного уровня для этого рецепта."
     }
   },
   "apiError": {
