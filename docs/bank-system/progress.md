@@ -4,7 +4,7 @@
 
 | Phase | Status | Started | Completed |
 |---|---|---|---|
-| Phase 1: sim bank core | not started | | |
+| Phase 1: sim bank core | complete | 2026-07-05 | 2026-07-05 |
 | Phase 1 QA | not started | | |
 | Phase 2: banker NPCs | not started | | |
 | Phase 2 QA | not started | | |
@@ -25,13 +25,13 @@
 ## Per-phase deliverable checklists
 
 ### Phase 1: sim bank core
-- [ ] `src/sim/bank.ts` module behind SimContext (state on Sim/PlayerMeta as live ctx views; thin delegates on Sim; zero rng draws)
-- [ ] Character state fields (`bank` container: inventory + purchasedSlots) with serialize/load + `?? ` back-compat defaults + `cloneInvSlot` deep-clone at boundaries
-- [ ] Deposit/withdraw/buy-expansion logic with the full locked rule set (quest-kind deny, instanced no-merge, fitsAll pre-checks both directions, refusals move nothing and charge nothing, non-refundable purchases, expansion price table as data)
-- [ ] Move helpers are container-agnostic pure functions (lists + budgets in, no hardcoded containers; the guild-bank/loadout seam, state.md decision 16)
-- [ ] Capacity math: base 24 + purchased blocks + bonusSlots field (bonus stays 0 until Phase 8)
-- [ ] `tests/bank.test.ts`: rule matrix, exact deny literals, conservation invariant seed sweeps (non-vacuous), determinism (run() equals run()), persistence round-trip + back-compat + tampered-save sanitization
-- [ ] sim_i18n matcher entries for every new emit + S3 simSrc list append (same change)
+- [x] `src/sim/bank.ts` module behind SimContext (state on Sim/PlayerMeta as live ctx views; thin delegates on Sim; zero rng draws)
+- [x] Character state fields (`bank` container: inventory + purchasedSlots + bonusSlots) with serialize/load + back-compat defaults via `sanitizeBankState` + `cloneInvSlot` deep-clone at boundaries
+- [x] Deposit/withdraw/buy-expansion logic with the full locked rule set (quest-kind deny, instanced no-merge, capacity pre-checks both directions, refusals move nothing and charge nothing, non-refundable purchases, expansion price table as data)
+- [x] Move helpers are container-agnostic pure functions (`moveBetweenContainers` over lists + budgets, no hardcoded containers; the guild-bank/loadout seam, state.md decision 16)
+- [x] Capacity math: base 24 + purchased blocks + bonusSlots field (bonus stays 0 until Phase 8)
+- [x] `tests/bank.test.ts` (41 tests): rule matrix, exact deny literals, conservation invariant seed sweeps (50 seeds, five non-vacuity flags), determinism (300-tick run() equals run()), persistence round-trip + back-compat + tampered-save sanitization; decisiveness proven by an 8-mutation planted-bug pass (all killed)
+- [x] sim_i18n matcher entries for every new emit (5 EXACT keys + zh_CN/zh_TW/ja_JP/ko_KR/ru_RU fills, M16) + S3 simSrc list append (same change)
 
 ### Phase 1 QA
 - [ ] Deliverables and acceptance criteria verified; coverage/dead-code/cleanup agents run; findings fixed
@@ -106,3 +106,10 @@
 ## Notes per phase
 
 (Fill in after each phase: deferrals, surprises, drift.)
+
+### Phase 1 (2026-07-05)
+- Reviewers: architecture-reviewer, migration-safety, qa-checklist all returned ZERO blocking; every should-fix and nice-to-have applied (Math.floor price-index hardening, `CharacterState.bank?: BankState` type reuse, deposit-side un-credit test, bonusSlots clamp deferral documented).
+- Parity: the new `PlayerMeta.bank` field entered the sampled trace, so `bank` was added to `META_EXCLUDE` (pin updated in harness.test.ts); goldens byte-untouched. DEBT: Phase 3 must remove the exclusion and pin the bank in parity scenarios when it goes on the wire.
+- Surprise: every content collect-objective item is quest-kind today, so the deposit-side quest un-credit path is unreachable through real content; it is pinned with a synthetic quest injection in the test and stays as defensive wiring for future content.
+- Rollout: forward-only (a pre-bank binary drops the field and banked items are unrecoverable); drain or upgrade realms, never mixed binaries. Full outcome record in state.md "Phase 1 outcomes".
+- Next: run docs/bank-system/phase-01-qa.md in a fresh session.

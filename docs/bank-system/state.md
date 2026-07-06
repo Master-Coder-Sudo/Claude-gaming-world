@@ -1,10 +1,10 @@
 # Bank System: Cross-Phase State (read this first every session)
 
-Current phase: Phase 1 (not started). Update this line as phases complete.
+Current phase: Phase 1 implementation complete (2026-07-05); run phase-01-qa.md next, then Phase 2. Update this line as phases complete.
 
 ## Locked design decisions (record once, reference forever)
 
-1. Model: per-character pooled bank. `CharacterState.bank = { inventory: InvSlot[], purchasedSlots: number }` (exact field names may be finalized in Phase 1 and recorded here). Flat pooled list + slot budget, reusing `src/sim/bags.ts` math (`stackSizeOf`, `countFit`, `fitsAll` idioms). No positional slots, no tabs, no drag-arrange.
+1. Model: per-character pooled bank. FINALIZED in Phase 1: `PlayerMeta.bank: BankState` (required) and `CharacterState.bank?: BankState` (optional for pre-bank saves), with `BankState = { inventory: InvSlot[], purchasedSlots: number, bonusSlots: number }` exported from `src/sim/bank.ts`. `purchasedSlots` counts SLOTS on the 6-slot grid in [0, 72] (capacity = `BANK_BASE_SLOTS + purchasedSlots + bonusSlots`); `bonusSlots` is persisted and stays 0 until Phase 8 stamps it. Flat pooled list + slot budget, reusing `src/sim/bags.ts` math (`countFit`, `addStacked` idioms). No positional slots, no tabs, no drag-arrange.
 2. Storage: INSIDE `characters.state` JSONB, next to inventory. NEVER a `world_state` row for the personal bank (same-blob atomicity is the anti-dupe cornerstone).
 3. Capacity: `BANK_BASE_SLOTS = 24`. Twelve purchasable 6-slot expansions, copper, non-refundable, data-as-code table:
    500c, 1,000c, 2,500c, 5,000c, 10,000c, 20,000c, 40,000c, 80,000c, 150,000c, 300,000c, 600,000c, 1,200,000c.
@@ -63,7 +63,16 @@ Existing (templates and seams):
 - `src/sim/bags.ts` (capacity math + command-boundary idioms), `src/sim/types.ts` (InvSlot, cloneInvSlot, NpcDef, SimEvent), `src/sim/market.ts` + `src/sim/mail/post_office.ts` (SimContext town-service modules, anchor lists, proximity, persistence, result-code events), `src/sim/interaction.ts` (interact routing), `src/sim/sim_context.ts` (seam), `src/world_api.ts` + `src/world_api/` (facets, COMMAND_NAMES, COMMAND_FACETS), `src/net/online.ts` (ClientWorld, cmd(), applySnapshot), `server/game.ts` (dispatch, selfWireJson maybe(), HEAVY_SELF_CMDS, interest), `server/db.ts` (SCHEMA, saveCharacterAndMarketState, reward-ledger template in `server/discord_db.ts`), `src/ui/bags_view.ts` + `src/ui/bags_window.ts` + `src/ui/bag_filter.ts` + `src/ui/mailbox_view.ts` + `src/ui/mailbox_window.ts` (window recipe), `src/ui/hud.ts` (composition, gossip rows, vendor-open cluster), `src/sim/content/zone1.ts` / `zone2.ts` / `zone3.ts` (hub NPC rosters), `server/player_card.ts` + `server/wallet.ts` + `referralCountForAccount` in `server/db.ts` (referrals), `server/auth_routes.ts` (referral capture at signup).
 
 Created by this feature (record actual paths as phases land):
-- Phase 1: `src/sim/bank.ts`, `tests/bank.test.ts`, CharacterState fields.
+- Phase 1 (LANDED 2026-07-05): `src/sim/bank.ts` exporting `BANK_BASE_SLOTS`/`BANK_EXPANSION_SLOTS`/`BANK_EXPANSION_PRICES`, `BankState`, `bankCapacity`, `moveBetweenContainers(source, sourceIndex, count, dest, destCapacity): MoveResult` (the container-agnostic seam, decision 16a), `bankDeposit`/`bankWithdraw`/`bankBuySlots` (free functions over ctx, thin same-named Sim delegates), `sanitizeBankState` (the ONE load path); `tests/bank.test.ts`; `PlayerMeta.bank` + `CharacterState.bank?` per decision 1.
+
+## Phase 1 outcomes (recorded 2026-07-05)
+
+- Emit literals (all EXACT, no placeholders): 'You cannot store quest items in the bank.' (`error.bankQuestItem`), 'Your bank is full.' (`error.bankFull`), 'You cannot afford that bank expansion.' (`error.bankCannotAfford`), 'Your bank cannot be expanded further.' (`error.bankMaxSlots`), 'You purchase additional bank slots.' (`log.bankSlotsPurchased`). Withdraw-refusal reuses the existing `bagsFullError` line ('Your bags are full.'); all five new keys filled in zh_CN/zh_TW/ja_JP/ko_KR/ru_RU (M16).
+- Rule interpretations locked in-phase: malformed input (bad index, count <= 0, count > stack) is a SILENT no-op (cheat/desync territory, no player line); refusal lines are reserved for player-meaningful denials. `noMarketList` is NOT honored by the bank (it gates player-to-player transfer surfaces; the bank is self-storage), only quest-kind is denied. Instanced slots move WHOLE regardless of the count argument. Successful deposit AND withdraw both call `onInventoryChangedForQuests` (collect credit recomputes from bag inventory; every content collect item is quest-kind today, so the deposit arm is defensive for future content and pinned via a synthetic quest in the test).
+- Load sanitization: unknown-but-string itemIds KEPT dormant (mail precedent); instanced entries forced to count 1 (blocks payload minting); counts clamped to Math.max(1, floor); purchasedSlots floored to the 6-slot grid in [0, 72]; bonusSlots clamped >= 0 with NO upper clamp until Phase 8 defines the source registry (Phase 8 adds the clamp); over-capacity inventories tolerated, never truncated. `sanitizeRemovedZone1Content` intentionally does not reach into `bank.inventory` (items are never destroyed; removed-content items cannot be deposited normally since they are quest-kind).
+- Parity: `bank` added to `META_EXCLUDE` (tests/parity/trace.ts) with the membership pin updated (tests/parity/harness.test.ts); goldens byte-untouched. This is a DELIBERATE temporary coverage gap: Phase 3 MUST remove `bank` from `META_EXCLUDE` and pin the bank in parity scenarios when it goes on the wire.
+- Rollout caveat: rolling back to a pre-bank server binary drops the `bank` field on that binary's next save and banked items are unrecoverable (they left the bags at deposit). Treat the bank rollout as forward-only; do not run mixed old/new binaries against the same characters.
+- Phase 3 wire notes carried forward: validate `slotIndex`/`count` field shapes in dispatch, rate-limit `bank_buy_slots` (economy action), `bonusSlots` stays server-stamped (never client-supplied).
 - Phase 2: banker NpcDefs in zone content, interaction arm, `{type:'bank'}` SimEvent.
 - Phase 3: `src/world_api/bank.ts`, wire tokens, ClientWorld mirrors, pin bumps.
 - Phase 4: character lease, `bank_ledger` DDL + writer, `scripts/bank_audit.mjs`.
@@ -79,7 +88,7 @@ Created by this feature (record actual paths as phases land):
 - Wire fields / delta keys: (Phase 3)
 - Commands: (Phase 3: `bank_deposit`, `bank_withdraw`, `bank_buy_slots`)
 - DB tables/columns: (Phase 4: `bank_ledger`; lease mechanism)
-- i18n keys / matcher rules: (Phases 1, 2, 5, 6, 7)
+- i18n keys / matcher rules: Phase 1: `error.bankQuestItem`, `error.bankFull`, `error.bankCannotAfford`, `error.bankMaxSlots`, `log.bankSlotsPurchased` (all EXACT via `baseEnTable`, five non-Latin fills each); more in Phases 2, 5, 6, 7.
 
 ## OPEN items and known gotchas
 
