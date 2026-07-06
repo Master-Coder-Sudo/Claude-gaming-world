@@ -34,9 +34,9 @@
   "counts": {
     "keys": 6045,
     "rows": 126945,
-    "translated": 126790,
+    "translated": 126777,
     "pending": 0,
-    "blocked": 155,
+    "blocked": 168,
     "blockedSource": 93
   },
   "perLocale": {
@@ -106,9 +106,9 @@
       "blocked": 0
     },
     "cs_CZ": {
-      "translated": 6045,
+      "translated": 6032,
       "pending": 0,
-      "blocked": 0
+      "blocked": 13
     },
     "nl_NL": {
       "translated": 6025,
