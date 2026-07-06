@@ -347,7 +347,7 @@ describe('effect recharge with original-crafter discount (#1137)', () => {
   it('a successful recharge restores durability to full and the bonus resumes applying', () => {
     const slot = slotEffect('gatherers_cache', { craftedBy: 'player_alice' });
     const rng = new Rng(3);
-    for (let i = 0; i < 200; i++) depleteEffect(slot, rng);
+    for (let i = 0; i < 200; i++) depleteEffect(slot, 'epic', 'rare', rng);
     expect(slot.durability).toBe(0);
     const baseOutcome: HarvestOutcome = { quantity: 2, quality: 1, respawnTicks: 100 };
     expect(applyEffectBonus(slot, baseOutcome)).toEqual(baseOutcome);
