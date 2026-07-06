@@ -554,7 +554,8 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'download.title': 'Скачать загрузчик для ПК',
   'download.macCta': 'Скачать для macOS',
   'download.linuxCta': 'Скачать для Linux',
-  'download.linuxHint': 'Формат AppImage: сделайте файл исполняемым и запустите его, установка не требуется.',
+  'download.linuxHint':
+    'Формат AppImage: сделайте файл исполняемым и запустите его, установка не требуется.',
   'download.windowsPending': 'Сборка для Windows готовится.',
   'download.desc':
     'Загрузите отдельный клиент для оптимальной производительности и игры на весь экран.',
