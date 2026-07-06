@@ -1069,7 +1069,8 @@ export const sv_SE: EnTranslations = {
       "resultAria": "Hantverk {name}",
       "craftedToast": "Tillverkad: {name}",
       "insufficientMaterials": "Du har inte materialet för det.",
-      "unknownRecipe": "Det receptet finns inte."
+      "unknownRecipe": "Det receptet finns inte.",
+      "comboRequirementUnmet": "You do not have both required crafts at the required tier for that recipe."
     },
     "devBadge": {
       "title": "Utvecklare",
@@ -1214,19 +1215,6 @@ export const sv_SE: EnTranslations = {
       "mining": "Gruvdrift",
       "logging": "Skogsavverkning",
       "herbalism": "Örtkunskap"
-    },
-    "crafting": {
-      "title": "Crafting",
-      "close": "Close crafting",
-      "craft": "Craft",
-      "reagentsNeeded": "Requires:",
-      "reagentLine": "{name} x{have}/{required}",
-      "empty": "No recipes known yet.",
-      "resultAria": "Craft {name}",
-      "craftedToast": "Crafted: {name}",
-      "insufficientMaterials": "You do not have the materials for that.",
-      "unknownRecipe": "That recipe does not exist.",
-      "comboRequirementUnmet": "You do not have both required crafts at the required tier for that recipe."
     }
   },
   "apiError": {

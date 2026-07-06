@@ -9,24 +9,52 @@
 // Reproducibility is checked by tests/i18n_resolved_equivalence.test.ts.
 
 export const pending: Record<string, readonly string[]> = {
-  "es": [],
-  "es_ES": [],
-  "fr_FR": [],
-  "fr_CA": [],
+  "es": [
+    "hudChrome.crafting.comboRequirementUnmet"
+  ],
+  "es_ES": [
+    "hudChrome.crafting.comboRequirementUnmet"
+  ],
+  "fr_FR": [
+    "hudChrome.crafting.comboRequirementUnmet"
+  ],
+  "fr_CA": [
+    "hudChrome.crafting.comboRequirementUnmet"
+  ],
   "en_CA": [],
-  "it_IT": [],
-  "de_DE": [],
+  "it_IT": [
+    "hudChrome.crafting.comboRequirementUnmet"
+  ],
+  "de_DE": [
+    "hudChrome.crafting.comboRequirementUnmet"
+  ],
   "zh_CN": [],
   "zh_TW": [],
   "ko_KR": [],
   "ja_JP": [],
-  "pt_BR": [],
+  "pt_BR": [
+    "hudChrome.crafting.comboRequirementUnmet"
+  ],
   "ru_RU": [],
-  "nl_NL": [],
-  "pl_PL": [],
-  "id_ID": [],
-  "tr_TR": [],
-  "sv_SE": [],
-  "vi_VN": [],
-  "da_DK": []
+  "nl_NL": [
+    "hudChrome.crafting.comboRequirementUnmet"
+  ],
+  "pl_PL": [
+    "hudChrome.crafting.comboRequirementUnmet"
+  ],
+  "id_ID": [
+    "hudChrome.crafting.comboRequirementUnmet"
+  ],
+  "tr_TR": [
+    "hudChrome.crafting.comboRequirementUnmet"
+  ],
+  "sv_SE": [
+    "hudChrome.crafting.comboRequirementUnmet"
+  ],
+  "vi_VN": [
+    "hudChrome.crafting.comboRequirementUnmet"
+  ],
+  "da_DK": [
+    "hudChrome.crafting.comboRequirementUnmet"
+  ]
 };

@@ -1069,7 +1069,8 @@ export const vi_VN: EnTranslations = {
       "resultAria": "Thủ công {name}",
       "craftedToast": "Đã chế tác: {name}",
       "insufficientMaterials": "Bạn không có tài liệu cho việc đó.",
-      "unknownRecipe": "Công thức đó không tồn tại."
+      "unknownRecipe": "Công thức đó không tồn tại.",
+      "comboRequirementUnmet": "You do not have both required crafts at the required tier for that recipe."
     },
     "devBadge": {
       "title": "Nhà phát triển",
@@ -1214,19 +1215,6 @@ export const vi_VN: EnTranslations = {
       "mining": "Khai mỏ",
       "logging": "Đốn gỗ",
       "herbalism": "Thảo dược học"
-    },
-    "crafting": {
-      "title": "Crafting",
-      "close": "Close crafting",
-      "craft": "Craft",
-      "reagentsNeeded": "Requires:",
-      "reagentLine": "{name} x{have}/{required}",
-      "empty": "No recipes known yet.",
-      "resultAria": "Craft {name}",
-      "craftedToast": "Crafted: {name}",
-      "insufficientMaterials": "You do not have the materials for that.",
-      "unknownRecipe": "That recipe does not exist.",
-      "comboRequirementUnmet": "You do not have both required crafts at the required tier for that recipe."
     }
   },
   "apiError": {

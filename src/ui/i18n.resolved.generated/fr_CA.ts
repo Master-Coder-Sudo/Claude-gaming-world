@@ -1069,7 +1069,8 @@ export const fr_CA: EnTranslations = {
       "resultAria": "Artisanat {name}",
       "craftedToast": "Fabriqué$1 {name}",
       "insufficientMaterials": "Vous n'avez pas le matériel pour cela.",
-      "unknownRecipe": "Cette recette n'existe pas."
+      "unknownRecipe": "Cette recette n'existe pas.",
+      "comboRequirementUnmet": "You do not have both required crafts at the required tier for that recipe."
     },
     "devBadge": {
       "title": "Développeur",
@@ -1214,19 +1215,6 @@ export const fr_CA: EnTranslations = {
       "mining": "Minage",
       "logging": "Bûcheronnage",
       "herbalism": "Herboristerie"
-    },
-    "crafting": {
-      "title": "Crafting",
-      "close": "Close crafting",
-      "craft": "Craft",
-      "reagentsNeeded": "Requires:",
-      "reagentLine": "{name} x{have}/{required}",
-      "empty": "No recipes known yet.",
-      "resultAria": "Craft {name}",
-      "craftedToast": "Crafted: {name}",
-      "insufficientMaterials": "You do not have the materials for that.",
-      "unknownRecipe": "That recipe does not exist.",
-      "comboRequirementUnmet": "You do not have both required crafts at the required tier for that recipe."
     }
   },
   "apiError": {

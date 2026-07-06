@@ -1069,7 +1069,8 @@ export const nl_NL: EnTranslations = {
       "resultAria": "Ambacht {name}",
       "craftedToast": "Gemaakt: {name}",
       "insufficientMaterials": "Daar heb je de materialen niet voor.",
-      "unknownRecipe": "Dat recept bestaat niet."
+      "unknownRecipe": "Dat recept bestaat niet.",
+      "comboRequirementUnmet": "You do not have both required crafts at the required tier for that recipe."
     },
     "devBadge": {
       "title": "Ontwikkelaar",
@@ -1214,19 +1215,6 @@ export const nl_NL: EnTranslations = {
       "mining": "Mijnbouw",
       "logging": "Houtkap",
       "herbalism": "Kruidenkunde"
-    },
-    "crafting": {
-      "title": "Crafting",
-      "close": "Close crafting",
-      "craft": "Craft",
-      "reagentsNeeded": "Requires:",
-      "reagentLine": "{name} x{have}/{required}",
-      "empty": "No recipes known yet.",
-      "resultAria": "Craft {name}",
-      "craftedToast": "Crafted: {name}",
-      "insufficientMaterials": "You do not have the materials for that.",
-      "unknownRecipe": "That recipe does not exist.",
-      "comboRequirementUnmet": "You do not have both required crafts at the required tier for that recipe."
     }
   },
   "apiError": {

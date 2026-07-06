@@ -1069,7 +1069,8 @@ export const id_ID: EnTranslations = {
       "resultAria": "Kerajinan {name}",
       "craftedToast": "Dibuat: {name}",
       "insufficientMaterials": "Anda tidak memiliki bahan untuk itu.",
-      "unknownRecipe": "Resep itu tidak ada."
+      "unknownRecipe": "Resep itu tidak ada.",
+      "comboRequirementUnmet": "You do not have both required crafts at the required tier for that recipe."
     },
     "devBadge": {
       "title": "Pengembang",
@@ -1214,19 +1215,6 @@ export const id_ID: EnTranslations = {
       "mining": "Penambangan",
       "logging": "Penebangan",
       "herbalism": "Herbalisme"
-    },
-    "crafting": {
-      "title": "Crafting",
-      "close": "Close crafting",
-      "craft": "Craft",
-      "reagentsNeeded": "Requires:",
-      "reagentLine": "{name} x{have}/{required}",
-      "empty": "No recipes known yet.",
-      "resultAria": "Craft {name}",
-      "craftedToast": "Crafted: {name}",
-      "insufficientMaterials": "You do not have the materials for that.",
-      "unknownRecipe": "That recipe does not exist.",
-      "comboRequirementUnmet": "You do not have both required crafts at the required tier for that recipe."
     }
   },
   "apiError": {
