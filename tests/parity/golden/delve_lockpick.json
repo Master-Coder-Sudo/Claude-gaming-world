@@ -16,7 +16,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "ee5681e8",
+      "state": "30a13eeb",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -26,7 +26,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -59,8 +58,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -121,7 +119,7 @@
       "tick": 10,
       "time": 0.5,
       "nextId": 414,
-      "state": "de00463c",
+      "state": "b9adb687",
       "events": "a8af5cb6",
       "rng": {
         "draws": 4,
@@ -132,7 +130,7 @@
       "tick": 20,
       "time": 1,
       "nextId": 414,
-      "state": "fef7427f",
+      "state": "1dd3e482",
       "events": "b93c7dc5",
       "rng": {
         "draws": 4,
@@ -143,7 +141,7 @@
       "tick": 30,
       "time": 1.5,
       "nextId": 414,
-      "state": "faed0444",
+      "state": "0197df3f",
       "events": "0b43bbc3",
       "rng": {
         "draws": 5,
@@ -154,7 +152,7 @@
       "tick": 38,
       "time": 1.9,
       "nextId": 416,
-      "state": "d23d128b",
+      "state": "ed3ce5e6",
       "events": "0a56b75f",
       "rng": {
         "draws": 8,
@@ -164,7 +162,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -215,7 +212,6 @@
             "choices": {},
             "ranks": {}
           },
-          "worldBossDaily": {},
           "xp": 898
         }
       ],
@@ -415,7 +411,7 @@
       "tick": 40,
       "time": 2,
       "nextId": 416,
-      "state": "f8779646",
+      "state": "2460f8f5",
       "events": "741638a5",
       "rng": {
         "draws": 8,
@@ -426,7 +422,7 @@
       "tick": 40,
       "time": 2,
       "nextId": 416,
-      "state": "f8779646",
+      "state": "2460f8f5",
       "events": "741638a5",
       "rng": {
         "draws": 8,
@@ -436,7 +432,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -487,7 +482,6 @@
             "choices": {},
             "ranks": {}
           },
-          "worldBossDaily": {},
           "xp": 898
         }
       ],

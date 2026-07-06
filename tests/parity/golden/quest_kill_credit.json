@@ -16,7 +16,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "839f341b",
+      "state": "74bced36",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -26,7 +26,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -59,8 +58,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -119,7 +117,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "a5d7271e",
+      "state": "19959b59",
       "events": "00bafcff",
       "rng": {
         "draws": 0,
@@ -129,7 +127,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -175,8 +172,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -235,7 +231,7 @@
       "tick": 8,
       "time": 0.4,
       "nextId": 409,
-      "state": "e02b5455",
+      "state": "a031b238",
       "events": "d894ee18",
       "rng": {
         "draws": 40,
@@ -245,7 +241,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -295,8 +290,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -356,7 +350,7 @@
       "tick": 8,
       "time": 0.4,
       "nextId": 409,
-      "state": "2be501f0",
+      "state": "4448f63d",
       "events": "272aafab",
       "rng": {
         "draws": 40,
@@ -366,7 +360,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -411,7 +404,6 @@
             "choices": {},
             "ranks": {}
           },
-          "worldBossDaily": {},
           "xp": 250
         }
       ],
@@ -472,7 +464,7 @@
       "tick": 10,
       "time": 0.5,
       "nextId": 409,
-      "state": "e0e0eb58",
+      "state": "e2c8f9f5",
       "events": "741638a5",
       "rng": {
         "draws": 40,
@@ -482,7 +474,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -527,7 +518,6 @@
             "choices": {},
             "ranks": {}
           },
-          "worldBossDaily": {},
           "xp": 250
         }
       ],

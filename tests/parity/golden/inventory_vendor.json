@@ -35,7 +35,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "2867a09c",
+      "state": "0625c49f",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -45,7 +45,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -78,8 +77,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -138,7 +136,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "11acfaf6",
+      "state": "38cd0d51",
       "events": "531aebc5",
       "rng": {
         "draws": 0,
@@ -148,7 +146,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -189,8 +186,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -249,7 +245,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "42876322",
+      "state": "b8524133",
       "events": "a6017c57",
       "rng": {
         "draws": 0,
@@ -259,7 +255,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -305,8 +300,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -365,7 +359,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "0eb6e9fa",
+      "state": "bb750fcf",
       "events": "6eca1d53",
       "rng": {
         "draws": 0,
@@ -375,7 +369,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -421,8 +414,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -481,7 +473,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "3ef417e8",
+      "state": "492ee69f",
       "events": "695c81aa",
       "rng": {
         "draws": 0,
@@ -491,7 +483,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -540,8 +531,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -600,7 +590,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "cf12d3fa",
+      "state": "9d88f565",
       "events": "1df0a44d",
       "rng": {
         "draws": 0,
@@ -610,7 +600,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -659,8 +648,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -732,7 +720,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "80737165",
+      "state": "0b9d058c",
       "events": "fdae55a8",
       "rng": {
         "draws": 0,
@@ -742,7 +730,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -787,8 +774,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -860,7 +846,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "5f0aa948",
+      "state": "d6cd3fff",
       "events": "4b948de8",
       "rng": {
         "draws": 0,
@@ -870,7 +856,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -915,8 +900,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -1000,7 +984,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "15ae423a",
+      "state": "de213cfb",
       "events": "3efe81a4",
       "rng": {
         "draws": 0,
@@ -1010,7 +994,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -1059,8 +1042,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -1144,7 +1126,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "e203e405",
+      "state": "3bf1f9de",
       "events": "fc57ebc8",
       "rng": {
         "draws": 0,
@@ -1154,7 +1136,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -1209,8 +1190,7 @@
               "count": 1,
               "itemId": "wolf_fang"
             }
-          ],
-          "worldBossDaily": {}
+          ]
         }
       ],
       "entities": [
@@ -1294,7 +1274,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "d0aadb56",
+      "state": "0701011b",
       "events": "7c2d5847",
       "rng": {
         "draws": 0,
@@ -1304,7 +1284,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -1359,8 +1338,7 @@
               "count": 2,
               "itemId": "wolf_fang"
             }
-          ],
-          "worldBossDaily": {}
+          ]
         }
       ],
       "entities": [
@@ -1444,7 +1422,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "5e212568",
+      "state": "384c2ebf",
       "events": "daa824d5",
       "rng": {
         "draws": 0,
@@ -1454,7 +1432,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -1513,8 +1490,7 @@
               "count": 1,
               "itemId": "wolf_fang"
             }
-          ],
-          "worldBossDaily": {}
+          ]
         }
       ],
       "entities": [
@@ -1598,7 +1574,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "5e212568",
+      "state": "384c2ebf",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -1608,7 +1584,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -1667,8 +1642,7 @@
               "count": 1,
               "itemId": "wolf_fang"
             }
-          ],
-          "worldBossDaily": {}
+          ]
         }
       ],
       "entities": [

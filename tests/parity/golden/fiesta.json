@@ -30,7 +30,7 @@
       "tick": 25,
       "time": 1.25,
       "nextId": 404,
-      "state": "90318d9b",
+      "state": "43f78479",
       "events": "d1d54493",
       "rng": {
         "draws": 0,
@@ -41,7 +41,7 @@
       "tick": 50,
       "time": 2.5,
       "nextId": 404,
-      "state": "115627a5",
+      "state": "f66a177b",
       "events": "6e60008d",
       "rng": {
         "draws": 36,
@@ -52,7 +52,7 @@
       "tick": 75,
       "time": 3.75,
       "nextId": 404,
-      "state": "d400cf1b",
+      "state": "325cfdf9",
       "events": "9b3dbf7d",
       "rng": {
         "draws": 120,
@@ -63,7 +63,7 @@
       "tick": 100,
       "time": 5,
       "nextId": 404,
-      "state": "b880ec3d",
+      "state": "f7f25b53",
       "events": "e324e10d",
       "rng": {
         "draws": 230,
@@ -74,7 +74,7 @@
       "tick": 125,
       "time": 6.25,
       "nextId": 404,
-      "state": "f04fd39f",
+      "state": "6f5d6691",
       "events": "5461e684",
       "rng": {
         "draws": 384,
@@ -85,7 +85,7 @@
       "tick": 150,
       "time": 7.5,
       "nextId": 404,
-      "state": "fd5df177",
+      "state": "a9c16789",
       "events": "741638a5",
       "rng": {
         "draws": 543,
@@ -96,7 +96,7 @@
       "tick": 163,
       "time": 8.15,
       "nextId": 404,
-      "state": "61685758",
+      "state": "6225a4ce",
       "events": "e6734fa8",
       "rng": {
         "draws": 608,
@@ -106,7 +106,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -154,12 +153,10 @@
               "war_toughness": 3
             },
             "spec": "arms"
-          },
-          "worldBossDaily": {}
+          }
         },
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -209,12 +206,10 @@
               "mag_wand_specialization": 2
             },
             "spec": "arcane"
-          },
-          "worldBossDaily": {}
+          }
         },
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -265,12 +260,10 @@
               "rog_malice": 3
             },
             "spec": "assassination"
-          },
-          "worldBossDaily": {}
+          }
         },
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -320,8 +313,7 @@
               "hun_lethal_shots": 3
             },
             "spec": "beast_mastery"
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [

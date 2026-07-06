@@ -16,7 +16,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "54f372aa",
+      "state": "bfa7da0d",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -26,7 +26,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -58,8 +57,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -118,7 +116,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "3bb80466",
+      "state": "5a75baf7",
       "events": "27c7a42a",
       "rng": {
         "draws": 0,
@@ -128,7 +126,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -172,8 +169,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -232,7 +228,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "4f5fbeaf",
+      "state": "f7f31690",
       "events": "01e3a6cf",
       "rng": {
         "draws": 0,
@@ -242,7 +238,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -292,8 +287,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -352,7 +346,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "393e376a",
+      "state": "b62cd4bf",
       "events": "f2ada81f",
       "rng": {
         "draws": 0,
@@ -362,7 +356,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -412,8 +405,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -472,7 +464,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "3f28fc24",
+      "state": "3b8d7f63",
       "events": "c3882f07",
       "rng": {
         "draws": 0,
@@ -482,7 +474,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -532,8 +523,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -592,7 +582,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "0de4a087",
+      "state": "34fe0840",
       "events": "1dce54bf",
       "rng": {
         "draws": 0,
@@ -602,7 +592,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -644,7 +633,6 @@
             "choices": {},
             "ranks": {}
           },
-          "worldBossDaily": {},
           "xp": 350
         }
       ],
@@ -704,7 +692,7 @@
       "tick": 2,
       "time": 0.1,
       "nextId": 401,
-      "state": "2adf76b5",
+      "state": "898d84a6",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -714,7 +702,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "bags": [
@@ -756,7 +743,6 @@
             "choices": {},
             "ranks": {}
           },
-          "worldBossDaily": {},
           "xp": 350
         }
       ],

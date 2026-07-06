@@ -17,7 +17,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "839f341b",
+      "state": "74bced36",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -27,7 +27,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -60,8 +59,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -120,7 +118,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "e0073cb7",
+      "state": "f16c6f5e",
       "events": "2856c170",
       "rng": {
         "draws": 0,
@@ -130,7 +128,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -168,8 +165,7 @@
               "war_cruelty": 2
             },
             "spec": "arms"
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -228,7 +224,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "66633000",
+      "state": "b43fffe5",
       "events": "40479820",
       "rng": {
         "draws": 0,
@@ -238,7 +234,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -273,8 +268,7 @@
             "choices": {},
             "ranks": {},
             "spec": "arms"
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -333,7 +327,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "d0309a63",
+      "state": "cfc4da8e",
       "events": "a7d95be1",
       "rng": {
         "draws": 0,
@@ -342,7 +336,6 @@
       "label": "second-build",
       "players": [
         {
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -396,8 +389,7 @@
               "war_cruelty": 3
             },
             "spec": "arms"
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -456,7 +448,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "1c592972",
+      "state": "3cb50ba7",
       "events": "980c682a",
       "rng": {
         "draws": 0,
@@ -465,7 +457,6 @@
       "label": "switch-loadout",
       "players": [
         {
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -519,8 +510,7 @@
               "arms_imp_overpower": 2
             },
             "spec": "arms"
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -579,7 +569,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "3eed45ee",
+      "state": "6d482d79",
       "events": "2856c170",
       "rng": {
         "draws": 0,
@@ -588,7 +578,6 @@
       "label": "set-spec",
       "players": [
         {
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -640,8 +629,7 @@
             "choices": {},
             "ranks": {},
             "spec": "fury"
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -700,7 +688,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "3eed45ee",
+      "state": "6d482d79",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -709,7 +697,6 @@
       "label": "final",
       "players": [
         {
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -761,8 +748,7 @@
             "choices": {},
             "ranks": {},
             "spec": "fury"
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [

@@ -17,7 +17,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 401,
-      "state": "839f341b",
+      "state": "74bced36",
       "events": "741638a5",
       "rng": {
         "draws": 0,
@@ -27,7 +27,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -60,8 +59,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -120,7 +118,7 @@
       "tick": 20,
       "time": 1,
       "nextId": 407,
-      "state": "fcbcdd64",
+      "state": "db28987f",
       "events": "b215f456",
       "rng": {
         "draws": 54,
@@ -131,7 +129,7 @@
       "tick": 40,
       "time": 2,
       "nextId": 407,
-      "state": "abd2f702",
+      "state": "d78e6abf",
       "events": "04e020e2",
       "rng": {
         "draws": 95,
@@ -142,7 +140,7 @@
       "tick": 60,
       "time": 3,
       "nextId": 407,
-      "state": "8cf87d5f",
+      "state": "7d6cfbda",
       "events": "96d8859c",
       "rng": {
         "draws": 224,
@@ -153,7 +151,7 @@
       "tick": 60,
       "time": 3,
       "nextId": 407,
-      "state": "8c746f65",
+      "state": "a2f0ee50",
       "events": "741638a5",
       "rng": {
         "draws": 224,
@@ -163,7 +161,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -199,8 +196,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
@@ -600,7 +596,7 @@
       "tick": 64,
       "time": 3.2,
       "nextId": 407,
-      "state": "45161b52",
+      "state": "bc254d35",
       "events": "741638a5",
       "rng": {
         "draws": 244,
@@ -610,7 +606,6 @@
       "players": [
         {
           "activeLoadout": -1,
-          "archetype": {},
           "arena2v2Rating": 1500,
           "arenaRating": 1500,
           "autoEquip": true,
@@ -646,8 +641,7 @@
           "talents": {
             "choices": {},
             "ranks": {}
-          },
-          "worldBossDaily": {}
+          }
         }
       ],
       "entities": [
