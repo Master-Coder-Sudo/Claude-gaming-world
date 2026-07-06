@@ -11,8 +11,8 @@
 | Phase 3: IWorld + wire | complete | 2026-07-06 | 2026-07-06 |
 | Phase 3 QA | complete | 2026-07-06 | 2026-07-06 |
 | Phase 4: lease + ledger | complete | 2026-07-06 | 2026-07-06 |
-| Phase 4 QA | not started | | |
-| Phase 5: bank window | not started | | |
+| Phase 4 QA | complete | 2026-07-06 | 2026-07-06 |
+| Phase 5: bank window | complete | 2026-07-06 | 2026-07-06 |
 | Phase 5 QA | not started | | |
 | Phase 6: deposit + search | not started | | |
 | Phase 6 QA | not started | | |
@@ -62,13 +62,13 @@
 - [x] Tests: lease SQL semantics + ws handshake branches + game wiring (24), ledger diff/dispatch/SQL (23+), audit fixtures (4), schema_wiring pins; live dev-Postgres verification of the SQL semantics, the nonce fence, double-boot, and both audit exit paths
 
 ### Phase 4 QA
-- [ ] As Phase 1 QA
+- [x] Deliverables and acceptance criteria re-verified independently (six audit streams incl. live dev-Postgres re-verification); all should-fix applied; full record in state.md
 
 ### Phase 5: bank window (desktop)
-- [ ] `src/ui/bank_view.ts` pure core (UI_PURE_CORES registered) + `src/ui/bank_window.ts` painter (PainterHostPresentation composition, no raw hex, quality tokens)
-- [ ] Open via the `bank` SimEvent; banker docking with bags (vendor-open pattern); auto-close past 8 yd; Esc routing
-- [ ] Withdraw clicks (+ shift partial), capacity header, buy-slots confirm prompt in `#prompt-stack`
-- [ ] hudChrome.bank.* keys; window tests mirroring the bags window suites
+- [x] `src/ui/bank_view.ts` pure core (UI_PURE_CORES registered) + `src/ui/bank_window.ts` painter (PainterHostPresentation composition, no raw hex, quality tokens)
+- [x] Open via the `bank` SimEvent; banker docking with bags (body.bank-open, new desktop side-by-side CSS); auto-close on leaving banker range (bankInfo null-gate, see the in-phase amendment in state.md); Esc routing via closeManagedWindow
+- [x] Withdraw clicks (+ shift partial via a quantity prompt), capacity header, buy-slots confirm prompt in `#prompt-stack`
+- [x] hudChrome.bank.* keys (16, five non-Latin fills each, M16); tests/bank_view.test.ts (13) + tests/bank_window.test.ts (20 source-scan pins)
 
 ### Phase 5 QA
 - [ ] As Phase 1 QA
@@ -165,6 +165,16 @@
 - Fixes: explicit-null bank snapshot now applied to a ClientWorld and the mirror proven to CLEAR (mutation-proven; a truthy decode guard previously survived the suite), nextExpansionCost null arm at the 12-expansion cap exercised (mutation-proven), merged stack asserted on the wire, the non-number count coercion pinned as contract, src/CLAUDE.md type-only edge wording widened to sim/bank.ts.
 - INFO adjudications recorded in state.md (NaN-at-dispatch idiom, outbound-size precedent, spec-mandated HEAVY_SELF_CMDS redundancy for buy): do not re-raise.
 - Next: run docs/bank-system/phase-04-lease-ledger.md in a fresh session.
+
+### Phase 5 (2026-07-06)
+
+- Preceded by the release/v0.23.0 merge cd640c569 (desktop update-track split, admin evidence history; conflict only the generated i18n summary, regenerated; release-merge-audit CLEAN). Full record in state.md "Phase 5 outcomes".
+- Two parallel implementation agents (view core + tests / painter + hud + CSS + i18n) on disjoint files converged with zero reconciliation (the view-core API was locked up front, the Phase 3 pattern).
+- ONE approved packet amendment: auto-close is the mailbox bankInfo-null-gate, not a HUD distance loop (the bank event carries no npc id and the banker flag is not on the wire; the mirror nulls at 7 yd in both worlds, tighter than the 8 yd criterion).
+- Verified end to end in BOTH hosts with headless-browser smokes: offline 23/23, online 20/20 (deposits/withdraw/partial/buy over the real wire, the unaffordable refusal line rendering, auto-close, play.html clean). Scripts kept in gitignored tmp/ for the QA session.
+- qa-checklist: READY, 0 blocking; 1 should-fix (missing :focus-visible ring on the two new bank controls) + 1 nit (10vh -> --app-vh) applied same-session and pinned; INFO adjudications in state.md.
+- Environment gotchas for browser smokes (first-spawn intro hides #ui in fresh profiles; realm picker + zero-char create-view flow; trader_wilkes vs the_merchant) recorded in state.md.
+- Next: run docs/bank-system/phase-05-qa.md in a fresh session.
 
 ### Phase 4 QA (2026-07-06)
 
