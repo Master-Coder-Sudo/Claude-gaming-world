@@ -1059,19 +1059,6 @@ export const da_DK: EnTranslations = {
         }
       }
     },
-    "crafting": {
-      "title": "Håndværk",
-      "close": "Tæt håndværk",
-      "craft": "Håndværk",
-      "reagentsNeeded": "Kræver:",
-      "reagentLine": "{name}: {have}/{required}",
-      "empty": "Ingen opskrifter kendt endnu.",
-      "resultAria": "Håndværk {name}",
-      "craftedToast": "Udformet: {name}",
-      "insufficientMaterials": "Det har du ikke materialerne til.",
-      "unknownRecipe": "Den opskrift findes ikke.",
-      "comboRequirementUnmet": "You do not have both required crafts at the required tier for that recipe."
-    },
     "devBadge": {
       "title": "Udvikler",
       "tiers": {
@@ -1215,6 +1202,19 @@ export const da_DK: EnTranslations = {
       "mining": "Minedrift",
       "logging": "Skovhugst",
       "herbalism": "Urtekundskab"
+    },
+    "crafting": {
+      "title": "Håndværk",
+      "close": "Tæt håndværk",
+      "craft": "Håndværk",
+      "reagentsNeeded": "Kræver:",
+      "reagentLine": "{name}: {have}/{required}",
+      "empty": "Ingen opskrifter kendt endnu.",
+      "resultAria": "Håndværk {name}",
+      "craftedToast": "Udformet: {name}",
+      "insufficientMaterials": "Det har du ikke materialerne til.",
+      "unknownRecipe": "Den opskrift findes ikke.",
+      "comboRequirementUnmet": "You do not have both required crafts at the required tier for that recipe."
     }
   },
   "apiError": {
