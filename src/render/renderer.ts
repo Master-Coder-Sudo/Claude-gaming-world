@@ -4193,18 +4193,20 @@ export class Renderer {
 
       // animation state machine inputs, derived from render-space motion with
       // hysteresis so a one-frame speed dip can't reset the walk clip.
-      // For the local player online, sample the *plain* interpolated sim motion
-      // (ax/ay/az), never the smoothed/extrapolated self render position
-      // (selfPos): the lead-smoothing path stutters within a snapshot interval,
-      // and even the continuous self-motion predictor applies glide corrections
-      // whose jitter would intermittently flip the cadence/airborne base state
-      // and reset the walk clip. The tradeoff is authoritative-cadence anim:
-      // online, the run/jump clip starts about one echo after the mesh moves.
-      // The prediction layers move only the mesh (and the camera). Offline,
-      // ax==x so this is a no-op.
-      const ax = isSelf ? e.prevPos.x + (e.pos.x - e.prevPos.x) * alpha : x;
-      const ay = isSelf ? e.prevPos.y + (e.pos.y - e.prevPos.y) * alpha : y;
-      const az = isSelf ? e.prevPos.z + (e.pos.z - e.prevPos.z) * alpha : z;
+      // The local player's anim samples whatever pose the MESH shows. While
+      // the self-motion predictor is active that is the predicted display pose
+      // (x/y/z = selfPos): it is continuous by construction, it starts and
+      // stops the run clip the same frame the mesh moves, and under load
+      // hitches (bursty snapshots at world entry) it stays smooth while the
+      // authoritative interp stair-steps, which used to feed the cadence
+      // erratic velocities and reset the walk clip. On the lead-smoothing
+      // fallback path the plain interpolated sim motion is still sampled
+      // instead (that path's smoothed selfPos stutters within a snapshot
+      // interval). Offline, all of these are the same value.
+      const animFromDisplay = isSelf && this.selfMotionActive;
+      const ax = isSelf && !animFromDisplay ? e.prevPos.x + (e.pos.x - e.prevPos.x) * alpha : x;
+      const ay = isSelf && !animFromDisplay ? e.prevPos.y + (e.pos.y - e.prevPos.y) * alpha : y;
+      const az = isSelf && !animFromDisplay ? e.prevPos.z + (e.pos.z - e.prevPos.z) * alpha : z;
       const vx = ax - v.lastX,
         vz = az - v.lastZ;
       v.lastX = ax;

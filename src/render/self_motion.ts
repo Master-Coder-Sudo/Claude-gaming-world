@@ -274,7 +274,12 @@ export class SelfMotionPredictor {
     );
     const past = this.sampleHistory(this.timeMs - capMs);
     if (past) {
-      const k = 1 - Math.exp(-SELF_MOTION_BLEND_RATE * dt);
+      // The blend dt is clamped tighter than the frame clamp: at load-hitch
+      // frame times (100-250ms at world entry, or on weak hardware) an
+      // unclamped exponential eats ~95% of the error in ONE frame, turning
+      // every correction into a visible jerk. Capped at 1/30 a correction
+      // never moves more than ~33% of the gap per frame and still converges.
+      const k = 1 - Math.exp(-SELF_MOTION_BLEND_RATE * Math.min(dt, 1 / 30));
       const errX = ax - past.x;
       const errY = ay - past.y;
       const errZ = az - past.z;

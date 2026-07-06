@@ -59,7 +59,10 @@ class Lab {
   private inputLog: { atMs: number; input: MoveInput }[] = [];
   enabled = true;
 
-  constructor(readonly lagMs: number) {
+  constructor(
+    readonly lagMs: number,
+    readonly frameMs = FRAME_MS,
+  ) {
     this.srv = new Sim({ seed: SEED, playerClass: 'warrior', autoEquip: true });
     this.srv.setPlayerLevel(60);
     teleport(this.srv, 0, -40);
@@ -84,8 +87,8 @@ class Lab {
   }
 
   frame(): FrameResult {
-    this.nowMs += FRAME_MS;
-    this.sinceTickMs += FRAME_MS;
+    this.nowMs += this.frameMs;
+    this.sinceTickMs += this.frameMs;
     while (this.sinceTickMs >= SNAP_MS) {
       this.sinceTickMs -= SNAP_MS;
       const meta = this.srv.players.get(this.srv.player.id);
@@ -107,7 +110,7 @@ class Lab {
       echoMs: this.lagMs,
       jitterMs: 0,
       alpha,
-      frameDt: FRAME_MS / 1000,
+      frameDt: this.frameMs / 1000,
     };
     const out = this.predictor.step(this.self, frame);
     const a = {
@@ -222,6 +225,26 @@ describe('SelfMotionPredictor', () => {
     const r = lab.frame();
     if (!r.pose) throw new Error('no pose after re-enable');
     expect(Math.hypot(r.pose.z - r.a.z, r.pose.x - r.a.x)).toBeLessThan(0.5);
+  });
+
+  it('keeps corrections gentle under load-hitch frame times (world-entry low fps)', () => {
+    // 8 fps frames like the first seconds after entering the world: the
+    // per-frame display movement must stay near the legitimate run distance;
+    // an unclamped correction blend would eat ~95% of the divergence in one
+    // frame and read as a jerk.
+    const lab = new Lab(100, 125);
+    lab.setInput(mi({ forward: true }));
+    let prev: number | null = null;
+    for (let i = 0; i < 40; i++) {
+      const { pose } = lab.frame();
+      if (!pose) throw new Error('predictor disabled unexpectedly');
+      if (prev !== null) {
+        const step = pose.z - prev;
+        expect(step, `frame ${i}`).toBeLessThanOrEqual(1.5); // ~run distance + bounded correction
+        expect(step, `frame ${i}`).toBeGreaterThanOrEqual(-0.01); // never backward
+      }
+      prev = pose.z;
+    }
   });
 
   it('starts the jump arc locally without waiting for the server', () => {
