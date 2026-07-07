@@ -6042,15 +6042,6 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'hudChrome.gathering.herbalism': '薬草学',
   // Release v0.22.0 locale fill.
   'hudChrome.crafting.reagentLine': '{name}: {have}/{required}',
-  'hudChrome.crafting.title': '製作',
-  'hudChrome.crafting.close': '製作を閉じる',
-  'hudChrome.crafting.craft': '製作',
-  'hudChrome.crafting.reagentsNeeded': '必要素材:',
-  'hudChrome.crafting.empty': '既知のレシピはありません。',
-  'hudChrome.crafting.resultAria': '{name}を製作',
-  'hudChrome.crafting.craftedToast': '製作しました:{name}',
-  'hudChrome.crafting.insufficientMaterials': '材料が不足しています。',
-  'hudChrome.crafting.unknownRecipe': 'そのレシピは存在しません。',
   'hudChrome.crafting.comboRequirementUnmet':
     'その組み合わせレシピに必要な両方の生産スキルの熟練度に達していません。',
   'hudChrome.mobile.actionPageIndicator': '{page}ページ',
