@@ -2982,12 +2982,16 @@
   }
   /* Compact phones: Jump's ring-row seat reaches to ~437px from the left on a
      740px viewport, into the centred player frame's right tail (280..460).
-     Nudge the frame and its castbar 40px left, together, so the pair stays
-     visually centred-ish while Jump keeps a clear circle on every profile. */
+     Nudge the frame and BOTH its bars 40px left, together, so the pair stays
+     visually centred-ish while Jump keeps a clear circle on every profile.
+     swingbar joined this rule alongside castbar (issue 1577 (6)): it was
+     missing here, so on this tier it drifted 40px off the player frame's left
+     edge even though its width already matched. */
   body.mobile-touch.hud-mobile-compact #player-frame {
     left: calc(50% - 40px);
   }
-  body.mobile-touch.hud-mobile-compact #castbar {
+  body.mobile-touch.hud-mobile-compact #castbar,
+  body.mobile-touch.hud-mobile-compact #swingbar {
     left: calc(50% - 40px);
   }
   /* Tablet: a large viewport can afford a bigger, easier-to-hit cluster than

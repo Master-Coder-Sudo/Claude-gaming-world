@@ -1518,7 +1518,7 @@ describe('client HTML shell', () => {
       'body.mobile-touch.hud-mobile-compact #player-frame {\n    left: calc(50% - 40px);\n  }',
     );
     expect(hudMobileCss).toContain(
-      'body.mobile-touch.hud-mobile-compact #castbar {\n    left: calc(50% - 40px);\n  }',
+      'body.mobile-touch.hud-mobile-compact #castbar,\n  body.mobile-touch.hud-mobile-compact #swingbar {\n    left: calc(50% - 40px);\n  }',
     );
     // Left-handed mode mirrors the satellite with the joystick (anchor swaps
     // to the right inset, the seat re-floors from the right edge), and the
