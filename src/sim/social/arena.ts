@@ -883,7 +883,7 @@ export function endArenaMatch(
 ): void {
   const ratingA0 = match.ratingA;
   const ratingB0 = match.ratingB;
-  // Fiesta and Protect Yumi are unranked play — they never move the Elo ladder.
+  // Fiesta and Protect Yumi are unranked play: they never move the Elo ladder.
   const ranked = !match.fiesta && !match.yumi;
   let deltaA: number;
   if (!ranked) {

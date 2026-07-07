@@ -95,7 +95,7 @@ export function isPetClass(cls: PlayerClass): boolean {
 }
 // '1v1'/'2v2' are the ranked Ashen Coliseum ladders; 'fiesta' is the
 // dopamine-maxxed 2v2 party mode (score-based, respawns, augments, a shrinking
-// ring) — see docs/design and the Fiesta region of sim.ts. yumi3/yumi5 are the
+// ring); see docs/design and the Fiesta region of sim.ts. yumi3/yumi5 are the
 // Protect Yumi maze objective brackets (3v3 / 5v5, unranked; social/yumi.ts).
 export type ArenaFormat = '1v1' | '2v2' | 'fiesta' | 'yumi3' | 'yumi5';
 
