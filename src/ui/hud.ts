@@ -349,6 +349,7 @@ import { makeWindowFocus } from './window_focus';
 import { installWindowResize, markResizableWindow } from './window_resize';
 import { formatXp, xpBarView } from './xp_bar';
 import { XpBarPainter } from './xp_bar_painter';
+import { YumiMatchPainter } from './yumi_match_painter';
 
 // hooks main wires after Input exists (the options menu drives input, audio,
 // graphics, and logout, all of which live outside the HUD). PerfOverlayHooks
@@ -2889,6 +2890,13 @@ export class Hud {
     },
   );
   private readonly delvePainter = new DelveMapPainter(this.writerFacet, classCss);
+  // The Protect Yumi match strip + bench overlay (yumi_match_painter.ts):
+  // facet-routed; structure from arenaInfo.match.yumi, dynamics from the
+  // yumiStatus/yumiDown events fed in handleEvents. Runs on the mediumHud
+  // band next to the fiesta HUD (values change at 1Hz).
+  private readonly yumiPainter = new YumiMatchPainter(this.writerFacet, () =>
+    document.getElementById('ui'),
+  );
   // Per-frame XP + swing painters. Each caches its element refs once and
   // routes every write through the same six-writer facet, so their --xp-fill /
   // .rested / swing writes share the one skip-rate.
@@ -5669,6 +5677,7 @@ export class Hud {
       this.updateTradeWindow();
       this.updateArenaStatus();
       this.updateFiestaHud();
+      this.yumiPainter.update(this.sim.arenaInfo);
       if ($('#map-window').style.display === 'block') this.updateMapWindow();
       if ($('#arena-window').style.display === 'block') this.arenaWindow.render();
       if (this.openLootMobId !== null) {
@@ -7769,6 +7778,20 @@ export class Hud {
             }
             break;
           }
+          if (ev.format === 'yumi3' || ev.format === 'yumi5') {
+            // Unranked objective mode; sudden death guarantees no draws.
+            this.yumiPainter.reset();
+            if (ev.won) {
+              this.showBanner(t('yumi.end.win'));
+              this.combatLog(t('yumi.end.win'), '#7fdc4f');
+              audio.fiestaWave();
+            } else {
+              this.showBanner(t('yumi.end.loss'));
+              this.combatLog(t('yumi.end.loss'), '#ff7a6a');
+              audio.death();
+            }
+            break;
+          }
           const delta = ev.ratingAfter - ev.ratingBefore;
           const sign = delta >= 0 ? '+' : '';
           const ratingDelta = `${sign}${formatNumber(delta, { maximumFractionDigits: 0 })}`;
@@ -7819,6 +7842,28 @@ export class Hud {
               '#ff7a6a',
             );
             audio.death();
+          }
+          break;
+        }
+        case 'yumiStatus':
+          this.yumiPainter.onStatus(ev);
+          break;
+        case 'yumiDown':
+          this.yumiPainter.onDown(ev.seconds);
+          audio.fiestaDown();
+          break;
+        case 'yumiSuddenDeath':
+          this.showBanner(t('yumi.banner.sudden'));
+          this.combatLog(t('yumi.banner.sudden'), '#ff7a6a');
+          audio.fiestaWave();
+          break;
+        case 'yumiTeleport': {
+          // Two events per relocation (one per cat); cue once, on my team's cat.
+          const y = this.sim.arenaInfo?.match?.yumi;
+          const myCat = y ? (y.team === 'A' ? y.yumiA.entityId : y.yumiB.entityId) : -1;
+          if (ev.catId === myCat) {
+            this.showBanner(t('yumi.banner.teleport'));
+            this.log(t('yumi.banner.teleport'), '#7fd7ff');
           }
           break;
         }

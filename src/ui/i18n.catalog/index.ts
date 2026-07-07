@@ -821,6 +821,9 @@ export const en = {
     },
   },
   yumi: {
+    bracket3: 'Yumi 3v3',
+    bracket5: 'Yumi 5v5',
+    enterQueue: 'Join Protect Yumi!',
     queue: {
       join: 'You join the Protect Yumi queue. Guard your familiar…',
       leave: 'You leave the Protect Yumi queue.',
@@ -832,6 +835,26 @@ export const en = {
     },
     log: {
       start: 'Protect Yumi! Defend your familiar and hunt theirs.',
+    },
+    hud: {
+      title: 'PROTECT YUMI',
+      getReady: 'Get ready…',
+      teleportIn: 'Yumis move in {s}',
+      suddenDeath: 'SUDDEN DEATH',
+      yourYumi: 'Your Yumi',
+      enemyYumi: 'Enemy Yumi',
+      aria: 'Your Yumi at {mine} of {max} health, enemy Yumi at {theirs}.',
+    },
+    respawn: {
+      title: 'DOWNED!',
+    },
+    banner: {
+      sudden: 'SUDDEN DEATH! The Yumis hold their ground!',
+      teleport: 'The Yumis teleport!',
+    },
+    end: {
+      win: 'VICTORY! Yumi is safe!',
+      loss: 'DEFEAT! Your Yumi has fallen.',
     },
   },
   fiesta: {

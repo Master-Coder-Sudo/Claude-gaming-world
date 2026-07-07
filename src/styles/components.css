@@ -5584,4 +5584,124 @@
   .cal-add-btn:hover {
     filter: brightness(1.08);
   }
+
+  /* ---------- yumi match hud ---------- */
+  /* Protect Yumi: the top objective strip (both cat HP bars flanking the mode
+     title + teleport/sudden-death readout) and the center bench-respawn
+     overlay. Team identity rides the --color-team-* tokens (tokens.css); the
+     painter (src/ui/yumi_match_painter.ts) only toggles classes and writes
+     widths/text through the elided writers. Actionable info: never tier-gated. */
+  .yumi-hud {
+    position: absolute;
+    top: 46px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 14px;
+    background: rgba(8, 8, 13, 0.82);
+    border: 1px solid var(--color-primary-dim);
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 30;
+    max-width: min(92%, 720px);
+  }
+  .yh-side {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+  }
+  .yh-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-friendly);
+    white-space: nowrap;
+  }
+  .yh-side.theirs .yh-name {
+    color: var(--color-hostile);
+  }
+  .yh-track {
+    width: 150px;
+    height: 12px;
+    background: var(--color-bg-dark);
+    border: 1px solid var(--color-primary-dim);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .yh-fill {
+    height: 100%;
+    width: 0;
+  }
+  .yh-side.team-blue .yh-fill {
+    background: var(--color-team-blue);
+  }
+  .yh-side.team-red .yh-fill {
+    background: var(--color-team-red);
+  }
+  .yh-num {
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    color: #dcd6c8;
+    white-space: nowrap;
+  }
+  .yh-mid {
+    text-align: center;
+  }
+  .yh-title {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+  }
+  .yh-sub {
+    font-size: 11px;
+    color: #cfc9bb;
+  }
+  .yumi-hud.sudden .yh-sub {
+    color: var(--color-hostile);
+    font-weight: 800;
+  }
+  .yumi-respawn {
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 28px;
+    background: rgba(8, 8, 13, 0.88);
+    border: 1px solid var(--color-hostile);
+    border-radius: 10px;
+    pointer-events: none;
+    z-index: 40;
+  }
+  .yr-title {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--color-hostile);
+  }
+  .yr-count {
+    font-size: 30px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: #fff;
+  }
+  @media (max-width: 700px) {
+    .yumi-hud {
+      gap: 8px;
+      padding: 4px 8px;
+      top: 40px;
+    }
+    .yh-track {
+      width: 88px;
+    }
+    .yh-name {
+      display: none;
+    }
+  }
 }

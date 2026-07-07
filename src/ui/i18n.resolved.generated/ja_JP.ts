@@ -3341,6 +3341,9 @@ export const ja_JP: EnTranslations = {
     }
   },
   "yumi": {
+    "bracket3": "Yumi 3v3",
+    "bracket5": "Yumi 5v5",
+    "enterQueue": "Protect Yumiに参加！",
     "queue": {
       "join": "Protect Yumiのキューに参加しました。使い魔を守りましょう…",
       "leave": "Protect Yumiのキューを離れました。",
@@ -3352,6 +3355,26 @@ export const ja_JP: EnTranslations = {
     },
     "log": {
       "start": "Protect Yumi！自分の使い魔を守り、敵の使い魔を狙え。"
+    },
+    "hud": {
+      "title": "PROTECT YUMI",
+      "getReady": "準備して…",
+      "teleportIn": "Yumiの転移まで{s}秒",
+      "suddenDeath": "サドンデス",
+      "yourYumi": "自軍のYumi",
+      "enemyYumi": "敵軍のYumi",
+      "aria": "自軍のYumiは体力{mine}/{max}、敵軍のYumiは{theirs}。"
+    },
+    "respawn": {
+      "title": "ダウン！"
+    },
+    "banner": {
+      "sudden": "サドンデス！Yumiはもう転移しない！",
+      "teleport": "Yumiが転移した！"
+    },
+    "end": {
+      "win": "勝利！Yumiは無事だ！",
+      "loss": "敗北！Yumiが倒れてしまった。"
     }
   },
   "fiesta": {
@@ -6452,6 +6475,9 @@ export const ja_JP: EnTranslations = {
       }
     },
     "mobs": {
+      "yumi_cat": {
+        "name": "Yumi"
+      },
       "forest_wolf": {
         "name": "森の狼"
       },

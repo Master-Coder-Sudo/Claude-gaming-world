@@ -150,6 +150,7 @@ const UI_PURE_CORES = [
   'src/ui/map_window_view.ts',
   'src/ui/map_quest_list_view.ts',
   'src/ui/arena_window_view.ts',
+  'src/ui/yumi_match_view.ts',
   'src/ui/leaderboard_view.ts',
   'src/ui/guild_leaderboard_view.ts',
   'src/ui/dev_leaderboard_view.ts',

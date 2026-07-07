@@ -3341,6 +3341,9 @@ export const zh_CN: EnTranslations = {
     }
   },
   "yumi": {
+    "bracket3": "Yumi 3v3",
+    "bracket5": "Yumi 5v5",
+    "enterQueue": "加入Protect Yumi！",
     "queue": {
       "join": "你加入了Protect Yumi队列。守好你的使魔……",
       "leave": "你离开了Protect Yumi队列。",
@@ -3352,6 +3355,26 @@ export const zh_CN: EnTranslations = {
     },
     "log": {
       "start": "Protect Yumi！保卫你的使魔，猎杀敌方的使魔。"
+    },
+    "hud": {
+      "title": "守护YUMI",
+      "getReady": "做好准备……",
+      "teleportIn": "Yumi将在{s}秒后传送",
+      "suddenDeath": "骤死战",
+      "yourYumi": "我方Yumi",
+      "enemyYumi": "敌方Yumi",
+      "aria": "我方Yumi生命值{mine}/{max}，敌方Yumi生命值{theirs}。"
+    },
+    "respawn": {
+      "title": "倒下了！"
+    },
+    "banner": {
+      "sudden": "骤死战！Yumi不再传送！",
+      "teleport": "Yumi传送了！"
+    },
+    "end": {
+      "win": "胜利！Yumi安全了！",
+      "loss": "战败！你的Yumi倒下了。"
     }
   },
   "fiesta": {
@@ -6452,6 +6475,9 @@ export const zh_CN: EnTranslations = {
       }
     },
     "mobs": {
+      "yumi_cat": {
+        "name": "Yumi"
+      },
       "forest_wolf": {
         "name": "森林狼"
       },

@@ -3341,6 +3341,9 @@ export const ru_RU: EnTranslations = {
     }
   },
   "yumi": {
+    "bracket3": "Yumi 3 на 3",
+    "bracket5": "Yumi 5 на 5",
+    "enterQueue": "В бой за Yumi!",
     "queue": {
       "join": "Вы встаёте в очередь Protect Yumi. Берегите своего фамильяра…",
       "leave": "Вы покидаете очередь Protect Yumi.",
@@ -3352,6 +3355,26 @@ export const ru_RU: EnTranslations = {
     },
     "log": {
       "start": "Protect Yumi! Защищайте своего фамильяра и охотьтесь на чужого."
+    },
+    "hud": {
+      "title": "PROTECT YUMI",
+      "getReady": "Приготовьтесь…",
+      "teleportIn": "Yumi переместятся через {s}",
+      "suddenDeath": "ВНЕЗАПНАЯ СМЕРТЬ",
+      "yourYumi": "Ваша Yumi",
+      "enemyYumi": "Вражеская Yumi",
+      "aria": "Ваша Yumi: {mine} из {max} здоровья, вражеская Yumi: {theirs}."
+    },
+    "respawn": {
+      "title": "ВЫ ПАЛИ!"
+    },
+    "banner": {
+      "sudden": "ВНЕЗАПНАЯ СМЕРТЬ! Yumi больше не перемещаются!",
+      "teleport": "Yumi переместились!"
+    },
+    "end": {
+      "win": "ПОБЕДА! Yumi в безопасности!",
+      "loss": "ПОРАЖЕНИЕ! Ваша Yumi пала."
     }
   },
   "fiesta": {
@@ -6452,6 +6475,9 @@ export const ru_RU: EnTranslations = {
       }
     },
     "mobs": {
+      "yumi_cat": {
+        "name": "Yumi"
+      },
       "forest_wolf": {
         "name": "Лесной волк"
       },

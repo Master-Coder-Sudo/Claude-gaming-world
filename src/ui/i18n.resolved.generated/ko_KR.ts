@@ -3341,6 +3341,9 @@ export const ko_KR: EnTranslations = {
     }
   },
   "yumi": {
+    "bracket3": "Yumi 3대3",
+    "bracket5": "Yumi 5대5",
+    "enterQueue": "Protect Yumi 참가!",
     "queue": {
       "join": "Protect Yumi 대기열에 참가했습니다. 소환수를 지키세요…",
       "leave": "Protect Yumi 대기열에서 나갑니다.",
@@ -3352,6 +3355,26 @@ export const ko_KR: EnTranslations = {
     },
     "log": {
       "start": "Protect Yumi! 아군 소환수를 지키고 적의 소환수를 사냥하세요."
+    },
+    "hud": {
+      "title": "PROTECT YUMI",
+      "getReady": "준비하세요…",
+      "teleportIn": "Yumi 이동까지 {s}초",
+      "suddenDeath": "서든 데스",
+      "yourYumi": "아군 Yumi",
+      "enemyYumi": "적군 Yumi",
+      "aria": "아군 Yumi 생명력 {mine}/{max}, 적군 Yumi {theirs}."
+    },
+    "respawn": {
+      "title": "쓰러졌습니다!"
+    },
+    "banner": {
+      "sudden": "서든 데스! Yumi가 더는 이동하지 않습니다!",
+      "teleport": "Yumi가 순간이동했습니다!"
+    },
+    "end": {
+      "win": "승리! Yumi를 지켜냈습니다!",
+      "loss": "패배! 아군 Yumi가 쓰러졌습니다."
     }
   },
   "fiesta": {
@@ -6452,6 +6475,9 @@ export const ko_KR: EnTranslations = {
       }
     },
     "mobs": {
+      "yumi_cat": {
+        "name": "Yumi"
+      },
       "forest_wolf": {
         "name": "숲늑대"
       },
