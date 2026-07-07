@@ -963,6 +963,9 @@ async function startGame(
     chatInput.style.height = '';
     chatInput.style.overflowY = '';
     chatInput.blur();
+    // Leave mobile reply mode when the composer closes (issue 1577 round 2 (8)),
+    // so the in-log reply button reappears for the read state.
+    document.body.classList.remove('mobile-chat-reply');
     hud.clearPendingChatLinks();
     recoverFromMobileKeyboard();
   };
@@ -982,8 +985,15 @@ async function startGame(
     anchorChatInput();
   });
   chatInput.addEventListener('focus', () => {
+    // Actively replying (issue 1577 round 2 (7)/(8)): the composer is focused, so
+    // expand it and fade the chat window behind it. Class is mirror-tied to focus
+    // so it clears the moment the composer loses focus.
+    document.body.classList.add('mobile-chat-reply');
     anchorChatInput();
     autosizeChatInput();
+  });
+  chatInput.addEventListener('blur', () => {
+    document.body.classList.remove('mobile-chat-reply');
   });
   chatInput.addEventListener('input', () => {
     autosizeChatInput();

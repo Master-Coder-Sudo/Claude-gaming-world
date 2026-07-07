@@ -420,6 +420,10 @@ export class MobileControls {
     this.bindButton('mobile-jump', () => this.callbacks.onJump(), { pressFirst: true });
     this.bindButton('mobile-interact', () => this.callbacks.onInteract());
     this.bindChatButton('mobile-chat');
+    // Reply affordance inside the chat log (issue 1577 round 2 (8)): opening chat
+    // shows the log in a read state; this raises the keyboard and expands the
+    // composer only when the player chooses to reply.
+    this.bindButton('mobile-chat-reply', () => this.enterChatReply());
     this.bindButton('mobile-menu', () => this.callbacks.onMenu());
     this.bindButton('mobile-social', () => this.callbacks.onSocial());
     this.bindButton('mobile-discord', () => this.callbacks.onDiscord());
@@ -471,13 +475,18 @@ export class MobileControls {
     if (!active) {
       this.root?.classList.remove('expanded');
       this.autorunButton?.classList.remove('active');
-      document.body.classList.remove('mobile-more-open', 'mobile-chat-open', 'mobile-chatlog-peek');
+      document.body.classList.remove(
+        'mobile-more-open',
+        'mobile-chat-open',
+        'mobile-chatlog-peek',
+        'mobile-chat-reply',
+      );
       this.releaseMove();
       this.releaseCamera();
       this.releasePinch();
       this.touchOwners.releaseAll();
     } else {
-      document.body.classList.remove('mobile-chat-open');
+      document.body.classList.remove('mobile-chat-open', 'mobile-chat-reply');
     }
   }
 
@@ -598,17 +607,36 @@ export class MobileControls {
     document.body.classList.remove('mobile-chatlog-peek');
     document.body.classList.toggle('mobile-chat-open');
     if (document.body.classList.contains('mobile-chat-open')) {
-      this.callbacks.onChat();
+      // Open the log in a read state, NOT the composer: the keyboard only rises
+      // once the player taps the in-log reply button (issue 1577 round 2 (8)).
+      // The composer stays hidden until enterChatReply focuses it.
     } else {
-      const input = document.getElementById('chat-input') as HTMLTextAreaElement | null;
-      if (input) {
-        input.value = '';
-        input.style.display = 'none';
-        // clear the autosized height so the next open starts at one line
-        input.style.height = '';
-        input.style.overflowY = '';
-        input.blur();
-      }
+      this.exitChatReply();
+    }
+  }
+
+  /** Enter reply mode from the in-log reply button: raise the keyboard and show
+   *  the composer via the shared onChat path. */
+  private enterChatReply(): void {
+    if (!document.body.classList.contains('mobile-chat-open')) {
+      document.body.classList.add('mobile-chat-open');
+    }
+    document.body.classList.remove('mobile-chatlog-peek');
+    document.body.classList.add('mobile-chat-reply');
+    this.callbacks.onChat();
+  }
+
+  /** Leave reply mode and reset the composer back to its collapsed state. */
+  private exitChatReply(): void {
+    document.body.classList.remove('mobile-chat-reply');
+    const input = document.getElementById('chat-input') as HTMLTextAreaElement | null;
+    if (input) {
+      input.value = '';
+      input.style.display = 'none';
+      // clear the autosized height so the next open starts at one line
+      input.style.height = '';
+      input.style.overflowY = '';
+      input.blur();
     }
   }
 

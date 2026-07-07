@@ -996,7 +996,7 @@ describe('client HTML shell', () => {
       'body.mobile-touch #party-frames .party-frame:not(:first-child) {\n    margin-top: -1px;',
     );
     expect(hudMobileCss).toContain(
-      'body.mobile-touch #party-frames #party-leave {\n    grid-column: 1 / span 2;\n    grid-row: 3;\n    width: auto;\n    min-height: 40px;',
+      'body.mobile-touch #party-frames #party-leave {\n    grid-column: 1;\n    grid-row: 3;\n    justify-self: start;\n    width: auto;\n    min-width: 0;\n    min-height: 40px;',
     );
     expect(hudMobileCss).toContain(
       'body.mobile-touch #party-frames .party-frame {\n      width: 100px;\n      min-height: 40px;',
@@ -1255,7 +1255,7 @@ describe('client HTML shell', () => {
       'width: min(440px, calc(100vw - 32px - env(safe-area-inset-left) - env(safe-area-inset-right)));',
     );
     expect(hudMobileCss).toContain(
-      'body.mobile-touch #mobile-extra-grid {\n    display: grid;\n    grid-template-columns: repeat(3, minmax(0, 1fr));',
+      'body.mobile-touch #mobile-extra-grid {\n    display: grid;\n    grid-template-columns: repeat(4, minmax(0, 1fr));',
     );
     expect(hudMobileCss).toContain('body.mobile-touch #mobile-extra-controls .mobile-btn');
     expect(hudMobileCss).toContain(
@@ -1743,7 +1743,7 @@ describe('client HTML shell', () => {
 
   it('sizes the mobile Bags window as a usable modal', () => {
     expect(hudMobileCss).toContain(
-      'body.mobile-touch #bags {\n    position: fixed;\n    left: max(10px, env(safe-area-inset-left));\n    right: max(10px, env(safe-area-inset-right));\n    top: max(10px, env(safe-area-inset-top));\n    bottom: calc(72px + env(safe-area-inset-bottom));\n    width: auto;\n    transform: none;',
+      'body.mobile-touch #bags {\n    position: fixed;\n    left: max(10px, env(safe-area-inset-left));\n    right: max(10px, env(safe-area-inset-right));\n    top: max(10px, env(safe-area-inset-top));\n    bottom: max(10px, env(safe-area-inset-bottom));\n    width: auto;\n    transform: none;',
     );
     expect(hudMobileCss).toContain('body.mobile-touch #bags .bag-grid {\n    min-height: 150px;');
     expect(hudMobileCss).not.toContain(
