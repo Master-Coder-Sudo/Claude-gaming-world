@@ -200,6 +200,20 @@ describe('bank_window: hud.ts wiring', () => {
     );
   });
 
+  it('the heroic marks shop, the second tenant of #vendor-window, honors the same exclusivity', () => {
+    // Quartermaster Vex stands ~4.5yd from Bursar Aldous Crane at Highwatch, so the
+    // marks shop and the bank cluster are simultaneously reachable. openBank's
+    // vendorOpen guard reads only openVendorNpcId (the heroic arm nulls it), so both
+    // arms need their own wiring or the two windows overlap and the mobile
+    // cluster-close precedence strands the bank at half-width with its x-btn hidden.
+    expect(hud).toMatch(
+      /openHeroicVendor\(npcId: number\): void \{[\s\S]{0,600}?if \(this\.bankWindowOpen\) this\.closeBank\(\);/,
+    );
+    expect(hud).toMatch(
+      /openBank\(\): void \{[\s\S]{0,600}?if \(this\.openHeroicVendorNpcId !== null\) this\.closeHeroicVendor\(\);[\s\S]{0,600}?classList\.add\('bank-open'\)/,
+    );
+  });
+
   it('both mobile cluster-close paths dismiss orphaned bag prompts before hiding #bags', () => {
     // The mobile branches hide #bags without running BagsWindow.close(), so a live
     // discard/sell/deposit prompt would survive as a visible orphaned aria-modal in

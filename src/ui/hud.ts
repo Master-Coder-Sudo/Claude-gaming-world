@@ -10239,6 +10239,10 @@ export class Hud {
 
   openHeroicVendor(npcId: number): void {
     this.closeOtherWindows('#vendor-window');
+    // The bags companion is exclusive (see openBank): close the bank cluster
+    // through the painter so onBankClosed clears body.bank-open before the
+    // marks shop takes the container.
+    if (this.bankWindowOpen) this.closeBank();
     this.openVendorNpcId = null; // shares the container with the copper vendor
     this.openHeroicVendorNpcId = npcId;
     this.renderHeroicVendor();
@@ -10378,6 +10382,9 @@ export class Hud {
     // the two windows on the same side of #bags (and on mobile the cluster-close
     // precedence would strand the bank at half-width with its x-btn hidden).
     if (this.vendorOpen) this.closeVendor();
+    // The heroic marks shop is a second tenant of #vendor-window that nulls
+    // openVendorNpcId, so the vendorOpen guard above never sees it.
+    if (this.openHeroicVendorNpcId !== null) this.closeHeroicVendor();
     document.body.classList.add('bank-open');
     this.bankWindow.open();
     this.renderBags();
