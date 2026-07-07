@@ -33,8 +33,9 @@ mobile portrait *and* landscape before calling UI work done.
   - Every visible `input`/`select`/`textarea` is **>=16px** font, or iOS Safari auto-zooms the
     page on focus (it ignores the viewport `user-scalable=no`/`maximum-scale`, so font-size is
     the only reliable fix). Enforced centrally by a `@media (pointer: coarse) { input, textarea,
-    select { font-size: 16px !important } }` floor in `index.html` (mirrored in `admin.html`);
-    the `!important` is what wins. Don't set a per-control mobile font below 16px. Regression
+    select { font-size: 16px !important } }` floor in `src/styles/base.css` (both game entries;
+    the admin bundle carries its own mirror in `src/admin/styles/`); the `!important` is what
+    wins. Don't set a per-control mobile font below 16px. Regression
     check: `node scripts/mobile_input_zoom_check.mjs` (needs `npm run dev`).
   - Every tappable target stays **>=40x40px** on mobile touch (the preferred floor); 24x24px
     (WCAG 2.2 SC 2.5.8) is the absolute minimum, used only where 40x40 is genuinely infeasible.

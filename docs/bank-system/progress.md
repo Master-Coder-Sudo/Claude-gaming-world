@@ -16,8 +16,8 @@
 | Phase 5 QA | complete | 2026-07-06 | 2026-07-06 |
 | Phase 6: deposit + search | complete | 2026-07-06 | 2026-07-06 |
 | Phase 6 QA | complete | 2026-07-06 | 2026-07-06 |
-| Phase 7: mobile + a11y | not started | | |
-| Phase 7 QA | not started | | |
+| Phase 7: mobile + a11y | complete | 2026-07-06 | 2026-07-06 |
+| Phase 7 QA | complete | 2026-07-07 | 2026-07-07 |
 | Phase 8: bonus slots | not started | | |
 | Phase 8 QA | not started | | |
 | Phase 9: final whole-feature QA | not started | | |
@@ -88,7 +88,7 @@
 - [x] i18n polish: M16 non-Latin fills for wordy strings (audit found zero missing; no new keys this phase); mobile screenshot verification at phone + tablet
 
 ### Phase 7 QA
-- [ ] As Phase 1 QA
+- [x] As Phase 1 QA
 
 ### Phase 8: bonus slots
 - [ ] Server entitlement calculator as an extensible source registry (email, Discord link, wallet link, qualified referrals: referee has a level >= 10 character, cap 5) stamped into character state at load; offline default 0
@@ -214,6 +214,15 @@
 - The single-row scrollable-chips rule (bank cluster only) recovered the paired grid at 360px-tall phones (the two-row chip wrap left a sub-row sliver). Screenshots + 6/6 live checks at 740x360 and 1024x768 in tmp/p7_shots{,_tablet}/.
 - i18n sweep: zero new keys needed, all 29 hudChrome.bank.* keys carry their five non-Latin fills, formatters verified end to end, ARIA names all t()-sourced. qa-checklist verdict READY, 0 blocking, 0 should-fix; full npm run gate green; mobile input-zoom check 28/28.
 - Next: run docs/bank-system/phase-07-qa.md in a fresh session.
+
+### Phase 7 QA (2026-07-07)
+
+- Preceded by the release/v0.23.0 merge 581b6da5a (itemization epic #1471, professions #1209/#1210, mob pursuit #1570, the UI-scale and bags first-open UI fixes; conflicts: the generated i18n trio regenerated, bags_view.test.ts import union, 7 parity goldens re-minted from the merged tree; 13-auditor release-merge-audit CLEAN). Full record in state.md "Phase 7 QA outcomes".
+- Five audit streams: qa-checklist READY 0/0; i18n/M16 and CSS streams zero findings; test-coverage-auditor 14/15 pins decisive (3 mutation-proven); correctness re-drove everything live (screenshots 6/6 at both viewports, all tap targets at or above 40x40 at two phone widths, peek suppression proven with plain-tap controls, keyboard walkthrough 39/39, and the ONLINE-host mobile spot-check handoff closed 6/6 against the live server).
+- One real bug found and fixed family-wide: the mobile paired 50/50 split (bank plus the vendor cluster it mirrors) used raw 50vw, which the #ui zoom multiplies, so the halves gapped above uiScale 1 and overlapped below it; all four split lines now divide the shared --app-vw box by the live scale, live-verified GAP=0 at 0.85/1.0/1.4 for both clusters with a 6/6 default-scale regression. Follow-on: the standalone full-screen blocks (bank + family bags) now drop the base .window max-width clamp, which under-filled them below scale 1.
+- QA fixes all applied: the chip-compaction rule got its missing test oracle, the consumePeek wiring pins are sliced per construction site, the cascade-exemption pin covers the return, and the peek probe waits for the tooltip to arm instead of a fixed sleep (de-flaked). One adjudication recorded: an executed-DOM bags peek unit test declined per the painter source-scan convention (the composite oracle stands).
+- Docs: the stale Phase 7 status-table rows corrected; the src/ui/CLAUDE.md 16px-floor location drift closed (base.css, not index.html).
+- Next: run docs/bank-system/phase-08-bonus-slots.md in a fresh session.
 
 ### Phase 4 QA (2026-07-06)
 
