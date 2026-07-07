@@ -257,6 +257,13 @@ describe('options_window: title-bar back control', () => {
 });
 
 describe('options_window: uiScale slider commits on release (#1558)', () => {
+  it('the shared commit closure applies the setting from the raw slider value', () => {
+    const commit = painter.slice(painter.indexOf('const commit = () => {'));
+    const body = commit.slice(0, commit.indexOf('};'));
+    expect(body).toContain('hooks.onSettingChange(key, sliderDispatchValue(slider.value))');
+    expect(body).toContain('syncReadout();');
+  });
+
   it('a commit-on-change slider commits only on change, previewing readout on input', () => {
     // Isolate the settingSlider commit-on-change branch.
     const fn = painter.slice(painter.indexOf('if (c.commitOnChange) {'));
@@ -268,20 +275,18 @@ describe('options_window: uiScale slider commits on release (#1558)', () => {
     );
     expect(inputHandler).toContain('readoutFromSlider();');
     expect(inputHandler).not.toContain('onSettingChange');
-    // change (release / keyboard step) is the one that commits.
+    expect(inputHandler).not.toContain('commit');
+    // change (release / keyboard step) commits, via the shared closure.
     const changeHandler = branch.slice(branch.indexOf("addEventListener('change'"));
-    expect(changeHandler).toContain(
-      'hooks.onSettingChange(key, sliderDispatchValue(slider.value))',
-    );
+    expect(changeHandler).toContain("addEventListener('change', commit)");
   });
 
-  it('a normal slider still commits live on input (behavior preserved)', () => {
+  it('a normal slider still commits live on input, via the shared closure', () => {
     const elseArm = painter.slice(
       painter.indexOf('} else {', painter.indexOf('if (c.commitOnChange) {')),
     );
-    const inputHandler = elseArm.slice(elseArm.indexOf("addEventListener('input'"));
-    expect(inputHandler.slice(0, inputHandler.indexOf('});'))).toContain(
-      'hooks.onSettingChange(key, sliderDispatchValue(slider.value))',
+    expect(elseArm.slice(0, elseArm.indexOf('\n    }'))).toContain(
+      "addEventListener('input', commit)",
     );
   });
 });

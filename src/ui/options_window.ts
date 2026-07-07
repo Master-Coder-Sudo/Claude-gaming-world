@@ -490,6 +490,12 @@ export class OptionsWindow {
       );
     };
     paintFill();
+    // Commit the setting (from the raw slider value), then sync the readout + fill.
+    const commit = () => {
+      hooks.onSettingChange(key, sliderDispatchValue(slider.value));
+      syncReadout();
+      paintFill();
+    };
     if (c.commitOnChange) {
       // Apply on release. 'input' (drag / each keyboard step) only previews the
       // readout + fill, so the setting (and any live UI rescale it drives) does not
@@ -500,17 +506,9 @@ export class OptionsWindow {
         readoutFromSlider();
         paintFill();
       });
-      slider.addEventListener('change', () => {
-        hooks.onSettingChange(key, sliderDispatchValue(slider.value));
-        syncReadout();
-        paintFill();
-      });
+      slider.addEventListener('change', commit);
     } else {
-      slider.addEventListener('input', () => {
-        hooks.onSettingChange(key, sliderDispatchValue(slider.value));
-        syncReadout();
-        paintFill();
-      });
+      slider.addEventListener('input', commit);
     }
     row.append(name, slider, val);
     parent.appendChild(row);
