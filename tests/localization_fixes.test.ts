@@ -6,6 +6,7 @@ import { DICT as adminDICT, classLabel, setAdminLanguage } from '../src/admin/i1
 import { DELVE_MOBS } from '../src/sim/content/delves/mobs';
 import { ABILITIES } from '../src/sim/data';
 import {
+  cs_CZ,
   da_DK,
   de_DE,
   en,
@@ -63,6 +64,7 @@ const locales: Record<string, any> = {
   ja_JP,
   pt_BR,
   ru_RU,
+  cs_CZ,
   nl_NL,
   pl_PL,
   id_ID,
@@ -871,6 +873,7 @@ describe('S3: every sim.ts emit is recognized (drift guard)', () => {
     fs.readFileSync(path.resolve(process.cwd(), 'src/sim/mob/lifecycle.ts'), 'utf8'),
     fs.readFileSync(path.resolve(process.cwd(), 'src/sim/pet/pet_commands.ts'), 'utf8'),
     fs.readFileSync(path.resolve(process.cwd(), 'src/sim/instances/dungeons.ts'), 'utf8'),
+    fs.readFileSync(path.resolve(process.cwd(), 'src/sim/instances/heroic_vendor.ts'), 'utf8'),
     fs.readFileSync(path.resolve(process.cwd(), 'src/sim/delves/runs.ts'), 'utf8'),
     fs.readFileSync(path.resolve(process.cwd(), 'src/sim/delves/lockpick_controller.ts'), 'utf8'),
     // DL1: Drowned Litany boss/rite/rooms emit surfaces.

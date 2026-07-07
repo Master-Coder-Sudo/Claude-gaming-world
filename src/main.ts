@@ -38,6 +38,7 @@ import {
   isAttackableEntity,
 } from './game/interactions';
 import { Keybinds } from './game/keybinds';
+import { newKeyboardTurnState, stepKeyboardTurnFacing } from './game/keyboard_turn_facing';
 import { shouldUseStaticBackdrop } from './game/landing_backdrop';
 import {
   interfaceModeFromSetting,
@@ -47,10 +48,12 @@ import {
   setInterfaceMode,
   useTouchInterface,
 } from './game/mobile_controls';
+import { applyMobileHudLayout } from './game/mobile_hud_layout_applier';
 import { mouselookReleaseFacing } from './game/mouselook_release';
 import { music } from './game/music';
 import { createPerfMonitor } from './game/perf';
 import { startPerfReporter } from './game/perf_reporter';
+import { adaptiveSelfAlphaLead } from './game/self_alpha_lead';
 import {
   type GameSettings,
   normalizeClickMoveButton,
@@ -96,11 +99,13 @@ import { playerPortraitDataUrl } from './render/characters/portrait';
 import { installWebGLContextRelease } from './render/context_release';
 import { firstRunGraphicsPreset, GFX, graphicsPresetLabel } from './render/gfx';
 import { Renderer } from './render/renderer';
+import type { SelfMotionFrame } from './render/self_motion';
 import { navigatorSaveData } from './render/sky';
 import { desktopBridge } from './runtime';
 import { pathCrossesFence } from './sim/colliders';
+import { isStunned } from './sim/combat/cc';
 import { ABILITIES, CLASSES } from './sim/content/classes';
-import { ITEMS, setActiveWorldContent } from './sim/data';
+import { ITEMS, isDelvePos, setActiveWorldContent } from './sim/data';
 import { canEquipItem } from './sim/equipment_rules';
 import { findPlayerPath, resolvePlayerDestination } from './sim/pathfind';
 import { Sim } from './sim/sim';
@@ -123,6 +128,7 @@ import {
   validatePasswordChange,
 } from './ui/account_portal';
 import { technicalErrorMessage, userFacingApiError } from './ui/api_error_i18n';
+import { formatFooterVersion } from './ui/app_version';
 import {
   handleKeyboardActivation,
   syncInputAriaState,
@@ -212,13 +218,15 @@ const CLICK_MOVE_PROGRESS_EPSILON = 1.5; // yards of travel that counts as progr
 const CLICK_MOVE_LATENCY_STOP_CAP_MS = 240; // avoid overshooting hosted click-move targets while preserving offline precision
 const CLICK_MOVE_LATENCY_STOP_MAX_EXTRA = 1.6; // yards; cap high-latency stop padding so clicks do not end obviously short
 const CLICK_MOVE_LATENCY_WAYPOINT_MAX_EXTRA = 0.8; // yards; helps online A* corners roll through despite input echo delay
-const ONLINE_SELF_RENDER_ALPHA_LEAD = 0.65; // fraction of a snapshot interval to reduce local-player visual delay online
 const ATTACK_MOVE_MELEE_STOP = 3.5; // yards; how close an attack-move approach stops from its target (inside melee)
 const ATTACK_MOVE_ACQUIRE_RANGE = 12; // yards; an attack-move toward open ground auto-targets a hostile this near
 // Aura kinds that stop the player from moving (mirrors the sim's isRooted/isStunned):
 // while one of these is up, click-to-move can't make progress, so the destination
 // marker shows a "held" state instead of looking like a stuck game.
 const IMMOBILE_AURA_KINDS = new Set(['stun', 'root', 'incapacitate', 'polymorph']);
+// Live-ops escape hatch for the online display-only self extrapolation
+// (src/render/self_motion.ts): ?nopredict restores the pre-prediction behavior.
+const SELF_MOTION_DISABLED = new URLSearchParams(location.search).has('nopredict');
 const IMMOBILE_NOTE_THROTTLE_MS = 1200; // min gap between "Can't move!" floats while held
 const HOMEPAGE_MUSIC_MUTED_KEY = 'woc_homepage_music_muted';
 const HOMEPAGE_MUSIC_VOLUME = 0.225;
@@ -409,10 +417,6 @@ declare const __APP_VERSION__: string;
 declare const __APP_BUILD_ID__: string;
 declare const __APP_BUILD_DATE__: string;
 
-function formatFooterVersion(version: string): string {
-  return version.replace(/\.0$/, '');
-}
-
 function syncBuildInfo(): void {
   const el = document.getElementById('game-version');
   if (!el) return;
@@ -422,6 +426,7 @@ function syncBuildInfo(): void {
 
 function syncAppViewport(): void {
   syncAppViewportShared();
+  applyMobileHudLayout();
 }
 
 function preventMobileZoom(): void {
@@ -903,6 +908,10 @@ async function startGame(
 
   // Offline only: expose the dev "2v2 Fiesta vs Bots" practice toggle to the HUD.
   if (offlineSim) hud.setFiestaPracticeHook(() => offlineSim.startFiestaPractice());
+  // The Vale Cup practice-vs-bots button (the window calls world.vcupPracticeStart
+  // through IWorld). Private instanced practice works online AND offline, so the
+  // button is always available.
+  hud.setVcupPracticeAvailable(true);
 
   const chatInput = $('#chat-input') as unknown as HTMLTextAreaElement;
   const clickMoveMarker = $('#click-move-marker') as HTMLDivElement;
@@ -1032,6 +1041,8 @@ async function startGame(
       // slot 0 (key 1) is Attack for every class, auto-attack without needing
       // right-click; keys and clicks share the Hud's remappable slot layout
       onAbility: (slot) => hud.castSlot(slot),
+      onAbilityDown: (slot) => hud.pressSlot(slot),
+      onAbilityUp: (slot) => hud.releaseSlot(slot),
       onInputIntent: (kind) => perf.markInputIntent(kind),
       onUiKey: (key) => {
         if (key !== 'escape') hud.cancelGroundAim();
@@ -1072,6 +1083,9 @@ async function startGame(
           case 'arena':
             hud.toggleArena();
             break;
+          case 'valecup':
+            hud.toggleValeCup();
+            break;
           case 'leaderboard':
             hud.toggleLeaderboard();
             break;
@@ -1107,18 +1121,24 @@ async function startGame(
     gameInputReady,
   }));
 
+  // The ring's attack toggle acquires the nearest attackable enemy when tapped
+  // with no live hostile target (the HUD falls back to plain castSlot(0) until
+  // this is wired); the Target button cycles targets via the Tab path below.
+  hud.onMobileAttackNearest = () => attackNearest();
+
   const mobileControls = new MobileControls(input, {
-    onAttackNearest: () => attackNearest(),
+    onCycleTarget: () => world.tabTarget(),
     onJump: () => input.triggerTouchJump(),
-    onTarget: () => world.tabTarget(),
     onInteract: () => interactKey(),
     onAutorun: () => input.toggleAutorun(),
     onChat: () => openChat(),
     onMenu: () => hud.toggleOptionsMenu(),
     onSocial: () => hud.toggleSocial(),
-    onDiscord: () => toggleDiscordPanel(true),
+    onDiscord: () => openDiscordEntry(),
+    onDonate: () => window.open(DONATE_URL, '_blank', 'noopener,noreferrer'),
     onEmotes: () => hud.toggleEmoteWheel(),
     onArena: () => hud.toggleArena(),
+    onValeCup: () => hud.toggleValeCup(),
     onQuestLog: () => hud.toggleQuestLog(),
     onCharacter: () => hud.toggleChar(),
     onBags: () => hud.toggleBags(),
@@ -1209,6 +1229,9 @@ async function startGame(
         break;
       case 'arena':
         hud.toggleArena();
+        break;
+      case 'valecup':
+        hud.toggleValeCup();
         break;
       case 'leaderboard':
         hud.toggleLeaderboard();
@@ -1310,6 +1333,12 @@ async function startGame(
     if (key === 'leftHandedTouch') {
       const v = settings.set('leftHandedTouch', !!value);
       document.body.classList.toggle('mobile-left-handed', v);
+      return;
+    }
+    if (key === 'mobileCameraJoystick') {
+      const v = settings.set('mobileCameraJoystick', !!value);
+      document.body.classList.toggle('mobile-camera-joystick-on', v);
+      mobileControls.setCameraJoystickEnabled(v);
       return;
     }
     if (key === 'touchInvertLook') {
@@ -1545,7 +1574,12 @@ async function startGame(
   // the options menu drives logout + key-capture + settings, all of which need
   // refs that only exist now (input/renderer) or are page-level (reload)
   hud.attachOptions({
-    logout: () => location.reload(),
+    logout: () => {
+      // Signal the server to leave immediately, skipping the linkdead grace, so
+      // the character is not held in-world after a deliberate logout.
+      online?.sendLogout();
+      location.reload();
+    },
     captureKey: (cb) => input.captureNextKey(cb),
     settings,
     onSettingChange: (key, value) => applySetting(key, value),
@@ -2004,6 +2038,12 @@ async function startGame(
   // the release frame would drop the one-shot when release lands on a zero-tick
   // frame. Held here until consumed, then cleared.
   let pendingReleaseFacing: number | null = null;
+  // Local integration of keyboard turns online, streamed on the facing channel
+  // (see the module docs). The module also decides the per-frame wire turn-flag
+  // gating (suppressTurnFlags): zeroed while the streamed heading owns the
+  // channel, passed through on the one engage-edge frame so the server still
+  // sees a manual turn (breaks /follow, marks anti-AFK activity).
+  const kbTurn = newKeyboardTurnState();
   function updateCamera(frameDt: number, interpFacing: number): void {
     const mi = input.readMoveInput();
     const clickMoving = !!input.clickMoveTarget && !input.suspendMovement && !movementFrozen();
@@ -2224,6 +2264,7 @@ async function startGame(
     getEntityCount: () => world.entities.size,
     getEchoMs: () => onlineInputEchoMs,
     getJitterMs: () => onlineJitterMs,
+    getPredLeadMs: () => renderer.selfMotionLeadMs,
     getApm: () => inputMeter.apm(performance.now()),
   });
 
@@ -2349,11 +2390,45 @@ async function startGame(
       world.player.facing,
       onlineInputEchoMs,
     );
-    const netFacing = movementFacing ?? resolved.facing;
+    const pe = world.player;
+    const alpha =
+      net.lastSnapAt > 0
+        ? Math.min(1.25, (performance.now() - net.lastSnapAt) / Math.max(20, net.snapInterval))
+        : 1;
+    // facing interp capped at 1 - extrapolating angles past the snapshot oscillates
+    const interpServerFacing =
+      pe.prevFacing + wrapAngle(pe.facing - pe.prevFacing) * Math.min(1, alpha);
+    const foreignFacing = movementFacing ?? resolved.facing;
+    // Keyboard turns integrate the same TURN_SPEED locally and STREAM the
+    // resulting heading on the facing channel, exactly like mouselook: the
+    // server applies it outright instead of integrating the turn flags one
+    // echo late in 50ms quanta, so there is never a client/server heading
+    // disagreement to reconcile after a turn (the source of every release
+    // stutter this feature has chased). The turn flags are zeroed on the wire
+    // while the local heading owns the channel, or the server would integrate
+    // the turn a second time on top of the streamed facing.
+    const kbFacing = stepKeyboardTurnFacing(kbTurn, {
+      turnLeft: resolved.mi.turnLeft,
+      turnRight: resolved.mi.turnRight,
+      turnAllowed: net.spectating === null && !movementFrozen() && !isStunned(pe),
+      sentFacing: foreignFacing,
+      serverFacing: interpServerFacing,
+      echoMs: onlineInputEchoMs,
+      frameDt,
+    });
+    // wireFacing, not kbFacing: only input-derived headings go on the wire.
+    // Streaming the seam/glide corrections (which chase the mirror) would
+    // close a feedback loop through the server that at high RTT never
+    // converges (the observed self-spinning resonance under netem).
+    const netFacing = foreignFacing ?? kbTurn.wireFacing;
     Object.assign(net.moveInput, resolved.mi);
+    if (kbTurn.suppressTurnFlags) {
+      net.moveInput.turnLeft = false;
+      net.moveInput.turnRight = false;
+    }
     net.setMouselookFacing(netFacing);
-    // Online streams facing every frame, so the latched release yaw is consumed
-    // here; drop it so it is not re-applied next frame.
+    // Online streams facing every frame, so the mouselook release yaw is
+    // consumed here; drop it so it is not re-applied next frame.
     pendingReleaseFacing = null;
     if (net.flushInput()) perf.markInputSent(performance.now());
     const echoSamples = net.consumeInputEchoSamples();
@@ -2387,32 +2462,38 @@ async function startGame(
     if (net.consumeCosmeticsChanged()) {
       perf.trace('hud.onCosmeticsChanged', () => hud.onCosmeticsChanged());
     }
-    const alpha =
-      net.lastSnapAt > 0
-        ? Math.min(1.25, (performance.now() - net.lastSnapAt) / Math.max(20, net.snapInterval))
-        : 1;
     perf.setNetwork({
       connected: net.connected,
       snapInterval: Math.round(net.snapInterval),
       lastSnapAge: net.lastSnapAt > 0 ? Math.round(performance.now() - net.lastSnapAt) : -1,
       alpha: Math.round(alpha * 100) / 100,
     });
-    const pe = world.player;
-    // facing interp capped at 1 - extrapolating angles past the snapshot oscillates
-    perf.trace(
-      'camera.follow',
-      () =>
-        updateCamera(
+    // Display-only self extrapolation (src/render/self_motion.ts). Off while
+    // spectating, corpse-frozen, or CC'd (playerImmobilized covers stun/root/
+    // incapacitate/polymorph, and fear is a fear_incap incapacitate aura; the
+    // fear steer and the charge/follow modes run server-side only), and inside
+    // a delve (the portcullis door clamps are not mirrored client-side).
+    const selfMotion: SelfMotionFrame | null = SELF_MOTION_DISABLED
+      ? null
+      : {
+          enabled:
+            net.spectating === null &&
+            !movementFrozen() &&
+            !playerImmobilized() &&
+            !isDelvePos(pe.pos.x),
+          moveInput: resolved.mi,
+          displayFacing: netFacing ?? interpServerFacing,
+          echoMs: onlineInputEchoMs,
+          jitterMs: onlineJitterMs,
+          alpha,
           frameDt,
-          pe.prevFacing + wrapAngle(pe.facing - pe.prevFacing) * Math.min(1, alpha),
-        ),
-      {
-        mode: 'online',
-        alpha,
-        frameDtMs: frameDt * 1000,
-        lastSnapAge: net.lastSnapAt > 0 ? performance.now() - net.lastSnapAt : -1,
-      },
-    );
+        };
+    perf.trace('camera.follow', () => updateCamera(frameDt, kbFacing ?? interpServerFacing), {
+      mode: 'online',
+      alpha,
+      frameDtMs: frameDt * 1000,
+      lastSnapAge: net.lastSnapAt > 0 ? performance.now() - net.lastSnapAt : -1,
+    });
     introCameraTick(now);
     renderer.camYaw = input.camYaw;
     renderer.camPitch = input.camPitch;
@@ -2425,8 +2506,13 @@ async function startGame(
           renderer.sync(
             alpha,
             frameDt,
-            net.spectating === null ? movementFacing : null,
-            ONLINE_SELF_RENDER_ALPHA_LEAD,
+            // netFacing (mouselook, keyboard turn, click-move, release latch)
+            // is applied server-side the moment it arrives, so the model may
+            // show it immediately; without it the click-move yaw would lag
+            // the predicted position by a round trip and corners would slide.
+            net.spectating === null ? netFacing : null,
+            adaptiveSelfAlphaLead(onlineInputEchoMs, onlineJitterMs, net.snapInterval),
+            selfMotion,
           ),
         {
           mode: 'online',
@@ -2623,6 +2709,7 @@ async function startOffline(
     playerClass,
     playerName: name,
     devCommands: import.meta.env.DEV,
+    valeCupShowcase: true, // idle Sowfield auto-runs a bot exhibition to watch/bet on
     world,
   });
   sim.setPlayerSkin(sim.playerId, skin);
@@ -5443,6 +5530,11 @@ function flashWalletError(message: string): void {
 // Discord UI is on unless the native app build disables it.
 const DISCORD_BUILD_ENABLED =
   !NATIVE_APP && String(import.meta.env.VITE_DISCORD_DISABLED ?? '').trim() !== '1';
+// Community links for the mobile More tray. The invite mirrors the hardcoded
+// invite on the shells' community links and is the fallback when the server-fed
+// discordInviteUrl() is not known yet (logged out, offline).
+const DISCORD_INVITE_URL = 'https://discord.gg/GjhnUsBtw';
+const DONATE_URL = 'https://github.com/sponsors/levy-street';
 const DISCORD_ONBOARD_KEY = 'woc_discord_onboard';
 let discordPopup: Window | null = null;
 
@@ -5714,17 +5806,26 @@ function updateDiscordCtaBanner(): void {
   }
 }
 
-// Show/hide the Discord entry in the mobile "More" tray. Mobile has no keyboard,
-// so the U-key panel toggle is unreachable there; this button is the touch path
-// into the same #discord-window (link / unlink / status). It is only meaningful
-// when Discord is available: the client build enables it, the server has it on,
-// and the player is logged in. Driven off the same status-change signal as the
-// panel, so it tracks login/logout and the server's enabled flag.
+// Show the Discord entry in the mobile "More" tray. Mobile has no keyboard, so
+// the U-key panel toggle is unreachable there; this button is the touch path to
+// Discord. Hidden only when the client build disables Discord entirely (native
+// app / VITE_DISCORD_DISABLED); what a tap opens is decided per-tap in
+// openDiscordEntry, so the entry works logged-out and offline too.
 function syncDiscordMobileEntry(): void {
   const btn = document.getElementById('mobile-discord');
   if (!btn) return;
-  const available = DISCORD_BUILD_ENABLED && discordUiEnabled() && !!api.token;
-  btn.hidden = !available;
+  btn.hidden = !DISCORD_BUILD_ENABLED;
+}
+
+// The More tray's Discord tap: the account panel (link / unlink / status) when
+// it is available (build on, server has Discord on, player logged in), else the
+// community invite in a new tab, mirroring the desktop shell's community link.
+function openDiscordEntry(): void {
+  if (DISCORD_BUILD_ENABLED && discordUiEnabled() && api.token) {
+    toggleDiscordPanel(true);
+    return;
+  }
+  window.open(discordInviteUrl() || DISCORD_INVITE_URL, '_blank', 'noopener,noreferrer');
 }
 
 function wireDiscordCtaBanner(): void {
@@ -5802,6 +5903,9 @@ onDiscordStatusChange(() => {
   syncDiscordMobileEntry();
   if (discordPanelOpen) renderDiscordPanel();
 });
+// Reveal the tray entry at boot: its visibility is a static build fact, not a
+// login-state fact (openDiscordEntry handles the logged-out invite fallback).
+syncDiscordMobileEntry();
 // The Discord panel toggles via the rebindable `discord` keybind action (default
 // U), dispatched through onUiKey above like every other interface window; the
 // build/token guard lives in toggleDiscordPanel.
