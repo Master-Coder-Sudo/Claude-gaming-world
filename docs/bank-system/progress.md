@@ -83,9 +83,9 @@
 - [x] As Phase 1 QA
 
 ### Phase 7: mobile + a11y
-- [ ] Mobile 50/50 split with bags, safe areas, 40x40 tap targets, 16px inputs, pan-y grid scrolling, long-press tooltip peek behavior
-- [ ] Focus contract (non-modal companion cluster; prompts own their Tab cycle; inert clearing on every teardown)
-- [ ] i18n polish: M16 non-Latin fills for wordy strings; mobile screenshot verification
+- [x] Mobile 50/50 split with bags, safe areas, 40x40 tap targets, 16px inputs, pan-y grid scrolling, long-press tooltip peek behavior
+- [x] Focus contract (non-modal companion cluster; prompts own their Tab cycle; inert clearing on every teardown)
+- [x] i18n polish: M16 non-Latin fills for wordy strings (audit found zero missing; no new keys this phase); mobile screenshot verification at phone + tablet
 
 ### Phase 7 QA
 - [ ] As Phase 1 QA
@@ -204,6 +204,16 @@
 - Shared-tree incident: a concurrent session flipped the worktree to release/v0.23.0 mid-QA; all four audit streams detected it and re-based on commit objects or throwaway worktrees; the branch was restored and the game-server bundle REBUILT before the online smoke (the esbuild bundle snapshots the checkout at server start).
 - Battery: tsc, six bank/bags suites + architecture + S3, ci:changed, i18n:gen zero-diff, offline smoke 21/21, online smoke 22/22, and the full npm run gate, all green.
 - Next: run docs/bank-system/phase-07-mobile-a11y.md in a fresh session.
+
+### Phase 7 (2026-07-06)
+
+- Preceded by the release/v0.23.0 merge f687de700 (the mobile-controls rework re-landing, PR #1525, plus the hotbar drag-drop tooltip fix #1564; conflicts only the generated i18n trio, regenerated; release-merge-audit CLEAN: every packet premise held, touch_peek.ts and the vendor pairing recipe intact). Full record in state.md "Phase 7 outcomes".
+- Two parallel agents per the packet (mobile CSS + touch / a11y + i18n verification) on disjoint files, then the orchestrator applied the verifier's findings after the implementer landed. Three commits: 15c6ea6a7 (feat: pairing + standalone + undock/re-dock + cluster close + bank peek guard), 4afcb6ea1 (fix: the bags family peek suppression), 497edba11 (fix: keyboard activation guard + promptModalOpen gate + the prompt Enter/Space submit-dismiss race).
+- The mobile pairing needed two things CSS alone could not do: a placeNewWindow bank-open cascade exemption (the inline cascade inset beats the docking layer) and the closeManagedWindow/x-btn cluster-close arms (the vendor family behavior). A bags-only close (tray toggle) UNDOCKS instead, so the bank widens to the standalone full-screen rule and regains its own x-btn; toggleBags re-docks.
+- Two keyboard defects live-proven and fixed: Enter/Space on focused bank/bags buttons hijacked by the global chat/jump binds (guard-array fix), and the prompt Enter confirm opening chat + ghost-clicking the re-landed close button (prompt-level stopPropagation with isConnected-gated preventDefault, plus promptModalOpen() gating all three canUseGameKeys predicates). Keyboard walkthrough 39/39.
+- The single-row scrollable-chips rule (bank cluster only) recovered the paired grid at 360px-tall phones (the two-row chip wrap left a sub-row sliver). Screenshots + 6/6 live checks at 740x360 and 1024x768 in tmp/p7_shots{,_tablet}/.
+- i18n sweep: zero new keys needed, all 29 hudChrome.bank.* keys carry their five non-Latin fills, formatters verified end to end, ARIA names all t()-sourced. qa-checklist verdict READY, 0 blocking, 0 should-fix; full npm run gate green; mobile input-zoom check 28/28.
+- Next: run docs/bank-system/phase-07-qa.md in a fresh session.
 
 ### Phase 4 QA (2026-07-06)
 
