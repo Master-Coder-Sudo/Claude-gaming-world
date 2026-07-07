@@ -482,6 +482,7 @@ export const da_DK: EnTranslations = {
         "fps01Low": "0,1% lav",
         "ping": "Ping",
         "jitter": "Jitter",
+        "predLead": "Prediction Lead",
         "snapshot": "Snapshothastighed",
         "connection": "Forbindelse",
         "drawCalls": "Tegnekald",

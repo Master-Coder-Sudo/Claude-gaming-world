@@ -521,6 +521,7 @@ export const hudChromeStrings = {
       fps01Low: '0.1% Low',
       ping: 'Ping',
       jitter: 'Jitter',
+      predLead: 'Prediction Lead',
       snapshot: 'Snapshot Rate',
       connection: 'Connection',
       drawCalls: 'Draw Calls',
