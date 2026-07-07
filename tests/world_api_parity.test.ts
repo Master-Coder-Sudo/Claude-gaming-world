@@ -69,7 +69,7 @@ interface IWorldMember {
 }
 
 // The 189 members of `interface IWorld`, in interface order (world_api.ts).
-// Partition: 50 `data` + 135 `method` (read-returning + command-void + async).
+// Partition: 51 `data` + 138 `method` (read-returning + command-void + async).
 // biome-ignore lint/suspicious/noExportsInTest: IWORLD_MEMBERS is the W0c pinned structural-parity contract (the authoritative IWorld member list)
 export const IWORLD_MEMBERS = [
   // --- core world / player roster + economy reads (data) ---
@@ -577,7 +577,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
     ]);
   });
 
-  it('the sorted data-kind set is exactly the pinned 50', () => {
+  it('the sorted data-kind set is exactly the pinned 51', () => {
     expect(DATA_MEMBERS.map((m) => m.name).sort()).toEqual([
       'accountCosmetics',
       'activeArchetype',
@@ -633,7 +633,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
     ]);
   });
 
-  it('the sorted method-kind set is exactly the pinned 135', () => {
+  it('the sorted method-kind set is exactly the pinned 138', () => {
     expect(METHOD_MEMBERS.map((m) => m.name).sort()).toEqual([
       'abandonPet',
       'abandonQuest',
