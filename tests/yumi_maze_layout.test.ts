@@ -224,3 +224,33 @@ describe('yumi maze band edges', () => {
     expect(groundHeight(o.x - 25, o.z + 25, WORLD_SEED)).toBe(h0);
   });
 });
+
+describe('yumi maze: golden shape', () => {
+  // The competitive map is a FIXED artifact: the structural invariants above
+  // all keep holding through an accidental YUMI_MAZE_SEED edit, which would
+  // silently rotate the "identical every match" map. Pin the seed and a
+  // checksum of the derived geometry so a rotation is always a conscious,
+  // test-updating change.
+  it('pins the fixed seed and the derived wall geometry', () => {
+    expect(YUMI_MAZE_SEED).toBe(0xca7f00d);
+    let h = 2166136261;
+    const mix = (v: number) => {
+      h = Math.imul(h ^ Math.round(v * 8), 16777619);
+    };
+    for (const w of layout.walls) {
+      mix(w.x);
+      mix(w.z);
+      mix(w.hw);
+      mix(w.hd);
+    }
+    for (const c of layout.openCells) {
+      mix(c.cx);
+      mix(c.cz);
+    }
+    expect({ walls: layout.walls.length, open: layout.openCells.length, hash: h >>> 0 }).toEqual({
+      walls: 44,
+      open: 169,
+      hash: 1115337129,
+    });
+  });
+});

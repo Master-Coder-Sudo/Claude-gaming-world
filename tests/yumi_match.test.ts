@@ -203,6 +203,44 @@ describe('yumi: hostility matrix', () => {
     expect(pids.length).toBe(6);
   });
 
+  it('per-dimension gates: countdown, a benched attacker, and over each block the cat arms', () => {
+    // countdown: the enemy cat is not strikeable yet, but pre-shielding your
+    // own already is (the documented asymmetry of the two arms)
+    const sim = makeWorld();
+    const classes = ['warrior', 'mage', 'rogue', 'priest', 'hunter', 'druid'] as const;
+    const pids = classes.map((c, i) => sim.addPlayer(c, `G${i}`));
+    pids.forEach((p, i) => {
+      teleport(sim, p, i * 4, -40);
+    });
+    pids.forEach((p) => {
+      sim.arenaQueueJoin(p, 'yumi3');
+    });
+    sim.tick(); // matchmake
+    const match = sim.arenaMatchFor(pids[0])!;
+    expect(match.state).toBe('countdown');
+    const { catA, catB } = cats(sim, match);
+    const a0 = sim.entities.get(match.teamA[0])!;
+    const hostile = (x: Entity, y: Entity) => (sim as any).isHostileTo(x, y) as boolean;
+    const friendly = (x: Entity, y: Entity) => (sim as any).isFriendlyTo(x, y) as boolean;
+    expect(hostile(a0, catB)).toBe(false);
+    expect(friendly(a0, catA)).toBe(true);
+    for (let i = 0; i < 20 * 8 && match.state !== 'active'; i++) sim.tick();
+    expect(match.state).toBe('active');
+    expect(hostile(a0, catB)).toBe(true);
+    // a benched (downed) controller loses the hostile arm while on the bench
+    const b0 = sim.entities.get(match.teamB[0])!;
+    expect(hostile(b0, catA)).toBe(true);
+    (sim as any).dealDamage(a0, b0, 999999, false, 'physical', null, 'hit');
+    expect((sim as any).arenaIsDown(match, b0.id)).toBe(true);
+    expect(hostile(b0, catA)).toBe(false);
+    // over: both arms drop for everyone, including live fighters
+    (sim as any).dealDamage(a0, catB, 999999, false, 'physical', null, 'hit');
+    expect(match.state).toBe('over');
+    const b1 = sim.entities.get(match.teamB[1])!;
+    expect(hostile(b1, catA)).toBe(false);
+    expect(friendly(a0, catA)).toBe(false);
+  });
+
   it('heals land on the own cat and absorb shields soak enemy hits', () => {
     const { sim, match } = startYumi3();
     const { catB } = cats(sim, match);
@@ -322,6 +360,31 @@ describe('yumi: respawn', () => {
   });
 });
 
+describe('yumi: respawn safety', () => {
+  it('a fighter bottomed out by a non-cross-team source benches, never the graveyard flow', () => {
+    const { sim, match } = startYumi3();
+    const b0 = sim.entities.get(match.teamB[0])!;
+    // self-damage (the fiesta precedent: a friendly DoT tail) bottoms b0 out
+    // WITHOUT a cross-team takedown, hitting the damage-hub safety branch
+    (sim as any).dealDamage(b0, b0, 999999, false, 'shadow', null, 'hit');
+    expect(b0.dead).toBe(true);
+    expect(match.defeated.has(b0.id)).toBe(false);
+    expect((sim as any).arenaIsDown(match, b0.id)).toBe(true);
+    expect(sim.arenaMatchFor(match.teamB[0])).toBe(match); // still in the bout
+    for (let i = 0; i < 20 * (YUMI_RESPAWN_SECONDS + 2) && b0.dead; i++) sim.tick();
+    expect(b0.dead).toBe(false); // revived on the bench timer, not a corpse run
+    expect(b0.hp).toBe(b0.maxHp);
+  });
+});
+
+describe('yumi: competitive constants', () => {
+  it('pins the timing magnitudes (a balance edit must consciously land here too)', () => {
+    expect(YUMI_RESPAWN_SECONDS).toBe(10);
+    expect(YUMI_TELEPORT_EVERY).toBe(60);
+    expect(YUMI_SUDDEN_AT).toBe(600);
+  });
+});
+
 describe('yumi: sudden death', () => {
   it('latches once, freezes teleports, bleeds the cats, and always picks a winner, unranked', () => {
     const { sim, match } = startYumi3();
@@ -348,6 +411,56 @@ describe('yumi: sudden death', () => {
     // team A's cat had more hp, so team A wins
     const a0End = ends.find((e) => e.pid === match.teamA[0]);
     expect((a0End as any).won).toBe(true);
+  });
+
+  it('a same-pulse double kill resolves by damage dealt: exactly one cat dies', () => {
+    const { sim, match } = startYumi3();
+    const { catA, catB } = cats(sim, match);
+    const y = (match as any).yumi;
+    // Equal hp below the first bleed pulse (50 at step 1), so BOTH would die
+    // on the same pulse; team A dealt more to the ENEMY cat, so the resolver
+    // must pick A deterministically without touching the coin.
+    catA.hp = 30;
+    catB.hp = 30;
+    y.dmgToYumiB = 4970; // team A's damage (dealt to cat B)
+    y.dmgToYumiA = 4000; // team B's damage (dealt to cat A)
+    match.timer = YUMI_SUDDEN_AT - 0.5;
+    y.nextTeleportAt = YUMI_SUDDEN_AT;
+    const evs: SimEvent[] = [];
+    for (let i = 0; i < 20 * 10 && match.state === 'active'; i++) evs.push(...sim.tick());
+    expect(match.state).toBe('over');
+    // The loser's cat died and the winner's is untouched: a winner/loser
+    // inversion on the kill line flips every one of these.
+    expect(catB.dead).toBe(true);
+    expect(catA.dead).toBe(false);
+    expect(catA.hp).toBe(30);
+    const ends = evs.filter((e) => e.type === 'arenaEnd');
+    expect(ends.length).toBe(6);
+    for (const e of ends) expect((e as any).draw).toBe(false);
+    expect((ends.find((e) => e.pid === match.teamA[0]) as any).won).toBe(true);
+    expect((ends.find((e) => e.pid === match.teamB[0]) as any).won).toBe(false);
+  });
+
+  it('a full tie (equal hp, equal damage dealt) still kills exactly one cat via the coin', () => {
+    const { sim, match } = startYumi3();
+    const { catA, catB } = cats(sim, match);
+    const y = (match as any).yumi;
+    catA.hp = 30;
+    catB.hp = 30;
+    y.dmgToYumiA = 4970;
+    y.dmgToYumiB = 4970;
+    match.timer = YUMI_SUDDEN_AT - 0.5;
+    y.nextTeleportAt = YUMI_SUDDEN_AT;
+    const evs: SimEvent[] = [];
+    for (let i = 0; i < 20 * 10 && match.state === 'active'; i++) evs.push(...sim.tick());
+    expect(match.state).toBe('over');
+    expect(catA.dead !== catB.dead).toBe(true); // exactly one dead, never both
+    const ends = evs.filter((e) => e.type === 'arenaEnd');
+    expect(ends.length).toBe(6);
+    for (const e of ends) expect((e as any).draw).toBe(false);
+    // the surviving cat's team is the team that won
+    const winnerPid = catA.dead ? match.teamB[0] : match.teamA[0];
+    expect((ends.find((e) => e.pid === winnerPid) as any).won).toBe(true);
   });
 
   it('resolveYumiTiebreak: hp first, then damage dealt, then the per-match coin', () => {
