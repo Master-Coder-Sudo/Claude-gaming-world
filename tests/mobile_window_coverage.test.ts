@@ -27,9 +27,24 @@ function read(relPath: string): string {
   return readFileSync(fileURLToPath(new URL(relPath, import.meta.url)), 'utf8');
 }
 
-// The static `.window` ids from a markup entry.
+// The static `.window` ids from a markup entry. Attribute-ORDER-TOLERANT: it scans
+// whole opening tags and tests `id=` and a `window` className INDEPENDENTLY per tag,
+// so a future class-first element (class="..." before id="...") is still picked up
+// (the old id-then-class regex would have silently missed it).
 function windowIdsFromHtml(html: string): string[] {
-  return [...html.matchAll(/id="([a-z0-9-]+)"\s+class="[^"]*\bwindow\b[^"]*"/g)].map((m) => m[1]);
+  const ids: string[] = [];
+  // Every opening tag's inner attribute text (between `<tag` and the closing `>`),
+  // skipping close tags and comments (both start with `</` / `<!` which the class
+  // excludes). A tag's attributes never contain a raw '>', so [^>]* is safe here.
+  for (const tag of html.matchAll(/<[a-z][a-z0-9]*\s+([^>]*?)\/?>/gi)) {
+    const attrs = tag[1];
+    const idMatch = attrs.match(/\bid="([a-z0-9-]+)"/);
+    const classMatch = attrs.match(/\bclass="([^"]*)"/);
+    if (idMatch && classMatch && /\bwindow\b/.test(classMatch[1])) {
+      ids.push(idMatch[1]);
+    }
+  }
+  return ids;
 }
 
 // Windows created at runtime carry a `window` className in a src/ui module rather

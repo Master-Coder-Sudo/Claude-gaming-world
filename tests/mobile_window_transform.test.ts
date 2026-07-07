@@ -201,14 +201,51 @@ describe('tier player-frame nudges are landscape-gated (hud.mobile.css)', () => 
     'utf8',
   );
 
+  // Enumerate every @media block with its prelude text and body brace range, matched
+  // by a brace-depth scan from each @media's opening brace to its balanced close.
+  function mediaBlocks(): Array<{ prelude: string; bodyStart: number; bodyEnd: number }> {
+    const blocks: Array<{ prelude: string; bodyStart: number; bodyEnd: number }> = [];
+    const re = /@media\b/g;
+    let m: RegExpExecArray | null = re.exec(css);
+    while (m !== null) {
+      const preludeStart = m.index;
+      const open = css.indexOf('{', preludeStart);
+      if (open >= 0) {
+        // Walk from the opening brace to its balanced close via a brace-depth scan.
+        let depth = 0;
+        let close = -1;
+        for (let i = open; i < css.length; i++) {
+          const ch = css[i];
+          if (ch === '{') depth++;
+          else if (ch === '}') {
+            depth--;
+            if (depth === 0) {
+              close = i;
+              break;
+            }
+          }
+        }
+        if (close >= 0) {
+          blocks.push({ prelude: css.slice(preludeStart, open), bodyStart: open, bodyEnd: close });
+        }
+      }
+      m = re.exec(css);
+    }
+    return blocks;
+  }
+
   function mediaPrelude(needle: string): string {
     const at = css.indexOf(needle);
     expect(at, `${needle} rule should exist`).toBeGreaterThanOrEqual(0);
-    // Nearest @media prelude ABOVE the rule; nudge rules sit directly inside it.
-    const before = css.slice(0, at);
-    const open = before.lastIndexOf('@media');
-    expect(open, `${needle} should sit inside a media block`).toBeGreaterThanOrEqual(0);
-    return before.slice(open, before.indexOf('{', open));
+    // The INNERMOST @media block whose body contains the rule (smallest enclosing body
+    // range): nesting-proof. An inner nested @media sitting between the outer block's
+    // open brace and the rule no longer mis-grabs, because we pick the smallest-body
+    // block that still encloses the rule index, not the nearest '@media' token above it.
+    const enclosing = mediaBlocks()
+      .filter((b) => at > b.bodyStart && at < b.bodyEnd)
+      .sort((a, b) => a.bodyEnd - a.bodyStart - (b.bodyEnd - b.bodyStart))[0];
+    expect(enclosing, `${needle} should sit inside a media block`).toBeTruthy();
+    return enclosing.prelude;
   }
 
   it('keys the compact -44px seat to landscape', () => {
