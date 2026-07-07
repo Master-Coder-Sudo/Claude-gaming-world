@@ -259,3 +259,49 @@ describe('stepKeyboardTurnFacing', () => {
     expect(Math.abs(f)).toBeLessThanOrEqual(Math.PI);
   });
 });
+
+describe('suppressTurnFlags (wire turn-flag gating)', () => {
+  it('lets the real flags through on the engage-edge frame only', () => {
+    const st = newKeyboardTurnState();
+    stepKeyboardTurnFacing(st, args({ turnLeft: true }));
+    expect(st.suppressTurnFlags).toBe(false); // the edge: server sees a manual turn
+    stepKeyboardTurnFacing(st, args({ turnLeft: true }));
+    expect(st.suppressTurnFlags).toBe(true); // every held frame after: zeroed
+    stepKeyboardTurnFacing(st, args({ turnLeft: true }));
+    expect(st.suppressTurnFlags).toBe(true);
+  });
+
+  it('re-fires the edge on a fresh key press after release', () => {
+    const st = newKeyboardTurnState();
+    stepKeyboardTurnFacing(st, args({ turnLeft: true }));
+    stepKeyboardTurnFacing(st, args({ turnLeft: true }));
+    // release: the held heading still owns the channel, flags stay zeroed
+    stepKeyboardTurnFacing(st, args({}));
+    expect(st.suppressTurnFlags).toBe(true);
+    // re-press: a new manual turn the server must see (breaks /follow again)
+    stepKeyboardTurnFacing(st, args({ turnRight: true }));
+    expect(st.suppressTurnFlags).toBe(false);
+  });
+
+  it('does not suppress while inactive or while a foreign path streams', () => {
+    const st = newKeyboardTurnState();
+    stepKeyboardTurnFacing(st, args({}));
+    expect(st.suppressTurnFlags).toBe(false); // idle: flags are false anyway
+    stepKeyboardTurnFacing(st, args({ turnLeft: true, sentFacing: 1.2 }));
+    expect(st.suppressTurnFlags).toBe(false); // mouselook owns; module yields
+  });
+
+  it('KNOWN LIMIT: a continuous hold produces exactly one edge frame', () => {
+    // The edge is a transition, so a /follow issued while the keys are already
+    // held is never broken by a turn flag until the key is re-pressed (the
+    // client cannot see follow state; followTargetId is not mirrored). This
+    // pin exists so a future fix flips it deliberately, not by accident.
+    const st = newKeyboardTurnState();
+    let passthroughFrames = 0;
+    for (let i = 0; i < 120; i++) {
+      stepKeyboardTurnFacing(st, args({ turnLeft: true }));
+      if (!st.suppressTurnFlags) passthroughFrames++;
+    }
+    expect(passthroughFrames).toBe(1);
+  });
+});

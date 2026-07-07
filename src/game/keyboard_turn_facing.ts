@@ -59,10 +59,31 @@ export interface KeyboardTurnState {
    * spins on its own at the glide rate until the player intervenes).
    */
   wireFacing: number | null;
+  /**
+   * True when the caller must ZERO the turn flags on the wire this frame
+   * (the streamed heading owns the channel; letting the server integrate
+   * tl/tr on top would double the turn). False exactly one frame per engage
+   * (the edge), so server behaviors keyed on a manual turn flag, breaking
+   * /follow and the anti-AFK activity mark, still fire; the facing streamed
+   * alongside overwrites the at most one tick the server may integrate.
+   * Known limit: the edge is a TRANSITION, so a /follow issued while the
+   * keys are ALREADY held never sees a flag and does not break until the
+   * key is re-pressed (the client cannot see follow state; followTargetId
+   * is not mirrored).
+   */
+  suppressTurnFlags: boolean;
+  /** Previous frame's "engaged and keys held", for the edge detection. */
+  wasTurning: boolean;
 }
 
 export function newKeyboardTurnState(): KeyboardTurnState {
-  return { facing: null, releaseMs: 0, wireFacing: null };
+  return {
+    facing: null,
+    releaseMs: 0,
+    wireFacing: null,
+    suppressTurnFlags: false,
+    wasTurning: false,
+  };
 }
 
 function approachAngle(current: number, target: number, maxStep: number): number {
@@ -100,6 +121,16 @@ export function stepKeyboardTurnFacing(
   state: KeyboardTurnState,
   args: KeyboardTurnArgs,
 ): number | null {
+  const facing = stepFacing(state, args);
+  // Wire turn-flag gating (see suppressTurnFlags): zero the flags while a
+  // local heading owns the display, except the one engage-edge frame.
+  const turning = facing !== null && (args.turnLeft || args.turnRight);
+  state.suppressTurnFlags = facing !== null && !(turning && !state.wasTurning);
+  state.wasTurning = turning;
+  return facing;
+}
+
+function stepFacing(state: KeyboardTurnState, args: KeyboardTurnArgs): number | null {
   if (args.sentFacing !== null) {
     // A foreign path (mouselook, click-move) owns the heading and streams it
     // itself; yield.

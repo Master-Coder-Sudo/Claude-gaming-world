@@ -2026,11 +2026,11 @@ async function startGame(
   // frame. Held here until consumed, then cleared.
   let pendingReleaseFacing: number | null = null;
   // Local integration of keyboard turns online, streamed on the facing channel
-  // (see the module docs). prevKbTurning tracks the engage edge: that one frame
-  // passes the REAL turn flags through so the server still sees a manual turn
-  // (breaks /follow, marks anti-AFK activity) before the flag zeroing begins.
+  // (see the module docs). The module also decides the per-frame wire turn-flag
+  // gating (suppressTurnFlags): zeroed while the streamed heading owns the
+  // channel, passed through on the one engage-edge frame so the server still
+  // sees a manual turn (breaks /follow, marks anti-AFK activity).
   const kbTurn = newKeyboardTurnState();
-  let prevKbTurning = false;
   function updateCamera(frameDt: number, interpFacing: number): void {
     const mi = input.readMoveInput();
     const clickMoving = !!input.clickMoveTarget && !input.suspendMovement && !movementFrozen();
@@ -2409,17 +2409,10 @@ async function startGame(
     // converges (the observed self-spinning resonance under netem).
     const netFacing = foreignFacing ?? kbTurn.wireFacing;
     Object.assign(net.moveInput, resolved.mi);
-    // The engage-edge frame lets the real flags through once: server behaviors
-    // keyed on a manual turn (breaking /follow, the anti-AFK activity mark)
-    // still fire, and the facing streamed alongside (plus the next frame's
-    // zeroed flags, usually inside the same server tick) overwrites the at
-    // most one tick the server may integrate from them.
-    const kbTurning = kbFacing !== null && (resolved.mi.turnLeft || resolved.mi.turnRight);
-    if (kbFacing !== null && !(kbTurning && !prevKbTurning)) {
+    if (kbTurn.suppressTurnFlags) {
       net.moveInput.turnLeft = false;
       net.moveInput.turnRight = false;
     }
-    prevKbTurning = kbTurning;
     net.setMouselookFacing(netFacing);
     // Online streams facing every frame, so the mouselook release yaw is
     // consumed here; drop it so it is not re-applied next frame.
