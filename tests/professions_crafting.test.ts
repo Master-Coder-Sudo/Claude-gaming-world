@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { COMBO_RECIPES, COMMON_RECIPES, recipeById, TOOL_RECIPES } from '../src/sim/content/recipes';
+import {
+  COMBO_RECIPES,
+  COMMON_RECIPES,
+  recipeById,
+  TOOL_RECIPES,
+} from '../src/sim/content/recipes';
 import {
   hasRecipeMaterials,
   meetsComboRequirement,
@@ -234,7 +239,9 @@ describe('craftItem command (#1127)', () => {
   it('the IWorld recipeList read surface exposes every recipe, common, tool, and combo alike (#1132 review)', () => {
     const sim = makeSim();
     const allIds = [...COMMON_RECIPES, ...TOOL_RECIPES, ...COMBO_RECIPES].map((r) => r.id).sort();
-    expect(sim.recipeList.length).toBe(COMMON_RECIPES.length + TOOL_RECIPES.length + COMBO_RECIPES.length);
+    expect(sim.recipeList.length).toBe(
+      COMMON_RECIPES.length + TOOL_RECIPES.length + COMBO_RECIPES.length,
+    );
     expect(sim.recipeList.map((r) => r.id).sort()).toEqual(allIds);
   });
 
