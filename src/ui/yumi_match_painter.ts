@@ -23,7 +23,9 @@ import { type YumiHudModel, type YumiLiveState, yumiMatchView } from './yumi_mat
 interface YumiHudEls {
   root: HTMLElement;
   title: HTMLElement;
+  timer: HTMLElement;
   sub: HTMLElement;
+  toggle: HTMLElement;
   mineSide: HTMLElement;
   mineName: HTMLElement;
   mineFill: HTMLElement;
@@ -46,10 +48,15 @@ export class YumiMatchPainter {
     enemyHp: 0,
     enemyMax: 1,
     teleportIn: 0,
+    suddenDeathIn: 0,
     suddenDeath: false,
   };
   private respawnLeft = 0;
   private lastNow = -1;
+  // User-chosen strip collapse (session-scoped): the bars fold down to the
+  // title chip. A deliberate player choice, not a tier knob, so the fairness
+  // invariant is untouched (the expand control stays visible).
+  private collapsed = false;
 
   constructor(
     private readonly w: PainterHostWriters,
@@ -63,6 +70,7 @@ export class YumiMatchPainter {
     enemyHp: number;
     enemyMax: number;
     teleportIn: number;
+    suddenDeathIn: number;
     suddenDeath: boolean;
   }): void {
     this.live.seen = true;
@@ -71,6 +79,7 @@ export class YumiMatchPainter {
     this.live.enemyHp = ev.enemyHp;
     this.live.enemyMax = ev.enemyMax;
     this.live.teleportIn = ev.teleportIn;
+    this.live.suddenDeathIn = ev.suddenDeathIn;
     this.live.suddenDeath = ev.suddenDeath;
   }
 
@@ -113,13 +122,31 @@ export class YumiMatchPainter {
     const num = (n: number) => formatNumber(n, { maximumFractionDigits: 0 });
     this.w.setDisplay(els.root, 'flex');
     this.w.toggleClass(els.root, 'sudden', m.suddenDeath);
+    this.w.toggleClass(els.root, 'collapsed', this.collapsed);
+    this.w.setAttr(els.toggle, 'aria-expanded', this.collapsed ? 'false' : 'true');
+    this.w.setAttr(
+      els.toggle,
+      'aria-label',
+      this.collapsed ? t('yumi.hud.expand') : t('yumi.hud.collapse'),
+    );
     this.w.setText(els.title, t('yumi.hud.title'));
-    const sub = m.suddenDeath
+    // The match clock: time left until sudden death, then the state label.
+    // Localized digits via formatNumber (clock-style m:ss).
+    const timer = m.suddenDeath
       ? t('yumi.hud.suddenDeath')
-      : m.phase === 'countdown'
+      : `${num(Math.floor(m.suddenDeathIn / 60))}:${formatNumber(m.suddenDeathIn % 60, {
+          minimumIntegerDigits: 2,
+          maximumFractionDigits: 0,
+        })}`;
+    this.w.setText(els.timer, timer);
+    this.w.toggleClass(els.timer, 'sudden', m.suddenDeath);
+    const sub =
+      m.phase === 'countdown'
         ? t('yumi.hud.getReady')
         : t('yumi.hud.teleportIn', { s: num(m.teleportIn) });
     this.w.setText(els.sub, sub);
+    // Teleports freeze in sudden death: the line would count nothing down.
+    this.w.setDisplay(els.sub, m.suddenDeath ? 'none' : 'block');
     this.w.setText(els.mineName, t('yumi.hud.yourYumi'));
     this.w.setText(els.theirsName, t('yumi.hud.enemyYumi'));
     // Team identity: my bar wears MY team's color (matching the spawn-plaza
@@ -179,11 +206,22 @@ export class YumiMatchPainter {
     mid.className = 'yh-mid';
     const title = document.createElement('div');
     title.className = 'yh-title';
+    const timer = document.createElement('div');
+    timer.className = 'yh-timer';
     const sub = document.createElement('div');
     sub.className = 'yh-sub';
-    mid.append(title, sub);
+    mid.append(title, timer, sub);
     const theirs = side('theirs');
-    root.append(mine.el, mid, theirs.el);
+    // The collapse toggle folds the strip to the title chip (a user choice;
+    // aria-label/expanded flow through the elided writers in paint()). The
+    // chevron glyph is pure CSS, so the button carries no text to localize.
+    const toggle = document.createElement('button');
+    toggle.className = 'yh-toggle';
+    toggle.setAttribute('type', 'button');
+    toggle.addEventListener('click', () => {
+      this.collapsed = !this.collapsed;
+    });
+    root.append(mine.el, mid, theirs.el, toggle);
     mount.appendChild(root);
 
     const respawn = document.createElement('div');
@@ -200,7 +238,9 @@ export class YumiMatchPainter {
     this.els = {
       root,
       title,
+      timer,
       sub,
+      toggle,
       mineSide: mine.el,
       mineName: mine.name,
       mineFill: mine.fill,

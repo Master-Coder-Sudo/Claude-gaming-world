@@ -122,7 +122,61 @@ check(
   JSON.stringify(hud),
 );
 check('HUD title localized', hud.title.length > 0, hud.title);
+
+// The strip owns the top-center anchor: the generic arena VS banner stays
+// hidden during the bout, the match clock ticks m:ss, and the collapse
+// toggle folds/unfolds the bars.
+const chrome = await page.evaluate(() => {
+  const status = document.getElementById('arena-status');
+  const timer = document.querySelector('#yumi-hud .yh-timer');
+  const root = document.getElementById('yumi-hud');
+  const toggle = document.querySelector('#yumi-hud .yh-toggle');
+  toggle.click();
+  const collapsedAfterClick = root.classList.contains('collapsed');
+  return {
+    statusHidden: !status || getComputedStyle(status).display === 'none',
+    timerText: timer ? timer.textContent : '',
+    collapsePending: collapsedAfterClick === false, // class lands on the next paint
+  };
+});
+await sleep(700);
+const folded = await page.evaluate(() => {
+  const root = document.getElementById('yumi-hud');
+  const side = root.querySelector('.yh-side');
+  const collapsed = root.classList.contains('collapsed');
+  root.querySelector('.yh-toggle').click();
+  return { collapsed, sideHidden: getComputedStyle(side).display === 'none' };
+});
+await sleep(700);
+const unfolded = await page.evaluate(() => {
+  const root = document.getElementById('yumi-hud');
+  return { collapsed: root.classList.contains('collapsed') };
+});
+check('arena VS banner suppressed during the bout', chrome.statusHidden);
+check('match clock shows m:ss', /\d+:\d{2}/.test(chrome.timerText), chrome.timerText);
+check(
+  'collapse toggle folds and unfolds the strip',
+  folded.collapsed && folded.sideHidden && !unfolded.collapsed,
+  JSON.stringify({ folded, unfolded }),
+);
 await page.screenshot({ path: 'tmp/yumi_match_start.png' });
+
+// Phone portrait: the strip wraps (clock row on top, fluid bars below) and
+// never overflows the viewport.
+await page.setViewport({ width: 375, height: 812 });
+await sleep(800);
+const mobile = await page.evaluate(() => {
+  const r = document.getElementById('yumi-hud').getBoundingClientRect();
+  return { left: Math.round(r.left), right: Math.round(r.right), w: window.innerWidth };
+});
+check(
+  'strip fits a 375px portrait viewport',
+  mobile.left >= 0 && mobile.right <= mobile.w,
+  JSON.stringify(mobile),
+);
+await page.screenshot({ path: 'tmp/yumi_hud_mobile.png' });
+await page.setViewport({ width: 1280, height: 820 });
+await sleep(400);
 
 // Walls block REAL keyboard movement: hold W (north, +z is south so pick the
 // direction toward the nearest wall) for 2.5s and confirm the player never

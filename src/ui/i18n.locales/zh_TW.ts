@@ -5676,6 +5676,8 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   // Release v0.22.0 locale fill.
   'hudChrome.crafting.reagentLine': '{name}: {have}/{required}',
   // Protect Yumi locale fill (M16 wordy-key floor).
+  'yumi.hud.collapse': '摺疊Protect Yumi血條',
+  'yumi.hud.expand': '展開Protect Yumi血條',
   'guide.arenaPage.yumiHeading': '守護Yumi',
   'guide.arenaPage.yumiBody':
     'Protect Yumi是一種在迷宮中進行的團隊目標模式：每隊守護自己的貓咪使魔，同時獵殺對方的。兩隻貓咪會不時閃現到迷宮的新角落，戰鬥在防守、追獵與尋回之間不斷搖擺。可選擇3對3或5對5排隊；陣亡只會讓你短暫離場。',

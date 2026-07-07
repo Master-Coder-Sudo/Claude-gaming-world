@@ -531,6 +531,7 @@ function emitYumiStatus(ctx: SimContext, match: ArenaMatch): void {
   const hpA = catA && !catA.dead ? catA.hp : 0;
   const hpB = catB && !catB.dead ? catB.hp : 0;
   const teleportIn = y.suddenDeath ? 0 : Math.max(0, Math.ceil(y.nextTeleportAt - match.timer));
+  const suddenDeathIn = y.suddenDeath ? 0 : Math.max(0, Math.ceil(YUMI_SUDDEN_AT - match.timer));
   const mult = yumiTakenMult(match.timer);
   for (const mPid of ctx.arenaAllPids(match)) {
     const team = ctx.arenaTeamOf(match, mPid);
@@ -542,6 +543,7 @@ function emitYumiStatus(ctx: SimContext, match: ArenaMatch): void {
       enemyHp: team === 'A' ? hpB : hpA,
       enemyMax: YUMI_HP,
       teleportIn,
+      suddenDeathIn,
       suddenDeath: y.suddenDeath,
       mult,
       team,

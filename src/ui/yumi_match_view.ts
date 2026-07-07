@@ -27,6 +27,7 @@ export interface YumiLiveState {
   enemyHp: number;
   enemyMax: number;
   teleportIn: number;
+  suddenDeathIn: number;
   suddenDeath: boolean;
 }
 
@@ -44,6 +45,8 @@ export interface YumiHudModel {
   enemyFrac: number;
   /** Whole seconds to the next simultaneous teleport; 0 once frozen. */
   teleportIn: number;
+  /** Whole seconds of match time left before sudden death; 0 once latched. */
+  suddenDeathIn: number;
   suddenDeath: boolean;
   down: boolean;
   /** Whole seconds until my revive (0 when alive). */
@@ -62,6 +65,7 @@ const model: YumiHudModel = {
   enemyMax: 1,
   enemyFrac: 0,
   teleportIn: 0,
+  suddenDeathIn: 0,
   suddenDeath: false,
   down: false,
   respawnIn: 0,
@@ -100,6 +104,7 @@ export function yumiMatchView(
   model.enemyFrac = Math.max(0, Math.min(1, model.enemyHp / model.enemyMax));
   model.suddenDeath = y.phase === 'sudden' || (useLive && live.suddenDeath);
   model.teleportIn = model.suddenDeath ? 0 : useLive ? live.teleportIn : y.teleportIn;
+  model.suddenDeathIn = model.suddenDeath ? 0 : useLive ? live.suddenDeathIn : y.suddenDeathIn;
   model.respawnIn = localRespawn > 0 ? Math.ceil(localRespawn) : y.down ? y.respawnIn : 0;
   model.down = model.respawnIn > 0 && y.phase !== 'countdown';
   return model;

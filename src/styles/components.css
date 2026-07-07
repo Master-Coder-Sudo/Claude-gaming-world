@@ -5655,13 +5655,62 @@
     letter-spacing: 0.08em;
     color: var(--color-primary);
   }
+  .yh-timer {
+    font-size: 13px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: #f0ead9;
+  }
+  .yh-timer.sudden {
+    color: var(--color-hostile);
+    letter-spacing: 0.06em;
+  }
   .yh-sub {
     font-size: 11px;
     color: #cfc9bb;
   }
-  .yumi-hud.sudden .yh-sub {
-    color: var(--color-hostile);
-    font-weight: 800;
+  /* Collapse toggle: the one interactive element on the strip (the root is
+     pointer-events none). CSS chevron, no glyph text; 40px touch floor on
+     coarse pointers; steady token-colored focus ring. */
+  .yh-toggle {
+    pointer-events: auto;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    flex: 0 0 auto;
+    background: transparent;
+    border: 1px solid var(--color-primary-dim);
+    border-radius: 5px;
+    cursor: var(--cursor-point);
+  }
+  .yh-toggle::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    border-left: 2px solid var(--color-primary);
+    border-top: 2px solid var(--color-primary);
+    transform: translate(-50%, -30%) rotate(45deg);
+  }
+  .yumi-hud.collapsed .yh-toggle::before {
+    transform: translate(-50%, -70%) rotate(225deg);
+  }
+  .yh-toggle:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
+  }
+  @media (pointer: coarse) {
+    .yh-toggle {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  .yumi-hud.collapsed .yh-side,
+  .yumi-hud.collapsed .yh-timer,
+  .yumi-hud.collapsed .yh-sub {
+    display: none;
   }
   .yumi-respawn {
     position: absolute;
@@ -5702,6 +5751,37 @@
     }
     .yh-name {
       display: none;
+    }
+    .yh-num {
+      font-size: 10px;
+    }
+  }
+  /* Phone portrait: the mid block takes its own top row and the two bars
+     share the second row with fluid tracks, so nothing clips or overlaps
+     the frames below. Same content on every device, only the layout flows. */
+  @media (max-width: 480px) {
+    .yumi-hud {
+      flex-wrap: wrap;
+      gap: 4px 8px;
+      max-width: 96%;
+      row-gap: 4px;
+    }
+    .yh-mid {
+      order: -1;
+      width: calc(100% - 48px);
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .yh-side {
+      flex: 1 1 40%;
+      min-width: 0;
+    }
+    .yh-track {
+      width: auto;
+      flex: 1 1 50px;
+      min-width: 40px;
     }
   }
 }

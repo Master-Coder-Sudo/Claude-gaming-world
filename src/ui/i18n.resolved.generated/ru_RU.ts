@@ -3365,7 +3365,9 @@ export const ru_RU: EnTranslations = {
       "suddenDeath": "ВНЕЗАПНАЯ СМЕРТЬ",
       "yourYumi": "Ваша Yumi",
       "enemyYumi": "Вражеская Yumi",
-      "aria": "Ваша Yumi: {mine} из {max} здоровья, вражеская Yumi: {theirs}."
+      "aria": "Ваша Yumi: {mine} из {max} здоровья, вражеская Yumi: {theirs}.",
+      "collapse": "Свернуть полосы Protect Yumi",
+      "expand": "Развернуть полосы Protect Yumi"
     },
     "respawn": {
       "title": "ВЫ ПАЛИ!"

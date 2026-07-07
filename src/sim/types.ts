@@ -1922,6 +1922,7 @@ export type SimEvent = { pid?: number } & (
       enemyHp: number;
       enemyMax: number;
       teleportIn: number;
+      suddenDeathIn: number;
       suddenDeath: boolean;
       mult: number;
       team: 'A' | 'B';

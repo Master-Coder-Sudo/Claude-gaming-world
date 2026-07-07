@@ -56,6 +56,7 @@ const live: YumiLiveState = {
   enemyHp: 2500,
   enemyMax: 5000,
   teleportIn: 7,
+  suddenDeathIn: 431,
   suddenDeath: false,
 };
 
@@ -88,6 +89,7 @@ describe('yumi match view', () => {
     expect(m.myHp).toBe(3999);
     expect(m.enemyHp).toBe(2500);
     expect(m.teleportIn).toBe(7);
+    expect(m.suddenDeathIn).toBe(431);
     // ...but never during the countdown (no heartbeats flow yet)
     const c = yumiMatchView(stubInfo({ phase: 'countdown' }), live, 0);
     expect(c.myHp).toBe(4200);
@@ -98,6 +100,9 @@ describe('yumi match view', () => {
     const snap = yumiMatchView(stubInfo({ phase: 'sudden' }), null, 0);
     expect(snap.suddenDeath).toBe(true);
     expect(snap.teleportIn).toBe(0);
+    expect(snap.suddenDeathIn).toBe(0);
+    // ...and the snapshot countdown passes through while active
+    expect(yumiMatchView(stubInfo(), null, 0).suddenDeathIn).toBe(558);
     const viaLive = yumiMatchView(stubInfo(), { ...live, suddenDeath: true }, 0);
     expect(viaLive.suddenDeath).toBe(true);
     expect(viaLive.teleportIn).toBe(0);

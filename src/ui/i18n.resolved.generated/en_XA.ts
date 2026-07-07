@@ -3365,7 +3365,9 @@ export const en_XA: EnTranslations = {
       "suddenDeath": "[ŠÚÐÐÉÑ ÐÉÁŢĤ]",
       "yourYumi": "[Ýóúŕ Ýúɱí]",
       "enemyYumi": "[Éñéɱý Ýúɱí]",
-      "aria": "[Ýóúŕ Ýúɱí áţ {mine} óƒ {max} ĥéáļţĥ, éñéɱý Ýúɱí áţ {theirs}.]"
+      "aria": "[Ýóúŕ Ýúɱí áţ {mine} óƒ {max} ĥéáļţĥ, éñéɱý Ýúɱí áţ {theirs}.]",
+      "collapse": "[Çóļļáþšé ţĥé Þŕóţéçţ Ýúɱí ƀáŕš]",
+      "expand": "[Éẋþáñð ţĥé Þŕóţéçţ Ýúɱí ƀáŕš]"
     },
     "respawn": {
       "title": "[ÐÓŴÑÉÐ!]"

@@ -3365,7 +3365,9 @@ export const da_DK: EnTranslations = {
       "suddenDeath": "SUDDEN DEATH",
       "yourYumi": "Your Yumi",
       "enemyYumi": "Enemy Yumi",
-      "aria": "Your Yumi at {mine} of {max} health, enemy Yumi at {theirs}."
+      "aria": "Your Yumi at {mine} of {max} health, enemy Yumi at {theirs}.",
+      "collapse": "Collapse the Protect Yumi bars",
+      "expand": "Expand the Protect Yumi bars"
     },
     "respawn": {
       "title": "DOWNED!"

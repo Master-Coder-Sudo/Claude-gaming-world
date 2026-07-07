@@ -3365,7 +3365,9 @@ export const ja_JP: EnTranslations = {
       "suddenDeath": "サドンデス",
       "yourYumi": "自軍のYumi",
       "enemyYumi": "敵軍のYumi",
-      "aria": "自軍のYumiは体力{mine}/{max}、敵軍のYumiは{theirs}。"
+      "aria": "自軍のYumiは体力{mine}/{max}、敵軍のYumiは{theirs}。",
+      "collapse": "Protect Yumiのバーを折りたたむ",
+      "expand": "Protect Yumiのバーを展開する"
     },
     "respawn": {
       "title": "ダウン！"

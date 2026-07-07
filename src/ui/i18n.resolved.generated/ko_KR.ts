@@ -3365,7 +3365,9 @@ export const ko_KR: EnTranslations = {
       "suddenDeath": "서든 데스",
       "yourYumi": "아군 Yumi",
       "enemyYumi": "적군 Yumi",
-      "aria": "아군 Yumi 생명력 {mine}/{max}, 적군 Yumi {theirs}."
+      "aria": "아군 Yumi 생명력 {mine}/{max}, 적군 Yumi {theirs}.",
+      "collapse": "Protect Yumi 게이지 접기",
+      "expand": "Protect Yumi 게이지 펼치기"
     },
     "respawn": {
       "title": "쓰러졌습니다!"

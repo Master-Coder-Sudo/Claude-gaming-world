@@ -3365,7 +3365,9 @@ export const zh_TW: EnTranslations = {
       "suddenDeath": "驟死戰",
       "yourYumi": "我方Yumi",
       "enemyYumi": "敵方Yumi",
-      "aria": "我方Yumi生命值{mine}/{max}，敵方Yumi生命值{theirs}。"
+      "aria": "我方Yumi生命值{mine}/{max}，敵方Yumi生命值{theirs}。",
+      "collapse": "摺疊Protect Yumi血條",
+      "expand": "展開Protect Yumi血條"
     },
     "respawn": {
       "title": "倒下了！"
