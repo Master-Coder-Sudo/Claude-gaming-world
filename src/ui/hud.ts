@@ -106,7 +106,15 @@ import {
   type OverheadEmoteId,
   type PartyInfo,
 } from '../world_api';
-import { type AbilityScaling, abilityDamageBonus } from './ability_damage';
+import {
+  type AbilityScaling,
+  abilityBuffValue,
+  abilityDamageBonus,
+  abilityDurationValue,
+  abilityOverTimeEffect,
+  abilityPrimaryEffect,
+  abilitySecondaryEffect,
+} from './ability_damage';
 import { ActionBarPainter, type ActionBarSlotElements } from './action_bar_painter';
 import {
   ABILITY_ICON_PREFIX,
@@ -3582,7 +3590,7 @@ export class Hud {
   // One-line aura effect summary HTML for the buff/debuff tooltip: the pure descriptor
   // (aura_effect.ts) resolved to localized, esc'd text. Empty when the aura has no
   // descriptor. Injected into the auras view so the i18n-free core never calls t().
-  private auraEffectTooltipHtml(a: AuraEffectInput): string {
+  private auraEffectTooltipHtml(a: AuraEffectInput & { id?: string }): string {
     const effect = auraEffectDescriptor(a);
     if (!effect) return '';
     const values: Record<string, string> = {};
@@ -3591,8 +3599,15 @@ export class Hud {
         values[k] = formatNumber(n, { maximumFractionDigits: 0 });
       }
     }
-    if (effect.school) {
-      values.school = t(`hudChrome.auraEffect.school.${effect.school}` as TranslationKey);
+    // Resolve the {school} placeholder in the dot/absorb/thorns summaries. Prefer
+    // the SOURCE ability's school: it is authoritative and always present
+    // client-side, unlike the aura's own school, which the ability-tooltip call
+    // site omits (only kind+value) and the online wire mirror drops. Without this
+    // a magic reflect like Lightning Shield read a raw "{school}" (ability tooltip)
+    // or the wrong "Physical" (online buff frame) instead of its real school.
+    const school = (a.id ? ABILITIES[a.id]?.school : undefined) ?? effect.school;
+    if (school) {
+      values.school = t(`hudChrome.auraEffect.school.${school}` as TranslationKey);
     }
     return `<div class="tt-effect">${esc(t(effect.key as TranslationKey, values))}</div>`;
   }
@@ -4083,11 +4098,12 @@ export class Hud {
   private abilityTooltip(res: ResolvedAbility): string {
     const a = res.def;
     const p = this.sim.player;
-    const damageText = abilityEffectText(res, {
+    const scaling: AbilityScaling = {
       spellPower: p.spellPower,
       rangedPower: p.rangedPower,
       attackPower: p.attackPower,
-    });
+    };
+    const damageText = abilityEffectText(res, scaling);
     let html = `<div class="tt-title">${esc(abilityDisplayName(a))}</div>`;
     html += `<div class="tt-sub">${esc(t('abilityUi.tooltip.rank', { rank: formatAbilityNumber(res.rank) }))}</div>`;
     const costLine: string[] = [];
@@ -4111,13 +4127,15 @@ export class Hud {
         t('abilityUi.tooltip.cooldownSeconds', { seconds: formatAbilityNumber(res.cooldown) }),
       );
     html += `<div class="tt-stat">${castLine.map(esc).join(' &nbsp; ')}</div>`;
-    html += `<div class="tt-desc">${esc(abilityDisplayDescription(a, damageText))}</div>`;
+    html += `<div class="tt-desc">${esc(abilityDisplayDescription(res, damageText, scaling))}</div>`;
     // Resolved buff/aura effect line(s). Reads the RESOLVED effect value, so a buff's
     // tooltip reflects rank AND talents that strengthen it (Improved Devotion Aura /
     // Aspect of the Hawk / Fortitude via buffPct) - which the static description can't.
     for (const eff of res.effects) {
       if (eff.type === 'selfBuff' || eff.type === 'buffTarget') {
-        html += this.auraEffectTooltipHtml({ kind: eff.kind, value: eff.value });
+        // Pass the ability id so the effect line can resolve its damage school
+        // (the {school} placeholder in the thorns/dot/absorb summaries).
+        html += this.auraEffectTooltipHtml({ kind: eff.kind, value: eff.value, id: a.id });
       }
     }
     const requirements = abilityRequirementLines(a);
@@ -12760,12 +12778,27 @@ function abilityDisplayName(def: AbilityDef): string {
   return tEntity({ kind: 'ability', id: def.id, field: 'name' });
 }
 
-function abilityDisplayDescription(def: AbilityDef, damageText: string): string {
+// Fills every description placeholder from the RESOLVED ability: {damage} ($d)
+// the primary hit, {overTime} ($o) a hybrid's dot/hot total, {buff} ($b) the
+// first buff's value, {duration} ($t) the first timed effect's duration. All are
+// rank- and talent-resolved, so the prose can never drift from what a cast does.
+function abilityDisplayDescription(
+  res: ResolvedAbility,
+  damageText: string,
+  scaling?: AbilityScaling,
+): string {
+  const buff = abilityBuffValue(res);
+  const duration = abilityDurationValue(res);
   return tEntity({
     kind: 'ability',
-    id: def.id,
+    id: res.def.id,
     field: 'description',
-    values: { damage: damageText },
+    values: {
+      damage: damageText,
+      overTime: abilityOverTimeText(res, scaling),
+      buff: buff === null ? '' : formatAbilityNumber(buff),
+      duration: duration === null ? '' : formatAbilityNumber(duration),
+    },
   });
 }
 
@@ -12971,7 +13004,6 @@ function abilityRequirementLines(def: AbilityDef): string[] {
 // "66 to 74 (+29)", so a caster sees both the base and exactly what their Spell
 // Power adds, and watches it climb as gear changes.
 function abilityEffectText(res: ResolvedAbility, scaling?: AbilityScaling): string {
-  const effects = res.effects;
   // " (+N)" callout for the scaling contribution (Spell Power / Attack Power),
   // omitted when there is none. Punctuation + formatted number only (no words).
   const suffix = (eff: AbilityEffect) => {
@@ -12980,28 +13012,25 @@ function abilityEffectText(res: ResolvedAbility, scaling?: AbilityScaling): stri
       ? ` ${t('hudChrome.abilityScaling.bonus', { value: formatAbilityNumber(b) })}`
       : '';
   };
-  const primary = effects.find(
-    (eff) =>
-      eff.type === 'directDamage' ||
-      eff.type === 'heal' ||
-      eff.type === 'weaponDamage' ||
-      eff.type === 'weaponStrike' ||
-      eff.type === 'aoeDamage' ||
-      eff.type === 'aoeRoot' ||
-      eff.type === 'finisherDamage' ||
-      eff.type === 'drainTick',
-  );
+  // The pickers live in ability_damage.ts so the consistency guard test shares
+  // them; this function only formats the picked effect.
+  const primary = abilityPrimaryEffect(res);
   if (primary) {
     switch (primary.type) {
       case 'directDamage':
       case 'heal':
       case 'aoeDamage':
       case 'aoeRoot':
+      case 'groundAoE':
       case 'drainTick':
         return abilityAmountRange(primary.min, primary.max) + suffix(primary);
       case 'weaponDamage':
       case 'weaponStrike':
         return formatAbilityNumber(primary.bonus);
+      case 'sunder':
+        return formatAbilityNumber(primary.armor);
+      case 'lifeTap':
+        return formatAbilityNumber(primary.hp);
       case 'finisherDamage':
         return (
           t('abilityUi.tooltip.finisherDamage', {
@@ -13012,16 +13041,13 @@ function abilityEffectText(res: ResolvedAbility, scaling?: AbilityScaling): stri
     }
   }
 
-  const secondary = effects.find(
-    (eff) =>
-      eff.type === 'dot' || eff.type === 'hot' || eff.type === 'absorb' || eff.type === 'imbue',
-  );
+  const secondary = abilitySecondaryEffect(res);
   if (!secondary) return '';
   switch (secondary.type) {
     case 'dot':
       return formatAbilityNumber(secondary.total) + suffix(secondary);
     case 'hot':
-      return formatAbilityNumber(secondary.total);
+      return formatAbilityNumber(secondary.total) + suffix(secondary);
     case 'absorb':
       return formatAbilityNumber(secondary.amount);
     case 'imbue':
@@ -13029,6 +13055,18 @@ function abilityEffectText(res: ResolvedAbility, scaling?: AbilityScaling): stri
     default:
       return '';
   }
+}
+
+// Builds the `$o` over-time string (a hybrid's dot/hot TOTAL) the same way
+// abilityEffectText builds `$d`, including the "(+N)" scaling callout (which the
+// bonus helper zeroes for hybrid riders, matching combat's no-double-dip rule).
+function abilityOverTimeText(res: ResolvedAbility, scaling?: AbilityScaling): string {
+  const eff = abilityOverTimeEffect(res);
+  if (!eff) return '';
+  const b = scaling ? abilityDamageBonus(res, eff, scaling) : 0;
+  const bonus =
+    b > 0 ? ` ${t('hudChrome.abilityScaling.bonus', { value: formatAbilityNumber(b) })}` : '';
+  return formatAbilityNumber(eff.total) + bonus;
 }
 
 function abilityAmountRange(min: number, max: number): string {
