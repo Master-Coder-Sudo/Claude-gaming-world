@@ -1179,7 +1179,20 @@ export const ko_KR: EnTranslations = {
       "depositAll": "모든 재료 보관",
       "depositAllDone": "보관한 재료: {count}.",
       "depositAllFull": "보관한 재료: {count}. 은행이 가득 찼습니다.",
-      "depositAllNone": "은행이 가득 참: 아무것도 보관하지 못했습니다."
+      "depositAllNone": "은행이 가득 참: 아무것도 보관하지 못했습니다.",
+      "bonusTitle": "보너스 칸",
+      "bonusEarned": "+{count}",
+      "bonusStatusEarned": "+{count}",
+      "bonusSourceEmail": "이메일 인증됨",
+      "bonusSourceDiscord": "Discord 연동됨",
+      "bonusSourceWallet": "지갑 연동됨",
+      "bonusSourceReferral": "추천한 친구",
+      "bonusAdvertEmail": "이메일을 인증하면 2칸을 얻습니다.",
+      "bonusAdvertDiscord": "Discord를 연동하면 2칸을 얻습니다.",
+      "bonusAdvertWallet": "지갑을 연동하면 2칸을 얻습니다.",
+      "bonusReferralProgress": "{count}/{cap}",
+      "bonusReferralExplainer": "친구를 초대하세요: 친구가 10레벨에 도달하면 서로 2칸씩 얻으며, 최대 5명까지 가능합니다.",
+      "bonusSectionAria": "보너스 은행 칸과 획득 방법"
     },
     "calendar": {
       "title": "이벤트 달력",

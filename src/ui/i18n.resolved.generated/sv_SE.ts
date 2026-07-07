@@ -1179,7 +1179,20 @@ export const sv_SE: EnTranslations = {
       "depositAll": "Deposit all materials",
       "depositAllDone": "Materials deposited: {count}.",
       "depositAllFull": "Materials deposited: {count}. Bank now full.",
-      "depositAllNone": "Bank full: nothing deposited."
+      "depositAllNone": "Bank full: nothing deposited.",
+      "bonusTitle": "Bonus slots",
+      "bonusEarned": "+{count}",
+      "bonusStatusEarned": "+{count}",
+      "bonusSourceEmail": "Verified email",
+      "bonusSourceDiscord": "Discord linked",
+      "bonusSourceWallet": "Wallet linked",
+      "bonusSourceReferral": "Referred friends",
+      "bonusAdvertEmail": "Verify your email to earn 2 slots.",
+      "bonusAdvertDiscord": "Link your Discord to earn 2 slots.",
+      "bonusAdvertWallet": "Link a wallet to earn 2 slots.",
+      "bonusReferralProgress": "{count}/{cap}",
+      "bonusReferralExplainer": "Invite a friend: when they reach level 10 you each earn 2 slots, up to 5 friends.",
+      "bonusSectionAria": "Bonus bank slots and how to earn more"
     },
     "calendar": {
       "title": "Evenemangskalender",

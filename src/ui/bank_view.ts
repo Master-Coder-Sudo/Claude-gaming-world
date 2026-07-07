@@ -44,6 +44,29 @@ export interface BankBuySlotsModel {
   maxed: boolean;
 }
 
+/** One projected bonus-source row (from BankBonusSource): the stable id, the slots
+ *  granted now vs when fully earned, the DERIVED earned flag (slots > 0), and the
+ *  optional progress numbers (referral: qualified referees / cap). The painter maps
+ *  a KNOWN id to a localized label + advert and SKIPS an unknown one, so a future
+ *  source (X, Twitch) rides through this shape untouched. */
+export interface BankBonusRowModel {
+  id: string;
+  slots: number;
+  maxSlots: number;
+  earned: boolean; // slots > 0
+  count?: number;
+  cap?: number;
+}
+
+/** The bonus-slots footer sub-model (the buy sub-model's sibling): whether any
+ *  source rows are present (false offline, where bonusSources is always []), the
+ *  total bonus slots the header advertises, and the per-source rows. */
+export interface BankBonusModel {
+  show: boolean; // rows present (online only)
+  total: number; // info.bonusSlots
+  rows: BankBonusRowModel[];
+}
+
 /** The whole window model: 'away' when no banker is in reach (bankInfo null),
  *  else the populated grid + capacity + buy panel. */
 export type BankViewModel =
@@ -57,6 +80,7 @@ export type BankViewModel =
       emptyCells: number;
       empty: boolean; // no occupied slots
       buy: BankBuySlotsModel;
+      bonus: BankBonusModel;
     };
 
 /** Map the proximity-gated bank snapshot to the render model. `info` is null away
@@ -88,6 +112,21 @@ export function buildBankView(info: BankInfo | null, lookup: BankItemLookup): Ba
       nextCost: info.nextExpansionCost,
       blockSlots: BANK_EXPANSION_SLOTS,
       maxed: info.nextExpansionCost === null,
+    },
+    bonus: {
+      // [] offline (bonusSources is always empty away from the online realm stamp),
+      // so `show` hides the whole footer there. Earned is derived per row (slots > 0);
+      // count/cap ride through verbatim for the referral progress readout.
+      show: info.bonusSources.length > 0,
+      total: info.bonusSlots,
+      rows: info.bonusSources.map((s) => ({
+        id: s.id,
+        slots: s.slots,
+        maxSlots: s.maxSlots,
+        earned: s.slots > 0,
+        count: s.count,
+        cap: s.cap,
+      })),
     },
   };
 }

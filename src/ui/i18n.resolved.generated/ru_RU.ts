@@ -1179,7 +1179,20 @@ export const ru_RU: EnTranslations = {
       "depositAll": "Положить все материалы",
       "depositAllDone": "Материалов положено: {count}.",
       "depositAllFull": "Материалов положено: {count}. Банк заполнен.",
-      "depositAllNone": "Банк заполнен: ничего не положено."
+      "depositAllNone": "Банк заполнен: ничего не положено.",
+      "bonusTitle": "Бонусные ячейки",
+      "bonusEarned": "+{count}",
+      "bonusStatusEarned": "+{count}",
+      "bonusSourceEmail": "Почта подтверждена",
+      "bonusSourceDiscord": "Discord привязан",
+      "bonusSourceWallet": "Кошелёк привязан",
+      "bonusSourceReferral": "Приглашённые друзья",
+      "bonusAdvertEmail": "Подтвердите почту, чтобы получить 2 ячейки.",
+      "bonusAdvertDiscord": "Привяжите Discord, чтобы получить 2 ячейки.",
+      "bonusAdvertWallet": "Привяжите кошелёк, чтобы получить 2 ячейки.",
+      "bonusReferralProgress": "{count}/{cap}",
+      "bonusReferralExplainer": "Пригласите друга: когда он достигнет 10 уровня, вы оба получите по 2 ячейки, до 5 друзей.",
+      "bonusSectionAria": "Бонусные ячейки банка и способы их получить"
     },
     "calendar": {
       "title": "Календарь событий",

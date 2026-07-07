@@ -1179,7 +1179,20 @@ export const ja_JP: EnTranslations = {
       "depositAll": "すべての素材を預ける",
       "depositAllDone": "素材を預けました：{count}。",
       "depositAllFull": "素材を預けました：{count}。銀行がいっぱいになりました。",
-      "depositAllNone": "銀行がいっぱいです：何も預けられませんでした。"
+      "depositAllNone": "銀行がいっぱいです：何も預けられませんでした。",
+      "bonusTitle": "ボーナススロット",
+      "bonusEarned": "+{count}",
+      "bonusStatusEarned": "+{count}",
+      "bonusSourceEmail": "メール認証済み",
+      "bonusSourceDiscord": "Discord連携済み",
+      "bonusSourceWallet": "ウォレット連携済み",
+      "bonusSourceReferral": "招待した友達",
+      "bonusAdvertEmail": "メールを認証すると2スロット獲得できます。",
+      "bonusAdvertDiscord": "Discordを連携すると2スロット獲得できます。",
+      "bonusAdvertWallet": "ウォレットを連携すると2スロット獲得できます。",
+      "bonusReferralProgress": "{count}/{cap}",
+      "bonusReferralExplainer": "友達を招待しましょう：友達がレベル10に達すると、お互いに2スロット獲得できます。友達は最大5人までです。",
+      "bonusSectionAria": "ボーナス銀行スロットと獲得方法"
     },
     "calendar": {
       "title": "イベントカレンダー",

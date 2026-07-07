@@ -1365,6 +1365,22 @@ export const hudChromeStrings = {
     depositAllDone: 'Materials deposited: {count}.',
     depositAllFull: 'Materials deposited: {count}. Bank now full.',
     depositAllNone: 'Bank full: nothing deposited.',
+    // Bonus-slot breakdown footer (Phase 8, online only): a header total plus one row
+    // per account source, advertising what linking earns. {count} is a slot count.
+    bonusTitle: 'Bonus slots',
+    bonusEarned: '+{count}',
+    bonusStatusEarned: '+{count}',
+    bonusSourceEmail: 'Verified email',
+    bonusSourceDiscord: 'Discord linked',
+    bonusSourceWallet: 'Wallet linked',
+    bonusSourceReferral: 'Referred friends',
+    bonusAdvertEmail: 'Verify your email to earn 2 slots.',
+    bonusAdvertDiscord: 'Link your Discord to earn 2 slots.',
+    bonusAdvertWallet: 'Link a wallet to earn 2 slots.',
+    bonusReferralProgress: '{count}/{cap}',
+    bonusReferralExplainer:
+      'Invite a friend: when they reach level 10 you each earn 2 slots, up to 5 friends.',
+    bonusSectionAria: 'Bonus bank slots and how to earn more',
   },
   // The event calendar window: recurring system events plus the guild lane
   // (booked by officers and the Guild Master, mirrored via socialInfo).

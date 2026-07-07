@@ -1179,7 +1179,20 @@ export const zh_CN: EnTranslations = {
       "depositAll": "存入所有材料",
       "depositAllDone": "已存入材料：{count}。",
       "depositAllFull": "已存入材料：{count}。银行已满。",
-      "depositAllNone": "银行已满：未存入任何物品。"
+      "depositAllNone": "银行已满：未存入任何物品。",
+      "bonusTitle": "奖励格子",
+      "bonusEarned": "+{count}",
+      "bonusStatusEarned": "+{count}",
+      "bonusSourceEmail": "已验证邮箱",
+      "bonusSourceDiscord": "已绑定 Discord",
+      "bonusSourceWallet": "已绑定钱包",
+      "bonusSourceReferral": "已推荐的好友",
+      "bonusAdvertEmail": "验证邮箱可获得 2 个格子。",
+      "bonusAdvertDiscord": "绑定 Discord 可获得 2 个格子。",
+      "bonusAdvertWallet": "绑定钱包可获得 2 个格子。",
+      "bonusReferralProgress": "{count}/{cap}",
+      "bonusReferralExplainer": "邀请好友：当好友升到 10 级，你们各获得 2 个格子，最多 5 位好友。",
+      "bonusSectionAria": "奖励银行格子及获取方式"
     },
     "calendar": {
       "title": "活动日历",

@@ -119,6 +119,83 @@ describe('buildBankView', () => {
   });
 });
 
+describe('buildBankView: bonus projection', () => {
+  it('hides the bonus footer offline (bonusSources [] -> show false, empty rows)', () => {
+    const view = buildBankView(bankInfo({ bonusSources: [], bonusSlots: 0 }), lookup);
+    if (view.kind !== 'bank') throw new Error('expected bank');
+    expect(view.bonus).toEqual({ show: false, total: 0, rows: [] });
+  });
+
+  it('projects earned and unearned link rows, deriving earned from slots > 0', () => {
+    const view = buildBankView(
+      bankInfo({
+        bonusSlots: 2,
+        bonusSources: [
+          { id: 'email', slots: 2, maxSlots: 2 }, // earned
+          { id: 'discord', slots: 0, maxSlots: 2 }, // unearned
+          { id: 'wallet', slots: 0, maxSlots: 2 }, // unearned
+        ],
+      }),
+      lookup,
+    );
+    if (view.kind !== 'bank') throw new Error('expected bank');
+    expect(view.bonus.show).toBe(true);
+    expect(view.bonus.total).toBe(2); // === info.bonusSlots
+    expect(view.bonus.rows).toEqual([
+      { id: 'email', slots: 2, maxSlots: 2, earned: true, count: undefined, cap: undefined },
+      { id: 'discord', slots: 0, maxSlots: 2, earned: false, count: undefined, cap: undefined },
+      { id: 'wallet', slots: 0, maxSlots: 2, earned: false, count: undefined, cap: undefined },
+    ]);
+  });
+
+  it('carries referral count/cap through verbatim and marks it earned once slots > 0', () => {
+    const view = buildBankView(
+      bankInfo({
+        bonusSlots: 4,
+        bonusSources: [{ id: 'referral', slots: 4, maxSlots: 10, count: 2, cap: 5 }],
+      }),
+      lookup,
+    );
+    if (view.kind !== 'bank') throw new Error('expected bank');
+    expect(view.bonus.rows[0]).toEqual({
+      id: 'referral',
+      slots: 4,
+      maxSlots: 10,
+      earned: true,
+      count: 2,
+      cap: 5,
+    });
+  });
+
+  it('derives earned false at exactly slots 0 (the decisive per-row negative)', () => {
+    const view = buildBankView(
+      bankInfo({ bonusSlots: 0, bonusSources: [{ id: 'email', slots: 0, maxSlots: 2 }] }),
+      lookup,
+    );
+    if (view.kind !== 'bank') throw new Error('expected bank');
+    expect(view.bonus.rows[0].earned).toBe(false);
+    expect(view.bonus.total).toBe(0);
+  });
+
+  it('preserves an unknown future source id in the projection (the painter skips it)', () => {
+    // The projection stays shape-stable for a source the client does not yet know
+    // (X, Twitch): the row rides through untouched; the painter is what drops it.
+    const view = buildBankView(
+      bankInfo({ bonusSlots: 2, bonusSources: [{ id: 'twitch', slots: 2, maxSlots: 2 }] }),
+      lookup,
+    );
+    if (view.kind !== 'bank') throw new Error('expected bank');
+    expect(view.bonus.rows[0]).toEqual({
+      id: 'twitch',
+      slots: 2,
+      maxSlots: 2,
+      earned: true,
+      count: undefined,
+      cap: undefined,
+    });
+  });
+});
+
 describe('bankSlotAction', () => {
   it('plain-clicks a whole withdraw', () => {
     expect(bankSlotAction({ itemId: 'sword', count: 1 }, 0, false)).toEqual({
@@ -181,6 +258,18 @@ describe('ClientWorld-vs-Sim parity', () => {
     };
     const cliInfo = JSON.parse(JSON.stringify(simInfo)) as BankInfo;
     expect(buildBankView(simInfo, lookup)).toEqual(buildBankView(cliInfo, lookup));
+    // The bonusSources fixture projects identically on both hosts (the referral row
+    // keeps its count/cap; the link row has neither).
+    const model = buildBankView(simInfo, lookup);
+    if (model.kind !== 'bank') throw new Error('expected bank');
+    expect(model.bonus).toEqual({
+      show: true,
+      total: 6,
+      rows: [
+        { id: 'email', slots: 2, maxSlots: 2, earned: true, count: undefined, cap: undefined },
+        { id: 'referral', slots: 4, maxSlots: 10, earned: true, count: 2, cap: 5 },
+      ],
+    });
   });
 });
 

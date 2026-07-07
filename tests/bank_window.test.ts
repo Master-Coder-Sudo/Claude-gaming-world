@@ -476,3 +476,81 @@ describe('bank_window: Phase 7 keyboard a11y (non-modal activation + prompt Ente
     );
   });
 });
+
+describe('bank_window: Phase 8 bonus-slot breakdown footer', () => {
+  it('appends the bonus section immediately AFTER the buy row in render()', () => {
+    // The footer rides directly after buildBuyRow. Moving the append above the buy
+    // row (or dropping it) reds this ordering pin.
+    const renderBody = painter.slice(
+      painter.indexOf('render(): void {'),
+      painter.indexOf('refreshIfChanged(): void {'),
+    );
+    const buyIdx = renderBody.indexOf('el.appendChild(this.buildBuyRow(model.buy));');
+    const bonusIdx = renderBody.indexOf('this.buildBonusSection(model.bonus)');
+    expect(buyIdx).toBeGreaterThan(0);
+    expect(bonusIdx).toBeGreaterThan(buyIdx);
+  });
+
+  it('builds a labelled group section and SKIPS an unknown source id (forward compat)', () => {
+    expect(painter).toContain('private buildBonusSection(');
+    expect(painter).toContain("setAttribute('role', 'group')");
+    // The unknown-id skip arm: a source id absent from the known-source map is dropped
+    // rather than rendering a raw key or an English fallback (a future X/Twitch row).
+    expect(painter).toContain('const meta = BANK_BONUS_SOURCE_KEYS[row.id];');
+    expect(painter).toMatch(/if \(!meta\) continue;/);
+  });
+
+  it('references every Phase 8 bonus t() key (title, total, labels, adverts, progress, aria)', () => {
+    for (const key of [
+      'hudChrome.bank.bonusTitle',
+      'hudChrome.bank.bonusEarned',
+      'hudChrome.bank.bonusStatusEarned',
+      'hudChrome.bank.bonusSourceEmail',
+      'hudChrome.bank.bonusSourceDiscord',
+      'hudChrome.bank.bonusSourceWallet',
+      'hudChrome.bank.bonusSourceReferral',
+      'hudChrome.bank.bonusAdvertEmail',
+      'hudChrome.bank.bonusAdvertDiscord',
+      'hudChrome.bank.bonusAdvertWallet',
+      'hudChrome.bank.bonusReferralProgress',
+      'hudChrome.bank.bonusReferralExplainer',
+      'hudChrome.bank.bonusSectionAria',
+    ]) {
+      expect(painter, `missing t() key ${key}`).toContain(key);
+    }
+  });
+
+  it('shows referral progress from count/cap, earned link sources as +N, unearned as the advert', () => {
+    expect(painter).toContain(
+      'const hasProgress = row.count !== undefined && row.cap !== undefined;',
+    );
+    expect(painter).toContain("t('hudChrome.bank.bonusReferralProgress', {");
+    expect(painter).toContain(
+      "t('hudChrome.bank.bonusStatusEarned', { count: this.fmt(row.slots) })",
+    );
+    expect(painter).toContain('t(meta.advert)');
+  });
+
+  it('drives every bonus string through t(), never a bare English literal', () => {
+    const body = painter.slice(
+      painter.indexOf('private buildBonusSection('),
+      painter.indexOf('private showBuySlotsPrompt('),
+    );
+    expect(body.length).toBeGreaterThan(0);
+    expect(body).not.toContain('private showBuySlotsPrompt'); // slice guard
+    // No bare-string textContent or aria-label assignment: every visible string is a
+    // t() key (role='group' is a fixed ARIA value, not player-facing copy).
+    expect(body).not.toMatch(/textContent = '/);
+    expect(body).not.toMatch(/setAttribute\('aria-label', '/);
+  });
+
+  it('the .bank-bonus CSS block carries no literal hex (tokens / color-mix only)', () => {
+    const start = components.indexOf('.bank-bonus {');
+    const end = components.indexOf('/* Desktop side-by-side docking', start);
+    expect(start).toBeGreaterThan(0);
+    expect(end).toBeGreaterThan(start);
+    const bonusCss = components.slice(start, end);
+    const hex = bonusCss.match(/#[0-9a-fA-F]{3,8}\b/g) ?? [];
+    expect(hex, `bonus CSS must use tokens: ${hex.join(', ')}`).toEqual([]);
+  });
+});

@@ -1179,7 +1179,20 @@ export const en_XA: EnTranslations = {
       "depositAll": "[Ðéþóšíţ áļļ ɱáţéŕíáļš]",
       "depositAllDone": "[Ɱáţéŕíáļš ðéþóšíţéð: {count}.]",
       "depositAllFull": "[Ɱáţéŕíáļš ðéþóšíţéð: {count}. Ɓáñķ ñóŵ ƒúļļ.]",
-      "depositAllNone": "[Ɓáñķ ƒúļļ: ñóţĥíñĝ ðéþóšíţéð.]"
+      "depositAllNone": "[Ɓáñķ ƒúļļ: ñóţĥíñĝ ðéþóšíţéð.]",
+      "bonusTitle": "[Ɓóñúš šļóţš]",
+      "bonusEarned": "[+{count}]",
+      "bonusStatusEarned": "[+{count}]",
+      "bonusSourceEmail": "[Ʋéŕíƒíéð éɱáíļ]",
+      "bonusSourceDiscord": "[Ðíšçóŕð ļíñķéð]",
+      "bonusSourceWallet": "[Ŵáļļéţ ļíñķéð]",
+      "bonusSourceReferral": "[Ŕéƒéŕŕéð ƒŕíéñðš]",
+      "bonusAdvertEmail": "[Ʋéŕíƒý ýóúŕ éɱáíļ ţó éáŕñ 2 šļóţš.]",
+      "bonusAdvertDiscord": "[Ļíñķ ýóúŕ Ðíšçóŕð ţó éáŕñ 2 šļóţš.]",
+      "bonusAdvertWallet": "[Ļíñķ á ŵáļļéţ ţó éáŕñ 2 šļóţš.]",
+      "bonusReferralProgress": "[{count}/{cap}]",
+      "bonusReferralExplainer": "[Íñʋíţé á ƒŕíéñð: ŵĥéñ ţĥéý ŕéáçĥ ļéʋéļ 10 ýóú éáçĥ éáŕñ 2 šļóţš, úþ ţó 5 ƒŕíéñðš.]",
+      "bonusSectionAria": "[Ɓóñúš ƀáñķ šļóţš áñð ĥóŵ ţó éáŕñ ɱóŕé]"
     },
     "calendar": {
       "title": "[Éʋéñţ Çáļéñðáŕ]",

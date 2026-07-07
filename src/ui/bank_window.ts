@@ -32,6 +32,8 @@ import {
 } from './bag_filter';
 import { filterBankSlots } from './bank_filter';
 import {
+  type BankBonusModel,
+  type BankBonusRowModel,
   type BankBuySlotsModel,
   type BankSlotModel,
   bankSlotAction,
@@ -99,6 +101,31 @@ const BANK_SORT_LABEL_KEYS: Record<BagSort, TranslationKey> = {
   recent: 'hudChrome.bags.sortRecent',
   quality: 'hudChrome.bags.sortQuality',
   name: 'hudChrome.bags.sortName',
+};
+
+// The KNOWN bonus-source ids (server-stamped into BankInfo.bonusSources) with their
+// localized label and the advert shown while unearned; the referral row uses `advert`
+// as its always-on explainer detail line. A source id ABSENT from this map is SKIPPED
+// by buildBonusSection (forward compat: a future X/Twitch row arrives as a new server
+// id and must never render a raw key or an English fallback). SOURCE-SCAN pinned in
+// tests/bank_window.test.ts.
+const BANK_BONUS_SOURCE_KEYS: Record<string, { label: TranslationKey; advert: TranslationKey }> = {
+  email: {
+    label: 'hudChrome.bank.bonusSourceEmail',
+    advert: 'hudChrome.bank.bonusAdvertEmail',
+  },
+  discord: {
+    label: 'hudChrome.bank.bonusSourceDiscord',
+    advert: 'hudChrome.bank.bonusAdvertDiscord',
+  },
+  wallet: {
+    label: 'hudChrome.bank.bonusSourceWallet',
+    advert: 'hudChrome.bank.bonusAdvertWallet',
+  },
+  referral: {
+    label: 'hudChrome.bank.bonusSourceReferral',
+    advert: 'hudChrome.bank.bonusReferralExplainer',
+  },
 };
 
 /**
@@ -286,6 +313,10 @@ export class BankWindow {
     el.appendChild(grid);
     grid.scrollTop = prevScrollTop;
     el.appendChild(this.buildBuyRow(model.buy));
+    // The bonus-slot breakdown rides directly after the buy footer. Present only
+    // online (bonusSources is [] offline), it advertises what account links earn.
+    const bonus = this.buildBonusSection(model.bonus);
+    if (bonus) el.appendChild(bonus);
     if (searchFocus) {
       const fresh = el.querySelector('.bag-search') as HTMLInputElement | null;
       if (fresh) {
@@ -624,6 +655,78 @@ export class BankWindow {
     btn.addEventListener('click', () => this.showBuySlotsPrompt(buy));
     row.appendChild(btn);
     return row;
+  }
+
+  // The bonus-slot breakdown footer: a header (title + the earned total like '+6')
+  // over one compact row per KNOWN account source. Earned link sources show '+N';
+  // unearned ones advertise what linking grants; the referral row shows its
+  // {count}/{cap} progress and the invite-a-friend explainer as a detail line. Static
+  // text only (no tooltip deps), all localized through t(). Returns null offline (no
+  // bonusSources) so the whole section stays hidden there.
+  private buildBonusSection(bonus: BankBonusModel): HTMLElement | null {
+    if (!bonus.show) return null;
+    const section = document.createElement('div');
+    section.className = 'bank-bonus';
+    // Grouped and labelled for AT; every earned/unearned state is conveyed in TEXT
+    // (the '+N' / advert / progress line), never color alone.
+    section.setAttribute('role', 'group');
+    section.setAttribute('aria-label', t('hudChrome.bank.bonusSectionAria'));
+
+    const head = document.createElement('div');
+    head.className = 'bank-bonus-head';
+    const title = document.createElement('span');
+    title.className = 'bank-bonus-title';
+    title.textContent = t('hudChrome.bank.bonusTitle');
+    const total = document.createElement('span');
+    total.className = 'bank-bonus-total';
+    total.textContent = t('hudChrome.bank.bonusEarned', { count: this.fmt(bonus.total) });
+    head.append(title, total);
+    section.appendChild(head);
+
+    for (const row of bonus.rows) {
+      const meta = BANK_BONUS_SOURCE_KEYS[row.id];
+      // Unknown source id (a future X/Twitch row landing before its label ships):
+      // SKIP it. Never render a raw key or an English fallback (forward compat).
+      if (!meta) continue;
+      section.appendChild(this.buildBonusRow(row, meta));
+    }
+    return section;
+  }
+
+  private buildBonusRow(
+    row: BankBonusRowModel,
+    meta: { label: TranslationKey; advert: TranslationKey },
+  ): HTMLElement {
+    const el = document.createElement('div');
+    el.className = `bank-bonus-row${row.earned ? ' earned' : ''}`;
+    const label = document.createElement('span');
+    label.className = 'bank-bonus-label';
+    label.textContent = t(meta.label);
+    const status = document.createElement('span');
+    status.className = 'bank-bonus-status';
+    // A source carrying progress numbers (referral, the only v1 one) shows {count}/{cap};
+    // otherwise an earned source shows '+N' and an unearned one shows its advert line.
+    const hasProgress = row.count !== undefined && row.cap !== undefined;
+    if (hasProgress) {
+      status.textContent = t('hudChrome.bank.bonusReferralProgress', {
+        count: this.fmt(row.count as number),
+        cap: this.fmt(row.cap as number),
+      });
+    } else if (row.earned) {
+      status.textContent = t('hudChrome.bank.bonusStatusEarned', { count: this.fmt(row.slots) });
+    } else {
+      status.textContent = t(meta.advert);
+    }
+    el.append(label, status);
+    // The referral row carries its explainer (invite a friend, they reach level 10,
+    // you both keep playing) as a wrapping detail line under the label/status pair.
+    if (hasProgress) {
+      const detail = document.createElement('div');
+      detail.className = 'bank-bonus-detail';
+      detail.textContent = t(meta.advert);
+      el.appendChild(detail);
+    }
+    return el;
   }
 
   private showBuySlotsPrompt(buy: BankBuySlotsModel): void {
