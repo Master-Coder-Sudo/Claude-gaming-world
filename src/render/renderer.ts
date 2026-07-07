@@ -104,7 +104,7 @@ import { SCHOOL_COLORS, Vfx } from './vfx';
 import { buildWater, type WaterView } from './water';
 import { Weather } from './weather';
 import { buildYumiMaze, type YumiMazeView } from './yumi_maze';
-import { YumiTeamRings } from './yumi_team_rings';
+import { YumiTeamMarkers } from './yumi_team_markers';
 
 // Entities further than this from the player are hidden entirely: their rigs
 // are several draw calls each and read as sub-pixel specks long before this.
@@ -3621,8 +3621,8 @@ export class Renderer {
   // Protect Yumi maze interiors, one per match slot, built lazily like the
   // arena copies; their update() anchors the team beacons each frame.
   private yumiMazeViews = new Map<number, YumiMazeView>();
-  // Blue/red ground rings under every yumi fighter (yumi_team_rings.ts).
-  private readonly yumiTeamRings = new YumiTeamRings();
+  // Blue/red team arrows above every yumi fighter (yumi_team_markers.ts).
+  private readonly yumiTeamMarkers = new YumiTeamMarkers();
   // Delve module interiors build asynchronously; track in-flight keys so a
   // per-frame ensureDelveInteriorsNear does not re-schedule a build mid-load.
   private pendingInteriors = new Set<string>();
@@ -4653,7 +4653,7 @@ export class Renderer {
     this.updateFiestaPowerups(dt);
     this.tickFiestaGlows(dt);
     for (const view of this.yumiMazeViews.values()) view.update(this.sim);
-    this.yumiTeamRings.update(this.sim, this.views);
+    this.yumiTeamMarkers.update(this.sim, this.views);
     worldStart = markWorldPhase('vfx', worldStart);
 
     this.updateCamera(selfPos, dt);
