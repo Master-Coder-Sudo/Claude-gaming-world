@@ -19,7 +19,7 @@
 | Phase 7: mobile + a11y | complete | 2026-07-06 | 2026-07-06 |
 | Phase 7 QA | complete | 2026-07-07 | 2026-07-07 |
 | Phase 8: bonus slots | complete | 2026-07-07 | 2026-07-07 |
-| Phase 8 QA | not started | | |
+| Phase 8 QA | complete | 2026-07-07 | 2026-07-07 |
 | Phase 9: final whole-feature QA | not started | | |
 
 ## Per-phase deliverable checklists
@@ -238,3 +238,12 @@
 - Merged origin/release/v0.23.0 (12 commits, tip 0b136a7be) as e561a89b8: bags right-click destroy #1569, 4-piece epic set procs #1583, Drowned Litany delve fixes #1593, baked wolf models #1572, admin reset-password #1595, character orientation strobe fix #1476. Conflicts: the generated i18n trio plus the delve_death parity golden (regenerated per the standing rules; UPDATE_PARITY re-mint changed only delve_death across all 98 goldens; i18n:gen idempotent) and ONE real code conflict, the bags tooltip hint block (both sides kept: extra + partial + destroy + link).
 - release-merge-audit (9 auditors): the merge itself CLEAN both directions (diff-of-diffs byte-identical on all 8 auto-merged logic files; ws_auth/main.ts untouched; no new WS commands; the one new REST route has its surface-inventory row release-side; every bank premise intact). 1 blocking + 3 should-fix + 2 nits, ALL applied same-session; full record and adjudications in state.md "Release merge before Phase 8 QA".
 - Next: run docs/bank-system/phase-08-qa.md in a fresh session.
+
+### Phase 8 QA (2026-07-07)
+
+- Verdict: PASS after fixes. 0 blocking + 2 should-fix + 3 nits + 6 INFO across six audit streams (correctness/abuse, test-coverage-auditor, dead-code CLEAN, privacy-security-review PASS, cross-platform-sync no-drift, qa-checklist READY 0/0) plus the run-only mobile legs; all applied same-session. Full record in state.md "Phase 8 QA outcomes".
+- Preceded by the release/v0.23.0 merge e561a89b8 (see "Release merge 2026-07-07" above): one real code conflict (bags tooltip, both hints kept), the destroy-affordance reconciliation fixes, and the audit's sha256 re-baseline blocking fix.
+- One real bug found via the mobile run-only handoff and fixed: the bonus footer overflowed the 360px-tall phone window and crushed the grid to a 4px sliver; restructured as the shared .bank-scroll region (grid + bonus tail, buy row pinned below), live-verified at both viewports in both layouts on fresh and entitled accounts.
+- Live end-to-end entitlement proof against the real server + db: fresh account 0/24 with all four adverts; granted facts stamp exactly 6/30 on the next fresh join (level-9 referee excluded, cross-realm level-12 counted, referral progress 2/5 + explainer); deleting the qualifying referee character drops the next join to 4/28. Referral-qualification policy recorded: LIVE, present-tense (deletion disqualifies until re-leveled; shrink tolerated, nothing destroyed).
+- Test hardening: referral-direction SQL predicates pinned; pending-join clear after a bonus rejection proven by a retry; populated bonusSources pinned through the ClientWorld decode; computeBankBonus NaN decay + malformed-future-row shapes pinned.
+- Next: run docs/bank-system/phase-09-final-qa.md in a fresh session (the packet closer).
