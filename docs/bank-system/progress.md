@@ -232,3 +232,9 @@
 - Clean shutdown now drains the bank_ledger FIFO before pool.end(); the audit script dropped its unused account_id read; the four untested audit detector kinds, the pendingLeaseJoins guard clear (both arms), the logout-to-fenced-release composition, and the refused-at-banker zero-rows arm are all pinned, the two headline pins mutation-proven; tests/ip_block_kick.test.ts got the missed lease mock block.
 - Harness note: the Fable usage-credit limit killed two audit agents and most refuter votes mid-workflow; both streams re-ran on opus/sonnet, unverified findings hand-verified per the standing gotcha. The dead-code stream re-verified the final tree: zero open findings, 150/150.
 - Next: run docs/bank-system/phase-05-bank-window.md in a fresh session.
+
+### Release merge 2026-07-07 (before Phase 8 QA)
+
+- Merged origin/release/v0.23.0 (12 commits, tip 0b136a7be) as e561a89b8: bags right-click destroy #1569, 4-piece epic set procs #1583, Drowned Litany delve fixes #1593, baked wolf models #1572, admin reset-password #1595, character orientation strobe fix #1476. Conflicts: the generated i18n trio plus the delve_death parity golden (regenerated per the standing rules; UPDATE_PARITY re-mint changed only delve_death across all 98 goldens; i18n:gen idempotent) and ONE real code conflict, the bags tooltip hint block (both sides kept: extra + partial + destroy + link).
+- release-merge-audit (9 auditors): the merge itself CLEAN both directions (diff-of-diffs byte-identical on all 8 auto-merged logic files; ws_auth/main.ts untouched; no new WS commands; the one new REST route has its surface-inventory row release-side; every bank premise intact). 1 blocking + 3 should-fix + 2 nits, ALL applied same-session; full record and adjudications in state.md "Release merge before Phase 8 QA".
+- Next: run docs/bank-system/phase-08-qa.md in a fresh session.

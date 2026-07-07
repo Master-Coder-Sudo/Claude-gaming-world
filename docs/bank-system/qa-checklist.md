@@ -13,7 +13,9 @@ Verified once at packet completion (Phase 9). Every row must pass.
 - Conservation: the invariant harness proves the multiset of items across inventory +
   bank + market/mail escrows is exactly conserved across seeded op sequences except
   explicit faucets/sinks; every refusal path leaves items in place and charges nothing;
-  no path destroys an item.
+  no bank path destroys an item. (Game-wide, deliberate destruction exists by design:
+  the quest-discard prompt and, since release/v0.23.0 #1569, the bags right-click
+  destroy for any non-noDiscard item; both are player-confirmed sinks, not bank paths.)
 - Anti-dupe: per-character lease blocks a cross-process double-load; bank ops write
   `bank_ledger` rows (container column present, v1 writes 'personal' only);
   `scripts/bank_audit.mjs` runs clean on fixture and dev data and groups by container;
