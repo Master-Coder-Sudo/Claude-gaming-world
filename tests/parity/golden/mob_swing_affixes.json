@@ -120,7 +120,7 @@
       "tick": 20,
       "time": 1,
       "nextId": 410,
-      "state": "f2cb13df",
+      "state": "fbfa9a94",
       "events": "41e7ff37",
       "rng": {
         "draws": 54,
@@ -131,7 +131,7 @@
       "tick": 40,
       "time": 2,
       "nextId": 410,
-      "state": "3c01a8f4",
+      "state": "e052754d",
       "events": "0876015b",
       "rng": {
         "draws": 95,
@@ -142,8 +142,8 @@
       "tick": 60,
       "time": 3,
       "nextId": 410,
-      "state": "268a287b",
-      "events": "7ce273c4",
+      "state": "d12e6609",
+      "events": "20684e48",
       "rng": {
         "draws": 224,
         "digest": "22d4749f"
@@ -153,7 +153,7 @@
       "tick": 60,
       "time": 3,
       "nextId": 410,
-      "state": "eb5de9f9",
+      "state": "af22fe53",
       "events": "741638a5",
       "rng": {
         "draws": 224,
@@ -503,7 +503,7 @@
           "facing": 1.570796,
           "fallStartY": 1.5,
           "fiveSecondRule": 99,
-          "hp": 112,
+          "hp": 108,
           "id": 408,
           "inCombat": true,
           "kind": "mob",
@@ -554,9 +554,9 @@
           "inCombat": true,
           "kind": "mob",
           "leashAnchor": {
-            "x": 7.729375,
+            "x": 6.929417,
             "y": 1.5,
-            "z": -1.951469
+            "z": -1.959678
           },
           "level": 8,
           "lootFfaTimer": "Infinity",
@@ -566,9 +566,9 @@
           "overpowerUntil": -1,
           "petMode": "defensive",
           "pos": {
-            "x": 7.729375,
+            "x": 6.929417,
             "y": 1.5,
-            "z": -1.951469
+            "z": -1.959678
           },
           "potionCooldownUntil": -1,
           "spawnPos": {
@@ -579,7 +579,7 @@
           "stats": {
             "armor": 70
           },
-          "swingTimer": 1.4,
+          "swingTimer": 1.25,
           "tappedById": 403,
           "templateId": "forest_wolf",
           "threat": [
@@ -600,7 +600,7 @@
       "tick": 64,
       "time": 3.2,
       "nextId": 410,
-      "state": "0339393a",
+      "state": "e40bfc52",
       "events": "741638a5",
       "rng": {
         "draws": 244,
@@ -950,7 +950,7 @@
           "facing": 1.570796,
           "fallStartY": 1.5,
           "fiveSecondRule": 99,
-          "hp": 112,
+          "hp": 108,
           "id": 408,
           "inCombat": true,
           "kind": "mob",
@@ -1001,9 +1001,9 @@
           "inCombat": true,
           "kind": "mob",
           "leashAnchor": {
-            "x": 7.729375,
+            "x": 6.929417,
             "y": 1.5,
-            "z": -1.951469
+            "z": -1.959678
           },
           "level": 8,
           "lootFfaTimer": "Infinity",
@@ -1013,9 +1013,9 @@
           "overpowerUntil": -1,
           "petMode": "defensive",
           "pos": {
-            "x": 7.729375,
+            "x": 6.929417,
             "y": 1.5,
-            "z": -1.951469
+            "z": -1.959678
           },
           "potionCooldownUntil": -1,
           "spawnPos": {
@@ -1026,7 +1026,7 @@
           "stats": {
             "armor": 70
           },
-          "swingTimer": 1.2,
+          "swingTimer": 1.05,
           "tappedById": 403,
           "templateId": "forest_wolf",
           "threat": [
