@@ -2251,6 +2251,25 @@
   body.mobile-touch.bank-open #bags .bag-chip {
     flex: 0 0 auto;
   }
+  /* Short landscape phones: the 50/50 pairing box (viewport minus the 10px top
+     inset and the 72px tray reservation) cannot hold the full-toolbar chrome, the
+     two-row grid floor (components.css .bank-scroll), AND the buy row, so the buy
+     row clipped below the window edge once the vault had items (empty vaults drop
+     the search/chips toolbar, which is how the Phase 7 checks missed it). The grid
+     floor yields to one cell row, and to a sliver while the transient deposit-all
+     status line borrows its height, so the transactional buy row keeps its
+     always-visible contract; the grid itself scrolls. */
+  @media (max-height: 480px) {
+    body.mobile-touch #bank-window .bank-scroll {
+      min-height: 44px;
+    }
+    body.mobile-touch #bank-window:has(.bank-status) .bank-scroll {
+      min-height: 13px;
+    }
+    body.mobile-touch #bank-window .bank-buy-row {
+      margin-top: 4px;
+    }
+  }
   /* On touch, stack the categories back into a single column so the large
      touch targets keep their full width. */
   body.mobile-touch .kb-cols {
