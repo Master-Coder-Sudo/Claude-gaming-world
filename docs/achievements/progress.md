@@ -8,7 +8,7 @@ response names the next file by full path.
 |---|---|---|---|---|
 | 0 | overview.md + catalog/ | DRAFTED | 2026-07-08 | Awaiting maintainer packet review |
 | 1 | phase-01-sim-core.md | DONE | 2026-07-08 | 186 deeds + evaluator + persisted state + retro-on-join; all 7 Fiesta deeds shipped (bot-roster gate); goldens deliberately regenerated (draw digests unchanged); deferred list in the commit body |
-| 1Q | phase-01-qa.md | NOT STARTED | | |
+| 1Q | phase-01-qa.md | DONE | 2026-07-08 | Acceptance + full gate green. Catalog fidelity clean: 197 catalog blocks, 186 transcribed (11 deferred stay in catalog, none leaked), 0 invented / 0 silently dropped, 2285 renown, 19 titles, 3 borders, name/desc/renown/hidden all match; 42 manual deeds all have a grant site; wayfarer POI marks match zone labels exactly. Both mutations (threshold flip, renown-increment break) redded a test. architecture-reviewer: 0 blocking / 0 should-fix (3 benign notes). test-coverage-auditor findings applied: added 2v2-bracket, lifetimeXp-boundary, quest and gathering negatives, plural-quests branch coverage. Adversarial: 85-event join burst drains and converges; dual-write byte-equal on second save; renown recomputed on load; grantDeed not client-reachable; no-op set re-adds do not dirty; removed-content sanitize never touches deed state |
 | 2 | phase-02-iworld-wire.md | NOT STARTED | | |
 | 2Q | phase-02-qa.md | NOT STARTED | | |
 | 3 | phase-03-deeds-window.md | NOT STARTED | | |

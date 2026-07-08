@@ -6,6 +6,7 @@ import { emptyAllocation } from '../src/sim/content/talents';
 import { DEED_ORDER, DEEDS, ITEMS } from '../src/sim/data';
 import {
   bumpDeedStat,
+  checkDeedTrigger,
   evaluateDeedsFor,
   grantDeed,
   markItemDiscovered,
@@ -137,6 +138,83 @@ describe('trigger kinds grant once, with negatives', () => {
     sim.ctx.markDeedsDirty(meta.entityId);
     sim.tick();
     expect(meta.deedsEarned.has('pvp_arena_1v1_1600')).toBe(true);
+  });
+
+  it('arenaRating: the 2v2 bracket reads the 2v2 rating, never the 1v1 rating', () => {
+    // A 2v2 rating alone grants only the 2v2 deed; a collapsed or swapped
+    // bracket ternary (reading arenaRating for both) would fail this.
+    const sim = makeSim();
+    const { meta } = primary(sim);
+    meta.arena2v2Rating = 1600; // arenaRating stays at the 1500 base
+    sim.ctx.markDeedsDirty(meta.entityId);
+    const evs = sim.tick();
+    expect(meta.deedsEarned.has('pvp_arena_2v2_1600')).toBe(true);
+    expect(meta.deedsEarned.has('pvp_arena_1v1_1600')).toBe(false);
+    expect(deedEvents(evs).filter((ev) => ev.deedId === 'pvp_arena_2v2_1600').length).toBe(1);
+    // Already earned: never re-fires.
+    sim.ctx.markDeedsDirty(meta.entityId);
+    expect(deedEvents(sim.tick()).filter((ev) => ev.deedId === 'pvp_arena_2v2_1600').length).toBe(
+      0,
+    );
+
+    // The mirror: a 1v1 rating alone never leaks into a 2v2 deed.
+    const sim2 = makeSim();
+    const p2 = primary(sim2);
+    p2.meta.arenaRating = 1900; // arena2v2Rating stays at the 1500 base
+    sim2.ctx.markDeedsDirty(p2.meta.entityId);
+    sim2.tick();
+    expect(p2.meta.deedsEarned.has('pvp_arena_1v1_1600')).toBe(true);
+    expect(p2.meta.deedsEarned.has('pvp_arena_2v2_1600')).toBe(false);
+  });
+
+  it('lifetimeXp: the milestone predicate grants at the threshold, not one below', () => {
+    const sim = makeSim();
+    const { meta } = primary(sim);
+    meta.lifetimeXp = MILESTONES[0].lifetimeXp - 1; // 249,999
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    expect(meta.deedsEarned.has('prog_veteran')).toBe(false);
+    meta.lifetimeXp = MILESTONES[0].lifetimeXp; // exactly 250,000
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    expect(meta.deedsEarned.has('prog_veteran')).toBe(true);
+  });
+
+  it('gathering: a proficiency one below the threshold does not grant', () => {
+    const sim = makeSim();
+    const { meta } = primary(sim);
+    meta.gatheringProficiency.mining = 99;
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    expect(meta.deedsEarned.has('prog_mining_100')).toBe(false);
+    meta.gatheringProficiency.mining = 100;
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    expect(meta.deedsEarned.has('prog_mining_100')).toBe(true);
+  });
+
+  it('quest: an unrelated questsDone set does not grant; the exact quest does', () => {
+    const sim = makeSim();
+    const { meta } = primary(sim);
+    meta.questsDone.add('q_some_other_quest');
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    expect(meta.deedsEarned.has('hid_codfather')).toBe(false);
+    meta.questsDone.add('q_the_codfather');
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    expect(meta.deedsEarned.has('hid_codfather')).toBe(true);
+  });
+
+  it('quests (plural): every listed quest must be done', () => {
+    // No shipped v1 deed uses the plural kind yet, so exercise the branch
+    // directly to keep the .every predicate protected against regression.
+    const sim = makeSim();
+    const { meta, e } = primary(sim);
+    meta.questsDone.add('qa');
+    expect(checkDeedTrigger(meta, e, { kind: 'quests', questIds: ['qa', 'qb'] })).toBe(false);
+    meta.questsDone.add('qb');
+    expect(checkDeedTrigger(meta, e, { kind: 'quests', questIds: ['qa', 'qb'] })).toBe(true);
   });
 
   it('manual deeds are never satisfied by the generic evaluator', () => {
