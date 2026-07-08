@@ -1965,7 +1965,8 @@ describe('lockpick view rebuilds from events on the online client', () => {
 // ---------------------------------------------------------------------------
 // W0a: full self-snapshot delta round-trip gate.
 //
-// `selfWireJson` (server/game.ts) emits its heavy "delta" fields through a// `maybe(key, value)` closure that ships a key only when its serialized form
+// `selfWireJson` (server/game.ts) emits its heavy "delta" fields through a
+// `maybe(key, value)` closure that ships a key only when its serialized form
 // changed since this session last received it; `applySnapshot` (src/net/
 // online.ts) mirrors each with `if (s.X !== undefined)` (or the inline
 // `s.X ?? e.X` form for `stats`/`weapon`). This is the single most fragile codec
@@ -2067,7 +2068,8 @@ const FAR_FUTURE_MS = 8_000_000_000_000;
 
 // Dirty every one of the registered `maybe()` delta fields with a distinguishable,
 // non-default value so the round-trip + no-op-omission assertions are meaningful
-// (a fresh session carries all of them on snapshot #1 regardless, since lastSent is// empty). Most fields are set on their real PlayerMeta/Entity/session source;
+// (a fresh session carries all of them on snapshot #1 regardless, since lastSent is
+// empty). Most fields are set on their real PlayerMeta/Entity/session source;
 // for the few whose authentic setup is mutually exclusive in one player state we
 // poke the exact source field the encoder reads, per the brief (the gate asserts
 // the CODEC, not gameplay validity, which the parity/sim suites own):
@@ -2283,7 +2285,8 @@ describe('full self-state snapshot delta fixture', () => {
     const delveRunRef = client.delveRun;
 
     // a second broadcast with NO intervening sim.tick() and no state mutation: the
-    // maybe() closure sees byte-identical JSON for every registered key and omits every one    fc.sent.length = 0;
+    // maybe() closure sees byte-identical JSON for every registered key and omits every one
+    fc.sent.length = 0;
     broadcast(server);
     const snap2 = lastSnap(fc.sent);
     for (const key of ALL_DELTA_KEYS) {
