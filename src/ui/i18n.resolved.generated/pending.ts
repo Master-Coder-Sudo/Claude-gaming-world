@@ -1259,22 +1259,18 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.vcup.walkUp"
   ],
   "zh_CN": [
-    "abilityUi.tooltip.selfOnly",
     "hudChrome.vcup.guildBoardWl",
     "hudChrome.vcup.shootPower"
   ],
   "zh_TW": [
-    "abilityUi.tooltip.selfOnly",
     "hudChrome.vcup.guildBoardWl",
     "hudChrome.vcup.shootPower"
   ],
   "ko_KR": [
-    "abilityUi.tooltip.selfOnly",
     "hudChrome.vcup.guildBoardWl",
     "hudChrome.vcup.shootPower"
   ],
   "ja_JP": [
-    "abilityUi.tooltip.selfOnly",
     "hudChrome.vcup.guildBoardWl",
     "hudChrome.vcup.shootPower"
   ],
@@ -1487,7 +1483,6 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.vcup.walkUp"
   ],
   "ru_RU": [
-    "abilityUi.tooltip.selfOnly",
     "hudChrome.vcup.guildBoardWl",
     "hudChrome.vcup.shootPower"
   ],
