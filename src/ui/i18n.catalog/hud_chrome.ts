@@ -1640,5 +1640,9 @@ export const hudChromeStrings = {
     unknownRecipe: 'That recipe does not exist.',
     comboRequirementUnmet:
       'You do not have both required crafts at the required tier for that recipe.',
+    // #1297: denied because the recipe is station-bound (the level-20
+    // crafting hub) and the player is either not there or not high enough
+    // level.
+    notAtHub: 'You must be at the crafting hub, at the required level, to craft that.',
   },
 };

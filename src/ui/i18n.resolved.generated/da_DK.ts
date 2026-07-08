@@ -1401,7 +1401,8 @@ export const da_DK: EnTranslations = {
       "craftedToast": "Udformet: {name}",
       "insufficientMaterials": "Det har du ikke materialerne til.",
       "unknownRecipe": "Den opskrift findes ikke.",
-      "comboRequirementUnmet": "Du har ikke begge de krævede håndværk på det krævede niveau til den opskrift."
+      "comboRequirementUnmet": "Du har ikke begge de krævede håndværk på det krævede niveau til den opskrift.",
+      "notAtHub": "You must be at the crafting hub, at the required level, to craft that."
     }
   },
   "apiError": {

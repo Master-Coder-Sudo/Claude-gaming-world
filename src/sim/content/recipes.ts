@@ -112,6 +112,13 @@ export const COMMON_RECIPES: ProfessionRecipeRecord[] = [
 // follow-up to enforce. resolveCraft does not yet read skillReq (that gate is
 // #1128's job), so these are craftable today purely on having the reagents,
 // same as any common recipe, until #1128 lands.
+//
+// requiresHubStation (issue #1297): every recipe below is also station-bound,
+// gated on presence at the level-20 crafting hub (content/professions.ts
+// CRAFTING_HUB_*, checked by ../professions/crafting_hub.ts). These are the
+// natural first station-bound recipes: real tier-4/5 gear already tier-gated
+// well past the common free floor, unlike COMMON_RECIPES/COMBO_RECIPES above
+// (both free-field-craftable, deliberately left ungated here).
 export const TOOL_RECIPES: ProfessionRecipeRecord[] = [
   {
     id: 'recipe_thorium_mining_pick',
@@ -125,6 +132,7 @@ export const TOOL_RECIPES: ProfessionRecipeRecord[] = [
     skillReq: 75,
     trivialAt: 125,
     itemLevelBudget: 20,
+    requiresHubStation: true,
   },
   {
     id: 'recipe_arcanite_mining_pick',
@@ -138,6 +146,7 @@ export const TOOL_RECIPES: ProfessionRecipeRecord[] = [
     skillReq: 150,
     trivialAt: 200,
     itemLevelBudget: 30,
+    requiresHubStation: true,
   },
   {
     id: 'recipe_ashwood_axe',
@@ -151,6 +160,7 @@ export const TOOL_RECIPES: ProfessionRecipeRecord[] = [
     skillReq: 75,
     trivialAt: 125,
     itemLevelBudget: 20,
+    requiresHubStation: true,
   },
   {
     id: 'recipe_elderwood_axe',
@@ -164,6 +174,7 @@ export const TOOL_RECIPES: ProfessionRecipeRecord[] = [
     skillReq: 150,
     trivialAt: 200,
     itemLevelBudget: 30,
+    requiresHubStation: true,
   },
   {
     id: 'recipe_goldleaf_sickle',
@@ -177,6 +188,7 @@ export const TOOL_RECIPES: ProfessionRecipeRecord[] = [
     skillReq: 75,
     trivialAt: 125,
     itemLevelBudget: 20,
+    requiresHubStation: true,
   },
   {
     id: 'recipe_sunpetal_sickle',
@@ -190,6 +202,7 @@ export const TOOL_RECIPES: ProfessionRecipeRecord[] = [
     skillReq: 150,
     trivialAt: 200,
     itemLevelBudget: 30,
+    requiresHubStation: true,
   },
 ];
 

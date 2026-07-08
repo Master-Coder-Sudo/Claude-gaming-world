@@ -63,6 +63,7 @@ import { recipeById } from '../content/recipes';
 import type { PlayerMeta } from '../sim';
 import type { SimContext } from '../sim_context';
 import { craftCeiling } from './archetype';
+import { canUseCraftingHubStation } from './crafting_hub';
 import { isSignableMaterialRarity, type MaterialRarity, rollMaterialRarity } from './gathering';
 import type { ProfessionReagent, ProfessionRecipeRecord } from './types';
 import {
@@ -97,7 +98,8 @@ export interface CraftResult {
     | 'insufficient_materials'
     | 'combo_requirement_unmet'
     | 'recipe_unknown'
-    | 'throttled';
+    | 'throttled'
+    | 'not_at_hub';
 }
 
 /** Whether `meta` currently knows `recipe` (issue #1299): a recipe with no
@@ -264,6 +266,16 @@ export function resolveCraftForRecipe(
   recipe: ProfessionRecipeRecord,
 ): CraftResult {
   const meta = ctx.players.get(pid);
+  // #1297: a station-bound recipe (TOOL_RECIPES today) requires the player to
+  // be physically present at the level-20 crafting hub. Checked before every
+  // other gate, no side effect on denial, same shape as the combo-requirement
+  // check below.
+  if (recipe.requiresHubStation) {
+    const entity = ctx.entities.get(pid);
+    if (!entity || !canUseCraftingHubStation(entity.pos, entity.level)) {
+      return { ok: false, recipeId: recipe.id, reason: 'not_at_hub' };
+    }
+  }
   if (
     recipe.comboRequirement &&
     !meetsComboRequirement(

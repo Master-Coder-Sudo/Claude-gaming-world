@@ -1401,7 +1401,8 @@ export const cs_CZ: EnTranslations = {
       "craftedToast": "Vyrobeno: {name}",
       "insufficientMaterials": "Na to nemáš materiály.",
       "unknownRecipe": "Tento recept neexistuje.",
-      "comboRequirementUnmet": "Nemáš obě požadovaná řemesla na potřebné úrovni pro tento recept."
+      "comboRequirementUnmet": "Nemáš obě požadovaná řemesla na potřebné úrovni pro tento recept.",
+      "notAtHub": "You must be at the crafting hub, at the required level, to craft that."
     }
   },
   "apiError": {

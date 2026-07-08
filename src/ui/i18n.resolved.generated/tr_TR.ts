@@ -1401,7 +1401,8 @@ export const tr_TR: EnTranslations = {
       "craftedToast": "Hazırlanma Tarihi: {name}",
       "insufficientMaterials": "Bunun için malzemeleriniz yok.",
       "unknownRecipe": "O tarif mevcut değil.",
-      "comboRequirementUnmet": "O tarif için gereken iki zanaata da gereken kademede sahip değilsin."
+      "comboRequirementUnmet": "O tarif için gereken iki zanaata da gereken kademede sahip değilsin.",
+      "notAtHub": "You must be at the crafting hub, at the required level, to craft that."
     }
   },
   "apiError": {

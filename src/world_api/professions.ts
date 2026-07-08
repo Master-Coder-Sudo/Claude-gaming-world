@@ -32,7 +32,10 @@ export interface CraftResultView {
     | 'insufficient_materials'
     | 'combo_requirement_unmet'
     | 'recipe_unknown'
-    | 'throttled';
+    | 'throttled'
+    // #1297: denied because the recipe is station-bound and the player is not
+    // currently at the level-20 crafting hub (or not yet the required level).
+    | 'not_at_hub';
 }
 
 // The professions read-surface facet (#1164, extended by #1121/#1127/#1129). `Sim`

@@ -1401,7 +1401,8 @@ export const pt_BR: EnTranslations = {
       "craftedToast": "Feito: {name}",
       "insufficientMaterials": "Você não tem os materiais para isso.",
       "unknownRecipe": "Essa receita não existe.",
-      "comboRequirementUnmet": "Você não possui os dois ofícios exigidos no nível necessário para essa receita."
+      "comboRequirementUnmet": "Você não possui os dois ofícios exigidos no nível necessário para essa receita.",
+      "notAtHub": "You must be at the crafting hub, at the required level, to craft that."
     }
   },
   "apiError": {

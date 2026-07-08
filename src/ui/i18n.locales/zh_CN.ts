@@ -5845,6 +5845,7 @@ export const zh_CN: Partial<Record<TranslationKey, string>> = {
   // Release v0.22.0 locale fill.
   'hudChrome.crafting.reagentLine': '{name}: {have}/{required}',
   'hudChrome.crafting.comboRequirementUnmet': '你没有达到该配方所需组合的两项制造技能等级。',
+  'hudChrome.crafting.notAtHub': '必须达到所需等级并位于制作站，才能制作该物品。',
   'hudChrome.mobile.actionPageIndicator': '第{page}页',
   'hudChrome.mobile.spellbookPageLabel': '页{page}',
   // The Vale Cup boarball minigame (docs/prd/vale-cup.md).

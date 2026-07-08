@@ -1401,7 +1401,8 @@ export const zh_CN: EnTranslations = {
       "craftedToast": "已制作:{name}",
       "insufficientMaterials": "你没有足够的材料。",
       "unknownRecipe": "该配方不存在。",
-      "comboRequirementUnmet": "你没有达到该配方所需组合的两项制造技能等级。"
+      "comboRequirementUnmet": "你没有达到该配方所需组合的两项制造技能等级。",
+      "notAtHub": "必须达到所需等级并位于制作站，才能制作该物品。"
     }
   },
   "apiError": {

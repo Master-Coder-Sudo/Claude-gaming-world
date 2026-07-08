@@ -10,30 +10,37 @@
 
 export const pending: Record<string, readonly string[]> = {
   "es": [
-    "hudChrome.archetypeTitle.hobbyLabel"
+    "hudChrome.archetypeTitle.hobbyLabel",
+    "hudChrome.crafting.notAtHub"
   ],
   "es_ES": [
-    "hudChrome.archetypeTitle.hobbyLabel"
+    "hudChrome.archetypeTitle.hobbyLabel",
+    "hudChrome.crafting.notAtHub"
   ],
   "fr_FR": [
-    "hudChrome.archetypeTitle.hobbyLabel"
+    "hudChrome.archetypeTitle.hobbyLabel",
+    "hudChrome.crafting.notAtHub"
   ],
   "fr_CA": [
-    "hudChrome.archetypeTitle.hobbyLabel"
+    "hudChrome.archetypeTitle.hobbyLabel",
+    "hudChrome.crafting.notAtHub"
   ],
   "en_CA": [],
   "it_IT": [
-    "hudChrome.archetypeTitle.hobbyLabel"
+    "hudChrome.archetypeTitle.hobbyLabel",
+    "hudChrome.crafting.notAtHub"
   ],
   "de_DE": [
-    "hudChrome.archetypeTitle.hobbyLabel"
+    "hudChrome.archetypeTitle.hobbyLabel",
+    "hudChrome.crafting.notAtHub"
   ],
   "zh_CN": [],
   "zh_TW": [],
   "ko_KR": [],
   "ja_JP": [],
   "pt_BR": [
-    "hudChrome.archetypeTitle.hobbyLabel"
+    "hudChrome.archetypeTitle.hobbyLabel",
+    "hudChrome.crafting.notAtHub"
   ],
   "ru_RU": [],
   "cs_CZ": [
@@ -43,27 +50,35 @@ export const pending: Record<string, readonly string[]> = {
     "entities.items.goldleaf_herb.name",
     "entities.items.sunpetal_herb.name",
     "entities.items.thorium_ore.name",
-    "hudChrome.archetypeTitle.hobbyLabel"
+    "hudChrome.archetypeTitle.hobbyLabel",
+    "hudChrome.crafting.notAtHub"
   ],
   "nl_NL": [
-    "hudChrome.archetypeTitle.hobbyLabel"
+    "hudChrome.archetypeTitle.hobbyLabel",
+    "hudChrome.crafting.notAtHub"
   ],
   "pl_PL": [
-    "hudChrome.archetypeTitle.hobbyLabel"
+    "hudChrome.archetypeTitle.hobbyLabel",
+    "hudChrome.crafting.notAtHub"
   ],
   "id_ID": [
-    "hudChrome.archetypeTitle.hobbyLabel"
+    "hudChrome.archetypeTitle.hobbyLabel",
+    "hudChrome.crafting.notAtHub"
   ],
   "tr_TR": [
-    "hudChrome.archetypeTitle.hobbyLabel"
+    "hudChrome.archetypeTitle.hobbyLabel",
+    "hudChrome.crafting.notAtHub"
   ],
   "sv_SE": [
-    "hudChrome.archetypeTitle.hobbyLabel"
+    "hudChrome.archetypeTitle.hobbyLabel",
+    "hudChrome.crafting.notAtHub"
   ],
   "vi_VN": [
-    "hudChrome.archetypeTitle.hobbyLabel"
+    "hudChrome.archetypeTitle.hobbyLabel",
+    "hudChrome.crafting.notAtHub"
   ],
   "da_DK": [
-    "hudChrome.archetypeTitle.hobbyLabel"
+    "hudChrome.archetypeTitle.hobbyLabel",
+    "hudChrome.crafting.notAtHub"
   ]
 };

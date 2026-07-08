@@ -2243,7 +2243,8 @@ export type SimEvent = { pid?: number } & (
         | 'insufficient_materials'
         | 'combo_requirement_unmet'
         | 'recipe_unknown'
-        | 'throttled';
+        | 'throttled'
+        | 'not_at_hub';
     }
 );
 

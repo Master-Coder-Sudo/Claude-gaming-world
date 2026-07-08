@@ -6292,6 +6292,8 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.crafting.reagentLine': '{name}: {have}/{required}',
   'hudChrome.crafting.comboRequirementUnmet':
     'У вас нет обоих требуемых ремесел нужного уровня для этого рецепта.',
+  'hudChrome.crafting.notAtHub':
+    'Чтобы создать это, вы должны находиться у ремесленного центра и иметь требуемый уровень.',
   'hudChrome.mobile.actionPageIndicator': 'Стр. {page}',
   'hudChrome.mobile.spellbookPageLabel': 'Страница {page}',
   // The Vale Cup boarball minigame (docs/prd/vale-cup.md).

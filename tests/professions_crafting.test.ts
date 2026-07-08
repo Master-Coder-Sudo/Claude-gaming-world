@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { CRAFTING_HUB_MIN_LEVEL, CRAFTING_HUB_POS } from '../src/sim/content/professions';
 import {
   COMBO_RECIPES,
   COMMON_RECIPES,
@@ -60,6 +61,14 @@ describe('TOOL_RECIPES (#1135 de-stub): tier 4/5 tool recipes', () => {
     const sim = makeSim();
     const pid = sim.playerId;
     const recipe = recipeById('recipe_thorium_mining_pick')!;
+    // #1297: TOOL_RECIPES are station-bound, so this recipe now also requires
+    // presence at the level-20 crafting hub (see professions_crafting_hub.test.ts
+    // for the gate's own dedicated coverage).
+    sim.setPlayerLevel(CRAFTING_HUB_MIN_LEVEL);
+    const entity = (sim as any).entities.get(pid);
+    entity.pos.x = CRAFTING_HUB_POS.x;
+    entity.pos.z = CRAFTING_HUB_POS.z;
+    entity.prevPos = { ...entity.pos };
     grantItem(sim, 'thorium_ore', 4, pid);
     grantItem(sim, 'mithril_mining_pick', 1, pid);
 
