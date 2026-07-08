@@ -88,10 +88,10 @@ import type {
 import {
   type AbilityEffect,
   CONSUME_DURATION,
-  FAERIE_FIRE_ARMOR_PCT,
   canPrestige,
   dist2d,
   type Entity,
+  FAERIE_FIRE_ARMOR_PCT,
   FISHING_CAST_ID,
   type ItemDef,
   isQuestTurnInNpc,
@@ -311,6 +311,7 @@ import { MobileActionRingPainter } from './mobile_action_ring_painter';
 import { MovableFrame } from './movable_frame';
 import { OptionsWindow } from './options_window';
 import { makeWriterFacet, type PainterHostPresentation } from './painter_host';
+import { loadPartyCollapsed, savePartyCollapsed } from './party_collapse';
 import type { PartyRowAuraDeps } from './party_frame_row';
 import { partyFrameSignature, selectPartyFrameMembers } from './party_frames';
 import { PartyFramesPainter } from './party_frames_painter';
@@ -363,7 +364,7 @@ import { localizeTalentTitle, roleLabel, tTalent } from './talent_i18n';
 import { TalentsWindow } from './talents_window';
 import type { PresetId, ThemeKnob, ThemeState } from './theme';
 import { TOOLTIP_PEEK_MS, TouchPeekGuard } from './touch_peek';
-import { bindTouchTap } from './touch_tap';
+import { bindTouchDoubleTap, bindTouchTap } from './touch_tap';
 import { buildTownFocusView, stepTownFocus } from './town_focus_view';
 import { renderTownFocusWindow } from './town_focus_window';
 import { TutorialOverlay } from './tutorial';
@@ -1310,6 +1311,10 @@ export class Hud {
   private meters: Meters;
   private tutorial = new TutorialOverlay();
   private lastPetBarSig = '';
+  // Value-diffed body-class flag: true while a live pet bar is shown. The mobile
+  // top-band layout reads body.mobile-pet-active to yield the top-centre line to the
+  // pet bar (the sideways consumables row and the Vale Cup indicator drop a band).
+  private lastPetPresent = false;
   // Ravenpost envelope indicator (slow-band, value-diffed; see updateMailIndicator).
   private mailIndicatorEl: HTMLElement | null = null;
   private lastMailUnread = -1;
@@ -1498,31 +1503,16 @@ export class Hud {
     // classic MMOs: the player interaction menu opens from the target portrait
     $('#target-frame').addEventListener('contextmenu', (ev) => {
       ev.preventDefault();
-      const tid = this.sim.player.targetId;
-      const t = tid !== null ? this.sim.entities.get(tid) : null;
-      if (t && t.kind === 'player' && t.id !== this.sim.playerId) {
-        this.openContextMenu(t.id, t.name, (ev as MouseEvent).clientX, (ev as MouseEvent).clientY);
-      } else if (t && t.kind === 'mob' && t.ownerId === this.sim.playerId) {
-        this.openPetMenu(
-          t.id,
-          t.name,
-          t.dead,
-          (ev as MouseEvent).clientX,
-          (ev as MouseEvent).clientY,
-        );
-      } else if (
-        t &&
-        t.kind === 'mob' &&
-        !t.dead &&
-        t.hostile &&
-        t.ownerId === null &&
-        this.sim.partyInfo
-      ) {
-        // classic MMOs: right-click an enemy's unit frame to set a raid marker.
-        // Mirror Sim.setMarker's markable criteria (live wild hostile mob) so the
-        // menu never appears for a pet/non-hostile mob where it would be a no-op.
-        this.openMarkerMenu(t.id, t.name, (ev as MouseEvent).clientX, (ev as MouseEvent).clientY);
-      }
+      this.openTargetFrameMenuAt((ev as MouseEvent).clientX, (ev as MouseEvent).clientY);
+    });
+    // Touch has no right-click, so a double-tap on the target frame opens the same
+    // unit menu (slop-guarded, so dragging the movable frame never triggers it).
+    // Mobile-gated: bindTouchDoubleTap already ignores mouse pointers, and the
+    // desktop path above owns the contextmenu case.
+    bindTouchDoubleTap($('#target-frame'), (ev) => {
+      if (!this.isMobileLayout()) return;
+      const pe = ev as PointerEvent;
+      this.openTargetFrameMenuAt(pe.clientX, pe.clientY);
     });
     $('#player-frame').addEventListener('contextmenu', (ev) => {
       ev.preventDefault();
@@ -2074,6 +2064,35 @@ export class Hud {
     const maxTop = window.innerHeight / z - reserveBottom;
     el.style.left = `${Math.max(minLeft, Math.min(maxLeft, x / z))}px`;
     el.style.top = `${Math.max(minTop, Math.min(maxTop, y / z))}px`;
+  }
+
+  // Second-pass clamp for a popup that is TALLER (or wider) than the reserve
+  // placePopupAt was given: measure the real rendered box and pull it back on-screen.
+  // The unit context menu with the 40px mobile-floor items can exceed a fixed reserve
+  // on a short landscape phone; getBoundingClientRect reflects the laid-out box (so it
+  // is reliable even on the first open, where an offset read can still be stale), and
+  // this only ever moves the popup UP/LEFT, never past the top/left edge.
+  private keepPopupOnScreen(el: HTMLElement): void {
+    const clamp = () => {
+      const z = getUiScale();
+      const r = el.getBoundingClientRect();
+      const overBottom = r.bottom - window.innerHeight;
+      if (overBottom > 0) {
+        const top = Number.parseFloat(el.style.top) || 0;
+        el.style.top = `${Math.max(0, top - overBottom / z)}px`;
+      }
+      const overRight = r.right - window.innerWidth;
+      if (overRight > 0) {
+        const left = Number.parseFloat(el.style.left) || 0;
+        el.style.left = `${Math.max(0, left - overRight / z)}px`;
+      }
+    };
+    clamp();
+    // A popup shown for the FIRST time can report a stale (pre-layout) box on this
+    // synchronous pass, so re-clamp once the browser has laid it out. Subsequent
+    // opens are already correct above; this only ever nudges a still-overflowing
+    // menu up/left by a frame, never off the top/left edge.
+    requestAnimationFrame(clamp);
   }
 
   private topmostOpenWindow(): HTMLElement | null {
@@ -2804,8 +2823,12 @@ export class Hud {
     if (this.activeChatTab === WHISPER_TAB)
       return t('hud.core.chatChannels.sendingTo', { channel: t(WHISPER_TAB_LABEL_KEY) });
     const ch = this.chatSendChannel();
-    return ch
-      ? t('hud.core.chatChannels.sendingTo', { channel: t(CHANNEL_LABEL_KEYS[ch]) })
+    if (ch) return t('hud.core.chatChannels.sendingTo', { channel: t(CHANNEL_LABEL_KEYS[ch]) });
+    // The compact touch composer has no room for the desktop slash-command legend
+    // (/s, /w, /r, ...), so use a short prompt on the mobile HUD. The channel-aware
+    // "Message {channel}" variants above are already short and stay as-is.
+    return this.isMobileLayout()
+      ? t('hudChrome.mobile.chatPlaceholder')
       : t('hud.core.chatPlaceholder');
   }
 
@@ -3220,6 +3243,11 @@ export class Hud {
       attachTooltip: (el, html) => this.attachTooltip(el, html),
     },
   };
+  // The persisted mobile party-collapse choice (default collapsed). Only consulted on
+  // the touch HUD; the chip's tap flips + persists it and re-drives setCollapse. It is
+  // a pure USER toggle (party HP is actionable info), never influenced by
+  // data-fx-level, reduce-motion, or the FPS governor.
+  private partyCollapsed = loadPartyCollapsed();
   // The party frames are N further instances of the unit_frame family, one per
   // member, behind a keyed node pool that replaces the old per-rebuild innerHTML wipe
   // + click/contextmenu re-attach. The pool owns #party-frames; updatePartyFrames
@@ -3234,6 +3262,8 @@ export class Hud {
       onContextMenu: (pid, name, x, y) => this.openContextMenu(pid, name, x, y),
       onLeave: () => this.sim.partyLeave(),
       leaveLabel: () => t('hud.social.leaveParty'),
+      chipLabel: () => t('hudChrome.unitFrame.partyChip'),
+      onToggleCollapse: () => this.togglePartyCollapsed(),
       partyAuras: this.partyAurasDeps,
     },
   );
@@ -3852,6 +3882,22 @@ export class Hud {
       const rect = el.getBoundingClientRect();
       showAt(rect.right, rect.top + rect.height / 2, 'focus');
     };
+    // A mouse click or a tap focuses the button as a side effect (the browser
+    // moves focus to whatever was pressed), which used to fire showNearElement
+    // on EVERY action-bar press, not just real keyboard (Tab) navigation. Flag
+    // the pointer press so the very next focusin it causes is skipped; Tab
+    // never fires pointerdown first, so keyboard users still get the tooltip.
+    let pointerFocusPending = false;
+    el.addEventListener('pointerdown', () => {
+      pointerFocusPending = true;
+    });
+    el.addEventListener('focusin', () => {
+      if (pointerFocusPending) {
+        pointerFocusPending = false;
+        return;
+      }
+      showNearElement();
+    });
     el.addEventListener('mouseenter', () => {
       if (mobile()) return;
       const rect = el.getBoundingClientRect();
@@ -3870,7 +3916,6 @@ export class Hud {
       clearTouchTimer();
       this.tooltipEl.style.display = 'none';
     });
-    el.addEventListener('focusin', showNearElement);
     el.addEventListener('focusout', () => {
       clearTouchTimer();
       this.tooltipEl.style.display = 'none';
@@ -3885,8 +3930,17 @@ export class Hud {
         y = e.clientY;
       touchTimer = window.setTimeout(() => showAt(x, y, 'touch'), TOOLTIP_PEEK_MS);
     });
-    el.addEventListener('pointerup', clearTouchTimer);
-    el.addEventListener('pointercancel', clearTouchTimer);
+    el.addEventListener('pointerup', () => {
+      clearTouchTimer();
+      // Safari desktop never focuses a button on click, so pointerdown's flag
+      // above would otherwise never get consumed by a focusin and could wrongly
+      // swallow a later, real keyboard-focus tooltip; drop it once the press ends.
+      pointerFocusPending = false;
+    });
+    el.addEventListener('pointercancel', () => {
+      clearTouchTimer();
+      pointerFocusPending = false;
+    });
   }
 
   hideTooltip(): void {
@@ -5304,17 +5358,17 @@ export class Hud {
     // picks the closest enemy and starts swinging instead of erroring. Slot
     // buttons -> castSlot(the resolved source slot for the CURRENT page at
     // click time, not a captured page). Mirrors the desktop action-btn click
-    // pattern exactly (peek-guard consume, audio.click, blur) so
-    // long-press-to-inspect on touch behaves the same way.
+    // pattern (audio.click, blur), EXCEPT the peek guard: the ring has no
+    // tooltip of its own (see the no-tooltip note below), so a set peek flag
+    // here is always STALE cross-talk from some other control's long-press.
+    // Each handler clears it and dismisses any lingering tooltip box but never
+    // early-returns on it (an early return here ate the player's next cast).
     // bindTouchTap, not 'click': the browser only synthesizes click for the
     // PRIMARY pointer, so click-bound ring buttons went dead the moment the
     // other thumb held the joystick, which is how combat is actually played.
     bindTouchTap(attackBtn, () => {
-      if (this.peekGuard.consume()) {
-        this.hideTooltip();
-        attackBtn.blur();
-        return;
-      }
+      this.peekGuard.consume();
+      this.hideTooltip();
       audio.click();
       const p = this.sim.player;
       const target = p.targetId !== null ? this.sim.entities.get(p.targetId) : null;
@@ -5336,11 +5390,8 @@ export class Hud {
           btn.blur();
           return;
         }
-        if (this.peekGuard.consume()) {
-          this.hideTooltip();
-          btn.blur();
-          return;
-        }
+        this.peekGuard.consume();
+        this.hideTooltip();
         audio.click();
         this.castSlot(sourceSlotForMobileButton(this.mobileActionPage, i));
         btn.blur();
@@ -5348,48 +5399,20 @@ export class Hud {
       this.bindMobileRingDrag(btn, i);
     });
     bindTouchTap(pageToggle, () => {
-      if (this.peekGuard.consume()) {
-        this.hideTooltip();
-        (pageToggle as HTMLElement).blur();
-        return;
-      }
+      this.peekGuard.consume();
+      this.hideTooltip();
       audio.click();
       this.cycleMobileActionPage();
       (pageToggle as HTMLElement).blur();
     });
 
-    // Long-press-to-inspect: the same attachTooltip wiring the desktop bar
-    // buttons get. This is what ARMS the peek guard the tap handlers above
-    // consume; without it a long press showed nothing and the release CAST
-    // the ability (burning cooldowns while trying to read a spell). The slot
-    // closures resolve the CURRENT page fresh, exactly like the view's.
-    this.attachTooltip(
-      attackBtn,
-      () =>
-        `<div class="tt-title">${esc(t('abilityUi.actionBar.attackName'))}</div><div class="tt-sub">${esc(t('abilityUi.actionBar.attackTooltip'))}</div>`,
-    );
-    slotBtns.forEach((btn, i) => {
-      this.attachTooltip(btn, () => {
-        const slot = sourceSlotForMobileButton(this.mobileActionPage, i);
-        const known = this.abilityForSlot(slot);
-        if (known) return this.abilityTooltip(known);
-        const item = this.itemForSlot(slot);
-        if (item) {
-          const count = this.inventoryCount(item.id);
-          return (
-            this.itemTooltip(item) +
-            `<div class="tt-sub">${esc(
-              count > 0
-                ? t('abilityUi.actionBar.itemInBags', {
-                    count: formatNumber(count, { maximumFractionDigits: 0 }),
-                  })
-                : t('abilityUi.actionBar.itemNoneInBags'),
-            )}</div>`
-          );
-        }
-        return `<div class="tt-sub">${esc(t('abilityUi.actionBar.emptySlot'))}</div>`;
-      });
-    });
+    // No tooltip on the mobile ring: a long-press-to-inspect wiring lived here
+    // (mirroring the desktop bar's attachTooltip), but it read as a stray
+    // popup box appearing over the world on an ordinary tap/hold rather than a
+    // deliberate inspect gesture, so it is removed entirely on touch. With
+    // nothing arming the shared peek guard FROM the ring, a long hold just
+    // casts like a normal tap, and the handlers above only ever CLEAR the
+    // guard (stale cross-talk from another control), never gate on it.
 
     this.mobileActionRingView = createActionBarView(
       {
@@ -5841,6 +5864,17 @@ export class Hud {
   private renderPetBar(): void {
     const bar = $('#petbar') as HTMLElement;
     const pet = this.ownPet();
+    // Value-diffed body-class flag the mobile top-band layout reads (see field doc):
+    // toggled only on a real transition so the per-frame path stays write-free.
+    // Deliberately toggled on EVERY host, not just touch: only body.mobile-touch
+    // CSS consumes it, and an always-true flag survives a desktop-to-touch flip
+    // mid-session where a mobile-gated toggle would leave it stale until the
+    // pet's presence next changed.
+    const petPresent = !!pet && !pet.dead;
+    if (petPresent !== this.lastPetPresent) {
+      this.lastPetPresent = petPresent;
+      document.body.classList.toggle('mobile-pet-active', petPresent);
+    }
     if (!pet || pet.dead) {
       bar.style.display = 'none';
       if (this.lastPetBarSig !== '') {
@@ -6729,7 +6763,7 @@ export class Hud {
       this.yumiPainter.update(this.sim.arenaInfo);
       // Vale Cup surfaces (mediumHud like the arena/fiesta ones): the indicator
       // button, the in-match strip, and the open window redraw.
-      this.vcupIndicator.update(buildVcupIndicatorView(this.sim.cupInfo));
+      this.vcupIndicator.update(buildVcupIndicatorView(this.sim.cupInfo, atSowfield));
       this.vcupMatchHud.update(buildVcupHudView(this.sim.cupInfo));
       this.vcupBriefing.update(buildVcupBriefingView(this.sim.cupInfo));
       this.vcupBetting.update(buildVcupBettingView(this.sim.cupInfo));
@@ -8498,7 +8532,13 @@ export class Hud {
                   ? 'hudChrome.crafting.unknownRecipe'
                   : ev.reason === 'combo_requirement_unmet'
                     ? 'hudChrome.crafting.comboRequirementUnmet'
-                    : 'hudChrome.crafting.insufficientMaterials',
+                    : ev.reason === 'not_at_hub'
+                      ? 'hudChrome.crafting.notAtHub'
+                      : ev.reason === 'throttled'
+                        ? 'hudChrome.crafting.throttled'
+                        : ev.reason === 'recipe_not_learned'
+                          ? 'hudChrome.crafting.recipeNotLearned'
+                          : 'hudChrome.crafting.insufficientMaterials',
               ),
               '#ff6b6b',
             );
@@ -12866,6 +12906,27 @@ export class Hud {
   // Party frames
   // -------------------------------------------------------------------------
 
+  /** Flip and persist the mobile party-collapse choice (the chip's tap), then re-drive
+   *  the chip immediately so the toggle lands this frame rather than next tick. A pure
+   *  USER action; the persisted flag is the only input to the collapse, never a
+   *  graphics tier / reduce-motion / governor signal. */
+  private togglePartyCollapsed(): void {
+    this.partyCollapsed = !this.partyCollapsed;
+    savePartyCollapsed(this.partyCollapsed);
+    this.partyFramesPainter.setCollapse(
+      !!this.sim.partyInfo,
+      this.isMobileLayout(),
+      this.partyCollapsed,
+      this.isMobileChatOpen(),
+    );
+  }
+
+  /** Whether the mobile chat overlay (body.mobile-chat-open) is up. While it is, the
+   *  party UI yields (see setCollapse); a transient read, never persisted. */
+  private isMobileChatOpen(): boolean {
+    return document.body.classList.contains('mobile-chat-open');
+  }
+
   private updatePartyFrames(): void {
     const target =
       this.sim.player.targetId !== null ? this.sim.entities.get(this.sim.player.targetId) : null;
@@ -12883,6 +12944,19 @@ export class Hud {
       this.wasLeaderOfParty = false;
       return;
     }
+    // Drive the mobile collapse chip from (in a party, on the touch HUD, the persisted
+    // collapse choice, whether mobile chat is open), every frame. Fully elided: a
+    // steady state (unchanged inputs) writes nothing. On desktop the chip is never
+    // built and the container carries no collapse class, so the desktop stack is
+    // unchanged. While mobile chat is open the party UI yields (chip + frames hide) so
+    // the chat overlay owns the top-left; the persisted choice is untouched, so closing
+    // chat restores it.
+    this.partyFramesPainter.setCollapse(
+      true,
+      this.isMobileLayout(),
+      this.partyCollapsed,
+      this.isMobileChatOpen(),
+    );
     // The Loot Settings window (opened on demand from the right-click menu) is
     // repainted from authoritative state while open. The signature is low frequency
     // (loot settings + leadership + membership, NO hp/res) so it is not rebuilt every
@@ -12979,6 +13053,30 @@ export class Hud {
     });
   }
 
+  // Open the target-frame unit menu at a viewport point, shared by the desktop
+  // right-click (contextmenu) and the touch double-tap. A friendly player (not
+  // you) gets the social/party menu; your own pet gets the pet menu; a live wild
+  // hostile mob (in a party) gets the raid-marker menu, mirroring Sim.setMarker's
+  // markable criteria so the menu never appears where it would be a no-op.
+  private openTargetFrameMenuAt(x: number, y: number): void {
+    const tid = this.sim.player.targetId;
+    const t = tid !== null ? this.sim.entities.get(tid) : null;
+    if (t && t.kind === 'player' && t.id !== this.sim.playerId) {
+      this.openContextMenu(t.id, t.name, x, y);
+    } else if (t && t.kind === 'mob' && t.ownerId === this.sim.playerId) {
+      this.openPetMenu(t.id, t.name, t.dead, x, y);
+    } else if (
+      t &&
+      t.kind === 'mob' &&
+      !t.dead &&
+      t.hostile &&
+      t.ownerId === null &&
+      this.sim.partyInfo
+    ) {
+      this.openMarkerMenu(t.id, t.name, x, y);
+    }
+  }
+
   openContextMenu(pid: number, name: string, x: number, y: number): void {
     const el = $('#ctx-menu');
     const party = this.sim.partyInfo;
@@ -13031,8 +13129,16 @@ export class Hud {
     html += `<div class="ctx-item" data-act="close">${esc(t('hud.chat.context.cancel'))}</div>`;
     el.innerHTML = html;
     hydratePortraits(el);
-    this.placePopupAt(el, x, y, 170, 240);
     el.style.display = 'block';
+    // Reserve the menu's own height (title + one row per item) so placePopupAt seats
+    // it fully on-screen. Computed from the item count, not measured, so it is right
+    // even on the very first open (a fresh display:none -> block box can read stale).
+    // The mobile 40px item floor makes this menu tall enough to matter on a short
+    // landscape phone; over-reserving only nudges it higher, never off the top.
+    const ctxItemCount = (html.match(/class="ctx-item"/g) ?? []).length;
+    const ctxReserveBottom = 80 + ctxItemCount * (this.isMobileLayout() ? 44 : 28);
+    this.placePopupAt(el, x, y, 170, ctxReserveBottom);
+    this.keepPopupOnScreen(el);
     this.bindContextMenuActions((act) => {
       if (act === 'inspect') this.openInspect(pid);
       else if (act === 'whisper') this.startWhisper(name);
@@ -13358,8 +13464,9 @@ export class Hud {
       html += `<div class="ctx-item" data-act="abandon">${esc(t('hud.pet.abandon'))}</div>`;
     html += `<div class="ctx-item" data-act="close">${esc(t('hud.pet.cancel'))}</div>`;
     el.innerHTML = html;
-    this.placePopupAt(el, x, y, 170, 240);
     el.style.display = 'block';
+    this.placePopupAt(el, x, y, 170, 240);
+    this.keepPopupOnScreen(el);
     el.querySelectorAll('.ctx-item').forEach((item) => {
       item.addEventListener('click', () => {
         const act = (item as HTMLElement).dataset.act;
@@ -13422,8 +13529,9 @@ export class Hud {
       inspectHtml +
       actions.map((a) => `<div class="ctx-item" data-act="${a.id}">${esc(a.label)}</div>`).join('');
     hydratePortraits(el);
-    this.placePopupAt(el, x, y, 170, 240);
     el.style.display = 'block';
+    this.placePopupAt(el, x, y, 170, 240);
+    this.keepPopupOnScreen(el);
     this.bindContextMenuActions((act) => {
       const livePid = this.playerPidByName(name);
       if (act === 'inspect') {

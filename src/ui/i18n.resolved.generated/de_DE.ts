@@ -291,6 +291,7 @@ export const de_DE: EnTranslations = {
       "targetLabel": "Euer Ziel",
       "targetAnnounce": "Ziel: {name}",
       "partyLabel": "Eure Gruppe",
+      "partyChip": "Party",
       "partyGroup": "Gruppe {n}",
       "durationUnitSeconds": "s",
       "durationUnitMinutes": "Min",
@@ -320,7 +321,9 @@ export const de_DE: EnTranslations = {
       "actionPageIndicator": "Seite {page}",
       "targetCycle": "Ziel tauschen",
       "targetCycleShort": "Ziel",
-      "spellbookPageLabel": "Seite {page}"
+      "spellbookPageLabel": "Seite {page}",
+      "hideKeyboard": "Hide keyboard",
+      "chatPlaceholder": "Say something..."
     },
     "tutorial": {
       "moveBodyTouch": "Nutze den Bewegungsstick zum Bewegen und zieh über den Bildschirm, um dich umzusehen. Mach ein paar Schritte, um zu beginnen.",
@@ -1431,6 +1434,7 @@ export const de_DE: EnTranslations = {
     "archetypeTitle": {
       "label": "Titel",
       "none": "Keiner",
+      "hobbyLabel": "Hobby",
       "armorcrafting": "Rüstungsschmied",
       "weaponcrafting": "Waffenschmied",
       "jewelcrafting": "Juwelier",
@@ -1453,7 +1457,10 @@ export const de_DE: EnTranslations = {
       "craftedToast": "Hergestellt: {name}",
       "insufficientMaterials": "Dafür fehlen Ihnen die Materialien.",
       "unknownRecipe": "Dieses Rezept existiert nicht.",
-      "comboRequirementUnmet": "Ihr besitzt nicht beide erforderlichen Berufe auf der nötigen Stufe für dieses Rezept."
+      "comboRequirementUnmet": "Ihr besitzt nicht beide erforderlichen Berufe auf der nötigen Stufe für dieses Rezept.",
+      "notAtHub": "You must be at the crafting hub, at the required level, to craft that.",
+      "throttled": "You are crafting too quickly. Wait a moment and try again.",
+      "recipeNotLearned": "You have not learned that recipe yet."
     }
   },
   "apiError": {

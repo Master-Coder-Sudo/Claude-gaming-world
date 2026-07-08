@@ -291,6 +291,7 @@ export const it_IT: EnTranslations = {
       "targetLabel": "Il tuo bersaglio",
       "targetAnnounce": "Bersaglio: {name}",
       "partyLabel": "Il tuo gruppo",
+      "partyChip": "Party",
       "partyGroup": "Gruppo {n}",
       "durationUnitSeconds": "s",
       "durationUnitMinutes": "m",
@@ -320,7 +321,9 @@ export const it_IT: EnTranslations = {
       "actionPageIndicator": "Pag. {page}",
       "targetCycle": "Scambia bersaglio",
       "targetCycleShort": "Bersaglio",
-      "spellbookPageLabel": "Pagina {page}"
+      "spellbookPageLabel": "Pagina {page}",
+      "hideKeyboard": "Hide keyboard",
+      "chatPlaceholder": "Say something..."
     },
     "tutorial": {
       "moveBodyTouch": "Usa il joystick di movimento per muoverti e trascina lo schermo per guardarti intorno. Fai qualche passo per iniziare.",
@@ -1431,6 +1434,7 @@ export const it_IT: EnTranslations = {
     "archetypeTitle": {
       "label": "Titolo",
       "none": "Nessuno",
+      "hobbyLabel": "Hobby",
       "armorcrafting": "Armaiolo",
       "weaponcrafting": "Fabbro d'armi",
       "jewelcrafting": "Gioielliere",
@@ -1453,7 +1457,10 @@ export const it_IT: EnTranslations = {
       "craftedToast": "Realizzato: {name}",
       "insufficientMaterials": "Non hai i materiali per quello.",
       "unknownRecipe": "Quella ricetta non esiste.",
-      "comboRequirementUnmet": "Non possiedi entrambe le professioni richieste al livello necessario per quella ricetta."
+      "comboRequirementUnmet": "Non possiedi entrambe le professioni richieste al livello necessario per quella ricetta.",
+      "notAtHub": "You must be at the crafting hub, at the required level, to craft that.",
+      "throttled": "You are crafting too quickly. Wait a moment and try again.",
+      "recipeNotLearned": "You have not learned that recipe yet."
     }
   },
   "apiError": {

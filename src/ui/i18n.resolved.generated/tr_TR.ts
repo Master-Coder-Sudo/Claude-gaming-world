@@ -291,6 +291,7 @@ export const tr_TR: EnTranslations = {
       "targetLabel": "Hedefin",
       "targetAnnounce": "{name} hedefini işaretle",
       "partyLabel": "Takımın",
+      "partyChip": "Party",
       "partyGroup": "Grup {n}",
       "durationUnitSeconds": "sn",
       "durationUnitMinutes": "dk",
@@ -320,7 +321,9 @@ export const tr_TR: EnTranslations = {
       "actionPageIndicator": "Sayfa {page}",
       "targetCycle": "Hedefi değiştir",
       "targetCycleShort": "Hedef",
-      "spellbookPageLabel": "Sayfa {page}"
+      "spellbookPageLabel": "Sayfa {page}",
+      "hideKeyboard": "Hide keyboard",
+      "chatPlaceholder": "Say something..."
     },
     "tutorial": {
       "moveBodyTouch": "Hareket etmek için hareket çubuğunu kullan ve etrafa bakmak için ekranı sürükle. Başlamak için birkaç adım at.",
@@ -1431,6 +1434,7 @@ export const tr_TR: EnTranslations = {
     "archetypeTitle": {
       "label": "Unvan",
       "none": "Yok",
+      "hobbyLabel": "Hobby",
       "armorcrafting": "Zırhçı",
       "weaponcrafting": "Silah Ustası",
       "jewelcrafting": "Kuyumcu",
@@ -1453,7 +1457,10 @@ export const tr_TR: EnTranslations = {
       "craftedToast": "Hazırlanma Tarihi: {name}",
       "insufficientMaterials": "Bunun için malzemeleriniz yok.",
       "unknownRecipe": "O tarif mevcut değil.",
-      "comboRequirementUnmet": "O tarif için gereken iki zanaata da gereken kademede sahip değilsin."
+      "comboRequirementUnmet": "O tarif için gereken iki zanaata da gereken kademede sahip değilsin.",
+      "notAtHub": "You must be at the crafting hub, at the required level, to craft that.",
+      "throttled": "You are crafting too quickly. Wait a moment and try again.",
+      "recipeNotLearned": "You have not learned that recipe yet."
     }
   },
   "apiError": {

@@ -291,6 +291,7 @@ export const nl_NL: EnTranslations = {
       "targetLabel": "Je Doelwit",
       "targetAnnounce": "Markeer {name}",
       "partyLabel": "Je Bende",
+      "partyChip": "Party",
       "partyGroup": "Groep {n}",
       "durationUnitSeconds": "s",
       "durationUnitMinutes": "m",
@@ -320,7 +321,9 @@ export const nl_NL: EnTranslations = {
       "actionPageIndicator": "Pag. {page}",
       "targetCycle": "Wissel van doel",
       "targetCycleShort": "Doel",
-      "spellbookPageLabel": "Pagina {page}"
+      "spellbookPageLabel": "Pagina {page}",
+      "hideKeyboard": "Hide keyboard",
+      "chatPlaceholder": "Say something..."
     },
     "tutorial": {
       "moveBodyTouch": "Gebruik de bewegingsstick om te bewegen en sleep over het scherm om rond te kijken. Zet een paar stappen om te beginnen.",
@@ -1431,6 +1434,7 @@ export const nl_NL: EnTranslations = {
     "archetypeTitle": {
       "label": "Titel",
       "none": "Geen",
+      "hobbyLabel": "Hobby",
       "armorcrafting": "Harnasmaker",
       "weaponcrafting": "Wapensmid",
       "jewelcrafting": "Juwelier",
@@ -1453,7 +1457,10 @@ export const nl_NL: EnTranslations = {
       "craftedToast": "Gemaakt: {name}",
       "insufficientMaterials": "Daar heb je de materialen niet voor.",
       "unknownRecipe": "Dat recept bestaat niet.",
-      "comboRequirementUnmet": "Je hebt niet beide vereiste ambachten op het vereiste niveau voor dat recept."
+      "comboRequirementUnmet": "Je hebt niet beide vereiste ambachten op het vereiste niveau voor dat recept.",
+      "notAtHub": "You must be at the crafting hub, at the required level, to craft that.",
+      "throttled": "You are crafting too quickly. Wait a moment and try again.",
+      "recipeNotLearned": "You have not learned that recipe yet."
     }
   },
   "apiError": {

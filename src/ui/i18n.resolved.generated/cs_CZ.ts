@@ -291,6 +291,7 @@ export const cs_CZ: EnTranslations = {
       "targetLabel": "Tvoje značka",
       "targetAnnounce": "Označit {name}",
       "partyLabel": "Tvoje družina",
+      "partyChip": "Party",
       "partyGroup": "Skupina {n}",
       "durationUnitSeconds": "s",
       "durationUnitMinutes": "min",
@@ -320,7 +321,9 @@ export const cs_CZ: EnTranslations = {
       "actionPageIndicator": "{page}",
       "targetCycle": "Přepnout cíl",
       "targetCycleShort": "Cíl",
-      "spellbookPageLabel": "Strana {page}"
+      "spellbookPageLabel": "Strana {page}",
+      "hideKeyboard": "Hide keyboard",
+      "chatPlaceholder": "Say something..."
     },
     "tutorial": {
       "moveBodyTouch": "Pohybuj se páčkou pohybu a tažením po obrazovce se rozhlížej. Udělej pár kroků a začni.",
@@ -1431,6 +1434,7 @@ export const cs_CZ: EnTranslations = {
     "archetypeTitle": {
       "label": "Titul",
       "none": "Žádný",
+      "hobbyLabel": "Hobby",
       "armorcrafting": "Zbrojíř",
       "weaponcrafting": "Kovář zbraní",
       "jewelcrafting": "Klenotník",
@@ -1453,7 +1457,10 @@ export const cs_CZ: EnTranslations = {
       "craftedToast": "Vyrobeno: {name}",
       "insufficientMaterials": "Na to nemáš materiály.",
       "unknownRecipe": "Tento recept neexistuje.",
-      "comboRequirementUnmet": "Nemáš obě požadovaná řemesla na potřebné úrovni pro tento recept."
+      "comboRequirementUnmet": "Nemáš obě požadovaná řemesla na potřebné úrovni pro tento recept.",
+      "notAtHub": "You must be at the crafting hub, at the required level, to craft that.",
+      "throttled": "You are crafting too quickly. Wait a moment and try again.",
+      "recipeNotLearned": "You have not learned that recipe yet."
     }
   },
   "apiError": {
