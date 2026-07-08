@@ -624,6 +624,7 @@ export const en_XA: EnTranslations = {
         "jitter": "[Ĵíţţéŕ]",
         "predLead": "[Þŕéðíçţíóñ Ļéáð]",
         "snapshot": "[Šñáþšĥóţ Ŕáţé]",
+        "serverTick": "[Šéŕʋéŕ Ţíçķ Ŕáţé]",
         "connection": "[Çóññéçţíóñ]",
         "drawCalls": "[Ðŕáŵ Çáļļš]",
         "triangles": "[Ţŕíáñĝļéš]",
@@ -919,6 +920,15 @@ export const en_XA: EnTranslations = {
         "horn": "[Ĥóŕñ]",
         "tusk": "[Ţúšķ]"
       }
+    },
+    "townFocus": {
+      "title": "[Ţóŵñ Ƒóçúš]",
+      "hint": "[Ƒóçúš þóíñţš áðð á ƀóñúš óñ ţóþ óƒ éʋéŕý çóɱþóñéñţ'š ƀášéļíñé ýíéļð. Úñƒóçúšéð çóɱþóñéñţš šţáý áţ ƀášéļíñé.]",
+      "budgetLabel": "[Þóíñţš ŕéɱáíñíñĝ: {remaining} / {budget}]",
+      "saveButton": "[Šáʋé Ƒóçúš]",
+      "notInTownHint": "[Ýóú ɱúšţ ƀé íñ ţóŵñ ţó šéţ ýóúŕ ƒóçúš.]",
+      "increaseAria": "[Íñçŕéášé ƒóçúš óñ {component}]",
+      "decreaseAria": "[Ðéçŕéášé ƒóçúš óñ {component}]"
     },
     "party": {
       "promoteLeader": "[Þŕóɱóţé ţó Ļéáðéŕ]",
@@ -6157,6 +6167,24 @@ export const en_XA: EnTranslations = {
       },
       "sunpetal_sickle": {
         "name": "[Šúñþéţáļ Šíçķļé]"
+      },
+      "thorium_ore": {
+        "name": "[Ţĥóŕíúɱ Óŕé]"
+      },
+      "arcanite_bar": {
+        "name": "[Áŕçáñíţé Ɓáŕ]"
+      },
+      "ashwood_log": {
+        "name": "[Ášĥŵóóð Ļóĝ]"
+      },
+      "elderwood_log": {
+        "name": "[Éļðéŕŵóóð Ļóĝ]"
+      },
+      "goldleaf_herb": {
+        "name": "[Ĝóļðļéáƒ Ĥéŕƀ]"
+      },
+      "sunpetal_herb": {
+        "name": "[Šúñþéţáļ Ĥéŕƀ]"
       },
       "bristleback_maul": {
         "name": "[Ĝáļļóŵĝļášš Ĥáɱɱéŕ]"

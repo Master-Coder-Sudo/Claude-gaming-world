@@ -400,7 +400,7 @@ export const ja_JP: EnTranslations = {
     },
     "vcup": {
       "title": "ヴェイルカップ",
-      "shootPower": "POWER",
+      "shootPower": "パワー",
       "close": "ヴェイルカップウィンドウを閉じる",
       "offlineNote": "対戦簿は閉じられている。ヴェイルカップは現在利用できない。",
       "recordLine": "戦績:{wins} 勝 {losses} 敗 {draws} 分。",
@@ -458,7 +458,7 @@ export const ja_JP: EnTranslations = {
       "guildRecordLine": "ギルド成績：{wins} 勝 {losses} 敗。",
       "guildBoardHeading": "ギルド旗",
       "guildBoardEmpty": "まだ参加したギルドはない。旗を掲げよう！",
-      "guildBoardWl": "{wins} W, {losses} L",
+      "guildBoardWl": "{wins} 勝 {losses} 敗",
       "practice": "ボット練習試合",
       "practiceNote": "ソウフィールドでボットとのフル試合をすぐに始める。",
       "practicingNow": "練習中（{count}）：",
@@ -624,6 +624,7 @@ export const ja_JP: EnTranslations = {
         "jitter": "ジッター",
         "predLead": "予測リード",
         "snapshot": "スナップショットレート",
+        "serverTick": "サーバーティックレート",
         "connection": "接続",
         "drawCalls": "ドローコール",
         "triangles": "三角形",
@@ -919,6 +920,15 @@ export const ja_JP: EnTranslations = {
         "horn": "角",
         "tusk": "牙"
       }
+    },
+    "townFocus": {
+      "title": "町のフォーカス",
+      "hint": "フォーカスポイントは各素材の基本産出量にボーナスを加算します。フォーカスしていない素材は基本産出量のままです。",
+      "budgetLabel": "残りポイント：{remaining} / {budget}",
+      "saveButton": "フォーカスを保存",
+      "notInTownHint": "フォーカスを設定するには町にいる必要があります。",
+      "increaseAria": "{component}へのフォーカスを増やす",
+      "decreaseAria": "{component}へのフォーカスを減らす"
     },
     "party": {
       "promoteLeader": "パーティリーダーに指定",
@@ -6157,6 +6167,24 @@ export const ja_JP: EnTranslations = {
       },
       "sunpetal_sickle": {
         "name": "陽花弁の鎌"
+      },
+      "thorium_ore": {
+        "name": "トリウム鉱石"
+      },
+      "arcanite_bar": {
+        "name": "アーケナイトの延べ棒"
+      },
+      "ashwood_log": {
+        "name": "アッシュウッドの丸太"
+      },
+      "elderwood_log": {
+        "name": "エルダーウッドの丸太"
+      },
+      "goldleaf_herb": {
+        "name": "ゴールドリーフ草"
+      },
+      "sunpetal_herb": {
+        "name": "サンペタル草"
       },
       "bristleback_maul": {
         "name": "ギャロウグラスの大槌"

@@ -400,7 +400,7 @@ export const zh_TW: EnTranslations = {
     },
     "vcup": {
       "title": "溪谷盃",
-      "shootPower": "POWER",
+      "shootPower": "力道",
       "close": "關閉溪谷盃視窗",
       "offlineNote": "賽程簿已闔上。溪谷盃目前無法使用。",
       "recordLine": "你的戰績：{wins} 勝，{losses} 敗，{draws} 平。",
@@ -458,7 +458,7 @@ export const zh_TW: EnTranslations = {
       "guildRecordLine": "你的公會戰績：{wins} 勝，{losses} 敗。",
       "guildBoardHeading": "公會旗幟榜",
       "guildBoardEmpty": "還沒有公會上場。揚起你的旗幟吧！",
-      "guildBoardWl": "{wins} W, {losses} L",
+      "guildBoardWl": "{wins} 勝，{losses} 敗",
       "practice": "與機器人練習賽",
       "practiceNote": "立即在母豬場開始一場完整的機器人比賽。",
       "practicingNow": "正在練習（{count}）：",
@@ -624,6 +624,7 @@ export const zh_TW: EnTranslations = {
         "jitter": "抖動",
         "predLead": "預測提前量",
         "snapshot": "快照速率",
+        "serverTick": "伺服器刻率",
         "connection": "連線",
         "drawCalls": "繪製呼叫",
         "triangles": "三角形",
@@ -919,6 +920,15 @@ export const zh_TW: EnTranslations = {
         "horn": "角",
         "tusk": "獠牙"
       }
+    },
+    "townFocus": {
+      "title": "城鎮專注",
+      "hint": "專注點會在每種材料的基礎產出上疊加加成。未專注的材料保持基礎產出不變。",
+      "budgetLabel": "剩餘點數：{remaining} / {budget}",
+      "saveButton": "儲存專注",
+      "notInTownHint": "你必須在城鎮中才能設定專注。",
+      "increaseAria": "增加對{component}的專注",
+      "decreaseAria": "減少對{component}的專注"
     },
     "party": {
       "promoteLeader": "提升為隊長",
@@ -6157,6 +6167,24 @@ export const zh_TW: EnTranslations = {
       },
       "sunpetal_sickle": {
         "name": "陽瓣鐮刀"
+      },
+      "thorium_ore": {
+        "name": "瑟銀礦石"
+      },
+      "arcanite_bar": {
+        "name": "秘銀錠"
+      },
+      "ashwood_log": {
+        "name": "灰木原木"
+      },
+      "elderwood_log": {
+        "name": "古老接骨木原木"
+      },
+      "goldleaf_herb": {
+        "name": "金葉草"
+      },
+      "sunpetal_herb": {
+        "name": "陽瓣草"
       },
       "bristleback_maul": {
         "name": "加洛格拉斯戰錘"

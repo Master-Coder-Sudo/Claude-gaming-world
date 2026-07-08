@@ -747,7 +747,8 @@ export class MobileControls {
     const floatDx = e.clientX - restCenterX;
     const floatDy = e.clientY - restCenterY;
     const floatDist = Math.hypot(floatDx, floatDy);
-    const floatScale = floatDist > MOVE_JOYSTICK_FLOAT_RADIUS ? MOVE_JOYSTICK_FLOAT_RADIUS / floatDist : 1;
+    const floatScale =
+      floatDist > MOVE_JOYSTICK_FLOAT_RADIUS ? MOVE_JOYSTICK_FLOAT_RADIUS / floatDist : 1;
     const drawnCenterX = restCenterX + floatDx * floatScale;
     const drawnCenterY = restCenterY + floatDy * floatScale;
     this.moveJoystick.style.left = `${(drawnCenterX - layoutRadius).toFixed(1)}px`;

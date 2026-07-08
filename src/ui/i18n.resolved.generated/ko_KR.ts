@@ -400,7 +400,7 @@ export const ko_KR: EnTranslations = {
     },
     "vcup": {
       "title": "베일 컵",
-      "shootPower": "POWER",
+      "shootPower": "파워",
       "close": "베일 컵 창 닫기",
       "offlineNote": "대진표가 닫혀 있습니다. 지금은 베일 컵을 이용할 수 없습니다.",
       "recordLine": "전적: {wins}승 {losses}패 {draws}무.",
@@ -458,7 +458,7 @@ export const ko_KR: EnTranslations = {
       "guildRecordLine": "길드 전적: {wins}승 {losses}패.",
       "guildBoardHeading": "길드 깃발",
       "guildBoardEmpty": "아직 출전한 길드가 없습니다. 깃발을 올리세요!",
-      "guildBoardWl": "{wins} W, {losses} L",
+      "guildBoardWl": "{wins}승 {losses}패",
       "practice": "봇 연습 경기",
       "practiceNote": "소우필드에서 봇과의 정식 경기를 즉시 시작합니다.",
       "practicingNow": "연습 중 ({count}):",
@@ -624,6 +624,7 @@ export const ko_KR: EnTranslations = {
         "jitter": "지터",
         "predLead": "예측 리드",
         "snapshot": "스냅샷 전송률",
+        "serverTick": "서버 틱 속도",
         "connection": "연결",
         "drawCalls": "드로우 콜",
         "triangles": "삼각형",
@@ -919,6 +920,15 @@ export const ko_KR: EnTranslations = {
         "horn": "뿔",
         "tusk": "엄니"
       }
+    },
+    "townFocus": {
+      "title": "마을 집중",
+      "hint": "집중 포인트는 각 재료의 기본 산출량에 보너스를 더합니다. 집중하지 않은 재료는 기본 산출량 그대로 유지됩니다.",
+      "budgetLabel": "남은 포인트: {remaining} / {budget}",
+      "saveButton": "집중 저장",
+      "notInTownHint": "집중을 설정하려면 마을에 있어야 합니다.",
+      "increaseAria": "{component}에 대한 집중 증가",
+      "decreaseAria": "{component}에 대한 집중 감소"
     },
     "party": {
       "promoteLeader": "파티장으로 지정",
@@ -6157,6 +6167,24 @@ export const ko_KR: EnTranslations = {
       },
       "sunpetal_sickle": {
         "name": "태양꽃잎 낫"
+      },
+      "thorium_ore": {
+        "name": "토륨 광석"
+      },
+      "arcanite_bar": {
+        "name": "비전 주괴"
+      },
+      "ashwood_log": {
+        "name": "잿빛나무 통나무"
+      },
+      "elderwood_log": {
+        "name": "고대 딱총나무 통나무"
+      },
+      "goldleaf_herb": {
+        "name": "금빛잎 약초"
+      },
+      "sunpetal_herb": {
+        "name": "태양꽃잎 약초"
       },
       "bristleback_maul": {
         "name": "갤로글래스 망치"

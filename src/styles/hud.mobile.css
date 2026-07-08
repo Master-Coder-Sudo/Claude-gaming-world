@@ -1989,7 +1989,8 @@
   body.mobile-touch #valecup-window,
   body.mobile-touch #delve-board,
   body.mobile-touch #leaderboard-window,
-  body.mobile-touch #loot-settings-window {
+  body.mobile-touch #loot-settings-window,
+  body.mobile-touch #town-focus-window {
     left: 10px;
     right: 10px;
     top: 10px;
