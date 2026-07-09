@@ -191,6 +191,7 @@ const UI_PURE_CORES = [
   'src/ui/window_frame_view.ts',
   'src/game/ui_effects_profile.ts',
   'src/game/ui_tier_knobs.ts',
+  'src/game/menu_gamepad_nav.ts',
 ].map((rel) => join(repoRoot, rel));
 
 // Pure logic cores that live in src/render (the painter half is Three-side):
@@ -242,6 +243,7 @@ const BARE_NAMED = [
   'src/ui/mobile_hud_layout.ts',
   'src/game/ui_effects_profile.ts',
   'src/game/ui_tier_knobs.ts',
+  'src/game/menu_gamepad_nav.ts',
   'src/render/cast_bar.ts',
 ].map((rel) => join(repoRoot, rel));
 
