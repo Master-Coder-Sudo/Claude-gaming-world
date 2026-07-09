@@ -3995,6 +3995,28 @@
     width: 100%;
     min-width: 0;
     box-sizing: border-box;
+    background: #0b0d10;
+    color: var(--color-text-light);
+    border: 1px solid #2e3239;
+    border-radius: 4px;
+    padding: 4px 6px;
+    font-family: var(--ui-font);
+    font-size: 12px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%237b8da0'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    padding-right: 22px;
+  }
+  .party-loot select:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+    border-color: var(--color-accent);
+  }
+  .party-loot select:hover {
+    border-color: #4a5568;
   }
   .party-loot input[type="checkbox"] {
     width: 16px;
@@ -4046,6 +4068,28 @@
   #loot-settings-window select {
     width: 100%;
     box-sizing: border-box;
+    background: #0b0d10;
+    color: var(--color-text-light);
+    border: 1px solid #2e3239;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-family: var(--ui-font);
+    font-size: 12px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%237b8da0'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 24px;
+  }
+  #loot-settings-window select:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+    border-color: var(--color-accent);
+  }
+  #loot-settings-window select:hover {
+    border-color: #4a5568;
   }
   .party-frame .pfm-id {
     color: var(--cls);
