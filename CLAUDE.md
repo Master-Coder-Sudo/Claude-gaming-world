@@ -1,3 +1,9 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+---
+
 <!-- World of ClaudeCraft, project-root CLAUDE.md. Keep this lean (about 200 lines)
      and strictly repo-wide. Area-specific guidance lives in each subdirectory's own
      CLAUDE.md (src/sim/, src/render/, server/, ...), which load on demand when you
@@ -5,7 +11,17 @@
      symbols, and pinned tests, never on counts that rot. HTML comments like this are
      stripped before load (zero tokens). No em dashes, en dashes, or emojis. -->
 
-# World of ClaudeCraft
+# World of ClaudeCraft (fork)
+
+> **Forked from [levy-street/world-of-claudecraft](https://github.com/levy-street/world-of-claudecraft)**
+> to [Master-Coder-Sudo/Claude-gaming-world](https://github.com/Master-Coder-Sudo/Claude-gaming-world).
+>
+> - **Upstream remote:** `https://github.com/levy-street/world-of-claudecraft.git`
+> - **Origin remote:** `https://github.com/Master-Coder-Sudo/Claude-gaming-world.git`
+> - **Primary development branch:** `develop` (iterative daily work; merge upstream `main` into `develop` periodically)
+> - **Sync upstream:** `git fetch upstream && git merge upstream/main`
+>
+> All architecture, invariants, and conventions below are inherited from upstream unless explicitly overridden.
 
 A classic-style micro-MMO **and** a headless reinforcement-learning
 environment, both driven by one deterministic TypeScript simulation core.
