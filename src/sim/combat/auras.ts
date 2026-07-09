@@ -83,7 +83,12 @@ export function updateRegen(ctx: SimContext, p: Entity, _meta: PlayerMeta): void
   } else if (p.resourceType === 'rage' && !p.inCombat) {
     p.resource = Math.max(0, p.resource - 2);
   }
-  if (!p.inCombat && p.hp < p.maxHp && !p.eating) {
+  // Natural HP regen always applies out of combat, even while eating: food STACKS on
+  // top of it (the eat/drink slot tick below), exactly as natural mana regen already
+  // stacks with drinking. Gating this behind !p.eating made eating REPLACE natural
+  // regen, so once stamina-based regen out-paced a tier-1 food's per-tick heal, sitting
+  // to eat healed slower than standing idle (#1608, #1326).
+  if (!p.inCombat && p.hp < p.maxHp) {
     const regen = p.stats.sta * 0.3 + 2;
     p.hp = Math.min(p.maxHp, p.hp + Math.round(regen));
   }

@@ -18,7 +18,7 @@ import { createMob } from '../src/sim/entity';
 import type { PlayerMeta } from '../src/sim/sim';
 import { Sim } from '../src/sim/sim';
 import type { Aura, Entity } from '../src/sim/types';
-import { DT } from '../src/sim/types';
+import { CONSUME_TICKS, DT } from '../src/sim/types';
 
 type AnyEntity = Entity & Record<string, any>;
 type AnySim = Sim & Record<string, any>;
@@ -161,6 +161,53 @@ describe('auras: updateRegen', () => {
     updateRegen(sim.ctx, p, meta);
     expect(p.hp).toBe(hp0);
     expect(p.eating?.remaining).toBe(6); // untouched
+  });
+
+  it('eating recovers HP strictly faster than natural regen: food STACKS, not replaces (#1608/#1326)', () => {
+    // Regression pin for the eat-vs-idle crossover. Before the fix, natural HP regen was
+    // gated behind !p.eating, so eating REPLACED it: once stamina-based regen out-paced a
+    // tier-1 food's per-tick heal, sitting to eat healed slower than standing idle. The fix
+    // lets natural regen always run out of combat and adds the food ON TOP (matching how
+    // natural mana regen already stacks with drinking). We drive updateRegen directly on the
+    // 40-tick (2s) boundary for the CONSUME_TICKS-long window, isolating regen from any
+    // incidental world aggro a full tick() loop could introduce.
+    const FOOD_ID = 'baked_bread'; // real tier-1 vendor food (foodHp 61 -> ~7 hp / 2s tick)
+
+    // Natural regen only (no eating) over the window. Level 20 gives a large HP pool so the
+    // nine regen ticks never cap out (which would flatten the comparison).
+    const simN = makeSim();
+    simN.setPlayerLevel(20);
+    const pN = simN.player as AnyEntity;
+    const metaN = simN.players.get(pN.id) as PlayerMeta;
+    pN.inCombat = false;
+    pN.hp = Math.floor(pN.maxHp / 2);
+    const naturalBefore = pN.hp;
+    for (let i = 1; i <= CONSUME_TICKS; i++) {
+      simN.tickCount = 40 * i; // land on the 2s regen boundary each step
+      updateRegen(simN.ctx, pN, metaN);
+    }
+    const naturalGain = pN.hp - naturalBefore;
+
+    // Eating a real tier-1 food over the same window, via the real useItem path.
+    const simE = makeSim();
+    simE.setPlayerLevel(20);
+    const pE = simE.player as AnyEntity;
+    const metaE = simE.players.get(pE.id) as PlayerMeta;
+    pE.inCombat = false;
+    simE.addItem(FOOD_ID, 1);
+    simE.useItem(FOOD_ID); // sets p.eating with hpPer2s = round(foodHp / CONSUME_TICKS)
+    expect(pE.eating).toBeTruthy();
+    pE.hp = Math.floor(pE.maxHp / 2);
+    const eatingBefore = pE.hp;
+    for (let i = 1; i <= CONSUME_TICKS; i++) {
+      simE.tickCount = 40 * i;
+      updateRegen(simE.ctx, pE, metaE);
+    }
+    const eatingGain = pE.hp - eatingBefore;
+
+    // Same class/level/seed -> identical natural regen; eating must beat idling by the
+    // food's contribution. Strictly faster is the whole point of #1608.
+    expect(eatingGain).toBeGreaterThan(naturalGain);
   });
 });
 

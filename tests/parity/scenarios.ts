@@ -2939,7 +2939,13 @@ function c3AuraRunner(): Scenario {
       p.inCombat = false;
       p.combatTimer = 99;
       p.fiveSecondRule = 99;
-      p.hp = Math.max(1, p.maxHp - 600);
+      // Half health, not a near-full 600 deficit: the buff_ap-expiry recalc below preserves
+      // the hp FRACTION, so on the beef'd 50k pool a small absolute deficit collapses to a
+      // ~10hp gap once maxHp drops back to the real ~800. Natural HP regen now always runs out
+      // of combat (food STACKS on top, #1608/#1326), so a tiny gap would be filled by natural
+      // regen before the food tick and the 'heal' emit would never fire. Half health keeps a
+      // real gap through the recalc so BOTH the out-of-combat regen and the food 'heal' path fire.
+      p.hp = Math.round(p.maxHp * 0.5);
       p.resource = Math.max(0, p.maxResource - 300);
       p.eating = { itemId: 'parity_food', kind: 'food', hpPer2s: 90, manaPer2s: 0, remaining: 6 };
       p.drinking = {
