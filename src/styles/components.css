@@ -3011,6 +3011,20 @@
     outline: 0;
     box-shadow: none;
   }
+  /* State-driven visibility for the floating copper vendor. The painter never
+     writes an inline display on open (a baked value goes stale when
+     body.mobile-touch flips mid-session: Interface Mode, foldable rotation), so
+     the OPEN state (body.vendor-open, set by hud.openVendor) shows the window
+     here as the flex column the frame grammar bounds (titlebar/footer pinned,
+     body scrolls). On the touch HUD the 50/50 dock
+     (body.mobile-touch.vendor-open #vendor-window, hud.mobile.css) overrides
+     this to display:block by layer order, so a platform flip re-resolves the
+     display live with no re-render. closeVendor's inline display:none beats
+     both while closed, and the heroic tenant wipes the frame, so :has never
+     matches it (tenant isolation preserved). */
+  body.vendor-open #vendor-window:has(> .window-frame) {
+    display: flex;
+  }
   #vendor-window > .window-frame .window-titlebar {
     position: sticky;
     top: 0;
@@ -7812,15 +7826,19 @@
     color: var(--color-text-light);
   }
   /* Move / resize / viewport-fit parity with the World Market for every
-     grammar-built window: the host .window (shown by its consumer with
-     display:flex, the Market precedent) becomes a clipping flex column, and the
-     frame fills it as the height-bounded flex column. Its .window-body (flex:1,
-     min-height:0, overflow-y:auto) then scrolls internally between the pinned
-     titlebar and footer, so the window fits the viewport (the shared .window
-     max-height in layout.css) with no double scrollbar and never overflows. The
-     rules are inert until the host is a flex column (display:none/block hidden or
-     legacy windows fall through unchanged), so they only bind a frame-hosting
-     window that opts in. */
+     grammar-built window: the host .window (shown as display:flex, the Market
+     precedent) becomes a clipping flex column, and the frame fills it as the
+     height-bounded flex column. Its .window-body (flex:1, min-height:0,
+     overflow-y:auto) then scrolls internally between the pinned titlebar and
+     footer, so the window fits the viewport (the shared .window max-height in
+     layout.css) with no double scrollbar and never overflows. Scope note:
+     flex-direction only binds a flex host, but overflow:hidden binds ANY
+     frame-hosting window regardless of display (load-bearing: the clip is what
+     prevents an outer scrollbar), so a window that mounts a frame must either
+     be shown as a flex column (the vendor: the body.vendor-open display rule in
+     its section) or override the overflow itself (the touch dock re-asserts
+     overflow-y:auto in the hud-mobile layer). Windows without a mounted frame
+     are untouched. */
   .window:has(> .window-frame) {
     flex-direction: column;
     overflow: hidden;

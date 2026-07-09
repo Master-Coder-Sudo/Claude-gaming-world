@@ -77,9 +77,10 @@ describe('renderVendorWindow: frame adoption', () => {
     expect(frame?.querySelector('.window-body')).not.toBeNull();
     expect(frame?.querySelector('.window-footer')).not.toBeNull();
     expect(frame?.querySelector('[data-window-close]')).not.toBeNull();
-    // Shown as a flex column (the Market precedent) so the shared grammar can
-    // bound the inner frame and scroll the body internally.
-    expect(el.style.display).toBe('flex');
+    // The painter leaves the display to the stylesheet (body.vendor-open +
+    // :has(> .window-frame) in components.css): no inline value, so the desktop
+    // flex / touch-dock block resolution can react live to body.mobile-touch.
+    expect(el.style.display).toBe('');
   });
 
   it('sets the title to the merchant name (the frame builder cannot interpolate it)', () => {
@@ -128,20 +129,43 @@ describe('renderVendorWindow: move / resize / fit parity with the World Market',
     expect(frame?.querySelectorAll('.window-body').length).toBe(1);
   });
 
-  it('opens display:flex on desktop but display:block on the touch dock (both visible, never none)', () => {
-    // Desktop: flex, so the shared grammar can bound the inner frame.
+  it('never bakes an inline display, so the stylesheet tracks body.mobile-touch flips live', () => {
+    // A baked inline value (flex or block) goes stale when body.mobile-touch
+    // flips while the vendor is open (Interface Mode / rotation): nothing
+    // re-renders on that flip. The painter must leave NO inline display on any
+    // platform; the CSS (body.vendor-open #vendor-window:has(> .window-frame)
+    // desktop flex, the hud-mobile dock's display:block override) then
+    // re-resolves on the flip with no re-render. Also: clearing means the
+    // language-switch guard (inline display !== 'none') fires while open.
     const desktop = vendorEl();
+    // Simulate a reopen: closeVendor left inline display:none behind.
+    desktop.style.display = 'none';
     renderVendorWindow(desktop, 'V', { goods: [], buyback: [] }, fakeDeps());
-    expect(desktop.style.display).toBe('flex');
-    expect(desktop.style.display).not.toBe('none');
-    // Touch HUD: block, so the inline value matches the 50/50 dock CSS
-    // (body.mobile-touch.vendor-open) instead of overriding it. Still !== 'none',
-    // so the language-switch re-render guard fires either way.
+    expect(desktop.style.display).toBe('');
     document.body.classList.add('mobile-touch');
     const mobile = vendorEl();
+    mobile.style.display = 'none';
     renderVendorWindow(mobile, 'V', { goods: [], buyback: [] }, fakeDeps());
-    expect(mobile.style.display).toBe('block');
-    expect(mobile.style.display).not.toBe('none');
+    expect(mobile.style.display).toBe('');
+    // The flip itself changes nothing inline in either direction: display stays
+    // stylesheet-owned.
+    document.body.classList.remove('mobile-touch');
+    expect(mobile.style.display).toBe('');
+    expect(desktop.style.display).toBe('');
+  });
+
+  it('refuses the titlebar drag on the touch HUD (the 50/50 dock must never be dragged apart)', () => {
+    // On body.mobile-touch the vendor/bags pair is CSS-docked (position:fixed
+    // 50/50, hud.mobile.css); a drag would bake an inline position + windowMoved
+    // that beats the dock for the rest of the session. The predicate must refuse
+    // every handle under mobile-touch, and recognize them again without it.
+    const el = vendorEl();
+    renderVendorWindow(el, 'V', { goods: [], buyback: [] }, fakeDeps());
+    const titlebar = el.querySelector<HTMLElement>('.window-titlebar') as HTMLElement;
+    document.body.classList.add('mobile-touch');
+    expect(isWindowDragHandle(titlebar, el)).toBe(false);
+    document.body.classList.remove('mobile-touch');
+    expect(isWindowDragHandle(titlebar, el)).toBe(true);
   });
 });
 
@@ -166,8 +190,11 @@ describe('renderVendorWindow: shared-root handoff to the heroic vendor', () => {
 
     // Even while OPEN the root carries no builder class/attributes: this also
     // covers the direct copper-to-heroic handoff, which never closes the vendor.
+    // A fresh first open no longer even creates a style attribute (the painter
+    // only REMOVES a stale inline display; the stylesheet owns the value), so
+    // the attribute set is exactly the pristine one.
     expect(el.className).toBe('window panel');
-    expect(el.getAttributeNames().sort()).toEqual([...pristineAttrs, 'style'].sort());
+    expect(el.getAttributeNames().sort()).toEqual(pristineAttrs);
 
     // Teardown: Hud's closeVendor only hides the window.
     el.style.display = 'none';

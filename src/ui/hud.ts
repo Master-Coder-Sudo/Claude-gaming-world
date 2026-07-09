@@ -1966,11 +1966,16 @@ export class Hud {
       el.id === 'confirm-dialog'
     )
       return;
+    // The vendor floats and cascades like the World Market, but its auto-opened
+    // bags companion must NOT be pinned: the cascade would bake an inline left/top
+    // onto #bags that outlives the pairing and beats the bank's later
+    // body.bank-open dock (inline wins over any layered rule), breaking the common
+    // vendor-then-bank hub flow.
+    if (document.body.classList.contains('vendor-open') && el.id === 'bags') return;
     // The bank docks its bags companion side by side (a fixed cluster driven by
     // body.bank-open, mobile-paired 50/50); baking a cascade-offset inline position
     // onto either half would defeat that layout (the inline inset beats the docking
-    // CSS), so skip the cascade for the bank cluster. The vendor no longer docks: it
-    // floats like the World Market, so vendor + bags take the normal cascade below.
+    // CSS), so skip the cascade for the bank cluster.
     if (
       document.body.classList.contains('bank-open') &&
       (el.id === 'bank-window' || el.id === 'bags')
@@ -11191,6 +11196,13 @@ export class Hud {
     this.openVendorNpcId = npcId;
     document.body.classList.add('vendor-open');
     this.renderVendor();
+    // The painter no longer writes an inline display on open (the stylesheet owns
+    // it, keyed on body.vendor-open, so the value tracks body.mobile-touch flips
+    // live). A FIRST open therefore produces no style mutation for the window
+    // observer to see (a REopen still does: the painter clears close's inline
+    // 'none'), so run the open-state sync (cascade, z-order, mobile-window-open)
+    // directly; it is idempotent when the observer also fires.
+    this.syncWindowOpenState($('#vendor-window'));
     this.renderBags();
     $('#bags').style.display = 'flex';
   }

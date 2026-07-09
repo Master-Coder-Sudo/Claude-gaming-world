@@ -23,11 +23,20 @@ const DRAG_HANDLE_SELECTOR = '.panel-title, .window-titlebar';
 /**
  * True when a pointerdown on `target` should begin dragging `win`.
  *
- * Returns false for any excluded interactive control (so the close button never
- * drags), true when the target is within a `.panel-title` / `.window-titlebar`
- * that belongs to `win`, and true for the headerless #map-window body.
+ * Returns false on the touch HUD (body.mobile-touch): every mobile window is
+ * full-screen, edge-pinned, or docked by CSS (the vendor/bags 50/50 dock, the
+ * bank pairing, the inset sheets in src/styles/hud.mobile.css), and a drag would
+ * bake an inline position + windowMoved that beats those layouts for the rest of
+ * the session; this is the same disease placeNewWindow's mobile bail guards
+ * against (hud.ts, issue 1577), applied to the drag write.
+ *
+ * Otherwise returns false for any excluded interactive control (so the close
+ * button never drags), true when the target is within a `.panel-title` /
+ * `.window-titlebar` that belongs to `win`, and true for the headerless
+ * #map-window body.
  */
 export function isWindowDragHandle(target: HTMLElement, win: HTMLElement): boolean {
+  if (target.ownerDocument.body.classList.contains('mobile-touch')) return false;
   if (target.closest(DRAG_HANDLE_EXCLUDE)) return false;
   const handle = target.closest(DRAG_HANDLE_SELECTOR);
   if (handle && win.contains(handle)) return true;

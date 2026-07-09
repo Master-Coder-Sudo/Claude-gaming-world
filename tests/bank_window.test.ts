@@ -554,6 +554,19 @@ describe('bank_window: mobile pairing (hud.mobile.css)', () => {
     );
   });
 
+  it('never cascade-pins the bags companion on vendor open (vendor-then-bank dock intact)', () => {
+    // openVendor auto-opens #bags; the vendor itself floats and cascades like the
+    // Market, but if placeNewWindow also cascades the COMPANION it bakes an inline
+    // left/top onto #bags that survives closeVendor (nothing on the bank path
+    // clears it) and beats the bank's body.bank-open dock rule (inline wins over
+    // any layered rule), so the common hub flow vendor-then-bank leaves #bags
+    // detached from the bank pairing. The bags half must stay exempt while
+    // vendor-open, exactly as the bank cluster arm below it.
+    expect(hud).toMatch(
+      /classList\.contains\('vendor-open'\)\s*&&\s*el\.id === 'bags'\)\s*return;/,
+    );
+  });
+
   it('keeps the bank-cluster chips one scrollable row (no two-row wrap eating the grid)', () => {
     // At 360px-tall landscape phones a wrapped chip row squeezes the paired grid to a
     // sub-row sliver; the cluster-scoped rule keeps ONE horizontally scrollable row

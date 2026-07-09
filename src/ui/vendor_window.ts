@@ -229,14 +229,19 @@ export function renderVendorWindow(
     footer.appendChild(sellJunkButton(deps));
   }
 
-  // Desktop floats as a bounded flex column (the World Market precedent): the
-  // shared grammar (.window:has(> .window-frame) in components.css) then bounds the
-  // inner frame so the body scrolls internally while the titlebar/footer stay
-  // pinned. On the touch HUD the vendor docks 50/50 beside bags
-  // (body.mobile-touch.vendor-open in hud.mobile.css), which expects a block scroll
-  // container with sticky chrome; keep display:block there so the inline value never
-  // overrides the dock. Either value is a visible one (never 'none'), so the
-  // language-switch re-render guard (display !== 'none') still fires.
-  el.style.display = document.body.classList.contains('mobile-touch') ? 'block' : 'flex';
+  // State-driven display, never a baked inline value: body.mobile-touch can flip
+  // while the vendor is open (Interface Mode in Options opens WITHOUT closing the
+  // vendor; foldable/tablet rotation crosses the touch media query), and an inline
+  // display would go stale because nothing re-renders on that flip. The painter
+  // only CLEARS the stale inline 'none' a close left behind; the stylesheet owns
+  // the value: body.vendor-open #vendor-window:has(> .window-frame) shows the
+  // desktop float as a flex column (components.css, so the grammar bounds the
+  // frame and the body scrolls internally), and the touch dock overrides it to
+  // display:block (body.mobile-touch.vendor-open, hud.mobile.css, which outranks
+  // components by layer order), reacting live to platform flips. closeVendor's
+  // inline display:none still wins over both while closed, and the heroic tenant
+  // has no mounted frame, so the rule never matches it (the shared-root pristine
+  // invariant holds: the style attribute stays the painter's only root touch).
+  el.style.removeProperty('display');
   el.scrollTop = scrollTop;
 }

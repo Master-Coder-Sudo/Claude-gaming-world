@@ -528,10 +528,11 @@ describe('client HTML shell', () => {
   });
 
   it('re-renders the open vendor on a language switch regardless of its display value', () => {
-    // The vendor root opens display:flex on desktop (bounded frame) and display:block
-    // on the touch dock, so the language-switch re-render must gate on visibility
-    // (display !== 'none'), never a literal === 'block', or a live switch leaves the
-    // open copper/heroic vendor text stale until reopen (the regression this pins).
+    // The open vendor root carries NO inline display (stylesheet-owned: flex on
+    // desktop, the touch dock's block on mobile), so the language-switch re-render
+    // must gate on visibility (display !== 'none'), never a literal === 'block',
+    // or a live switch leaves the open copper/heroic vendor text stale until
+    // reopen (the regression this pins).
     const refresh = hudTs.slice(hudTs.indexOf('private refreshLocalizedDynamicUi(): void {'));
     const body = refresh.slice(0, refresh.indexOf('\n  }'));
     expect(body).toContain(
@@ -541,6 +542,34 @@ describe('client HTML shell', () => {
       "this.openHeroicVendorNpcId !== null && $('#vendor-window').style.display !== 'none'",
     );
     expect(body).not.toContain("$('#vendor-window').style.display === 'block'");
+  });
+
+  it('drives the open vendor display from CSS state, tracking mobile-touch flips live', () => {
+    // body.mobile-touch can flip while the vendor is open (Interface Mode opens
+    // Options WITHOUT closing the vendor; foldable rotation crosses the touch
+    // media query). An inline display baked at render time goes stale on that
+    // flip, so the value is stylesheet-owned: the open state (body.vendor-open +
+    // the mounted frame) shows the desktop flex column in components.css, and the
+    // touch dock (hud-mobile layer, which outranks components) overrides it to
+    // display:block. Pin both rules plus the painter's no-inline-display and the
+    // explicit open-state sync the Hud must run because a first open no longer
+    // produces a style mutation for the window observer.
+    expect(componentsCss).toContain(
+      'body.vendor-open #vendor-window:has(> .window-frame) {\n    display: flex;\n  }',
+    );
+    expect(hudMobileCss).toContain(
+      'body.mobile-touch.vendor-open #vendor-window {\n    left: max(10px, env(safe-area-inset-left));\n    right: calc(var(--app-vw) / var(--ui-scale, 1) / 2);\n    display: block;',
+    );
+    const vendorWindowTs = readFileSync(
+      new URL('../src/ui/vendor_window.ts', import.meta.url),
+      'utf8',
+    ).replace(/\r\n/g, '\n');
+    expect(vendorWindowTs).toContain("el.style.removeProperty('display');");
+    expect(vendorWindowTs).not.toMatch(/el\.style\.display\s*=/);
+    const openVendor = hudTs.slice(hudTs.indexOf('openVendor(npcId: number): void {'));
+    expect(openVendor.slice(0, openVendor.indexOf('\n  }'))).toContain(
+      "this.syncWindowOpenState($('#vendor-window'));",
+    );
   });
 
   it('routes the cold-window closeManagedWindow cases through their painter close() for focus-return', () => {
