@@ -5543,7 +5543,7 @@ export class Renderer {
 
   // Hang a speech bubble over an entity's head; it follows the entity and
   // fades out after a few seconds (longer for longer messages).
-  showChatBubble(entityId: number, text: string, yell: boolean): void {
+  showChatBubble(entityId: number, text: string, yell: boolean, channel?: string): void {
     let b = this.chatBubbles.get(entityId);
     if (!b) {
       const el = document.createElement('div');
@@ -5554,6 +5554,12 @@ export class Renderer {
     }
     b.el.textContent = text; // textContent: chat is player input, never HTML
     b.el.classList.toggle('yell', yell);
+    // Channel tint: party bubbles are blue, guild green, officer dark-green,
+    // whisper pink — each gets its own CSS class so it is recognisable at a glance.
+    b.el.classList.toggle('party', channel === 'party');
+    b.el.classList.toggle('guild', channel === 'guild');
+    b.el.classList.toggle('officer', channel === 'officer');
+    b.el.classList.toggle('whisper', channel === 'whisper');
     // wall-clock ttl: sim/render time can run slower than real time under
     // frame-delta clamping, which would keep bubbles up too long
     b.until = performance.now() + 1000 * Math.min(10, 3.5 + text.length * 0.045);

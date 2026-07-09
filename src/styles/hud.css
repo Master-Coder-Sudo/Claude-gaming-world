@@ -312,6 +312,26 @@
     color: #7a1408;
     border-color: #c43a2a;
   }
+  .chat-bubble.party {
+    border-color: #4a90d9;
+    background: rgba(230, 240, 255, 0.93);
+    color: #1a3050;
+  }
+  .chat-bubble.guild {
+    border-color: #40a040;
+    background: rgba(230, 255, 230, 0.93);
+    color: #1a401a;
+  }
+  .chat-bubble.officer {
+    border-color: #2d8a2d;
+    background: rgba(220, 250, 220, 0.93);
+    color: #0d2d0d;
+  }
+  .chat-bubble.whisper {
+    border-color: #c870c8;
+    background: rgba(255, 235, 255, 0.93);
+    color: #501a50;
+  }
 
   /* ---------- new-adventurer tutorial ---------- */
   .tut-card {

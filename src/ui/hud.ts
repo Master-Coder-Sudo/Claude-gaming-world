@@ -9344,12 +9344,14 @@ export class Hud {
               break;
           }
           if (
-            (ev.channel === 'say' || ev.channel === 'yell' || ev.channel === 'emote') &&
+            (ev.channel === 'say' || ev.channel === 'yell' || ev.channel === 'emote' ||
+             ev.channel === 'party' || ev.channel === 'guild' || ev.channel === 'officer' ||
+             ev.channel === 'whisper') &&
             ev.entityId !== undefined
           ) {
             const masked = this.maskChat(this.chatLinkPlainText(ev.text));
             const bubble = ev.channel === 'emote' ? `${ev.from} ${masked}` : masked;
-            this.renderer.showChatBubble(ev.entityId, bubble, ev.channel === 'yell');
+            this.renderer.showChatBubble(ev.entityId, bubble, ev.channel === 'yell', ev.channel);
           }
           // Voiced encounter dialogue (boss/NPC yells) — no-op unless a clip was
           // generated for this exact line (scripts/voices/extra_lines.mjs).
