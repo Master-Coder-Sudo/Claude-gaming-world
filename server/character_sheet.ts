@@ -42,6 +42,10 @@ export interface CharacterSheetInput {
   origin: string; // e.g. https://worldofclaudecraft.com ('' = relative)
   guild: string | null;
   rank: SheetRank | null;
+  // The character's latest earned deeds (newest first, already limited),
+  // pre-fetched from character_deeds like guild/rank are pre-fetched. Absent
+  // means the caller fetched none; the block still builds from the state blob.
+  deedsRecent?: SheetDeedRecent[];
   // ISO timestamp for the sheet; defaults to now(). Pass the row's updated_at
   // when available so the field reflects the character, not the request time.
   updatedAt?: string;
@@ -70,6 +74,26 @@ export interface SheetArenaBracket {
   wins: number;
   losses: number;
 }
+export interface SheetDeedRecent {
+  deedId: string;
+  earnedAt: string; // ISO 8601, the character_deeds server-clock stamp
+}
+/** How many recent deeds the sheet's deeds summary lists. Lives here so every
+ *  serving arm (both dispatch paths, both visibilities) shares one bound. */
+export const SHEET_RECENT_DEEDS = 5;
+// The Book of Deeds summary. Deeds are publicly visible by design (titles and
+// Renown are the flex surface), so the block rides both visibilities: renown,
+// earned count, and the displayed title come straight from the state blob the
+// sheet already loads; recent is the pre-fetched character_deeds strip. The
+// two sources are DELIBERATELY allowed to diverge transiently (a returning
+// veteran's blob back-credits before the fire-and-forget index rows land);
+// do not collapse them into one source.
+export interface SheetDeeds {
+  renown: number;
+  earnedCount: number;
+  activeTitle: string | null;
+  recent: SheetDeedRecent[];
+}
 
 export interface CharacterSheet {
   name: string;
@@ -85,6 +109,7 @@ export interface CharacterSheet {
   zone: string;
   guild: string | null;
   arena: Record<string, SheetArenaBracket>;
+  deeds: SheetDeeds;
   rank: SheetRank | null;
   profileUrl: string;
   visibility: SheetVisibility;
@@ -182,6 +207,12 @@ export function characterSheet(input: CharacterSheetInput): CharacterSheet {
     zone: zoneAt(zPos).name,
     guild: guild ?? null,
     arena: arenaBrackets(state),
+    deeds: {
+      renown: state.renown ?? 0,
+      earnedCount: Object.keys(state.deeds ?? {}).length,
+      activeTitle: state.activeTitle ?? null,
+      recent: input.deedsRecent ?? [],
+    },
     rank: rank ?? null,
     profileUrl,
     visibility,

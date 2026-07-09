@@ -9,7 +9,7 @@
 
 import { audio } from '../game/audio';
 import { DEED_ORDER, DEEDS } from '../sim/data';
-import type { IWorld } from '../world_api';
+import type { DeedsRarity, IWorld } from '../world_api';
 import { deedDesc, deedName, deedTitleText } from './deed_i18n';
 import {
   buildDeedsView,
@@ -20,6 +20,7 @@ import {
   type DeedEntryModel,
   type DeedsFilter,
   type DeedsViewModel,
+  deedRarityFraction,
   deedStatsDigest,
   deedsRefreshSig,
   toggleWatch,
@@ -95,6 +96,10 @@ export class DeedsWindow {
   private watchedSet = new Set<string>();
   private watchedKey = '';
   private watchRev = 0;
+  // Global rarity, cached per window-open: each fresh open() re-fetches once
+  // through the facet (null offline or on failure; the slot renders nothing).
+  private rarity: DeedsRarity | null = null;
+  private rarityFetchSeq = 0;
 
   constructor(private readonly deps: DeedsWindowDeps) {}
 
@@ -120,9 +125,29 @@ export class DeedsWindow {
     this.openerFocus = this.deps.captureFocus();
     this.opened = true;
     this.lastSig = '';
+    this.fetchRarity();
     this.render();
     this.deps.root().style.display = 'flex';
     audio.click();
+  }
+
+  /** One rarity fetch per fresh open. The async result repaints in place when
+   *  it lands (the signature diff cannot see it, so this render is explicit);
+   *  the sequence guard drops a stale response after a close/reopen race. */
+  private fetchRarity(): void {
+    const seq = ++this.rarityFetchSeq;
+    this.rarity = null;
+    void this.deps
+      .world()
+      .deedsRarity()
+      .then((rarity) => {
+        if (seq !== this.rarityFetchSeq || !this.opened || rarity === null) return;
+        this.rarity = rarity;
+        this.render();
+      })
+      .catch(() => {
+        /* null-on-failure is the facet contract; a rejection renders nothing */
+      });
   }
 
   close(): void {
@@ -330,8 +355,18 @@ export class DeedsWindow {
         )}"><span class="deed-bar"><span class="deed-bar-fill" style="width:${pct}%"></span></span>` +
         `<span class="deed-progress-text">${esc(progressText)}</span></div>`;
     }
-    // Rarity line RESERVED: rendered only once a rarity value exists on the
-    // facet surface (a later slice); absent data means no node at all.
+    // Rarity line: only once a value exists for THIS deed (absent data means
+    // no node at all, so offline and fetch-failure renders are unchanged).
+    // The render gate is the pure deedRarityFraction, unit-pinned like every
+    // other repaint dimension.
+    const rarityFraction = deedRarityFraction(this.rarity, entry.id);
+    if (rarityFraction !== null) {
+      const percent = formatNumber(rarityFraction, {
+        style: 'percent',
+        maximumFractionDigits: 1,
+      });
+      body += `<div class="deed-rarity">${esc(t('hudChrome.deeds.rarityLine', { percent }))}</div>`;
+    }
     let foot = '';
     if (entry.earnedDay !== null) {
       const date = formatDateTime(new Date(`${entry.earnedDay}T00:00:00Z`), {

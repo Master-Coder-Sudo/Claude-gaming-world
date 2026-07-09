@@ -1509,6 +1509,8 @@ export const en_XA: EnTranslations = {
       "unlockedBanner": "[Ðééð áççóɱþļíšĥéð: {name}]",
       "unlockedTitleHint": "[Ñéŵ ţíţļé éáŕñéð: {title}. Çĥóóšé íţ íñ ţĥé Ɓóóķ óƒ Ðééðš.]",
       "retroSummary": "[Ýóúŕ çĥŕóñíçļé çáţçĥéš úþ: {count} ðééðš ŕéçóŕðéð.]",
+      "broadcastLine": "[{name} ĥáš áççóɱþļíšĥéð á ðééð: {deed}]",
+      "rarityLine": "[Éáŕñéð ƀý {percent} óƒ áðʋéñţúŕéŕš]",
       "trackerLabel": "[Ðééðš]",
       "collapseHint": "[Çóļļáþšé ðééð ţŕáçķéŕ]",
       "expandHint": "[Éẋþáñð ðééð ţŕáçķéŕ]",
@@ -1604,6 +1606,9 @@ export const en_XA: EnTranslations = {
       "swag_claimed": "[Ýóú ĥáʋé áļŕéáðý çļáíɱéð ţĥíš ŕéŵáŕð.]",
       "swag_tier": "[Ŕéáçĥ á ĥíĝĥéŕ ŕáñķ ţó çļáíɱ ţĥíš.]",
       "swag_points": "[Ñóţ éñóúĝĥ þóíñţš.]"
+    },
+    "deeds": {
+      "invalid_input": "[Íñʋáļíð íñþúţ.]"
     }
   },
   "guide": {

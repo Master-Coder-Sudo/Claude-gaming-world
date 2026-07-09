@@ -10,6 +10,7 @@
 
 export const pending: Record<string, readonly string[]> = {
   "es": [
+    "apiError.deeds.invalid_input",
     "entities.npcs.chronicler_edda_hartwell.greeting",
     "entities.npcs.chronicler_edda_hartwell.name",
     "entities.npcs.chronicler_edda_hartwell.title",
@@ -19,6 +20,7 @@ export const pending: Record<string, readonly string[]> = {
     "entities.npcs.chronicler_saul.greeting",
     "entities.npcs.chronicler_saul.name",
     "entities.npcs.chronicler_saul.title",
+    "hudChrome.deeds.broadcastLine",
     "hudChrome.deeds.catChronicle",
     "hudChrome.deeds.catCollection",
     "hudChrome.deeds.catCombat",
@@ -51,6 +53,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.nearestLabel",
     "hudChrome.deeds.progressAria",
     "hudChrome.deeds.progressText",
+    "hudChrome.deeds.rarityLine",
     "hudChrome.deeds.recentLabel",
     "hudChrome.deeds.renownChip",
     "hudChrome.deeds.renownLabel",
@@ -73,6 +76,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.watchFull"
   ],
   "es_ES": [
+    "apiError.deeds.invalid_input",
     "entities.npcs.chronicler_edda_hartwell.greeting",
     "entities.npcs.chronicler_edda_hartwell.name",
     "entities.npcs.chronicler_edda_hartwell.title",
@@ -82,6 +86,7 @@ export const pending: Record<string, readonly string[]> = {
     "entities.npcs.chronicler_saul.greeting",
     "entities.npcs.chronicler_saul.name",
     "entities.npcs.chronicler_saul.title",
+    "hudChrome.deeds.broadcastLine",
     "hudChrome.deeds.catChronicle",
     "hudChrome.deeds.catCollection",
     "hudChrome.deeds.catCombat",
@@ -114,6 +119,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.nearestLabel",
     "hudChrome.deeds.progressAria",
     "hudChrome.deeds.progressText",
+    "hudChrome.deeds.rarityLine",
     "hudChrome.deeds.recentLabel",
     "hudChrome.deeds.renownChip",
     "hudChrome.deeds.renownLabel",
@@ -136,6 +142,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.watchFull"
   ],
   "fr_FR": [
+    "apiError.deeds.invalid_input",
     "entities.npcs.chronicler_edda_hartwell.greeting",
     "entities.npcs.chronicler_edda_hartwell.name",
     "entities.npcs.chronicler_edda_hartwell.title",
@@ -145,6 +152,7 @@ export const pending: Record<string, readonly string[]> = {
     "entities.npcs.chronicler_saul.greeting",
     "entities.npcs.chronicler_saul.name",
     "entities.npcs.chronicler_saul.title",
+    "hudChrome.deeds.broadcastLine",
     "hudChrome.deeds.catChronicle",
     "hudChrome.deeds.catCollection",
     "hudChrome.deeds.catCombat",
@@ -177,6 +185,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.nearestLabel",
     "hudChrome.deeds.progressAria",
     "hudChrome.deeds.progressText",
+    "hudChrome.deeds.rarityLine",
     "hudChrome.deeds.recentLabel",
     "hudChrome.deeds.renownChip",
     "hudChrome.deeds.renownLabel",
@@ -199,6 +208,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.watchFull"
   ],
   "fr_CA": [
+    "apiError.deeds.invalid_input",
     "entities.npcs.chronicler_edda_hartwell.greeting",
     "entities.npcs.chronicler_edda_hartwell.name",
     "entities.npcs.chronicler_edda_hartwell.title",
@@ -208,6 +218,7 @@ export const pending: Record<string, readonly string[]> = {
     "entities.npcs.chronicler_saul.greeting",
     "entities.npcs.chronicler_saul.name",
     "entities.npcs.chronicler_saul.title",
+    "hudChrome.deeds.broadcastLine",
     "hudChrome.deeds.catChronicle",
     "hudChrome.deeds.catCollection",
     "hudChrome.deeds.catCombat",
@@ -240,6 +251,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.nearestLabel",
     "hudChrome.deeds.progressAria",
     "hudChrome.deeds.progressText",
+    "hudChrome.deeds.rarityLine",
     "hudChrome.deeds.recentLabel",
     "hudChrome.deeds.renownChip",
     "hudChrome.deeds.renownLabel",
@@ -263,6 +275,7 @@ export const pending: Record<string, readonly string[]> = {
   ],
   "en_CA": [],
   "it_IT": [
+    "apiError.deeds.invalid_input",
     "entities.npcs.chronicler_edda_hartwell.greeting",
     "entities.npcs.chronicler_edda_hartwell.name",
     "entities.npcs.chronicler_edda_hartwell.title",
@@ -272,6 +285,7 @@ export const pending: Record<string, readonly string[]> = {
     "entities.npcs.chronicler_saul.greeting",
     "entities.npcs.chronicler_saul.name",
     "entities.npcs.chronicler_saul.title",
+    "hudChrome.deeds.broadcastLine",
     "hudChrome.deeds.catChronicle",
     "hudChrome.deeds.catCollection",
     "hudChrome.deeds.catCombat",
@@ -304,6 +318,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.nearestLabel",
     "hudChrome.deeds.progressAria",
     "hudChrome.deeds.progressText",
+    "hudChrome.deeds.rarityLine",
     "hudChrome.deeds.recentLabel",
     "hudChrome.deeds.renownChip",
     "hudChrome.deeds.renownLabel",
@@ -326,6 +341,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.watchFull"
   ],
   "de_DE": [
+    "apiError.deeds.invalid_input",
     "entities.npcs.chronicler_edda_hartwell.greeting",
     "entities.npcs.chronicler_edda_hartwell.name",
     "entities.npcs.chronicler_edda_hartwell.title",
@@ -335,6 +351,7 @@ export const pending: Record<string, readonly string[]> = {
     "entities.npcs.chronicler_saul.greeting",
     "entities.npcs.chronicler_saul.name",
     "entities.npcs.chronicler_saul.title",
+    "hudChrome.deeds.broadcastLine",
     "hudChrome.deeds.catChronicle",
     "hudChrome.deeds.catCollection",
     "hudChrome.deeds.catCombat",
@@ -367,6 +384,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.nearestLabel",
     "hudChrome.deeds.progressAria",
     "hudChrome.deeds.progressText",
+    "hudChrome.deeds.rarityLine",
     "hudChrome.deeds.recentLabel",
     "hudChrome.deeds.renownChip",
     "hudChrome.deeds.renownLabel",
@@ -409,6 +427,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.progressText"
   ],
   "pt_BR": [
+    "apiError.deeds.invalid_input",
     "entities.npcs.chronicler_edda_hartwell.greeting",
     "entities.npcs.chronicler_edda_hartwell.name",
     "entities.npcs.chronicler_edda_hartwell.title",
@@ -418,6 +437,7 @@ export const pending: Record<string, readonly string[]> = {
     "entities.npcs.chronicler_saul.greeting",
     "entities.npcs.chronicler_saul.name",
     "entities.npcs.chronicler_saul.title",
+    "hudChrome.deeds.broadcastLine",
     "hudChrome.deeds.catChronicle",
     "hudChrome.deeds.catCollection",
     "hudChrome.deeds.catCombat",
@@ -450,6 +470,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.nearestLabel",
     "hudChrome.deeds.progressAria",
     "hudChrome.deeds.progressText",
+    "hudChrome.deeds.rarityLine",
     "hudChrome.deeds.recentLabel",
     "hudChrome.deeds.renownChip",
     "hudChrome.deeds.renownLabel",
@@ -477,6 +498,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.progressText"
   ],
   "cs_CZ": [
+    "apiError.deeds.invalid_input",
     "entities.npcs.chronicler_edda_hartwell.greeting",
     "entities.npcs.chronicler_edda_hartwell.name",
     "entities.npcs.chronicler_edda_hartwell.title",
@@ -486,6 +508,7 @@ export const pending: Record<string, readonly string[]> = {
     "entities.npcs.chronicler_saul.greeting",
     "entities.npcs.chronicler_saul.name",
     "entities.npcs.chronicler_saul.title",
+    "hudChrome.deeds.broadcastLine",
     "hudChrome.deeds.catChronicle",
     "hudChrome.deeds.catCollection",
     "hudChrome.deeds.catCombat",
@@ -518,6 +541,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.nearestLabel",
     "hudChrome.deeds.progressAria",
     "hudChrome.deeds.progressText",
+    "hudChrome.deeds.rarityLine",
     "hudChrome.deeds.recentLabel",
     "hudChrome.deeds.renownChip",
     "hudChrome.deeds.renownLabel",
@@ -540,6 +564,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.watchFull"
   ],
   "nl_NL": [
+    "apiError.deeds.invalid_input",
     "entities.npcs.chronicler_edda_hartwell.greeting",
     "entities.npcs.chronicler_edda_hartwell.name",
     "entities.npcs.chronicler_edda_hartwell.title",
@@ -549,6 +574,7 @@ export const pending: Record<string, readonly string[]> = {
     "entities.npcs.chronicler_saul.greeting",
     "entities.npcs.chronicler_saul.name",
     "entities.npcs.chronicler_saul.title",
+    "hudChrome.deeds.broadcastLine",
     "hudChrome.deeds.catChronicle",
     "hudChrome.deeds.catCollection",
     "hudChrome.deeds.catCombat",
@@ -581,6 +607,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.nearestLabel",
     "hudChrome.deeds.progressAria",
     "hudChrome.deeds.progressText",
+    "hudChrome.deeds.rarityLine",
     "hudChrome.deeds.recentLabel",
     "hudChrome.deeds.renownChip",
     "hudChrome.deeds.renownLabel",
@@ -603,6 +630,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.watchFull"
   ],
   "pl_PL": [
+    "apiError.deeds.invalid_input",
     "entities.npcs.chronicler_edda_hartwell.greeting",
     "entities.npcs.chronicler_edda_hartwell.name",
     "entities.npcs.chronicler_edda_hartwell.title",
@@ -612,6 +640,7 @@ export const pending: Record<string, readonly string[]> = {
     "entities.npcs.chronicler_saul.greeting",
     "entities.npcs.chronicler_saul.name",
     "entities.npcs.chronicler_saul.title",
+    "hudChrome.deeds.broadcastLine",
     "hudChrome.deeds.catChronicle",
     "hudChrome.deeds.catCollection",
     "hudChrome.deeds.catCombat",
@@ -644,6 +673,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.nearestLabel",
     "hudChrome.deeds.progressAria",
     "hudChrome.deeds.progressText",
+    "hudChrome.deeds.rarityLine",
     "hudChrome.deeds.recentLabel",
     "hudChrome.deeds.renownChip",
     "hudChrome.deeds.renownLabel",
@@ -666,6 +696,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.watchFull"
   ],
   "id_ID": [
+    "apiError.deeds.invalid_input",
     "entities.npcs.chronicler_edda_hartwell.greeting",
     "entities.npcs.chronicler_edda_hartwell.name",
     "entities.npcs.chronicler_edda_hartwell.title",
@@ -675,6 +706,7 @@ export const pending: Record<string, readonly string[]> = {
     "entities.npcs.chronicler_saul.greeting",
     "entities.npcs.chronicler_saul.name",
     "entities.npcs.chronicler_saul.title",
+    "hudChrome.deeds.broadcastLine",
     "hudChrome.deeds.catChronicle",
     "hudChrome.deeds.catCollection",
     "hudChrome.deeds.catCombat",
@@ -707,6 +739,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.nearestLabel",
     "hudChrome.deeds.progressAria",
     "hudChrome.deeds.progressText",
+    "hudChrome.deeds.rarityLine",
     "hudChrome.deeds.recentLabel",
     "hudChrome.deeds.renownChip",
     "hudChrome.deeds.renownLabel",
@@ -729,6 +762,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.watchFull"
   ],
   "tr_TR": [
+    "apiError.deeds.invalid_input",
     "entities.npcs.chronicler_edda_hartwell.greeting",
     "entities.npcs.chronicler_edda_hartwell.name",
     "entities.npcs.chronicler_edda_hartwell.title",
@@ -738,6 +772,7 @@ export const pending: Record<string, readonly string[]> = {
     "entities.npcs.chronicler_saul.greeting",
     "entities.npcs.chronicler_saul.name",
     "entities.npcs.chronicler_saul.title",
+    "hudChrome.deeds.broadcastLine",
     "hudChrome.deeds.catChronicle",
     "hudChrome.deeds.catCollection",
     "hudChrome.deeds.catCombat",
@@ -770,6 +805,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.nearestLabel",
     "hudChrome.deeds.progressAria",
     "hudChrome.deeds.progressText",
+    "hudChrome.deeds.rarityLine",
     "hudChrome.deeds.recentLabel",
     "hudChrome.deeds.renownChip",
     "hudChrome.deeds.renownLabel",
@@ -792,6 +828,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.watchFull"
   ],
   "sv_SE": [
+    "apiError.deeds.invalid_input",
     "entities.npcs.chronicler_edda_hartwell.greeting",
     "entities.npcs.chronicler_edda_hartwell.name",
     "entities.npcs.chronicler_edda_hartwell.title",
@@ -801,6 +838,7 @@ export const pending: Record<string, readonly string[]> = {
     "entities.npcs.chronicler_saul.greeting",
     "entities.npcs.chronicler_saul.name",
     "entities.npcs.chronicler_saul.title",
+    "hudChrome.deeds.broadcastLine",
     "hudChrome.deeds.catChronicle",
     "hudChrome.deeds.catCollection",
     "hudChrome.deeds.catCombat",
@@ -833,6 +871,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.nearestLabel",
     "hudChrome.deeds.progressAria",
     "hudChrome.deeds.progressText",
+    "hudChrome.deeds.rarityLine",
     "hudChrome.deeds.recentLabel",
     "hudChrome.deeds.renownChip",
     "hudChrome.deeds.renownLabel",
@@ -855,6 +894,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.watchFull"
   ],
   "vi_VN": [
+    "apiError.deeds.invalid_input",
     "entities.npcs.chronicler_edda_hartwell.greeting",
     "entities.npcs.chronicler_edda_hartwell.name",
     "entities.npcs.chronicler_edda_hartwell.title",
@@ -864,6 +904,7 @@ export const pending: Record<string, readonly string[]> = {
     "entities.npcs.chronicler_saul.greeting",
     "entities.npcs.chronicler_saul.name",
     "entities.npcs.chronicler_saul.title",
+    "hudChrome.deeds.broadcastLine",
     "hudChrome.deeds.catChronicle",
     "hudChrome.deeds.catCollection",
     "hudChrome.deeds.catCombat",
@@ -896,6 +937,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.nearestLabel",
     "hudChrome.deeds.progressAria",
     "hudChrome.deeds.progressText",
+    "hudChrome.deeds.rarityLine",
     "hudChrome.deeds.recentLabel",
     "hudChrome.deeds.renownChip",
     "hudChrome.deeds.renownLabel",
@@ -918,6 +960,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.watchFull"
   ],
   "da_DK": [
+    "apiError.deeds.invalid_input",
     "entities.npcs.chronicler_edda_hartwell.greeting",
     "entities.npcs.chronicler_edda_hartwell.name",
     "entities.npcs.chronicler_edda_hartwell.title",
@@ -927,6 +970,7 @@ export const pending: Record<string, readonly string[]> = {
     "entities.npcs.chronicler_saul.greeting",
     "entities.npcs.chronicler_saul.name",
     "entities.npcs.chronicler_saul.title",
+    "hudChrome.deeds.broadcastLine",
     "hudChrome.deeds.catChronicle",
     "hudChrome.deeds.catCollection",
     "hudChrome.deeds.catCombat",
@@ -959,6 +1003,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.deeds.nearestLabel",
     "hudChrome.deeds.progressAria",
     "hudChrome.deeds.progressText",
+    "hudChrome.deeds.rarityLine",
     "hudChrome.deeds.recentLabel",
     "hudChrome.deeds.renownChip",
     "hudChrome.deeds.renownLabel",

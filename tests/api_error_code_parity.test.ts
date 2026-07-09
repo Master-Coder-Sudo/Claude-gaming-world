@@ -93,6 +93,7 @@ const KNOWN_CODES = [
   'two_factor.not_enabled',
   'two_factor.setup_required',
   'validation.failed',
+  'deeds.invalid_input',
 ];
 
 // The parametric contract pins: the matcher

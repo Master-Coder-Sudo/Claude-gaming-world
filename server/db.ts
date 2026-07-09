@@ -165,6 +165,11 @@ ALTER TABLE accounts ADD COLUMN IF NOT EXISTS locale TEXT;
 ALTER TABLE accounts ADD COLUMN IF NOT EXISTS email_verified_at TIMESTAMPTZ;
 ALTER TABLE accounts ADD COLUMN IF NOT EXISTS marketing_opt_in BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE accounts ADD COLUMN IF NOT EXISTS unsubscribe_token TEXT;
+-- Deed broadcast opt-out. When FALSE the server skips the guild/friend
+-- broadcast of this account's marquee deed unlocks (the earner's own client
+-- toast is local and unaffected). Defaults TRUE so broadcasts are on unless
+-- the player opts out; the flag never gates the unlock itself.
+ALTER TABLE accounts ADD COLUMN IF NOT EXISTS deed_broadcasts BOOLEAN NOT NULL DEFAULT TRUE;
 -- Index + collision guard for the public unsubscribe lookup. Partial (the column
 -- is NULL until an account first opts in) and UNIQUE so two accounts can never
 -- share a token. The token is a low-sensitivity capability (its only power is to
@@ -647,6 +652,33 @@ CREATE TABLE IF NOT EXISTS bank_ledger (
 );
 CREATE INDEX IF NOT EXISTS bank_ledger_character ON bank_ledger(character_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS bank_ledger_created ON bank_ledger(created_at);
+-- Earned-deed records: one row per (character, deed), written fire-and-forget
+-- off the game loop by server/deeds_records.ts, an OBSERVER of the sim's
+-- deedUnlocked events. The characters.state blob stays the gameplay source of
+-- truth; this table only indexes it for rarity aggregates, account roll-ups,
+-- and sheet reads, and no server path grants or revokes a deed. realm carries
+-- no DEFAULT deliberately: the interpolated-default pattern is last-boot-wins
+-- across realm processes, so every insert passes realm explicitly. account_id
+-- is a snapshot of the owner at unlock time (a future character-transfer
+-- feature must update or re-derive it). earned_at is the server clock (the
+-- sim's utcDay stamp lives in the state blob and is not duplicated here).
+-- UNIQUE (character_id, deed_id) is the idempotence backbone: retro re-emits
+-- and crash-replays collapse into no-ops.
+CREATE TABLE IF NOT EXISTS character_deeds (
+  id BIGSERIAL PRIMARY KEY,
+  realm TEXT NOT NULL,
+  character_id INT NOT NULL REFERENCES characters(id) ON DELETE CASCADE,
+  account_id INT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
+  deed_id TEXT NOT NULL,
+  earned_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE (character_id, deed_id)
+);
+CREATE INDEX IF NOT EXISTS character_deeds_deed ON character_deeds(deed_id);
+-- Forward-placed for the account-Renown roll-up the leaderboard read will
+-- issue; no query consumes it yet.
+CREATE INDEX IF NOT EXISTS character_deeds_account ON character_deeds(account_id);
+CREATE INDEX IF NOT EXISTS character_deeds_character_earned
+  ON character_deeds(character_id, earned_at DESC);
 `;
 
 export async function ensureSchema(): Promise<void> {

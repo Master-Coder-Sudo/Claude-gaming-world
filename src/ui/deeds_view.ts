@@ -15,6 +15,7 @@
 //   in the nearest list.
 
 import type { DeedDef, DeedStats, DeedTrigger } from '../sim/types';
+import type { DeedsRarity } from '../world_api';
 
 /** Watchlist cap: at most this many deeds pinned to the HUD tracker. */
 export const DEED_WATCH_CAP = 5;
@@ -509,6 +510,18 @@ export function deedsRefreshSig(parts: DeedsRefreshSigParts): string {
     parts.watchRev,
     parts.statsDigest,
   ]);
+}
+
+/** The rarity fraction for one deed card, or null when there is nothing to
+ *  render: no aggregate (offline, or the fetch failed), an empty eligible
+ *  population, or a deed nobody has earned (absent from the map by the
+ *  endpoint contract). The painter renders a rarity line only for a non-null
+ *  value, so absent data means no node at all. */
+export function deedRarityFraction(rarity: DeedsRarity | null, deedId: string): number | null {
+  if (rarity === null || rarity.totalEligible <= 0) return null;
+  const earned = rarity.earned[deedId];
+  if (earned === undefined) return null;
+  return earned / rarity.totalEligible;
 }
 
 /** Digest over the lifetime stat block: any counter climb, dungeon clear,

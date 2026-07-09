@@ -16,7 +16,7 @@ process.env.DATABASE_URL ||= 'postgres://test:test@127.0.0.1:5433/wocc_phase10_u
 
 import type * as http from 'node:http';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import type { SheetRank } from '../../server/character_sheet';
+import { SHEET_RECENT_DEEDS, type SheetRank } from '../../server/character_sheet';
 import type { ArenaLeaderRow, CharacterRow, CharacterSearchRow } from '../../server/db';
 import {
   ARENA_LEADERBOARD_LIMIT,
@@ -377,6 +377,43 @@ describe('readPublicSheet (FakeCharactersDb, resolved by name)', () => {
     const body = out.body as Record<string, unknown>;
     expect(body.guild).toBe('Nomads');
     expect(body.rank).toBeNull();
+  });
+
+  it('carries the deeds summary block, with the recent strip read through the sheet bound', async () => {
+    const db = new FakeCharactersDb();
+    const row = characterRow(31, 'Chronic');
+    row.state = {
+      ...(row.state ?? {}),
+      deeds: { prog_first_steps: '2026-07-01', prog_veteran: '2026-07-08' },
+      renown: 15,
+      activeTitle: 'prog_veteran',
+    } as typeof row.state;
+    db.seed(row);
+    // Seed one more row than the bound to prove the limit is passed through.
+    const seeded = Array.from({ length: SHEET_RECENT_DEEDS + 1 }, (_, i) => ({
+      deedId: `deed_${i}`,
+      earnedAt: `2026-07-0${Math.min(i + 1, 8)}T00:00:00.000Z`,
+    }));
+    db.seedRecentDeeds(31, seeded);
+    const spy = vi.spyOn(db, 'recentDeedsForCharacter');
+    const out = await readPublicSheet(db, 'Chronic', sheetDeps);
+    expect(out.status).toBe(200);
+    const body = out.body as Record<string, unknown>;
+    expect(spy).toHaveBeenCalledWith(31, SHEET_RECENT_DEEDS);
+    expect(body.deeds).toEqual({
+      renown: 15,
+      earnedCount: 2,
+      activeTitle: 'prog_veteran',
+      recent: seeded.slice(0, SHEET_RECENT_DEEDS),
+    });
+  });
+
+  it('a pre-deeds save serves a zeroed deeds block, not a missing key', async () => {
+    const db = new FakeCharactersDb();
+    db.seed(characterRow(32, 'Oldtimer'));
+    const out = await readPublicSheet(db, 'Oldtimer', sheetDeps);
+    const body = out.body as Record<string, unknown>;
+    expect(body.deeds).toEqual({ renown: 0, earnedCount: 0, activeTitle: null, recent: [] });
   });
 });
 

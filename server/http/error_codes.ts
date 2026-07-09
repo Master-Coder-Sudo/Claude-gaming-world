@@ -172,6 +172,7 @@ export const ERROR_CODES = deepFreeze({
   'discord.swag_tier': { params: [] },
   // identity: "points" (not enough reward points to claim this swag reward)
   'discord.swag_points': { params: [] },
+  'deeds.invalid_input': { params: [] },
 } as const);
 
 /** A stable error code: one of the keys of ERROR_CODES. */

@@ -1509,6 +1509,8 @@ export const ja_JP: EnTranslations = {
       "unlockedBanner": "功績達成: {name}",
       "unlockedTitleHint": "新しい称号を獲得: {title}。功績の書で選択できます。",
       "retroSummary": "年代記が追いつきました: {count} 件の功績を記録。",
+      "broadcastLine": "{name}が功績「{deed}」を達成しました",
+      "rarityLine": "冒険者の{percent}が達成",
       "trackerLabel": "功績",
       "collapseHint": "功績トラッカーを折りたたむ",
       "expandHint": "功績トラッカーを展開",
@@ -1604,6 +1606,9 @@ export const ja_JP: EnTranslations = {
       "swag_claimed": "この報酬は既に受け取っています。",
       "swag_tier": "これを受け取るにはより高いランクが必要です。",
       "swag_points": "ポイントが足りません。"
+    },
+    "deeds": {
+      "invalid_input": "入力が無効です。"
     }
   },
   "guide": {

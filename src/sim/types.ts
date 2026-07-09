@@ -2090,6 +2090,12 @@ export type SimEvent = { pid?: number } & (
   // sim never books guild events); declared here so the one client event
   // switch stays exhaustively typed.
   | { type: 'calendarResult'; code: CalendarResultCode }
+  // A guildmate's or followed friend's marquee deed unlock. Emitted only by
+  // the server's SocialService (the sim never sees other players' social
+  // graphs); declared here, like calendarResult, so the one client event
+  // switch stays exhaustively typed. Carries ids and the earner's name only,
+  // never deed text: the client composes the line from deed_i18n.
+  | { type: 'deedBroadcast'; characterName: string; deedId: string }
   // say/yell are delivered only to players in range and carry the speaker's
   // entity id so the client can hang a chat bubble over their head; whisper
   // goes to the target (and echoes to the sender with `to` set); general is

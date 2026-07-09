@@ -111,6 +111,7 @@ export type {
   DailyRewardStatus,
   DailyRewardTaskView,
 } from './world_api/daily_rewards';
+export type { DeedsRarity } from './world_api/deeds';
 export type {
   DelveCompanionInfo,
   DelveDailyInfo,

@@ -3798,6 +3798,11 @@
     font-size: 11px;
     color: var(--gold-dim);
   }
+  .deed-rarity {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
   .deed-foot {
     display: flex;
     align-items: center;

@@ -1,6 +1,7 @@
 import type { WebSocket } from 'ws';
 import { createBotDetector } from '#bot-detector';
 import { verifyChallenge } from '../src/sim/client_challenge';
+import { DEEDS } from '../src/sim/content/deeds';
 import { MECH_CHROMAS, mechChromaItemId, mechChromaSkinIndex } from '../src/sim/content/skins';
 import type { TalentAllocation } from '../src/sim/content/talents';
 import { SPORT_ROLES, VALE_CUP_BALL_TEMPLATE_ID, VC_NATION_IDS } from '../src/sim/content/vale_cup';
@@ -78,6 +79,8 @@ import {
   touchCharacterLogin,
   walletForAccount,
 } from './db';
+import { getDeedBroadcasts } from './deeds_db';
+import { isMarqueeDeed, recordDeedUnlock } from './deeds_records';
 import { enqueueActivity } from './discord_activity';
 import { discordFlairForAccount, grantRewardPoints } from './discord_db';
 import { enqueueRelay } from './discord_relay';
@@ -4228,6 +4231,21 @@ export class GameServer {
   private detectActivity(events: SimEvent[]): void {
     const now = Date.now();
     for (const ev of events) {
+      if (ev.type === 'deedUnlocked' && ev.pid !== undefined) {
+        const s = this.clients.get(ev.pid);
+        if (s) {
+          // Observer only: mirror the sim's decision into character_deeds
+          // (fire-and-forget FIFO; retro re-emits and crash-replays are free
+          // under the UNIQUE constraint). Bots have no session, so
+          // this.clients.get filters them naturally, and no client message
+          // reaches this path: the sim alone emits deedUnlocked.
+          recordDeedUnlock({ characterId: s.characterId, accountId: s.accountId }, ev.deedId);
+          // Marquee unlocks fan out to guildmates and followers; retro
+          // unlocks NEVER broadcast (a veteran's first login after rollout
+          // must not spam their guild).
+          if (ev.retro !== true) this.maybeBroadcastDeedUnlock(s, ev.deedId);
+        }
+      }
       if (ev.type === 'levelup' && ev.level === 5 && ev.pid !== undefined) {
         const s = this.clients.get(ev.pid);
         if (s) {
@@ -4656,6 +4674,26 @@ export class GameServer {
 
   private sendSystemNotice(session: ClientSession, text: string): void {
     this.send(session, { t: 'events', list: [{ type: 'log', text, color: '#ffd100' }] });
+  }
+
+  // Fan a non-retro marquee deed unlock out to the earner's online guildmates
+  // and followers unless the account opted out (accounts.deed_broadcasts).
+  // Fire-and-forget off the loop (the daily-reward observer pattern): the
+  // opt-out read and the audience resolution are async DB work the tick never
+  // awaits, and a failure logs without touching gameplay. The earner's own
+  // toast is client-side from the sim event; no frame is sent to them here.
+  private maybeBroadcastDeedUnlock(session: ClientSession, deedId: string): void {
+    const def = DEEDS[deedId];
+    if (!def || !isMarqueeDeed(def)) return;
+    void getDeedBroadcasts(session.accountId)
+      .then((enabled) => {
+        if (!enabled) return;
+        return this.social.broadcastDeedUnlock(
+          { characterId: session.characterId, name: session.name },
+          deedId,
+        );
+      })
+      .catch((err) => console.error('deed broadcast failed:', err));
   }
 
   private sendDailyRewardPointsGained(session: ClientSession, points: number): void {

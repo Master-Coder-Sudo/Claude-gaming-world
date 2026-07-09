@@ -107,6 +107,7 @@ export const API_ERROR_KEYS = {
   'discord.swag_claimed': 'apiError.discord.swag_claimed',
   'discord.swag_tier': 'apiError.discord.swag_tier',
   'discord.swag_points': 'apiError.discord.swag_points',
+  'deeds.invalid_input': 'apiError.deeds.invalid_input',
 } satisfies Record<string, TranslationKey>;
 
 /** The message of an Error, or the string form of any other thrown value. */

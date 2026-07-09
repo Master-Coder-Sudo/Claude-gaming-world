@@ -8671,6 +8671,20 @@ export class Hud {
           this.calendarWindow.onCalendarResult(ev.code);
           break;
         }
+        case 'deedBroadcast': {
+          // A guildmate's or followed friend's marquee unlock. Id-based on
+          // the wire (server sends the deed id, never English); the visible
+          // line is composed here from deed_i18n plus the chrome key, in the
+          // guild-chat green so it reads as social news.
+          this.log(
+            t('hudChrome.deeds.broadcastLine', {
+              name: ev.characterName,
+              deed: deedName(ev.deedId),
+            }),
+            '#40d264',
+          );
+          break;
+        }
         case 'error':
           this.showError(this.localizeErrorText(ev.text));
           break;

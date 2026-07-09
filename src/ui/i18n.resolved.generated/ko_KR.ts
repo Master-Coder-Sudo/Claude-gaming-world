@@ -1509,6 +1509,8 @@ export const ko_KR: EnTranslations = {
       "unlockedBanner": "업적 달성: {name}",
       "unlockedTitleHint": "새 칭호 획득: {title}. 업적의 서에서 선택할 수 있습니다.",
       "retroSummary": "연대기가 따라잡았습니다: 업적 {count}개 기록.",
+      "broadcastLine": "{name} 님이 업적을 달성했습니다: {deed}",
+      "rarityLine": "모험가 중 {percent} 달성",
       "trackerLabel": "업적",
       "collapseHint": "업적 추적기 접기",
       "expandHint": "업적 추적기 펼치기",
@@ -1604,6 +1606,9 @@ export const ko_KR: EnTranslations = {
       "swag_claimed": "이미 이 보상을 받았습니다.",
       "swag_tier": "이 보상을 받으려면 더 높은 등급에 도달하세요.",
       "swag_points": "포인트가 부족합니다."
+    },
+    "deeds": {
+      "invalid_input": "입력이 올바르지 않습니다."
     }
   },
   "guide": {

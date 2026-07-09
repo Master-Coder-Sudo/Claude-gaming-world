@@ -1509,6 +1509,8 @@ export const ru_RU: EnTranslations = {
       "unlockedBanner": "Деяние совершено: {name}",
       "unlockedTitleHint": "Новое звание: {title}. Выберите его в Книге деяний.",
       "retroSummary": "Летопись наверстала упущенное: записано деяний: {count}.",
+      "broadcastLine": "{name} совершает деяние: {deed}",
+      "rarityLine": "Совершили {percent} искателей приключений",
       "trackerLabel": "Деяния",
       "collapseHint": "Свернуть список деяний",
       "expandHint": "Развернуть список деяний",
@@ -1604,6 +1606,9 @@ export const ru_RU: EnTranslations = {
       "swag_claimed": "Вы уже получили эту награду.",
       "swag_tier": "Достигните более высокого ранга, чтобы получить это.",
       "swag_points": "Недостаточно очков."
+    },
+    "deeds": {
+      "invalid_input": "Недопустимые данные."
     }
   },
   "guide": {

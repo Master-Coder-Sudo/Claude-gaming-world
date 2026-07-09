@@ -1509,6 +1509,8 @@ export const id_ID: EnTranslations = {
       "unlockedBanner": "Deed accomplished: {name}",
       "unlockedTitleHint": "New title earned: {title}. Choose it in the Book of Deeds.",
       "retroSummary": "Your chronicle catches up: {count} deeds recorded.",
+      "broadcastLine": "{name} has accomplished a deed: {deed}",
+      "rarityLine": "Earned by {percent} of adventurers",
       "trackerLabel": "Deeds",
       "collapseHint": "Collapse deed tracker",
       "expandHint": "Expand deed tracker",
@@ -1604,6 +1606,9 @@ export const id_ID: EnTranslations = {
       "swag_claimed": "Anda sudah mengklaim hadiah ini.",
       "swag_tier": "Capai peringkat yang lebih tinggi untuk mengklaim ini.",
       "swag_points": "Poin tidak cukup."
+    },
+    "deeds": {
+      "invalid_input": "Invalid input."
     }
   },
   "guide": {

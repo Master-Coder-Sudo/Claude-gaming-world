@@ -1509,6 +1509,8 @@ export const nl_NL: EnTranslations = {
       "unlockedBanner": "Deed accomplished: {name}",
       "unlockedTitleHint": "New title earned: {title}. Choose it in the Book of Deeds.",
       "retroSummary": "Your chronicle catches up: {count} deeds recorded.",
+      "broadcastLine": "{name} has accomplished a deed: {deed}",
+      "rarityLine": "Earned by {percent} of adventurers",
       "trackerLabel": "Deeds",
       "collapseHint": "Collapse deed tracker",
       "expandHint": "Expand deed tracker",
@@ -1604,6 +1606,9 @@ export const nl_NL: EnTranslations = {
       "swag_claimed": "Je hebt deze beloning al geclaimd.",
       "swag_tier": "Bereik een hogere rang om dit te claimen.",
       "swag_points": "Niet genoeg punten."
+    },
+    "deeds": {
+      "invalid_input": "Invalid input."
     }
   },
   "guide": {

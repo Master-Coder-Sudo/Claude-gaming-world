@@ -167,4 +167,7 @@ export const apiErrorStrings = {
     // reuses hudChrome.discord.swag.needPoints
     swag_points: 'Not enough points.',
   },
+  deeds: {
+    invalid_input: 'Invalid input.',
+  },
 };

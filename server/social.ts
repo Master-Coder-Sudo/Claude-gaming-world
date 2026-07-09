@@ -164,7 +164,11 @@ export type SocialEvent =
   | { type: 'guildInvite'; fromName: string; guildName: string }
   // Structured guild-calendar outcome; the client renders the visible line
   // from the code (the sim's mailResult convention, so no server English here).
-  | { type: 'calendarResult'; code: CalendarResultCode };
+  | { type: 'calendarResult'; code: CalendarResultCode }
+  // A guildmate's or followed friend's marquee deed unlock. Carries the deed
+  // ID only, never English (the client composes the line from deed_i18n plus
+  // its own chrome key, the calendarResult convention).
+  | { type: 'deedBroadcast'; characterName: string; deedId: string };
 
 export type CalendarResultCode =
   | 'created'
@@ -750,6 +754,31 @@ export class SocialService {
       this.tx.deliver(m.id, [event]);
     }
     return true;
+  }
+
+  // Fan one marquee deed unlock out to the earner's online guildmates and the
+  // players who friended the earner (friends are one-directional: whoever put
+  // the earner on THEIR list chose to follow them, the position-push rule).
+  // Pure delivery: the caller (game.ts) has already applied the marquee bar,
+  // the retro gate, and the earner's opt-out; this resolves the audience and
+  // honours each recipient's ignore list like guild chat does. The earner
+  // never receives it (their own toast is client-side from the sim event).
+  async broadcastDeedUnlock(actor: SocialActor, deedId: string): Promise<void> {
+    const event: SocialEvent = { type: 'deedBroadcast', characterName: actor.name, deedId };
+    const [membership, followerIds] = await Promise.all([
+      this.db.guildMembership(actor.characterId),
+      this.db.whoFriended(actor.characterId),
+    ]);
+    const audience = new Set<number>(followerIds);
+    if (membership) {
+      for (const m of await this.db.guildMembers(membership.guildId)) audience.add(m.id);
+    }
+    for (const id of audience) {
+      if (id === actor.characterId) continue;
+      if (!this.tx.isOnline(id)) continue;
+      if (this.tx.isIgnoring(id, actor.characterId)) continue;
+      this.tx.deliver(id, [event]);
+    }
   }
 
   // Officer chat (/o): officers + Guild Master only, delivered to the same.

@@ -49,7 +49,7 @@ import { configureAuthRuntime } from './auth_routes';
 import { computeBankBonus } from './bank_entitlements';
 import { bankLedgerIdle } from './bank_ledger';
 import { BUG_DESCRIPTION_MAX, BugReportRateLimitError, createBugReport } from './bug_report_db';
-import { characterSheet, type SheetRank } from './character_sheet';
+import { characterSheet, SHEET_RECENT_DEEDS, type SheetRank } from './character_sheet';
 import { configureCharactersRuntime } from './characters';
 import { handleDailyRewardApi, handleDailyRewardInternalApi } from './daily_rewards';
 import {
@@ -100,6 +100,8 @@ import {
   topLifetimeXp,
   touchLogin,
 } from './db';
+import { configureDeedsRuntime } from './deeds';
+import { deedRarityCounts, recentDeedsForCharacter } from './deeds_db';
 import {
   type DesktopLoginRouteDeps,
   handleDesktopLoginExchange,
@@ -406,6 +408,32 @@ async function getGuildLeaderboard(scope: 'realm' | 'global'): Promise<GuildLead
   } catch (err) {
     console.error(`guild leaderboard refresh failed (${scope}):`, err);
     return cached?.entries ?? [];
+  }
+}
+
+// Deed rarity cache. Same compute-once/serve-from-memory shape as the boards
+// above, one entry (the aggregate is global/cross-realm by design). 5 minutes:
+// rarity moves slowly and the refresh scans character_deeds, so the 30 s board
+// TTL is tighter than this read needs. Stale-on-error like the boards; with
+// nothing cached yet a failed refresh serves the empty aggregate (the endpoint
+// stays 200 and clients simply render no rarity lines).
+const DEEDS_RARITY_TTL_MS = 5 * 60_000;
+let deedsRarityCache: {
+  at: number;
+  payload: import('../src/world_api').DeedsRarity;
+} | null = null;
+
+async function getDeedsRarity(): Promise<import('../src/world_api').DeedsRarity> {
+  if (deedsRarityCache && Date.now() - deedsRarityCache.at < DEEDS_RARITY_TTL_MS) {
+    return deedsRarityCache.payload;
+  }
+  try {
+    const payload = await deedRarityCounts();
+    deedsRarityCache = { at: Date.now(), payload };
+    return payload;
+  } catch (err) {
+    console.error('deeds rarity refresh failed:', err);
+    return deedsRarityCache?.payload ?? { totalEligible: 0, earned: {} };
   }
 }
 
@@ -1076,9 +1104,10 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
       const row = await getCharacterById(target.characterId);
       if (!row)
         return json(res, 404, { error: 'character not found', code: 'character.not_found' });
-      const [guild, rank] = await Promise.all([
+      const [guild, rank, deedsRecent] = await Promise.all([
         guildNameForCharacter(row.id),
         lifetimeXpRankForCharacter(row.id),
+        recentDeedsForCharacter(row.id, SHEET_RECENT_DEEDS),
       ]);
       return json(
         res,
@@ -1090,6 +1119,7 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
           origin: publicOrigin(req),
           guild,
           rank: toSheetRank(rank),
+          deedsRecent,
         }),
       );
     }
@@ -1100,9 +1130,10 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
       const row = await getCharacter(accountId, Number(ownerSheetMatch[1]));
       if (!row)
         return json(res, 404, { error: 'character not found', code: 'character.not_found' });
-      const [guild, rank] = await Promise.all([
+      const [guild, rank, deedsRecent] = await Promise.all([
         guildNameForCharacter(row.id),
         lifetimeXpRankForCharacter(row.id),
+        recentDeedsForCharacter(row.id, SHEET_RECENT_DEEDS),
       ]);
       return json(
         res,
@@ -1114,6 +1145,7 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
           origin: publicOrigin(req),
           guild,
           rank: toSheetRank(rank),
+          deedsRecent,
         }),
       );
     }
@@ -1857,6 +1889,13 @@ configureLeaderboardRuntime({
   releasesMaxLimit: RELEASES_SIZE,
   publicOrigin,
   toSheetRank,
+});
+
+// Inject the main.ts runtime the deeds handlers (server/deeds.ts) need but
+// cannot import without a cycle: the cache-fronted global rarity read. Done at
+// module load, before any request, mirroring configureLeaderboardRuntime above.
+configureDeedsRuntime({
+  deedsRarity: getDeedsRarity,
 });
 
 // Inject the main.ts runtime the ported auth handlers (server/auth_routes.ts) need

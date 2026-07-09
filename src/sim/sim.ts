@@ -2551,6 +2551,12 @@ export class Sim {
     const r = this.resolve(pid);
     if (r) deedsMod.setActiveTitle(r.meta, r.e, deedId);
   }
+  // Offline the sandbox has no population, so there is no rarity to report:
+  // always null (the facet's documented no-data value; the window hides the
+  // slot). Deterministic, no fetch, no clock (the dailyRewards stub doctrine).
+  deedsRarity(): Promise<import('../world_api').DeedsRarity | null> {
+    return Promise.resolve(null);
+  }
   raidLockouts(): import('../world_api').RaidLockout[] {
     const now = this.lockoutNowMs();
     const out: import('../world_api').RaidLockout[] = [];

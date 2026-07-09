@@ -65,6 +65,7 @@ import {
   type DailyRewardLeaderboardPage,
   type DailyRewardSpinResult,
   type DailyRewardStatus,
+  type DeedsRarity,
   type DelveCompanionInfo,
   type DelveDailyInfo,
   type DelveRunInfo,
@@ -2497,6 +2498,27 @@ export class ClientWorld implements IWorld {
   // sim validator accepts, so a rejected send leaves the client untouched. ---
   setActiveTitle(deedId: string | null): void {
     this.cmd({ cmd: 'deed_set_title', deedId });
+  }
+  // The global rarity aggregate: a lazy anonymous REST read (the daily-rewards
+  // async-read variant), resolving the endpoint payload verbatim or null on
+  // any failure (the facet's documented no-data value; the window hides the
+  // slot). The consumer caches per window-open, so no TTL cache here.
+  async deedsRarity(): Promise<DeedsRarity | null> {
+    try {
+      const res = await fetch(apiUrl('/api/deeds/rarity', this.base));
+      if (!res.ok) return null;
+      const data = (await res.json()) as DeedsRarity;
+      if (
+        typeof data?.totalEligible !== 'number' ||
+        typeof data?.earned !== 'object' ||
+        data.earned === null
+      ) {
+        return null;
+      }
+      return data;
+    } catch {
+      return null;
+    }
   }
   // --- IWorldDungeons: dungeon enter/leave sends + the raid-lockout countdown read.
   // selfLockouts mirrors the snapshot `s.lockouts`; raidLockouts derives the live

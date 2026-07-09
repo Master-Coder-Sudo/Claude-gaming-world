@@ -829,6 +829,30 @@ export const SURFACE_INVENTORY: readonly SurfaceRoute[] = [
     limiter: null,
     requireOwnedExpected: null,
   },
+  // Deeds (Book of Deeds): registry-only RouteDefs born AFTER the migration,
+  // per the new-route rule (server/http/CLAUDE.md): they have NO legacy ladder
+  // arm, the registry dispatcher serves them under API_DISPATCH=new, and the
+  // legacy rollback answers 404 for them by design.
+  {
+    dispatcher: DISPATCH.mainApi,
+    method: 'GET',
+    path: '/api/deeds/rarity',
+    handler: 'server/deeds.ts rarityHandler (registry-only RouteDef)',
+    contentType: PROBLEM_JSON,
+    authScope: AUTH_SCOPE.public,
+    limiter: 'publicReadRateLimited',
+    requireOwnedExpected: null,
+  },
+  {
+    dispatcher: DISPATCH.mainApi,
+    method: 'POST',
+    path: '/api/deeds/broadcasts',
+    handler: 'server/deeds.ts broadcastsHandler (registry-only RouteDef)',
+    contentType: PROBLEM_JSON,
+    authScope: AUTH_SCOPE.full,
+    limiter: null,
+    requireOwnedExpected: null,
+  },
   {
     dispatcher: DISPATCH.mainApi,
     method: 'POST',

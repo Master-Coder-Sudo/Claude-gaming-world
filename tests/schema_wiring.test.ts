@@ -141,6 +141,32 @@ describe('ensureSchema wires every schema module at boot', () => {
     }
   });
 
+  it('applies the deeds records table and the broadcast opt-out column idempotently', async () => {
+    // The earned-deed index table and the accounts opt-out column live inline
+    // in the core SCHEMA string. Pin them by name so they can never regress to
+    // defined-but-unwired (the DISCORD_SCHEMA lesson), and boot twice to pin
+    // that a re-boot re-applies the same additive statements.
+    await ensureSchema();
+    await ensureSchema();
+    const applied = h.calls.join('\n');
+    expect(applied).toContain('CREATE TABLE IF NOT EXISTS character_deeds');
+    expect(applied).toContain('CREATE INDEX IF NOT EXISTS character_deeds_deed');
+    expect(applied).toContain('CREATE INDEX IF NOT EXISTS character_deeds_account');
+    expect(applied).toContain('CREATE INDEX IF NOT EXISTS character_deeds_character_earned');
+    expect(applied).toContain(
+      'ALTER TABLE accounts ADD COLUMN IF NOT EXISTS deed_broadcasts BOOLEAN NOT NULL DEFAULT TRUE',
+    );
+    // Additive-only within the block (the bank-tables slicing idiom above).
+    const coreCall = h.calls.find((c) => c.includes('CREATE TABLE IF NOT EXISTS character_deeds'));
+    expect(coreCall).toBeDefined();
+    const start = (coreCall as string).indexOf('CREATE TABLE IF NOT EXISTS character_deeds');
+    const rest = (coreCall as string).slice(start + 1);
+    const end = rest.indexOf('CREATE TABLE');
+    const ddl = rest.slice(0, end === -1 ? undefined : end);
+    expect(ddl).not.toMatch(/\b(?:DROP|TRUNCATE|ALTER COLUMN)\b/i);
+    expect(ddl).not.toMatch(/ADD COLUMN (?!IF NOT EXISTS)/i);
+  });
+
   it('applies the tier-2 rate-limit schema under the advisory lock', async () => {
     // The multi-realm tier-2 backstop depends on the rate_limits table being
     // created at boot (RATELIMIT_SCHEMA in server/ratelimit_db.ts). Pin that it is

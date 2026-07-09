@@ -1509,6 +1509,8 @@ export const zh_TW: EnTranslations = {
       "unlockedBanner": "達成功績：{name}",
       "unlockedTitleHint": "獲得新頭銜：{title}。可在功績之書中選用。",
       "retroSummary": "你的編年史已更新：補錄 {count} 項功績。",
+      "broadcastLine": "{name} 達成了功績：{deed}",
+      "rarityLine": "{percent} 的冒險者已達成",
       "trackerLabel": "功績",
       "collapseHint": "摺疊功績追蹤器",
       "expandHint": "展開功績追蹤器",
@@ -1604,6 +1606,9 @@ export const zh_TW: EnTranslations = {
       "swag_claimed": "你已經領取過此獎勵。",
       "swag_tier": "達到更高階級才能領取此項目。",
       "swag_points": "點數不足。"
+    },
+    "deeds": {
+      "invalid_input": "輸入無效。"
     }
   },
   "guide": {

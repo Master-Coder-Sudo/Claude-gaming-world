@@ -970,3 +970,10 @@ describe('active title selection (setActiveTitle)', () => {
     expect(sim2.entities.get(pid)!.title).toBeNull();
   });
 });
+
+describe('deedsRarity (offline facet arm)', () => {
+  it('always resolves null: a sandbox has no population to aggregate', async () => {
+    const sim = makeSim();
+    await expect(sim.deedsRarity()).resolves.toBeNull();
+  });
+});

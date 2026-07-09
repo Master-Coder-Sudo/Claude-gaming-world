@@ -923,3 +923,69 @@ describe('guild calendar events', () => {
     expect(h.tx.snapshotCount.get(3) ?? 0).toBeGreaterThan(0);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Deed unlock broadcast: marquee unlocks fan out to online guildmates and to
+// the players who friended the earner. The caller (game.ts) owns the marquee
+// bar, the retro gate, and the opt-out; this layer owns audience resolution,
+// the ignore filter, and the id-based event shape.
+// ---------------------------------------------------------------------------
+
+describe('broadcastDeedUnlock', () => {
+  // Earner 1 leads a guild seating 2 and 3; 4 follows the earner from outside
+  // the guild; 5 is unrelated.
+  async function deedSetup() {
+    const h = setup();
+    h.add(1, 'Earner');
+    h.add(2, 'Guildie');
+    h.add(3, 'Officerin');
+    h.add(4, 'Follower');
+    h.add(5, 'Stranger');
+    for (const id of [1, 2, 3, 4, 5]) h.tx.setOnline(id);
+    const created = await h.db.createGuildWithLeader('Bookbinders', 1);
+    if ('error' in created) throw new Error('guild seed failed');
+    await h.db.addGuildMemberAtomic(created.guildId, 2, 'member', 50);
+    await h.db.addGuildMemberAtomic(created.guildId, 3, 'officer', 50);
+    await h.db.addFriend(4, 1); // 4 put the earner on THEIR list
+    return h;
+  }
+
+  it('delivers one id-based frame to online guildmates and followers, never the earner', async () => {
+    const h = await deedSetup();
+    await h.svc.broadcastDeedUnlock(h.actor(1), 'prog_veteran');
+    // The exact wire shape: ids and the earner's name only. Pinning the FULL
+    // object also proves no `text` field rides along (the server never sends
+    // English for this event; the client composes the visible line).
+    const expected = { type: 'deedBroadcast', characterName: 'Earner', deedId: 'prog_veteran' };
+    expect(h.tx.eventsFor(2)).toEqual([expected]);
+    expect(h.tx.eventsFor(3)).toEqual([expected]);
+    expect(h.tx.eventsFor(4)).toEqual([expected]);
+    expect(h.tx.eventsFor(1)).toEqual([]); // the earner's toast is client-side
+    expect(h.tx.eventsFor(5)).toEqual([]); // strangers never hear it
+  });
+
+  it('skips offline members and recipients who ignore the earner', async () => {
+    const h = await deedSetup();
+    h.tx.setOffline(2);
+    await h.db.addBlock(3, 1); // 3 ignores the earner
+    await h.svc.broadcastDeedUnlock(h.actor(1), 'cmb_thunzharr');
+    expect(h.tx.eventsFor(2)).toEqual([]);
+    expect(h.tx.eventsFor(3)).toEqual([]);
+    expect(h.tx.eventsFor(4)).toHaveLength(1);
+  });
+
+  it('delivers exactly once to a follower who is also a guildmate', async () => {
+    const h = await deedSetup();
+    await h.db.addFriend(2, 1); // guildmate 2 also follows the earner
+    await h.svc.broadcastDeedUnlock(h.actor(1), 'prog_veteran');
+    expect(h.tx.eventsFor(2)).toHaveLength(1);
+  });
+
+  it('is a quiet no-op for a guildless earner nobody follows', async () => {
+    const h = setup();
+    h.add(9, 'Hermit');
+    h.tx.setOnline(9);
+    await h.svc.broadcastDeedUnlock(h.actor(9), 'prog_veteran');
+    expect(h.tx.delivered.size).toBe(0);
+  });
+});

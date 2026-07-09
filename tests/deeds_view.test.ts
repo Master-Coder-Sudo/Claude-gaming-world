@@ -19,6 +19,7 @@ import {
   deedCrestId,
   deedDisplayCategory,
   deedProgress,
+  deedRarityFraction,
   deedStatsDigest,
   deedsRefreshSig,
   makeDeedTrackerView,
@@ -800,5 +801,32 @@ describe('buildDeedUnlockPlan', () => {
       playSound: false,
       retroCount: 0,
     });
+  });
+});
+
+// ---------------------------------------------------------------------------
+// deedRarityFraction: the pure render gate for the per-card rarity line.
+// ---------------------------------------------------------------------------
+
+describe('deedRarityFraction', () => {
+  const rarity = { totalEligible: 120, earned: { prog_veteran: 30, cmb_thunzharr: 1 } };
+
+  it('returns the exact fraction for an earned deed', () => {
+    expect(deedRarityFraction(rarity, 'prog_veteran')).toBe(0.25);
+    expect(deedRarityFraction(rarity, 'cmb_thunzharr')).toBe(1 / 120);
+  });
+
+  it('returns null with no aggregate (offline or fetch failure)', () => {
+    expect(deedRarityFraction(null, 'prog_veteran')).toBeNull();
+  });
+
+  it('returns null for a deed nobody has earned (absent from the map)', () => {
+    expect(deedRarityFraction(rarity, 'prog_first_steps')).toBeNull();
+  });
+
+  it('returns null over an empty eligible population (never divides by zero)', () => {
+    expect(
+      deedRarityFraction({ totalEligible: 0, earned: { prog_veteran: 3 } }, 'prog_veteran'),
+    ).toBeNull();
   });
 });
