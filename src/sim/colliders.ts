@@ -749,7 +749,8 @@ export function cameraOcclusion(
 // open-world obstacle whose visual top (`cameraTopY`, the same precomputed top
 // the camera occlusion uses) sits at or below the sight line no longer blocks a
 // cast: a campfire (top 1.45), a crate (1.35), or a small rock is something you
-// see and cast OVER, while buildings, trees, tents, and fences still block.
+// see and cast OVER. Rail fences never block either (see-through and hoppable,
+// #1668), while buildings, trees, tents, and invisible blocker walls still block.
 // Colliders without a known top (the interior wall layouts) always block, the
 // conservative default, and MOVEMENT collision is untouched everywhere.
 export const SIGHT_HEIGHT = 1.6;
@@ -761,6 +762,9 @@ export const SIGHT_HEIGHT = 1.6;
 function sightBlockedAt(seed: number, x: number, z: number, r: number, sightY: number): boolean {
   const overlapsAny = (list: Collider[], lx: number, lz: number, skipLow: boolean): boolean => {
     for (const c of list) {
+      // Rail fences are see-through and hoppable low obstacles: a target visible
+      // over one stays castable, so they never block open-world line of sight (#1668).
+      if (skipLow && c.type === 'obb' && c.isFence) continue;
       if (skipLow && c.cameraTopY !== undefined && c.cameraTopY <= sightY) continue;
       if (pushOut(c, lx, lz, r) !== null) return true;
     }

@@ -2,12 +2,16 @@ import { describe, expect, it } from 'vitest';
 import { GROUND_PICKUP_LINES } from '../src/sim/content/ground_pickup_lines';
 import {
   abilitiesKnownAt,
+  BUILTIN_WORLD,
   DEEPFEN_SHALLOWS_LAKE,
   GROUND_OBJECTS,
   ITEMS,
   LAKE,
+  MOBS,
   NPCS,
+  setActiveWorldContent,
 } from '../src/sim/data';
+import { createMob } from '../src/sim/entity';
 import { ACTIONS, applyAction, encodeObs, obsSize } from '../src/sim/obs';
 import { Sim } from '../src/sim/sim';
 import {
@@ -22,9 +26,10 @@ import {
   rageFromTaking,
   type SimEvent,
   spellHitChance,
+  type WorldContent,
   xpForLevel,
 } from '../src/sim/types';
-import { terrainHeight, WATER_LEVEL } from '../src/sim/world';
+import { groundHeight, terrainHeight, WATER_LEVEL } from '../src/sim/world';
 
 function makeSim(cls: 'warrior' | 'mage' | 'rogue' = 'warrior', seed = 42) {
   return new Sim({ seed, playerClass: cls, autoEquip: true });
@@ -1692,5 +1697,61 @@ describe('friendly targeting (#133)', () => {
     sim.tick();
     sim.friendlyTabTarget();
     expect(sim.player.targetId).toBe(77);
+  });
+});
+
+describe('line of sight over fence-height obstacles (#1668)', () => {
+  const SEED = 4242;
+
+  // An east-west fence line through z = 40, far from the village props: with no
+  // fence, line of sight across this stretch is already clear (no tree or rock
+  // in the way), so the fence is provably the only obstacle in the decisive test.
+  const fenceWorld = (): WorldContent => ({
+    ...BUILTIN_WORLD,
+    props: { ...BUILTIN_WORLD.props, fences: [{ x1: -4, z1: 40, x2: 4, z2: 40 }] },
+  });
+
+  function placeAt(
+    e: { pos: { x: number; y: number; z: number }; prevPos: unknown },
+    x: number,
+    z: number,
+  ) {
+    e.pos.x = x;
+    e.pos.z = z;
+    e.pos.y = groundHeight(x, z, SEED);
+    e.prevPos = { ...e.pos };
+  }
+
+  it('line of sight passes over low obstacles like fences', () => {
+    const content = fenceWorld();
+    setActiveWorldContent(content);
+    try {
+      const sim = new Sim({ seed: SEED, playerClass: 'mage', noPlayer: true, world: content });
+      const pid = sim.addPlayer('mage', 'Caster', { autoEquip: true });
+      const player = sim.entities.get(pid)!;
+
+      // A real mob on the far side of the fence, in line with the caster.
+      const mob = createMob((sim as unknown as { nextId: number }).nextId++, MOBS.forest_wolf, 5, {
+        x: 0,
+        y: 0,
+        z: 41.5,
+      });
+      sim.addEntity(mob);
+
+      // Straddle the fence: caster just south, target just north, aligned on
+      // x = 0 so the fence sits squarely on the sight line between them.
+      placeAt(player, 0, 38.5);
+      placeAt(mob, 0, 41.5);
+
+      // The fence rail top (~2.8yd) rises above the eye-line (~1.6yd), so the raw
+      // collider would block the cast; but a rail fence is see-through and a
+      // hoppable low obstacle, so a target visible over it must stay castable.
+      const hasLos = (
+        sim as unknown as { hasLineOfSight(a: unknown, b: unknown): boolean }
+      ).hasLineOfSight(player, mob);
+      expect(hasLos).toBe(true);
+    } finally {
+      setActiveWorldContent(null);
+    }
   });
 });
