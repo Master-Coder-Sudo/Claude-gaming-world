@@ -23,7 +23,7 @@
 
 import { syncAppViewport } from '../game/app_viewport';
 import { audio } from '../game/audio';
-import { GAMEPAD_NONE, gamepadButtonLabel } from '../game/gamepad_map';
+import { GAMEPAD_NONE, GP, gamepadButtonLabel } from '../game/gamepad_map';
 import {
   BIND_ACTIONS,
   BIND_CATEGORIES,
@@ -31,6 +31,7 @@ import {
   type Keybinds,
   keyLabel,
 } from '../game/keybinds';
+import type { MenuIntentKind } from '../game/menu_gamepad_nav';
 import { isNativeAppShell, useTouchInterface } from '../game/mobile_controls';
 import { music } from '../game/music';
 import {
@@ -113,6 +114,13 @@ import type { WindowFrameDescriptor } from './window_frame_view';
 const BUG_DESC_MAX_LEN = 2000;
 // Full-scale percent for the slider gold-fill gradient (--range-fill is 0..100%).
 const RANGE_FILL_FULL_PCT = 100;
+// A controller page-scroll (RT/LT) moves the detail pane by this fraction of its
+// viewport height (spec section 5: "page-scroll long panes").
+const PAGE_SCROLL_FRACTION = 0.9;
+// Brand-neutral D-pad glyph for the footer legend. Mirrors the language-neutral
+// hardware-glyph convention in gamepad_map (the per-brand arrow labels there all
+// share this prefix); kept ASCII (no arrows) for the legend's compact single line.
+const DPAD_GLYPH = 'D-pad';
 
 // The XL frame descriptor. #options-menu is not a shared tenant, but the frame
 // still mounts on an inner container so the shared window-frame CSS (:has(>
@@ -294,6 +302,9 @@ export class OptionsWindow {
   private reloadPending = false;
   private perfSettings: PerfOverlaySettingsPanel | null = null;
   private returnFocus: HTMLElement | null = null;
+  // Assertive live region for controller announcements (the X = clear keybind verb),
+  // a body-level child so a detail-only repaint never destroys it.
+  private announceEl: HTMLElement | null = null;
 
   constructor(private readonly deps: OptionsWindowDeps) {}
 
@@ -349,10 +360,13 @@ export class OptionsWindow {
     this.perfSettings?.syncPosition(x, y);
   }
 
-  /** Re-render the Controller pane in place when a pad connects/disconnects. */
+  /** Re-render the Controller pane in place when a pad connects/disconnects, and
+   *  the footer legend strip (which appears only while a pad is connected). */
   refreshControllerLabels(): void {
-    if (this.isOpen && this.activeCategory === 'controller' && this.subView === 'none')
-      this.renderDetail();
+    if (!this.isOpen) return;
+    if (this.activeCategory === 'controller' && this.subView === 'none') this.renderDetail();
+    const footer = this.deps.root().querySelector<HTMLElement>('.window-footer');
+    if (footer) this.renderFooter(footer);
   }
 
   // -------------------------------------------------------------------------
@@ -385,6 +399,13 @@ export class OptionsWindow {
     const { body, footer } = this.ensureFrame();
     body.replaceChildren();
     body.appendChild(this.buildSearchStrip());
+    // Assertive live region for controller announcements (body-level so a detail
+    // repaint keeps it). visually-hidden; only its text is exposed to AT.
+    const announce = el('div', 'visually-hidden');
+    announce.setAttribute('role', 'status');
+    announce.setAttribute('aria-live', 'assertive');
+    body.appendChild(announce);
+    this.announceEl = announce;
     const grid = el('div', 'opt-body');
     const rail = el('div', 'opt-rail');
     rail.setAttribute('role', 'tablist');
@@ -698,6 +719,152 @@ export class OptionsWindow {
         : null;
       (selected ?? radios[target]).focus();
     }
+  }
+
+  // -------------------------------------------------------------------------
+  // Controller navigation (spec section 5). The public seam the gamepad wiring
+  // dispatches into (a MenuIntentKind is structurally a FocusIntent), routed
+  // through the same pure model + DOM helpers as the keyboard path.
+  // -------------------------------------------------------------------------
+
+  /** Apply one resolved controller menu verb. Public: the gamepad manager reaches
+   *  this through hud.handleMenuGamepadIntent, never navigator.getGamepads. */
+  handleMenuIntent(intent: MenuIntentKind): void {
+    if (!this.isOpen) return;
+    this.applyFocusIntent(intent);
+  }
+
+  /** The single dispatch keyboard and controller converge on. */
+  private applyFocusIntent(fi: FocusIntent): void {
+    switch (fi) {
+      case 'categoryPrev':
+      case 'categoryNext':
+        this.cycleCategory(fi === 'categoryNext' ? 1 : -1);
+        return;
+      case 'rowPrev':
+      case 'rowNext':
+        this.stepRowFocus(fi === 'rowNext' ? 1 : -1);
+        return;
+      case 'adjustDec':
+      case 'adjustInc':
+      case 'adjustMin':
+      case 'adjustMax':
+      case 'adjustPageDec':
+      case 'adjustPageInc': {
+        const el = this.focusedControl();
+        if (el) this.applyAdjustToControl(el, fi);
+        return;
+      }
+      case 'activate':
+        this.activateFocused();
+        return;
+      case 'back':
+        this.backOrClose();
+        return;
+      case 'resetRow':
+        this.resetFocusedRow();
+        return;
+      case 'clearKeybind':
+        this.clearFocusedKeybind();
+        return;
+      case 'pageUp':
+      case 'pageDown':
+        this.pageScrollDetail(fi === 'pageDown' ? 1 : -1);
+        return;
+    }
+  }
+
+  /** The focused control, only when it is inside the options window. */
+  private focusedControl(): HTMLElement | null {
+    const active = document.activeElement;
+    return active instanceof HTMLElement && this.deps.root().contains(active) ? active : null;
+  }
+
+  /** The detail pane's focusable controls in document order (the trap's set, so a
+   *  roving radiogroup counts once), for controller row-focus stepping. */
+  private detailFocusables(): HTMLElement[] {
+    const scope = this.deps.root().querySelector<HTMLElement>('.opt-detail');
+    if (!scope) return [];
+    return [...scope.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)].filter(
+      (elm) => elm.getClientRects().length > 0,
+    );
+  }
+
+  /** LB/RB: cycle to the previous/next visible category (from anywhere), then land
+   *  focus on the new pane's first row so D-pad Up/Down keeps working. */
+  private cycleCategory(dir: -1 | 1): void {
+    const visible = this.visibleCategoryIds();
+    const current = visible.indexOf(this.activeCategory);
+    if (current < 0) return;
+    this.setActiveCategory(visible[wrapIndex(visible.length, current, dir)], {
+      preserveRailFocus: true,
+    });
+    this.focusFirstRow();
+  }
+
+  /** D-pad Up/Down: move focus one row, clamped at the ends (no wrap). */
+  private stepRowFocus(dir: -1 | 1): void {
+    const rows = this.detailFocusables();
+    if (rows.length === 0) return;
+    const active = document.activeElement;
+    const current = active instanceof HTMLElement ? rows.indexOf(active) : -1;
+    const next = clampIndex(rows.length, current < 0 ? (dir > 0 ? -1 : 0) : current, dir);
+    if (next >= 0) rows[next].focus();
+  }
+
+  private focusFirstRow(): void {
+    this.detailFocusables()[0]?.focus();
+  }
+
+  /** A: activate the focused control (reuses its own click handler). */
+  private activateFocused(): void {
+    this.focusedControl()?.click();
+  }
+
+  /** B: pop a pushed sub-view, else close the menu. */
+  private backOrClose(): void {
+    if (this.subView !== 'none') {
+      this.subView = 'none';
+      this.renderRail();
+      this.renderDetail();
+      this.focusFirstRow();
+      return;
+    }
+    this.close();
+  }
+
+  /** Y: reset the focused row to its default via the same scoped-reset path. */
+  private resetFocusedRow(): void {
+    const key = this.focusedControl()?.closest<HTMLElement>('.opt-row')?.dataset.key;
+    if (!key) return;
+    this.resetKeys([key]);
+    this.render();
+  }
+
+  /** X: clear the focused keybind cap only (no-op elsewhere); announces the result. */
+  private clearFocusedKeybind(): void {
+    const cap = this.focusedControl();
+    const action = cap?.dataset.action;
+    const index = cap?.dataset.index;
+    if (!cap || !cap.classList.contains('kb-key') || action === undefined || index === undefined)
+      return;
+    this.deps.keybinds().clear(action, Number(index));
+    this.deps.refreshKeybindLabels();
+    this.announce(
+      t('hudChrome.options.keybindCleared', { action: this.actionDisplayName(action, action) }),
+    );
+    this.renderDetail();
+  }
+
+  /** RT/LT: page-scroll the detail pane (RT = down, LT = up). */
+  private pageScrollDetail(dir: -1 | 1): void {
+    const scroll = this.deps.root().querySelector<HTMLElement>('.opt-detail');
+    if (!scroll) return;
+    scroll.scrollTop += dir * scroll.clientHeight * PAGE_SCROLL_FRACTION;
+  }
+
+  private announce(message: string): void {
+    if (this.announceEl) this.announceEl.textContent = message;
   }
 
   // -------------------------------------------------------------------------
@@ -1414,6 +1581,10 @@ export class OptionsWindow {
 
   private renderFooter(footer: HTMLElement): void {
     footer.replaceChildren();
+    // Controller button-legend strip: rendered only while a pad is connected
+    // (spec section 5), full-width above the footer actions.
+    const legend = this.buildLegend();
+    if (legend) footer.appendChild(legend);
     const resetAll = el('button', 'btn is-danger');
     resetAll.type = 'button';
     resetAll.textContent = t('hud.options.resetToDefaults');
@@ -1452,6 +1623,39 @@ export class OptionsWindow {
     done.addEventListener('click', () => this.close());
     right.appendChild(done);
     footer.appendChild(right);
+  }
+
+  /** The controller button-legend strip (spec section 5), or null when no pad is
+   *  connected. Live glyphs come from the detected brand; the meanings are t() keys. */
+  private buildLegend(): HTMLElement | null {
+    const hooks = this.deps.options();
+    if (!hooks || !hooks.gamepad.connected()) return null;
+    const kind = hooks.gamepad.kind();
+    const glyph = (b: number): string => gamepadButtonLabel(b, kind);
+    const items: { glyph: string; meaningKey: TranslationKey }[] = [
+      {
+        glyph: `${glyph(GP.LB)} / ${glyph(GP.RB)}`,
+        meaningKey: 'hudChrome.options.legend.category',
+      },
+      { glyph: DPAD_GLYPH, meaningKey: 'hudChrome.options.legend.navigate' },
+      { glyph: glyph(GP.A), meaningKey: 'hudChrome.options.legend.select' },
+      { glyph: glyph(GP.B), meaningKey: 'hudChrome.options.legend.back' },
+      { glyph: glyph(GP.Y), meaningKey: 'hudChrome.options.legend.reset' },
+      { glyph: glyph(GP.X), meaningKey: 'hudChrome.options.legend.clear' },
+      { glyph: `${glyph(GP.LT)} / ${glyph(GP.RT)}`, meaningKey: 'hudChrome.options.legend.page' },
+    ];
+    const legend = el('div', 'opt-legend');
+    legend.setAttribute('aria-label', t('hudChrome.controller.title'));
+    for (const item of items) {
+      const cell = el('span', 'opt-legend-item');
+      const g = el('span', 'opt-legend-glyph');
+      g.textContent = item.glyph;
+      const meaning = document.createElement('span');
+      meaning.textContent = t(item.meaningKey);
+      cell.append(g, meaning);
+      legend.appendChild(cell);
+    }
+    return legend;
   }
 
   private confirmResetAll(): void {
@@ -1576,6 +1780,9 @@ export class OptionsWindow {
             this.capturingKey?.action === action.id && this.capturingKey?.index === index;
           const key = el('button', `btn kb-key${capturing ? ' capturing' : ''}`);
           key.type = 'button';
+          // Identify the slot for the controller X = clear verb (spec section 5).
+          key.dataset.action = action.id;
+          key.dataset.index = String(index);
           key.textContent = capturing
             ? '...'
             : this.deps.keybinds().labelAt(action.id, index) || t('hud.options.unbound');

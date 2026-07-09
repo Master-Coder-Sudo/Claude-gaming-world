@@ -605,6 +605,16 @@ export const es_ES: EnTranslations = {
       "modeOffline": "Offline",
       "changed": "{count} changed",
       "changedSummary": "{count} changed from defaults",
+      "legend": {
+        "category": "Category",
+        "navigate": "Navigate",
+        "select": "Select",
+        "back": "Back",
+        "reset": "Reset",
+        "clear": "Clear",
+        "page": "Page"
+      },
+      "keybindCleared": "Cleared {action}",
       "sec": {
         "quality": "Quality",
         "view": "View",

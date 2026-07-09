@@ -36,7 +36,8 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   // Esc menu redesign P2 (desktop chrome): search strip, reset-all confirm,
   // status block, and the section heads. M16 fills.
   'hudChrome.options.resetAllTitle': '모든 설정을 초기화할까요?',
-  'hudChrome.options.resetAllBody': '모든 설정을 기본값으로 되돌립니다. 이 작업은 취소할 수 없습니다.',
+  'hudChrome.options.resetAllBody':
+    '모든 설정을 기본값으로 되돌립니다. 이 작업은 취소할 수 없습니다.',
   'hudChrome.options.searchPlaceholder': '설정 검색',
   'hudChrome.options.searchScopeAll': '모든 설정',
   'hudChrome.options.searchScopeThis': '이 섹션',
@@ -45,6 +46,12 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.options.modeOffline': '오프라인',
   'hudChrome.options.changed': '{count}개 변경됨',
   'hudChrome.options.changedSummary': '기본값에서 {count}개 변경됨',
+  'hudChrome.options.legend.category': '카테고리',
+  'hudChrome.options.legend.navigate': '이동',
+  'hudChrome.options.legend.select': '선택',
+  'hudChrome.options.legend.reset': '초기화',
+  'hudChrome.options.legend.clear': '지우기',
+  'hudChrome.options.keybindCleared': '{action} 지움',
   'hudChrome.options.sec.quality': '품질',
   'hudChrome.options.sec.general': '일반',
   'hudChrome.options.sec.scaleText': '배율 및 텍스트',

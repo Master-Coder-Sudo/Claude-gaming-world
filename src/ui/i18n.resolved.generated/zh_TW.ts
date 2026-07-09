@@ -605,6 +605,16 @@ export const zh_TW: EnTranslations = {
       "modeOffline": "離線",
       "changed": "已更改 {count} 項",
       "changedSummary": "已更改 {count} 項（相對預設）",
+      "legend": {
+        "category": "分類",
+        "navigate": "導覽",
+        "select": "選擇",
+        "back": "Back",
+        "reset": "重設",
+        "clear": "清除",
+        "page": "Page"
+      },
+      "keybindCleared": "已清除 {action}",
       "sec": {
         "quality": "畫質",
         "view": "View",

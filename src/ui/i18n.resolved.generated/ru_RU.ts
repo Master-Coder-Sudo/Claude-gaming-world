@@ -605,6 +605,16 @@ export const ru_RU: EnTranslations = {
       "modeOffline": "Не в сети",
       "changed": "Изменено: {count}",
       "changedSummary": "Изменено относительно стандартных: {count}",
+      "legend": {
+        "category": "Категория",
+        "navigate": "Навигация",
+        "select": "Выбрать",
+        "back": "Back",
+        "reset": "Сброс",
+        "clear": "Очистить",
+        "page": "Page"
+      },
+      "keybindCleared": "Очищено: {action}",
       "sec": {
         "quality": "Качество",
         "view": "View",

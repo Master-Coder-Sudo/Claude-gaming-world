@@ -605,6 +605,16 @@ export const en_XA: EnTranslations = {
       "modeOffline": "[Óƒƒļíñé]",
       "changed": "[{count} çĥáñĝéð]",
       "changedSummary": "[{count} çĥáñĝéð ƒŕóɱ ðéƒáúļţš]",
+      "legend": {
+        "category": "[Çáţéĝóŕý]",
+        "navigate": "[Ñáʋíĝáţé]",
+        "select": "[Šéļéçţ]",
+        "back": "[Ɓáçķ]",
+        "reset": "[Ŕéšéţ]",
+        "clear": "[Çļéáŕ]",
+        "page": "[Þáĝé]"
+      },
+      "keybindCleared": "[Çļéáŕéð {action}]",
       "sec": {
         "quality": "[Ɋúáļíţý]",
         "view": "[Ʋíéŵ]",

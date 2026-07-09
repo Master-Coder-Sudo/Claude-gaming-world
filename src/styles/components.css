@@ -6231,6 +6231,29 @@
     align-items: center;
     gap: var(--spacing-sm);
   }
+  /* Controller button-legend strip: full-width row above the footer actions,
+     shown only while a pad is connected (spec section 5). */
+  .opt-legend {
+    flex-basis: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs) var(--spacing-md);
+    padding-bottom: var(--spacing-xs);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+  .opt-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+  .opt-legend-glyph {
+    padding: 0 var(--spacing-xs);
+    border: 1px solid var(--panel-edge);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-light);
+    font-variant-numeric: tabular-nums;
+  }
   /* Steady token focus ring on every custom control (never animated away). */
   #options-menu .opt-tab:focus-visible,
   #options-menu .opt-switch:focus-visible,

@@ -1318,6 +1318,11 @@ async function startGame(
     onAction: (id) => dispatchGamepadAction(id),
     onInputEdge: () => inputMeter.record(performance.now()),
     isPointerMode: () => hud.isWindowOpen(),
+    // A focus trap (the Esc menu, other modals) switches the pad into deterministic
+    // menu-navigation mode, checked before pointer mode so the Esc menu uses real
+    // navigation instead of the virtual cursor.
+    isMenuMode: () => hud.isFocusTrapped(),
+    onMenuIntent: (intent) => hud.handleMenuGamepadIntent(intent),
     getPlayerHealth: () => (world.player.dead ? 0 : world.player.hp),
     onConnectionChange: () => hud.refreshControllerLabels(),
   });
@@ -1694,6 +1699,9 @@ async function startGame(
       // The connected pad's brand lives on the manager, not the (hardware-agnostic)
       // bindings, so surface it here for the Controller panel's glyph labels.
       kind: () => gamepad.getKind(),
+      // Live connection state, so the options footer shows the button-legend strip
+      // only while a pad is present.
+      connected: () => gamepad.isConnected(),
     },
   });
   if (online) {

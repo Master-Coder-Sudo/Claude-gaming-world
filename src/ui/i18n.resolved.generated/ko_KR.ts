@@ -605,6 +605,16 @@ export const ko_KR: EnTranslations = {
       "modeOffline": "오프라인",
       "changed": "{count}개 변경됨",
       "changedSummary": "기본값에서 {count}개 변경됨",
+      "legend": {
+        "category": "카테고리",
+        "navigate": "이동",
+        "select": "선택",
+        "back": "Back",
+        "reset": "초기화",
+        "clear": "지우기",
+        "page": "Page"
+      },
+      "keybindCleared": "{action} 지움",
       "sec": {
         "quality": "품질",
         "view": "View",

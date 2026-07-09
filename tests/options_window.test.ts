@@ -284,6 +284,76 @@ describe('options_window: keyboard navigation (P3)', () => {
   });
 });
 
+describe('options_window: controller navigation + legend (P3)', () => {
+  const mainSrc = readFileSync(new URL('../src/main.ts', import.meta.url), 'utf8');
+
+  it('exposes handleMenuIntent as the testable seam and dispatches every verb', () => {
+    // Public seam: the gamepad reaches this through hud, never navigator.getGamepads.
+    expect(painter).toContain('handleMenuIntent(intent: MenuIntentKind): void');
+    expect(painter).toContain('this.applyFocusIntent(intent);');
+    const apply = painter.slice(painter.indexOf('private applyFocusIntent'));
+    const fn = apply.slice(0, apply.indexOf('\n  /** The focused control'));
+    // category / row / adjust / activate / back / reset / clear / page all routed.
+    expect(fn).toContain("this.cycleCategory(fi === 'categoryNext' ? 1 : -1)");
+    expect(fn).toContain("this.stepRowFocus(fi === 'rowNext' ? 1 : -1)");
+    expect(fn).toContain('this.applyAdjustToControl(el, fi)');
+    expect(fn).toContain('this.activateFocused()');
+    expect(fn).toContain('this.backOrClose()');
+    expect(fn).toContain('this.resetFocusedRow()');
+    expect(fn).toContain('this.clearFocusedKeybind()');
+    expect(fn).toContain("this.pageScrollDetail(fi === 'pageDown' ? 1 : -1)");
+  });
+
+  it('controller row focus goes through .focus() (so the focusin cursor fires for it too)', () => {
+    const step = painter.slice(painter.indexOf('private stepRowFocus'));
+    expect(step.slice(0, step.indexOf('\n  private'))).toContain('rows[next].focus()');
+    const first = painter.slice(painter.indexOf('private focusFirstRow'));
+    expect(first.slice(0, first.indexOf('\n  /**'))).toContain(
+      'this.detailFocusables()[0]?.focus()',
+    );
+  });
+
+  it('Y resets the focused row via the scoped-reset path; X clears + announces a keybind cap', () => {
+    const reset = painter.slice(painter.indexOf('private resetFocusedRow'));
+    expect(reset.slice(0, reset.indexOf('\n  /**'))).toContain('this.resetKeys([key])');
+    const clear = painter.slice(painter.indexOf('private clearFocusedKeybind'));
+    const body = clear.slice(0, clear.indexOf('\n  /** RT/LT'));
+    // Clears ONLY a keybind cap (no-op elsewhere) and announces.
+    expect(body).toContain("cap.classList.contains('kb-key')");
+    expect(body).toContain('this.deps.keybinds().clear(action, Number(index))');
+    expect(body).toContain('this.announce(');
+    expect(body).toContain("t('hudChrome.options.keybindCleared', {");
+    // The caps carry the data the clear reads.
+    expect(painter).toContain('key.dataset.action = action.id;');
+    expect(painter).toContain('key.dataset.index = String(index);');
+  });
+
+  it('renders the footer legend ONLY while a pad is connected, with localized meanings', () => {
+    const legend = painter.slice(painter.indexOf('private buildLegend'));
+    const body = legend.slice(0, legend.indexOf('\n  private '));
+    expect(body).toContain('if (!hooks || !hooks.gamepad.connected()) return null;');
+    // Live brand glyphs + t() meaning keys (not raw English).
+    expect(body).toContain('gamepadButtonLabel(b, kind)');
+    expect(body).toContain("'hudChrome.options.legend.category'");
+    expect(body).toContain("'hudChrome.options.legend.page'");
+    // Re-render the footer on connect/disconnect so the strip appears/vanishes live.
+    const refresh = painter.slice(painter.indexOf('refreshControllerLabels(): void'));
+    expect(refresh.slice(0, refresh.indexOf('\n  //'))).toContain('this.renderFooter(footer)');
+  });
+
+  it('wires the pad menu mode through hud + main behind the trap predicate', () => {
+    // hud: the trap predicate + the intent router into the options seam.
+    expect(hudTs).toContain('isFocusTrapped(): boolean');
+    expect(hudTs).toContain('return this.focusManager.hasActiveTrap();');
+    expect(hudTs).toContain('handleMenuGamepadIntent(intent: MenuIntentKind): void');
+    expect(hudTs).toContain('this.optionsWindow.handleMenuIntent(intent);');
+    // main: the gamepad callbacks gate menu mode on the trap + surface pad connection.
+    expect(mainSrc).toContain('isMenuMode: () => hud.isFocusTrapped()');
+    expect(mainSrc).toContain('onMenuIntent: (intent) => hud.handleMenuGamepadIntent(intent)');
+    expect(mainSrc).toContain('connected: () => gamepad.isConnected()');
+  });
+});
+
 describe('options_window: forced-colors selection cue (P2 review item 5)', () => {
   const components = readFileSync(new URL('../src/styles/components.css', import.meta.url), 'utf8');
   it('gives the selected segment a system-colour outline under forced-colors', () => {

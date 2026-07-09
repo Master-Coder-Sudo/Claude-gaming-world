@@ -605,6 +605,16 @@ export const ja_JP: EnTranslations = {
       "modeOffline": "オフライン",
       "changed": "{count} 件変更",
       "changedSummary": "初期値から {count} 件変更",
+      "legend": {
+        "category": "カテゴリ",
+        "navigate": "移動",
+        "select": "決定",
+        "back": "Back",
+        "reset": "リセット",
+        "clear": "クリア",
+        "page": "Page"
+      },
+      "keybindCleared": "{action} をクリアしました",
       "sec": {
         "quality": "品質",
         "view": "View",

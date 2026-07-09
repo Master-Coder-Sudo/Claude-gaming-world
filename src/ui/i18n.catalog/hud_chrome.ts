@@ -694,6 +694,22 @@ export const hudChromeStrings = {
     modeOffline: 'Offline',
     changed: '{count} changed',
     changedSummary: '{count} changed from defaults',
+    // Esc menu redesign P3 (navigation): the controller button-legend strip shown
+    // in the footer while a pad is connected (spec section 5), each verb's menu
+    // meaning, plus the assertive announce for the X = clear-keybind verb. The
+    // physical button GLYPHS (A / LB / D-pad) stay hardware names in gamepad_map;
+    // only these MEANINGS are localized. All wordy prose except back/page, so the
+    // five non-Latin fills (zh_CN/zh_TW/ja_JP/ko_KR/ru_RU) land in this same change (M16).
+    legend: {
+      category: 'Category',
+      navigate: 'Navigate',
+      select: 'Select',
+      back: 'Back',
+      reset: 'Reset',
+      clear: 'Clear',
+      page: 'Page',
+    },
+    keybindCleared: 'Cleared {action}',
     sec: {
       quality: 'Quality',
       view: 'View',

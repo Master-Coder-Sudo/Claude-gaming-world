@@ -1,6 +1,7 @@
 import { audio } from '../game/audio';
 import type { GamepadKind } from '../game/gamepad_map';
 import type { Keybinds } from '../game/keybinds';
+import type { MenuIntentKind } from '../game/menu_gamepad_nav';
 import { music, musicZoneForLocation, shouldResetMusicForDungeonEntry } from '../game/music';
 import type { GameSettings, Settings } from '../game/settings';
 import { sfx } from '../game/sfx';
@@ -441,6 +442,9 @@ export interface GamepadBindingsHooks {
   // Detected brand of the connected pad, so the panel labels each button with the
   // glyph printed on that controller ('generic' combined labels when none/unknown).
   kind(): GamepadKind;
+  // Whether a pad is connected right now, so the options footer renders the
+  // controller button-legend strip only while one is present (spec section 5).
+  connected(): boolean;
 }
 
 export interface ReportHooks {
@@ -14077,6 +14081,29 @@ export class Hud {
   // controller can point at bag slots / vendor items, not just modal dialogs.
   isWindowOpen(): boolean {
     return this.isModalOpen() || this.topmostOpenWindow() !== null;
+  }
+
+  /** True while a focus trap owns the HUD (the Esc menu or another modal). The
+   *  gamepad reads this to switch into menu-navigation mode: while trapped it emits
+   *  menu intents and consumes every edge so world input never double-fires. */
+  isFocusTrapped(): boolean {
+    return this.focusManager.hasActiveTrap();
+  }
+
+  /** Route one resolved gamepad menu verb (spec section 5). When the Esc menu owns
+   *  focus it drives the full navigation; otherwise a minimal fallback keeps any
+   *  other trapped modal operable (B closes it, A activates the focused control). */
+  handleMenuGamepadIntent(intent: MenuIntentKind): void {
+    const optionsRoot = $('#options-menu');
+    if (this.optionsWindow.isOpen && optionsRoot.contains(document.activeElement)) {
+      this.optionsWindow.handleMenuIntent(intent);
+      return;
+    }
+    if (intent === 'back') {
+      this.closeAll();
+    } else if (intent === 'activate' && document.activeElement instanceof HTMLElement) {
+      document.activeElement.click();
+    }
   }
 
   toggleOptionsMenu(): void {
