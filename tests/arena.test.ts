@@ -674,6 +674,89 @@ describe('arena: class ability target filters', () => {
   });
 });
 
+describe('arena: pre-match snapshot restore', () => {
+  it('returnFromArena restores pre-match HP and resource, not full', () => {
+    const sim = makeWorld();
+    const a = sim.addPlayer('warrior', 'Aleph');
+    const b = sim.addPlayer('mage', 'Bet');
+    teleport(sim, a, 0, -40);
+    teleport(sim, b, 6, -40);
+
+    const ea = sim.entities.get(a)!;
+    // Damage Aleph before queueing so pre-match HP differs from max
+    (sim as any).dealDamage(ea, ea, 50, false, 'physical', null, 'hit');
+    const damagedHp = ea.hp;
+    const damagedResource = ea.resource;
+    expect(damagedHp).toBeLessThan(ea.maxHp);
+
+    // Queue both and run a full bout
+    sim.arenaQueueJoin(a);
+    sim.arenaQueueJoin(b);
+    sim.tick();
+    startBout(sim);
+    // Aleph one-shots Bet to end the match quickly
+    const eb = sim.entities.get(b)!;
+    (sim as any).dealDamage(ea, eb, 99999, false, 'physical', null, 'hit');
+    // Run the 5s aftermath out so both return
+    for (let i = 0; i < 20 * 6 && sim.arenaMatchFor(a); i++) sim.tick();
+
+    // After return, HP should be the damaged value, not full
+    expect(sim.arenaMatchFor(a)).toBe(null);
+    expect(isArenaPos(ea.pos.x)).toBe(false);
+    expect(ea.hp).toBe(damagedHp);
+    expect(ea.resource).toBe(damagedResource);
+  });
+
+  it('a player queued at full HP returns at full HP (no regression)', () => {
+    const { sim, a, b } = queueDuo();
+    const ea = sim.entities.get(a)!;
+    const eb = sim.entities.get(b)!;
+    startBout(sim);
+    (sim as any).dealDamage(ea, eb, 99999, false, 'physical', null, 'hit');
+    // Run the 5s aftermath out
+    for (let i = 0; i < 20 * 6 && sim.arenaMatchFor(a); i++) sim.tick();
+
+    // Both queued at full, pre-match snapshot equals max, so return HP is still full
+    expect(sim.arenaMatchFor(a)).toBe(null);
+    expect(isArenaPos(ea.pos.x)).toBe(false);
+    expect(ea.hp).toBe(ea.maxHp);
+    expect(eb.hp).toBe(eb.maxHp);
+    expect(eb.dead).toBe(false);
+  });
+});
+
+describe('arena: dequeue on dungeon entry', () => {
+  it('dequeues from the 1v1 queue when entering a dungeon', () => {
+    const sim = makeWorld();
+    const a = sim.addPlayer('warrior', 'Aleph');
+    teleport(sim, a, 0, -40);
+    sim.arenaQueueJoin(a);
+    expect(sim.arenaQueue1v1).toContain(a);
+    // Enter a dungeon: must dequeue
+    sim.enterCrypt(a);
+    expect(sim.arenaQueue1v1).not.toContain(a);
+  });
+
+  it('dequeues from the 2v2 queue when entering a dungeon', () => {
+    const sim = makeWorld();
+    const a = sim.addPlayer('warrior', 'Aleph');
+    teleport(sim, a, 0, -40);
+    sim.arenaQueueJoin(a, '2v2');
+    expect(sim.arenaQueue2v2.some((u) => u.pids.includes(a))).toBe(true);
+    sim.enterCrypt(a);
+    expect(sim.arenaQueue2v2.some((u) => u.pids.includes(a))).toBe(false);
+  });
+
+  it('cannot queue from inside an instance (existing guard still works)', () => {
+    const sim = makeWorld();
+    const a = sim.addPlayer('warrior', 'Aleph');
+    teleport(sim, a, 80, 88);
+    sim.enterCrypt(a);
+    sim.arenaQueueJoin(a);
+    expect(sim.arenaQueue1v1).not.toContain(a);
+  });
+});
+
 describe('arena: enclosing walls', () => {
   it('melee auto-attack cannot land through the arena side wall', () => {
     const { sim, a, b } = queueDuo();

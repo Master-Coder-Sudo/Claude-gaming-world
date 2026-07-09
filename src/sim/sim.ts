@@ -673,7 +673,7 @@ export interface ArenaMatch {
   slot: number; // arena instance slot
   state: 'countdown' | 'active' | 'over';
   timer: number; // countdown remaining, then elapsed once active, then return countdown
-  returns: Map<number, { x: number; z: number; facing: number }>;
+  returns: Map<number, { x: number; z: number; facing: number; preMatchHp: number; preMatchResource: number }>;
   ratingA: number; // team avg at start
   ratingB: number;
   defeated: Set<number>;

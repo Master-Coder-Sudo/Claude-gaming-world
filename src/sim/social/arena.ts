@@ -730,10 +730,19 @@ export function startArenaMatch(
     return;
   }
   ctx.arenaBusySlots.add(slot);
-  const returns = new Map<number, { x: number; z: number; facing: number }>();
+  const returns = new Map<
+    number,
+    { x: number; z: number; facing: number; preMatchHp: number; preMatchResource: number }
+  >();
   for (let i = 0; i < allPids.length; i++) {
     const e = entities[i]!;
-    returns.set(allPids[i], { x: e.pos.x, z: e.pos.z, facing: e.facing });
+    returns.set(allPids[i], {
+      x: e.pos.x,
+      z: e.pos.z,
+      facing: e.facing,
+      preMatchHp: e.hp,
+      preMatchResource: e.resource,
+    });
   }
   const isFiesta = format === 'fiesta';
   const countdown = isFiesta ? FIESTA_COUNTDOWN : ARENA_COUNTDOWN;
@@ -1030,6 +1039,10 @@ export function returnFromArena(ctx: SimContext, match: ArenaMatch): void {
     e.prevPos = { ...e.pos };
     e.facing = ret.facing;
     e.dead = false;
+    // Restore pre-match HP and resource snapshotted at match formation so the arena
+    // never acts as a free full restore for damage taken outside the arena.
+    e.hp = Math.min(ret.preMatchHp, e.maxHp);
+    e.resource = Math.min(ret.preMatchResource, e.maxResource);
     ctx.rebucket(e);
     ctx.emit({ type: 'respawn', pid: e.id });
   }

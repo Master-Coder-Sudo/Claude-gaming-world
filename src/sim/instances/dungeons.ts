@@ -20,6 +20,7 @@ import { DUNGEON_X_THRESHOLD, DUNGEONS, dungeonAt, instanceOrigin, MOBS } from '
 import { createGroundObject, createMob } from '../entity';
 import type { InstanceSlot, PlayerMeta } from '../sim';
 import type { SimContext } from '../sim_context';
+import { arenaDequeue } from '../social/arena';
 import { resurrectOnInstanceReentry } from '../spirit';
 import {
   dist2d,
@@ -249,6 +250,8 @@ export function enterDungeon(
   const passingThroughNythraxisCrypt =
     dungeonId === 'nythraxis_crypt' && corpseRunClaim !== undefined;
   if (p.ghost && !passingThroughNythraxisCrypt) resurrectOnInstanceReentry(ctx, r.meta, p, p.pos);
+  // Dequeue from all arena queues so a match cannot be formed from inside an instance.
+  arenaDequeue(ctx, r.meta.entityId);
   ctx.emit({ type: 'log', text: dungeon.enterText, color: '#b9f', pid: r.meta.entityId });
   // Stepping through the moongate is a Chronicle task.
   if (dungeonId === 'drowned_temple') ctx.markVisited(r.meta, 'dungeon:drowned_temple');
