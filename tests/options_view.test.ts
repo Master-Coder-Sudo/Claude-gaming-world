@@ -439,8 +439,7 @@ describe('options_view: rail model (P2)', () => {
     // conflict dot slot reserved for P4: always false in P2
     expect(rail.overview.hasConflict).toBe(false);
     expect(rail.groups.map((g) => g.id)).toEqual(['display', 'input', 'system']);
-    const idsIn = (g: string) =>
-      rail.groups.find((x) => x.id === g)?.tabs.map((t) => t.id) ?? [];
+    const idsIn = (g: string) => rail.groups.find((x) => x.id === g)?.tabs.map((t) => t.id) ?? [];
     expect(idsIn('display')).toEqual(['graphics', 'interface', 'accessibility']);
     // On desktop the touch-only Touch category is hidden (gating verified below).
     expect(idsIn('input')).toEqual(['controls', 'keybinds', 'controller']);
@@ -521,18 +520,38 @@ describe('options_view: buildControlFromRow parity (P2)', () => {
 
   it('binds a slider with the old step (degrees=1, else 0.05) and preserves commitOnChange', () => {
     const fov = buildControlFromRow(makeSource({ cameraFov: 75 }), rowFor('cameraFov')!);
-    expect(fov).toMatchObject({ control: 'slider', key: 'cameraFov', step: 1, fmt: 'degrees', value: 75 });
+    expect(fov).toMatchObject({
+      control: 'slider',
+      key: 'cameraFov',
+      step: 1,
+      fmt: 'degrees',
+      value: 75,
+    });
     const ui = buildControlFromRow(makeSource({ uiScale: 1.1 }), rowFor('uiScale')!);
-    expect(ui).toMatchObject({ control: 'slider', key: 'uiScale', step: 0.05, commitOnChange: true });
+    expect(ui).toMatchObject({
+      control: 'slider',
+      key: 'uiScale',
+      step: 0.05,
+      commitOnChange: true,
+    });
     // a plain percent slider is live (no commitOnChange flag)
     const music = buildControlFromRow(makeSource({ musicVolume: 0.5 }), rowFor('musicVolume')!);
     expect(music).not.toHaveProperty('commitOnChange');
   });
 
   it('binds a choice with its option set, current value, and rerender flag', () => {
-    const preset = buildControlFromRow(makeSource({ graphicsPreset: 5 }), rowFor('graphicsPreset')!);
-    expect(preset).toMatchObject({ control: 'choice', key: 'graphicsPreset', current: 5, rerender: true });
-    if (preset?.control === 'choice') expect(preset.options.map((o) => o.value)).toEqual([1, 2, 3, 4, 5]);
+    const preset = buildControlFromRow(
+      makeSource({ graphicsPreset: 5 }),
+      rowFor('graphicsPreset')!,
+    );
+    expect(preset).toMatchObject({
+      control: 'choice',
+      key: 'graphicsPreset',
+      current: 5,
+      rerender: true,
+    });
+    if (preset?.control === 'choice')
+      expect(preset.options.map((o) => o.value)).toEqual([1, 2, 3, 4, 5]);
   });
 
   it('returns null for the bespoke language + theme-preset rows', () => {

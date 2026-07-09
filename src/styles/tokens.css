@@ -301,6 +301,10 @@
     --control-h: 36px;
     --control-h-touch: 44px;
     --touch-min: 40px;
+    /* Esc menu redesign (The Warden's Codex): the recessed category rail width.
+       A structural length (never themed), collapsed to an icon strip under 900px
+       effective width by the options grammar in components.css. */
+    --opt-rail-w: 208px;
     --text-xs: 12px;
     --text-sm: 13px;
     --text-md: 15px;

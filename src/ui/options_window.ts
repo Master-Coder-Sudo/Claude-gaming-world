@@ -1,23 +1,25 @@
-// Options window painter: owns the #options-menu DOM, the window-local view-state
-// (which sub-panel is open, the key-capture buffer, the keybind note, the lazily
-// built performance panel), and the open/close lifecycle. It renders the nine
-// sub-panels off the declarative model in options_view.ts and dispatches every
-// control through the injected deps; the pure control descriptors + the per-kind
-// value coercion live in the core. This is the thin DOM consumer per the
-// social_window / talents_window template.
+// Options window painter: the Warden's Codex desktop chrome (P2).
 //
-// The window renders NO item rows (it is all sliders/toggles/choices/dropdowns),
-// so it composes no PainterHostPresentation bag (the social
-// precedent); it reads only the live world's bug-report slice and routes the
-// shared HUD chrome (focus return, dropdown builder, keybind store) through these
-// closures. The module never reaches into Hud directly.
+// Owns the #options-menu DOM, adopting the shared window-frame builder
+// (window_frame.ts) at XL size and painting a recessed category rail + detail
+// two-pane off the pure view-models in options_view.ts (which consume the
+// options_ia tree). The window is a full-attention modal: non-draggable and
+// non-resizable (excluded in window_drag_handle.ts + window_resize.ts), always
+// opening on the Overview landing.
 //
-// No raw hex / magic values: every color lives in the extracted
-// stylesheet (the options window CSS moved to components.css); the one log
-// tint stays Hud-side (deps.log), and the two numeric thresholds here are named
-// constants. The graphics sub-panel reads the STATIC graphics preset as a plain
-// setting value only: it never reads the FPS governor and never defines the
-// effects-quality cutoff (that resolver and per-element tiering live elsewhere).
+// This is the thin DOM consumer per the vendor_window template. Every setting
+// row's dispatch is byte-identical to the pre-redesign painter: the pure
+// coercions (sliderDispatchValue / toggleNextValue / boolToggleNextValue) and
+// the exact onSettingChange / settings.set calls are preserved; only the DOM
+// grammar changed (the text ON/OFF button became the .opt-switch role=switch,
+// choices became the .opt-seg radiogroup). The bespoke flows are ported intact:
+// the language busy/failed picker, the theme preset + custom-colour grid, the
+// keybind rebind table, the Controller per-button remap, and the delegated
+// performance-overlay panel (drag-placement gated to the System category).
+//
+// No raw hex / magic values: every colour lives in the extracted stylesheet;
+// the two numeric thresholds here are named constants. The graphics rows read
+// the STATIC graphics preset as a plain setting value only.
 
 import { syncAppViewport } from '../game/app_viewport';
 import { audio } from '../game/audio';
@@ -32,16 +34,15 @@ import {
 import { isNativeAppShell, useTouchInterface } from '../game/mobile_controls';
 import { music } from '../game/music';
 import {
+  BOOL_SETTINGS,
   type BoolSettingKey,
   type GameSettings,
   type NumericSettingKey,
-  normalizeClickMoveButton,
   SETTING_RANGES,
 } from '../game/settings';
 import type { IWorld } from '../world_api';
 import { appVersionInfo } from './app_version';
 import type { ChatClock } from './chat_timestamp';
-import { markDialogRoot } from './dialog_root';
 import { esc } from './esc';
 import type { BugReportHooks, OptionsHooks } from './hud';
 import {
@@ -54,24 +55,35 @@ import {
 } from './i18n';
 import type { TranslationKey } from './i18n.catalog';
 import {
+  buildSearchIndex,
+  CATEGORIES,
+  type CategoryId,
+  categorySettingKeys,
+  OVERVIEW_PINS,
+  OVERVIEW_QUICK_ACTIONS,
+  type QuickActionId,
+  settingRow,
+} from './options_ia';
+import {
   type BoolToggleControl,
   boolToggleNextValue,
-  buildAudioControls,
   buildBugReportInfo,
-  buildControllerControls,
-  buildGraphicsControls,
-  buildInterfaceControls,
-  buildOptionsMenu,
+  buildControlFromRow,
   type ChoiceControl,
+  categoryChangedCount,
+  categoryResetKeys,
   type OptionsControl,
-  type OptionsPanelId,
   type OptionsSettingsSource,
+  renderCategory,
+  renderRailModel,
+  rowMatchesQuery,
   type SliderControl,
   type SliderFmt,
   sliderDispatchValue,
   type ToggleControl,
   toggleIsOn,
   toggleNextValue,
+  totalChangedCount,
 } from './options_view';
 import { PerfOverlaySettingsPanel, type PerfSettingsHost } from './perf_overlay_settings';
 import {
@@ -81,21 +93,60 @@ import {
   THEME_KNOB_LABEL_KEY,
   THEME_KNOB_ORDER,
 } from './theme';
-import { svgIcon } from './ui_icons';
+import { svgIcon, type UiIconName } from './ui_icons';
+import { renderWindowFrame, type WindowFrameParts } from './window_frame';
+import type { WindowFrameDescriptor } from './window_frame_view';
 
-// The current sub-panel (the main menu plus the eight sub-views).
-type OptionsView = 'main' | OptionsPanelId;
-
-// Maximum characters for the bug-report description (a named
-// threshold, not a bare literal). Matches the inline textarea maxLength.
+// Maximum characters for the bug-report description (a named threshold).
 const BUG_DESC_MAX_LEN = 2000;
-// Full-scale percent for the slider gold-fill gradient (the --range-fill custom
-// property is 0%..100%). Named so the fill math carries no bare literal.
+// Full-scale percent for the slider gold-fill gradient (--range-fill is 0..100%).
 const RANGE_FILL_FULL_PCT = 100;
 
+// The XL frame descriptor. #options-menu is not a shared tenant, but the frame
+// still mounts on an inner container so the shared window-frame CSS (:has(>
+// .window-frame), .window > .window-frame) binds exactly as it does for vendor.
+const OPTIONS_FRAME: WindowFrameDescriptor = {
+  id: 'options-menu',
+  titleKey: 'hud.options.gameMenu',
+  closeLabelKey: 'hud.options.returnToGame',
+  footer: true,
+};
+
+// Graphics keys that only apply after a reload (drive the Overview reload alert),
+// and the four advanced sub-pickers revealed only at the Advanced preset (5).
+const RELOAD_KEYS = new Set([
+  'graphicsPreset',
+  'terrainDetail',
+  'foliageDensity',
+  'effectsQuality',
+  'shadowQuality',
+]);
+const ADVANCED_GFX_KEYS = new Set([
+  'terrainDetail',
+  'foliageDensity',
+  'effectsQuality',
+  'shadowQuality',
+]);
+
+// Rail category icon: best-fit mapping onto the existing UiIconName glyph set
+// (dedicated rail glyphs are a follow-up). The label is always the primary
+// affordance; the icon carries the rail when it collapses under 900px.
+const RAIL_ICON: Record<string, UiIconName> = {
+  home: 'menu',
+  display: 'map',
+  layout: 'nameplates',
+  accessibility: 'interact',
+  mouse: 'target',
+  keyboard: 'character',
+  gamepad: 'swap',
+  touch: 'vibrate',
+  audio: 'music',
+  gauge: 'meters',
+};
+const railIcon = (slug: string): UiIconName => RAIL_ICON[slug] ?? 'menu';
+
 // Endonyms for the in-game language picker; never localized (they render
-// identically in every locale, matching the homepage footer picker), keyed by
-// SupportedLanguage so a new locale appears once its label is added here.
+// identically in every locale, matching the homepage footer picker).
 const LANGUAGE_ENDONYMS: Record<SupportedLanguage, string> = {
   en: 'English (US)',
   es: 'Español (LatAm)',
@@ -150,45 +201,40 @@ const BIND_ACTION_LABEL_KEYS: Partial<Record<string, TranslationKey>> = {
   social: 'hud.keybinds.actions.social',
   arena: 'hud.keybinds.actions.arena',
   chat: 'hud.keybinds.actions.chat',
-  // Combat/social target + emote-wheel actions. English-only chrome keys (the
-  // `hud` catalog domain is tsc-locked to inline per-locale blocks).
   emoteWheel: 'hudChrome.keybinds.emoteWheel',
   targetFriendly: 'hudChrome.keybinds.targetFriendly',
   targetFriendlyNext: 'hudChrome.keybinds.targetFriendlyNext',
   discord: 'hudChrome.keybinds.discord',
   valecup: 'hudChrome.keybinds.valecup',
-  // Reuse the existing window/feature names so these labels localize everywhere
-  // without duplicating strings (these two ids were previously absent from the
-  // map and fell back to the raw English BIND_ACTIONS labels).
   talents: 'game.talents.title',
   leaderboard: 'game.leaderboard.title',
   calendar: 'hudChrome.calendar.keybindLabel',
   crafting: 'hudChrome.crafting.title',
 };
 
+function el<K extends keyof HTMLElementTagNameMap>(
+  tag: K,
+  className: string,
+): HTMLElementTagNameMap[K] {
+  const node = document.createElement(tag);
+  node.className = className;
+  return node;
+}
+
 /**
- * Hud-supplied glue. Standalone (the window composes no PainterHostPresentation:
- * it renders no item rows). It reads the live world's bug-report slice and routes
- * the options seam (settings, locale switch, theme, gamepad), the bug-report
- * seam, the keybind store, the shared dropdown builder, focus management, and the
- * chat-timestamp/window state through these closures.
+ * Hud-supplied glue. The window renders no item rows, so it composes no
+ * PainterHostPresentation bag; it reads the world's bug-report slice and routes
+ * the options / bug-report seams, the keybind store, the shared dropdown, focus
+ * management, the confirm dialog, and the online flag through these closures.
  */
 export interface OptionsWindowDeps {
-  /** The #options-menu root (Hud owns the id; the painter stays instance-parameterized). */
   root(): HTMLElement;
-  /** The live world (offline Sim or online ClientWorld mirror); read only for the bug-report info. */
   world(): IWorld;
-  /** The options seam main.ts wires after Input exists (null until attached). */
   options(): OptionsHooks | null;
-  /** The bug-report seam (online only; its presence gates the Report a Bug row). */
   bugReport(): BugReportHooks | null;
-  /** The keybind store (read labels, rebind, reset). */
   keybinds(): Keybinds;
-  /** Display name for an action-bar slot's bound ability or item, or null when empty. */
   slotActionName(slot: number): string | null;
-  /** Re-sync the action-bar keycaps after a rebind/reset. */
   refreshKeybindLabels(): void;
-  /** The shared gold-themed dropdown (carries the listbox ARIA + keyboard nav). */
   buildDropdown(
     options: { value: string; label: string }[],
     current: string,
@@ -196,43 +242,59 @@ export interface OptionsWindowDeps {
     placeholder?: string,
     a11y?: { ariaLabel?: string; labelledBy?: string },
   ): HTMLElement;
-  /** Revert a dropdown's visible value in place without firing onChange (failed locale switch). */
   setDropdownValue(root: HTMLElement, value: string): void;
-  /** Focus the first interactive element (or a preferred selector) inside a root. */
   focusFirstInteractive(root: HTMLElement, preferredSelector?: string): void;
-  /** Clear transient overlays when the menu opens (closeOtherWindows). */
   closeOthers(): void;
   hideTooltip(): void;
-  // Focus management (WCAG 2.2 AA): capture the opener on open, restore it on close.
   captureFocus(): HTMLElement | null;
   restoreFocus(target: HTMLElement | null): void;
-  /** Combat-log a localized message (the gold tint stays Hud-side). */
   log(message: string): void;
-  /** Reset the movable chat window to its default placement. */
   resetChatWindow(): void;
-  /** Reset the movable player + target unit frames to their stock spots. */
   resetUnitFrames(): void;
-  /** Chat-timestamp state (Hud owns it; the chat renderer reads the same fields). */
   getChatTimestamps(): boolean;
   setChatTimestamps(on: boolean): void;
   getChatClock(): ChatClock;
   setChatClock(clock: ChatClock): void;
+  /** True in authoritative online play (gates the online-only quick actions +
+   *  the status readout). Optional: falls back to the bug-report seam presence. */
+  isOnline?(): boolean;
+  /** The shared confirm dialog (reset-all is confirm-gated). Optional: without
+   *  it the reset runs immediately (wired by hud.ts). */
+  confirmDialog?(
+    title: string,
+    body: string,
+    okText: string,
+    cancelText: string,
+    onOk: () => void,
+  ): void;
 }
 
+type SearchScope = 'all' | 'section';
+
 export class OptionsWindow {
-  private view: OptionsView = 'main';
-  private capturingKey: { action: string; index: number } | null = null; // binding awaiting a key
+  private activeCategory: CategoryId = 'overview';
+  private searchQuery = '';
+  private searchScope: SearchScope = 'all';
+  // A pushed sub-view (bug report) inside the detail pane; back returns to System.
+  private subView: 'none' | 'bugreport' = 'none';
+  private capturingKey: { action: string; index: number } | null = null;
   private keybindNote = '';
-  // The Options > Performance panel, lazily built and reused (it caches the live
-  // position-slider handles so a drag-to-move can update them in place).
+  private reloadPending = false;
   private perfSettings: PerfOverlaySettingsPanel | null = null;
-  // The element to refocus when the window closes (WCAG 2.2 AA focus return).
   private returnFocus: HTMLElement | null = null;
 
   constructor(private readonly deps: OptionsWindowDeps) {}
 
   get isOpen(): boolean {
-    return this.deps.root().style.display === 'block';
+    return this.deps.root().style.display === 'flex';
+  }
+
+  private online(): boolean {
+    return this.deps.isOnline ? this.deps.isOnline() : this.deps.bugReport() !== null;
+  }
+
+  private env(): { touch: boolean; nativeShell: boolean } {
+    return { touch: useTouchInterface(), nativeShell: isNativeAppShell() };
   }
 
   toggle(): void {
@@ -240,26 +302,25 @@ export class OptionsWindow {
       this.close();
       return;
     }
-    // Re-sync --app-vh/--app-vw right before opening: #ui is a fixed,
-    // overflow:hidden box sized from those custom properties, and this window
-    // is one of its children, so a stale value from just before a fullscreen
-    // toggle or resize settles would hard-clip the panel with no visible
-    // scrollbar (the panel's own overflow-y:auto never gets a chance to run).
+    // Re-sync --app-vh/--app-vw right before opening (see PR 1118): a stale
+    // value from a fullscreen toggle/resize would hard-clip the framed panel.
     syncAppViewport();
     this.returnFocus = this.deps.captureFocus();
     this.deps.closeOthers();
-    this.view = 'main';
+    // Always open on Overview (never last-visited), scope reset to All.
+    this.activeCategory = 'overview';
+    this.subView = 'none';
+    this.searchQuery = '';
+    this.searchScope = 'all';
     this.capturingKey = null;
     this.keybindNote = '';
+    this.deps.options()?.perfOverlay.setPlacement(false);
     this.render();
-    this.deps.root().style.display = 'block';
+    this.deps.root().style.display = 'flex';
     music.pauseForMenu();
     audio.click();
   }
 
-  // Close path (Esc/X close + the window-manager's closeManagedWindow case): hide
-  // the panel, drop the key-capture + tooltip + perf overlay placement, resume
-  // music, and return focus to the opener (WCAG 2.2 AA).
   close(): void {
     this.deps.root().style.display = 'none';
     this.capturingKey = null;
@@ -271,141 +332,201 @@ export class OptionsWindow {
     this.deps.restoreFocus(target);
   }
 
-  /** Called by main.ts when a drag settles on the live overlay: push the dropped
-   *  normalized position into the open panel's sliders so they do not lag the drag. */
+  /** Push a dropped perf-overlay drag position into the open panel's sliders. */
   onPerfOverlayMoved(x: number, y: number): void {
     this.perfSettings?.syncPosition(x, y);
   }
 
-  /** Called by main.ts when a pad connects/disconnects: re-render the Controller
-   *  sub-view in place if it is open, so the button glyphs switch to the newly
-   *  detected brand without the player reopening the panel. A no-op otherwise. */
+  /** Re-render the Controller pane in place when a pad connects/disconnects. */
   refreshControllerLabels(): void {
-    if (this.isOpen && this.view === 'controller') this.renderController();
+    if (this.isOpen && this.activeCategory === 'controller' && this.subView === 'none')
+      this.renderDetail();
   }
 
   // -------------------------------------------------------------------------
-  // View dispatcher
+  // Frame + shell (stamped cold, then rail/detail repaint per interaction)
   // -------------------------------------------------------------------------
+
+  private ensureFrame(): WindowFrameParts {
+    const root = this.deps.root();
+    const mounted = root.querySelector<HTMLElement>(':scope > .window-frame');
+    const body = mounted?.querySelector<HTMLElement>('.window-body');
+    if (mounted && body) {
+      return {
+        root: mounted,
+        body,
+        footer: mounted.querySelector<HTMLElement>('.window-footer'),
+        tabButtons: [],
+      };
+    }
+    const mount = document.createElement('div');
+    const parts = renderWindowFrame(mount, OPTIONS_FRAME, { onClose: () => this.close() });
+    root.replaceChildren(mount);
+    return parts;
+  }
 
   private render(): void {
-    const el = this.deps.root();
-    // WCAG 2.2 AA: the Esc/options menu is a focus-trapped window, so name the
-    // root and give it a dialog role.
-    // Name the dialog per sub-view. Every sub-view paints a <span id="options-title">
-    // via panelTitle()/settingsViewShell() EXCEPT Performance, whose title comes from
-    // the self-contained perf_overlay_settings panel (buildTitle has no such id). That
-    // one view names itself with aria-label from the same key its title renders
-    // (hudChrome.perf.title, no new key); markDialogRoot clears the opposite name so
-    // aria-labelledby never dangles on a nameless dialog. Keeping the choice here avoids
-    // leaking the options-title DOM-id contract into the perf module.
-    markDialogRoot(
-      el,
-      this.view === 'performance'
-        ? { label: t('hudChrome.perf.title') }
-        : { labelledBy: 'options-title' },
-    );
-    // The wide multi-column layouts belong to their own sub-views; clear each when
-    // leaving it so the other sub-views (and the main menu) keep their default width.
-    if (this.view !== 'keybinds') el.classList.remove('kb-wide');
-    if (this.view !== 'performance') el.classList.remove('perf-wide');
-    // The overlay is draggable only while the Performance sub-view is open.
-    this.deps.options()?.perfOverlay.setPlacement(this.view === 'performance');
-    switch (this.view) {
-      case 'keybinds':
-        this.renderKeybinds();
-        break;
-      case 'graphics':
-        this.renderGraphics();
-        break;
-      case 'audio':
-        this.renderAudio();
-        break;
-      case 'interface':
-        this.renderInterface();
-        break;
-      case 'controller':
-        this.renderController();
-        break;
-      case 'performance':
-        this.renderPerformance();
-        break;
-      case 'bugreport':
-        this.renderBugReport();
-        break;
-      default:
-        this.renderMain();
-    }
-    // Every panelTitle() sub-view carries a [data-back] control in its title
-    // bar; wire it once here so a new sub-view cannot forget it. The main menu
-    // renders none (this no-ops) and Performance wires its own back listener in
-    // buildTitle (it rerender()s internally, which would drop a listener added
-    // here).
-    el.querySelector('[data-back]')?.addEventListener('click', () => this.goBack());
+    const { body, footer } = this.ensureFrame();
+    body.replaceChildren();
+    body.appendChild(this.buildSearchStrip());
+    const grid = el('div', 'opt-body');
+    const rail = el('div', 'opt-rail');
+    rail.setAttribute('role', 'tablist');
+    rail.setAttribute('aria-orientation', 'vertical');
+    const detailScroll = el('div', 'opt-detail');
+    const detailInner = el('div', 'opt-detail-inner');
+    detailScroll.appendChild(detailInner);
+    grid.append(rail, detailScroll);
+    body.appendChild(grid);
+    this.renderRail();
+    this.renderDetail();
+    if (footer) this.renderFooter(footer);
   }
 
-  // Return to the Game Menu root without closing the window. The title-bar back
-  // control and every footer Back button route here: on mobile especially,
-  // close-then-reopen (More, Menu, sub-panel again) was three taps for what this
-  // does in one. Focus moves to the menu's first entry because the control that
-  // had focus is destroyed by the re-render.
-  private goBack(): void {
+  private railEl(): HTMLElement {
+    return this.deps.root().querySelector<HTMLElement>('.opt-rail') as HTMLElement;
+  }
+
+  private detailEl(): HTMLElement {
+    return this.deps.root().querySelector<HTMLElement>('.opt-detail-inner') as HTMLElement;
+  }
+
+  private buildSearchStrip(): HTMLElement {
+    const strip = el('div', 'opt-search');
+    const field = el('div', 'search-field');
+    const input = document.createElement('input');
+    input.type = 'search';
+    input.className = 'search-input';
+    input.value = this.searchQuery;
+    input.setAttribute('placeholder', t('hudChrome.options.searchPlaceholder'));
+    input.setAttribute('aria-label', t('hudChrome.options.searchPlaceholder'));
+    input.addEventListener('input', () => {
+      this.searchQuery = input.value;
+      // The input lives in the search strip, a sibling of the detail pane, so a
+      // detail-only repaint preserves the caret + focus while typing.
+      this.renderDetail();
+    });
+    field.appendChild(input);
+    strip.appendChild(field);
+    const scopes = el('div', 'opt-scopes');
+    scopes.setAttribute('role', 'group');
+    scopes.setAttribute('aria-label', t('hudChrome.options.searchPlaceholder'));
+    const mkScope = (scope: SearchScope, labelKey: TranslationKey) => {
+      const btn = el('button', 'opt-scope');
+      btn.type = 'button';
+      btn.textContent = t(labelKey);
+      btn.setAttribute('aria-pressed', String(this.searchScope === scope));
+      // "This section" is meaningless on the Overview landing.
+      if (scope === 'section' && this.activeCategory === 'overview') btn.disabled = true;
+      btn.addEventListener('click', () => {
+        this.searchScope = scope;
+        for (const b of scopes.querySelectorAll<HTMLElement>('.opt-scope'))
+          b.setAttribute('aria-pressed', String(b === btn));
+        this.renderDetail();
+      });
+      return btn;
+    };
+    scopes.append(
+      mkScope('all', 'hudChrome.options.searchScopeAll'),
+      mkScope('section', 'hudChrome.options.searchScopeThis'),
+    );
+    strip.appendChild(scopes);
+    return strip;
+  }
+
+  // -------------------------------------------------------------------------
+  // Rail
+  // -------------------------------------------------------------------------
+
+  private renderRail(): void {
+    const rail = this.railEl();
+    rail.replaceChildren();
+    const hooks = this.deps.options();
+    const changed = (id: CategoryId): number =>
+      hooks ? categoryChangedCount(id, (key) => this.isChanged(hooks, key)) : 0;
+    const model = renderRailModel(this.env(), changed);
+    rail.appendChild(this.railTab(model.overview));
+    for (const group of model.groups) {
+      const head = el('div', 'opt-rail-group');
+      head.textContent = t(group.labelKey);
+      rail.appendChild(head);
+      for (const tab of group.tabs) rail.appendChild(this.railTab(tab));
+    }
+  }
+
+  private railTab(tab: {
+    id: CategoryId;
+    iconSlug: string;
+    nameKey: TranslationKey;
+    changedCount: number;
+  }): HTMLElement {
+    const name = t(tab.nameKey);
+    const btn = el('button', 'opt-tab');
+    btn.type = 'button';
+    btn.setAttribute('role', 'tab');
+    const active = this.activeCategory === tab.id && this.subView === 'none';
+    btn.classList.toggle('is-active', active);
+    btn.setAttribute('aria-selected', String(active));
+    btn.tabIndex = active ? 0 : -1;
+    btn.title = name;
+    const icon = el('span', 'opt-tab-icon');
+    icon.innerHTML = svgIcon(railIcon(tab.iconSlug));
+    const label = el('span', 'opt-tab-label');
+    label.textContent = name;
+    btn.append(icon, label);
+    if (tab.changedCount > 0) {
+      const count = el('span', 'opt-tab-count');
+      count.textContent = formatNumber(tab.changedCount, { maximumFractionDigits: 0 });
+      count.setAttribute(
+        'aria-label',
+        t('hudChrome.options.changed', {
+          count: formatNumber(tab.changedCount, { maximumFractionDigits: 0 }),
+        }),
+      );
+      btn.appendChild(count);
+    }
+    btn.addEventListener('click', () => this.setActiveCategory(tab.id));
+    return btn;
+  }
+
+  private setActiveCategory(id: CategoryId): void {
     audio.click();
-    this.view = 'main';
+    this.activeCategory = id;
+    this.subView = 'none';
+    this.searchQuery = '';
     this.capturingKey = null;
     this.keybindNote = '';
+    // Perf-overlay drag placement is gated to the System category being open.
+    this.deps.options()?.perfOverlay.setPlacement(id === 'system');
     this.render();
-    this.deps.focusFirstInteractive(this.deps.root());
   }
 
-  private panelTitle(title: string): string {
-    // Sub-views get a back control at the inline start of the title bar; the
-    // main menu is the root, so it renders only the close button.
-    const back =
-      this.view === 'main'
-        ? ''
-        : `<button type="button" class="x-btn back-btn" data-back aria-label="${esc(t('hud.options.back'))}" title="${esc(t('hud.options.back'))}">${svgIcon('prev')}</button>`;
-    return `<div class="panel-title">${back}<span id="options-title">${esc(title)}</span><button type="button" class="x-btn" data-close aria-label="${esc(t('hud.options.returnToGame'))}">${svgIcon('close')}</button></div>`;
-  }
+  // -------------------------------------------------------------------------
+  // Detail dispatcher
+  // -------------------------------------------------------------------------
 
-  private renderMain(): void {
-    const el = this.deps.root();
-    el.innerHTML = this.panelTitle(t('hud.options.gameMenu'));
-    const list = document.createElement('div');
-    list.className = 'opt-list';
-    for (const entry of buildOptionsMenu({ bugReportAvailable: this.deps.bugReport() !== null })) {
-      const b = document.createElement('button');
-      b.className = 'btn opt-btn';
-      b.textContent = t(entry.labelKey);
-      b.addEventListener('click', () => {
-        audio.click();
-        const a = entry.action;
-        if (a.kind === 'goto') {
-          this.view = a.view;
-          this.keybindNote = '';
-          this.render();
-        } else if (a.kind === 'logout') {
-          this.deps.options()?.logout();
-        } else {
-          this.close();
-        }
-      });
-      list.appendChild(b);
+  private renderDetail(): void {
+    const detail = this.detailEl();
+    detail.replaceChildren();
+    if (this.subView === 'bugreport') {
+      this.renderBugReport(detail);
+      return;
     }
-    el.appendChild(list);
-    // Running build, as small secondary text at the foot of the menu, so players can
-    // confirm their version without leaving the settings window (issue 1541).
-    const { version, build } = appVersionInfo();
-    const ver = document.createElement('div');
-    ver.className = 'opt-version';
-    ver.textContent = t('hudChrome.options.version', { version, build });
-    el.appendChild(ver);
-    el.querySelector('[data-close]')?.addEventListener('click', () => this.close());
+    const q = this.searchQuery.trim();
+    if (q && this.searchScope === 'all') {
+      this.renderSearchResults(detail, q);
+      return;
+    }
+    if (this.activeCategory === 'overview') {
+      this.renderOverview(detail);
+      return;
+    }
+    if (this.activeCategory === 'system') {
+      this.renderSystem(detail);
+      return;
+    }
+    this.renderCategoryDetail(detail);
   }
-
-  // -------------------------------------------------------------------------
-  // Control primitives (driven by the options_view descriptors)
-  // -------------------------------------------------------------------------
 
   private settingsSource(hooks: OptionsHooks): OptionsSettingsSource {
     return {
@@ -414,6 +535,100 @@ export class OptionsWindow {
       range: (key) => SETTING_RANGES[key as NumericSettingKey],
     };
   }
+
+  private isChanged(hooks: OptionsHooks, key: string): boolean {
+    const bool = (BOOL_SETTINGS as Record<string, { def: boolean }>)[key];
+    if (bool) return hooks.settings.get(key as BoolSettingKey) !== bool.def;
+    const r = SETTING_RANGES[key as NumericSettingKey];
+    return r ? hooks.settings.get(key as NumericSettingKey) !== r.def : false;
+  }
+
+  private categoryHead(parent: HTMLElement, id: CategoryId, nameKey: TranslationKey): void {
+    const hooks = this.deps.options();
+    const head = el('div', 'opt-cat-head');
+    head.textContent = t(nameKey);
+    // Scoped "Reset [category]" ghost action, shown once the category diverges.
+    const changed = hooks ? categoryChangedCount(id, (key) => this.isChanged(hooks, key)) : 0;
+    if (changed > 0 && categorySettingKeys(id).length > 0) {
+      const reset = el('button', 'opt-section-reset');
+      reset.type = 'button';
+      reset.textContent = t('hud.options.resetToDefaults');
+      reset.setAttribute('aria-label', t('hud.options.resetToDefaults'));
+      reset.addEventListener('click', () => {
+        audio.click();
+        this.resetKeys(categoryResetKeys(id));
+        this.render();
+      });
+      const bar = el('div', 'opt-section-head');
+      bar.append(head, reset);
+      parent.appendChild(bar);
+    } else {
+      parent.appendChild(head);
+    }
+  }
+
+  private renderCategoryDetail(detail: HTMLElement): void {
+    const hooks = this.deps.options();
+    const model = renderCategory(this.activeCategory, this.env());
+    this.categoryHead(detail, model.id, model.nameKey);
+    const sub = el('div', 'opt-cat-sub');
+    sub.textContent = t(model.subheadKey);
+    detail.appendChild(sub);
+    if (hooks) {
+      const source = this.settingsSource(hooks);
+      const q = this.searchScope === 'section' ? this.searchQuery.trim() : '';
+      for (const section of model.sections) {
+        const secEl = el('div', 'opt-section');
+        const headEl = el('div', 'opt-section-head');
+        const title = document.createElement('span');
+        title.textContent = t(section.headKey);
+        headEl.appendChild(title);
+        secEl.appendChild(headEl);
+        let shown = 0;
+        for (const row of section.rows) {
+          // Preset-then-detail: the advanced sub-pickers show only at Advanced (5).
+          if (
+            this.activeCategory === 'graphics' &&
+            row.key &&
+            ADVANCED_GFX_KEYS.has(row.key) &&
+            Math.round(hooks.settings.get('graphicsPreset')) !== 5
+          )
+            continue;
+          if (q && row.key) {
+            const labelText = row.labelKey ? t(row.labelKey) : '';
+            if (!rowMatchesQuery(labelText, row.key, q)) continue;
+          }
+          if (q && !row.key) continue; // hide notes / bespoke rows while filtering
+          if (row.control === 'language') {
+            this.languageRow(secEl);
+            shown++;
+            continue;
+          }
+          if (row.control === 'themePreset') {
+            this.themeRow(secEl);
+            shown++;
+            continue;
+          }
+          const control = buildControlFromRow(source, row);
+          if (!control) continue;
+          if (control.control === 'choice' && row.key === 'graphicsPreset' && isNativeAppShell())
+            control.options = control.options.filter((o) => o.value <= 3);
+          this.applyControls(secEl, [control], hooks, () => this.render());
+          shown++;
+        }
+        // Bespoke section resets (chat window, unit frame positions).
+        if (this.appendSectionAction(secEl, section.id)) shown++;
+        if (shown > 0) detail.appendChild(secEl);
+      }
+    }
+    if (this.activeCategory === 'keybinds') this.renderKeybindTable(detail);
+    if (this.activeCategory === 'controller') this.renderControllerButtons(detail);
+    if (this.activeCategory === 'graphics') this.renderGraphicsReload(detail);
+  }
+
+  // -------------------------------------------------------------------------
+  // Row primitives (the .opt-* grammar; dispatch is byte-identical)
+  // -------------------------------------------------------------------------
 
   private sliderFormatter(fmt: SliderFmt): (v: number) => string {
     if (fmt === 'degrees')
@@ -452,42 +667,38 @@ export class OptionsWindow {
     }
   }
 
-  // A labelled slider bound to a numeric setting; live-applies via the hook.
+  private optRow(label: string): { row: HTMLElement; control: HTMLElement } {
+    const row = el('div', 'opt-row');
+    const name = el('span', 'opt-row-label');
+    name.textContent = label;
+    name.title = label;
+    const control = el('div', 'opt-row-control');
+    row.append(name, control);
+    return { row, control };
+  }
+
   private settingSlider(parent: HTMLElement, c: SliderControl, hooks: OptionsHooks): void {
     const key = c.key as NumericSettingKey;
     const label = t(c.labelKey);
-    const row = document.createElement('div');
-    row.className = 'set-row';
-    const name = document.createElement('span');
-    name.className = 'set-name';
-    name.textContent = label;
+    const { row, control } = this.optRow(label);
+    row.dataset.key = c.key;
     const slider = document.createElement('input');
     slider.type = 'range';
-    slider.className = 'set-slider';
+    slider.className = 'opt-slider';
     slider.min = String(c.min);
     slider.max = String(c.max);
     slider.step = String(c.step);
     slider.value = String(hooks.settings.get(key));
     slider.setAttribute('aria-label', label);
-    const val = document.createElement('span');
-    val.className = 'set-val';
+    const val = el('span', 'opt-slider-val');
     const fmt = this.sliderFormatter(c.fmt);
-    // Mirror the formatted readout into the visible value AND aria-valuetext, so a
-    // screen reader announces the human-meaningful value (50%, 90 degrees) instead
-    // of the raw stored number. The native range already exposes role=slider plus
-    // aria-valuenow/min/max from value/min/max, so only valuetext needs setting.
     const applyReadout = (text: string) => {
       val.textContent = text;
       slider.setAttribute('aria-valuetext', text);
     };
     const syncReadout = () => applyReadout(fmt(hooks.settings.get(key)));
-    // The raw slider position, for the live readout while dragging a commit-on-change
-    // slider (the store is not written until release, so syncReadout would be stale).
     const readoutFromSlider = () => applyReadout(fmt(Number(slider.value)));
     syncReadout();
-    // Paint a gold fill up to the current value on every engine (CSS alone can't
-    // read the value; --range-fill drives the webkit track gradient and Firefox's
-    // native progress is recolored to match). Set initially + on every input.
     const paintFill = () => {
       const min = Number(slider.min),
         max = Number(slider.max),
@@ -499,18 +710,12 @@ export class OptionsWindow {
       );
     };
     paintFill();
-    // Commit the setting (from the raw slider value), then sync the readout + fill.
     const commit = () => {
       hooks.onSettingChange(key, sliderDispatchValue(slider.value));
       syncReadout();
       paintFill();
     };
     if (c.commitOnChange) {
-      // Apply on release. 'input' (drag / each keyboard step) only previews the
-      // readout + fill, so the setting (and any live UI rescale it drives) does not
-      // fire until 'change' (pointer release / touchend, and per keyboard step,
-      // which emits both events). This keeps the uiScale slider from rescaling the
-      // window under the cursor mid-drag (issue 1558).
       slider.addEventListener('input', () => {
         readoutFromSlider();
         paintFill();
@@ -519,26 +724,21 @@ export class OptionsWindow {
     } else {
       slider.addEventListener('input', commit);
     }
-    row.append(name, slider, val);
+    control.append(slider, val);
     parent.appendChild(row);
   }
 
-  // A numeric 0/1 toggle (on when stored >= 0.5).
   private settingToggle(parent: HTMLElement, c: ToggleControl, hooks: OptionsHooks): void {
     const key = c.key as NumericSettingKey;
     const label = t(c.labelKey);
-    const row = document.createElement('div');
-    row.className = 'set-row';
-    const name = document.createElement('span');
-    name.className = 'set-name';
-    name.textContent = label;
-    const toggle = document.createElement('button');
-    toggle.className = 'btn set-toggle';
+    const { row, control } = this.optRow(label);
+    row.dataset.key = c.key;
+    const toggle = el('button', 'opt-switch');
+    toggle.type = 'button';
+    toggle.setAttribute('role', 'switch');
     const sync = () => {
       const on = toggleIsOn(hooks.settings.get(key));
-      toggle.textContent = on ? t('hud.options.on') : t('hud.options.off');
-      toggle.classList.toggle('off', !on);
-      toggle.setAttribute('aria-pressed', String(on));
+      toggle.setAttribute('aria-checked', String(on));
       toggle.setAttribute('aria-label', label);
     };
     sync();
@@ -547,26 +747,21 @@ export class OptionsWindow {
       hooks.onSettingChange(key, toggleNextValue(hooks.settings.get(key)));
       sync();
     });
-    row.append(name, toggle);
+    control.appendChild(toggle);
     parent.appendChild(row);
   }
 
-  // A true/false BOOL_SETTINGS toggle.
   private settingBoolToggle(parent: HTMLElement, c: BoolToggleControl, hooks: OptionsHooks): void {
     const key = c.key as BoolSettingKey;
     const label = t(c.labelKey);
-    const row = document.createElement('div');
-    row.className = 'set-row';
-    const name = document.createElement('span');
-    name.className = 'set-name';
-    name.textContent = label;
-    const toggle = document.createElement('button');
-    toggle.className = 'btn set-toggle';
+    const { row, control } = this.optRow(label);
+    row.dataset.key = c.key;
+    const toggle = el('button', 'opt-switch');
+    toggle.type = 'button';
+    toggle.setAttribute('role', 'switch');
     const sync = () => {
       const on = hooks.settings.get(key);
-      toggle.textContent = on ? t('hud.options.on') : t('hud.options.off');
-      toggle.classList.toggle('off', !on);
-      toggle.setAttribute('aria-pressed', String(on));
+      toggle.setAttribute('aria-checked', String(on));
       toggle.setAttribute('aria-label', label);
     };
     sync();
@@ -578,12 +773,10 @@ export class OptionsWindow {
       );
       sync();
     });
-    row.append(name, toggle);
+    control.appendChild(toggle);
     parent.appendChild(row);
   }
 
-  // An enumerated segmented choice; selecting fires onSettingChange with the
-  // chosen value and optionally re-renders the panel (preset + interfaceMode).
   private settingChoice(
     parent: HTMLElement,
     c: ChoiceControl,
@@ -592,63 +785,55 @@ export class OptionsWindow {
   ): void {
     const key = c.key as NumericSettingKey;
     const label = t(c.labelKey);
-    const row = document.createElement('div');
-    row.className = 'set-row';
-    const name = document.createElement('span');
-    name.className = 'set-name';
-    name.textContent = label;
-    const wrap = document.createElement('div');
-    wrap.className = 'set-choice';
+    const { row, control } = this.optRow(label);
+    row.dataset.key = c.key;
+    const seg = el('div', 'opt-seg');
+    seg.setAttribute('role', 'radiogroup');
+    seg.setAttribute('aria-label', label);
     const sync = () => {
       const current = Math.round(hooks.settings.get(key));
-      for (const btn of [...wrap.querySelectorAll<HTMLButtonElement>('button[data-value]')]) {
+      for (const btn of seg.querySelectorAll<HTMLButtonElement>('button[data-value]')) {
         const selected = Number(btn.dataset.value) === current;
-        btn.classList.toggle('sel', selected);
-        btn.setAttribute('aria-pressed', String(selected));
+        btn.classList.toggle('is-selected', selected);
+        btn.setAttribute('aria-checked', String(selected));
       }
     };
     for (const option of c.options) {
       const optionLabel = t(option.labelKey);
-      const btn = document.createElement('button');
+      const btn = el('button', 'opt-seg-btn');
       btn.type = 'button';
-      btn.className = 'btn set-choice-btn';
+      btn.setAttribute('role', 'radio');
       btn.dataset.value = String(option.value);
       btn.textContent = optionLabel;
       btn.setAttribute('aria-label', optionLabel);
       btn.addEventListener('click', () => {
         audio.click();
+        if (RELOAD_KEYS.has(c.key)) this.reloadPending = true;
         hooks.onSettingChange(key, option.value);
         sync();
         onChange?.();
       });
-      wrap.appendChild(btn);
+      seg.appendChild(btn);
     }
-    row.append(name, wrap);
+    control.appendChild(seg);
     parent.appendChild(row);
     sync();
   }
 
   private noteRow(parent: HTMLElement, textKey: TranslationKey): void {
-    const note = document.createElement('div');
-    note.className = 'set-note';
+    const note = el('div', 'opt-note');
     note.textContent = t(textKey);
     parent.appendChild(note);
   }
 
-  // The bespoke music on/off toggle (reads the live MusicDirector, not a setting).
   private musicToggle(parent: HTMLElement, labelKey: TranslationKey): void {
     const label = t(labelKey);
-    const row = document.createElement('div');
-    row.className = 'set-row';
-    const name = document.createElement('span');
-    name.className = 'set-name';
-    name.textContent = label;
-    const toggle = document.createElement('button');
-    toggle.className = 'btn set-toggle';
+    const { row, control } = this.optRow(label);
+    const toggle = el('button', 'opt-switch');
+    toggle.type = 'button';
+    toggle.setAttribute('role', 'switch');
     const sync = () => {
-      toggle.textContent = music.enabled ? t('hud.options.on') : t('hud.options.off');
-      toggle.classList.toggle('off', !music.enabled);
-      toggle.setAttribute('aria-pressed', String(music.enabled));
+      toggle.setAttribute('aria-checked', String(music.enabled));
       toggle.setAttribute('aria-label', label);
     };
     sync();
@@ -657,115 +842,69 @@ export class OptionsWindow {
       music.setEnabled(!music.enabled);
       sync();
     });
-    row.append(name, toggle);
+    control.appendChild(toggle);
     parent.appendChild(row);
   }
 
-  private settingsViewShell(title: string): HTMLElement {
-    const el = this.deps.root();
-    el.innerHTML = this.panelTitle(title);
-    const body = document.createElement('div');
-    body.className = 'set-rows';
-    el.appendChild(body);
-    return body;
-  }
-
-  private settingsViewFooter(): void {
-    const el = this.deps.root();
-    const reset = document.createElement('button');
-    reset.className = 'btn';
-    reset.textContent = t('hud.options.resetToDefaults');
-    reset.addEventListener('click', () => {
-      audio.click();
-      this.deps.options()?.settings.reset();
-      // re-apply every setting to its subsystem, then redraw the view
-      const all = this.deps.options()?.settings.all();
-      if (all)
-        for (const k of Object.keys(all) as (keyof GameSettings)[])
-          this.deps.options()?.onSettingChange(k, all[k]);
-      this.render();
-    });
-    const back = document.createElement('button');
-    back.className = 'btn';
-    back.textContent = t('hud.options.back');
-    back.addEventListener('click', () => this.goBack());
-    el.append(reset, back);
-    el.querySelector('[data-close]')?.addEventListener('click', () => this.close());
-  }
-
-  // -------------------------------------------------------------------------
-  // Graphics (cluster 3): static WebGL preset as a plain setting value; no
-  // governor read, no effects-quality cutoff.
-  // -------------------------------------------------------------------------
-
-  private renderGraphics(): void {
-    const hooks = this.deps.options();
-    const body = this.settingsViewShell(t('hud.options.graphics'));
-    if (hooks) {
-      const controls = buildGraphicsControls(this.settingsSource(hooks), {
-        touch: useTouchInterface(),
-        nativeShell: isNativeAppShell(),
-      });
-      this.applyControls(body, controls, hooks, () => this.renderGraphics());
+  /** A bespoke "Reset [scope]" section action row (chat window, frame positions).
+   *  Returns true when it appended a row (so the section is not treated empty). */
+  private appendSectionAction(parent: HTMLElement, sectionId: string): boolean {
+    if (this.searchQuery.trim()) return false; // hide bespoke actions while filtering
+    if (this.activeCategory === 'interface' && sectionId === 'chat') {
+      this.resetActionRow(parent, 'hudChrome.chatWindow.reset', () => this.deps.resetChatWindow());
+      return true;
     }
-    const el = this.deps.root();
-    const note = document.createElement('div');
-    note.className = 'set-note';
-    note.textContent = t('hud.options.graphicsNote');
-    el.appendChild(note);
-    const reloadNote = document.createElement('div');
-    reloadNote.className = 'set-note';
-    reloadNote.textContent = t('hud.options.graphicsReloadNote');
-    const reload = document.createElement('button');
-    reload.type = 'button';
-    reload.className = 'btn';
-    reload.textContent = t('hud.options.reloadNow');
-    reload.addEventListener('click', () => {
+    if (this.activeCategory === 'interface' && sectionId === 'unitFrames') {
+      this.resetActionRow(parent, 'hudChrome.frameReset.label', () => this.deps.resetUnitFrames());
+      return true;
+    }
+    return false;
+  }
+
+  private resetActionRow(parent: HTMLElement, labelKey: TranslationKey, onReset: () => void): void {
+    const label = t(labelKey);
+    const { row, control } = this.optRow(label);
+    const btn = el('button', 'btn');
+    btn.type = 'button';
+    btn.textContent = t('hudChrome.chatWindow.resetAction');
+    btn.addEventListener('click', () => {
       audio.click();
-      location.reload();
+      onReset();
     });
-    el.append(reloadNote, reload);
-    this.settingsViewFooter();
+    control.appendChild(btn);
+    parent.appendChild(row);
   }
 
-  // -------------------------------------------------------------------------
-  // Audio (cluster 4)
-  // -------------------------------------------------------------------------
-
-  private renderAudio(): void {
-    const hooks = this.deps.options();
-    const body = this.settingsViewShell(t('hud.options.audio'));
-    if (hooks)
-      this.applyControls(body, buildAudioControls(this.settingsSource(hooks)), hooks, () =>
-        this.renderAudio(),
-      );
-    this.settingsViewFooter();
-  }
-
-  // -------------------------------------------------------------------------
-  // Interface & Comfort (cluster 5): language picker + theme + comfort sliders
-  // + chat-timestamp options.
-  // -------------------------------------------------------------------------
-
-  // In-game language picker (mirrors the homepage footer picker). Switching is
-  // delegated to OptionsHooks.changeLanguage (main.ts owns the locale load + page
-  // relocalization); the HUD relocalizes its dynamic UI off woc:languagechange.
-  private languageSelect(parent: HTMLElement): void {
+  /** Reset a set of settings keys to their defaults and re-apply to subsystems. */
+  private resetKeys(keys: string[]): void {
     const hooks = this.deps.options();
     if (!hooks) return;
-    const row = document.createElement('div');
-    row.className = 'set-row';
-    const name = document.createElement('span');
-    name.className = 'set-name';
-    name.textContent = t('hud.options.language');
-    // Custom gold-themed dropdown (.ui-dd) rather than a native <select>, so the
-    // open option list matches the MMO theme; buildDropdown carries the listbox
-    // ARIA + keyboard semantics a native <select> would have.
+    for (const key of keys) {
+      const bool = (BOOL_SETTINGS as Record<string, { def: boolean }>)[key];
+      if (bool) {
+        hooks.settings.set(key as BoolSettingKey, bool.def);
+        hooks.onSettingChange(key as keyof GameSettings, bool.def);
+      } else {
+        const r = SETTING_RANGES[key as NumericSettingKey];
+        if (!r) continue;
+        hooks.settings.set(key as NumericSettingKey, r.def);
+        hooks.onSettingChange(key as keyof GameSettings, r.def);
+      }
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Interface: language + theme (bespoke, ported intact)
+  // -------------------------------------------------------------------------
+
+  private languageRow(parent: HTMLElement): void {
+    const hooks = this.deps.options();
+    if (!hooks) return;
+    const { row, control } = this.optRow(t('hud.options.language'));
     const options = supportedLanguages.map((lang) => ({
       value: lang,
       label: LANGUAGE_ENDONYMS[lang],
     }));
-    // aria-live status for the async locale load (loading / load-failed).
     const status = document.createElement('span');
     status.className = 'visually-hidden';
     status.setAttribute('role', 'status');
@@ -784,25 +923,15 @@ export class OptionsWindow {
           })
           .then((ok) => {
             if (ok) {
-              // Success: rebuild the panel in the new language (re-creates this picker
-              // at the now-active locale).
-              if (this.isOpen && this.view === 'interface') {
-                this.renderInterface();
-                // Return keyboard focus to the fresh picker trigger so it isn't lost to <body>.
+              if (this.isOpen && this.activeCategory === 'interface' && this.subView === 'none') {
+                this.renderDetail();
                 this.deps.focusFirstInteractive(this.deps.root(), '.set-lang-select .ui-dd-btn');
               }
             } else {
-              // Graceful failure (the locale chunk failed to load): the active locale
-              // is unchanged. Revert the trigger IN PLACE, don't renderInterface(),
-              // which would rebuild and wipe the aria-live `status` node that
-              // changeLanguage just wrote the failure message into.
               this.deps.setDropdownValue(dropdown, getLanguage());
             }
           })
           .catch(() => {
-            // Defensive: changeLanguage swallows load errors and resolves false, so
-            // this is unreachable today, but if it ever throws, keep the same
-            // in-place revert + intact live region rather than rebuilding.
             status.textContent = t('settings.languageLoadFailed');
             this.deps.setDropdownValue(dropdown, getLanguage());
           })
@@ -814,67 +943,54 @@ export class OptionsWindow {
       { ariaLabel: t('hud.options.language') },
     );
     dropdown.classList.add('set-lang-select');
-    row.append(name, dropdown);
+    control.appendChild(dropdown);
     parent.append(row, status);
   }
 
-  // UI theme picker: a preset selector plus a full-palette custom-colour block.
-  // Preset/custom changes route through OptionsHooks.theme; main.ts persists and
-  // live-applies the resulting CSS variables, so no reload is needed.
-  private renderThemeControls(body: HTMLElement): void {
+  private themeRow(parent: HTMLElement): void {
     const hooks = this.deps.options();
     if (!hooks) return;
     const theme = hooks.theme;
-
-    const presetRow = document.createElement('div');
-    presetRow.className = 'set-row';
-    const presetName = document.createElement('span');
-    presetName.className = 'set-name';
-    presetName.textContent = t('hudChrome.theme.preset');
-    const seg = document.createElement('div');
-    seg.className = 'set-seg theme-presets';
+    const { row, control } = this.optRow(t('hudChrome.theme.preset'));
+    const seg = el('div', 'set-seg theme-presets');
     const presetLabel = (id: PresetId): string =>
       t(`hudChrome.theme.presets.${id}` as TranslationKey);
     for (const id of PRESET_ORDER) {
-      const btn = document.createElement('button');
-      btn.className = 'btn set-seg-btn';
+      const btn = el('button', 'btn set-seg-btn');
+      btn.type = 'button';
       btn.textContent = presetLabel(id);
       btn.classList.toggle('active', theme.get().preset === id);
       btn.addEventListener('click', () => {
         audio.click();
         theme.setPreset(id);
-        this.renderInterface(); // refresh active state + custom pickers
+        this.renderDetail();
       });
       seg.appendChild(btn);
     }
-    presetRow.append(presetName, seg);
-    body.appendChild(presetRow);
+    control.appendChild(seg);
+    parent.appendChild(row);
 
     // Custom palette: one colour input per knob, seeded with the effective value.
     const effective = resolveTheme(theme.get());
     const customCount = Object.keys(theme.get().custom).length;
-    const customRow = document.createElement('div');
-    customRow.className = 'set-row theme-custom-head';
-    const customName = document.createElement('span');
-    customName.className = 'set-name';
+    const customRow = el('div', 'set-row theme-custom-head');
+    const customName = el('span', 'set-name');
     customName.textContent = t('hudChrome.theme.customColors');
-    const reset = document.createElement('button');
-    reset.className = 'btn set-toggle';
+    const reset = el('button', 'btn set-toggle');
+    reset.type = 'button';
     reset.textContent = t('hudChrome.theme.reset');
     reset.disabled = customCount === 0;
     reset.addEventListener('click', () => {
       audio.click();
       theme.resetCustom();
-      this.renderInterface();
+      this.renderDetail();
     });
     customRow.append(customName, reset);
-    body.appendChild(customRow);
+    parent.appendChild(customRow);
 
-    const grid = document.createElement('div');
-    grid.className = 'theme-color-grid';
+    const grid = el('div', 'theme-color-grid');
     for (const knob of THEME_KNOB_ORDER) {
-      const row = document.createElement('label');
-      row.className = 'theme-color-row';
+      const knobRow = el('label', 'theme-color-row');
       const swatchLabel = document.createElement('span');
       swatchLabel.textContent = t(
         `hudChrome.theme.knob.${THEME_KNOB_LABEL_KEY[knob]}` as TranslationKey,
@@ -883,145 +999,198 @@ export class OptionsWindow {
       input.type = 'color';
       input.value = effective[knob];
       input.setAttribute('aria-label', swatchLabel.textContent);
-      // 'input' fires continuously while dragging the picker -> live preview.
       input.addEventListener('input', () => theme.setCustom(knob, input.value));
       input.addEventListener('change', () => {
         theme.setCustom(knob, input.value);
         reset.disabled = false;
       });
-      row.append(input, swatchLabel);
-      grid.appendChild(row);
+      knobRow.append(input, swatchLabel);
+      grid.appendChild(knobRow);
     }
-    body.appendChild(grid);
+    parent.appendChild(grid);
   }
 
-  private renderInterface(): void {
-    const body = this.settingsViewShell(t('hud.options.interface'));
-    this.languageSelect(body);
-    this.renderThemeControls(body);
-    const hooks = this.deps.options();
-    if (hooks)
-      this.applyControls(body, buildInterfaceControls(this.settingsSource(hooks)), hooks, () =>
-        this.renderInterface(),
-      );
-
-    // On/off toggle for chat timestamps.
-    const tsRow = document.createElement('div');
-    tsRow.className = 'set-row';
-    const tsName = document.createElement('span');
-    tsName.className = 'set-name';
-    tsName.textContent = t('hudChrome.chatTimestamps.show');
-    const tsToggle = document.createElement('button');
-    tsToggle.className = 'btn set-toggle';
-
-    // 12/24-hour format selector: two segmented buttons, dimmed when off.
-    const fmtRow = document.createElement('div');
-    fmtRow.className = 'set-row';
-    const fmtName = document.createElement('span');
-    fmtName.className = 'set-name';
-    fmtName.textContent = t('hudChrome.chatTimestamps.format');
-    const seg = document.createElement('div');
-    seg.className = 'set-seg';
-    const btn12 = document.createElement('button');
-    btn12.className = 'btn set-seg-btn';
-    btn12.textContent = t('hudChrome.chatTimestamps.clock12h');
-    const btn24 = document.createElement('button');
-    btn24.className = 'btn set-seg-btn';
-    btn24.textContent = t('hudChrome.chatTimestamps.clock24h');
-    seg.append(btn12, btn24);
-    fmtRow.append(fmtName, seg);
-
-    const sync = () => {
-      const on = this.deps.getChatTimestamps();
-      tsToggle.textContent = on ? t('hud.options.on') : t('hud.options.off');
-      tsToggle.classList.toggle('off', !on);
-      tsToggle.setAttribute('aria-pressed', String(on));
-      btn12.classList.toggle('active', this.deps.getChatClock() === '12h');
-      btn24.classList.toggle('active', this.deps.getChatClock() === '24h');
-      fmtRow.classList.toggle('disabled', !on);
-      btn12.disabled = !on;
-      btn24.disabled = !on;
-    };
-    sync();
-
-    tsToggle.addEventListener('click', () => {
+  private renderGraphicsReload(parent: HTMLElement): void {
+    const note = el('div', 'opt-note');
+    note.textContent = t('hud.options.graphicsReloadNote');
+    parent.appendChild(note);
+    const reload = el('button', 'btn');
+    reload.type = 'button';
+    reload.textContent = t('hud.options.reloadNow');
+    reload.addEventListener('click', () => {
       audio.click();
-      this.deps.setChatTimestamps(!this.deps.getChatTimestamps());
-      sync();
+      location.reload();
     });
-    const setClock = (clock: ChatClock) => {
-      if (!this.deps.getChatTimestamps()) return;
-      audio.click();
-      this.deps.setChatClock(clock);
-      sync();
-    };
-    btn12.addEventListener('click', () => setClock('12h'));
-    btn24.addEventListener('click', () => setClock('24h'));
-
-    tsRow.append(tsName, tsToggle);
-    body.append(tsRow, fmtRow);
-
-    // Reset the movable/resizable chat window back to its default placement.
-    const resetRow = document.createElement('div');
-    resetRow.className = 'set-row';
-    const resetName = document.createElement('span');
-    resetName.className = 'set-name';
-    resetName.textContent = t('hudChrome.chatWindow.reset');
-    const resetBtn = document.createElement('button');
-    resetBtn.className = 'btn set-toggle';
-    resetBtn.textContent = t('hudChrome.chatWindow.resetAction');
-    resetBtn.addEventListener('click', () => {
-      audio.click();
-      this.deps.resetChatWindow();
-    });
-    resetRow.append(resetName, resetBtn);
-    body.append(resetRow);
-
-    // Reset the movable player + target unit frames back to their stock spots
-    // (forgets the saved drag positions and re-docks the player frame).
-    const framesRow = document.createElement('div');
-    framesRow.className = 'set-row';
-    const framesName = document.createElement('span');
-    framesName.className = 'set-name';
-    framesName.textContent = t('hudChrome.frameReset.label');
-    const framesBtn = document.createElement('button');
-    framesBtn.className = 'btn set-toggle';
-    framesBtn.textContent = t('hudChrome.chatWindow.resetAction');
-    framesBtn.addEventListener('click', () => {
-      audio.click();
-      this.deps.resetUnitFrames();
-    });
-    framesRow.append(framesName, framesBtn);
-    body.append(framesRow);
-
-    const el = this.deps.root();
-    const note = document.createElement('div');
-    note.className = 'set-note';
-    note.textContent = t('hudChrome.chatTimestamps.note');
-    el.appendChild(note);
-
-    const chatWinNote = document.createElement('div');
-    chatWinNote.className = 'set-note';
-    chatWinNote.textContent = t('hudChrome.chatWindow.note');
-    el.appendChild(chatWinNote);
-
-    const back = document.createElement('button');
-    back.className = 'btn';
-    back.textContent = t('hud.options.back');
-    back.addEventListener('click', () => this.goBack());
-    el.appendChild(back);
-    el.querySelector('[data-close]')?.addEventListener('click', () => this.close());
+    parent.appendChild(reload);
   }
 
   // -------------------------------------------------------------------------
-  // Performance overlay panel (thin delegate to perf_overlay_settings.ts)
+  // Overview landing
   // -------------------------------------------------------------------------
 
-  private renderPerformance(): void {
+  private renderOverview(detail: HTMLElement): void {
+    const head = el('div', 'opt-cat-head');
+    head.textContent = t('hudChrome.options.ia.catOverviewName');
+    const sub = el('div', 'opt-cat-sub');
+    sub.textContent = t('hudChrome.options.ia.catOverviewSub');
+    detail.append(head, sub);
+
+    // Quick actions (mirror the footer).
+    const quick = el('div', 'opt-quick');
+    for (const action of OVERVIEW_QUICK_ACTIONS) {
+      if (!this.quickActionAvailable(action.id)) continue;
+      const cls =
+        action.id === 'resume'
+          ? 'btn is-primary'
+          : action.id === 'logout' || action.id === 'resetAll'
+            ? 'btn is-danger'
+            : 'btn';
+      const btn = el('button', cls);
+      btn.type = 'button';
+      btn.textContent = t(action.labelKey);
+      btn.addEventListener('click', () => this.runQuickAction(action.id));
+      quick.appendChild(btn);
+    }
+    detail.appendChild(quick);
+
+    // Reload-pending alert (a graphics change that needs a reload was made).
+    if (this.reloadPending) {
+      const alert = el('div', 'opt-alert');
+      const text = document.createElement('span');
+      text.textContent = t('hud.options.graphicsReloadNote');
+      const reload = el('button', 'btn');
+      reload.type = 'button';
+      reload.textContent = t('hud.options.reloadNow');
+      reload.addEventListener('click', () => {
+        audio.click();
+        location.reload();
+      });
+      alert.append(text, reload);
+      detail.appendChild(alert);
+    }
+
+    // Pinned essentials: mirror rows writing their HOME key (no second home).
     const hooks = this.deps.options();
-    if (!hooks) return;
-    this.perfSettings ??= new PerfOverlaySettingsPanel(this.perfSettingsHost(hooks));
-    this.perfSettings.render(this.deps.root());
+    const source = hooks ? this.settingsSource(hooks) : null;
+    const pinsSection = el('div', 'opt-section');
+    const pinsHead = el('div', 'opt-section-head');
+    const pinsTitle = document.createElement('span');
+    pinsTitle.textContent = t('hudChrome.options.ia.catOverviewName');
+    pinsHead.appendChild(pinsTitle);
+    pinsSection.appendChild(pinsHead);
+    for (const pin of OVERVIEW_PINS) {
+      if (pin.nonSettingsHome === 'language') {
+        this.languageRow(pinsSection);
+      } else if (pin.nonSettingsHome === 'themePreset') {
+        this.themeRow(pinsSection);
+      } else if (pin.key && hooks && source) {
+        const homeRow = settingRow(pin.key);
+        if (!homeRow) continue;
+        const control = buildControlFromRow(source, homeRow);
+        if (control) this.applyControls(pinsSection, [control], hooks, () => this.render());
+      }
+      const crumb = el('div', 'opt-pin-home');
+      const home = CATEGORIES.find((c) => c.id === pin.homeCategory);
+      if (home) crumb.textContent = t(home.nameKey);
+      pinsSection.appendChild(crumb);
+    }
+    detail.appendChild(pinsSection);
+
+    // Status block: version, online/offline, total changed-from-defaults.
+    const status = el('div', 'opt-status');
+    const { version, build } = appVersionInfo();
+    const ver = document.createElement('span');
+    ver.textContent = t('hudChrome.options.version', { version, build });
+    const mode = document.createElement('span');
+    mode.textContent = this.online()
+      ? t('hudChrome.options.modeOnline')
+      : t('hudChrome.options.modeOffline');
+    const changed = document.createElement('span');
+    const n = hooks ? totalChangedCount((key) => this.isChanged(hooks, key)) : 0;
+    changed.textContent = t('hudChrome.options.changedSummary', {
+      count: formatNumber(n, { maximumFractionDigits: 0 }),
+    });
+    status.append(ver, mode, changed);
+    detail.appendChild(status);
+  }
+
+  private quickActionAvailable(id: QuickActionId): boolean {
+    if (id === 'reportBug') return this.deps.bugReport() !== null;
+    // Logout stays reachable in both modes: offline logout reloads to the title
+    // screen (a meaningful action), so today's unconditional reachability is kept.
+    return true;
+  }
+
+  private runQuickAction(id: QuickActionId): void {
+    audio.click();
+    if (id === 'resume') {
+      this.close();
+    } else if (id === 'reportBug') {
+      this.activeCategory = 'system';
+      this.subView = 'bugreport';
+      this.render();
+    } else if (id === 'logout') {
+      this.deps.options()?.logout();
+    } else {
+      this.confirmResetAll();
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // System: perf overlay (delegated) + support (bug report) + about
+  // -------------------------------------------------------------------------
+
+  private renderSystem(detail: HTMLElement): void {
+    this.categoryHead(detail, 'system', 'hudChrome.options.ia.catSystemName');
+    const sub = el('div', 'opt-cat-sub');
+    sub.textContent = t('hudChrome.options.ia.catSystemSub');
+    detail.appendChild(sub);
+
+    // Performance: the delegated overlay config panel (its master toggle is
+    // showFps). Placement drag stays gated to this category being open.
+    const hooks = this.deps.options();
+    if (hooks) {
+      const perfHost = el('div', 'opt-perf-host');
+      detail.appendChild(perfHost);
+      this.perfSettings ??= new PerfOverlaySettingsPanel(this.perfSettingsHost(hooks));
+      this.perfSettings.render(perfHost);
+    }
+
+    // Support: Report a Bug (online) pushes the bug-report sub-view.
+    if (this.deps.bugReport() !== null) {
+      const support = el('div', 'opt-section');
+      const supportHead = el('div', 'opt-section-head');
+      const supportTitle = document.createElement('span');
+      supportTitle.textContent = t('hudChrome.options.sec.support');
+      supportHead.appendChild(supportTitle);
+      support.appendChild(supportHead);
+      const { row, control } = this.optRow(t('hudChrome.bugReport.menuButton'));
+      const btn = el('button', 'btn');
+      btn.type = 'button';
+      btn.textContent = t('hudChrome.bugReport.menuButton');
+      btn.addEventListener('click', () => {
+        audio.click();
+        this.subView = 'bugreport';
+        this.renderRail();
+        this.renderDetail();
+      });
+      control.appendChild(btn);
+      support.appendChild(row);
+      detail.appendChild(support);
+    }
+
+    // About: the running build.
+    const about = el('div', 'opt-section');
+    const aboutHead = el('div', 'opt-section-head');
+    const aboutTitle = document.createElement('span');
+    aboutTitle.textContent = t('hudChrome.options.sec.about');
+    aboutHead.appendChild(aboutTitle);
+    about.appendChild(aboutHead);
+    const { version, build } = appVersionInfo();
+    const ver = el('div', 'opt-version');
+    ver.textContent = t('hudChrome.options.version', { version, build });
+    about.appendChild(ver);
+    detail.appendChild(about);
   }
 
   private perfSettingsHost(hooks: OptionsHooks): PerfSettingsHost {
@@ -1031,167 +1200,136 @@ export class OptionsWindow {
       setShowFps: (on) => hooks.onSettingChange('showFps', on),
       click: () => audio.click(),
       onClose: () => this.close(),
-      onBack: () => this.goBack(),
+      onBack: () => this.setActiveCategory('overview'),
       closeIconHtml: svgIcon('close'),
       backIconHtml: svgIcon('prev'),
     };
   }
 
   // -------------------------------------------------------------------------
-  // Bug report (cluster 2)
+  // Footer
   // -------------------------------------------------------------------------
 
-  private renderBugReport(): void {
-    const hooks = this.deps.bugReport();
-    if (!hooks) {
-      this.view = 'main';
-      this.render();
-      return;
-    }
-    const body = this.settingsViewShell(t('hudChrome.bugReport.menuButton'));
-    const info = buildBugReportInfo(this.deps.world().realm, this.deps.world().player);
-    const realm = info.realmKnown ? info.realm : t('hudChrome.bugReport.unknown');
-    const coords =
-      `${formatNumber(info.pos.x, { maximumFractionDigits: 0, useGrouping: false })}, ` +
-      `${formatNumber(info.pos.y, { maximumFractionDigits: 0, useGrouping: false })}, ` +
-      `${formatNumber(info.pos.z, { maximumFractionDigits: 0, useGrouping: false })}`;
-
-    const infoEl = document.createElement('div');
-    infoEl.className = 'bug-info';
-    const infoRow = (label: string, value: string): string =>
-      `<div class="bug-info-row"><span class="bug-info-label">${esc(label)}</span><span class="bug-info-val">${esc(value)}</span></div>`;
-    infoEl.innerHTML =
-      infoRow(t('hudChrome.bugReport.realm'), realm) +
-      infoRow(t('hudChrome.bugReport.character'), info.characterName) +
-      infoRow(t('hudChrome.bugReport.position'), coords);
-    body.appendChild(infoEl);
-
-    // Capture once when the form opens so the screenshot reflects what the player
-    // saw, not a later frame. null when capture is unavailable/failed.
-    const shot = hooks.capture();
-
-    const descLabel = document.createElement('label');
-    descLabel.className = 'bug-label';
-    descLabel.setAttribute('for', 'bug-desc');
-    descLabel.textContent = t('hudChrome.bugReport.description');
-    const desc = document.createElement('textarea');
-    desc.id = 'bug-desc';
-    desc.className = 'bug-desc';
-    desc.maxLength = BUG_DESC_MAX_LEN;
-    desc.setAttribute('placeholder', t('hudChrome.bugReport.descriptionPlaceholder'));
-    desc.setAttribute('aria-describedby', 'bug-error');
-    body.append(descLabel, desc);
-
-    let includeShot = shot !== null;
-    if (shot) {
-      const shotWrap = document.createElement('div');
-      shotWrap.className = 'bug-shot';
-      const img = document.createElement('img');
-      img.className = 'bug-shot-img';
-      img.src = shot;
-      img.alt = t('hudChrome.bugReport.screenshotAlt');
-      const toggle = document.createElement('button');
-      toggle.type = 'button';
-      toggle.className = 'btn set-toggle';
-      const syncToggle = () => {
-        toggle.textContent = includeShot ? t('hud.options.on') : t('hud.options.off');
-        toggle.classList.toggle('off', !includeShot);
-        toggle.setAttribute('aria-pressed', String(includeShot));
-        toggle.setAttribute('aria-label', t('hudChrome.bugReport.includeScreenshot'));
-        img.style.display = includeShot ? '' : 'none';
-      };
-      toggle.addEventListener('click', () => {
-        audio.click();
-        includeShot = !includeShot;
-        syncToggle();
-      });
-      syncToggle();
-      const toggleRow = document.createElement('div');
-      toggleRow.className = 'set-row';
-      const name = document.createElement('span');
-      name.className = 'set-name';
-      name.textContent = t('hudChrome.bugReport.includeScreenshot');
-      toggleRow.append(name, toggle);
-      shotWrap.append(toggleRow, img);
-      body.appendChild(shotWrap);
-    }
-
-    const error = document.createElement('div');
-    error.className = 'report-error';
-    error.id = 'bug-error';
-    // role="alert" already implies an assertive live region; a second aria-live
-    // would conflict, so it is the only announcement hook on this node.
-    error.setAttribute('role', 'alert');
-    body.appendChild(error);
-
-    const actions = document.createElement('div');
-    actions.className = 'report-actions';
-    const submit = document.createElement('button');
-    submit.className = 'btn';
-    submit.type = 'button';
-    submit.textContent = t('hudChrome.bugReport.submit');
-    const back = document.createElement('button');
-    back.className = 'btn';
-    back.type = 'button';
-    back.textContent = t('hud.options.back');
-    back.addEventListener('click', () => this.goBack());
-    actions.append(submit, back);
-    body.appendChild(actions);
-
-    submit.addEventListener('click', () => {
-      const description = desc.value.trim();
-      if (!description) {
-        error.textContent = t('hudChrome.bugReport.describeFirst');
-        return;
-      }
-      submit.disabled = true;
-      error.textContent = '';
-      const sentShot = includeShot && shot !== null;
-      hooks
-        .submit({ description, screenshot: includeShot ? shot : null, meta: hooks.collectMeta() })
-        .then(({ screenshotStored }) => {
-          // Be honest when the server dropped a screenshot the player asked to send.
-          const droppedShot = sentShot && !screenshotStored;
-          this.deps.log(
-            t(
-              droppedShot ? 'hudChrome.bugReport.submittedNoShot' : 'hudChrome.bugReport.submitted',
-            ),
-          );
-          this.view = 'main';
-          this.render();
-        })
-        .catch((err: unknown) => {
-          submit.disabled = false;
-          error.textContent = this.localizeBugReportError(err);
-        });
+  private renderFooter(footer: HTMLElement): void {
+    footer.replaceChildren();
+    const resetAll = el('button', 'btn is-danger');
+    resetAll.type = 'button';
+    resetAll.textContent = t('hud.options.resetToDefaults');
+    resetAll.addEventListener('click', () => {
+      audio.click();
+      this.confirmResetAll();
     });
+    footer.appendChild(resetAll);
 
-    this.deps
-      .root()
-      .querySelector('[data-close]')
-      ?.addEventListener('click', () => this.close());
-    // Focus the description so a keyboard/screen-reader user lands in the field.
-    window.setTimeout(() => desc.focus(), 0);
+    const right = el('div', 'opt-footer-actions');
+    if (this.deps.bugReport() !== null) {
+      const bug = el('button', 'btn-ghost btn');
+      bug.type = 'button';
+      bug.textContent = t('hudChrome.bugReport.menuButton');
+      bug.addEventListener('click', () => {
+        audio.click();
+        this.activeCategory = 'system';
+        this.subView = 'bugreport';
+        this.render();
+      });
+      right.appendChild(bug);
+    }
+    // Log out stays reachable offline (it reloads to the title screen).
+    const logout = el('button', 'btn is-danger');
+    logout.type = 'button';
+    logout.textContent = t('hud.options.logout');
+    logout.addEventListener('click', () => {
+      audio.click();
+      this.deps.options()?.logout();
+    });
+    right.appendChild(logout);
+
+    const done = el('button', 'btn is-primary');
+    done.type = 'button';
+    done.textContent = t('hudChrome.options.done');
+    done.addEventListener('click', () => this.close());
+    right.appendChild(done);
+    footer.appendChild(right);
   }
 
-  private localizeBugReportError(err: unknown): string {
-    const text = err instanceof Error ? err.message : '';
-    const keyByMessage: Record<string, TranslationKey> = {
-      'describe the bug': 'hudChrome.bugReport.describeFirst',
-      'bug report too large': 'hudChrome.bugReport.tooLarge',
-      'too many bug reports, try again later': 'hudChrome.bugReport.rateLimited',
+  private confirmResetAll(): void {
+    const doReset = () => {
+      this.deps.options()?.settings.reset();
+      const all = this.deps.options()?.settings.all();
+      if (all)
+        for (const k of Object.keys(all) as (keyof GameSettings)[])
+          this.deps.options()?.onSettingChange(k, all[k]);
+      this.render();
     };
-    const key = keyByMessage[text.toLowerCase()];
-    return key ? t(key) : t('hudChrome.bugReport.failed');
+    if (this.deps.confirmDialog) {
+      this.deps.confirmDialog(
+        t('hudChrome.options.resetAllTitle'),
+        t('hudChrome.options.resetAllBody'),
+        t('hud.options.resetToDefaults'),
+        t('game.talents.cancel'),
+        doReset,
+      );
+    } else {
+      doReset();
+    }
   }
 
   // -------------------------------------------------------------------------
-  // Controller (cluster 5): enable/invert toggles + sliders + per-button remap.
+  // Search results (basic all-scope view: grouped rows + breadcrumb + go-to)
   // -------------------------------------------------------------------------
 
-  // Display name for an action row. Action-bar slots show the shortcut that
-  // currently occupies them (slot 0 is always Attack); everything else uses its
-  // registry label.
+  private renderSearchResults(detail: HTMLElement, query: string): void {
+    const hooks = this.deps.options();
+    const head = el('div', 'opt-cat-head');
+    head.textContent = t('hudChrome.options.searchScopeAll');
+    detail.appendChild(head);
+    if (!hooks) return;
+    const source = this.settingsSource(hooks);
+    const env = this.env();
+    const matches = buildSearchIndex().filter((r) =>
+      rowMatchesQuery(t(r.labelKey), r.settingKey, query),
+    );
+    // Group matches by home category, honoring env gating (hidden rows never surface).
+    let total = 0;
+    for (const cat of CATEGORIES) {
+      const catMatches = matches.filter((m) => m.categoryId === cat.id);
+      if (catMatches.length === 0) continue;
+      const model = renderCategory(cat.id, env);
+      const visibleKeys = new Set(
+        model.sections.flatMap((s) => s.rows.map((r) => r.key).filter(Boolean)),
+      );
+      const rows = catMatches.filter((m) => visibleKeys.has(m.settingKey));
+      if (rows.length === 0) continue;
+      total += rows.length;
+      const group = el('div', 'opt-result-group');
+      const crumb = el('div', 'opt-result-crumb');
+      const name = document.createElement('span');
+      name.textContent = t(cat.nameKey);
+      const goto = el('button', 'opt-goto');
+      goto.type = 'button';
+      goto.textContent = t('hudChrome.options.searchGoTo', { category: t(cat.nameKey) });
+      goto.addEventListener('click', () => this.setActiveCategory(cat.id));
+      crumb.append(name, goto);
+      group.appendChild(crumb);
+      for (const m of rows) {
+        const row = settingRow(m.settingKey);
+        if (!row) continue;
+        const control = buildControlFromRow(source, row);
+        if (control) this.applyControls(group, [control], hooks, () => this.render());
+      }
+      detail.appendChild(group);
+    }
+    if (total === 0) {
+      const empty = el('div', 'opt-empty');
+      empty.textContent = t('hudChrome.options.searchEmpty');
+      detail.appendChild(empty);
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Keybinds (bind table + reset; the rebind UX is unchanged, P4 owns polish)
+  // -------------------------------------------------------------------------
+
   private actionDisplayName(actionId: string, fallback: string): string {
     if (!actionId.startsWith('slot'))
       return BIND_ACTION_LABEL_KEYS[actionId] ? t(BIND_ACTION_LABEL_KEYS[actionId]) : fallback;
@@ -1202,221 +1340,31 @@ export class OptionsWindow {
     );
   }
 
-  // Action ids a gamepad button may be bound to: explicit unbind, the game menu,
-  // plus every one-shot (edge) keybind action and Jump. Movement-axis actions
-  // (forward/strafe/turn) are excluded, they live on the analog stick.
-  private gamepadActionOptions(): { value: string; label: string }[] {
-    const opts: { value: string; label: string }[] = [
-      { value: GAMEPAD_NONE, label: t('hud.options.unbound') },
-      { value: 'escape', label: t('hudChrome.controller.menuAction') },
-    ];
-    for (const a of BIND_ACTIONS) {
-      if (a.id === 'attackMove') continue; // mode-gated; not a useful pad default
-      if (a.kind !== 'edge' && a.id !== 'jump') continue;
-      opts.push({ value: a.id, label: this.actionDisplayName(a.id, a.label) });
-    }
-    return opts;
-  }
-
-  private renderController(): void {
+  private renderKeybindTable(parent: HTMLElement): void {
     const hooks = this.deps.options();
-    const body = this.settingsViewShell(t('hudChrome.controller.title'));
-    if (hooks)
-      this.applyControls(body, buildControllerControls(this.settingsSource(hooks)), hooks, () =>
-        this.renderController(),
-      );
-
-    const note = document.createElement('div');
-    note.className = 'set-note';
-    note.textContent = t('hudChrome.controller.help');
-    body.appendChild(note);
-
-    const head = document.createElement('div');
-    head.className = 'kb-cat';
-    head.textContent = t('hudChrome.controller.buttons');
-    body.appendChild(head);
-
-    if (hooks) {
-      const opts = this.gamepadActionOptions();
-      const kind = hooks.gamepad.kind();
-      for (const { button, action } of hooks.gamepad.entries()) {
-        const row = document.createElement('div');
-        row.className = 'set-row';
-        const name = document.createElement('span');
-        name.className = 'set-name';
-        const buttonLabel = gamepadButtonLabel(button, kind);
-        name.textContent = buttonLabel;
-        // Name the remap listbox after the physical button it rebinds (WCAG 4.1.2):
-        // the visible set-name span is not programmatically linked, so the dropdown
-        // would otherwise be an unnamed listbox. The button labels are physical
-        // hardware names (gamepad_map.ts), intentionally non-localized, like the
-        // language picker's ariaLabel above.
-        const dd = this.deps.buildDropdown(
-          opts,
-          action,
-          (v) => hooks.gamepad.bind(button, v),
-          undefined,
-          {
-            ariaLabel: buttonLabel,
-          },
-        );
-        row.append(name, dd);
-        body.appendChild(row);
-      }
-      const reset = document.createElement('button');
-      reset.type = 'button';
-      reset.className = 'btn';
-      reset.textContent = t('hudChrome.controller.resetButtons');
-      reset.addEventListener('click', () => {
-        audio.click();
-        hooks.gamepad.reset();
-        this.renderController();
-      });
-      body.appendChild(reset);
-    }
-    this.settingsViewFooter();
-  }
-
-  // -------------------------------------------------------------------------
-  // Key Bindings (cluster 5)
-  // -------------------------------------------------------------------------
-
-  // Toggle row styled for the Key Bindings panel. Handles the bool Mouse Camera
-  // setting and the numeric (0/1) Click to Move setting, which both live here
-  // alongside the rebindable keys.
-  private settingToggleKeybind(
-    parent: HTMLElement,
-    label: string,
-    key: BoolSettingKey | 'clickToMove',
-    help?: string,
-  ): void {
-    const hooks = this.deps.options();
-    if (!hooks) return;
-    const isOn = () =>
-      key === 'clickToMove' ? hooks.settings.get(key) >= 0.5 : hooks.settings.get(key);
-    const row = document.createElement('div');
-    row.className = 'kb-row kb-toggle-row';
-    const name = document.createElement('span');
-    name.className = 'kb-name';
-    name.textContent = label;
-    const toggle = document.createElement('button');
-    toggle.type = 'button';
-    toggle.className = 'btn kb-key kb-toggle';
-    const sync = () => {
-      const on = isOn();
-      toggle.textContent = on ? t('hud.options.on') : t('hud.options.off');
-      toggle.classList.toggle('off', !on);
-      toggle.setAttribute('aria-pressed', on ? 'true' : 'false');
-      toggle.setAttribute('aria-label', label);
-    };
-    sync();
-    toggle.addEventListener('click', () => {
-      audio.click();
-      const next = !isOn();
-      if (key === 'clickToMove') hooks.onSettingChange(key, next ? 1 : 0);
-      else hooks.onSettingChange(key, hooks.settings.set(key, next));
-      sync();
-      // Attack Move reveals/hides its rebindable key row, so redraw the panel.
-      if (key === 'attackMove') this.renderKeybinds();
-    });
-    row.append(name, toggle);
-    parent.appendChild(row);
-    if (help) {
-      const hint = document.createElement('div');
-      hint.className = 'kb-note kb-toggle-help';
-      hint.textContent = help;
-      parent.appendChild(hint);
-    }
-  }
-
-  private clickMoveMouseButtonRow(parent: HTMLElement): void {
-    const hooks = this.deps.options();
-    if (!hooks) return;
-    const row = document.createElement('div');
-    row.className = 'kb-row kb-toggle-row';
-    const name = document.createElement('span');
-    name.className = 'kb-name';
-    name.textContent = t('hud.options.clickMoveButton');
-    const toggle = document.createElement('button');
-    toggle.type = 'button';
-    toggle.className = 'btn kb-key kb-toggle kb-mouse-toggle';
-    const sync = () => {
-      toggle.textContent = t(
-        normalizeClickMoveButton(hooks.settings.get('clickToMoveButton')) === 2
-          ? 'hudChrome.options.clickMoveRight'
-          : 'hudChrome.options.clickMoveLeft',
-      );
-      toggle.setAttribute(
-        'aria-label',
-        `${t('hud.options.clickMoveButton')}: ${toggle.textContent}`,
-      );
-    };
-    sync();
-    toggle.addEventListener('click', () => {
-      audio.click();
-      const next = normalizeClickMoveButton(hooks.settings.get('clickToMoveButton')) === 0 ? 2 : 0;
-      hooks.onSettingChange('clickToMoveButton', next);
-      sync();
-    });
-    row.append(name, toggle);
-    parent.appendChild(row);
-  }
-
-  private renderKeybinds(): void {
-    const el = this.deps.root();
-    const hooks = this.deps.options();
-    // Wide, multi-column layout for the key-binding view only; other options
-    // sub-views (graphics/audio/interface) keep the default 420px width.
-    el.classList.add('kb-wide');
-    el.innerHTML = this.panelTitle(t('hud.options.keyBindings'));
-    this.settingToggleKeybind(el, t('hud.options.mouseCamera'), 'mouseCamera');
-    this.settingToggleKeybind(
-      el,
-      t('hudChrome.options.lockCursorOnRotate'),
-      'lockCursorOnRotate',
-      t('hudChrome.options.keybindHelpLockCursorOnRotate'),
-    );
-    this.settingToggleKeybind(el, t('hud.options.clickToMove'), 'clickToMove');
-    this.clickMoveMouseButtonRow(el);
-    this.settingToggleKeybind(el, t('hud.keybinds.actions.attackMove'), 'attackMove');
-    this.settingToggleKeybind(el, t('hud.options.leftHandedTouch'), 'leftHandedTouch');
-    this.settingToggleKeybind(el, t('hud.options.filterProfanity'), 'filterProfanity');
-    const note = document.createElement('div');
-    note.className = 'kb-note';
+    const note = el('div', 'kb-note');
     note.textContent = this.keybindNote || t('hud.options.keybindHelpMouseCamera');
-    el.appendChild(note);
-    const cols = document.createElement('div');
-    cols.className = 'kb-cols';
-    // The Attack Move key is only meaningful (and only rebindable) while its mode
-    // is on; otherwise hide its row so it can't shadow Turn Left's A in the list.
+    parent.appendChild(note);
+    const cols = el('div', 'kb-cols');
     const attackMoveOn = !!hooks?.settings.get('attackMove');
     for (const category of BIND_CATEGORIES) {
       const visible = BIND_ACTIONS.filter(
         (a) => a.category === category && (a.id !== 'attackMove' || attackMoveOn),
       );
       if (visible.length === 0) continue;
-      // Each category is its own column block (header + its rows) so the wide
-      // grid can flow categories side by side; on mobile they stack to one column.
-      const col = document.createElement('div');
-      col.className = 'kb-col';
-      const header = document.createElement('div');
-      header.className = 'kb-cat';
+      const col = el('div', 'kb-col');
+      const header = el('div', 'kb-cat');
       header.textContent = BIND_CATEGORY_LABEL_KEYS[category]
         ? t(BIND_CATEGORY_LABEL_KEYS[category])
         : category;
       col.appendChild(header);
-      const rows = document.createElement('div');
-      rows.className = 'kb-rows';
+      const rows = el('div', 'kb-rows');
       for (const action of visible) {
-        const row = document.createElement('div');
-        row.className = 'kb-row';
-        const name = document.createElement('span');
-        name.className = 'kb-name';
-        const label = document.createElement('span');
-        label.className = 'kb-label';
+        const row = el('div', 'kb-row');
+        const name = el('span', 'kb-name');
+        const label = el('span', 'kb-label');
         label.textContent = this.actionDisplayName(action.id, action.label);
-        const hint = document.createElement('span');
-        hint.className = 'kb-inline-key';
+        const hint = el('span', 'kb-inline-key');
         const primary = this.deps.keybinds().labelAt(action.id, 0);
         hint.textContent = primary ? `(${primary})` : '';
         name.append(label, hint);
@@ -1424,8 +1372,8 @@ export class OptionsWindow {
         for (let index = 0; index < 2; index++) {
           const capturing =
             this.capturingKey?.action === action.id && this.capturingKey?.index === index;
-          const key = document.createElement('button');
-          key.className = `btn kb-key${capturing ? ' capturing' : ''}`;
+          const key = el('button', `btn kb-key${capturing ? ' capturing' : ''}`);
+          key.type = 'button';
           key.textContent = capturing
             ? '...'
             : this.deps.keybinds().labelAt(action.id, index) || t('hud.options.unbound');
@@ -1442,9 +1390,9 @@ export class OptionsWindow {
       col.appendChild(rows);
       cols.appendChild(col);
     }
-    el.appendChild(cols);
-    const reset = document.createElement('button');
-    reset.className = 'btn';
+    parent.appendChild(cols);
+    const reset = el('button', 'btn');
+    reset.type = 'button';
     reset.textContent = t('hud.options.resetToDefaults');
     reset.addEventListener('click', () => {
       audio.click();
@@ -1452,14 +1400,9 @@ export class OptionsWindow {
       this.capturingKey = null;
       this.keybindNote = t('hud.options.keybindReset');
       this.deps.refreshKeybindLabels();
-      this.renderKeybinds();
+      this.renderDetail();
     });
-    const back = document.createElement('button');
-    back.className = 'btn';
-    back.textContent = t('hud.options.back');
-    back.addEventListener('click', () => this.goBack());
-    el.append(reset, back);
-    el.querySelector('[data-close]')?.addEventListener('click', () => this.close());
+    parent.appendChild(reset);
   }
 
   private beginCapture(actionId: string, index: number, fallbackLabel: string): void {
@@ -1468,15 +1411,12 @@ export class OptionsWindow {
     const name = this.actionDisplayName(actionId, fallbackLabel);
     this.capturingKey = { action: actionId, index };
     this.keybindNote = t('hud.options.keybindCapture', { action: name });
-    this.renderKeybinds();
+    this.renderDetail();
     hooks.captureKey((code) => {
       this.capturingKey = null;
       if (code === null) {
         this.keybindNote = t('hud.options.keybindCancelled');
       } else if (this.deps.keybinds().bind(actionId, index, code)) {
-        // Label what was actually stored: bind() strips modifiers from held
-        // (movement) actions, so a captured "Shift+KeyW" is saved bare as "KeyW".
-        // Reading it back keeps the confirmation in sync with the action-bar keycap.
         this.keybindNote = t('hud.options.keybindBound', {
           action: name,
           key: keyLabel(this.deps.keybinds().codeAt(actionId, index)),
@@ -1485,8 +1425,204 @@ export class OptionsWindow {
       } else if (isReservedCode(code)) {
         this.keybindNote = t('hud.options.keybindReserved', { key: keyLabel(code) });
       }
-      // re-render only if the menu is still open (player may have closed it)
-      if (this.isOpen) this.renderKeybinds();
+      if (this.isOpen && this.activeCategory === 'keybinds' && this.subView === 'none')
+        this.renderDetail();
     });
+  }
+
+  // -------------------------------------------------------------------------
+  // Controller per-button remap (bespoke .ui-dd dropdowns)
+  // -------------------------------------------------------------------------
+
+  private gamepadActionOptions(): { value: string; label: string }[] {
+    const opts: { value: string; label: string }[] = [
+      { value: GAMEPAD_NONE, label: t('hud.options.unbound') },
+      { value: 'escape', label: t('hudChrome.controller.menuAction') },
+    ];
+    for (const a of BIND_ACTIONS) {
+      if (a.id === 'attackMove') continue;
+      if (a.kind !== 'edge' && a.id !== 'jump') continue;
+      opts.push({ value: a.id, label: this.actionDisplayName(a.id, a.label) });
+    }
+    return opts;
+  }
+
+  private renderControllerButtons(parent: HTMLElement): void {
+    const hooks = this.deps.options();
+    if (!hooks) return;
+    const head = el('div', 'opt-section-head');
+    const title = document.createElement('span');
+    title.textContent = t('hudChrome.controller.buttons');
+    head.appendChild(title);
+    parent.appendChild(head);
+    const entries = hooks.gamepad.entries();
+    if (entries.length === 0) {
+      const empty = el('div', 'opt-empty');
+      empty.textContent = t('hudChrome.controller.help');
+      parent.appendChild(empty);
+      return;
+    }
+    const opts = this.gamepadActionOptions();
+    const kind = hooks.gamepad.kind();
+    for (const { button, action } of entries) {
+      const buttonLabel = gamepadButtonLabel(button, kind);
+      const { row, control } = this.optRow(buttonLabel);
+      const dd = this.deps.buildDropdown(
+        opts,
+        action,
+        (v) => hooks.gamepad.bind(button, v),
+        undefined,
+        {
+          ariaLabel: buttonLabel,
+        },
+      );
+      control.appendChild(dd);
+      parent.appendChild(row);
+    }
+    const reset = el('button', 'btn');
+    reset.type = 'button';
+    reset.textContent = t('hudChrome.controller.resetButtons');
+    reset.addEventListener('click', () => {
+      audio.click();
+      hooks.gamepad.reset();
+      this.renderDetail();
+    });
+    parent.appendChild(reset);
+  }
+
+  // -------------------------------------------------------------------------
+  // Bug report (pushed sub-view under System > Support)
+  // -------------------------------------------------------------------------
+
+  private renderBugReport(detail: HTMLElement): void {
+    const hooks = this.deps.bugReport();
+    if (!hooks) {
+      this.subView = 'none';
+      this.activeCategory = 'system';
+      this.renderDetail();
+      return;
+    }
+    const head = el('div', 'opt-cat-head');
+    head.textContent = t('hudChrome.bugReport.menuButton');
+    detail.appendChild(head);
+    const back = el('button', 'btn');
+    back.type = 'button';
+    back.textContent = t('hud.options.back');
+    back.addEventListener('click', () => {
+      audio.click();
+      this.subView = 'none';
+      this.renderRail();
+      this.renderDetail();
+    });
+    detail.appendChild(back);
+
+    const info = buildBugReportInfo(this.deps.world().realm, this.deps.world().player);
+    const realm = info.realmKnown ? info.realm : t('hudChrome.bugReport.unknown');
+    const coords =
+      `${formatNumber(info.pos.x, { maximumFractionDigits: 0, useGrouping: false })}, ` +
+      `${formatNumber(info.pos.y, { maximumFractionDigits: 0, useGrouping: false })}, ` +
+      `${formatNumber(info.pos.z, { maximumFractionDigits: 0, useGrouping: false })}`;
+    const infoEl = el('div', 'bug-info');
+    const infoRow = (label: string, value: string): string =>
+      `<div class="bug-info-row"><span class="bug-info-label">${esc(label)}</span><span class="bug-info-val">${esc(value)}</span></div>`;
+    infoEl.innerHTML =
+      infoRow(t('hudChrome.bugReport.realm'), realm) +
+      infoRow(t('hudChrome.bugReport.character'), info.characterName) +
+      infoRow(t('hudChrome.bugReport.position'), coords);
+    detail.appendChild(infoEl);
+
+    const shot = hooks.capture();
+    const descLabel = el('label', 'bug-label');
+    descLabel.setAttribute('for', 'bug-desc');
+    descLabel.textContent = t('hudChrome.bugReport.description');
+    const desc = document.createElement('textarea');
+    desc.id = 'bug-desc';
+    desc.className = 'bug-desc';
+    desc.maxLength = BUG_DESC_MAX_LEN;
+    desc.setAttribute('placeholder', t('hudChrome.bugReport.descriptionPlaceholder'));
+    desc.setAttribute('aria-describedby', 'bug-error');
+    detail.append(descLabel, desc);
+
+    let includeShot = shot !== null;
+    if (shot) {
+      const shotWrap = el('div', 'bug-shot');
+      const img = document.createElement('img');
+      img.className = 'bug-shot-img';
+      img.src = shot;
+      img.alt = t('hudChrome.bugReport.screenshotAlt');
+      const toggle = el('button', 'btn set-toggle');
+      toggle.type = 'button';
+      const syncToggle = () => {
+        toggle.textContent = includeShot ? t('hud.options.on') : t('hud.options.off');
+        toggle.classList.toggle('off', !includeShot);
+        toggle.setAttribute('aria-pressed', String(includeShot));
+        toggle.setAttribute('aria-label', t('hudChrome.bugReport.includeScreenshot'));
+        img.style.display = includeShot ? '' : 'none';
+      };
+      toggle.addEventListener('click', () => {
+        audio.click();
+        includeShot = !includeShot;
+        syncToggle();
+      });
+      syncToggle();
+      const toggleRow = el('div', 'set-row');
+      const name = el('span', 'set-name');
+      name.textContent = t('hudChrome.bugReport.includeScreenshot');
+      toggleRow.append(name, toggle);
+      shotWrap.append(toggleRow, img);
+      detail.appendChild(shotWrap);
+    }
+
+    const error = el('div', 'report-error');
+    error.id = 'bug-error';
+    error.setAttribute('role', 'alert');
+    detail.appendChild(error);
+
+    const actions = el('div', 'report-actions');
+    const submit = el('button', 'btn');
+    submit.type = 'button';
+    submit.textContent = t('hudChrome.bugReport.submit');
+    actions.appendChild(submit);
+    detail.appendChild(actions);
+
+    submit.addEventListener('click', () => {
+      const description = desc.value.trim();
+      if (!description) {
+        error.textContent = t('hudChrome.bugReport.describeFirst');
+        return;
+      }
+      submit.disabled = true;
+      error.textContent = '';
+      const sentShot = includeShot && shot !== null;
+      hooks
+        .submit({ description, screenshot: includeShot ? shot : null, meta: hooks.collectMeta() })
+        .then(({ screenshotStored }) => {
+          const droppedShot = sentShot && !screenshotStored;
+          this.deps.log(
+            t(
+              droppedShot ? 'hudChrome.bugReport.submittedNoShot' : 'hudChrome.bugReport.submitted',
+            ),
+          );
+          this.subView = 'none';
+          this.renderRail();
+          this.renderDetail();
+        })
+        .catch((err: unknown) => {
+          submit.disabled = false;
+          error.textContent = this.localizeBugReportError(err);
+        });
+    });
+    window.setTimeout(() => desc.focus(), 0);
+  }
+
+  private localizeBugReportError(err: unknown): string {
+    const text = err instanceof Error ? err.message : '';
+    const keyByMessage: Record<string, TranslationKey> = {
+      'describe the bug': 'hudChrome.bugReport.describeFirst',
+      'bug report too large': 'hudChrome.bugReport.tooLarge',
+      'too many bug reports, try again later': 'hudChrome.bugReport.rateLimited',
+    };
+    const key = keyByMessage[text.toLowerCase()];
+    return key ? t(key) : t('hudChrome.bugReport.failed');
   }
 }
