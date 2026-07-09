@@ -1593,9 +1593,7 @@ describe('quests', () => {
 
     // Simulate the gossip-dialog filter: which quests at this NPC are available or ready?
     const simEntities = [...sim.entities.values()];
-    const npcEntity = simEntities.find(
-      (e) => e.kind === 'npc' && e.templateId === npcId,
-    )!;
+    const npcEntity = simEntities.find((e) => e.kind === 'npc' && e.templateId === npcId)!;
     expect(npcEntity).toBeDefined();
     const interesting = npcEntity.questIds.filter((qid) => {
       const st = sim.questState(qid);

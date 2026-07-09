@@ -366,9 +366,7 @@ describe('graphics tier resolution', () => {
           hardwareConcurrency: 8,
         }),
       ).toBe(2);
-      expect(
-        resolveDefaultGraphicsPreset({ ...desktop, gpuRenderer: 'Apple M3 Pro' }),
-      ).toBe(2);
+      expect(resolveDefaultGraphicsPreset({ ...desktop, gpuRenderer: 'Apple M3 Pro' })).toBe(2);
       // Regression guard: the fix removes ONLY Apple Silicon. Discrete desktop GPUs (RTX, Radeon RX)
       // still bucket strongDesktop and still earn ULTRA with a corroborating signal.
       expect(classifyGpuRenderer('ANGLE (AMD, AMD Radeon RX 6800 XT)')).toBe('strongDesktop');

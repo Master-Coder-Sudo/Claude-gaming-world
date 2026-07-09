@@ -2230,10 +2230,7 @@ export class ClientWorld implements IWorld {
     // server snapshot on the next frame.
     if (state === 'unavailable' && this.pendingQuestCommands?.size) {
       const quest = QUESTS[questId];
-      if (
-        quest?.requiresQuest &&
-        this.pendingQuestCommands.get(quest.requiresQuest) === 'turnin'
-      ) {
+      if (quest?.requiresQuest && this.pendingQuestCommands.get(quest.requiresQuest) === 'turnin') {
         const optimistic = computeQuestState(
           questId,
           this.questLog,
