@@ -11,6 +11,7 @@ import {
   grantDeed,
   markItemDiscovered,
   markVisited,
+  onFishCaughtForDeeds,
   restoreDeedStats,
 } from '../src/sim/deeds';
 import { type CharacterState, Sim } from '../src/sim/sim';
@@ -207,14 +208,99 @@ describe('trigger kinds grant once, with negatives', () => {
   });
 
   it('quests (plural): every listed quest must be done', () => {
-    // No shipped v1 deed uses the plural kind yet, so exercise the branch
-    // directly to keep the .every predicate protected against regression.
+    // The chain deeds below drive the shipped evaluator path; keep the direct
+    // branch check for arbitrary id lists too.
     const sim = makeSim();
     const { meta, e } = primary(sim);
     meta.questsDone.add('qa');
     expect(checkDeedTrigger(meta, e, { kind: 'quests', questIds: ['qa', 'qb'] })).toBe(false);
     meta.questsDone.add('qb');
     expect(checkDeedTrigger(meta, e, { kind: 'quests', questIds: ['qa', 'qb'] })).toBe(true);
+  });
+
+  it('quests (plural): the Thornpeak chain needs all five, the crypt deed its one', () => {
+    const sim = makeSim();
+    const { meta } = primary(sim);
+    meta.questsDone.add('q_nythraxis_restless_dead');
+    meta.questsDone.add('q_nythraxis_graves');
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    // The certifying crypt quest is not among them yet.
+    expect(meta.deedsEarned.has('dgn_nythraxis_crypt')).toBe(false);
+    expect(meta.deedsEarned.has('prog_crown_below')).toBe(false);
+
+    meta.questsDone.add('q_nythraxis_sealed_crypt');
+    meta.questsDone.add('q_nythraxis_bound_guardian');
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    // Four of five: the chain boundary negative; the crypt deed lands alone.
+    expect(meta.deedsEarned.has('dgn_nythraxis_crypt')).toBe(true);
+    expect(meta.deedsEarned.has('prog_crown_below')).toBe(false);
+
+    meta.questsDone.add('q_nythraxis_scourges_end');
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    expect(meta.deedsEarned.has('prog_crown_below')).toBe(true);
+  });
+
+  it('quests (plural): the temple back half needs all four devotions', () => {
+    const sim = makeSim();
+    const { meta } = primary(sim);
+    for (const q of ['q_drowned_choir', 'q_palecoil', 'q_silence_the_choir']) {
+      meta.questsDone.add(q);
+    }
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    expect(meta.deedsEarned.has('prog_mere_at_rest')).toBe(false);
+    meta.questsDone.add('q_drowned_moon');
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    expect(meta.deedsEarned.has('prog_mere_at_rest')).toBe(true);
+  });
+
+  it('quest: the professions intro grants prog_callused_hands, not its neighbor', () => {
+    const sim = makeSim();
+    const { meta } = primary(sim);
+    meta.questsDone.add('q_mine'); // the same giver's other quest never counts
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    expect(meta.deedsEarned.has('prog_callused_hands')).toBe(false);
+    meta.questsDone.add('q_prof_intro');
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    expect(meta.deedsEarned.has('prog_callused_hands')).toBe(true);
+  });
+
+  it('visit: a Marsh catch marks fish:mirefen_marsh and grants chr_marsh_first_cast', () => {
+    const sim = makeSim();
+    const { meta } = primary(sim);
+    // Non-fish never passes the ZONE_FISH filter, so no mark lands.
+    onFishCaughtForDeeds(sim.ctx, meta, 'mirefen_marsh', 'boar_hide');
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    expect(meta.deedsEarned.has('chr_marsh_first_cast')).toBe(false);
+    // A Vale catch marks the Vale, never the Marsh (zone fidelity).
+    onFishCaughtForDeeds(sim.ctx, meta, 'eastbrook_vale', 'raw_mirror_trout');
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    expect(meta.deedsEarned.has('chr_marsh_first_cast')).toBe(false);
+    expect(meta.deedsEarned.has('chr_vale_first_cast')).toBe(true);
+    onFishCaughtForDeeds(sim.ctx, meta, 'mirefen_marsh', 'raw_bog_eel');
+    sim.tick();
+    expect(meta.deedsEarned.has('chr_marsh_first_cast')).toBe(true);
+  });
+
+  it('stat: hubCraftsPerformed grants prog_tools_of_the_trade at one, not zero', () => {
+    const sim = makeSim();
+    const { meta } = primary(sim);
+    sim.ctx.bumpDeedStat(meta, 'hubCraftsPerformed', 0);
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    expect(meta.deedsEarned.has('prog_tools_of_the_trade')).toBe(false);
+    sim.ctx.bumpDeedStat(meta, 'hubCraftsPerformed', 1);
+    sim.tick();
+    expect(meta.deedsEarned.has('prog_tools_of_the_trade')).toBe(true);
+    expect(meta.deedStats.counters.hubCraftsPerformed).toBe(1);
   });
 
   it('manual deeds are never satisfied by the generic evaluator', () => {
@@ -362,6 +448,59 @@ describe('retro on join', () => {
     const veteranEv = evs.find((ev) => ev.deedId === 'prog_veteran');
     expect(veteranEv?.retro).toBe(true);
     expect(veteranEv?.pid).toBe(pid);
+  });
+
+  it('the quest-chain deeds retro-grant for an attuned veteran on first login', () => {
+    const sim = makeSim();
+    const state = veteranState();
+    state.questsDone = [
+      'q_prof_intro',
+      'q_nythraxis_restless_dead',
+      'q_nythraxis_graves',
+      'q_nythraxis_sealed_crypt',
+      'q_nythraxis_bound_guardian',
+      'q_nythraxis_scourges_end',
+      'q_drowned_choir',
+      'q_palecoil',
+      'q_silence_the_choir',
+      'q_drowned_moon',
+    ];
+    const pid = sim.addPlayer('warrior', 'Attuned', { state });
+    const meta = sim.players.get(pid)!;
+    for (const id of [
+      'prog_crown_below',
+      'prog_mere_at_rest',
+      'prog_callused_hands',
+      'dgn_nythraxis_crypt',
+    ]) {
+      expect(meta.deedsEarned.has(id), id).toBe(true);
+    }
+    // The hub-craft counter starts at zero like every lifetime counter.
+    expect(meta.deedsEarned.has('prog_tools_of_the_trade')).toBe(false);
+    expect(meta.deedStats.counters.hubCraftsPerformed).toBe(0);
+    const evs = deedEvents(sim.tick());
+    const crownEv = evs.find((ev) => ev.deedId === 'prog_crown_below');
+    expect(crownEv?.retro).toBe(true);
+    expect(crownEv?.pid).toBe(pid);
+
+    // A partial chain retro-grants nothing (missing-quest boundaries).
+    const partial = makeSim();
+    const pstate = veteranState();
+    pstate.questsDone = [
+      'q_nythraxis_restless_dead',
+      'q_nythraxis_graves',
+      'q_nythraxis_bound_guardian',
+      'q_nythraxis_scourges_end',
+      'q_drowned_choir',
+      'q_palecoil',
+      'q_silence_the_choir',
+    ];
+    const ppid = partial.addPlayer('warrior', 'Partway', { state: pstate });
+    const pmeta = partial.players.get(ppid)!;
+    expect(pmeta.deedsEarned.has('prog_crown_below')).toBe(false);
+    expect(pmeta.deedsEarned.has('prog_mere_at_rest')).toBe(false);
+    // q_nythraxis_sealed_crypt is the one missing certifier.
+    expect(pmeta.deedsEarned.has('dgn_nythraxis_crypt')).toBe(false);
   });
 
   it('the retro pass is a pure function of the loaded state and the catalog', () => {

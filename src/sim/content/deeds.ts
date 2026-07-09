@@ -1890,6 +1890,70 @@ export const DEEDS: Record<string, DeedDef> = {
     trigger: { kind: 'quest', questId: 'q_the_codfather' },
     hidden: true,
   },
+
+  // Post-launch additions land at the table END regardless of category (the
+  // append-only header contract: DEED_ORDER derives from table order), grouped
+  // by category within this tail block only.
+  prog_crown_below: {
+    id: 'prog_crown_below',
+    name: 'The Crown Below',
+    desc: "Follow the crown from the restless bonefields to the tomb of King Nythraxis and see Scourge's End through.",
+    category: 'progression',
+    renown: 25,
+    trigger: {
+      kind: 'quests',
+      questIds: [
+        'q_nythraxis_restless_dead',
+        'q_nythraxis_graves',
+        'q_nythraxis_sealed_crypt',
+        'q_nythraxis_bound_guardian',
+        'q_nythraxis_scourges_end',
+      ],
+    },
+  },
+  prog_mere_at_rest: {
+    id: 'prog_mere_at_rest',
+    name: 'The Mere at Rest',
+    desc: "See Tidewatcher Ondrel's watch through to the end: the choir silenced, the Palecoil slain, and the Drowned Moon put to rest.",
+    category: 'progression',
+    renown: 25,
+    trigger: {
+      kind: 'quests',
+      questIds: ['q_drowned_choir', 'q_palecoil', 'q_silence_the_choir', 'q_drowned_moon'],
+    },
+  },
+  prog_callused_hands: {
+    id: 'prog_callused_hands',
+    name: 'Callused Hands',
+    desc: "Complete A Trade for Every Hand and earn your first callus in Eastbrook's trades.",
+    category: 'progression',
+    renown: 5,
+    trigger: { kind: 'quest', questId: 'q_prof_intro' },
+  },
+  prog_tools_of_the_trade: {
+    id: 'prog_tools_of_the_trade',
+    name: 'Tools of the Trade',
+    desc: 'Complete a station-bound craft at the Highwatch crafting hub.',
+    category: 'progression',
+    renown: 10,
+    trigger: { kind: 'stat', stat: 'hubCraftsPerformed', count: 1 },
+  },
+  dgn_nythraxis_crypt: {
+    id: 'dgn_nythraxis_crypt',
+    name: 'What the Crypt Kept',
+    desc: 'Brave the Abandoned Crypt and recover both keystone halves and the ancient diary from its guardians.',
+    category: 'dungeon',
+    renown: 10,
+    trigger: { kind: 'quest', questId: 'q_nythraxis_sealed_crypt' },
+  },
+  chr_marsh_first_cast: {
+    id: 'chr_marsh_first_cast',
+    name: 'Eels in the Reeds',
+    desc: 'Catch a fish from the waters of Mirefen Marsh.',
+    category: 'chronicle',
+    renown: 5,
+    trigger: { kind: 'visit', markId: 'fish:mirefen_marsh' },
+  },
 };
 
 for (const def of Object.values(DEEDS)) {

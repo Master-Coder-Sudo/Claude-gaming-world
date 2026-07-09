@@ -477,3 +477,19 @@ ACH_DELVE_JOURNAL
 - Hidden: no
 - Steam: ACH_NHALIA_BELLS
 - Notes: Bells fly at 8 yd/s with a 2 yd contact radius (src/sim/delves/drowned_litany_boss.ts); the volley direction varies but every bell is visible and dodgeable, so misses are pure footwork. Template caution: this boss is `sister_nhalia_drowned_canticle` (drowned_litany.ts), DISTINCT from the overworld marsh rare `sister_nhalia` (zone2.ts) that chr_marsh_rares pins; implementers bind by template id, never display name.
+
+---
+
+## Polish-round additions (2026-07-09)
+
+Tally delta: +1 deed, +10 Renown, Steam +1 (ACH_NYTHRAXIS_CRYPT).
+
+### dgn_nythraxis_crypt
+- Name: What the Crypt Kept
+- Desc: Brave the Abandoned Crypt and recover both keystone halves and the ancient diary from its guardians.
+- Renown: 10
+- Trigger: predicate: 'q_nythraxis_sealed_crypt' in questsDone (src/sim/content/zone3.ts)
+- Reward: none
+- Hidden: no
+- Steam: ACH_NYTHRAXIS_CRYPT
+- Notes: The attunement instance itself (nythraxis_crypt, src/sim/content/dungeons.ts) has no spawn list and no final boss: its three guardians rise from relic interactions (activateNythraxisRelic, sim.ts), so no dungeonClears key ever records the run and a dungeonClears trigger here would be permanently unearnable. The quest that certifies the crypt run complete is the honest completion predicate, and it retro-grants for veterans.

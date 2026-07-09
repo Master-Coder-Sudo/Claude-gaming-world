@@ -296,3 +296,19 @@ page of the deeds window).
 - chr_ task deeds: 14 (Vale 5, Mirefen 4, Thornpeak 5). Renown: 30 + 35 + 30 = 95. (The three per-zone landmark tasks moved to social-economy-exploration.md as the exp_ wayfarer deeds in the assembly duplicate sweep; chr_vale_cup_debut retuned 10 to 5 with the touch-outcome gate.)
 - Chronicles Renown subtotal: 240.
 - Titles: 3 (Chapter III of each zone). Borders: 0. Steam: 3 (Chapter III of each zone).
+
+---
+
+## Polish-round additions (2026-07-09)
+
+Tally delta: +1 deed, +5 Renown, no new titles, borders, or Steam entries.
+
+### chr_marsh_first_cast
+- Name: Eels in the Reeds
+- Desc: Catch a fish from the waters of Mirefen Marsh.
+- Renown: 5
+- Trigger: interaction: visited mark 'fish:mirefen_marsh' (already emitted for every ZONE_FISH zone by onFishCaughtForDeeds, src/sim/deeds.ts; zero new instrumentation)
+- Reward: none
+- Hidden: no
+- Steam: no
+- Notes: Completes the per-zone first-cast trio beside chr_vale_first_cast and chr_peaks_glimmer_cast; the Marsh fishing debut the audit found missing. Deliberately NOT added to chr_marsh_chapter_i or chapter_ii: existing deed triggers are never retro-edited in this round (README polish-round resolutions). The Vale and Peaks casts carry no Steam entry, so neither does this one.

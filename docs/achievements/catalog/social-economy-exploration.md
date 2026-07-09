@@ -458,3 +458,41 @@ membership) and therefore grants retroactively on world join.
 - Meet-all-three-bursars: considered and dropped to keep the easter egg sharp;
   soc_meet_bursar honors the sanctioned NPC, and a three-bank tour adds travel
   busywork without a new outcome.
+
+---
+
+## Polish-round additions (2026-07-09): authored, transcription DEFERRED
+
+Salvage (src/sim/professions/salvage.ts, new since the v1 baseline) earned
+deed coverage in the catalog re-review, but BOTH blocks below are DEFERRED
+from transcription: salvage has zero player-facing wiring on any host today
+(no IWorld member, no UI or mobile caller, no client wire message, no server
+command case; Sim.salvageItem's own comment records its not-yet-wired-onto-
+IWorld status), so a transcribed deed would be visible in the Book yet
+unearnable by anyone, exactly the prog_ringwright deferral class. The
+salvagesPerformed counter ships WITH the transcription, not before it: the
+counter doctrine (src/sim/types.ts) forbids a DEED_STAT_KEYS key no deed
+reads, and its guard test enforces that. MAINTAINER FLAG: transcribe both
+blocks, the counter, and the salvageItem bump site in the same change that
+gives salvage its player-facing surface. Registry deltas while deferred:
+none.
+
+### soc_first_salvage
+- Name: Nothing Wasted
+- Desc: Salvage a piece of arms or armor into crafting materials.
+- Renown: 5
+- Trigger: lifetime counter: deedStats.salvagesPerformed >= 1 (NEW counter; bump on the ok return of salvageItem, src/sim/professions/salvage.ts, mirroring the craftsPerformed shape in professions/crafting.ts craftItem)
+- Reward: none
+- Hidden: no
+- Steam: ACH_FIRST_SALVAGE (held, NOT registered while deferred; the ringwright precedent)
+- Notes: Counts outcomes, not attempts: the denial arms (unknown item, ineligible, not held) return before the bump. Eligibility is a weapon or armor piece of common quality or better (isSalvageable).
+
+### soc_salvage_50
+- Name: Scrapmonger
+- Desc: Salvage 50 pieces of arms or armor into crafting materials.
+- Renown: 10
+- Trigger: lifetime counter: deedStats.salvagesPerformed >= 50
+- Reward: none
+- Hidden: no
+- Steam: no
+- Notes: Threshold reasoning: every mob-table weapon or armor drop, quest reward, and market purchase of common quality or better is eligible, and a journey to 20 with dungeon runs replaces gear constantly, so a player who adopts the habit passes 50 in ordinary play. Recheck the number at transcription against live salvage rates.

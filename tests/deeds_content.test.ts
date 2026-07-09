@@ -40,9 +40,47 @@ const PREFIX_CATEGORY: Record<string, DeedCategory> = {
 };
 
 describe('audited launch totals (literals: update deliberately with the catalog)', () => {
-  it('ships exactly 186 deeds worth 2285 total Renown', () => {
-    expect(DEED_ORDER.length).toBe(186);
-    expect(ALL.reduce((sum, d) => sum + d.renown, 0)).toBe(2285);
+  it('ships exactly 192 deeds worth 2365 total Renown', () => {
+    expect(DEED_ORDER.length).toBe(192);
+    expect(ALL.reduce((sum, d) => sum + d.renown, 0)).toBe(2365);
+  });
+
+  it('ships the audited per-category counts', () => {
+    const byCategory: Record<string, number> = {};
+    for (const d of ALL) byCategory[d.category] = (byCategory[d.category] ?? 0) + 1;
+    expect(byCategory).toEqual({
+      progression: 30,
+      combat: 10,
+      dungeon: 27,
+      delve: 13,
+      chronicle: 24,
+      collection: 24,
+      pvp: 27,
+      social: 16,
+      exploration: 9,
+      feat: 3,
+      hidden: 9,
+    });
+  });
+
+  it('pins the catalog-refresh additions: ids, order, and renown literals', () => {
+    // The refresh tail appends AFTER the 186-deed launch set; both the launch
+    // block and the tail are order-pinned so any insertion or reorder reds.
+    expect(DEED_ORDER[185]).toBe('hid_codfather');
+    expect(DEED_ORDER.slice(186)).toEqual([
+      'prog_crown_below',
+      'prog_mere_at_rest',
+      'prog_callused_hands',
+      'prog_tools_of_the_trade',
+      'dgn_nythraxis_crypt',
+      'chr_marsh_first_cast',
+    ]);
+    expect(DEEDS.prog_crown_below.renown).toBe(25);
+    expect(DEEDS.prog_mere_at_rest.renown).toBe(25);
+    expect(DEEDS.prog_callused_hands.renown).toBe(5);
+    expect(DEEDS.prog_tools_of_the_trade.renown).toBe(10);
+    expect(DEEDS.dgn_nythraxis_crypt.renown).toBe(10);
+    expect(DEEDS.chr_marsh_first_cast.renown).toBe(5);
   });
 
   it('ships exactly 19 titles and 3 borders', () => {
@@ -66,11 +104,12 @@ describe('table shape', () => {
   it('DEED_ORDER holds the append-only authored order (first and last pinned)', () => {
     // DEED_ORDER derives from the table keys, so covering DEEDS is inherent;
     // what CAN drift is the authored order itself. Pin the endpoints as
-    // literals: prog_first_steps opens the catalog and hid_codfather closes
-    // the launch set, and either moving would signal a reorder (forbidden:
-    // the order is an append-only determinism contract; new deeds append).
+    // literals: prog_first_steps opens the catalog and chr_marsh_first_cast
+    // closes the refresh tail, and either moving would signal a reorder
+    // (forbidden: the order is an append-only determinism contract; new
+    // deeds append). hid_codfather's index is pinned in the refresh test.
     expect(DEED_ORDER[0]).toBe('prog_first_steps');
-    expect(DEED_ORDER[DEED_ORDER.length - 1]).toBe('hid_codfather');
+    expect(DEED_ORDER[DEED_ORDER.length - 1]).toBe('chr_marsh_first_cast');
   });
 
   it('every entry key matches its id and its prefix matches its category', () => {

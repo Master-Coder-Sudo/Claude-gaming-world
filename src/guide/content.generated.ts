@@ -3064,6 +3064,48 @@ export const GUIDE_DEEDS: GuideDeed[] = [
     "category": "feat",
     "renown": 0,
     "feat": true
+  },
+  {
+    "id": "prog_crown_below",
+    "name": "The Crown Below",
+    "category": "progression",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "prog_mere_at_rest",
+    "name": "The Mere at Rest",
+    "category": "progression",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "prog_callused_hands",
+    "name": "Callused Hands",
+    "category": "progression",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "prog_tools_of_the_trade",
+    "name": "Tools of the Trade",
+    "category": "progression",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dgn_nythraxis_crypt",
+    "name": "What the Crypt Kept",
+    "category": "dungeon",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "chr_marsh_first_cast",
+    "name": "Eels in the Reeds",
+    "category": "chronicle",
+    "renown": 5,
+    "feat": false
   }
 ];
 

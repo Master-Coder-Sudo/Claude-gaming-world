@@ -9,8 +9,8 @@ import { DEEDS } from '../src/sim/data';
 const ACH_NAME_RE = /^ACH_[A-Z0-9_]+$/;
 
 describe('Steam achievement map', () => {
-  it('has exactly the 68 launch entries', () => {
-    expect(Object.keys(ACHIEVEMENT_MAP).length).toBe(68);
+  it('has exactly the 72 registered entries (68 launch + 4 catalog refresh)', () => {
+    expect(Object.keys(ACHIEVEMENT_MAP).length).toBe(72);
   });
 
   it('stays within the App Admin cap', () => {
@@ -40,6 +40,8 @@ describe('Steam achievement map', () => {
     expect(names.has('ACH_NINEFOLD')).toBe(false);
     expect(names.has('ACH_RINGWRIGHT')).toBe(false);
     expect(names.has('ACH_GOLDEN_GOAL')).toBe(false);
+    // Held for the deferred salvage deeds; registered only when they transcribe.
+    expect(names.has('ACH_FIRST_SALVAGE')).toBe(false);
   });
 
   it('marks every mapped hidden deed as hidden in DEEDS', () => {
@@ -56,9 +58,10 @@ describe('Steam achievement map', () => {
     expect(ACHIEVEMENT_MAP.prog_first_steps).toBe('ACH_FIRST_STEPS');
     expect(ACHIEVEMENT_MAP.dgn_deepward).toBe('ACH_DEEPWARD');
     expect(ACHIEVEMENT_MAP.pvp_vcup_golden_goal).toBe('ACH_VCUP_GOLDEN_GOAL');
+    expect(ACHIEVEMENT_MAP.prog_crown_below).toBe('ACH_CROWN_BELOW');
   });
 
-  it('pins the full 68-entry launch map as a literal (permanent Steam API names)', () => {
+  it('pins the full 72-entry registered map as a literal (permanent Steam API names)', () => {
     // ACH names are permanent once shipped; a bulk regeneration that swapped two
     // deed-to-ACH mappings would keep the count, the shape, and the uniqueness
     // checks above all green. Only a literal snapshot of every pair catches it.
@@ -72,6 +75,9 @@ describe('Steam achievement map', () => {
       prog_eternal: 'ACH_ETERNAL',
       prog_prestige: 'ACH_PRESTIGE',
       prog_master_gatherer: 'ACH_MASTER_GATHERER',
+      prog_crown_below: 'ACH_CROWN_BELOW',
+      prog_mere_at_rest: 'ACH_MERE_AT_REST',
+      prog_tools_of_the_trade: 'ACH_TOOLS_OF_THE_TRADE',
       cmb_first_blood: 'ACH_FIRST_BLOOD',
       cmb_slayer: 'ACH_SLAYER',
       cmb_first_fall: 'ACH_FIRST_FALL',
@@ -81,6 +87,7 @@ describe('Steam achievement map', () => {
       dgn_gravewyrm_sanctum: 'ACH_GRAVEWYRM_SANCTUM',
       dgn_nythraxis: 'ACH_NYTHRAXIS',
       dgn_nythraxis_heroic: 'ACH_NYTHRAXIS_HEROIC',
+      dgn_nythraxis_crypt: 'ACH_NYTHRAXIS_CRYPT',
       dgn_thornpeak_rounds: 'ACH_THORNPEAK_ROUNDS',
       dgn_deepward: 'ACH_DEEPWARD',
       dgn_mark_circuit: 'ACH_MARK_CIRCUIT',

@@ -4,6 +4,11 @@
 // idiom) with decisive positive AND negative cases: every grant is asserted through
 // the player's earned set, every negative targets one exact gate condition.
 import { describe, expect, it } from 'vitest';
+import {
+  CRAFTING_HUB_MIN_LEVEL,
+  CRAFTING_HUB_POS,
+  CRAFTING_HUB_RADIUS,
+} from '../src/sim/content/professions';
 import { DUNGEONS, instanceOrigin, MOBS } from '../src/sim/data';
 import {
   type CupMatchForDeeds,
@@ -32,6 +37,7 @@ import {
   onWorldBossKilledForDeeds,
 } from '../src/sim/deeds';
 import { createMob } from '../src/sim/entity';
+import { craftItem } from '../src/sim/professions/crafting';
 import { type ArenaMatch, type InstanceSlot, type PlayerMeta, Sim } from '../src/sim/sim';
 import { applyResurrectionSickness } from '../src/sim/spirit';
 import type { DungeonDifficulty, Entity, Vec3 } from '../src/sim/types';
@@ -904,5 +910,76 @@ describe('kill-credit negatives (onMobKillCreditForDeeds)', () => {
     wolfKill(ok, po);
     wolfKill(ok, po);
     expect(po.deedsEarned.has('chr_vale_packbreaker')).toBe(true);
+  });
+});
+
+describe('hub-station craft counter (prog_tools_of_the_trade)', () => {
+  // The station-bound tool recipe and a free-field common recipe (recipes.ts).
+  const HUB_RECIPE = 'recipe_thorium_mining_pick';
+  const FIELD_RECIPE = 'recipe_eastbrook_arming_sword';
+
+  function hubCrafter(sim: Sim, level = CRAFTING_HUB_MIN_LEVEL): PlayerMeta {
+    const meta = addMeta(sim, 'Crafter');
+    const e = entityOf(sim, meta);
+    e.level = level;
+    e.pos.x = CRAFTING_HUB_POS.x;
+    e.pos.z = CRAFTING_HUB_POS.z;
+    sim.ctx.addItem('thorium_ore', 4, meta.entityId);
+    sim.ctx.addItem('mithril_mining_pick', 1, meta.entityId);
+    return meta;
+  }
+
+  it('a station-bound craft at the hub bumps the counter and grants after the tick', () => {
+    const sim = makeSim();
+    const meta = hubCrafter(sim);
+    const result = craftItem(sim.ctx, HUB_RECIPE, meta.entityId);
+    expect(result.ok).toBe(true);
+    expect(meta.deedStats.counters.hubCraftsPerformed).toBe(1);
+    expect(meta.deedStats.counters.craftsPerformed).toBe(1);
+    sim.tick();
+    expect(meta.deedsEarned.has('prog_tools_of_the_trade')).toBe(true);
+  });
+
+  it('one step outside the hub circle denies, and the denied attempt counts nothing', () => {
+    const sim = makeSim();
+    const meta = hubCrafter(sim);
+    const e = entityOf(sim, meta);
+    e.pos.z = CRAFTING_HUB_POS.z + CRAFTING_HUB_RADIUS + 1;
+    const denied = craftItem(sim.ctx, HUB_RECIPE, meta.entityId);
+    expect(denied.ok).toBe(false);
+    expect(denied.reason).toBe('not_at_hub');
+    expect(meta.deedStats.counters.hubCraftsPerformed).toBe(0);
+    expect(meta.deedStats.counters.craftsPerformed).toBe(0);
+    // One step back inside the boundary, the same craft resolves and counts.
+    e.pos.z = CRAFTING_HUB_POS.z + CRAFTING_HUB_RADIUS - 1;
+    expect(craftItem(sim.ctx, HUB_RECIPE, meta.entityId).ok).toBe(true);
+    expect(meta.deedStats.counters.hubCraftsPerformed).toBe(1);
+    sim.tick();
+    expect(meta.deedsEarned.has('prog_tools_of_the_trade')).toBe(true);
+  });
+
+  it('below the hub level gate the same on-the-spot craft denies and counts nothing', () => {
+    const sim = makeSim();
+    const meta = hubCrafter(sim, CRAFTING_HUB_MIN_LEVEL - 1);
+    const denied = craftItem(sim.ctx, HUB_RECIPE, meta.entityId);
+    expect(denied.ok).toBe(false);
+    expect(denied.reason).toBe('not_at_hub');
+    expect(meta.deedStats.counters.hubCraftsPerformed).toBe(0);
+    sim.tick();
+    expect(meta.deedsEarned.has('prog_tools_of_the_trade')).toBe(false);
+  });
+
+  it('an ordinary field recipe crafted while standing at the hub never counts', () => {
+    const sim = makeSim();
+    const meta = hubCrafter(sim);
+    sim.ctx.addItem('bone_fragments', 2, meta.entityId);
+    sim.ctx.addItem('linen_scrap', 1, meta.entityId);
+    const result = craftItem(sim.ctx, FIELD_RECIPE, meta.entityId);
+    expect(result.ok).toBe(true);
+    expect(meta.deedStats.counters.craftsPerformed).toBe(1);
+    expect(meta.deedStats.counters.hubCraftsPerformed).toBe(0);
+    sim.tick();
+    expect(meta.deedsEarned.has('prog_tools_of_the_trade')).toBe(false);
+    expect(meta.deedsEarned.has('prog_first_craft')).toBe(true);
   });
 });

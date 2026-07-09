@@ -149,3 +149,77 @@ borders.
     by construction: 253 sub-rare items plus the 10 deterministic Heroic
     Quartermaster epics clear it with zero rare-quality drops, and World
     Market purchases count as acquisition.
+
+## Assembly resolutions, polish round (2026-07-09)
+
+Catalog re-review against the tree as of this round (salvage, the level-20
+crafting hub, the professions intro quest, heroic equalization, and the
+pre-baseline audit holes: the Nythraxis crypt, the Drowned Temple back half,
+Sethrael, the Marsh fishing debut). This section APPENDS to the 2026-07-08
+resolutions above and never rewrites them.
+
+14. Audited totals after this round (scripted recount of deeds.ts): 8 new
+    blocks authored (progression-combat 4, dungeons-delves 1, chronicles 1,
+    social-economy-exploration 2); 6 transcribed, 2 deferred (resolution 17).
+    The live set is 192 deeds (progression 30, combat 10, dungeon 27, delve
+    13, chronicle 24, collection 24, pvp 27, social 16, exploration 9, feat
+    3, hidden 9), 2,365 Renown, 19 titles, 3 borders, 72 Steam entries
+    (ACH_CROWN_BELOW, ACH_MERE_AT_REST, ACH_TOOLS_OF_THE_TRADE,
+    ACH_NYTHRAXIS_CRYPT are the four new). New-deed Renown: 80 transcribed
+    (plus 15 authored-deferred), inside the round's 60 to 110 window.
+
+15. The no-retro-edit rule, binding this round and the next: existing deed
+    TRIGGERS are never retro-edited. Widening a trigger list changes
+    mid-progress fractions and re-scopes an earned deed's meaning; additions
+    land as NEW deeds only. (Earned records are append-only either way; this
+    keeps displayed progress honest.) Applied here: chr_marsh_first_cast is
+    NOT added to the Marsh chapter metas, and Sethrael coverage lands inside
+    prog_mere_at_rest (q_palecoil) rather than editing chr_marsh_rares.
+
+16. Deferral rechecks, all re-verified against this tree:
+    - prog_ringwright STAYS deferred: recipes.ts still carries 15 recipes,
+      zero for jewelcrafting, inscription, or enchanting (scripted recount;
+      the upstream enchanting PR is not merged here).
+    - The nine account-level ids (prog_three_paths, prog_ninefold, the seven
+      server-assisted feat_*) STAY deferred: server/deeds_records.ts is
+      still observer-only; no account-level grant lane exists.
+    - Deferral costs no art: the 11 orphan files in the maintainer's icon
+      set already cover the deferred and cut ids.
+
+17. NEW deferral: soc_first_salvage and soc_salvage_50 are authored (see
+    social-economy-exploration.md) but NOT transcribed: salvage has zero
+    player-facing wiring on any host (no IWorld member, no UI caller, no
+    wire message or server command; Sim.salvageItem is not-yet-wired by its
+    own comment), so both deeds would be visible yet unearnable by anyone,
+    the prog_ringwright class. Their salvagesPerformed counter ships with
+    the transcription (the counter doctrine forbids a key no deed reads).
+    ACH_FIRST_SALVAGE is held, not registered. MAINTAINER FLAG: transcribe
+    when salvage lands its player-facing surface.
+
+18. Considered and rejected this round, each with its reason:
+    - Class set-bonus collections: drop-luck gated; rule 2's zero renown
+      would make them pure noise.
+    - Per-class deeds: the catalog is deliberately class-agnostic.
+    - Warlock pet collection: class-specific, same rule.
+    - Lore letters: no counter exists and low signal.
+    - Daily-reward streaks: login-shaped, forbidden by rule 6.
+    - Heroic equalization: a difficulty retune; the existing dgn_ deeds
+      already cover every instance at both difficulties. No catalog action.
+    - The professions-intro "first profession pick" arm: no pick or
+      selection state exists on this branch (professions are use-based
+      skills), so no clean predicate; the deed covers q_prof_intro
+      completion only.
+    - A standalone Sethrael kill deed: covered via q_palecoil inside
+      prog_mere_at_rest (the shortlist's preferred route); a second deed for
+      the same rare would double-award one outcome.
+    - A dungeonClears trigger for the crypt: nythraxis_crypt has no final
+      boss (empty spawn list; relic-raised guardians), so the key never
+      records and the deed would be permanently unearnable; the certifying
+      quest predicate ships instead.
+    - A crafting-hub visit-only deed: a visit is an attempt surface, not an
+      outcome; the shipped deed counts station-bound craft completions.
+
+19. Trigger-kind note for reviewers: prog_crown_below and prog_mere_at_rest
+    are the first shipped users of the 'quests' trigger kind (the evaluator
+    arm existed unused; content previously reached all-of-quests only
+    through the meta questIds arm). No evaluator change was needed.

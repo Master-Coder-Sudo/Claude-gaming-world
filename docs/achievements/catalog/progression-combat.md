@@ -447,3 +447,53 @@ combat deeds live in their own catalog files.
 - Hidden: no
 - Steam: ACH_FIRST_FALL
 - Notes: The gentle death-mechanics tutorial: release your spirit at a graveyard, ghost-run back to your corpse for a penalty-free resurrection at half your pools, or take the Spirit Healer's instant offer and wear The Keeper's Toll for a while (src/sim/spirit.ts, src/sim/resurrection.ts). Counting deaths only ever adds Renown, so the account score never decreases.
+
+---
+
+## Polish-round additions (2026-07-09)
+
+Authored in the catalog re-review against today's tree (the crafting hub, the
+professions intro quest, and the two uncovered quest chains the audit found).
+All four blocks below are transcribed in the same change. Registry deltas for
+this file: no new titles, no new borders, Steam +3 (ACH_TOOLS_OF_THE_TRADE,
+ACH_CROWN_BELOW, ACH_MERE_AT_REST). Tally delta: +4 deeds, +65 Renown.
+
+### prog_callused_hands
+- Name: Callused Hands
+- Desc: Complete A Trade for Every Hand and earn your first callus in Eastbrook's trades.
+- Renown: 5
+- Trigger: predicate: 'q_prof_intro' in questsDone (quest def src/sim/content/zone1.ts; its collect objective is gated to real ore-node harvests via the NODE_QUEST_GRANT gate in src/sim/professions/gathering.ts, so the outcome is always a genuine mining trip)
+- Reward: none
+- Hidden: no
+- Steam: no
+- Notes: The professions onboarding debut. Retro-grants for veterans who already completed the intro. The audit shortlist's "plus the first profession pick" arm was dropped: professions on this branch are use-based skills with no pick or selection state anywhere, so no clean predicate exists (rejection recorded in the README resolutions).
+
+### prog_tools_of_the_trade
+- Name: Tools of the Trade
+- Desc: Complete a station-bound craft at the Highwatch crafting hub.
+- Renown: 10
+- Trigger: lifetime counter: deedStats.hubCraftsPerformed >= 1 (NEW counter; bumped in src/sim/professions/crafting.ts craftItem on an ok result whose recipe carries requiresHubStation)
+- Reward: none
+- Hidden: no
+- Steam: ACH_TOOLS_OF_THE_TRADE
+- Notes: Counts real craft outcomes only, never visits: a station-bound success can only resolve inside the hub circle at level 20 or above (canUseCraftingHubStation, src/sim/professions/crafting_hub.ts), so the counter needs no position bookkeeping of its own. The six TOOL_RECIPES (src/sim/content/recipes.ts) are the station-bound set today; crafting an ordinary field recipe while standing at the hub deliberately does not count. Level-20 gated content, mid-journey per rule 7.
+
+### prog_crown_below
+- Name: The Crown Below
+- Desc: Follow the crown from the restless bonefields to the tomb of King Nythraxis and see Scourge's End through.
+- Renown: 25
+- Trigger: predicate: all five of q_nythraxis_restless_dead, q_nythraxis_graves, q_nythraxis_sealed_crypt, q_nythraxis_bound_guardian, q_nythraxis_scourges_end in questsDone (src/sim/content/zone3.ts)
+- Reward: none
+- Hidden: no
+- Steam: ACH_CROWN_BELOW
+- Notes: The Thornpeak attunement chain, the audit's largest uncovered story arc. Retro-grants for attuned veterans on login. First shipped user of the 'quests' trigger kind (the evaluator arm predates it; content previously reached all-of-quests only through the meta questIds arm).
+
+### prog_mere_at_rest
+- Name: The Mere at Rest
+- Desc: See Tidewatcher Ondrel's watch through to the end: the choir silenced, the Palecoil slain, and the Drowned Moon put to rest.
+- Renown: 25
+- Trigger: predicate: all four of q_drowned_choir, q_palecoil, q_silence_the_choir, q_drowned_moon in questsDone (src/sim/content/temple.ts)
+- Reward: none
+- Hidden: no
+- Steam: ACH_MERE_AT_REST
+- Notes: The Drowned Temple back half the audit flagged, and the Sethrael coverage with it (q_palecoil is the rare's kill quest), per the shortlist's preferred route. The desc names who falls, never how any fight works (the chain-deed voice). The chain's front half (q_glimmermere_light, q_tarn_waders) already lives in chr_peaks_chapter_ii and stays untouched per the no-retro-edit rule.
