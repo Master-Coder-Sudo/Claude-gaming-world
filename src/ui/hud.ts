@@ -167,6 +167,7 @@ import {
 } from './character_appearance';
 import { ChatAnnouncer } from './chat_announcer';
 import {
+  CHANNEL_COLOR,
   CHANNEL_LABEL_KEYS,
   CHAT_TAB_CHANNELS,
   type ChatOpenTab,
@@ -2993,7 +2994,12 @@ export class Hud {
 
   private syncChatPlaceholder(): void {
     const input = document.getElementById('chat-input') as HTMLTextAreaElement | null;
-    if (input) input.placeholder = this.activeChatPlaceholder();
+    if (!input) return;
+    input.placeholder = this.activeChatPlaceholder();
+    // Tint the input text to match the active channel so the player sees which
+    // channel they are about to send to before typing.
+    const ch = this.activeChatTab === WHISPER_TAB ? WHISPER_TAB : this.chatSendChannel();
+    input.style.color = ch ? CHANNEL_COLOR[ch] : '';
   }
 
   // The line actually sent for what the player typed, honoring the active tab.

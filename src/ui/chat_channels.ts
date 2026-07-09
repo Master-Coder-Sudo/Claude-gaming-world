@@ -75,6 +75,21 @@ export function channelNeedsJoin(channel: ChatTabChannel): boolean {
   return AUTO_JOIN_CHANNELS.includes(channel);
 }
 
+// Channel colours for the chat input text, so the active channel is visually
+// obvious before typing. Classic-era palette: white for say, pink for whisper,
+// green for guild, light blue for party, tan for world/lfg/general, red for yell.
+export const CHANNEL_COLOR: Record<ChatTabChannel | WhisperTab, string> = {
+  say: '#ffffff',
+  yell: '#ff4040',
+  party: '#aad372',
+  general: '#ffd180',
+  world: '#ffd180',
+  lfg: '#ffd180',
+  guild: '#40ff40',
+  officer: '#40c040',
+  whisper: '#ff80ff',
+};
+
 // i18n keys for each channel's short tab label.
 export const CHANNEL_LABEL_KEYS: Record<ChatTabChannel, TranslationKey> = {
   say: 'hud.core.chatChannels.names.say',
