@@ -32,10 +32,14 @@ describe('dev-tier nameplate glow stays crisp (#1639)', () => {
 
   it('draws a crisp zero-blur outline ring in the tier color (sharp glyph edges)', () => {
     const body = m![1];
-    // At least one offset shadow with a 0 blur radius in the tier color, e.g.
-    // `1px 0 0 var(--dev-outline)` or `-1px -1px 0 var(--dev-outline)`.
-    const ringLayers = [...body.matchAll(/-?\d+px\s+-?\d+px\s+0\s+var\(--dev-outline\)/g)];
-    // Four cardinal + four diagonal offsets form the full crisp ring.
-    expect(ringLayers.length).toBeGreaterThanOrEqual(4);
+    // Each ring layer is a zero-blur offset shadow in the tier color. An offset is either
+    // `Npx` or a bare unitless `0`, so the four CARDINAL layers (`1px 0 0`, `0 1px 0`) count
+    // alongside the four DIAGONALS (`1px 1px 0`); all eight form the full crisp ring. (The
+    // halo `0 0 3px` and the base `0 1px 1px #000` do not match: a non-zero blur / not the
+    // tier color.) The old smear had zero of these.
+    const ringLayers = [
+      ...body.matchAll(/(?:-?\d+px|0)\s+(?:-?\d+px|0)\s+0\s+var\(--dev-outline\)/g),
+    ];
+    expect(ringLayers.length).toBeGreaterThanOrEqual(8);
   });
 });
