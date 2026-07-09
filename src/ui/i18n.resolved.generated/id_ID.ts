@@ -843,6 +843,7 @@ export const id_ID: EnTranslations = {
       "highContrastBackground": "Latar Kontras Tinggi",
       "startAttackOnAbility": "Serangan Otomatis Saat Memakai Kemampuan",
       "walkByAutoloot": "Jarah Otomatis Sambil Lewat",
+      "stopAutoAttackOnSwitch": "Stop Auto-Attack on Target Switch",
       "groundReticle": "Retikel bidik darat",
       "showItemLevel": "Tampilkan Level Item",
       "itemLevelLine": "Level Item {level}",

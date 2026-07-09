@@ -164,6 +164,10 @@ export const BOOL_SETTINGS = {
   // deliberate looting stays the default. Gates the client AutoLoot pass in
   // main.ts; the sim's authoritative gate and the raid-instance gate are separate.
   walkByAutoloot: { def: false },
+  // off by default: classic-style "stop auto-attack on target switch". When on,
+  // tab-targeting or clicking a new hostile target disables auto-attack instead of
+  // carrying it to the new target. Classic default is follow behavior (off).
+  stopAutoAttackOnTargetSwitch: { def: false },
   // on by default: desktop ground-targeted spells open a terrain reticle before
   // casting. Touch keeps the instant target-feet fallback because there is no
   // persistent cursor to preview.

@@ -843,6 +843,7 @@ export const cs_CZ: EnTranslations = {
       "highContrastBackground": "Vysoce kontrastní pozadí",
       "startAttackOnAbility": "Automatický útok při použití schopnosti",
       "walkByAutoloot": "Automatická kořist při průchodu",
+      "stopAutoAttackOnSwitch": "Stop Auto-Attack on Target Switch",
       "groundReticle": "Zaměřovací kruh na zemi",
       "showItemLevel": "Zobrazit úroveň předmětu",
       "itemLevelLine": "Úroveň předmětu {level}",

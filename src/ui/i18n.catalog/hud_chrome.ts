@@ -788,6 +788,9 @@ export const hudChromeStrings = {
     startAttackOnAbility: 'Auto-Attack on Ability Use',
     // Interface panel toggle: loot corpses by walking past them (off by default).
     walkByAutoloot: 'Walk-by Autoloot',
+    // Interface panel toggle: stop auto-attack when switching to a new target
+    // via tab or click (off by default, classic follow behavior).
+    stopAutoAttackOnSwitch: 'Stop Auto-Attack on Target Switch',
     groundReticle: 'Ground-Targeting Reticle',
     // Interface panel toggle + the item-tooltip lines it reveals (off by default).
     showItemLevel: 'Show Item Level',

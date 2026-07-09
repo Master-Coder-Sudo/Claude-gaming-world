@@ -843,6 +843,7 @@ export const pt_BR: EnTranslations = {
       "highContrastBackground": "Fundo de alto contraste",
       "startAttackOnAbility": "Ataque Automático ao Usar Habilidade",
       "walkByAutoloot": "Saque Automático ao Passar",
+      "stopAutoAttackOnSwitch": "Stop Auto-Attack on Target Switch",
       "groundReticle": "Retícula de mira no chão",
       "showItemLevel": "Mostrar nível do item",
       "itemLevelLine": "Nível do item {level}",

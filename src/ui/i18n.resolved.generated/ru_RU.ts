@@ -843,6 +843,7 @@ export const ru_RU: EnTranslations = {
       "highContrastBackground": "Фон высокой контрастности",
       "startAttackOnAbility": "Автоатака при использовании способности",
       "walkByAutoloot": "Автосбор добычи при проходе",
+      "stopAutoAttackOnSwitch": "Stop Auto-Attack on Target Switch",
       "groundReticle": "Прицел наземного наведения",
       "showItemLevel": "Показывать уровень предмета",
       "itemLevelLine": "Уровень предмета {level}",

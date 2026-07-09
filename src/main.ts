@@ -1151,7 +1151,13 @@ async function startGame(
   const input = new Input(
     canvas,
     {
-      onTab: () => world.tabTarget(),
+      onTab: () => {
+        const prevId = world.player.targetId;
+        world.tabTarget();
+        if (settings.get('stopAutoAttackOnTargetSwitch') && world.player.targetId !== prevId) {
+          world.stopAutoAttack();
+        }
+      },
       onTargetFriendly: () => world.targetNearestFriendly(),
       onCycleFriendly: () => world.friendlyTabTarget(),
       // Pet bar (Ctrl+1..5 by default): drive the existing IWorld pet commands.
@@ -2136,7 +2142,11 @@ async function startGame(
         input.setClickMoveTarget(target, 3.5, e.id, clickMovePathTo(target));
       }
     }
+    const prevTargetId = world.player.targetId;
     handlePickedEntity(world, hud, id, button, x, y);
+    if (settings.get('stopAutoAttackOnTargetSwitch') && world.player.targetId !== prevTargetId) {
+      world.stopAutoAttack();
+    }
   }
 
   // Attack Move (MOBA-style): the Attack Move key walks the player toward the

@@ -843,6 +843,7 @@ export const nl_NL: EnTranslations = {
       "highContrastBackground": "Hoog-contrastachtergrond",
       "startAttackOnAbility": "Auto-aanval bij gebruik van vaardigheid",
       "walkByAutoloot": "Buit oprapen in het voorbijgaan",
+      "stopAutoAttackOnSwitch": "Stop Auto-Attack on Target Switch",
       "groundReticle": "Grondrichtkruis",
       "showItemLevel": "Itemniveau tonen",
       "itemLevelLine": "Itemniveau {level}",

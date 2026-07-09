@@ -9,25 +9,65 @@
 // Reproducibility is checked by tests/i18n_resolved_equivalence.test.ts.
 
 export const pending: Record<string, readonly string[]> = {
-  "es": [],
-  "es_ES": [],
-  "fr_FR": [],
-  "fr_CA": [],
+  "es": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "es_ES": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "fr_FR": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "fr_CA": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
   "en_CA": [],
-  "it_IT": [],
-  "de_DE": [],
-  "zh_CN": [],
-  "zh_TW": [],
-  "ko_KR": [],
-  "ja_JP": [],
-  "pt_BR": [],
-  "ru_RU": [],
-  "cs_CZ": [],
-  "nl_NL": [],
-  "pl_PL": [],
-  "id_ID": [],
-  "tr_TR": [],
-  "sv_SE": [],
-  "vi_VN": [],
-  "da_DK": []
+  "it_IT": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "de_DE": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "zh_CN": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "zh_TW": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "ko_KR": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "ja_JP": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "pt_BR": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "ru_RU": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "cs_CZ": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "nl_NL": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "pl_PL": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "id_ID": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "tr_TR": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "sv_SE": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "vi_VN": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "da_DK": [
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ]
 };

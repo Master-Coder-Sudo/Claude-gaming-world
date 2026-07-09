@@ -843,6 +843,7 @@ export const en_CA: EnTranslations = {
       "highContrastBackground": "High-Contrast Background",
       "startAttackOnAbility": "Auto-Attack on Ability Use",
       "walkByAutoloot": "Walk-by Autoloot",
+      "stopAutoAttackOnSwitch": "Stop Auto-Attack on Target Switch",
       "groundReticle": "Ground-Targeting Reticle",
       "showItemLevel": "Show Item Level",
       "itemLevelLine": "Item Level {level}",

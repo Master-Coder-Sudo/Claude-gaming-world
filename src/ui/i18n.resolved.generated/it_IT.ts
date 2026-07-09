@@ -843,6 +843,7 @@ export const it_IT: EnTranslations = {
       "highContrastBackground": "Sfondo a contrasto elevato",
       "startAttackOnAbility": "Attacco automatico all'uso dell'abilita",
       "walkByAutoloot": "Raccolta automatica al passaggio",
+      "stopAutoAttackOnSwitch": "Stop Auto-Attack on Target Switch",
       "groundReticle": "Reticolo di puntamento a terra",
       "showItemLevel": "Mostra livello oggetto",
       "itemLevelLine": "Livello oggetto {level}",

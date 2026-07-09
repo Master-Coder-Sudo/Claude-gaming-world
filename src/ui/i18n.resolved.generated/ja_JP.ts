@@ -843,6 +843,7 @@ export const ja_JP: EnTranslations = {
       "highContrastBackground": "高コントラスト背景",
       "startAttackOnAbility": "アビリティ使用時に自動攻撃",
       "walkByAutoloot": "通りがかり自動ルート",
+      "stopAutoAttackOnSwitch": "Stop Auto-Attack on Target Switch",
       "groundReticle": "地面ターゲットのレティクル",
       "showItemLevel": "アイテムレベルを表示",
       "itemLevelLine": "アイテムレベル {level}",
