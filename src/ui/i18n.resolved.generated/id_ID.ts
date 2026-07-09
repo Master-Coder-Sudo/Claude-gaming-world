@@ -722,7 +722,7 @@ export const id_ID: EnTranslations = {
     "tips": {
       "joinChannels": "Tips: ketik /join world atau /join lfg untuk mengobrol dengan pemain di seluruh dunia."
     },
-    "itemHeroicName": "Heroic {name}",
+    "itemHeroicTag": "[HEROIC]",
     "itemSoulbound": "Soulbound",
     "itemSet": {
       "header": "{name} ({have}/{total})",

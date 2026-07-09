@@ -10,69 +10,79 @@
 
 export const pending: Record<string, readonly string[]> = {
   "es": [
-    "hudChrome.itemHeroicName",
+    "hudChrome.itemHeroicTag",
     "hudChrome.itemSoulbound"
   ],
   "es_ES": [
-    "hudChrome.itemHeroicName",
+    "hudChrome.itemHeroicTag",
     "hudChrome.itemSoulbound"
   ],
   "fr_FR": [
-    "hudChrome.itemHeroicName",
+    "hudChrome.itemHeroicTag",
     "hudChrome.itemSoulbound"
   ],
   "fr_CA": [
-    "hudChrome.itemHeroicName",
+    "hudChrome.itemHeroicTag",
     "hudChrome.itemSoulbound"
   ],
   "en_CA": [],
   "it_IT": [
-    "hudChrome.itemHeroicName",
+    "hudChrome.itemHeroicTag",
     "hudChrome.itemSoulbound"
   ],
   "de_DE": [
-    "hudChrome.itemHeroicName",
+    "hudChrome.itemHeroicTag",
     "hudChrome.itemSoulbound"
   ],
-  "zh_CN": [],
-  "zh_TW": [],
-  "ko_KR": [],
-  "ja_JP": [],
+  "zh_CN": [
+    "hudChrome.itemHeroicTag"
+  ],
+  "zh_TW": [
+    "hudChrome.itemHeroicTag"
+  ],
+  "ko_KR": [
+    "hudChrome.itemHeroicTag"
+  ],
+  "ja_JP": [
+    "hudChrome.itemHeroicTag"
+  ],
   "pt_BR": [
-    "hudChrome.itemHeroicName",
+    "hudChrome.itemHeroicTag",
     "hudChrome.itemSoulbound"
   ],
-  "ru_RU": [],
+  "ru_RU": [
+    "hudChrome.itemHeroicTag"
+  ],
   "cs_CZ": [
-    "hudChrome.itemHeroicName",
+    "hudChrome.itemHeroicTag",
     "hudChrome.itemSoulbound"
   ],
   "nl_NL": [
-    "hudChrome.itemHeroicName",
+    "hudChrome.itemHeroicTag",
     "hudChrome.itemSoulbound"
   ],
   "pl_PL": [
-    "hudChrome.itemHeroicName",
+    "hudChrome.itemHeroicTag",
     "hudChrome.itemSoulbound"
   ],
   "id_ID": [
-    "hudChrome.itemHeroicName",
+    "hudChrome.itemHeroicTag",
     "hudChrome.itemSoulbound"
   ],
   "tr_TR": [
-    "hudChrome.itemHeroicName",
+    "hudChrome.itemHeroicTag",
     "hudChrome.itemSoulbound"
   ],
   "sv_SE": [
-    "hudChrome.itemHeroicName",
+    "hudChrome.itemHeroicTag",
     "hudChrome.itemSoulbound"
   ],
   "vi_VN": [
-    "hudChrome.itemHeroicName",
+    "hudChrome.itemHeroicTag",
     "hudChrome.itemSoulbound"
   ],
   "da_DK": [
-    "hudChrome.itemHeroicName",
+    "hudChrome.itemHeroicTag",
     "hudChrome.itemSoulbound"
   ]
 };

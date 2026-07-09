@@ -722,7 +722,7 @@ export const en_CA: EnTranslations = {
     "tips": {
       "joinChannels": "Tip: type /join world or /join lfg to chat with players across the world."
     },
-    "itemHeroicName": "Heroic {name}",
+    "itemHeroicTag": "[HEROIC]",
     "itemSoulbound": "Soulbound",
     "itemSet": {
       "header": "{name} ({have}/{total})",

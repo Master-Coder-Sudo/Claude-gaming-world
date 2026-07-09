@@ -722,7 +722,7 @@ export const tr_TR: EnTranslations = {
     "tips": {
       "joinChannels": "İpucu: Dünya genelindeki oyuncularla sohbet etmek için /join world ya da /join lfg yaz."
     },
-    "itemHeroicName": "Heroic {name}",
+    "itemHeroicTag": "[HEROIC]",
     "itemSoulbound": "Soulbound",
     "itemSet": {
       "header": "{name} ({have}/{total})",

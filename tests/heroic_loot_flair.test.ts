@@ -1,6 +1,7 @@
 // Heroic loot flair: when a mob dies in a HEROIC dungeon instance, its normal
 // epic/rare drops are swapped for a "Heroic" variant (epic -> item level 28,
-// rare -> 25, "Heroic X" name), while green/uncommon drops and the existing
+// rare -> 25, same name as the base with an "[HEROIC]" tooltip tag), while
+// green/uncommon drops and the existing
 // item-level-31 heroic set are untouched.
 import { describe, expect, it } from 'vitest';
 import { heroicVariantId } from '../src/sim/content/heroic_variants';
@@ -29,10 +30,10 @@ describe('heroic loot flair: variant generation', () => {
     }
   });
 
-  it('composes the display name as "Heroic <base>" (one prefix key, base name localized)', () => {
+  it('shares the base item name (the heroic distinction is a tooltip tag, not a name prefix)', () => {
     const v = ITEMS[heroicVariantId('deathlord_warplate')];
     expect(v).toBeDefined();
-    expect(itemDisplayName(v)).toBe(`Heroic ${itemDisplayName(ITEMS.deathlord_warplate)}`);
+    expect(itemDisplayName(v)).toBe(itemDisplayName(ITEMS.deathlord_warplate));
   });
 
   it('leaves green/uncommon drops without a variant', () => {

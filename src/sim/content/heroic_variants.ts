@@ -7,10 +7,11 @@
 //
 // These are real ItemDefs merged into ITEMS (data.ts), so every downstream reader
 // (tooltip, equip, itemScore, the server->client wire) treats a Heroic variant like
-// any other item with no special handling. The one exception is the display name:
-// the client composes it as "Heroic {base name}" from the `heroicOf` field
-// (ui/entity_i18n.ts), so a variant never needs its own translated name key, and
-// the entity manifest skips it.
+// any other item with no special handling. The display name is the base item's name
+// (classic behavior: a heroic drop reads the same as its normal counterpart); the
+// heroic distinction shows as an "[HEROIC]" tag on the tooltip's quality/kind line
+// (ui/hud.ts + ui/entity_i18n.ts), so a variant never needs its own translated name
+// key, and the entity manifest skips it.
 import {
   HEROIC_VARIANT_SOURCE_LEVEL,
   normalizePrimaryStats,
@@ -41,7 +42,9 @@ function makeHeroicVariant(base: ItemDef): ItemDef {
   const variant = {
     ...base,
     id: heroicVariantId(base.id),
-    name: `Heroic ${base.name}`,
+    // Same name as the base item; the heroic distinction is the tooltip "[HEROIC]"
+    // tag, resolved from `heroicOf` (ui/entity_i18n.ts), never a name prefix.
+    name: base.name,
     heroicOf: base.id,
     stats,
   };
