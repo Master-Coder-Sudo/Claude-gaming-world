@@ -223,3 +223,22 @@ resolutions above and never rewrites them.
     are the first shipped users of the 'quests' trigger kind (the evaluator
     arm existed unused; content previously reached all-of-quests only
     through the meta questIds arm). No evaluator change was needed.
+
+20. Verification-pass completeness addendum (2026-07-09): two further
+    profession systems landed in the review range with no player-reachable
+    outcome today, recorded here so no in-range system lacks a written
+    resolution:
+    - Recipe acquisition (professions/crafting.ts acquireRecipe and the
+      knownRecipes set, with the optional per-recipe acquisition field in
+      professions/types.ts): inert in this tree. No shipped recipe carries
+      an acquisition entry (every recipe is grandfathered known) and no
+      host exposes a learn surface (no IWorld member, no UI caller, no
+      wire message, no server command), so a learn-a-recipe deed would be
+      visible yet unearnable by anyone, the prog_ringwright class. No deed
+      ships; revisit when a recipe actually requires acquisition.
+    - Archetype refinement helpers (professions/archetype.ts pairedMajor
+      plus the hobby and ceiling lookups): no new player-reachable outcome
+      (the accept and switch surfaces are still empty client stubs, and
+      archetype selection itself predates the v1 baseline), and the
+      catalog stays class and archetype agnostic besides (resolution 18).
+      No deed ships.
