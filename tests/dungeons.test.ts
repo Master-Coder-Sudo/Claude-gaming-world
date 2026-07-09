@@ -9,11 +9,13 @@ import { HEROIC_BOSS_LOOT } from '../src/sim/content/heroic_loot';
 import { DUNGEON_X_THRESHOLD, DUNGEONS, ITEMS, instanceOrigin, MOBS } from '../src/sim/data';
 import { spawnNythraxisAdds } from '../src/sim/encounters/nythraxis';
 import {
+  DUNGEON_RECONNECT_GRACE_TICKS,
   enterDungeon,
   instanceKeyFor,
   instanceLockoutMetas,
   instanceOriginOf,
   leaveDungeon,
+  markInstanceOwnerDisconnected,
   updateDoorTriggers,
   updateInstances,
 } from '../src/sim/instances/dungeons';
@@ -1576,6 +1578,106 @@ describe('dungeons: empty-instance reset', () => {
     updateInstances(sim.ctx);
     expect(inst.partyKey).not.toBeNull();
     expect(inst.emptyFor).toBe(0);
+  });
+});
+
+// Issue #1351: a solo player who disconnects mid-run must not lose their dungeon.
+// The reaper holds a disconnected owner's slot for a reconnect grace window and the
+// server rebinds the returning (new-entity) player to the SAME slot. The instance
+// keys on the transient entity id, so the durable rebind anchor is the characterId.
+describe('dungeons: disconnect reconnect grace', () => {
+  it('holds a disconnected owner instance past the empty-reset timeout', () => {
+    const sim = makeSim();
+    const pid = sim.addPlayer('warrior', 'Solo', { characterId: 7 });
+    const p = sim.entities.get(pid) as AnyEntity;
+    enterDungeon(sim.ctx, 'hollow_crypt', pid);
+    const inst = claimedHollow(sim);
+    expect(inst.mobIds.length).toBeGreaterThan(0);
+
+    // Mark disconnected now (grace not yet elapsed), then vacate the instance.
+    expect(markInstanceOwnerDisconnected(sim.ctx, pid, sim.ctx.tickCount)).toBe(true);
+    expect(inst.disconnectedOwner).toEqual({ characterId: 7, atTick: sim.ctx.tickCount });
+    teleport(sim, p, 0, 0);
+    // Even past the normal empty-reset timeout, the reconnect hold keeps it alive.
+    inst.emptyFor = 100000;
+    updateInstances(sim.ctx); // tickCount 0 % 20 === 0, so the reaper runs
+
+    expect(inst.partyKey).not.toBeNull();
+    expect(inst.mobIds.length).toBeGreaterThan(0);
+  });
+
+  it('frees the instance once the reconnect grace elapses', () => {
+    const sim = makeSim();
+    const pid = sim.addPlayer('warrior', 'Solo', { characterId: 7 });
+    const p = sim.entities.get(pid) as AnyEntity;
+    enterDungeon(sim.ctx, 'hollow_crypt', pid);
+    const inst = claimedHollow(sim);
+    const mobIds = [...inst.mobIds];
+
+    // Mark disconnected far enough in the past that the grace window has expired.
+    markInstanceOwnerDisconnected(sim.ctx, pid, sim.ctx.tickCount - DUNGEON_RECONNECT_GRACE_TICKS);
+    teleport(sim, p, 0, 0);
+    inst.emptyFor = 100000;
+    updateInstances(sim.ctx);
+
+    expect(inst.partyKey).toBeNull();
+    expect(inst.disconnectedOwner).toBeNull();
+    expect(inst.mobIds.length).toBe(0);
+    expect(mobIds.every((id) => !sim.entities.has(id))).toBe(true);
+  });
+
+  it('rebinds a reconnecting player (new entity, same character) to the held slot', () => {
+    const sim = makeSim();
+    const pid = sim.addPlayer('warrior', 'Owner', { characterId: 42 });
+    enterDungeon(sim.ctx, 'hollow_crypt', pid);
+    const inst = claimedHollow(sim);
+    const heldMobIds = [...inst.mobIds];
+
+    // Disconnect: mark the slot, then the sim drops the old entity (server leave()).
+    markInstanceOwnerDisconnected(sim.ctx, pid, sim.ctx.tickCount);
+    sim.removePlayer(pid);
+    expect(inst.disconnectedOwner).toEqual({ characterId: 42, atTick: sim.ctx.tickCount });
+
+    // Reconnect: a fresh entity for the same character rejoins outside the instance.
+    const newPid = sim.addPlayer('warrior', 'Owner', { characterId: 42 });
+    const newP = sim.entities.get(newPid) as AnyEntity;
+    expect(newPid).not.toBe(pid);
+    expect(sim.instanceSlotAt(newP.pos)).toBeNull();
+
+    // Rebind via the Sim facade (the entry the server calls) returns them inside.
+    expect(sim.rebindToInstance(newPid, 42)).toBe(true);
+    expect(inst.disconnectedOwner).toBeNull();
+    expect(inst.partyKey).toBe(instanceKeyFor(sim.ctx, newPid)); // re-keyed to solo:<newPid>
+    expect(sim.instanceSlotAt(newP.pos)).toBe(inst.slot); // physically back inside
+    expect(inst.mobIds).toEqual(heldMobIds); // progress intact: same elites, not respawned
+  });
+
+  it('does not hold the instance for a player who left through the exit door', () => {
+    const sim = makeSim();
+    const pid = sim.addPlayer('warrior', 'Solo', { characterId: 7 });
+    enterDungeon(sim.ctx, 'hollow_crypt', pid);
+    const inst = claimedHollow(sim);
+
+    // A deliberate exit teleports the player outside the instance before teardown.
+    leaveDungeon(sim.ctx, pid);
+    expect(markInstanceOwnerDisconnected(sim.ctx, pid, sim.ctx.tickCount)).toBe(false);
+    expect(inst.disconnectedOwner).toBeNull();
+  });
+
+  it('does not hold party instances for a single member disconnect', () => {
+    const sim = makeSim();
+    const a = sim.addPlayer('warrior', 'Aaa', { characterId: 1 });
+    const b = sim.addPlayer('mage', 'Bbb', { characterId: 2 });
+    sim.partyInvite(b, a);
+    sim.partyAccept(b);
+    enterDungeon(sim.ctx, 'hollow_crypt', a);
+    const inst = (sim.instances as any[]).find(
+      (i) => i.dungeonId === 'hollow_crypt' && i.partyKey !== null,
+    );
+    expect(inst.partyKey.startsWith('party:')).toBe(true);
+
+    expect(markInstanceOwnerDisconnected(sim.ctx, a, sim.ctx.tickCount)).toBe(false);
+    expect(inst.disconnectedOwner).toBeNull();
   });
 });
 

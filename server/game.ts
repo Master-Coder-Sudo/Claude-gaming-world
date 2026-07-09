@@ -2329,6 +2329,12 @@ export class GameServer {
       characterId,
       bankBonus: meta.bankBonus,
     });
+    // Issue #1351: a reconnect after the linkdead grace expired comes back through
+    // this fresh-join path (a within-grace reconnect resumes the held session
+    // above instead). If the sim is still holding this character's solo dungeon
+    // instance, rebind the new entity to it so the run resumes with progress intact.
+    // A no-op when no slot is held for this character.
+    this.sim.rebindToInstance(pid, characterId);
     if (isGm) {
       // GM characters: invulnerable, and always at the level cap (the row is
       // created without state, so the first join levels them up)
@@ -2714,6 +2720,13 @@ export class GameServer {
     await releaseCharacterLease(session.characterId, session.leaseNonce).catch((err) =>
       console.error('lease release failed:', err),
     );
+    // Issue #1351: if this character was mid-run inside a solo dungeon instance,
+    // hold that instance for a reconnect grace window before the entity is dropped.
+    // The hold keys on the durable characterId (the entity id changes on reconnect)
+    // and is honored by the sim's instance reaper; join() rebinds on return. A
+    // player who left via the exit door first is outside the instance, so this is a
+    // no-op for them (their slot keeps the normal empty-reset).
+    this.sim.markInstanceOwnerDisconnected(session.pid, this.sim.tickCount);
     this.sim.removePlayer(session.pid);
     // Departures are no longer broadcast to the realm — the leaving player has
     // already disconnected, so there is no one to show their own notice to.

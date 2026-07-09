@@ -28,6 +28,7 @@ import {
   INSTANCE_EMPTY_TIMEOUT,
   NYTHRAXIS_BOSS_ID,
   NYTHRAXIS_ROOM_RADIUS,
+  TICK_RATE,
   type Vec3,
 } from '../types';
 import {
@@ -41,6 +42,17 @@ const DOOR_TRIGGER_RADIUS = 2.0; // walking this close to a dungeon door telepor
 const HEROIC_REWARD_WINDOW_MS = 24 * 60 * 60 * 1000;
 const RAID_ALLOWED_DUNGEON_IDS = new Set(['nythraxis_crypt', 'nythraxis_boss_arena']);
 const RAID_REQUIRED_DUNGEON_IDS = new Set(['nythraxis_boss_arena']);
+
+// Issue #1351: how long a disconnected solo owner's instance is held before the
+// reaper is allowed to reclaim it. A dropped/logged-out solo player must be able
+// to reconnect and resume their run instead of landing in a fresh dungeon. This
+// is a FLOOR the reaper honors on top of the normal empty-reset (updateInstances
+// frees a held slot only once BOTH the empty timeout and this grace have lapsed),
+// so it never shortens the existing hold; it only guarantees a reconnect window
+// even if INSTANCE_EMPTY_TIMEOUT is later tuned down. Ticks, not wall clock, keep
+// the countdown deterministic. (Note: the server also holds the live entity in
+// world for LINKDEAD_GRACE_MS, so this grace runs after that entity is removed.)
+export const DUNGEON_RECONNECT_GRACE_TICKS = TICK_RATE * 120; // 2 minutes
 
 export function instanceKeyFor(ctx: SimContext, pid: number): string {
   const party = ctx.partyOf(pid);
@@ -378,6 +390,7 @@ function claimInstance(
   // The Sanctum speed deed measures from the claim.
   inst.claimedAt = ctx.time;
   inst.clearedBy = new Set();
+  inst.disconnectedOwner = null; // a fresh claim carries no held-owner marker
   const origin = instanceOriginOf(inst);
   for (const spawn of dungeon.spawns) {
     const template = MOBS[spawn.mobId];
@@ -451,6 +464,7 @@ function freeInstance(ctx: SimContext, inst: InstanceSlot): void {
   inst.emptyFor = 0;
   inst.claimedAt = undefined;
   inst.clearedBy = new Set();
+  inst.disconnectedOwner = null;
 }
 
 // Kill-time lockout recipients for a claimed instance: every CURRENT member of
@@ -549,11 +563,72 @@ export function updateInstances(ctx: SimContext): void {
     }
     if (occupied) {
       inst.emptyFor = 0;
+      // A live body is physically inside again: the reconnect hold is moot. (The
+      // clean reconnect path re-keys via rebindToInstance; this also covers a
+      // returning owner whose saved position simply lands them back in-bounds.)
+      inst.disconnectedOwner = null;
     } else {
       inst.emptyFor += 1;
-      if (inst.emptyFor >= INSTANCE_EMPTY_TIMEOUT) freeInstance(ctx, inst);
+      // Hold a disconnected owner's slot for the reconnect grace: free only once
+      // the normal empty timeout has ALSO lapsed, so this can extend the hold but
+      // never shorten it (issue #1351).
+      const heldForReconnect =
+        inst.disconnectedOwner !== null &&
+        ctx.tickCount - inst.disconnectedOwner.atTick < DUNGEON_RECONNECT_GRACE_TICKS;
+      if (inst.emptyFor >= INSTANCE_EMPTY_TIMEOUT && !heldForReconnect) freeInstance(ctx, inst);
     }
   }
+}
+
+// Server leave() calls this (through the Sim delegate) just before removePlayer,
+// while the leaving entity still resolves. If a solo player was physically inside
+// their instance, the slot is held for DUNGEON_RECONNECT_GRACE_TICKS against the
+// durable characterId so a reconnect can rebind to it. A player who walked out the
+// exit door first (deliberate leave) is outside the instance, so they are not held
+// and their slot keeps the normal empty-reset. Party instances are not held here:
+// remaining members keep them occupied, and a lone party of one that empties out
+// reaps normally. Returns whether a hold was placed.
+export function markInstanceOwnerDisconnected(
+  ctx: SimContext,
+  pid: number,
+  atTick: number,
+): boolean {
+  const r = ctx.resolve(pid);
+  if (!r) return false;
+  const characterId = r.meta.characterId;
+  if (characterId === undefined) return false; // no durable id (offline sim player): cannot rebind
+  if (instanceInfoAt(ctx, r.e.pos) === null) return false; // not inside an instance: deliberate exit
+  const key = instanceKeyFor(ctx, pid);
+  if (!key.startsWith('solo:')) return false; // only solo instances are held for one owner
+  const inst = ctx.instances.find((i) => i.partyKey === key);
+  if (!inst) return false;
+  inst.disconnectedOwner = { characterId, atTick };
+  return true;
+}
+
+// Server join() calls this (through the Sim delegate) after addPlayer on a fresh
+// reconnect. If a held slot is waiting for this characterId, re-key it to the new
+// entity id, clear the hold, and place the player back at the instance entrance so
+// they resume the SAME slot with all mob/loot progress intact. Returns whether a
+// rebind happened (false: no slot was being held for this character).
+export function rebindToInstance(ctx: SimContext, pid: number, characterId: number): boolean {
+  const inst = ctx.instances.find((i) => i.disconnectedOwner?.characterId === characterId);
+  if (!inst) return false;
+  const r = ctx.resolve(pid);
+  if (!r) return false;
+  const dungeon = DUNGEONS[inst.dungeonId];
+  inst.disconnectedOwner = null;
+  inst.partyKey = instanceKeyFor(ctx, pid); // re-key the held slot to the returning entity
+  inst.emptyFor = 0;
+  const origin = instanceOriginOf(inst);
+  const p = r.e;
+  p.pos = ctx.groundPos(origin.x + dungeon.entry.x, origin.z + dungeon.entry.z);
+  p.prevPos = { ...p.pos };
+  ctx.rebucket(p);
+  p.facing = 0;
+  p.targetId = null;
+  p.autoAttack = false;
+  return true;
 }
 
 export function instanceSlotAt(ctx: SimContext, pos: Vec3): number | null {

@@ -328,6 +328,8 @@ import {
   instanceSlotAt as instanceSlotAtImpl,
   leaveCrypt as leaveCryptImpl,
   leaveDungeon as leaveDungeonImpl,
+  markInstanceOwnerDisconnected as markInstanceOwnerDisconnectedImpl,
+  rebindToInstance as rebindToInstanceImpl,
   updateDoorTriggers as updateDoorTriggersImpl,
   updateInstances as updateInstancesImpl,
 } from './instances/dungeons';
@@ -673,7 +675,10 @@ export interface ArenaMatch {
   slot: number; // arena instance slot
   state: 'countdown' | 'active' | 'over';
   timer: number; // countdown remaining, then elapsed once active, then return countdown
-  returns: Map<number, { x: number; z: number; facing: number; preMatchHp: number; preMatchResource: number }>;
+  returns: Map<
+    number,
+    { x: number; z: number; facing: number; preMatchHp: number; preMatchResource: number }
+  >;
   ratingA: number; // team avg at start
   ratingB: number;
   defeated: Set<number>;
@@ -769,6 +774,12 @@ export interface InstanceSlot {
   // exception admits only these: a player locked by an earlier run can never
   // treat someone else's cleared claim as their own loot run.
   clearedBy: Set<number>;
+  // Set when the solo owner disconnects mid-run (server leave() marks it before
+  // removePlayer). The slot is held for a reconnect grace window keyed on the
+  // durable characterId (the entity id changes on reconnect), then rebound or
+  // reaped. `atTick` is the sim tick the disconnect was recorded (sim clock, not
+  // wall clock, so the countdown stays deterministic). See instances/dungeons.ts.
+  disconnectedOwner: { characterId: number; atTick: number } | null;
 }
 
 export interface ResolvedAbility {
@@ -1563,6 +1574,7 @@ export class Sim {
             exitId: null,
             emptyFor: 0,
             clearedBy: new Set(),
+            disconnectedOwner: null,
           });
         }
         continue;
@@ -1590,6 +1602,7 @@ export class Sim {
           exitId: null,
           emptyFor: 0,
           clearedBy: new Set(),
+          disconnectedOwner: null,
         });
       }
     }
@@ -7325,6 +7338,18 @@ export class Sim {
     const party = this.partyOf(pid);
     if (party) return party.dungeonDifficulty ?? 'normal';
     return this.players.get(pid)?.dungeonDifficulty ?? 'normal';
+  }
+
+  // Issue #1351: server disconnect/reconnect wiring. markInstanceOwnerDisconnected
+  // runs in leave() before removePlayer to hold a solo owner's instance; rebindToInstance
+  // runs after addPlayer on reconnect to return them to the held slot. Both key on the
+  // durable characterId (see instances/dungeons.ts).
+  markInstanceOwnerDisconnected(pid: number, atTick: number): boolean {
+    return markInstanceOwnerDisconnectedImpl(this.ctx, pid, atTick);
+  }
+
+  rebindToInstance(pid: number, characterId: number): boolean {
+    return rebindToInstanceImpl(this.ctx, pid, characterId);
   }
 
   // Legacy single-dungeon entry points (tests + scripts use these).
