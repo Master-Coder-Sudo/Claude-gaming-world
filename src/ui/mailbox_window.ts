@@ -130,12 +130,24 @@ export class MailboxWindow {
       );
       return;
     }
-    if (this.attachments.some((s) => s.itemId === itemId)) return;
-    const count = this.ownedCountFor(itemId);
-    if (count < 1) return;
-    this.attachments.push({ itemId, count });
+    const existing = this.attachments.find((s) => s.itemId === itemId);
+    if (existing) {
+      // Clicking an already-attached item adds one more (up to the stack total).
+      const alreadySent = this.attachments
+        .filter((s) => s.itemId === itemId)
+        .reduce((n, s) => n + s.count, 0);
+      if (this.ownedCountFor(itemId) <= alreadySent) return;
+      existing.count += 1;
+      audio.click();
+      this.renderParcels();
+      return;
+    }
+    // Attach a single item per click so the player controls the quantity.
+    // Each additional click adds one more, up to what they own.
+    if (this.ownedCountFor(itemId) < 1) return;
+    this.attachments.push({ itemId, count: 1 });
     audio.click();
-    this.render();
+    this.renderParcels();
   }
 
   /**
