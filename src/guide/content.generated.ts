@@ -80,6 +80,22 @@ export interface GuideDelve {
   affixes: string[];
 }
 
+// A single public deed. Names and reward title text are the English sim source (proper
+// nouns), baked like creature and POI names. No criteria beyond this reaches the wiki: the
+// trigger and the player-facing desc are deliberately omitted (see the generator note), and
+// hidden deeds are filtered out entirely, so this list is safe to publish in full.
+export interface GuideDeed {
+  id: string;
+  name: string;
+  category: string;
+  renown: number;
+  feat: boolean;
+  /** Cosmetic title text (English proper noun), when the deed grants one. */
+  rewardTitle?: string;
+  /** True when the deed grants a cosmetic nameplate border. */
+  rewardBorder?: true;
+}
+
 export const GUIDE_CLASSES: GuideClassInfo[] = [
   {
     "id": "warrior",
@@ -1785,6 +1801,1269 @@ export const GUIDE_DELVES: GuideDelve[] = [
       "Lively Choir",
       "Belligerent Dead"
     ]
+  }
+];
+
+export const GUIDE_DEEDS: GuideDeed[] = [
+  {
+    "id": "prog_first_steps",
+    "name": "First Steps",
+    "category": "progression",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "prog_finding_your_feet",
+    "name": "Finding Your Feet",
+    "category": "progression",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "prog_double_digits",
+    "name": "Double Digits",
+    "category": "progression",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "prog_the_long_middle",
+    "name": "The Long Middle",
+    "category": "progression",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "prog_level_cap",
+    "name": "The View From the Top",
+    "category": "progression",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "prog_well_rested",
+    "name": "Well Rested",
+    "category": "progression",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "prog_talented",
+    "name": "A Point Well Spent",
+    "category": "progression",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "prog_specialized",
+    "name": "Declaration of Intent",
+    "category": "progression",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "prog_deep_roots",
+    "name": "Deep Roots",
+    "category": "progression",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "prog_full_build",
+    "name": "The Full Eleven",
+    "category": "progression",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "prog_veteran",
+    "name": "Veteran",
+    "category": "progression",
+    "renown": 10,
+    "feat": false,
+    "rewardTitle": "Veteran"
+  },
+  {
+    "id": "prog_champion",
+    "name": "Champion",
+    "category": "progression",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Champion"
+  },
+  {
+    "id": "prog_paragon",
+    "name": "Paragon",
+    "category": "progression",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Paragon"
+  },
+  {
+    "id": "prog_mythic",
+    "name": "Mythic",
+    "category": "progression",
+    "renown": 50,
+    "feat": false,
+    "rewardTitle": "Mythic"
+  },
+  {
+    "id": "prog_eternal",
+    "name": "Eternal",
+    "category": "progression",
+    "renown": 50,
+    "feat": false,
+    "rewardTitle": "Eternal"
+  },
+  {
+    "id": "prog_prestige",
+    "name": "Begin Again",
+    "category": "progression",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "prog_prestige_5",
+    "name": "Old Habits",
+    "category": "progression",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "prog_prestige_10",
+    "name": "Perpetual Motion",
+    "category": "progression",
+    "renown": 50,
+    "feat": false,
+    "rewardBorder": true
+  },
+  {
+    "id": "prog_first_harvest",
+    "name": "Fruits of the Field",
+    "category": "progression",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "prog_mining_100",
+    "name": "Ore in the Blood",
+    "category": "progression",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "prog_logging_100",
+    "name": "Heartwood Hewer",
+    "category": "progression",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "prog_herbalism_100",
+    "name": "Master of the Meadow",
+    "category": "progression",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "prog_master_gatherer",
+    "name": "Master Gatherer",
+    "category": "progression",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "prog_first_craft",
+    "name": "Made By Hand",
+    "category": "progression",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "prog_craft_specialist",
+    "name": "Trade Secrets",
+    "category": "progression",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "prog_around_the_ring",
+    "name": "Around the Ring",
+    "category": "progression",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "cmb_first_blood",
+    "name": "First Blood",
+    "category": "combat",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "cmb_slayer",
+    "name": "Slayer",
+    "category": "combat",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "cmb_legion_of_one",
+    "name": "Legion of One",
+    "category": "combat",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "cmb_heavy_hitter",
+    "name": "Heavy Hitter",
+    "category": "combat",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "cmb_critical_eye",
+    "name": "Critical Eye",
+    "category": "combat",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "cmb_giantslayer",
+    "name": "Giantslayer",
+    "category": "combat",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "cmb_first_fall",
+    "name": "Dust Yourself Off",
+    "category": "combat",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "dgn_hollow_crypt",
+    "name": "Cryptbreaker",
+    "category": "dungeon",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "dgn_sunken_bastion",
+    "name": "Fogbinder Unbound",
+    "category": "dungeon",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "dgn_drowned_temple",
+    "name": "Drowning the Moon",
+    "category": "dungeon",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dgn_gravewyrm_sanctum",
+    "name": "The Wyrm Below",
+    "category": "dungeon",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dgn_hollow_crypt_heroic",
+    "name": "Heroic: The Hollow Crypt",
+    "category": "dungeon",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dgn_sunken_bastion_heroic",
+    "name": "Heroic: The Sunken Bastion",
+    "category": "dungeon",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dgn_drowned_temple_heroic",
+    "name": "Heroic: The Drowned Temple",
+    "category": "dungeon",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dgn_gravewyrm_sanctum_heroic",
+    "name": "Heroic: Gravewyrm Sanctum",
+    "category": "dungeon",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dgn_nythraxis",
+    "name": "Scourge No More",
+    "category": "dungeon",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "dgn_nythraxis_heroic",
+    "name": "Heroic: Scourge No More",
+    "category": "dungeon",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "dgn_thornpeak_rounds",
+    "name": "Making the Rounds",
+    "category": "dungeon",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dgn_deepward",
+    "name": "Deepward",
+    "category": "dungeon",
+    "renown": 50,
+    "feat": false,
+    "rewardBorder": true
+  },
+  {
+    "id": "dgn_mark_circuit",
+    "name": "The Full Circuit",
+    "category": "dungeon",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "dgn_boss_clears_50",
+    "name": "Fifty Doors Down",
+    "category": "dungeon",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dgn_morthen_flawless",
+    "name": "No Bones About It",
+    "category": "dungeon",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dgn_morthen_trio",
+    "name": "Three Against the Grave",
+    "category": "dungeon",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dgn_olen_arc",
+    "name": "Sidestep the Reaper",
+    "category": "dungeon",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dgn_vael_thralls",
+    "name": "No Thrall of Mine",
+    "category": "dungeon",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dgn_ysolei_moonspawn",
+    "name": "Every Last Moonspawn",
+    "category": "dungeon",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dgn_ysolei_flawless",
+    "name": "Dry Eyes",
+    "category": "dungeon",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "dgn_velkhar_bonewalkers",
+    "name": "Stay Buried",
+    "category": "dungeon",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dgn_korzul_flawless",
+    "name": "Wyrmfeller",
+    "category": "dungeon",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Wyrmfeller"
+  },
+  {
+    "id": "dgn_sanctum_speed",
+    "name": "Sanctum Sprint",
+    "category": "dungeon",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "dgn_nythraxis_gravebreaker",
+    "name": "Kneel to No King",
+    "category": "dungeon",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dgn_nythraxis_wardens",
+    "name": "Keepers of the Wardstones",
+    "category": "dungeon",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "dgn_nythraxis_deathless",
+    "name": "None More Deathless",
+    "category": "dungeon",
+    "renown": 50,
+    "feat": false,
+    "rewardTitle": "the Deathless"
+  },
+  {
+    "id": "cmb_thunzharr",
+    "name": "The Mountain Fell",
+    "category": "combat",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "cmb_thunzharr_unbroken",
+    "name": "Peakbreaker",
+    "category": "combat",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Peakbreaker"
+  },
+  {
+    "id": "cmb_thunzharr_ten",
+    "name": "A Habit of Mountains",
+    "category": "combat",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dlv_reliquary",
+    "name": "Reliquary Runner",
+    "category": "delve",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "dlv_reliquary_heroic",
+    "name": "Heroic: The Collapsed Reliquary",
+    "category": "delve",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dlv_litany",
+    "name": "Hush the Litany",
+    "category": "delve",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "dlv_litany_heroic",
+    "name": "Heroic: The Drowned Litany",
+    "category": "delve",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dlv_lore_journal",
+    "name": "Marginalia",
+    "category": "delve",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dlv_companion_max",
+    "name": "A Friend in the Deep",
+    "category": "delve",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dlv_companions_both",
+    "name": "Both Lanterns Lit",
+    "category": "delve",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "dlv_clears_50",
+    "name": "Fifty Fathoms",
+    "category": "delve",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dlv_solo_heroic",
+    "name": "Two's a Crowd",
+    "category": "delve",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "dlv_tumbler_premium",
+    "name": "The Tumbler's Path, Mastered",
+    "category": "delve",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "dlv_rite_flawless",
+    "name": "Word-Perfect",
+    "category": "delve",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "dlv_varric_ringers",
+    "name": "The Bells Fall Silent",
+    "category": "delve",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "dlv_nhalia_bells",
+    "name": "Bellstiller",
+    "category": "delve",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Bellstiller"
+  },
+  {
+    "id": "chr_vale_chapter_i",
+    "name": "Vale Chronicle, Chapter I",
+    "category": "chronicle",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "chr_vale_chapter_ii",
+    "name": "Vale Chronicle, Chapter II",
+    "category": "chronicle",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "chr_vale_chapter_iii",
+    "name": "Chronicle of the Vale",
+    "category": "chronicle",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "of the Vale"
+  },
+  {
+    "id": "chr_vale_gatherer",
+    "name": "Living off the Land",
+    "category": "chronicle",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "chr_vale_first_cast",
+    "name": "Something in Mirror Lake",
+    "category": "chronicle",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "chr_vale_packbreaker",
+    "name": "Packbreaker",
+    "category": "chronicle",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "chr_vale_cup_debut",
+    "name": "Copper Pail Contender",
+    "category": "chronicle",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "chr_vale_rares",
+    "name": "Terrors of the Vale",
+    "category": "chronicle",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "chr_marsh_chapter_i",
+    "name": "Marsh Chronicle, Chapter I",
+    "category": "chronicle",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "chr_marsh_chapter_ii",
+    "name": "Marsh Chronicle, Chapter II",
+    "category": "chronicle",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "chr_marsh_chapter_iii",
+    "name": "Chronicle of the Mirefen",
+    "category": "chronicle",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "of the Mirefen"
+  },
+  {
+    "id": "chr_marsh_gatherer",
+    "name": "Fenbridge Foraging",
+    "category": "chronicle",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "chr_marsh_unburst",
+    "name": "Do Not Stand in the Spores",
+    "category": "chronicle",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "chr_marsh_hush_the_mending",
+    "name": "Silence the Mending",
+    "category": "chronicle",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "chr_marsh_rares",
+    "name": "Named in the Mist",
+    "category": "chronicle",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "chr_peaks_chapter_i",
+    "name": "Peaks Chronicle, Chapter I",
+    "category": "chronicle",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "chr_peaks_chapter_ii",
+    "name": "Peaks Chronicle, Chapter II",
+    "category": "chronicle",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "chr_peaks_chapter_iii",
+    "name": "Chronicle of Thornpeak",
+    "category": "chronicle",
+    "renown": 50,
+    "feat": false,
+    "rewardTitle": "of Thornpeak"
+  },
+  {
+    "id": "chr_peaks_sparring",
+    "name": "Wall Drills",
+    "category": "chronicle",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "chr_peaks_glimmer_cast",
+    "name": "Cold Water, Colder Light",
+    "category": "chronicle",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "chr_peaks_moongate",
+    "name": "Through the Cold Gate",
+    "category": "chronicle",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "chr_peaks_waking_witness",
+    "name": "The Mountain That Walks",
+    "category": "chronicle",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "chr_peaks_rares",
+    "name": "Names Cut into the Crag",
+    "category": "chronicle",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "col_discovery_25",
+    "name": "Packrat",
+    "category": "collection",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "col_discovery_75",
+    "name": "Magpie",
+    "category": "collection",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "col_discovery_150",
+    "name": "Cabinet of Curiosities",
+    "category": "collection",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "the Curator"
+  },
+  {
+    "id": "col_discovery_250",
+    "name": "The Grand Catalogue",
+    "category": "collection",
+    "renown": 50,
+    "feat": false,
+    "rewardBorder": true
+  },
+  {
+    "id": "col_first_rare",
+    "name": "Something Blue",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_first_epic",
+    "name": "Born to the Purple",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_first_legendary",
+    "name": "Orange You Lucky",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_set_vale_arcanist",
+    "name": "Vale Arcanist's Regalia",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_set_boundstone_vanguard",
+    "name": "Boundstone Vanguard",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_set_greyjaw_stalker",
+    "name": "Greyjaw Stalker's Kit",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_set_deathlord",
+    "name": "Barrowlord Battlegear",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_set_wyrmshadow",
+    "name": "Nightfang Vestments",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_set_necromancers",
+    "name": "Mournweave Raiment",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_set_crownforged",
+    "name": "Bonewrought Regalia",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_set_nighttalon",
+    "name": "Direfang Pelt",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_set_soulflame",
+    "name": "Wraithfire Regalia",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_set_stormcallers",
+    "name": "Galecall Vestments",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_seven_regalia",
+    "name": "The Sevenfold Wardrobe",
+    "category": "collection",
+    "renown": 0,
+    "feat": false,
+    "rewardTitle": "the Resplendent"
+  },
+  {
+    "id": "col_true_colors",
+    "name": "True Colors",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_all_slots",
+    "name": "Dressed to the Elevens",
+    "category": "collection",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "col_quartermaster_buyout",
+    "name": "Preferred Customer",
+    "category": "collection",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "col_glimmerfin",
+    "name": "Glimmer of Hope",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_full_creel",
+    "name": "Full Creel",
+    "category": "collection",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "col_junk_drawer",
+    "name": "The Junk Drawer",
+    "category": "collection",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "pvp_arena_first_match",
+    "name": "Sand in Your Boots",
+    "category": "pvp",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "pvp_arena_first_win",
+    "name": "The Crowd Roars",
+    "category": "pvp",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "pvp_arena_1v1_1600",
+    "name": "Coliseum Contender",
+    "category": "pvp",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "pvp_arena_1v1_1750",
+    "name": "Coliseum Rival",
+    "category": "pvp",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "pvp_arena_1v1_1900",
+    "name": "Gladiator",
+    "category": "pvp",
+    "renown": 50,
+    "feat": false,
+    "rewardTitle": "Gladiator"
+  },
+  {
+    "id": "pvp_arena_2v2_1600",
+    "name": "Two Strong",
+    "category": "pvp",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "pvp_arena_2v2_1750",
+    "name": "Fearsome Twosome",
+    "category": "pvp",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "pvp_arena_2v2_1900",
+    "name": "Perfect Partnership",
+    "category": "pvp",
+    "renown": 50,
+    "feat": false
+  },
+  {
+    "id": "pvp_duel_first_win",
+    "name": "Settle It Outside",
+    "category": "pvp",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "pvp_duel_grace",
+    "name": "A Lesson in Humility",
+    "category": "pvp",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "pvp_vcup_first_match",
+    "name": "Boots on the Pitch",
+    "category": "pvp",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "pvp_vcup_first_win",
+    "name": "First Silverware",
+    "category": "pvp",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "pvp_vcup_wins_10",
+    "name": "Seasoned Boarballer",
+    "category": "pvp",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "pvp_vcup_wins_25",
+    "name": "Boarball Legend",
+    "category": "pvp",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Boarball Legend"
+  },
+  {
+    "id": "pvp_vcup_first_goal",
+    "name": "Off the Mark",
+    "category": "pvp",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "pvp_vcup_hat_trick",
+    "name": "Hat Trick Hero",
+    "category": "pvp",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "pvp_vcup_golden_goal",
+    "name": "Golden Moment",
+    "category": "pvp",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "pvp_vcup_first_save",
+    "name": "Safe Hands",
+    "category": "pvp",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "pvp_vcup_clean_sheet",
+    "name": "Nothing Gets Past Me",
+    "category": "pvp",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "pvp_vcup_guild_win",
+    "name": "For the Banner",
+    "category": "pvp",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "pvp_fiesta_first_bout",
+    "name": "Party Crasher",
+    "category": "pvp",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "pvp_fiesta_first_win",
+    "name": "Life of the Fiesta",
+    "category": "pvp",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "pvp_fiesta_double",
+    "name": "Double Trouble",
+    "category": "pvp",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "pvp_fiesta_shutdown",
+    "name": "Party Pooper",
+    "category": "pvp",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "pvp_fiesta_full_build",
+    "name": "Dressed for the Occasion",
+    "category": "pvp",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "pvp_fiesta_powerups",
+    "name": "One of Everything",
+    "category": "pvp",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "pvp_fiesta_five_kills",
+    "name": "Carrying the Party",
+    "category": "pvp",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "soc_first_party",
+    "name": "Better Together",
+    "category": "social",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "soc_full_house",
+    "name": "Full House",
+    "category": "social",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "soc_guild_joined",
+    "name": "Under One Banner",
+    "category": "social",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "soc_guild_founded",
+    "name": "Founder's Quill",
+    "category": "social",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "soc_first_trade",
+    "name": "A Fair Exchange",
+    "category": "social",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "soc_first_sale",
+    "name": "Open for Business",
+    "category": "social",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "soc_steady_custom",
+    "name": "Steady Custom",
+    "category": "social",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "soc_market_magnate",
+    "name": "Market Magnate",
+    "category": "social",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Magnate"
+  },
+  {
+    "id": "soc_by_ravens_wing",
+    "name": "By Raven's Wing",
+    "category": "social",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "soc_room_for_more",
+    "name": "Room for More",
+    "category": "social",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "soc_gilded_strongbox",
+    "name": "The Gilded Strongbox",
+    "category": "social",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "soc_meet_bursar",
+    "name": "In Fernando We Trust",
+    "category": "social",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "soc_pocket_money",
+    "name": "Pocket Money",
+    "category": "social",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "soc_heavy_purse",
+    "name": "Heavy Purse",
+    "category": "social",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "soc_wyrms_hoard",
+    "name": "A Wyrm's Hoard",
+    "category": "social",
+    "renown": 25,
+    "feat": false
+  },
+  {
+    "id": "soc_civic_duty",
+    "name": "Civic Duty",
+    "category": "social",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "exp_long_road_north",
+    "name": "The Long Road North",
+    "category": "exploration",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "exp_vale_wayfarer",
+    "name": "Wayfarer of the Vale",
+    "category": "exploration",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "exp_marsh_wayfarer",
+    "name": "Wayfarer of the Marsh",
+    "category": "exploration",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "exp_peaks_wayfarer",
+    "name": "Wayfarer of the Heights",
+    "category": "exploration",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "exp_world_traveler",
+    "name": "World Traveler",
+    "category": "exploration",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "the Wayfarer"
+  },
+  {
+    "id": "exp_something_shiny",
+    "name": "Something Shiny",
+    "category": "exploration",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "exp_first_ore",
+    "name": "Strike the Earth",
+    "category": "exploration",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "exp_first_timber",
+    "name": "Timber!",
+    "category": "exploration",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "exp_first_herb",
+    "name": "Green Thumb",
+    "category": "exploration",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "feat_era_cap",
+    "name": "Child of the First Era",
+    "category": "feat",
+    "renown": 0,
+    "feat": true
+  },
+  {
+    "id": "feat_book_complete",
+    "name": "The Whole Book",
+    "category": "feat",
+    "renown": 0,
+    "feat": true
+  },
+  {
+    "id": "feat_brightwood_relic",
+    "name": "Brightwood Remembered",
+    "category": "feat",
+    "renown": 0,
+    "feat": true
   }
 ];
 

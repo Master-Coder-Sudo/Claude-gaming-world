@@ -3826,6 +3826,41 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'guide.skipToContent': '본문으로 건너뛰기',
   'guide.loading': '불러오는 중...',
   'guide.controls.targetFriendly': '가장 가까운 아군 대상 지정',
+  'guide.deedsPage.cat.chronicle': '연대기',
+  'guide.deedsPage.cat.collection': '수집',
+  'guide.deedsPage.cat.combat': '전투',
+  'guide.deedsPage.cat.delve': '탐굴',
+  'guide.deedsPage.cat.dungeon': '던전',
+  'guide.deedsPage.cat.exploration': '탐험',
+  'guide.deedsPage.cat.feat': '위업',
+  'guide.deedsPage.cat.progression': '성장',
+  'guide.deedsPage.cat.pvp': '플레이어 대전',
+  'guide.deedsPage.cat.social': '사교와 경제',
+  'guide.deedsPage.catalogBody':
+    '여기에는 업적의 서가 담을 수 있는 모든 업적을 범주별로 모아 두었습니다. 비밀 업적은 일부러 빼 두어, 당신이 직접 찾아내기를 기다립니다. 각 업적이 무엇을 요구하는지는 게임 내에서 업적의 서를 열어 확인하세요.',
+  'guide.deedsPage.catalogHeading': '업적 전체 목록',
+  'guide.deedsPage.chroniclesBody':
+    '각 지역은 저마다의 연대기를 간직하고 있습니다. 이는 지나가는 모든 여행자를 기록하기로 자청한 그 고장의 기록자가 모은 업적의 묶음입니다. 이스트브룩 골짜기의 Saul이 그 첫 번째 사람입니다. 연대기는 여러 장으로 나뉘어 있으며, 어떤 순서로 진행하든 자유입니다.',
+  'guide.deedsPage.chroniclesHeading': '연대기',
+  'guide.deedsPage.colRenown': '명성',
+  'guide.deedsPage.colReward': '보상',
+  'guide.deedsPage.featsBody':
+    '위업은 따로 놓인 선반입니다. 그것은 유산과 세계 최초의 기록이며, 지나간 시대에 얽힌 업적이거나 오직 한 번만 일어날 순간의 업적입니다. 명성을 지니지 않고 완료율에서도 빠져 있으며, 이루어진 일에 대한 기억으로 영원히 보관됩니다.',
+  'guide.deedsPage.featsHeading': '위업',
+  'guide.deedsPage.howBody':
+    '업적은 캐릭터마다 하나씩 얻으며 계정 전체에 걸쳐 표시되므로, 당신이 플레이하는 모든 영웅이 같은 수집에 보태집니다. 각 업적은 게임 내 업적의 서에서 무엇을 요구하는지 분명히 알려 주므로, 무엇을 좇아야 할지 언제나 알 수 있습니다. 소수의 업적은 비밀로 남아 있다가 당신이 얻은 뒤에야 모습을 드러냅니다.',
+  'guide.deedsPage.howHeading': '업적의 작동 방식',
+  'guide.deedsPage.intro':
+    '업적의 서는 시작의 골짜기를 벗어나는 첫걸음부터 왕국이 내놓을 수 있는 가장 힘든 싸움까지, 당신이 이룬 모든 것을 세계가 기록해 두는 곳입니다. 플레이하며 업적을 얻고, 그것이 주는 칭호를 걸치고, 명성이 오르는 것을 지켜보세요.',
+  'guide.deedsPage.renownBody':
+    '명성은 업적의 서 뒤에 있는 점수입니다. 당신이 얻는 모든 업적은 정해진 점수를 지니며, 총점은 오르기만 하므로 한가한 한 주가 있어도 쌓아 온 것을 잃지 않습니다. 일부 업적은 실력이 아니라 운에 달려 있고, 위업은 그 자체로 하나의 영예이므로, 그 둘은 모두 명성을 전혀 주지 않습니다.',
+  'guide.deedsPage.renownHeading': '명성',
+  'guide.deedsPage.rewardBorder': '테두리',
+  'guide.deedsPage.rewardsBody':
+    '보상은 모두 과시를 위한 것이며, 바로 그것이 핵심입니다. 일부 업적은 걸칠 수 있는 칭호나 이름을 꾸미는 테두리를 주지만, 영웅을 더 강하게 만드는 것은 결코 주지 않습니다. 업적의 서에서 원하는 칭호를 고르면 그것이 당신의 이름표에 따라붙어 모두에게 보입니다.',
+  'guide.deedsPage.rewardsHeading': '칭호와 테두리',
+  'guide.deedsPage.standingsNote':
+    '각 왕국은 모든 계정에 걸친 명성의 누계를 기록합니다. 누가 어디에 서 있는지 보려면 게임 내에서 업적의 서를 열고 명성 순위로 넘어가세요. 순위는 위키가 아니라 그곳에 있습니다.',
   'guide.delvesPage.affixesBody':
     '더 어려운 탐굴에서는 진행 방식을 바꾸는 고난 요소가 하나 붙습니다. 잠들지 못한 죽은 자부터 탁한 공기, 무너져 가는 천장까지 그 종류는 다양합니다. 고난 요소는 위험과 보상을 함께 끌어올립니다. 묘실을 주제로 한 탐굴에서는 다음 중 무엇이든 나타날 수 있습니다:',
   'guide.delvesPage.affixesHeading': '고난 요소',
@@ -3868,6 +3903,7 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'guide.nav.bestiary': '몬스터 도감',
   'guide.nav.world': '세계',
   'guide.nav.quests': '퀘스트',
+  'guide.nav.deeds': '업적의 서',
   'guide.nav.delves': '탐굴',
   'guide.nav.dungeons': '던전과 공격대',
   'guide.nav.reference': '참고 자료',

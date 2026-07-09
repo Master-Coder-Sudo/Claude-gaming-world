@@ -3671,6 +3671,41 @@ export const zh_CN: Partial<Record<TranslationKey, string>> = {
   'guide.skipToContent': '跳至正文',
   'guide.loading': '加载中……',
   'guide.controls.targetFriendly': '选中最近的友方',
+  'guide.deedsPage.cat.chronicle': '编年史',
+  'guide.deedsPage.cat.collection': '收藏',
+  'guide.deedsPage.cat.combat': '战斗',
+  'guide.deedsPage.cat.delve': '探秘',
+  'guide.deedsPage.cat.dungeon': '地下城',
+  'guide.deedsPage.cat.exploration': '探索',
+  'guide.deedsPage.cat.feat': '壮举',
+  'guide.deedsPage.cat.progression': '成长',
+  'guide.deedsPage.cat.pvp': '玩家对战',
+  'guide.deedsPage.cat.social': '社交与经济',
+  'guide.deedsPage.catalogBody':
+    '这里列出了功绩之书所能容纳的每一个功绩，按类别整理。隐秘的功绩被特意略去，等待你自己去发现。在游戏内打开功绩之书，即可查看每个功绩的具体要求。',
+  'guide.deedsPage.catalogHeading': '功绩全录',
+  'guide.deedsPage.chroniclesBody':
+    '每个区域都保有自己的编年史，这是一组由当地记录者收集的功绩，他们自愿承担起记录每一位过路旅人的责任。东溪谷的Saul是其中的第一位。一部编年史分为若干章节，你可以按任意顺序来完成它们。',
+  'guide.deedsPage.chroniclesHeading': '编年史',
+  'guide.deedsPage.colRenown': '名望',
+  'guide.deedsPage.colReward': '奖励',
+  'guide.deedsPage.featsBody':
+    '壮举自成一类：它们是传承与世界首创的记录，是那些与逝去纪元相关、或只会发生一次的功绩。它们不带来任何名望，也不计入完成度，将作为对往昔功业的纪念被永久保存。',
+  'guide.deedsPage.featsHeading': '壮举',
+  'guide.deedsPage.howBody':
+    '功绩以单个角色为单位逐一赢得，并在你的整个账号中展示，因此你所扮演的每一位英雄都会汇入同一份收藏。每个功绩都在游戏内的功绩之书中清楚写明它的要求，让你始终知道该追求什么。少数功绩会保持隐秘，只有在你赢得它们之后才会揭晓。',
+  'guide.deedsPage.howHeading': '功绩如何运作',
+  'guide.deedsPage.intro':
+    '功绩之书记录着你在这个世界所做的一切，从走出新手山谷的第一步，到王国所能提供的最艰难的战斗。一边游玩一边赢得功绩，佩戴它们授予的头衔，看着你的名望不断攀升。',
+  'guide.deedsPage.renownBody':
+    '名望是功绩之书背后的分数。你赢得的每个功绩都价值固定的点数，而你的总分只增不减，因此清闲的一周绝不会让你失去已有的成绩。少数功绩取决于运气而非技巧，而壮举则自成一份荣誉，因此这两者都不提供任何名望。',
+  'guide.deedsPage.renownHeading': '名望',
+  'guide.deedsPage.rewardBorder': '边框',
+  'guide.deedsPage.rewardsBody':
+    '这些奖励纯粹是为了炫耀，而这正是它们的意义所在。有些功绩会授予你可佩戴的头衔，或是为你的名字增添装饰的边框，绝不会给出任何让你的英雄变强的东西。在功绩之书中选择你想要的头衔，它便会显示在你的铭牌上，供所有人观看。',
+  'guide.deedsPage.rewardsHeading': '头衔与边框',
+  'guide.deedsPage.standingsNote':
+    '各王国会统计所有账号累积的名望。想知道谁位居何处，请在游戏内打开功绩之书并转到名望排行；排名在那里，而不在维基上。',
   'guide.delvesPage.affixesBody':
     '难度更高的探秘会随机附带一种词缀，改变下潜的玩法走向，从不安的亡者，到污浊的浊气，再到摇摇欲坠的顶棚。它们会让危险与回报一同提升。一座以墓穴为主题的探秘，可能出现以下任意一种词缀：',
   'guide.delvesPage.affixesHeading': '探秘词缀',
@@ -3713,6 +3748,7 @@ export const zh_CN: Partial<Record<TranslationKey, string>> = {
   'guide.nav.bestiary': '生物图鉴',
   'guide.nav.world': '世界',
   'guide.nav.quests': '任务',
+  'guide.nav.deeds': '功绩之书',
   'guide.nav.delves': '探秘',
   'guide.nav.dungeons': '地下城与团队副本',
   'guide.nav.reference': '参考',

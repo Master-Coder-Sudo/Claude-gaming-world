@@ -3672,6 +3672,41 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'guide.skipToContent': '跳至主要內容',
   'guide.loading': '載入中...',
   'guide.controls.targetFriendly': '鎖定最近的友方',
+  'guide.deedsPage.cat.chronicle': '編年史',
+  'guide.deedsPage.cat.collection': '收藏',
+  'guide.deedsPage.cat.combat': '戰鬥',
+  'guide.deedsPage.cat.delve': '秘探',
+  'guide.deedsPage.cat.dungeon': '地城',
+  'guide.deedsPage.cat.exploration': '探索',
+  'guide.deedsPage.cat.feat': '壯舉',
+  'guide.deedsPage.cat.progression': '成長',
+  'guide.deedsPage.cat.pvp': '玩家對戰',
+  'guide.deedsPage.cat.social': '社交與經濟',
+  'guide.deedsPage.catalogBody':
+    '這裡列出了功績之書所能容納的每一個功績，按類別整理。隱密的功績被特意略去，等待你自己去發現。在遊戲內打開功績之書，即可查看每個功績的具體要求。',
+  'guide.deedsPage.catalogHeading': '功績全錄',
+  'guide.deedsPage.chroniclesBody':
+    '每個區域都保有自己的編年史，這是一組由當地記錄者收集的功績，他們自願承擔起記錄每一位過路旅人的責任。東溪谷的Saul是其中的第一位。一部編年史分為若干章節，你可以按任意順序來完成它們。',
+  'guide.deedsPage.chroniclesHeading': '編年史',
+  'guide.deedsPage.colRenown': '名望',
+  'guide.deedsPage.colReward': '獎勵',
+  'guide.deedsPage.featsBody':
+    '壯舉自成一類：它們是傳承與世界首創的記錄，是那些與逝去紀元相關、或只會發生一次的功績。它們不帶來任何名望，也不計入完成度，將作為對往昔功業的紀念被永久保存。',
+  'guide.deedsPage.featsHeading': '壯舉',
+  'guide.deedsPage.howBody':
+    '功績以單個角色為單位逐一贏得，並在你的整個帳號中展示，因此你所扮演的每一位英雄都會匯入同一份收藏。每個功績都在遊戲內的功績之書中清楚寫明它的要求，讓你始終知道該追求什麼。少數功績會保持隱密，只有在你贏得它們之後才會揭曉。',
+  'guide.deedsPage.howHeading': '功績如何運作',
+  'guide.deedsPage.intro':
+    '功績之書記錄著你在這個世界所做的一切，從走出新手山谷的第一步，到王國所能提供的最艱難的戰鬥。一邊遊玩一邊贏得功績，佩戴它們授予的頭銜，看著你的名望不斷攀升。',
+  'guide.deedsPage.renownBody':
+    '名望是功績之書背後的分數。你贏得的每個功績都價值固定的點數，而你的總分只增不減，因此清閒的一週絕不會讓你失去已有的成績。少數功績取決於運氣而非技巧，而壯舉則自成一份榮譽，因此這兩者都不提供任何名望。',
+  'guide.deedsPage.renownHeading': '名望',
+  'guide.deedsPage.rewardBorder': '邊框',
+  'guide.deedsPage.rewardsBody':
+    '這些獎勵純粹是為了炫耀，而這正是它們的意義所在。有些功績會授予你可佩戴的頭銜，或是為你的名字增添裝飾的邊框，絕不會給出任何讓你的英雄變強的東西。在功績之書中選擇你想要的頭銜，它便會顯示在你的銘牌上，供所有人觀看。',
+  'guide.deedsPage.rewardsHeading': '頭銜與邊框',
+  'guide.deedsPage.standingsNote':
+    '各王國會統計所有帳號累積的名望。想知道誰位居何處，請在遊戲內打開功績之書並轉到名望排行；排名在那裡，而不在維基上。',
   'guide.delvesPage.affixesBody':
     '較高難度的旅程會擲出一項詞綴，改變這趟探索的進行方式，從不安的亡者到污濁的空氣，再到搖搖欲墜的屋頂結構。它們同時提高了危險與獎勵。一座以墓穴為主題的秘探可能擲出以下任何一種：',
   'guide.delvesPage.affixesHeading': '旅程詞綴',
@@ -3714,6 +3749,7 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'guide.nav.bestiary': '生物圖鑑',
   'guide.nav.world': '世界',
   'guide.nav.quests': '任務',
+  'guide.nav.deeds': '功績之書',
   'guide.nav.delves': '秘探',
   'guide.nav.dungeons': '地城與團隊副本',
   'guide.nav.reference': '參考資料',

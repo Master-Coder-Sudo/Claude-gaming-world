@@ -3831,6 +3831,41 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'guide.skipToContent': 'メインコンテンツへスキップ',
   'guide.loading': '読み込み中...',
   'guide.controls.targetFriendly': '最も近い友好的な対象をターゲット',
+  'guide.deedsPage.cat.chronicle': '年代記',
+  'guide.deedsPage.cat.collection': '収集',
+  'guide.deedsPage.cat.combat': '戦闘',
+  'guide.deedsPage.cat.delve': 'デルヴ',
+  'guide.deedsPage.cat.dungeon': 'ダンジョン',
+  'guide.deedsPage.cat.exploration': '探索',
+  'guide.deedsPage.cat.feat': '偉業',
+  'guide.deedsPage.cat.progression': '成長',
+  'guide.deedsPage.cat.pvp': 'プレイヤー対戦',
+  'guide.deedsPage.cat.social': 'ソーシャルと経済',
+  'guide.deedsPage.catalogBody':
+    'ここには、功績の書が収められるすべての功績を、カテゴリーごとにまとめてあります。秘密の功績はわざと省いてあり、あなた自身が見つけ出すのを待っています。それぞれが何を求めているかは、ゲーム内で功績の書を開いて確かめてください。',
+  'guide.deedsPage.catalogHeading': '功績の全目録',
+  'guide.deedsPage.chroniclesBody':
+    '各地方はそれぞれの年代記を保っています。これは、通り過ぎるすべての旅人を記録しようと自ら買って出た土地の記録者が集めた功績の一群です。イーストブルック渓谷のSaulがその最初の一人です。年代記はいくつかの章に分かれており、どの順で進めても構いません。',
+  'guide.deedsPage.chroniclesHeading': '年代記',
+  'guide.deedsPage.colRenown': '名声',
+  'guide.deedsPage.colReward': '報酬',
+  'guide.deedsPage.featsBody':
+    '偉業は別格の棚です。それは伝承と世界初の記録であり、過ぎ去った時代に結びついた功績や、二度と起こらない一瞬の功績です。名声はなく、達成率にも数えられず、成し遂げられたことの記憶として永遠に残されます。',
+  'guide.deedsPage.featsHeading': '偉業',
+  'guide.deedsPage.howBody':
+    '功績はキャラクターごとに一つずつ獲得され、アカウント全体に表示されます。だからあなたが遊ぶすべての英雄が、同じ一つのコレクションに加わっていきます。それぞれの功績は、ゲーム内の功績の書で何を求めているかをはっきりと示すので、次に何を目指すべきかが常に分かります。ごく一部の功績は秘密のままで、獲得して初めて姿を現します。',
+  'guide.deedsPage.howHeading': '功績の仕組み',
+  'guide.deedsPage.intro':
+    '功績の書は、始まりの谷を出る最初の一歩から、この王国が用意する最も過酷な戦いまで、あなたが成し遂げたすべてを世界が記録する場所です。遊びながら功績を獲得し、授かった称号を身にまとい、名声が高まっていくのを見届けましょう。',
+  'guide.deedsPage.renownBody':
+    '名声は功績の書を支える点数です。獲得した功績はそれぞれ定められた点数を持ち、合計は増える一方なので、静かな一週間があっても築いたものが減ることはありません。一部の功績は技量ではなく運によるもので、偉業はそれ自体が誉れであるため、そのどちらも名声を一切もたらしません。',
+  'guide.deedsPage.renownHeading': '名声',
+  'guide.deedsPage.rewardBorder': '枠飾り',
+  'guide.deedsPage.rewardsBody':
+    '報酬はすべて見せびらかすためのもので、それこそが狙いです。一部の功績は、身につけられる称号や、名前を彩る枠飾りを授けますが、英雄を強くするものは決して与えません。功績の書で好きな称号を選べば、それがあなたのネームプレートに添えられ、誰の目にも映ります。',
+  'guide.deedsPage.rewardsHeading': '称号と枠飾り',
+  'guide.deedsPage.standingsNote':
+    '各ワールドは、すべてのアカウントにわたる名声の累計を記録しています。誰がどこに立っているかを見るには、ゲーム内で功績の書を開き、名声の順位表を開いてください。順位はそこにあり、ウィキにはありません。',
   'guide.delvesPage.affixesBody':
     'より高難易度のランでは、潜行の流れを変える修飾効果が抽選されます。安らげぬ死者から淀んだ空気、崩れかけた天井まで、その内容はさまざまです。修飾効果は危険と報酬をともに高めます。納骨堂をテーマにしたデルヴでは、次のいずれかが抽選されることがあります:',
   'guide.delvesPage.affixesHeading': 'ランの修飾効果',
@@ -3873,6 +3908,7 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'guide.nav.bestiary': 'モンスター図鑑',
   'guide.nav.world': 'ワールド',
   'guide.nav.quests': 'クエスト',
+  'guide.nav.deeds': '功績の書',
   'guide.nav.delves': 'デルヴ',
   'guide.nav.dungeons': 'ダンジョンとレイド',
   'guide.nav.reference': 'リファレンス',

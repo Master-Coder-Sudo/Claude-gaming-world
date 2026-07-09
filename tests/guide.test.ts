@@ -5,12 +5,14 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import {
   GUIDE_CLASSES,
+  GUIDE_DEEDS,
   GUIDE_DELVES,
   GUIDE_FAMILIES,
   GUIDE_MODELS,
   GUIDE_WARLOCK_PETS,
 } from '../src/guide/content.generated';
 import { pageFor } from '../src/guide/pages';
+import { catalogSections, deeds as deedsPage } from '../src/guide/pages/deeds';
 import {
   GUIDE_BASE,
   GUIDE_ROUTES,
@@ -20,6 +22,7 @@ import {
   topbarRoutes,
   toSub,
 } from '../src/guide/routes';
+import { DEEDS } from '../src/sim/content/deeds';
 import { MOBS } from '../src/sim/data';
 import { setLanguage, t } from '../src/ui/i18n';
 
@@ -355,6 +358,213 @@ describe('Guide bestiary spoiler safety', () => {
         `raid/boss name "${name}" leaked into content.generated.ts`,
       ).toBe(false);
     }
+  });
+});
+
+// The Book of Deeds page renders entirely from GUIDE_DEEDS, derived from the sim DEEDS table.
+// Its load-bearing invariant is spoiler safety: hidden deeds must never reach the public wiki,
+// and no criteria internals (the trigger, or the desc, which names instanced bosses and
+// encounter mechanics) may be baked. These gates fail the build instead of silently leaking a
+// secret if a future catalog edit or a generator change drops the hidden filter or emits desc.
+describe('Guide deeds spoiler safety', () => {
+  it('excludes every hidden deed from the generated content entirely', () => {
+    // Iterate the SIM table (not the already-filtered guide list): if the generator's hidden
+    // filter were deleted, a hidden deed's id and name would appear here and fail the assert.
+    const hidden = Object.values(DEEDS).filter((d) => d.hidden);
+    expect(hidden.length).toBeGreaterThan(0); // the catalog has hidden deeds; this guard is meaningful
+    for (const d of hidden) {
+      for (const needle of [d.id, d.name, d.desc]) {
+        expect(
+          generatedSource.includes(needle),
+          `hidden deed "${d.id}" leaked "${needle}" into content.generated.ts`,
+        ).toBe(false);
+      }
+    }
+  });
+
+  it('emits exactly the non-hidden deeds, each mapping back to a real def', () => {
+    const expected = Object.values(DEEDS)
+      .filter((d) => !d.hidden)
+      .map((d) => d.id)
+      .sort();
+    expect(expected.length).toBeGreaterThan(0);
+    expect([...GUIDE_DEEDS].map((d) => d.id).sort()).toEqual(expected);
+    for (const gd of GUIDE_DEEDS) {
+      const def = DEEDS[gd.id];
+      expect(def, `GUIDE_DEEDS has an unknown deed id "${gd.id}"`).toBeDefined();
+      expect(def.hidden, `hidden deed "${gd.id}" reached the public catalog`).toBeFalsy();
+    }
+  });
+
+  it('bakes no trigger or desc field (criteria and internals stay off the wiki)', () => {
+    for (const gd of GUIDE_DEEDS) {
+      expect('trigger' in gd, `deed "${gd.id}" leaked its trigger`).toBe(false);
+      expect('desc' in gd, `deed "${gd.id}" leaked its desc`).toBe(false);
+    }
+  });
+
+  it("bakes no deed's desc text into the generated source, hidden or not", () => {
+    // The stronger form of the desc-omission guard: NOT just hidden deeds. Public dungeon,
+    // combat, and delve descs also name instanced bosses and per-encounter mechanics, which the
+    // wiki withholds. If the generator ever emitted desc under any field name, a full desc
+    // sentence would appear in the source text and fail here.
+    for (const d of Object.values(DEEDS)) {
+      expect(
+        generatedSource.includes(d.desc),
+        `deed "${d.id}" desc leaked into content.generated.ts`,
+      ).toBe(false);
+    }
+  });
+
+  it('maps the cosmetic reward to the sim value, not another field', () => {
+    // A title deed carries its sim reward TEXT (not the kind or a slug); a border deed carries
+    // rewardBorder:true and no title. Pins value correctness the freshness gate cannot (a
+    // consistently-wrong mapping regenerates identically).
+    const title = GUIDE_DEEDS.find((d) => d.id === 'prog_veteran');
+    expect(DEEDS.prog_veteran.reward).toEqual({ kind: 'title', text: 'Veteran' });
+    expect(title?.rewardTitle).toBe('Veteran');
+    expect(title?.rewardBorder).toBeUndefined();
+
+    const border = GUIDE_DEEDS.find((d) => d.id === 'prog_prestige_10');
+    expect(DEEDS.prog_prestige_10.reward?.kind).toBe('border');
+    expect(border?.rewardBorder).toBe(true);
+    expect(border?.rewardTitle).toBeUndefined();
+  });
+
+  it('surfaces only grounded, cosmetic-safe fields for each deed', () => {
+    const allowed = new Set([
+      'progression',
+      'combat',
+      'dungeon',
+      'delve',
+      'chronicle',
+      'collection',
+      'pvp',
+      'social',
+      'exploration',
+      'feat',
+    ]);
+    for (const gd of GUIDE_DEEDS) {
+      expect(gd.name.length).toBeGreaterThan(0);
+      expect(
+        allowed.has(gd.category),
+        `deed "${gd.id}" has off-list category "${gd.category}"`,
+      ).toBe(true);
+      expect(gd.category).not.toBe('hidden');
+      expect([0, 5, 10, 25, 50]).toContain(gd.renown);
+      expect(typeof gd.feat).toBe('boolean');
+      // The reward is optional and cosmetic-only, and never both a title and a border at once.
+      expect(gd.rewardTitle !== undefined && gd.rewardBorder !== undefined).toBe(false);
+      if (gd.rewardTitle !== undefined) expect(gd.rewardTitle.length).toBeGreaterThan(0);
+      if (gd.rewardBorder !== undefined) expect(gd.rewardBorder).toBe(true);
+    }
+    // Feats carry zero Renown by design; a non-zero feat here would be a content or mapping bug.
+    for (const gd of GUIDE_DEEDS) if (gd.feat) expect(gd.renown).toBe(0);
+    // Both a title reward and a border reward exist in the public set, so the mapping is exercised.
+    expect(GUIDE_DEEDS.some((d) => d.rewardTitle)).toBe(true);
+    expect(GUIDE_DEEDS.some((d) => d.rewardBorder)).toBe(true);
+    expect(GUIDE_DEEDS.some((d) => d.feat)).toBe(true);
+  });
+
+  it('resolves the deeds nav + page keys in English', () => {
+    setLanguage('en');
+    for (const k of [
+      'guide.nav.deeds',
+      'guide.deedsPage.intro',
+      'guide.deedsPage.howHeading',
+      'guide.deedsPage.howBody',
+      'guide.deedsPage.renownHeading',
+      'guide.deedsPage.renownBody',
+      'guide.deedsPage.rewardsHeading',
+      'guide.deedsPage.rewardsBody',
+      'guide.deedsPage.chroniclesHeading',
+      'guide.deedsPage.chroniclesBody',
+      'guide.deedsPage.featsHeading',
+      'guide.deedsPage.featsBody',
+      'guide.deedsPage.catalogHeading',
+      'guide.deedsPage.catalogBody',
+      'guide.deedsPage.standingsNote',
+      'guide.deedsPage.colName',
+      'guide.deedsPage.colRenown',
+      'guide.deedsPage.colReward',
+      'guide.deedsPage.featTag',
+      'guide.deedsPage.rewardBorder',
+      'guide.deedsPage.cat.progression',
+      'guide.deedsPage.cat.combat',
+      'guide.deedsPage.cat.dungeon',
+      'guide.deedsPage.cat.delve',
+      'guide.deedsPage.cat.chronicle',
+      'guide.deedsPage.cat.collection',
+      'guide.deedsPage.cat.pvp',
+      'guide.deedsPage.cat.social',
+      'guide.deedsPage.cat.exploration',
+      'guide.deedsPage.cat.feat',
+    ]) {
+      expect(t(k as never).length).toBeGreaterThan(0);
+    }
+    // The first Chronicler is sanctioned flavor: the page names Saul.
+    expect(t('guide.deedsPage.chroniclesBody' as never)).toContain('Saul');
+    // The per-category heading is a translator-controlled format, not a hardcoded join.
+    expect(t('guide.deedsPage.catHeading' as never, { label: 'Combat', count: '7' })).toBe(
+      'Combat (7)',
+    );
+  });
+
+  it('renders the whole page: correct per-category counts, no hidden or boss leak', () => {
+    setLanguage('en');
+    const html = deedsPage.render({ params: [], sub: 'deeds', titleKey: 'guide.nav.deeds' });
+    expect(html.length).toBeGreaterThan(0);
+    expect((html.match(/<h1>/g) ?? []).length).toBe(1);
+    // one row per public deed (the name cell renders exactly once per row)
+    expect((html.match(/class="guide-deed-name"/g) ?? []).length).toBe(GUIDE_DEEDS.length);
+    // every non-empty category renders its heading with a live count; this exercises the render
+    // path and resolves all ten guide.deedsPage.cat.* keys (a missing one throws in test mode).
+    for (const cat of [
+      'progression',
+      'combat',
+      'dungeon',
+      'delve',
+      'chronicle',
+      'collection',
+      'pvp',
+      'social',
+      'exploration',
+      'feat',
+    ]) {
+      const n = GUIDE_DEEDS.filter((d) => d.category === cat).length;
+      expect(n, `category ${cat} unexpectedly empty`).toBeGreaterThan(0);
+      const label = t(`guide.deedsPage.cat.${cat}` as never);
+      expect(html, `heading for ${cat}`).toContain(`${label} (${n})`);
+    }
+    // the title-reward, border-reward, and feat-tag render paths are all exercised
+    expect(html).toContain('Veteran');
+    expect(html).toContain('guide-deed-feat');
+    expect(html.includes(t('guide.deedsPage.rewardBorder'))).toBe(true);
+    // sanctioned Chronicler flavor
+    expect(html).toContain('Saul');
+    // no hidden deed and no boss:true name reaches the rendered page
+    for (const d of Object.values(DEEDS).filter((x) => x.hidden)) {
+      for (const needle of [d.id, d.name, d.desc]) {
+        expect(html.includes(needle), `hidden "${d.id}" leaked "${needle}"`).toBe(false);
+      }
+    }
+    for (const name of Object.values(MOBS)
+      .filter((m) => m.boss)
+      .map((m) => m.name)) {
+      expect(html.includes(name), `boss "${name}" leaked into the rendered page`).toBe(false);
+    }
+  });
+
+  it('survives an empty catalog: sections self-omit, one category renders one section', () => {
+    setLanguage('en');
+    // Empty list => no catalog sections at all (the page then shows the explainer alone).
+    expect(catalogSections([])).toBe('');
+    // A single-category list renders exactly that one section, not the others.
+    const [first] = GUIDE_DEEDS.filter((d) => d.category === 'progression');
+    expect(first).toBeDefined();
+    const one = catalogSections(first ? [first] : []);
+    expect(one).toContain(`${t('guide.deedsPage.cat.progression')} (1)`);
+    expect(one).not.toContain(t('guide.deedsPage.cat.combat'));
   });
 });
 
