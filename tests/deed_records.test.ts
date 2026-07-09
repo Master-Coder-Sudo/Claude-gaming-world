@@ -31,6 +31,13 @@ vi.mock('../server/deeds_db', () => ({
   getDeedBroadcasts: vi.fn(async () => true),
 }));
 
+// The Steam mirror observes the recorder (deeds_records calls onDeedRecorded
+// after each character_deeds upsert resolves); spy it so that wiring is pinned
+// here, not only in the mirror's own isolated suite.
+vi.mock('../server/steam/mirror', () => ({
+  onDeedRecorded: vi.fn(),
+}));
+
 import { getDeedBroadcasts, insertCharacterDeed } from '../server/deeds_db';
 import {
   deedRecordsIdle,
@@ -40,11 +47,13 @@ import {
   recordDeedUnlock,
 } from '../server/deeds_records';
 import { GameServer } from '../server/game';
+import { onDeedRecorded } from '../server/steam/mirror';
 import { DEEDS } from '../src/sim/content/deeds';
 import type { DeedDef } from '../src/sim/types';
 
 const insertMock = vi.mocked(insertCharacterDeed);
 const broadcastsFlagMock = vi.mocked(getDeedBroadcasts);
+const onDeedRecordedMock = vi.mocked(onDeedRecorded);
 
 // Let the fire-and-forget promise chains (FIFO tail + the broadcast gate)
 // settle deterministically before asserting.
@@ -61,6 +70,8 @@ beforeEach(async () => {
   insertMock.mockImplementation(async () => {});
   broadcastsFlagMock.mockClear();
   broadcastsFlagMock.mockResolvedValue(true);
+  onDeedRecordedMock.mockClear();
+  onDeedRecordedMock.mockImplementation(() => {});
 });
 
 afterEach(async () => {
@@ -199,6 +210,42 @@ describe('recordDeedUnlock', () => {
     // The rejection did not break FIFO: the second insert still landed.
     expect(insertMock).toHaveBeenCalledTimes(2);
     expect(insertMock.mock.calls[1][0].deedId).toBe('b');
+  });
+
+  it('notifies the Steam mirror once per unlock, only AFTER the insert resolves', async () => {
+    const order: string[] = [];
+    let release: () => void = () => {};
+    insertMock.mockImplementationOnce(async () => {
+      await new Promise<void>((resolve) => {
+        release = resolve;
+      });
+      order.push('insert');
+    });
+    onDeedRecordedMock.mockImplementation(() => {
+      order.push('mirror');
+    });
+    recordDeedUnlock({ characterId: 42, accountId: 7 }, 'prog_veteran');
+    await new Promise((resolve) => setImmediate(resolve));
+    // The row has not landed yet, so the mirror must not have been told.
+    expect(onDeedRecordedMock).not.toHaveBeenCalled();
+    release();
+    await deedRecordsIdle();
+    expect(order).toEqual(['insert', 'mirror']);
+    expect(onDeedRecordedMock).toHaveBeenCalledTimes(1);
+    expect(onDeedRecordedMock).toHaveBeenCalledWith(7, 'prog_veteran');
+  });
+
+  it('never notifies the mirror for an unlock whose insert failed (reconcile heals it)', async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    insertMock.mockRejectedValueOnce(new Error('db down'));
+    recordDeedUnlock({ characterId: 42, accountId: 7 }, 'prog_veteran');
+    recordDeedUnlock({ characterId: 42, accountId: 7 }, 'prog_first_steps');
+    await deedRecordsIdle();
+    expect(errorSpy).toHaveBeenCalled();
+    // Only the landed row reached the mirror; the failed one is Steam-invisible
+    // until the next reconcile-on-link.
+    expect(onDeedRecordedMock).toHaveBeenCalledTimes(1);
+    expect(onDeedRecordedMock).toHaveBeenCalledWith(7, 'prog_first_steps');
   });
 
   it('deedRecordsIdle resolves only after a pending insert completes (the test drain hook)', async () => {

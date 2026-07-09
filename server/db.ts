@@ -696,10 +696,10 @@ CREATE TABLE IF NOT EXISTS character_deeds (
   UNIQUE (character_id, deed_id)
 );
 CREATE INDEX IF NOT EXISTS character_deeds_deed ON character_deeds(deed_id);
--- Forward-placed for a filtered account roll-up. The Renown board's
--- deedsBoardRows read landed as a full-table aggregation (cached in main.ts),
--- so no query consumes this index yet; kept for the per-account reads a
--- future account page will issue.
+-- Per-account roll-up reads: earnedDeedIdsForAccount (server/deeds_db.ts,
+-- the Steam reconcile-on-link push) filters on account_id through this
+-- index. The Renown board's deedsBoardRows read stays a full-table
+-- aggregation (cached in main.ts) and does not use it.
 CREATE INDEX IF NOT EXISTS character_deeds_account ON character_deeds(account_id);
 CREATE INDEX IF NOT EXISTS character_deeds_character_earned
   ON character_deeds(character_id, earned_at DESC);

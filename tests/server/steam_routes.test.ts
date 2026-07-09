@@ -26,6 +26,22 @@ vi.mock('../../server/steam/mirror', () => ({
   onLinkChanged: vi.fn(),
   reconcileLink: vi.fn(),
 }));
+// Partial db mock: keep SCHEMA (and everything else) real, stub only the two
+// reads requireAccount resolves at call time, so the full-chain tests below can
+// run the route's REAL middleware (gate -> auth -> limiter -> body) without a
+// live database.
+vi.mock('../../server/db', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../server/db')>();
+  return {
+    ...actual,
+    accountAndScopeForToken: vi.fn(async () => ({ accountId: 7, scope: 'full' as const })),
+    moderationStatusForAccount: vi.fn(async () => ({
+      locked: false,
+      banned: false,
+      suspendedUntil: null,
+    })),
+  };
+});
 
 import type * as http from 'node:http';
 import { SCHEMA } from '../../server/db';
@@ -343,6 +359,39 @@ describe('STEAM_LINK_POLICY', () => {
       code: 'rate_limit.exceeded',
     });
   });
+
+  it('is MOUNTED on POST /api/steam/link: the request past the cap 429s through the real chain', async () => {
+    // The standalone policy test above proves the limiter works; this one
+    // proves the route actually carries it (dropping rateLimit(...) from the
+    // middleware table must red this test), and that it sits behind auth (an
+    // ip+account limiter 500s without ctx.account, so a flipped order cannot
+    // produce the 429).
+    enableSteam();
+    const bearer = { authorization: `Bearer ${'a'.repeat(64)}` };
+    const route = routeFor('POST', '/api/steam/link');
+    for (let i = 0; i < STEAM_LINK_MAX_PER_MINUTE; i++) {
+      const ctx = fakeCtx({
+        method: 'POST',
+        url: '/api/steam/link',
+        headers: bearer,
+        body: { ticket: GOOD_TICKET },
+      });
+      await runRoute(route, ctx);
+      expect(captured(ctx.res).status).toBe(200);
+    }
+    const capped = fakeCtx({
+      method: 'POST',
+      url: '/api/steam/link',
+      headers: bearer,
+      body: { ticket: GOOD_TICKET },
+    });
+    await expect(runRoute(route, capped)).rejects.toMatchObject({
+      status: 429,
+      code: 'rate_limit.exceeded',
+    });
+    // The capped request never reached the handler.
+    expect(insertMock).toHaveBeenCalledTimes(STEAM_LINK_MAX_PER_MINUTE);
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -440,6 +489,9 @@ describe('login with Steam does not exist', () => {
     await routeFor('POST', '/api/steam/link').handler(ctx);
     const { body } = captured(ctx.res);
     expect(Object.keys(body as object).sort()).toEqual(['linked', 'steamId']);
+    // No cookie-delivered credential either: the body-shape pin alone would
+    // miss a Set-Cookie side channel.
+    expect(ctx.res.getHeader('set-cookie')).toBeUndefined();
   });
 
   it('the disabled surface makes the dark default safe: no env, no route runs a handler', async () => {

@@ -430,6 +430,28 @@ describe('/api dispatch parity (legacy flag vs new flag)', () => {
     expect(stableStringify(newCap)).toBe(stableStringify(oldCap));
   });
 
+  it('the /api/status steam advert flips to enabled on BOTH arms under STEAM_ENABLED=1', async () => {
+    // The corpus row (and the legacy status_get golden) pins both arms with the
+    // flag OFF; this named assertion covers the ON state so a legacy-arm edit
+    // that hardcodes or drops the advert cannot hide behind the name-list
+    // known deviation. Only the steam field is compared: the names list is the
+    // labeled deviation and stays out of scope here.
+    const saved = process.env.STEAM_ENABLED;
+    process.env.STEAM_ENABLED = '1';
+    try {
+      const { oldCap, newCap } = await captureBothModes(() =>
+        makeReq({ method: 'GET', url: '/api/status' }),
+      );
+      expect(oldCap.status).toBe(200);
+      expect(newCap.status).toBe(200);
+      expect(JSON.parse(oldCap.body as string).steam).toEqual({ enabled: true });
+      expect(JSON.parse(newCap.body as string).steam).toEqual({ enabled: true });
+    } finally {
+      if (saved === undefined) delete process.env.STEAM_ENABLED;
+      else process.env.STEAM_ENABLED = saved;
+    }
+  });
+
   it('GET /api/perf-report is identical old-vs-new and is a 404 (re-pins the masked /api/perf-report)', async () => {
     // Companion to the site-presence 405 re-pin above. /api/perf-report is listed in three
     // known deviations (perfReport200NotThrottle, perfReportSitePresence405OkFalse, and

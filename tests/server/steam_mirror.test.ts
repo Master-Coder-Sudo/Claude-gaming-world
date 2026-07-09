@@ -106,6 +106,29 @@ describe('observer no-op guards', () => {
     expect(pushMock).not.toHaveBeenCalled();
   });
 
+  it('enabled but unprovisioned (no app id or key) drops with one warn and never pushes', async () => {
+    // A misconfigured host: STEAM_ENABLED=1 with STEAM_APP_ID/STEAM_WEB_API_KEY
+    // unset. The drain must drop the unlock (one fixed warn line, no secrets to
+    // leak because there are none) rather than crash or push garbage, and the
+    // queue must keep draining afterwards.
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    process.env.STEAM_ENABLED = '1';
+    onDeedRecorded(ACCOUNT_ID, MAPPED_DEED);
+    await settle();
+    expect(pushMock).not.toHaveBeenCalled();
+    expect(warnSpy).toHaveBeenCalledWith(
+      'steam mirror: enabled without STEAM_APP_ID/STEAM_WEB_API_KEY, dropping unlock',
+    );
+    // The drop did not wedge the worker: a later provisioned unlock pushes.
+    enableSteam();
+    onDeedRecorded(ACCOUNT_ID, MAPPED_DEED_2);
+    await settle();
+    expect(pushMock).toHaveBeenCalledTimes(1);
+    expect(pushMock).toHaveBeenCalledWith(
+      expect.objectContaining({ steamId: STEAM_ID, achName: MAPPED_ACH_2 }),
+    );
+  });
+
   it('swallows a failing link read and does not cache the failure', async () => {
     enableSteam();
     linkMock.mockRejectedValueOnce(new Error('db down'));
