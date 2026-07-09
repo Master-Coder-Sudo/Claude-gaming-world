@@ -1471,9 +1471,12 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: #000d;
+    background: #000000e6;
     height: 0%;
     border-radius: 0 0 4px 4px;
+    /* A thin bright edge at the top of the sweep makes the boundary readable
+       against bright ability icons, especially at partial cooldown. */
+    border-top: 1px solid #fff3;
   }
   .action-btn.unusable .icon-label {
     filter: grayscale(1) brightness(0.5);
