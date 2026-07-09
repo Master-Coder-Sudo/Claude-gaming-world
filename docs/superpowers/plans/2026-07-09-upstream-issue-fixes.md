@@ -1,4 +1,4 @@
-# Upstream Issue Fixes — Prioritized Implementation Plan
+# Upstream Issue Fixes - Prioritized Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -23,14 +23,14 @@
 
 ---
 
-## Tier 1: Critical — Game-Breaking & Economy Exploits
+## Tier 1: Critical - Game-Breaking & Economy Exploits
 
 ### Task 1: Fix Arena Full-Restore Carry-Back (Dungeon Exploit)
 
 **Files:**
-- Modify: `src/sim/social/arena.ts` — snapshot HP/resource at match formation, restore on return
-- Modify: `src/sim/instances/dungeons.ts` — dequeue player on dungeon entry
-- Modify: `src/sim/social/arena.ts` — filter matchmaking by position (overworld only)
+- Modify: `src/sim/social/arena.ts` - snapshot HP/resource at match formation, restore on return
+- Modify: `src/sim/instances/dungeons.ts` - dequeue player on dungeon entry
+- Modify: `src/sim/social/arena.ts` - filter matchmaking by position (overworld only)
 - Test: `tests/arena.test.ts`
 
 **Interfaces:**
@@ -42,7 +42,7 @@
 - [ ] **Step 1: Write failing test for pre-match HP/resource snapshot**
 
 ```ts
-// tests/arena.test.ts — add inside an existing describe block
+// tests/arena.test.ts - add inside an existing describe block
 test('returnFromArena restores pre-match HP and resource, not full', () => {
   const sim = new Sim({ seed: 42, playerClass: 'warrior', autoEquip: true, noPlayer: true });
   const p1 = sim.addPlayer('warrior', 'TestA');
@@ -60,7 +60,7 @@ test('returnFromArena restores pre-match HP and resource, not full', () => {
   sim.arenaQueueJoin(p2);
   // Advance ticks to let matchmaker pair them, then run the bout
   for (let i = 0; i < 200; i++) sim.tick();
-  // Let one fighter yield — advance until arena resolves
+  // Let one fighter yield - advance until arena resolves
   for (let i = 0; i < 300; i++) sim.tick();
 
   // After return, HP should be the damaged value, not full
@@ -73,12 +73,12 @@ test('returnFromArena restores pre-match HP and resource, not full', () => {
 - [ ] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/arena.test.ts -t "returnFromArena restores pre-match"`
-Expected: FAIL — arena returns player at full HP
+Expected: FAIL - arena returns player at full HP
 
 - [ ] **Step 3: Implement HP/resource snapshot and restore in arena.ts**
 
 ```ts
-// src/sim/social/arena.ts — add snapshot fields to ArenaFighter interface
+// src/sim/social/arena.ts - add snapshot fields to ArenaFighter interface
 // In the ArenaFighter type (types or arena.ts local):
 interface ArenaFighter {
   // ... existing fields ...
@@ -111,7 +111,7 @@ function returnFromArena(fighter: Entity, ctx: SimContext): void {
 - [ ] **Step 4: Implement dequeue on dungeon entry**
 
 ```ts
-// src/sim/instances/dungeons.ts — in enterDungeon, add:
+// src/sim/instances/dungeons.ts - in enterDungeon, add:
 import { dequeueArenaFighter } from '../social/arena';
 
 // Inside enterDungeon(), after the instance is claimed:
@@ -119,7 +119,7 @@ dequeueArenaFighter(player);
 ```
 
 ```ts
-// src/sim/social/arena.ts — export a dequeue helper:
+// src/sim/social/arena.ts - export a dequeue helper:
 export function dequeueArenaFighter(entity: Entity): void {
   arena1v1Queue.delete(entity.id);
   arena2v2Queue.delete(entity.id);
@@ -163,16 +163,16 @@ Closes #1600"
 ### Task 2: Fix Stale Movement Input After Death and Revive
 
 **Files:**
-- Modify: `src/sim/sim.ts` — clear movement intent in `handleDeath` and `releaseSpirit`
-- Modify: `server/game.ts` — clear last-received intent on player death
-- Modify: `src/game/input.ts` — clear held-movement state on death event
+- Modify: `src/sim/sim.ts` - clear movement intent in `handleDeath` and `releaseSpirit`
+- Modify: `server/game.ts` - clear last-received intent on player death
+- Modify: `src/game/input.ts` - clear held-movement state on death event
 - Test: `tests/sim.test.ts`
 
 **Interfaces:**
 - Consumes: `handleDeath`, `releaseSpirit`, `dispatchMessage`, `Input.readMoveInput`, `PlayerMeta`
 - Produces: no new exports; internal state clearing
 
-**Background:** Issue #1651. After dying and reviving on the online server, the character walks backwards with no input held. Stale or phantom movement intent survives the death/revive flow — likely the last-received movement intent on the server is replayed onto the revived character, or local input state is not cleared.
+**Background:** Issue #1651. After dying and reviving on the online server, the character walks backwards with no input held. Stale or phantom movement intent survives the death/revive flow - likely the last-received movement intent on the server is replayed onto the revived character, or local input state is not cleared.
 
 - [ ] **Step 1: Write failing test for movement intent clear on death**
 
@@ -201,12 +201,12 @@ test('movement intent is cleared on player death', () => {
 - [ ] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/sim.test.ts -t "movement intent is cleared on player death"`
-Expected: FAIL — movement intent survives death
+Expected: FAIL - movement intent survives death
 
 - [ ] **Step 3: Clear moveInput in handleDeath**
 
 ```ts
-// src/sim/combat/damage.ts — in handleDeath, after setting e.dead = true:
+// src/sim/combat/damage.ts - in handleDeath, after setting e.dead = true:
 e.moveInput = { forward: 0, strafe: 0, jump: false };
 e.velocityX = 0;
 e.velocityZ = 0;
@@ -215,10 +215,10 @@ e.velocityZ = 0;
 - [ ] **Step 4: Clear last-intent on server in game.ts dispatchMessage or death handling**
 
 ```ts
-// server/game.ts — in the death-event handling or in removePlayer/addPlayer flow,
+// server/game.ts - in the death-event handling or in removePlayer/addPlayer flow,
 // find where the session's last-move-intent is stored and add:
 // On death: session.lastMoveIntent = { forward: 0, strafe: 0, jump: false };
-// The exact field name depends on the server's session state — search for where
+// The exact field name depends on the server's session state - search for where
 // the 20 Hz move input is stored per-session and cleared.
 ```
 
@@ -260,11 +260,11 @@ Closes #1651"
 
 ---
 
-### Task 3: Fix Overlapping Corpses — Cycle Through Stacked Corpses
+### Task 3: Fix Overlapping Corpses - Cycle Through Stacked Corpses
 
 **Files:**
-- Modify: `src/game/interactions.ts` — `handlePickedEntity` corpse resolution
-- Modify: `src/render/renderer.ts` — raycast corpse cycling
+- Modify: `src/game/interactions.ts` - `handlePickedEntity` corpse resolution
+- Modify: `src/render/renderer.ts` - raycast corpse cycling
 - Test: `tests/interaction.test.ts`
 
 **Interfaces:**
@@ -296,7 +296,7 @@ test('stacked corpses are individually lootable via click cycling', () => {
   expect(mob2.lootable).toBe(true);
 
   // First click picks one corpse, second click picks the other
-  // This exercises the cycling logic — the exact mechanism depends on
+  // This exercises the cycling logic - the exact mechanism depends on
   // how corpse picks are resolved (raycast cycling or target cycling)
 });
 ```
@@ -309,7 +309,7 @@ Expected: FAIL
 - [ ] **Step 3: Implement corpse cycling in interactions.ts**
 
 ```ts
-// src/game/interactions.ts — modify handlePickedEntity for corpse case:
+// src/game/interactions.ts - modify handlePickedEntity for corpse case:
 // Track last-looted entity id per frame to cycle through stacked corpses
 
 let lastCorpsePickId: number | null = null;
@@ -363,8 +363,8 @@ Closes #1257"
 ### Task 4: Fix Dungeon Instance Reset on Disconnect
 
 **Files:**
-- Modify: `src/sim/instances/dungeons.ts` — extend `INSTANCE_EMPTY_TIMEOUT`, add owner reconnect rebind
-- Modify: `server/game.ts` — distinguish disconnect from deliberate leave; rebind on reconnect
+- Modify: `src/sim/instances/dungeons.ts` - extend `INSTANCE_EMPTY_TIMEOUT`, add owner reconnect rebind
+- Modify: `server/game.ts` - distinguish disconnect from deliberate leave; rebind on reconnect
 - Test: `tests/dungeons.test.ts`
 
 **Interfaces:**
@@ -466,7 +466,7 @@ export function rebindToInstance(pid: number, instanceKey: string): boolean {
 - [ ] **Step 4: Wire server-side disconnect marking and reconnect rebinding**
 
 ```ts
-// server/game.ts — in the disconnect path (removePlayer or session close):
+// server/game.ts - in the disconnect path (removePlayer or session close):
 // 1. Check if player is in a dungeon
 // 2. If solo instance, call markInstanceOwnerDisconnected instead of removePlayerFromInstance
 // 3. On reconnect (addPlayer path), check for a held instance and call rebindToInstance
@@ -508,8 +508,8 @@ Closes #1351"
 ### Task 5: Prevent Mob Respawning Over Unlooted Corpses
 
 **Files:**
-- Modify: `src/sim/mob/lifecycle.ts` — `respawnMob` check for unlooted loot
-- Modify: `src/sim/mob/locomotion.ts` — respawn gate condition
+- Modify: `src/sim/mob/lifecycle.ts` - `respawnMob` check for unlooted loot
+- Modify: `src/sim/mob/locomotion.ts` - respawn gate condition
 - Test: `tests/mob_lifecycle.test.ts`
 
 **Interfaces:**
@@ -557,7 +557,7 @@ Expected: may FAIL if test doesn't exist yet, or may PASS (verifying current beh
 - [ ] **Step 3: Add unlooted-corpse grace period if the current 60s window is too short**
 
 ```ts
-// src/sim/mob/locomotion.ts — modify respawn gate:
+// src/sim/mob/locomotion.ts - modify respawn gate:
 // Current: respawnTimer <= 0 && (corpseTimer <= 0 || !lootable)
 // Add unlooted grace: don't respawn over an unlooted corpse for UNLOOTED_CORPSE_GRACE_TICKS
 // after corpseTimer expires
@@ -599,12 +599,12 @@ Closes #1539"
 
 ---
 
-## Tier 2: High — Core Gameplay Feel & Major UX
+## Tier 2: High - Core Gameplay Feel & Major UX
 
 ### Task 6: Fix Line-of-Sight Over Fences
 
 **Files:**
-- Modify: `src/sim/sim.ts` — `hasLineOfSight` check
+- Modify: `src/sim/sim.ts` - `hasLineOfSight` check
 - Test: `tests/sim.test.ts`
 
 **Interfaces:**
@@ -641,7 +641,7 @@ Expected: FAIL
 - [ ] **Step 3: Fix the LoS check to account for obstacle height vs eye level**
 
 ```ts
-// src/sim/sim.ts — in hasLineOfSight, or wherever the raycast is done:
+// src/sim/sim.ts - in hasLineOfSight, or wherever the raycast is done:
 // The likely fix is in the collision check that blocks LoS:
 // Instead of treating all collider hits as LoS blockers, check if the
 // hit collider's height is below the eye-line between caster and target.
@@ -693,11 +693,11 @@ Closes #1668"
 
 ---
 
-### Task 7: Fix NPC Dialog — Show Next Quest Immediately After Completing Previous
+### Task 7: Fix NPC Dialog - Show Next Quest Immediately After Completing Previous
 
 **Files:**
-- Modify: `src/sim/quests/quest_credit.ts` — re-check available quests after turn-in
-- Modify: `src/ui/hud.ts` — refresh gossip dialog after quest completion
+- Modify: `src/sim/quests/quest_credit.ts` - re-check available quests after turn-in
+- Modify: `src/ui/hud.ts` - refresh gossip dialog after quest completion
 - Test: `tests/quests.test.ts`
 
 **Interfaces:**
@@ -733,7 +733,7 @@ Expected: FAIL
 - [ ] **Step 3: Fix quest completion to re-check NPC availability**
 
 ```ts
-// src/sim/quests/quest_credit.ts — in completeQuest, after granting rewards:
+// src/sim/quests/quest_credit.ts - in completeQuest, after granting rewards:
 // Recompute available quests for the NPC
 
 function completeQuest(player: Entity, questId: string, ctx: SimContext): void {
@@ -750,7 +750,7 @@ function completeQuest(player: Entity, questId: string, ctx: SimContext): void {
 ```
 
 ```ts
-// src/ui/hud.ts — in the quest-completed event handler:
+// src/ui/hud.ts - in the quest-completed event handler:
 // After receiving 'questCompleted', rebuild the gossip dialog for the same NPC
 // without closing it, so follow-up quests show immediately
 
@@ -786,11 +786,11 @@ Closes #1667"
 
 ---
 
-### Task 8: Fix Food/Potion Balance — Eating Stacks With Natural Regen
+### Task 8: Fix Food/Potion Balance - Eating Stacks With Natural Regen
 
 **Files:**
-- Modify: `src/sim/combat/auras.ts` — remove `!p.eating` gate on natural HP regen
-- Modify: `src/sim/content/items.ts` — adjust `foodHp`/`potionHp` tier values
+- Modify: `src/sim/combat/auras.ts` - remove `!p.eating` gate on natural HP regen
+- Modify: `src/sim/content/items.ts` - adjust `foodHp`/`potionHp` tier values
 - Test: `tests/combat.test.ts`
 
 **Interfaces:**
@@ -828,12 +828,12 @@ test('eating recovers HP faster than standing idle at intended level', () => {
 - [ ] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/combat.test.ts -t "eating recovers HP faster than standing idle"`
-Expected: FAIL — natural regen beats food at current stamina levels
+Expected: FAIL - natural regen beats food at current stamina levels
 
 - [ ] **Step 3: Fix the eating regen to stack with natural regen**
 
 ```ts
-// src/sim/combat/auras.ts — in updateRegen, change the HP regen block:
+// src/sim/combat/auras.ts - in updateRegen, change the HP regen block:
 
 // BEFORE (broken):
 if (!p.eating) {
@@ -842,7 +842,7 @@ if (!p.eating) {
   p.hp = Math.min(p.maxHp, p.hp + naturalTick);
 }
 
-// AFTER (fixed — eating stacks with natural regen, matching drinks):
+// AFTER (fixed - eating stacks with natural regen, matching drinks):
 // Natural HP regen always applies
 const naturalTick = (p.stats.sta * 0.3 + 2) * DT / 2;
 p.hp = Math.min(p.maxHp, p.hp + naturalTick);
@@ -857,7 +857,7 @@ if (p.eating && p.foodHp > 0) {
 - [ ] **Step 4: Retune potion values to target bracket fractions**
 
 ```ts
-// src/sim/content/items.ts — adjust potion tiers:
+// src/sim/content/items.ts - adjust potion tiers:
 // Target: each tier restores ~30-40% of its bracket's HP/mana pool
 // Bracket 1 (levels 1-7, ~100-300 HP): 90 HP = ~30-90% -> OK at low end
 // Bracket 2 (levels 6-13, ~300-600 HP): 150 HP = ~25-50% -> raise to ~200
@@ -895,7 +895,7 @@ Closes #1326"
 ### Task 9: Fix Apple Silicon Defaulting to Ultra Graphics
 
 **Files:**
-- Modify: `src/render/gfx.ts` — remove Apple Silicon from `strongDesktop` regex
+- Modify: `src/render/gfx.ts` - remove Apple Silicon from `strongDesktop` regex
 - Test: verify `tsc` passes (one-line regex change)
 
 **Interfaces:**
@@ -943,12 +943,12 @@ Closes #1676"
 
 ---
 
-### Task 10: Fix Voidwalker Aggro — Auto-Taunt Default and Tank-Pet Threat Bonus
+### Task 10: Fix Voidwalker Aggro - Auto-Taunt Default and Tank-Pet Threat Bonus
 
 **Files:**
-- Modify: `src/sim/content/abilities.ts` — add auto-cast taunt to Voidwalker's kit
-- Modify: `src/sim/threat.ts` — add tank-pet threat multiplier
-- Modify: `src/sim/pet/pet_ai.ts` — auto-cast taunt on attack
+- Modify: `src/sim/content/abilities.ts` - add auto-cast taunt to Voidwalker's kit
+- Modify: `src/sim/threat.ts` - add tank-pet threat multiplier
+- Modify: `src/sim/pet/pet_ai.ts` - auto-cast taunt on attack
 - Test: `tests/pet.test.ts`
 
 **Interfaces:**
@@ -981,7 +981,7 @@ test('voidwalker generates bonus threat to hold aggro', () => {
   const threatTable = (mob as any).threat;
   expect(threatTable.has(vw!.id)).toBe(true);
 
-  // Player casts a damaging spell — voidwalker should still hold aggro
+  // Player casts a damaging spell - voidwalker should still hold aggro
   // (with the threat bonus, VW's threat > player's one nuke)
   sim.castAbility(p.id, 'gloom_bolt');
   for (let i = 0; i < 20 * 3; i++) sim.tick();
@@ -994,7 +994,7 @@ test('voidwalker generates bonus threat to hold aggro', () => {
 - [ ] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/pet.test.ts -t "voidwalker generates bonus threat"`
-Expected: FAIL — voidwalker loses aggro immediately
+Expected: FAIL - voidwalker loses aggro immediately
 
 - [ ] **Step 3: Add tank-pet threat multiplier in threat.ts**
 
@@ -1016,7 +1016,7 @@ export function threatModifier(entity: Entity): number {
 - [ ] **Step 4: Add auto-cast Torment to Voidwalker pet AI**
 
 ```ts
-// src/sim/pet/pet_ai.ts — in updatePet for Voidwalker:
+// src/sim/pet/pet_ai.ts - in updatePet for Voidwalker:
 // Auto-cast Torment (taunt) on the pet's target when off cooldown
 
 const AUTO_TAUNT_ABILITY = 'torment'; // or the Voidwalker's taunt ability id
@@ -1059,8 +1059,8 @@ Closes #1356"
 ### Task 11: Defer Auto-Attack Engagement to Cast Completion
 
 **Files:**
-- Modify: `src/ui/hud.ts` — move `startAutoAttack` from cast-start to cast-success
-- Modify: `src/sim/combat/casting_lifecycle.ts` — emit cast success for auto-attack hook
+- Modify: `src/ui/hud.ts` - move `startAutoAttack` from cast-start to cast-success
+- Modify: `src/sim/combat/casting_lifecycle.ts` - emit cast success for auto-attack hook
 - Test: `tests/casting.test.ts`
 
 **Interfaces:**
@@ -1096,12 +1096,12 @@ test('cancelling a cast does not engage auto-attack', () => {
 - [ ] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/casting.test.ts -t "cancelling a cast does not engage auto-attack"`
-Expected: FAIL — auto-attack is already engaged
+Expected: FAIL - auto-attack is already engaged
 
 - [ ] **Step 3: Move auto-attack engagement to cast-success path**
 
 ```ts
-// src/ui/hud.ts — castSlot method:
+// src/ui/hud.ts - castSlot method:
 // BEFORE (at press):
 if (settings.startAttackOnAbilityUse && isHostile) {
   this.sim.startAutoAttack(); // fires too early!
@@ -1143,13 +1143,13 @@ Closes #1362"
 
 ---
 
-## Tier 3: Medium — UX Improvements & Quality of Life
+## Tier 3: Medium - UX Improvements & Quality of Life
 
 ### Task 12: Add Spell Queue Window (Queue One Ability Behind Current Cast)
 
 **Files:**
-- Modify: `src/sim/combat/casting_lifecycle.ts` — add single-slot queue, consume on cast finish
-- Modify: `src/sim/types.ts` — add `queuedCast` field to `Entity`
+- Modify: `src/sim/combat/casting_lifecycle.ts` - add single-slot queue, consume on cast finish
+- Modify: `src/sim/types.ts` - add `queuedCast` field to `Entity`
 - Test: `tests/casting.test.ts`
 
 **Interfaces:**
@@ -1193,12 +1193,12 @@ test('ability queued within spell queue window fires on cast completion', () => 
 - [ ] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/casting.test.ts -t "ability queued within spell queue window"`
-Expected: FAIL — second cast errors "You are busy"
+Expected: FAIL - second cast errors "You are busy"
 
 - [ ] **Step 3: Implement spell queue**
 
 ```ts
-// src/sim/types.ts — add to Entity:
+// src/sim/types.ts - add to Entity:
 queuedCast?: { abilityId: string; targetId?: number } | null;
 
 // src/sim/combat/casting_lifecycle.ts:
@@ -1265,9 +1265,9 @@ Closes #1360"
 ### Task 13: Add Option to Stop Auto-Attack When Switching Targets
 
 **Files:**
-- Modify: `src/game/settings.ts` — add `stopAutoAttackOnTargetSwitch` setting
-- Modify: `src/sim/targeting.ts` — check setting in `targetEntity`, `tabTarget`, `targetNearestEnemy`
-- Modify: `src/ui/hud.ts` — add Options-menu toggle
+- Modify: `src/game/settings.ts` - add `stopAutoAttackOnTargetSwitch` setting
+- Modify: `src/sim/targeting.ts` - check setting in `targetEntity`, `tabTarget`, `targetNearestEnemy`
+- Modify: `src/ui/hud.ts` - add Options-menu toggle
 - Test: `tests/settings.test.ts`, `tests/targeting.test.ts`
 
 **Interfaces:**
@@ -1305,15 +1305,15 @@ test('stopAutoAttackOnTargetSwitch stops auto-attack on tab target', () => {
 - [ ] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/targeting.test.ts -t "stopAutoAttackOnTargetSwitch stops auto-attack"`
-Expected: FAIL — auto-attack stays on
+Expected: FAIL - auto-attack stays on
 
 - [ ] **Step 3: Implement setting and targeting check**
 
 ```ts
-// src/game/settings.ts — add to BOOL_SETTINGS:
+// src/game/settings.ts - add to BOOL_SETTINGS:
 { key: 'stopAutoAttackOnTargetSwitch', default: false, label: 'hudChrome.settings.stopAutoAttackOnSwitch' }
 
-// src/sim/targeting.ts — in targetEntity (hostile-to-hostile switch):
+// src/sim/targeting.ts - in targetEntity (hostile-to-hostile switch):
 function stopAutoOnSwitch(entity: Entity): void {
   if (entity.playerMeta?.settings?.stopAutoAttackOnTargetSwitch) {
     entity.autoAttack = false;
@@ -1358,8 +1358,8 @@ Closes #1358"
 ### Task 14: Fix Items Cannot Be Destroyed From Bags
 
 **Files:**
-- Modify: `src/ui/hud.ts` — add destroy/delete action to bag item context menu
-- Modify: `src/sim/bags.ts` — add `destroyItem` method
+- Modify: `src/ui/hud.ts` - add destroy/delete action to bag item context menu
+- Modify: `src/sim/bags.ts` - add `destroyItem` method
 - Test: `tests/bags.test.ts`
 
 **Background:** Issue #1501. Regular items cannot be destroyed from the bags window. There is no delete/destroy action. Fix: add a "Destroy" option to the bag item right-click/context menu with a confirmation dialog.
@@ -1389,7 +1389,7 @@ test('destroyItem removes item from inventory', () => {
 - [ ] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/bags.test.ts -t "destroyItem removes item"`
-Expected: FAIL — `destroyItem` doesn't exist
+Expected: FAIL - `destroyItem` doesn't exist
 
 - [ ] **Step 3: Implement destroyItem**
 
@@ -1427,9 +1427,9 @@ Closes #1501"
 ### Task 15: Add Option to Lock Action Bar Slots
 
 **Files:**
-- Modify: `src/game/settings.ts` — add `lockActionBar` setting
-- Modify: `src/ui/hud.ts` — skip drag-drop when locked
-- Modify: `src/ui/action_bar_view.ts` — expose lock state
+- Modify: `src/game/settings.ts` - add `lockActionBar` setting
+- Modify: `src/ui/hud.ts` - skip drag-drop when locked
+- Modify: `src/ui/action_bar_view.ts` - expose lock state
 - Test: `tests/action_bar.test.ts`
 
 **Background:** Issue #1361. There is no way to lock action bar slots, so abilities can be accidentally dragged off during combat. Fix: add a lock toggle.
@@ -1453,7 +1453,7 @@ Closes #1361"
 
 ---
 
-## Tier 4: Polish — Lower Priority (Summary)
+## Tier 4: Polish - Lower Priority (Summary)
 
 These issues are valid but lower impact. Each follows the same fix pattern (test-first, minimal change, commit). Listed here for completeness; implement when Tier 1-3 tasks are complete.
 
@@ -1494,25 +1494,25 @@ Execute by tier, within each tier by dependency (tasks that touch the same files
 
 ```
 Tier 1 (Critical):
-  Task 5  (mob lifecycle — standalone)
-  Task 2  (stale movement — standalone)
-  Task 3  (overlapping corpses — standalone)
-  Task 1  (arena exploit — touches arena.ts, dungeons.ts)
-  Task 4  (dungeon disconnect — touches same dungeon.ts, game.ts as Task 1)
+  Task 5  (mob lifecycle - standalone)
+  Task 2  (stale movement - standalone)
+  Task 3  (overlapping corpses - standalone)
+  Task 1  (arena exploit - touches arena.ts, dungeons.ts)
+  Task 4  (dungeon disconnect - touches same dungeon.ts, game.ts as Task 1)
 
 Tier 2 (High):
-  Task 9  (Apple Silicon — one-line, standalone)
-  Task 8  (food/potion balance — standalone)
-  Task 10 (voidwalker — standalone)
-  Task 6  (LoS fences — standalone)
-  Task 7  (quest dialog — standalone)
-  Task 11 (auto-attack defer — standalone)
+  Task 9  (Apple Silicon - one-line, standalone)
+  Task 8  (food/potion balance - standalone)
+  Task 10 (voidwalker - standalone)
+  Task 6  (LoS fences - standalone)
+  Task 7  (quest dialog - standalone)
+  Task 11 (auto-attack defer - standalone)
 
 Tier 3 (Medium):
-  Task 12 (spell queue — touches casting_lifecycle.ts, types.ts)
-  Task 13 (auto-attack switch setting — standalone)
-  Task 14 (destroy items — standalone)
-  Task 15 (lock action bar — standalone)
+  Task 12 (spell queue - touches casting_lifecycle.ts, types.ts)
+  Task 13 (auto-attack switch setting - standalone)
+  Task 14 (destroy items - standalone)
+  Task 15 (lock action bar - standalone)
 
 Tier 4 (Polish):
   By effort: trivial > small > medium > large
@@ -1524,13 +1524,13 @@ Tier 4 (Polish):
 
 After all Tier 1-3 tasks are complete:
 
-- [ ] `npm test` — full Vitest suite green
-- [ ] `npx tsc --noEmit` — zero type errors
-- [ ] `npm run build` — production build succeeds
-- [ ] `npm run gate` — CI-equivalent pre-merge gate passes
-- [ ] `tests/architecture.test.ts` — sim purity guard passes
-- [ ] `tests/localization_fixes.test.ts` — S3 i18n guard passes
-- [ ] `tests/command_schema.test.ts` — W0b wire protocol guard passes (if any new commands added)
-- [ ] `tests/world_api_parity.test.ts` — W0c IWorld parity guard passes (if IWorld extended)
+- [ ] `npm test` - full Vitest suite green
+- [ ] `npx tsc --noEmit` - zero type errors
+- [ ] `npm run build` - production build succeeds
+- [ ] `npm run gate` - CI-equivalent pre-merge gate passes
+- [ ] `tests/architecture.test.ts` - sim purity guard passes
+- [ ] `tests/localization_fixes.test.ts` - S3 i18n guard passes
+- [ ] `tests/command_schema.test.ts` - W0b wire protocol guard passes (if any new commands added)
+- [ ] `tests/world_api_parity.test.ts` - W0c IWorld parity guard passes (if IWorld extended)
 - [ ] Manual smoke: `npm run dev`, play offline for 5 minutes
 - [ ] Manual smoke: `npm run server` + `npm run dev`, play online for 5 minutes
