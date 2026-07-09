@@ -344,7 +344,9 @@ export function createDemonPet(
   pet.ownerId = owner.id;
   pet.petMode = 'defensive';
   pet.petTauntTimer = 0;
-  pet.petAutoTaunt = false;
+  // A tank demon (the Voidwalker/Gloomshade) auto-casts its taunt by default so
+  // it holds aggro like a classic-era Voidwalker; other demons leave autocast off.
+  pet.petAutoTaunt = template.petRole === 'melee_tank';
   pet.petManualTauntPending = false;
   pet.hostile = false;
   pet.aiState = 'idle';

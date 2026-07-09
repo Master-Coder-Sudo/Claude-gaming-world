@@ -378,6 +378,7 @@ import { isStunDrCategory } from './stun_dr';
 import { Targeting } from './targeting';
 import {
   addThreat,
+  TANK_PET_THREAT_MULT,
   TAUNT_FORCE_SECONDS,
   threatEntries,
   threatModifier,
@@ -3678,6 +3679,11 @@ export class Sim {
     if (source.kind === 'player') {
       const meta = this.players.get(source.id);
       if (meta) m *= 1 + this.playerMods(meta).global.threatPct;
+    } else if (source.ownerId !== null && MOBS[source.templateId]?.petRole === 'melee_tank') {
+      // A tank pet (the warlock Voidwalker/Gloomshade) generates elevated threat
+      // so it holds aggro off its owner, matching a Defensive Stance warrior or a
+      // Bear-form druid.
+      m *= TANK_PET_THREAT_MULT;
     }
     return m;
   }

@@ -1677,13 +1677,11 @@ describe('warlock demon summons', () => {
     teleport(sim, sim.player, wolf.pos.x + 8, wolf.pos.z);
     sim.targetEntity(wolf.id);
     sim.petAttack();
-    for (let i = 0; i < 20; i++) sim.tick();
 
-    expect(wolf.forcedTargetId).not.toBe(voidwalker.id);
-    expect(voidwalker.petTauntTimer).toBe(0);
-
-    sim.setPetAutoTaunt(true);
-    for (let i = 0; i < 20 && wolf.forcedTargetId !== voidwalker.id; i++) sim.tick();
+    // the tank demon Growls by default (classic-era Voidwalker auto-Torment): it
+    // holds aggro without the owner toggling autocast on.
+    expect(voidwalker.petAutoTaunt).toBe(true);
+    for (let i = 0; i < 20 * 2 && wolf.forcedTargetId !== voidwalker.id; i++) sim.tick();
     expect(wolf.forcedTargetId).toBe(voidwalker.id);
     expect(voidwalker.petTauntTimer).toBeGreaterThan(0);
   });

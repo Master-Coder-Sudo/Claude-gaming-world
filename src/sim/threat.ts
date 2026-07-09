@@ -18,6 +18,11 @@ export const DEFENSIVE_STANCE_THREAT_MULT = 1.3;
 export const BEAR_FORM_THREAT_MULT = 1.3;
 export const CAT_FORM_THREAT_MULT = 0.71;
 export const RIGHTEOUS_FURY_THREAT_MULT = 1.6; // holy school only
+// A tank pet (the warlock Voidwalker/Gloomshade) generates elevated threat so it
+// can hold aggro off its owner, exactly like a Defensive Stance warrior or a
+// Bear-form druid. It reuses that established tank-threat factor rather than a
+// bespoke number.
+export const TANK_PET_THREAT_MULT = DEFENSIVE_STANCE_THREAT_MULT;
 export const TAUNT_FORCE_SECONDS = 3;
 // Stealth shrinks detection at equal level; higher-level observers pierce it
 // more easily, lower-level observers struggle. Shared by mobs and players.
@@ -41,11 +46,16 @@ export function threatModifier(source: Entity, school: string): number {
 }
 
 export function stealthDetectionMultiplier(observerLevel: number, stealthedLevel: number): number {
-  const raw = STEALTH_DETECTION_MULT + (observerLevel - stealthedLevel) * STEALTH_DETECTION_PER_LEVEL;
+  const raw =
+    STEALTH_DETECTION_MULT + (observerLevel - stealthedLevel) * STEALTH_DETECTION_PER_LEVEL;
   return Math.max(STEALTH_DETECTION_MIN_MULT, Math.min(STEALTH_DETECTION_MAX_MULT, raw));
 }
 
-export function stealthDetectionRadius(observer: Entity, stealthed: Entity, baseRadius: number): number {
+export function stealthDetectionRadius(
+  observer: Entity,
+  stealthed: Entity,
+  baseRadius: number,
+): number {
   return baseRadius * stealthDetectionMultiplier(observer.level, stealthed.level);
 }
 

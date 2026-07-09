@@ -45,6 +45,7 @@ export const WARLOCK_PET_MOBS: Record<string, MobTemplate> = {
     loot: [],
     scale: 1.15,
     color: 0x3a3a6e,
+    petRole: 'melee_tank',
   },
   // Glass-cannon melee striker: hits hard and fast on a light frame, but
   // folds quickly under retaliation — the warlock's leveling DPS demon.
