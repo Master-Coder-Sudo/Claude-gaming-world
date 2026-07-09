@@ -17,8 +17,9 @@ import {
   frenzyPackmates,
   respawnMob,
 } from '../src/sim/mob/lifecycle';
+import { updateMob } from '../src/sim/mob/locomotion';
 import { Sim } from '../src/sim/sim';
-import type { PlayerClass } from '../src/sim/types';
+import type { CorpseLoot, PlayerClass } from '../src/sim/types';
 
 const SEED = 88;
 
@@ -177,5 +178,89 @@ describe('mob_lifecycle module: respawnMob + despawnSummonedAdds', () => {
     mob.summonedIds = [];
     expect(() => despawnSummonedAdds(ctxOf(sim), mob)).not.toThrow();
     expect(mob.summonedIds.length).toBe(0);
+  });
+});
+
+// Regression pins for issue #1539: when a mob respawns in place, the reused Entity
+// is scrubbed of all corpse-loot state so the fresh spawn is never lootable off the
+// old drop. The current ~60s corpse window (CORPSE_DURATION) is intentional: while
+// the corpse is still lootable AND its corpseTimer has not elapsed, the respawn gate
+// in updateMob withholds the respawn, keeping the drop reachable. These tests pin
+// both halves so a future change cannot silently revive a mob over its unlooted loot.
+describe('mob_lifecycle module: respawn clears unlooted corpse state (regression #1539)', () => {
+  const makeLoot = (): CorpseLoot => ({
+    copper: 42,
+    items: [{ itemId: 'coarse_leather', count: 1 }],
+  });
+
+  it('respawnMob scrubs loot/lootable/tap state from a corpse that was never looted', () => {
+    const sim = makeSim();
+    const p = sim.player as any;
+    const mob = spawn(sim, 'forest_wolf', 5, 40, 40);
+    mob.spawnPos = { x: 40, y: mob.pos.y, z: 40 };
+    // Simulate a slain, unlooted corpse: dead with live drops still on it.
+    mob.dead = true;
+    mob.hp = 0;
+    mob.lootable = true;
+    mob.loot = makeLoot();
+    mob.tappedById = p.id;
+    mob.lootRecipientIds = [p.id];
+    mob.harvestClaimedBy = p.id;
+
+    respawnMob(ctxOf(sim), mob);
+
+    // The reused entity must carry NO stale loot: a fresh spawn is not lootable
+    // off the old drop, and no player still owns the tap.
+    expect(mob.dead).toBe(false);
+    expect(mob.lootable).toBe(false);
+    expect(mob.loot).toBe(null);
+    expect(mob.tappedById).toBe(null);
+    expect(mob.lootRecipientIds).toBeUndefined();
+    expect(mob.harvestClaimedBy).toBe(null);
+  });
+
+  it('the dead prologue WITHHOLDS respawn while an unlooted corpse is still within its window', () => {
+    const sim = makeSim();
+    // A dead, lootable, non-instance corpse whose respawn timer has elapsed but
+    // whose corpse window has not: the gate must not respawn it yet, so the drop
+    // stays reachable for the full window.
+    const mob = spawn(sim, 'forest_wolf', 5, 40, 40);
+    mob.spawnPos = { x: 40, y: mob.pos.y, z: 40 };
+    mob.dead = true;
+    mob.hp = 0;
+    mob.aiState = 'dead';
+    mob.lootable = true;
+    mob.loot = makeLoot();
+    mob.respawnTimer = 0;
+    mob.corpseTimer = 5; // still inside the ~60s corpse window
+
+    updateMob(ctxOf(sim), mob);
+
+    expect(mob.dead).toBe(true); // withheld: loot is still reachable
+    expect(mob.lootable).toBe(true);
+    expect(mob.loot).not.toBe(null);
+    expect(mob.corpseTimer).toBeLessThan(5); // the prologue still counts the window down
+  });
+
+  it('the dead prologue respawns (clearing loot) once the corpse window elapses', () => {
+    const sim = makeSim();
+    const mob = spawn(sim, 'forest_wolf', 5, 40, 40);
+    mob.spawnPos = { x: 40, y: mob.pos.y, z: 40 };
+    mob.dead = true;
+    mob.hp = 0;
+    mob.aiState = 'dead';
+    mob.lootable = true;
+    mob.loot = makeLoot();
+    mob.tappedById = (sim.player as any).id;
+    mob.respawnTimer = 0;
+    mob.corpseTimer = 0; // window elapsed: the gate now fires respawnMob
+
+    updateMob(ctxOf(sim), mob);
+
+    expect(mob.dead).toBe(false); // respawned in place
+    expect(mob.lootable).toBe(false);
+    expect(mob.loot).toBe(null);
+    expect(mob.tappedById).toBe(null);
+    expect(mob.hp).toBe(mob.maxHp);
   });
 });
