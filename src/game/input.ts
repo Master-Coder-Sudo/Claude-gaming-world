@@ -11,6 +11,27 @@ import { comboCode, isModifierCode, type Keybinds, makeCombo } from './keybinds'
 import { shouldEngagePointerLock, shouldReleasePointerLock } from './pointer_lock';
 import { clickPickFromMouseGesture, DEFAULT_CLICK_PICK_MAX_MS } from './pointer_pick';
 
+const ZOOM_STORAGE_KEY = 'woc_camera_zoom';
+const DEFAULT_ZOOM = 12;
+const ZOOM_MIN = 3;
+const ZOOM_MAX = 22;
+
+function loadZoomLevel(): number {
+  try {
+    const raw = localStorage.getItem(ZOOM_STORAGE_KEY);
+    if (raw !== null) {
+      const val = parseFloat(raw);
+      if (!isNaN(val)) return Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, val));
+    }
+  } catch { /* localStorage unavailable (private mode, Node) */ }
+  return DEFAULT_ZOOM;
+}
+
+function saveZoomLevel(dist: number): void {
+  try { localStorage.setItem(ZOOM_STORAGE_KEY, String(dist)); } catch {}
+}
+
+
 const BASE_LOOK_SENS = 0.0045;
 const TOUCH_LOOK_YAW_RATE = 3.2;
 const TOUCH_LOOK_PITCH_RATE = 2.2;
@@ -118,7 +139,7 @@ export class Input {
   rightDown = false;
   camYaw = Math.PI;
   camPitch = 0.32;
-  camDist = 12;
+  camDist = loadZoomLevel();
   autorun = false;
   suspendMovement = false;
   // click-to-move (#95): a world destination the player clicked; the frame loop
@@ -284,7 +305,8 @@ export class Input {
 
   /** Move the camera in/out, clamped to the zoom limits. */
   zoomBy(delta: number): void {
-    this.camDist = Math.min(22, Math.max(3, this.camDist + delta));
+    this.camDist = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, this.camDist + delta));
+    saveZoomLevel(this.camDist);
   }
 
   /** True while a mouse button is held for camera drag. */
