@@ -487,11 +487,11 @@ export function classifyGpuRenderer(name: string | undefined): GpuClass {
   // mid-integrated bucket so an Iris Plus 6xx / UHD 6xx / HD 5xx-6xx stays weak, consistent with
   // the existing leanFoliage treatment in settingsFor).
   if (isWeakIntegratedGpu(name)) return 'weak';
-  // Strong desktop discrete + Apple Silicon. The `(\(tm\))?` tolerates the "(TM)" some Windows
-  // drivers print after "Radeon" ("Radeon(TM) RX 580").
-  if (
-    /\b(rtx|gtx)\b|geforce|radeon(\(tm\))?\s?(rx|pro|vii)|\barc\b|\bnvidia\b|apple\s?m[1-9]/.test(n)
-  )
+  // Strong desktop discrete. The `(\(tm\))?` tolerates the "(TM)" some Windows drivers print after
+  // "Radeon" ("Radeon(TM) RX 580"). Apple Silicon (M1-M4) is deliberately NOT here: it is a
+  // thermally constrained laptop iGPU, so it falls through to 'unknown' (-> PRESET_MEDIUM) rather
+  // than defaulting to ultra on first run (issue #1676).
+  if (/\b(rtx|gtx)\b|geforce|radeon(\(tm\))?\s?(rx|pro|vii)|\barc\b|\bnvidia\b/.test(n))
     return 'strongDesktop';
   // Recent flagship mobile.
   if (

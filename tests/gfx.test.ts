@@ -221,9 +221,11 @@ describe('graphics tier resolution', () => {
 
   it('classifies GPU renderer strings into device-capability buckets', () => {
     expect(classifyGpuRenderer('ANGLE (NVIDIA, NVIDIA GeForce RTX 4080)')).toBe('strongDesktop');
-    expect(classifyGpuRenderer('ANGLE (Apple, ANGLE Metal Renderer: Apple M2)')).toBe(
-      'strongDesktop',
-    );
+    // Apple Silicon (M1-M4) is a thermally constrained laptop iGPU: deliberately NOT strongDesktop,
+    // so it falls through to 'unknown' -> PRESET_MEDIUM instead of defaulting to ultra (issue #1676).
+    expect(classifyGpuRenderer('ANGLE (Apple, ANGLE Metal Renderer: Apple M2)')).toBe('unknown');
+    expect(classifyGpuRenderer('Apple M1')).toBe('unknown');
+    expect(classifyGpuRenderer('Apple M3 Pro')).toBe('unknown');
     // AMD discrete + Intel Arc desktop -> strongDesktop (the "(TM)" Windows drivers print is tolerated)
     expect(classifyGpuRenderer('ANGLE (AMD, AMD Radeon RX 6800 XT Direct3D11 vs_5_0 ps_5_0)')).toBe(
       'strongDesktop',
@@ -322,8 +324,9 @@ describe('graphics tier resolution', () => {
       expect(
         resolveDefaultGraphicsPreset({ ...phone, gpuRenderer: 'Adreno (TM) 740', deviceMemory: 8 }),
       ).toBe(3); // flagship phone
-      // an M-series iPad (strong GPU on a touch device) is capped at HIGH (ultra is desktop-only)
-      expect(resolveDefaultGraphicsPreset({ ...phone, gpuRenderer: 'Apple M2' })).toBe(3);
+      // an M-series iPad reports 'Apple M2', but Apple Silicon is now 'unknown' (issue #1676), so a
+      // touch device with no corroborating signal lands on MEDIUM, not the old strong-on-touch HIGH.
+      expect(resolveDefaultGraphicsPreset({ ...phone, gpuRenderer: 'Apple M2' })).toBe(2);
       expect(resolveDefaultGraphicsPreset({ ...phone, gpuRenderer: 'Adreno (TM) 330' })).toBe(1); // old phone
       expect(resolveDefaultGraphicsPreset(phone)).toBe(2); // typical/unknown phone -> medium
     });
@@ -349,6 +352,34 @@ describe('graphics tier resolution', () => {
           hardwareConcurrency: 4,
         }),
       ).toBe(3);
+    });
+
+    it('defaults Apple Silicon Macs to MEDIUM, leaving discrete desktop GPUs on the ultra path (#1676)', () => {
+      // Apple Silicon (M1-M4) is a thermally constrained laptop part. It must NOT default to ULTRA
+      // on first run: classified as 'unknown', a MacBook resolves to MEDIUM. macOS Safari reports
+      // deviceMemory undefined + hardwareConcurrency capped at 8, so the unknown-desktop -> HIGH
+      // branch (which needs BOTH mem and cores present and ample) is never reached.
+      expect(
+        resolveDefaultGraphicsPreset({
+          ...desktop,
+          gpuRenderer: 'ANGLE (Apple, ANGLE Metal Renderer: Apple M1)',
+          hardwareConcurrency: 8,
+        }),
+      ).toBe(2);
+      expect(
+        resolveDefaultGraphicsPreset({ ...desktop, gpuRenderer: 'Apple M3 Pro' }),
+      ).toBe(2);
+      // Regression guard: the fix removes ONLY Apple Silicon. Discrete desktop GPUs (RTX, Radeon RX)
+      // still bucket strongDesktop and still earn ULTRA with a corroborating signal.
+      expect(classifyGpuRenderer('ANGLE (AMD, AMD Radeon RX 6800 XT)')).toBe('strongDesktop');
+      expect(
+        resolveDefaultGraphicsPreset({
+          ...desktop,
+          gpuRenderer: 'ANGLE (NVIDIA, NVIDIA GeForce RTX 4080)',
+          deviceMemory: 8,
+          hardwareConcurrency: 16,
+        }),
+      ).toBe(4);
     });
 
     it('raises an unknown desktop GPU to HIGH only with ample RAM AND cores', () => {
