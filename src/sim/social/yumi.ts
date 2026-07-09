@@ -186,10 +186,22 @@ export function startYumiMatch(
     return;
   }
   ctx.yumiBusySlots.add(slot);
-  const returns = new Map<number, { x: number; z: number; facing: number }>();
+  const returns = new Map<
+    number,
+    { x: number; z: number; facing: number; preMatchHp: number; preMatchResource: number }
+  >();
   for (let i = 0; i < allPids.length; i++) {
     const e = entities[i]!;
-    returns.set(allPids[i], { x: e.pos.x, z: e.pos.z, facing: e.facing });
+    // Issue #1600: snapshot pre-match HP/resource so returnFromArena restores them
+    // instead of a full heal. Yumi matches share the arena return path, so the same
+    // exploit fix must apply here (a full restore on return would be a farm vector).
+    returns.set(allPids[i], {
+      x: e.pos.x,
+      z: e.pos.z,
+      facing: e.facing,
+      preMatchHp: e.hp,
+      preMatchResource: e.resource,
+    });
   }
   const matchId = ctx.nextArenaMatchId++;
   const layout = yumiMazeLayout();
