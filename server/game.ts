@@ -406,7 +406,6 @@ const HEAVY_SELF_EVENTS = new Set<string>([
   'mailResult',
   'levelup',
   'virtualLevelUp',
-  'milestoneUnlocked',
   'deedUnlocked', // the earned map + stat block ride the heavy-gated deeds/dstats keys
   'questAccepted',
   'questProgress',

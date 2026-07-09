@@ -7,8 +7,15 @@
 // per-process FIFO promise tail the game loop NEVER awaits, a rejected insert
 // logs and never blocks or reorders anything, and the whole body is guarded
 // so the observer can never throw into the caller. Idempotence lives in the
-// SQL (ON CONFLICT DO NOTHING over UNIQUE (character_id, deed_id)), so retro
-// re-emits on every login and crash-replays are free.
+// SQL (ON CONFLICT DO NOTHING over UNIQUE (character_id, deed_id)), so the
+// initial retro backfill and crash-replays of unpersisted state are free.
+// The guarantee's edge: a deed already persisted in the state blob never
+// re-emits on a later login (grantDeed no-ops on the earned set), so a
+// TRANSIENT insert failure leaves this index one row short until the same
+// deed is earned by another character on the account. That drift touches
+// only the rarity aggregate, the Renown board, and the Steam reconcile; the
+// player's own Book reads the state blob and stays correct. A login-time
+// reconcile of deedsEarned into character_deeds would close it.
 
 import { DEEDS } from '../src/sim/content/deeds';
 import type { DeedDef } from '../src/sim/types';
