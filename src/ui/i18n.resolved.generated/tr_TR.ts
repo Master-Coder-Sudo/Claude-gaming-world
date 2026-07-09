@@ -844,6 +844,7 @@ export const tr_TR: EnTranslations = {
       "startAttackOnAbility": "Yetenek Kullanımında Otomatik Saldırı",
       "walkByAutoloot": "Yanından Geçerken Otomatik Yağma",
       "stopAutoAttackOnSwitch": "Stop Auto-Attack on Target Switch",
+      "lockActionBar": "Lock Action Bar",
       "groundReticle": "Yer hedefleme halkası",
       "showItemLevel": "Eşya Seviyesini Göster",
       "itemLevelLine": "Eşya Seviyesi {level}",

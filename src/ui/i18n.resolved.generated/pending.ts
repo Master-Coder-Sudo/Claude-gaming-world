@@ -10,64 +10,84 @@
 
 export const pending: Record<string, readonly string[]> = {
   "es": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "es_ES": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "fr_FR": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "fr_CA": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "en_CA": [],
   "it_IT": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "de_DE": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "zh_CN": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "zh_TW": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "ko_KR": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "ja_JP": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "pt_BR": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "ru_RU": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "cs_CZ": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "nl_NL": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "pl_PL": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "id_ID": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "tr_TR": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "sv_SE": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "vi_VN": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
   "da_DK": [
+    "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ]
 };

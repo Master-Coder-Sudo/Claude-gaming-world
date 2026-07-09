@@ -844,6 +844,7 @@ export const es: EnTranslations = {
       "startAttackOnAbility": "Ataque automático al usar habilidad",
       "walkByAutoloot": "Saqueo automático al pasar",
       "stopAutoAttackOnSwitch": "Stop Auto-Attack on Target Switch",
+      "lockActionBar": "Lock Action Bar",
       "groundReticle": "Retícula de objetivo terrestre",
       "showItemLevel": "Mostrar nivel de objeto",
       "itemLevelLine": "Nivel de objeto {level}",

@@ -844,6 +844,7 @@ export const ja_JP: EnTranslations = {
       "startAttackOnAbility": "アビリティ使用時に自動攻撃",
       "walkByAutoloot": "通りがかり自動ルート",
       "stopAutoAttackOnSwitch": "Stop Auto-Attack on Target Switch",
+      "lockActionBar": "Lock Action Bar",
       "groundReticle": "地面ターゲットのレティクル",
       "showItemLevel": "アイテムレベルを表示",
       "itemLevelLine": "アイテムレベル {level}",

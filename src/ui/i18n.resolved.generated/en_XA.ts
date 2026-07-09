@@ -844,6 +844,7 @@ export const en_XA: EnTranslations = {
       "startAttackOnAbility": "[Áúţó-Áţţáçķ óñ Áƀíļíţý Úšé]",
       "walkByAutoloot": "[Ŵáļķ-ƀý Áúţóļóóţ]",
       "stopAutoAttackOnSwitch": "[Šţóþ Áúţó-Áţţáçķ óñ Ţáŕĝéţ Šŵíţçĥ]",
+      "lockActionBar": "[Ļóçķ Áçţíóñ Ɓáŕ]",
       "groundReticle": "[Ĝŕóúñð-Ţáŕĝéţíñĝ Ŕéţíçļé]",
       "showItemLevel": "[Šĥóŵ Íţéɱ Ļéʋéļ]",
       "itemLevelLine": "[Íţéɱ Ļéʋéļ {level}]",

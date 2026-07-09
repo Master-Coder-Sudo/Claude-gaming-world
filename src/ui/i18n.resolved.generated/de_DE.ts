@@ -844,6 +844,7 @@ export const de_DE: EnTranslations = {
       "startAttackOnAbility": "Auto-Angriff bei Fähigkeitseinsatz",
       "walkByAutoloot": "Plündern im Vorbeigehen",
       "stopAutoAttackOnSwitch": "Stop Auto-Attack on Target Switch",
+      "lockActionBar": "Lock Action Bar",
       "groundReticle": "Bodenziel-Fadenkreuz",
       "showItemLevel": "Gegenstandsstufe anzeigen",
       "itemLevelLine": "Gegenstandsstufe {level}",

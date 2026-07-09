@@ -844,6 +844,7 @@ export const cs_CZ: EnTranslations = {
       "startAttackOnAbility": "Automatický útok při použití schopnosti",
       "walkByAutoloot": "Automatická kořist při průchodu",
       "stopAutoAttackOnSwitch": "Stop Auto-Attack on Target Switch",
+      "lockActionBar": "Lock Action Bar",
       "groundReticle": "Zaměřovací kruh na zemi",
       "showItemLevel": "Zobrazit úroveň předmětu",
       "itemLevelLine": "Úroveň předmětu {level}",

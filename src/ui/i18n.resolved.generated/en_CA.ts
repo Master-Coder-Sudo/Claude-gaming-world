@@ -844,6 +844,7 @@ export const en_CA: EnTranslations = {
       "startAttackOnAbility": "Auto-Attack on Ability Use",
       "walkByAutoloot": "Walk-by Autoloot",
       "stopAutoAttackOnSwitch": "Stop Auto-Attack on Target Switch",
+      "lockActionBar": "Lock Action Bar",
       "groundReticle": "Ground-Targeting Reticle",
       "showItemLevel": "Show Item Level",
       "itemLevelLine": "Item Level {level}",

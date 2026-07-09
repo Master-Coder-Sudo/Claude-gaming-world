@@ -791,6 +791,9 @@ export const hudChromeStrings = {
     // Interface panel toggle: stop auto-attack when switching to a new target
     // via tab or click (off by default, classic follow behavior).
     stopAutoAttackOnSwitch: 'Stop Auto-Attack on Target Switch',
+    // Interface panel toggle: lock action bar slots so abilities cannot be
+    // dragged off or moved during combat (off by default).
+    lockActionBar: 'Lock Action Bar',
     groundReticle: 'Ground-Targeting Reticle',
     // Interface panel toggle + the item-tooltip lines it reveals (off by default).
     showItemLevel: 'Show Item Level',

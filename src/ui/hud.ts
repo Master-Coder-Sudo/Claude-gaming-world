@@ -5710,6 +5710,10 @@ export class Hud {
           clearSlot();
         });
         btn.addEventListener('dragstart', (e) => {
+          if (this.optionsHooks?.settings.get('lockActionBar')) {
+            e.preventDefault();
+            return;
+          }
           const action = this.actionForSlot(slot);
           if (!action) {
             e.preventDefault();

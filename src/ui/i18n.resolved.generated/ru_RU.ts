@@ -844,6 +844,7 @@ export const ru_RU: EnTranslations = {
       "startAttackOnAbility": "Автоатака при использовании способности",
       "walkByAutoloot": "Автосбор добычи при проходе",
       "stopAutoAttackOnSwitch": "Stop Auto-Attack on Target Switch",
+      "lockActionBar": "Lock Action Bar",
       "groundReticle": "Прицел наземного наведения",
       "showItemLevel": "Показывать уровень предмета",
       "itemLevelLine": "Уровень предмета {level}",
