@@ -9,6 +9,7 @@ import {
   LAKE,
   MOBS,
   NPCS,
+  QUESTS,
   setActiveWorldContent,
 } from '../src/sim/data';
 import { createMob } from '../src/sim/entity';
@@ -1567,6 +1568,51 @@ describe('quests', () => {
     (sim as any).ctx.checkQuestReady(qb, (sim as any).primary);
     sim.turnInQuest('q_bandits');
     expect(sim.equipment.mainhand).toBe('redbrook_blade');
+  });
+
+  it('follow-up quest is immediately available at the same NPC after turn-in', () => {
+    // marshal_redbrook offers q_wolves, which gates q_bandits (requiresQuest:'q_wolves')
+    // and q_greyjaw (requiresQuest:'q_wolves'). After turning in q_wolves at marshal_redbrook,
+    // the follow-ups must immediately appear in the NPC's available quest list -- the
+    // gossip dialog should not require a close + re-open.
+    const sim = makeSim('warrior');
+    const npcId = 'marshal_redbrook';
+    const npc = NPCS[npcId];
+    // Accept q_wolves and force it ready by satisfying the kill objective.
+    teleportTo(sim, npc.pos.x, npc.pos.z);
+    sim.interact();
+    expect(sim.questState('q_wolves')).toBe('active');
+    const qp = sim.questLog.get('q_wolves')!;
+    qp.counts[0] = 8;
+    (sim as any).ctx.checkQuestReady(qp, (sim as any).primary);
+    expect(sim.questState('q_wolves')).toBe('ready');
+
+    // Turn in q_wolves directly (equivalent to clicking "Complete Quest" in the gossip dialog).
+    sim.turnInQuest('q_wolves');
+    expect(sim.questState('q_wolves')).toBe('done');
+
+    // Simulate the gossip-dialog filter: which quests at this NPC are available or ready?
+    const simEntities = [...sim.entities.values()];
+    const npcEntity = simEntities.find(
+      (e) => e.kind === 'npc' && e.templateId === npcId,
+    )!;
+    expect(npcEntity).toBeDefined();
+    const interesting = npcEntity.questIds.filter((qid) => {
+      const st = sim.questState(qid);
+      return (
+        (st === 'available' && QUESTS[qid].giverNpcId === npcId) ||
+        (st === 'ready' && sim.questLog.get(qid)?.state === 'ready')
+      );
+    });
+    // Both follow-ups require q_wolves and must be immediately available.
+    expect(interesting).toContain('q_bandits');
+    expect(interesting).toContain('q_greyjaw');
+    // q_wolves itself must NOT appear (already done).
+    expect(interesting).not.toContain('q_wolves');
+
+    // Also verify the pure questState API agrees.
+    expect(sim.questState('q_bandits')).toBe('available');
+    expect(sim.questState('q_greyjaw')).toBe('available');
   });
 });
 

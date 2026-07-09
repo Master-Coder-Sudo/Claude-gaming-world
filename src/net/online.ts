@@ -25,7 +25,14 @@ import {
 import { resolveSportKit } from '../sim/content/vale_cup';
 import { resolveActiveWeaponSkin, withWeaponSkinApplied } from '../sim/content/weapon_skin_rules';
 import { WEAPON_SKINS } from '../sim/content/weapon_skins';
-import { ALL_RECIPES, abilitiesKnownAt, CLASSES, NPCS, resolveDelveShopOffers } from '../sim/data';
+import {
+  ALL_RECIPES,
+  abilitiesKnownAt,
+  CLASSES,
+  NPCS,
+  QUESTS,
+  resolveDelveShopOffers,
+} from '../sim/data';
 import { deadTargetSelectable } from '../sim/dead_target';
 import { freshDeedStats } from '../sim/deeds';
 import { LEADERBOARD_PAGE_SIZE } from '../sim/leaderboard_page';
@@ -2215,6 +2222,26 @@ export class ClientWorld implements IWorld {
       (pending === 'turnin' && state === 'ready')
     ) {
       return 'active';
+    }
+    // When a quest is unavailable only because its prerequisite has a pending
+    // turn-in, optimistically treat the prerequisite as done so the follow-up
+    // appears immediately in the NPC gossip dialog without a close and re-open
+    // (upstream issue #1667). The optimistic view is replaced by the authoritative
+    // server snapshot on the next frame.
+    if (state === 'unavailable' && this.pendingQuestCommands?.size) {
+      const quest = QUESTS[questId];
+      if (
+        quest?.requiresQuest &&
+        this.pendingQuestCommands.get(quest.requiresQuest) === 'turnin'
+      ) {
+        const optimistic = computeQuestState(
+          questId,
+          this.questLog,
+          new Set([...this.questsDone, quest.requiresQuest]),
+          this.player.level,
+        );
+        if (optimistic === 'available') return 'available';
+      }
     }
     return state;
   }
