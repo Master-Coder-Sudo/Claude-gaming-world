@@ -6,11 +6,14 @@
 //
 // Viewports: desktop 1600x900 dsf1, small laptop 1280x720 dsf1, tablet
 // 1024x768 dsf2, phone landscape 844x390 dsf3, narrow phone 740x360 dsf3.
-// Every non-desktop viewport is applied via raw CDP
+// EVERY viewport, desktop included, is applied via raw CDP
 // Emulation.setDeviceMetricsOverride (puppeteer's setViewport omits
 // screenWidth/screenHeight and headless then fit-scales narrower viewports,
-// leaving a stale window.innerWidth). Viewports only ever narrow, so a stale
-// page scale can never carry a wider layout forward.
+// leaving a stale window.innerWidth), and the browser launches with
+// defaultViewport: null (a puppeteer-managed viewport is re-asserted by
+// every page.screenshot, silently reverting the override mid-run).
+// Viewports only ever narrow, so a stale page scale can never carry a wider
+// layout forward.
 //
 // Needs `npm run dev` (GAME_URL to point elsewhere, default :5173). Writes
 // numbered PNGs plus an index README to docs/achievements/screenshots/.
@@ -39,6 +42,10 @@ const captured = [];
 // viewport. currentClip is set by flipViewport below.
 let currentClip = null;
 async function shot(page, file, surface, viewport) {
+  // Park the cursor first: a hover tooltip left over from the last click
+  // would otherwise photobomb the frame.
+  await page.mouse.move(0, 0);
+  await sleep(250);
   await page.screenshot({ path: `${OUT}/${file}`, ...(currentClip ? { clip: currentClip } : {}) });
   captured.push({ file, surface, viewport });
   console.log(`shot  ${file}`);
@@ -54,7 +61,13 @@ const browser = await puppeteer.launch({
     '--use-angle=swiftshader',
     '--enable-unsafe-swiftshader',
   ],
-  defaultViewport: { width: 1600, height: 900 },
+  // No puppeteer-managed viewport: page.screenshot RESTORES the managed
+  // viewport after every capture, which silently clobbered the raw CDP
+  // metrics override mid-run (every frame after the first screenshot of a
+  // tier came out as a top-left crop of the re-asserted 1600x900 layout).
+  // With null, every tier including desktop is set via flipViewport below
+  // and survives captures.
+  defaultViewport: null,
 });
 const page = await browser.newPage();
 page.on('pageerror', (e) => fails.push(`pageerror: ${e.message}`));
@@ -191,10 +204,56 @@ async function clickChronicler(npcId) {
   return false;
 }
 
+// Every tier including desktop is applied via raw CDP ONLY: page.setViewport
+// with isMobile/hasTouch RELOADS the page and drops the live offline world,
+// and it also omits screenWidth/screenHeight so headless fit-scales narrower
+// viewports (stale window.innerWidth mis-tiers the layout under test). The
+// override keeps the world alive; the runtime sees the emulated size and
+// device pixel ratio, and shots clip to the live CSS viewport (captured at
+// the surface's own scale). Phones additionally emulate a coarse-pointer
+// touch device so the runtime's own tier applier activates the mobile HUD.
+const media = await page.createCDPSession();
+async function flipViewport(w, h, dsf, phone) {
+  if (phone) {
+    await media.send('Emulation.setEmulatedMedia', {
+      features: [
+        { name: 'pointer', value: 'coarse' },
+        { name: 'hover', value: 'none' },
+      ],
+    });
+    await media.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
+  }
+  for (let attempt = 0; attempt < 4; attempt++) {
+    await media.send('Emulation.setDeviceMetricsOverride', {
+      width: w,
+      height: h,
+      deviceScaleFactor: dsf,
+      mobile: phone,
+      screenWidth: w,
+      screenHeight: h,
+      positionX: 0,
+      positionY: 0,
+    });
+    await media.send('Emulation.resetPageScaleFactor').catch(() => {});
+    await sleep(400);
+    const inner = await evr(() => [window.innerWidth, window.innerHeight]);
+    if (Math.abs(inner[0] - w) <= 2 && Math.abs(inner[1] - h) <= 2) break;
+    if (attempt === 3)
+      check(false, `flipViewport(${w}x${h}): page reports ${inner[0]}x${inner[1]}`);
+  }
+  await evr((isPhone) => {
+    if (isPhone) document.body.classList.add('mobile-touch');
+    window.dispatchEvent(new Event('resize'));
+  }, phone);
+  currentClip = { x: 0, y: 0, width: w, height: h };
+  await sleep(1500);
+}
+
 // ---------------------------------------------------------------------------
 // Enter the offline world at the desktop viewport.
 // ---------------------------------------------------------------------------
 await page.goto(URL, { waitUntil: 'domcontentloaded', timeout: 30000 });
+await flipViewport(1600, 900, 1, false);
 await enterOfflineGame(page, { charClass: 'paladin', charName: 'Evidence', settleMs: 2000 });
 let entered = false;
 for (let i = 0; i < 30 && !entered; i++) {
@@ -305,6 +364,17 @@ check(
 await shot(page, '06-chat-title-1600x900.png', 'Chat say line with the equipped title', '1600x900');
 
 // Own nameplate: KeyV toggles nameplates; the own plate renders the title.
+// Step clear of Saul first so his plate cannot overlap the own plate.
+await evr(() => {
+  const g = window.__game;
+  const p = g.world.entities.get(g.world.playerId);
+  p.pos.x += 9;
+  g.input.clickMoveTarget = null;
+  g.input.clickMoveGoal = null;
+  g.input.clickMovePath = [];
+  g.input.clickMoveEntityId = null;
+});
+await sleep(1500);
 await page.keyboard.press('KeyV');
 await sleep(900);
 await shot(
@@ -458,51 +528,6 @@ async function surfacePass(vp, phone) {
 }
 
 await surfacePass('1600x900', false);
-
-// Narrower tiers via raw CDP ONLY: page.setViewport with isMobile/hasTouch
-// RELOADS the page and drops the live offline world, and it also omits
-// screenWidth/screenHeight so headless fit-scales narrower viewports (stale
-// window.innerWidth mis-tiers the layout under test). The override keeps the
-// world alive; the runtime sees the emulated size and device pixel ratio,
-// and shots clip to the live CSS viewport (captured at the surface's own
-// scale). Phones additionally emulate a coarse-pointer touch device so the
-// runtime's own tier applier activates the mobile HUD.
-const media = await page.createCDPSession();
-async function flipViewport(w, h, dsf, phone) {
-  if (phone) {
-    await media.send('Emulation.setEmulatedMedia', {
-      features: [
-        { name: 'pointer', value: 'coarse' },
-        { name: 'hover', value: 'none' },
-      ],
-    });
-    await media.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
-  }
-  for (let attempt = 0; attempt < 4; attempt++) {
-    await media.send('Emulation.setDeviceMetricsOverride', {
-      width: w,
-      height: h,
-      deviceScaleFactor: dsf,
-      mobile: phone,
-      screenWidth: w,
-      screenHeight: h,
-      positionX: 0,
-      positionY: 0,
-    });
-    await media.send('Emulation.resetPageScaleFactor').catch(() => {});
-    await sleep(400);
-    const inner = await evr(() => [window.innerWidth, window.innerHeight]);
-    if (Math.abs(inner[0] - w) <= 2 && Math.abs(inner[1] - h) <= 2) break;
-    if (attempt === 3)
-      check(false, `flipViewport(${w}x${h}): page reports ${inner[0]}x${inner[1]}`);
-  }
-  await evr((isPhone) => {
-    if (isPhone) document.body.classList.add('mobile-touch');
-    window.dispatchEvent(new Event('resize'));
-  }, phone);
-  currentClip = { x: 0, y: 0, width: w, height: h };
-  await sleep(1500);
-}
 
 const TIERS = [
   { vp: '1280x720', w: 1280, h: 720, dsf: 1, phone: false },
