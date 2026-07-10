@@ -147,6 +147,10 @@ export interface SocialDb {
   ): Promise<number>;
   deleteGuildEvent(eventId: number, guildId: number): Promise<boolean>;
   pruneGuildEvents(guildId: number, beforeDay: string): Promise<void>;
+  // public guild directory (#110)
+  listPublicGuilds(): Promise<
+    { id: number; name: string; memberCount: number; description: string }[]
+  >;
 }
 
 export interface SocialActor {
@@ -1060,6 +1064,13 @@ export class SocialService {
   // Drop a character's pending invite when they disconnect.
   forget(charId: number): void {
     this.pendingGuildInvites.delete(charId);
+  }
+
+  /** List public guilds on this realm for the /guilds directory command. */
+  async listPublicGuilds(): Promise<
+    { id: number; name: string; memberCount: number; description: string }[]
+  > {
+    return this.db.listPublicGuilds();
   }
 }
 

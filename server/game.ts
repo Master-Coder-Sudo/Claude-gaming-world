@@ -3771,6 +3771,22 @@ export class GameServer {
           this.sendWhoRoster(session, filter || undefined);
           break;
         }
+        if (/^\/guilds(?:\s|$)/i.test(text)) {
+          void this.social
+            .listPublicGuilds()
+            .then((guilds) => {
+              if (guilds.length === 0) {
+                this.sendChatNotice(session, 'No public guilds on this realm. Guild leaders can set their guild to public with /guild public.');
+              } else {
+                const lines = guilds.map(
+                  (g) => `${g.name} (${g.memberCount} member${g.memberCount !== 1 ? 's' : ''})${g.description ? ': ' + g.description : ''}`,
+                );
+                for (const line of lines) this.sendChatNotice(session, line);
+              }
+            })
+            .catch(() => this.sendChatNotice(session, 'Could not list guilds right now.'));
+          break;
+        }
         // Hard-word + mute enforcement gate, applied to every channel before the
         // message is routed anywhere. Soft (cosmetic) words are NOT touched here
         // — clients mask those locally when their profanity filter is on.

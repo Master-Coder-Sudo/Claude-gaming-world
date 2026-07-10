@@ -196,6 +196,11 @@ class FakeDb implements SocialDb {
       if (e.guildId === guildId && e.day < beforeDay) this.events.delete(id);
     }
   }
+  async listPublicGuilds(): Promise<
+    { id: number; name: string; memberCount: number; description: string }[]
+  > {
+    return [];
+  }
 }
 
 class FakeTransport implements SocialTransport {

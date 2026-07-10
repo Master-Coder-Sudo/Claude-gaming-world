@@ -108,6 +108,9 @@ CREATE TABLE IF NOT EXISTS guilds (
 -- guild names are likewise unique per realm
 ALTER TABLE guilds DROP CONSTRAINT IF EXISTS guilds_name_key;
 CREATE UNIQUE INDEX IF NOT EXISTS guilds_realm_name ON guilds(realm, name);
+-- Public guild directory (#110): optional description and visibility flag.
+ALTER TABLE guilds ADD COLUMN IF NOT EXISTS is_public BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE guilds ADD COLUMN IF NOT EXISTS description TEXT NOT NULL DEFAULT '';
 
 CREATE TABLE IF NOT EXISTS guild_members (
   character_id INT PRIMARY KEY REFERENCES characters(id) ON DELETE CASCADE,
@@ -458,5 +461,26 @@ export class PgSocialDb implements SocialDb {
       guildId,
       beforeDay,
     ]);
+  }
+
+  /** List public guilds on this realm (id, name, member count, description). */
+  async listPublicGuilds(): Promise<
+    { id: number; name: string; memberCount: number; description: string }[]
+  > {
+    const res = await this.pool.query(
+      `SELECT g.id, g.name, g.description, COUNT(gm.character_id)::int AS member_count
+         FROM guilds g
+         LEFT JOIN guild_members gm ON gm.guild_id = g.id
+        WHERE g.realm = $1 AND g.is_public = true
+        GROUP BY g.id, g.name, g.description
+        ORDER BY g.name`,
+      [REALM],
+    );
+    return res.rows.map((r) => ({
+      id: r.id as number,
+      name: r.name as string,
+      memberCount: r.member_count as number,
+      description: (r.description as string) || '',
+    }));
   }
 }
