@@ -23,14 +23,17 @@ function loadZoomLevel(): number {
       const val = parseFloat(raw);
       if (!isNaN(val)) return Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, val));
     }
-  } catch { /* localStorage unavailable (private mode, Node) */ }
+  } catch {
+    /* localStorage unavailable (private mode, Node) */
+  }
   return DEFAULT_ZOOM;
 }
 
 function saveZoomLevel(dist: number): void {
-  try { localStorage.setItem(ZOOM_STORAGE_KEY, String(dist)); } catch {}
+  try {
+    localStorage.setItem(ZOOM_STORAGE_KEY, String(dist));
+  } catch {}
 }
-
 
 const BASE_LOOK_SENS = 0.0045;
 const TOUCH_LOOK_YAW_RATE = 5.0;

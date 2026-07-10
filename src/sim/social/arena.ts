@@ -37,6 +37,41 @@ import {
   type Entity,
 } from '../types';
 
+/** One participant's pre-match state, restored by returnFromArena at match end. */
+export type ArenaReturnSnapshot = {
+  x: number;
+  z: number;
+  facing: number;
+  preMatchHp: number;
+  preMatchResource: number;
+};
+
+/**
+ * Snapshot each participant's pre-match position + HP/resource keyed by pid, so
+ * returnFromArena restores them instead of a full heal. Issue #1600: a full restore
+ * on return is a farm vector (queue, take damage, leave, heal for free). The ranked
+ * arena AND Yumi match paths share this ONE builder so the exploit fix can never
+ * diverge between them again (it previously had to be hand-mirrored into Yumi).
+ * `entities[i]` is the live entity for `allPids[i]`, in lockstep.
+ */
+export function buildArenaReturns(
+  allPids: number[],
+  entities: (Entity | undefined)[],
+): Map<number, ArenaReturnSnapshot> {
+  const returns = new Map<number, ArenaReturnSnapshot>();
+  for (let i = 0; i < allPids.length; i++) {
+    const e = entities[i]!;
+    returns.set(allPids[i], {
+      x: e.pos.x,
+      z: e.pos.z,
+      facing: e.facing,
+      preMatchHp: e.hp,
+      preMatchResource: e.resource,
+    });
+  }
+  return returns;
+}
+
 // Ashen Coliseum 1v1 arena tuning consts (moved with the slice). FIESTA_COUNTDOWN
 // is the only Fiesta const the ranked match-start path needs; the rest of the
 // Fiesta tuning stays on Sim with createFiestaState (A3).
@@ -730,20 +765,7 @@ export function startArenaMatch(
     return;
   }
   ctx.arenaBusySlots.add(slot);
-  const returns = new Map<
-    number,
-    { x: number; z: number; facing: number; preMatchHp: number; preMatchResource: number }
-  >();
-  for (let i = 0; i < allPids.length; i++) {
-    const e = entities[i]!;
-    returns.set(allPids[i], {
-      x: e.pos.x,
-      z: e.pos.z,
-      facing: e.facing,
-      preMatchHp: e.hp,
-      preMatchResource: e.resource,
-    });
-  }
+  const returns = buildArenaReturns(allPids, entities);
   const isFiesta = format === 'fiesta';
   const countdown = isFiesta ? FIESTA_COUNTDOWN : ARENA_COUNTDOWN;
   const match: ArenaMatch = {

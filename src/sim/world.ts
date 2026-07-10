@@ -3,16 +3,34 @@ import { fbm2, hash2 } from './rng';
 import type { BiomeId, HeightStamp, WorldContent } from './types';
 import { isInSowfieldShell, SOWFIELD_FLAT, sowfieldStandLift } from './vale_cup_layout';
 
-// LRU cache for terrainHeight: the renderer and sim both sample the same (x,z)
-// positions repeatedly (chunk rebuilds, ground clamping, prop placement), so
-// caching avoids redundant FBM noise on every query. Max 4096 entries; beyond
-// that the oldest entry is evicted. Pure function → no invalidation needed.
+// LRU cache for terrainHeight: the renderer re-samples the same (x,z) grid
+// positions on every chunk rebuild, so caching avoids redundant FBM noise on
+// repeated queries. Max 4096 entries; beyond that the oldest entry is evicted.
+//
+// DETERMINISM: the key is the EXACT (x,z,seed), never a rounded bucket. terrainHeight
+// must stay a PURE function of (x,z,seed) so the sim (ground clamp), the renderer
+// (mesh), and every host agree bit-for-bit. A rounded (e.g. cm) key would make the
+// cached value depend on which caller's exact coordinate populated the bucket FIRST,
+// so the renderer-present browser and the renderer-absent server could clamp ground to
+// different heights for the same seed. Exact keys still hit on the renderer's repeated
+// identical grid samples (the hot path this cache targets) while staying pure.
 const _terrainCache = new Map<string, number>();
 const TERRAIN_CACHE_MAX = 4096;
+// The active content + edit-layer length the cache was last valid for. When either
+// changes, terrainHeight() drops the whole cache (see the guard there).
+let _cachedContentKey: unknown;
+let _cachedEditsLen = -1;
 function terrainCacheKey(x: number, z: number, seed: number): string {
-  // Round to cm precision — tight enough for visual indistinguishability,
-  // coarse enough to get useful cache hits on nearby samples.
-  return `${Math.round(x * 100)},${Math.round(z * 100)},${seed}`;
+  return `${x},${z},${seed}`;
+}
+
+/** Test-only: clear the terrainHeight LRU. terrainHeight is a pure function of
+ *  (x,z,seed) for a fixed active content + edit layer, so clearing never changes a
+ *  returned value; this only lets tests assert purity from a known-empty cache. */
+export function _resetTerrainHeightCache(): void {
+  _terrainCache.clear();
+  _cachedContentKey = undefined;
+  _cachedEditsLen = -1;
 }
 
 // Terrain is a pure function of (x, z, seed) for a given active world content:
@@ -247,6 +265,11 @@ let terrainEditIndexCache = new WeakMap<HeightStamp[], TerrainEditIndex>();
 // editor lane: do not rename.
 export function invalidateTerrainEditIndex(): void {
   terrainEditIndexCache = new WeakMap();
+  // A same-length in-place edit keeps terrainEdits' reference AND length, so
+  // terrainHeight's content/length guard cannot see it: drop the height cache here
+  // too, or it would keep serving pre-edit heights for the reshaped cells.
+  _terrainCache.clear();
+  _cachedEditsLen = -1;
 }
 
 function buildTerrainEditIndex(edits: HeightStamp[]): TerrainEditIndex {
@@ -464,11 +487,24 @@ export function groundHeight(x: number, z: number, seed: number): number {
 }
 
 export function terrainHeight(x: number, z: number, seed: number): number {
+  const w = world();
+  // terrainHeight depends on the active content AND its mutable edit layer, not just
+  // (x,z,seed): a custom map has a different baseHeight, and the editor's terrainEdits
+  // stamps reshape the ground. Drop the whole cache when the active content object or
+  // its edit-layer length changes (a content swap, or a push/pop brush stroke). A
+  // same-length in-place edit keeps the array reference, so the editor signals THAT
+  // through invalidateTerrainEditIndex(), which also clears this cache.
+  const editsLen = w.content.terrainEdits?.length ?? 0;
+  if (w.content !== _cachedContentKey || editsLen !== _cachedEditsLen) {
+    _terrainCache.clear();
+    _cachedContentKey = w.content;
+    _cachedEditsLen = editsLen;
+  }
+
   const ck = terrainCacheKey(x, z, seed);
   const cached = _terrainCache.get(ck);
   if (cached !== undefined) return cached;
 
-  const w = world();
   let h = baseHeight(x, z, seed);
 
   // Flatten each camp a little so mobs don't stand on cliffs

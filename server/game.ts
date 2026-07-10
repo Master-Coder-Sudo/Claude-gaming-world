@@ -3776,10 +3776,14 @@ export class GameServer {
             .listPublicGuilds()
             .then((guilds) => {
               if (guilds.length === 0) {
-                this.sendChatNotice(session, 'No public guilds on this realm. Guild leaders can set their guild to public with /guild public.');
+                this.sendChatNotice(
+                  session,
+                  'No public guilds on this realm. Guild leaders can set their guild to public with /guild public.',
+                );
               } else {
                 const lines = guilds.map(
-                  (g) => `${g.name} (${g.memberCount} member${g.memberCount !== 1 ? 's' : ''})${g.description ? ': ' + g.description : ''}`,
+                  (g) =>
+                    `${g.name} (${g.memberCount} member${g.memberCount !== 1 ? 's' : ''})${g.description ? ': ' + g.description : ''}`,
                 );
                 for (const line of lines) this.sendChatNotice(session, line);
               }

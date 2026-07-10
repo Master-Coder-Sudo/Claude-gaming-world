@@ -1684,6 +1684,22 @@ for (const [lang, messages] of Object.entries(IN_GAME_MODERATION_MESSAGES)) {
   Object.assign(DICT[lang], messages);
 }
 
+// Guild directory (/guilds, issue #110) is a new slash command. Its two refusal
+// notices ship English into EVERY locale pending the maintainer's release
+// localization pass, English-filled here so the server DICT stays complete
+// (H3 parity) and localizeServerText recognizes them (S3 drift guard). This
+// mirrors how new slash-command surfaces are introduced English-first.
+const GUILD_DIRECTORY_EN: Record<string, string> = {
+  'guild.dirEmpty':
+    'No public guilds on this realm. Guild leaders can set their guild to public with /guild public.',
+  'guild.dirError': 'Could not list guilds right now.',
+};
+for (const lang of Object.keys(DICT)) {
+  for (const [k, v] of Object.entries(GUILD_DIRECTORY_EN)) {
+    if (!(k in DICT[lang])) DICT[lang][k] = v;
+  }
+}
+
 function interpolate(template: string, params?: InterpolationValues): string {
   if (!params) return template;
   return template.replace(/\{([A-Za-z0-9_]+)\}/g, (m, name: string) => {

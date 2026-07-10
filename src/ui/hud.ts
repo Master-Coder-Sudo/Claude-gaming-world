@@ -9358,9 +9358,13 @@ export class Hud {
               break;
           }
           if (
-            (ev.channel === 'say' || ev.channel === 'yell' || ev.channel === 'emote' ||
-             ev.channel === 'party' || ev.channel === 'guild' || ev.channel === 'officer' ||
-             ev.channel === 'whisper') &&
+            (ev.channel === 'say' ||
+              ev.channel === 'yell' ||
+              ev.channel === 'emote' ||
+              ev.channel === 'party' ||
+              ev.channel === 'guild' ||
+              ev.channel === 'officer' ||
+              ev.channel === 'whisper') &&
             ev.entityId !== undefined
           ) {
             const masked = this.maskChat(this.chatLinkPlainText(ev.text));
