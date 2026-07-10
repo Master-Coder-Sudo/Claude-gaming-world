@@ -76,6 +76,10 @@
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
+    /* Kill the mobile browser's default blue tap-highlight rectangle on every
+       in-game touch control. It reads as an unstyled square flash on the round
+       icons; the round white press overlay below is the intended feedback. */
+    -webkit-tap-highlight-color: transparent;
   }
   body.mobile-touch.game-active input,
   body.mobile-touch.game-active textarea,
@@ -426,6 +430,28 @@
     transform: translateY(1px);
     border-color: var(--gold);
     color: #fff;
+  }
+  /* Round, white, low-opacity press feedback for the icon buttons (spell ring,
+     consumables/action bars, the joystick utility satellites), replacing the
+     native blue tap rectangle killed above. The overlay inherits each button's
+     border-radius so it hugs the round icons; it is pointer-transparent and only
+     surfaces on :active, so it never dims the resting icon or eats a touch. */
+  body.mobile-touch #mobile-action-ring > button::after,
+  body.mobile-touch .action-btn::after,
+  body.mobile-touch #mobile-utility-cluster .mobile-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: #fff;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.08s ease;
+  }
+  body.mobile-touch #mobile-action-ring > button:active::after,
+  body.mobile-touch .action-btn:active::after,
+  body.mobile-touch #mobile-utility-cluster .mobile-btn:active::after {
+    opacity: 0.16;
   }
   body.mobile-touch #mobile-autorun.active {
     border-color: var(--gold);
