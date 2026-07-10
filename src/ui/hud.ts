@@ -5710,10 +5710,24 @@ export class Hud {
           clearSlot();
         });
         btn.addEventListener('keydown', (e) => {
-          if (!e.shiftKey || (e.key !== 'Delete' && e.key !== 'Backspace')) return;
+          if (!e.shiftKey) return;
+          if (e.key === 'Delete' || e.key === 'Backspace') {
+            e.preventDefault();
+            e.stopPropagation();
+            clearSlot();
+            return;
+          }
+          // On-bar keybinding: Shift+any other key on a focused slot enters
+          // bind mode — the next keypress replaces the slot's primary binding.
+          const slotIndex = slot - 1;
           e.preventDefault();
           e.stopPropagation();
-          clearSlot();
+          this.optionsHooks?.captureKey((code) => {
+            if (code) {
+              this.keybinds.bind(`slot${slotIndex}`, 0, code);
+              this.spellbookWindow.refreshHotbarControls();
+            }
+          });
         });
         btn.addEventListener('dragstart', (e) => {
           if (this.optionsHooks?.settings.get('lockActionBar')) {
