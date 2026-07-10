@@ -3688,13 +3688,18 @@
      display:none. */
   #quest-log-window:has(> .window-frame),
   #spellbook:has(> .window-frame),
-  #mailbox-window:has(> .window-frame) {
+  #mailbox-window:has(> .window-frame),
+  #social-window:has(> .window-frame) {
     padding: 0;
     background: transparent;
     border: 0;
     outline: 0;
     box-shadow: none;
   }
+  /* Social keeps the '.open' class as its visibility switch (never inline display);
+     the frame grammar bounds it as a flex column the same way. The per-tab list,
+     notice, and add-row footer flow inside the scrolling .window-body, matching the
+     pre-frame whole-panel scroll. */
 
   /* Quest log: the two panes (list + measure-capped detail) fill the scrolling
      body. The frame body owns the outer scroll; the list scrolls with it and the
