@@ -889,6 +889,16 @@ describe('client HTML shell', () => {
     expect(shellCss).toContain(
       '@media (min-width: 861px) {\n    #offline-select.cs-wow,\n    body:not(.mobile-touch) :is(#charselect-panel, #charcreate-panel).cs-wow {',
     );
+    // The offline panel is the one cs-wow panel that is ALSO .auth-panel-premium
+    // (which sets backdrop-filter: blur(12px)); the full-screen takeover must drop
+    // that blur, or the offline character screen frosts the live 3D scene behind it
+    // while the online screens show it sharp. Regression guard for that leak.
+    expect(shellCss).toContain(
+      'background: linear-gradient(180deg, #0008 0%, #0002 18%, #0002 78%, #000c 100%);\n      box-shadow: none;\n      /* The offline panel is the one cs-wow panel that is ALSO .auth-panel-premium,',
+    );
+    expect(shellCss).toContain(
+      '      -webkit-backdrop-filter: none;\n      backdrop-filter: none;\n      overflow: hidden;\n    }',
+    );
     expect(shellCss).toContain(
       'body:not(.mobile-touch) #charselect-panel.cs-wow #char-list .char-row {\n      display: grid;\n      grid-template-columns: auto minmax(0, 1fr) auto;',
     );
