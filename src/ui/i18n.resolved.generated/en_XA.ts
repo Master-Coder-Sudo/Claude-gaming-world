@@ -402,7 +402,13 @@ export const en_XA: EnTranslations = {
       "targetFriendly": "[Ţáŕĝéţ Ñéáŕéšţ Ƒŕíéñðļý]",
       "targetFriendlyNext": "[Çýçļé Ƒŕíéñðļý Ţáŕĝéţ]",
       "discord": "[Ðíšçóŕð]",
-      "valecup": "[Ʋáļé Çúþ]"
+      "valecup": "[Ʋáļé Çúþ]",
+      "categoryPet": "[Þéţ]",
+      "petAttack": "[Þéţ: Áţţáçķ]",
+      "petStop": "[Þéţ: Šţóþ]",
+      "petTaunt": "[Þéţ: Ţáúñţ]",
+      "petDefensive": "[Þéţ: Ðéƒéñšíʋé]",
+      "petAggressive": "[Þéţ: Áĝĝŕéššíʋé]"
     },
     "vcup": {
       "title": "[Ţĥé Ʋáļé Çúþ]",
