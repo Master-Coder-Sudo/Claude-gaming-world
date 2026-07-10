@@ -5848,6 +5848,27 @@
      level deeper inside a .heroic-shop wrapper so copper's reuse rule never
      matches it and the shared root stays pristine either way. Tokens only. */
 
+  /* Leaderboard + Daily Rewards: root-scroll frame windows. Neutralize the legacy
+     .panel chrome (the inner frame draws its own), re-enable the vertical root
+     scroll the global .window:has(> .window-frame) rule turns off, and pin the
+     titlebar so it stays put while the board / reward body scrolls under it. */
+  #leaderboard-window:has(> .window-frame),
+  #daily-rewards-window:has(> .window-frame) {
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    outline: 0;
+    overflow-y: auto;
+  }
+  #leaderboard-window > .window-frame .window-titlebar,
+  #daily-rewards-window > .window-frame .window-titlebar {
+    position: sticky;
+    top: 0;
+    z-index: 6;
+    background: var(--panel-l1-bg);
+  }
+
   /* Calendar: a bounded flex column. Neutralize the legacy .panel chrome; the
      frame body is a flex column so the month nav + grid stay fixed and the
      .cal-day-pane owns the scroll (its existing flex:1 / overflow-y:auto). */
