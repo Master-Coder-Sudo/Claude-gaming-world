@@ -82,7 +82,9 @@ export function openSubView(
   view: MobileSubView,
   parent: CategoryId,
 ): MobileNavState {
-  return { stack: [LANDING_LEVEL, { kind: 'category', id: parent }, { kind: 'subview', view, parent }] };
+  return {
+    stack: [LANDING_LEVEL, { kind: 'category', id: parent }, { kind: 'subview', view, parent }],
+  };
 }
 
 /** Pop one level. At the landing it is a no-op (the caller closes the menu; see
