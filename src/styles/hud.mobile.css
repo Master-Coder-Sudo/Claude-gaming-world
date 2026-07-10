@@ -4631,78 +4631,88 @@
     width: 100%;
     margin-bottom: var(--spacing-md);
   }
-  /* Stacked category list: full-width 56px rows (icon + label/subhead + count +
-     conflict dot + chevron); the whole row is the tap target that pushes the page. */
-  .opt-mshell-cats {
-    display: flex;
-    flex-direction: column;
+  /* Front-page category grid: icon-over-label tiles that fluidly fill 2 to N
+     columns by width (no JS breakpoint), led by the primary Return-to-Game tile.
+     Each tile is the tap target that pushes its category page. */
+  .opt-mshell-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--spacing-sm);
     margin-top: var(--spacing-sm);
   }
   .opt-mshell-cat {
+    position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: var(--spacing-sm);
-    width: 100%;
-    min-height: 56px;
-    padding: var(--spacing-sm);
-    border: 0;
-    border-bottom: 1px solid var(--panel-edge);
-    background: transparent;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    min-height: 92px;
+    padding: var(--spacing-md) var(--spacing-sm);
+    border: 1px solid var(--panel-edge);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-text-light) 4%, transparent);
     color: var(--color-text-light);
-    text-align: start;
+    text-align: center;
     cursor: var(--cursor-point);
   }
   .opt-mshell-cat:hover {
-    background: color-mix(in srgb, var(--color-text-light) 6%, transparent);
+    border-color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-text-light) 8%, transparent);
+  }
+  /* The primary Return-to-Game tile: accented like the .btn.is-primary CTA. */
+  .opt-mshell-cat.is-primary {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-bg-dark);
+  }
+  .opt-mshell-cat.is-primary:hover {
+    border-color: var(--color-text-light);
+    background: var(--color-primary);
+  }
+  .opt-mshell-cat.is-primary .opt-mshell-cat-icon,
+  .opt-mshell-cat.is-primary .opt-mshell-cat-label {
+    color: var(--color-bg-dark);
+  }
+  .opt-mshell-cat.is-primary .opt-mshell-cat-label {
+    font-family: var(--font-display);
   }
   .opt-mshell-cat-icon {
     flex: none;
     display: inline-flex;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     color: var(--color-accent);
   }
   .opt-mshell-cat-icon .ui-icon {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
   }
   .opt-mshell-cat-text {
-    flex: 1 1 auto;
     min-width: 0;
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
   .opt-mshell-cat-label {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     font-family: var(--font-ui);
     font-size: var(--text-md);
     color: var(--color-text-light);
   }
-  .opt-mshell-cat-sub {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
-  }
-  /* The conflict dot rides inline in the list row (not the absolute rail corner). */
-  .opt-mshell-cat .opt-tab-dot {
-    position: static;
-    flex: none;
-    inset: auto;
-  }
+  /* The muted subhead + the row chevron are list-only; the compact tile drops
+     them (the label carries the tile). */
+  .opt-mshell-cat-sub,
   .opt-mshell-chevron {
-    flex: none;
-    display: inline-flex;
-    width: 16px;
-    height: 16px;
-    color: var(--color-text-muted);
+    display: none;
   }
-  .opt-mshell-chevron .ui-icon {
-    width: 16px;
-    height: 16px;
+  /* Change count + conflict dot ride the tile's top-inline-end corner. */
+  .opt-mshell-cat .opt-tab-dot {
+    position: absolute;
+    inset: var(--spacing-xs) var(--spacing-xs) auto auto;
+  }
+  .opt-mshell-cat .opt-tab-count {
+    position: absolute;
+    inset: var(--spacing-xs) var(--spacing-xs) auto auto;
   }
   /* Sticky bottom Done bar, with the gamepad legend above it when a pad connects. */
   .opt-mshell-bar {
@@ -4722,6 +4732,38 @@
   .opt-mshell-cat:focus-visible {
     outline: var(--focus-ring-width) solid var(--focus-ring-color);
     outline-offset: calc(var(--focus-ring-offset) * -1);
+  }
+  /* Two-column detail (the reference mock): each category page lays its controls
+     out two-across. The section is the grid; its head spans the full width, and
+     every control row becomes a cell that stacks its label over its control (a
+     half-width cell is too narrow for the desktop label|control split). Sliders,
+     segments, dropdowns and toggles all read cleanly stacked. */
+  body.mobile-touch #options-menu .opt-mshell-content .opt-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    column-gap: var(--spacing-lg);
+    row-gap: var(--spacing-xs);
+  }
+  body.mobile-touch #options-menu .opt-mshell-content .opt-section-head {
+    grid-column: 1 / -1;
+  }
+  body.mobile-touch #options-menu .opt-mshell-content .opt-row {
+    grid-template-columns: 1fr;
+    align-items: start;
+    row-gap: var(--spacing-xs);
+  }
+  body.mobile-touch #options-menu .opt-mshell-content .opt-row-label {
+    white-space: normal;
+  }
+  body.mobile-touch #options-menu .opt-mshell-content .opt-row-control {
+    justify-content: flex-start;
+  }
+  /* Notes / help text and any bespoke wide block (the theme colour swatch grid)
+     span the full width so they are never halved. */
+  body.mobile-touch #options-menu .opt-mshell-content .opt-note,
+  body.mobile-touch #options-menu .opt-mshell-content .theme-color-grid {
+    grid-column: 1 / -1;
   }
   /* Touch floors for the reused .opt-* controls inside the shell (spec section 9:
      48px rows, larger switch/segments, a 16px search input floor that does not

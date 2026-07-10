@@ -663,21 +663,18 @@ export class OptionsWindow {
     const { body, footer } = this.ensureFrame();
     const mode = this.renderMode();
     this.lastRenderMode = mode;
-    // The wide-mobile rail marker keeps the frame's own titlebar + footer visible
-    // (the narrow shell hides them and paints its own header + Done bar); it also
-    // scopes the wide-mode CSS. Off for desktop and the narrow shell.
-    this.deps.root().classList.toggle('opt-mrail', mode === 'rail');
-    // NARROW body.mobile-touch: the dedicated back-stack shell (spec section 9).
+    // body.mobile-touch: the dedicated back-stack shell (grid landing + pushed
+    // category pages). The desktop-style rail two-pane was retired on touch, so
+    // every mobile width lands here; the shell paints its own header + Done bar.
     if (mode === 'backstack') {
-      // Seed the back-stack from the current desktop selection so a live
-      // wide->narrow rotate keeps the visible page (idempotent during normal
-      // shell navigation, which keeps activeCategory/subView in sync with the nav).
+      // Seed the back-stack from the current selection so navigation keeps the
+      // visible page (idempotent during normal shell navigation, which keeps
+      // activeCategory/subView in sync with the nav).
       this.mobileNav = navForSelection(this.activeCategory, this.subView);
       this.renderMobile(body, footer);
       return;
     }
-    // DESKTOP or WIDE-mobile rail: the shared two-pane path (rail + detail),
-    // byte-identical dispatch; the wide-mobile touch sizing is CSS-only.
+    // DESKTOP: the two-pane rail + detail (byte-identical dispatch to the shell).
     this.renderTwoPane(body, footer);
   }
 
