@@ -4,6 +4,8 @@
 // mid-distance band. All geometry/materials are shared caches — dispose()
 // only releases mixer bindings.
 import * as THREE from 'three';
+import { ITEMS } from '../../sim/data';
+import { weaponHand } from '../../sim/equipment_rules';
 import type { OverheadEmoteId } from '../../world_api';
 import type { FormTint } from '../form_tint';
 import { GFX } from '../gfx';
@@ -333,16 +335,34 @@ export class CharacterVisual {
   playAttack(abilityId?: string): void {
     if (this.deadLock) return;
     // A mapped ability plays its specific swing clip (if the model has it);
-    // everything else rotates through the generic attack clips for variety.
+    // a plain auto then swings by weapon style (two-hander overhead / dual
+    // wield double chop) when the manifest maps one, and everything else
+    // rotates through the generic attack clips for variety.
     const override = abilityId ? this.def.clips.attackByAbility?.[abilityId] : undefined;
     if (override && this.action(override)) {
       this.playOneShot(override, this.def.attackTimeScale ?? 1.3);
+      return;
+    }
+    const style = this.weaponSwingStyle();
+    const handClip = style ? this.def.clips.attackByHand?.[style] : undefined;
+    if (handClip && this.action(handClip)) {
+      this.playOneShot(handClip, this.def.attackTimeScale ?? 1.3);
       return;
     }
     const clips = this.def.clips.attack;
     if (clips.length === 0) return;
     const name = clips[this.attackIdx++ % clips.length];
     this.playOneShot(name, this.def.attackTimeScale ?? 1.3);
+  }
+
+  /** 'twohand' when the mainhand is a two-handed weapon, 'dualwield' when both
+   *  hands hold weapons; null keeps the generic attack rotation. */
+  private weaponSwingStyle(): 'twohand' | 'dualwield' | null {
+    const mh = this.mainhandItemId ? ITEMS[this.mainhandItemId] : undefined;
+    if (mh?.kind !== 'weapon') return null;
+    if (weaponHand(mh) === 'twohand') return 'twohand';
+    const oh = this.offhandItemId ? ITEMS[this.offhandItemId] : undefined;
+    return oh?.kind === 'weapon' ? 'dualwield' : null;
   }
 
   /** Instant whirlwind (Bladed Gyre): swing the blades fast while the body does
@@ -868,6 +888,7 @@ function clipNamesOf(def: VisualDef): string[] {
     c.death,
     ...(c.attack ?? []),
     ...Object.values(c.attackByAbility ?? {}),
+    ...Object.values(c.attackByHand ?? {}),
     ...(c.hit ?? []),
     c.cast,
     c.sitDown,

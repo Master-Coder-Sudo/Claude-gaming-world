@@ -24,6 +24,11 @@ export interface ClipMap {
    *  attack ability plays its mapped clip instead of the round-robin. The clip
    *  must exist in the model; missing keys/clips fall back to `attack`. */
   attackByAbility?: Record<string, string>;
+  /** optional weapon-style swing override for plain autos: a two-handed
+   *  mainhand (or a weapon in each hand) swings its matching clip instead of
+   *  the round-robin. Ability overrides still win; missing clips fall back
+   *  to `attack`. Cosmetic only, timing untouched. */
+  attackByHand?: { twohand?: string; dualwield?: string };
   death: string;
   /** hit-react one-shots (optional — spider/raptor rigs have none) */
   hit?: string[];
@@ -437,6 +442,12 @@ export const VISUALS: Record<string, VisualDef> = {
     // heavy 2H chop stands in for finishers and the dual chop for fury flurries.
     clips: {
       ...kaykit(['1H_Melee_Attack_Chop', '1H_Melee_Attack_Slice_Diagonal']),
+      // Weapon-style autos: a greatsword swings the two-handed overhead, a
+      // Fury dual wielder the double chop; one-handers keep the rotation.
+      attackByHand: {
+        twohand: '2H_Melee_Attack_Chop',
+        dualwield: 'Dualwield_Melee_Attack_Chop',
+      },
       attackByAbility: {
         // Heavy finishers / big single hits: the two-handed overhead.
         mortal_strike: '2H_Melee_Attack_Chop',
@@ -474,7 +485,11 @@ export const VISUALS: Record<string, VisualDef> = {
   player_paladin: {
     url: `${PLAYERS}/paladin.glb`,
     height: HUMANOID_H,
-    clips: kaykit(['1H_Melee_Attack_Chop', '1H_Melee_Attack_Slice_Diagonal']),
+    clips: {
+      ...kaykit(['1H_Melee_Attack_Chop', '1H_Melee_Attack_Slice_Diagonal']),
+      // Paladins can wield the vendor greatswords; no dual wield.
+      attackByHand: { twohand: '2H_Melee_Attack_Chop' },
+    },
     // dedicated paladin model (helmeted variant) — ships its own Cape + Helmet
     // meshes and texture, so no show-list/tint. Shield + paladin hammer arrive
     // in the weapons pass; the gripped axe holds the slot until then.
@@ -517,7 +532,11 @@ export const VISUALS: Record<string, VisualDef> = {
   player_shaman: {
     url: `${PLAYERS}/barbarian.glb`,
     height: HUMANOID_H,
-    clips: kaykit(['1H_Melee_Attack_Chop', '1H_Melee_Attack_Slice_Diagonal']),
+    clips: {
+      ...kaykit(['1H_Melee_Attack_Chop', '1H_Melee_Attack_Slice_Diagonal']),
+      // Shamans can wield the vendor greatswords; no dual wield.
+      attackByHand: { twohand: '2H_Melee_Attack_Chop' },
+    },
     show: ['Barbarian_BearHat'], // v2 barbarian renamed Hat→BearHat and dropped the round shield mesh
     attach: [
       { url: `${WEAPONS}/axe_1handed.glb`, bone: 'handslot.r' },
