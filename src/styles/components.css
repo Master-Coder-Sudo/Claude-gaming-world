@@ -2590,14 +2590,28 @@
     outline: 0;
     box-shadow: none;
   }
-  /* The generic .window:has(> .window-frame) rule sets overflow:hidden for the
-     flex-column windows; char/crafting stay block-scrolled, so restore their
-     root scroll (bounded by the shared .window max-height) so tall content
-     stays reachable. Talents moved to the full-height model (its section
-     above): the root keeps the hidden overflow and #tal-body scrolls instead. */
+  /* char / crafting / valecup adopt the shared full-height flex model (like
+     talents), so every resizable window behaves the same: a definite root height
+     (the standard .window viewport cap; an explicit resize height overrides it
+     inline) plus a flex-column frame means the inner .window-body scrolls WITHIN
+     the frame instead of the whole root scrolling. That keeps the scrollbar
+     inside the frame chrome (not on the outer window edge) and the SE resize grip
+     pinned at the frame's visible corner, matching every other framed window.
+     Replaces the old block-scroll override that let the root grow and scroll
+     (scrollbar outside the frame, grip scrolled below the fold). valecup's own
+     :has block below is aligned to overflow:hidden for the same reason. */
   #char-window:has(> .window-frame),
-  #crafting-window:has(> .window-frame) {
-    overflow-y: auto;
+  #crafting-window:has(> .window-frame),
+  #valecup-window:has(> .window-frame) {
+    height: calc(var(--app-vh, 100vh) * 0.85 / var(--window-scale) - 24px);
+    overflow: hidden;
+  }
+  #char-window > .window-frame,
+  #crafting-window > .window-frame,
+  #valecup-window > .window-frame {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
   /* The resize gap fill (a root sized taller than its content must not show the
      world through the transparent root) is now the ONE shared rule on every
@@ -3210,34 +3224,11 @@
     justify-content: space-between;
     margin-bottom: var(--spacing-sm);
   }
-  /* Heroic Quartermaster resize grip: its frame nests one level under .heroic-shop,
-     so the shared `.window.window-resizable > .window-frame` grip (a direct-child
-     selector) cannot reach it, and the "bottom right especially" grip was missing.
-     Restate the SAME token grip on the two-level heroic chain so the marks shop
-     shows the visible SE grip exactly like the copper vendor and the Market.
-     Hidden under body.mobile-touch (the corner band still resizes there). */
-  .window.window-resizable > .heroic-shop > .window-frame {
-    background-image:
-      repeating-linear-gradient(135deg, transparent 0 3px, var(--gold-dim) 3px 4px),
-      var(--panel-l1-bg);
-    background-size:
-      12px 12px,
-      auto;
-    background-position:
-      right 3px bottom 3px,
-      0 0;
-    background-repeat: no-repeat, no-repeat;
-  }
-  body.mobile-touch .window.window-resizable > .heroic-shop > .window-frame {
-    background-image: var(--panel-l1-bg);
-    /* Same single-layer collapse as the shared grip override below (see the
-       body.mobile-touch .window.window-resizable > .window-frame rule): the
-       grip layer's 12px/bottom-right/no-repeat lists must be reset with it or
-       the heroic shop panel paints as a 12x12 dot on touch. */
-    background-size: auto;
-    background-position: 0 0;
-    background-repeat: repeat;
-  }
+  /* The Heroic Quartermaster's frame nests one level under .heroic-shop, so the
+     old direct-child frame grip could never reach it and needed a bespoke restate.
+     The grip is now the .window root ::after pseudo (layout.css), which is
+     nesting-agnostic, so the heroic shop gets the SE grip for free like every
+     other resizable window. No per-tenant grip rule needed. */
 
   /* ---------- bags + bank AAA frame ---------- */
   /* Batch 1 of the all-windows AAA pass: the bags (#bags) and bank (#bank-window)
@@ -4748,8 +4739,10 @@
     border: 0;
     outline: 0;
     box-shadow: none;
-    overflow-x: hidden;
-    overflow-y: auto;
+    /* overflow: hidden (not the old overflow-y: auto): valecup joins the shared
+       full-height flex model above, so its .window-body scrolls internally and
+       the root never scrolls (scrollbar stays inside the frame, grip stays put). */
+    overflow: hidden;
   }
   #valecup-window > .window-frame .window-titlebar {
     position: sticky;
@@ -9011,39 +9004,13 @@
     border-radius: var(--radius-md);
     color: var(--color-text-light);
   }
-  /* Visible resize grip for FRAME-mounted resizable windows. The root's diagonal
-     grip layer (layout.css .window.window-resizable) is wiped for framed windows:
-     #<id>:has(> .window-frame) neutralizes the root background, and the frame's own
-     `background` above (in this @layer components, which wins over @layer layout)
-     re-covers it. So restate the SAME token grip HERE on the inner .window-frame
-     (the element that paints the panel), where it survives the layer order. Only a
-     resizable host stamps .window-resizable, so non-resizable framed windows get no
-     grip. Hidden under body.mobile-touch (windows dock/full-screen; the grip would
-     fight the dock chrome, and the touch corner band still resizes). */
-  .window.window-resizable > .window-frame {
-    background-image:
-      repeating-linear-gradient(135deg, transparent 0 3px, var(--gold-dim) 3px 4px),
-      var(--panel-l1-bg);
-    background-size:
-      12px 12px,
-      auto;
-    background-position:
-      right 3px bottom 3px,
-      0 0;
-    background-repeat: no-repeat, no-repeat;
-  }
-  body.mobile-touch .window.window-resizable > .window-frame {
-    background-image: var(--panel-l1-bg);
-    /* Dropping the grip layer collapses the image list to ONE layer, so the
-       per-layer size/position/repeat lists above MUST be reset with it: CSS
-       truncates the excess list values, and the leftovers (12px 12px, bottom
-       right, no-repeat) would apply to the panel gradient itself, painting the
-       whole panel as a single 12x12 dot and letting the 3D world show through
-       every resizable framed window on touch (live bug, PR #1736 round 3). */
-    background-size: auto;
-    background-position: 0 0;
-    background-repeat: repeat;
-  }
+  /* The resize grip is now ONE ::after pseudo on the .window root (layout.css),
+     drawn above the frame body and any sticky footer, so a framed window needs no
+     grip layer in its own background: the base .window-frame `background:
+     var(--panel-l1-bg)` above is the whole story. This also retires the old
+     multi-layer frame-background grip (a grip gradient layered over the panel
+     gradient), whose per-layer size/position lists leaked into a 12x12 dot on
+     touch (PR #1736 round 3): a single-layer background can no longer truncate. */
   /* Move / resize / viewport-fit parity with the World Market for every
      grammar-built window: the host .window (shown as display:flex, the Market
      precedent) becomes a clipping flex column, and the frame fills it as the

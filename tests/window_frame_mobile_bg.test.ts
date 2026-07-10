@@ -1,21 +1,21 @@
 // Mobile window-frame background guards.
 //
-// Live bug (PR #1736 feedback round 3): every resizable framed window was
-// completely see-through on touch. The desktop grip rule paints TWO background
-// layers on `.window.window-resizable > .window-frame` (the 12px corner grip +
-// the panel gradient) with per-layer background-size/position/repeat lists
-// (12px 12px / bottom-right / no-repeat for the grip layer). The mobile
-// override then swapped in a SINGLE-layer background-image (just the gradient)
-// without resetting those lists, so CSS applied the grip layer's first values
-// to the gradient: the whole panel painted as one unrepeated 12x12px tile
-// parked at bottom-right, and the 3D world showed through everything else.
+// Historical bug (PR #1736 feedback round 3): every resizable framed window was
+// see-through on touch because the resize grip was a SECOND background layer on
+// `.window.window-resizable > .window-frame` (12px corner grip + panel gradient),
+// and the mobile override swapped in a single-layer image without resetting the
+// per-layer size/position/repeat lists, so the panel painted as one 12x12 tile.
 //
-// These are source-scan pins on the two rules that carry the hazard plus the
-// touch never-see-through floor; they parse the shipped CSS, not a browser.
+// The grip is now ONE `::after` pseudo on the .window ROOT (layout.css), so the
+// frame background is single-layer everywhere and that truncation leak is
+// structurally impossible: no framed window can layer a grip over its gradient.
+// These pins hold that invariant plus the touch never-see-through floor. They
+// parse the shipped CSS, not a browser.
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 const components = readFileSync('src/styles/components.css', 'utf8');
+const layout = readFileSync('src/styles/layout.css', 'utf8');
 const hudMobile = readFileSync('src/styles/hud.mobile.css', 'utf8');
 
 /** Extract the declaration block of the rule whose selector list contains EXACTLY this selector. */
@@ -35,36 +35,38 @@ function ruleBlock(css: string, selector: string): string {
 }
 
 describe('mobile window-frame background layer hygiene', () => {
-  const pinned = [
-    {
-      name: 'shared grip override',
-      selector: 'body.mobile-touch .window.window-resizable > .window-frame',
-    },
-    {
-      name: 'heroic-shop grip override',
-      selector: 'body.mobile-touch .window.window-resizable > .heroic-shop > .window-frame',
-    },
-  ];
+  it('the resize grip is a single ::after pseudo on the window root, not a frame layer', () => {
+    // A grip drawn as a background layer on any element (frame or the heroic-shop
+    // nested frame) is exactly what leaked the 12x12 dot on touch. The grip now
+    // lives on the root pseudo, so those layered frame-grip rules must be gone.
+    expect(ruleBlock(components, '.window.window-resizable > .window-frame')).toBe('');
+    expect(ruleBlock(components, '.window.window-resizable > .heroic-shop > .window-frame')).toBe(
+      '',
+    );
+    // The root pseudo carries the diagonal grip gradient.
+    const grip = ruleBlock(layout, '.window.window-resizable::after');
+    expect(grip, 'root grip pseudo missing').not.toBe('');
+    expect(grip).toMatch(/background-image:\s*repeating-linear-gradient\(135deg/);
+    expect(grip).toMatch(/content:\s*""/);
+    // Hidden on touch (the dock chrome owns the corner).
+    expect(ruleBlock(layout, 'body.mobile-touch .window.window-resizable::after')).toMatch(
+      /display:\s*none/,
+    );
+  });
 
-  for (const rule of pinned) {
-    it(`${rule.name} resets the grip layer geometry it un-layers`, () => {
-      const block = ruleBlock(components, rule.selector);
-      expect(block, `rule not found: ${rule.selector}`).not.toBe('');
-      // The override replaces the two-layer image list with one layer, so it must
-      // also reset the per-layer lists the desktop grip rule set, or the single
-      // gradient inherits the grip's 12px no-repeat bottom-right geometry and the
-      // panel paints as a 12x12 dot (the shipped bug). Accept either the explicit
-      // longhand resets or a `background:` shorthand (which resets all of them).
-      const usesShorthand = /(^|;)\s*background\s*:/.test(block);
-      if (!usesShorthand) {
-        expect(block, 'background-size reset missing').toMatch(/background-size\s*:\s*auto/);
-        expect(block, 'background-position reset missing').toMatch(
-          /background-position\s*:\s*0(px)?\s+0(px)?/,
-        );
-        expect(block, 'background-repeat reset missing').toMatch(/background-repeat\s*:\s*repeat/);
-      }
-    });
-  }
+  it('no framed window layers a grip gradient over its panel background', () => {
+    // Backstop for the whole leak class: the grip gradient must not appear in any
+    // `.window-frame` background rule (only on the root pseudo above), so a
+    // single-layer frame background can never truncate to a dot on touch.
+    const clean = components.replace(/\/\*[\s\S]*?\*\//g, '');
+    for (const m of clean.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+      const sel = m[1].replace(/\s+/g, ' ').trim();
+      if (!/\.window-frame\b/.test(sel) || /::after|::before/.test(sel)) continue;
+      expect(m[2], `grip gradient must not layer on a frame background: ${sel}`).not.toMatch(
+        /repeating-linear-gradient\(135deg/,
+      );
+    }
+  });
 
   it('touch keeps the solid never-see-through floor under every framed window', () => {
     // The tokens L2 doctrine: a modal surface must never composite the 3D world
