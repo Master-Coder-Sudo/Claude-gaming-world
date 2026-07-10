@@ -619,6 +619,7 @@ export const en_XA: EnTranslations = {
       "keybindEvicted": "[Ɓóúñð {key} ţó {action}; ŕéɱóʋéð ƒŕóɱ {evicted}]",
       "keybindTaken": "[Ķéý ŕéɱóʋéð]",
       "keybindUnbound": "[{action} ĥáš ñó ķéý]",
+      "keybindModifierHint": "[Ţíþ: ýóú çáñ ƀíñð ɱóðíƒíéŕ çóɱƀíñáţíóñš. Ĥóļð Šĥíƒţ, Çţŕļ, óŕ Áļţ ŵĥíļé þŕéššíñĝ á ķéý ţó çáþţúŕé ţĥé çóɱƀó (ƒóŕ éẋáɱþļé Šĥíƒţ+1).]",
       "conflictDot": "[Ɓíñðíñĝ çóñƒļíçţ]",
       "overviewConflictAlert": "[Šóɱé ķéý ƀíñðíñĝš çóñƒļíçţ óŕ áŕé úñƀóúñð.]",
       "sec": {

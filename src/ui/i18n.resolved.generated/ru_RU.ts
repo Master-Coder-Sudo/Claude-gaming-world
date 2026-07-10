@@ -619,6 +619,7 @@ export const ru_RU: EnTranslations = {
       "keybindEvicted": "{key} назначена на «{action}»; снята с «{evicted}».",
       "keybindTaken": "Клавиша снята",
       "keybindUnbound": "{action} has no key",
+      "keybindModifierHint": "Совет: можно назначать сочетания с модификатором. Удерживайте Shift, Ctrl или Alt и нажмите клавишу, чтобы записать сочетание (например, Shift+1).",
       "conflictDot": "Конфликт клавиш",
       "overviewConflictAlert": "Некоторые привязки клавиш конфликтуют или не назначены.",
       "sec": {

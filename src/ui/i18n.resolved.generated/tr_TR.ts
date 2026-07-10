@@ -619,6 +619,7 @@ export const tr_TR: EnTranslations = {
       "keybindEvicted": "Bound {key} to {action}; removed from {evicted}",
       "keybindTaken": "Key removed",
       "keybindUnbound": "{action} has no key",
+      "keybindModifierHint": "Tip: you can bind modifier combinations. Hold Shift, Ctrl, or Alt while pressing a key to capture the combo (for example Shift+1).",
       "conflictDot": "Binding conflict",
       "overviewConflictAlert": "Some key bindings conflict or are unbound.",
       "sec": {

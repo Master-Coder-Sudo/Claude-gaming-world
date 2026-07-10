@@ -2204,6 +2204,11 @@ export class OptionsWindow {
     const note = el('div', 'kb-note');
     note.textContent = this.keybindNote || t('hud.options.keybindHelpMouseCamera');
     parent.appendChild(note);
+    // Always-visible helper: modifier combos (Shift/Ctrl/Alt + key) are bindable.
+    // A separate line so a transient keybindNote above never clobbers it.
+    const modHint = el('div', 'kb-note kb-note-modifiers');
+    modHint.textContent = t('hudChrome.options.keybindModifierHint');
+    parent.appendChild(modHint);
     const cols = el('div', 'kb-cols');
     const attackMoveOn = !!hooks?.settings.get('attackMove');
     for (const category of BIND_CATEGORIES) {

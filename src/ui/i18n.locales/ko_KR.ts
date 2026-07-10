@@ -455,6 +455,8 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.options.lockCursorOnRotate': '회전 중 커서 고정',
   'hudChrome.options.keybindHelpLockCursorOnRotate':
     '드래그하여 카메라를 회전하는 동안 마우스 커서를 창 안에 유지하여 화면 가장자리에 닿거나 다른 모니터로 이동하지 않도록 합니다. 자유로운 커서를 원하면 끄세요.',
+  'hudChrome.options.keybindModifierHint':
+    '팁: 조합 키를 지정할 수 있습니다. Shift, Ctrl 또는 Alt를 누른 채 키를 누르면 조합이 등록됩니다(예: Shift+1).',
   'hudChrome.options.showWalletOnCharacterScreen': '캐릭터 화면에 지갑 표시',
   'hudChrome.options.showWalletOnPlayerCard': '플레이어 카드에 지갑 표시',
   'hudChrome.options.showDevBadges': '개발자 배지 표시',

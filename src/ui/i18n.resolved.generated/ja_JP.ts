@@ -619,6 +619,7 @@ export const ja_JP: EnTranslations = {
       "keybindEvicted": "{key} を {action} に割り当てました。{evicted} からは解除されました。",
       "keybindTaken": "キー解除",
       "keybindUnbound": "{action} has no key",
+      "keybindModifierHint": "ヒント：修飾キーの組み合わせを割り当てられます。Shift、Ctrl、Alt のいずれかを押しながらキーを押すと、その組み合わせが登録されます（例：Shift+1）。",
       "conflictDot": "キー競合",
       "overviewConflictAlert": "一部のキー割り当てが競合しているか未設定です。",
       "sec": {

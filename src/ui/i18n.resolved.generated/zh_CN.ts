@@ -619,6 +619,7 @@ export const zh_CN: EnTranslations = {
       "keybindEvicted": "已将 {key} 绑定到 {action}；已从 {evicted} 移除。",
       "keybindTaken": "按键已移除",
       "keybindUnbound": "{action} has no key",
+      "keybindModifierHint": "提示：你可以绑定组合键。按住 Shift、Ctrl 或 Alt 的同时按下某个键即可录制组合键（例如 Shift+1）。",
       "conflictDot": "按键冲突",
       "overviewConflictAlert": "部分按键绑定存在冲突或未绑定。",
       "sec": {

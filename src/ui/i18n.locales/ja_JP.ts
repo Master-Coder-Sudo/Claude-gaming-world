@@ -454,6 +454,8 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'hudChrome.options.lockCursorOnRotate': '回転中はカーソルを固定',
   'hudChrome.options.keybindHelpLockCursorOnRotate':
     'ドラッグでカメラを回転させている間、マウスカーソルをウィンドウ内に固定し、画面の端や別のモニターに移動しないようにします。自由なカーソルを好む場合はオフにしてください。',
+  'hudChrome.options.keybindModifierHint':
+    'ヒント：修飾キーの組み合わせを割り当てられます。Shift、Ctrl、Alt のいずれかを押しながらキーを押すと、その組み合わせが登録されます（例：Shift+1）。',
   'hudChrome.options.showWalletOnCharacterScreen': 'キャラクター画面にウォレットを表示',
   'hudChrome.options.showWalletOnPlayerCard': 'プレイヤーカードにウォレットを表示',
   'hudChrome.options.showDevBadges': '開発者バッジを表示',

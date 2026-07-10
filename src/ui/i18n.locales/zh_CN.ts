@@ -436,6 +436,8 @@ export const zh_CN: Partial<Record<TranslationKey, string>> = {
   'hudChrome.options.lockCursorOnRotate': '旋转时锁定光标',
   'hudChrome.options.keybindHelpLockCursorOnRotate':
     '拖动旋转镜头时将鼠标光标保持在窗口内，使其无法到达屏幕边缘或移动到另一台显示器。如果你喜欢自由光标，请关闭此选项。',
+  'hudChrome.options.keybindModifierHint':
+    '提示：你可以绑定组合键。按住 Shift、Ctrl 或 Alt 的同时按下某个键即可录制组合键（例如 Shift+1）。',
   'hudChrome.options.showWalletOnCharacterScreen': '在角色界面显示钱包',
   'hudChrome.options.showWalletOnPlayerCard': '在玩家卡片显示钱包',
   'hudChrome.options.showDevBadges': '显示开发者徽章',

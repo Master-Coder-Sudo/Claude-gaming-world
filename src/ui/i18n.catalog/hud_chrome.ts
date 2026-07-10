@@ -721,6 +721,11 @@ export const hudChromeStrings = {
     keybindEvicted: 'Bound {key} to {action}; removed from {evicted}',
     keybindTaken: 'Key removed',
     keybindUnbound: '{action} has no key',
+    // Keybinds pane helper line (under the capture instructions): modifier combos
+    // are bindable. Wordy prose, so its five non-Latin fills (zh_CN/zh_TW/ja_JP/
+    // ko_KR/ru_RU) land in this same change (M16).
+    keybindModifierHint:
+      'Tip: you can bind modifier combinations. Hold Shift, Ctrl, or Alt while pressing a key to capture the combo (for example Shift+1).',
     // The aggregate rail warning dot (spec section 7) and the Overview alert row
     // (spec section 3) for a keybind conflict / fully-unbound action. Both wordy, so
     // their five non-Latin fills land in this same change (M16).

@@ -619,6 +619,7 @@ export const ko_KR: EnTranslations = {
       "keybindEvicted": "{key}을 {action}에 지정했습니다. {evicted}에서는 해제되었습니다.",
       "keybindTaken": "키 해제됨",
       "keybindUnbound": "{action} has no key",
+      "keybindModifierHint": "팁: 조합 키를 지정할 수 있습니다. Shift, Ctrl 또는 Alt를 누른 채 키를 누르면 조합이 등록됩니다(예: Shift+1).",
       "conflictDot": "키 충돌",
       "overviewConflictAlert": "일부 키 지정이 충돌하거나 지정되지 않았습니다.",
       "sec": {
