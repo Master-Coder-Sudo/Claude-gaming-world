@@ -3,6 +3,18 @@ import { fbm2, hash2 } from './rng';
 import type { BiomeId, HeightStamp, WorldContent } from './types';
 import { isInSowfieldShell, SOWFIELD_FLAT, sowfieldStandLift } from './vale_cup_layout';
 
+// LRU cache for terrainHeight: the renderer and sim both sample the same (x,z)
+// positions repeatedly (chunk rebuilds, ground clamping, prop placement), so
+// caching avoids redundant FBM noise on every query. Max 4096 entries; beyond
+// that the oldest entry is evicted. Pure function → no invalidation needed.
+const _terrainCache = new Map<string, number>();
+const TERRAIN_CACHE_MAX = 4096;
+function terrainCacheKey(x: number, z: number, seed: number): string {
+  // Round to cm precision — tight enough for visual indistinguishability,
+  // coarse enough to get useful cache hits on nearby samples.
+  return `${Math.round(x * 100)},${Math.round(z * 100)},${seed}`;
+}
+
 // Terrain is a pure function of (x, z, seed) for a given active world content:
 // both the sim (ground clamping) and the renderer (mesh) sample the same
 // heightfield, so they always agree. The active content is the built-in 3-zone
@@ -452,6 +464,10 @@ export function groundHeight(x: number, z: number, seed: number): number {
 }
 
 export function terrainHeight(x: number, z: number, seed: number): number {
+  const ck = terrainCacheKey(x, z, seed);
+  const cached = _terrainCache.get(ck);
+  if (cached !== undefined) return cached;
+
   const w = world();
   let h = baseHeight(x, z, seed);
 
@@ -538,6 +554,13 @@ export function terrainHeight(x: number, z: number, seed: number): number {
   h += terraced * mountainDetail + mountainAdd * (1 - mountainDetail);
   h += mirefenImpactCraterOffset(x, z);
   h = applyEditLayer(x, z, h);
+
+  if (_terrainCache.size >= TERRAIN_CACHE_MAX) {
+    // Evict the oldest entry (Map iteration order is insertion order)
+    const first = _terrainCache.keys().next().value as string;
+    _terrainCache.delete(first);
+  }
+  _terrainCache.set(ck, h);
   return h;
 }
 
