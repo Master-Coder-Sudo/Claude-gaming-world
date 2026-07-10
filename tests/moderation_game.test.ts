@@ -106,6 +106,17 @@ function eventTexts(ws: FakeWs): string[] {
     .filter((text): text is string => typeof text === 'string');
 }
 
+// Only 'log' events land in the chat log; 'error' events are a fading toast.
+// The prisoner notices must ride the durable log path, so assert through this.
+function logEventTexts(ws: FakeWs): string[] {
+  return frames(ws)
+    .filter((frame) => frame.t === 'events')
+    .flatMap((frame) => frame.list ?? [])
+    .filter((event: { type?: string; text?: string }) => event.type === 'log')
+    .map((event: { type?: string; text?: string }) => event.text)
+    .filter((text): text is string => typeof text === 'string');
+}
+
 function command(server: GameServer, session: ClientSession, text: string): void {
   server.handleMessage(session, JSON.stringify({ t: 'cmd', cmd: 'chat', text }));
 }
@@ -301,7 +312,7 @@ describe('in-game moderation actions', () => {
     expect(target.jailed?.returnPos).toEqual({ x: original.x, z: original.z });
     expect(isInJailCage(entity(server, target.pid).pos)).toBe(true);
     expect(eventTexts(moderatorWs)).toContain('Jailed Cellmate for 2 hours.');
-    expect(eventTexts(targetWs)).toContain('A moderator has moved you to jail for 2 hours.');
+    expect(logEventTexts(targetWs)).toContain('A moderator has moved you to jail for 2 hours.');
 
     server.sim.dealDamage(
       null,
@@ -347,7 +358,7 @@ describe('in-game moderation actions', () => {
     expect(entity(server, target.pid).pos.x).toBeCloseTo(original.x);
     expect(entity(server, target.pid).pos.z).toBeCloseTo(original.z);
     expect(eventTexts(moderatorWs)).toContain('Released Cellmate from jail.');
-    expect(eventTexts(targetWs)).toContain('A moderator has released you from jail.');
+    expect(logEventTexts(targetWs)).toContain('A moderator has released you from jail.');
   });
 
   it('lets moderators visit jail and restores the visit position', () => {
@@ -522,7 +533,7 @@ describe('in-game moderation actions', () => {
     expect(target.jailed?.until).toBeGreaterThanOrEqual(before + 10 * 60_000);
     expect(target.jailed?.until).toBeLessThanOrEqual(Date.now() + 10 * 60_000);
     expect(isInJailCage(entity(server, target.pid).pos)).toBe(true);
-    expect(eventTexts(targetWs)).toContain('A moderator has moved you to jail for 10 minutes.');
+    expect(logEventTexts(targetWs)).toContain('A moderator has moved you to jail for 10 minutes.');
     expect(eventTexts(moderatorWs)).toContain('Jailed Doingtime for 10 minutes.');
 
     // The sentence is still running: enforcement keeps them in the cage.
@@ -538,7 +549,7 @@ describe('in-game moderation actions', () => {
     expect(entity(server, target.pid).pos.x).toBeCloseTo(original.x);
     expect(entity(server, target.pid).pos.z).toBeCloseTo(original.z);
     expect(entity(server, target.pid).jailed).toBe(false);
-    expect(eventTexts(targetWs)).toContain('Your jail sentence has ended.');
+    expect(logEventTexts(targetWs)).toContain('Your jail sentence has ended.');
 
     // Jailing without a sentence length is no longer a thing: usage notice,
     // nobody moves.

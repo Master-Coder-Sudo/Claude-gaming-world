@@ -1201,7 +1201,10 @@ export class GameServer {
     this.sim.vcupQueueLeave(target.pid);
     this.sim.vcupResolveDesertion(target.pid);
     this.teleportJailedSession(target);
-    this.sendChatNotice(
+    // System notice (chat log), not the fading error toast: the prisoner must be
+    // able to read the sentence after alt-tabbing back, like other moderation
+    // actions leave a durable record.
+    this.sendSystemNotice(
       target,
       `A moderator has moved you to jail for ${formatDuration(minutes * 60)}.`,
     );
@@ -1209,7 +1212,7 @@ export class GameServer {
 
   private unjailSession(_moderator: ClientSession, target: ClientSession): void {
     if (this.releaseJailedSession(target)) {
-      this.sendChatNotice(target, 'A moderator has released you from jail.');
+      this.sendSystemNotice(target, 'A moderator has released you from jail.');
     }
   }
 
@@ -1531,7 +1534,7 @@ export class GameServer {
       // Timed sentence served: release to the pre-jail position.
       if (session.jailed.until !== undefined && Date.now() >= session.jailed.until) {
         if (this.releaseJailedSession(session)) {
-          this.sendChatNotice(session, 'Your jail sentence has ended.');
+          this.sendSystemNotice(session, 'Your jail sentence has ended.');
         }
         continue;
       }
