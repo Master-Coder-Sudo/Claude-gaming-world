@@ -16,7 +16,9 @@ export const pending: Record<string, readonly string[]> = {
     "entities.quests.q_prof_intro.text",
     "entities.quests.q_prof_intro.title",
     "hudChrome.itemHeroicTag",
-    "hudChrome.itemSoulbound"
+    "hudChrome.itemSoulbound",
+    "hudChrome.mailbox.parcelQtyDecreaseAria",
+    "hudChrome.mailbox.parcelQtyIncreaseAria"
   ],
   "es_ES": [
     "entities.items.chunk_of_ore.name",
@@ -25,7 +27,9 @@ export const pending: Record<string, readonly string[]> = {
     "entities.quests.q_prof_intro.text",
     "entities.quests.q_prof_intro.title",
     "hudChrome.itemHeroicTag",
-    "hudChrome.itemSoulbound"
+    "hudChrome.itemSoulbound",
+    "hudChrome.mailbox.parcelQtyDecreaseAria",
+    "hudChrome.mailbox.parcelQtyIncreaseAria"
   ],
   "fr_FR": [
     "entities.items.chunk_of_ore.name",
@@ -34,7 +38,9 @@ export const pending: Record<string, readonly string[]> = {
     "entities.quests.q_prof_intro.text",
     "entities.quests.q_prof_intro.title",
     "hudChrome.itemHeroicTag",
-    "hudChrome.itemSoulbound"
+    "hudChrome.itemSoulbound",
+    "hudChrome.mailbox.parcelQtyDecreaseAria",
+    "hudChrome.mailbox.parcelQtyIncreaseAria"
   ],
   "fr_CA": [
     "entities.items.chunk_of_ore.name",
@@ -43,7 +49,9 @@ export const pending: Record<string, readonly string[]> = {
     "entities.quests.q_prof_intro.text",
     "entities.quests.q_prof_intro.title",
     "hudChrome.itemHeroicTag",
-    "hudChrome.itemSoulbound"
+    "hudChrome.itemSoulbound",
+    "hudChrome.mailbox.parcelQtyDecreaseAria",
+    "hudChrome.mailbox.parcelQtyIncreaseAria"
   ],
   "en_CA": [],
   "it_IT": [
@@ -53,7 +61,9 @@ export const pending: Record<string, readonly string[]> = {
     "entities.quests.q_prof_intro.text",
     "entities.quests.q_prof_intro.title",
     "hudChrome.itemHeroicTag",
-    "hudChrome.itemSoulbound"
+    "hudChrome.itemSoulbound",
+    "hudChrome.mailbox.parcelQtyDecreaseAria",
+    "hudChrome.mailbox.parcelQtyIncreaseAria"
   ],
   "de_DE": [
     "entities.items.chunk_of_ore.name",
@@ -62,7 +72,9 @@ export const pending: Record<string, readonly string[]> = {
     "entities.quests.q_prof_intro.text",
     "entities.quests.q_prof_intro.title",
     "hudChrome.itemHeroicTag",
-    "hudChrome.itemSoulbound"
+    "hudChrome.itemSoulbound",
+    "hudChrome.mailbox.parcelQtyDecreaseAria",
+    "hudChrome.mailbox.parcelQtyIncreaseAria"
   ],
   "zh_CN": [
     "hudChrome.itemHeroicTag"
@@ -83,7 +95,9 @@ export const pending: Record<string, readonly string[]> = {
     "entities.quests.q_prof_intro.text",
     "entities.quests.q_prof_intro.title",
     "hudChrome.itemHeroicTag",
-    "hudChrome.itemSoulbound"
+    "hudChrome.itemSoulbound",
+    "hudChrome.mailbox.parcelQtyDecreaseAria",
+    "hudChrome.mailbox.parcelQtyIncreaseAria"
   ],
   "ru_RU": [
     "hudChrome.itemHeroicTag"
@@ -95,7 +109,9 @@ export const pending: Record<string, readonly string[]> = {
     "entities.quests.q_prof_intro.text",
     "entities.quests.q_prof_intro.title",
     "hudChrome.itemHeroicTag",
-    "hudChrome.itemSoulbound"
+    "hudChrome.itemSoulbound",
+    "hudChrome.mailbox.parcelQtyDecreaseAria",
+    "hudChrome.mailbox.parcelQtyIncreaseAria"
   ],
   "nl_NL": [
     "entities.items.chunk_of_ore.name",
@@ -104,7 +120,9 @@ export const pending: Record<string, readonly string[]> = {
     "entities.quests.q_prof_intro.text",
     "entities.quests.q_prof_intro.title",
     "hudChrome.itemHeroicTag",
-    "hudChrome.itemSoulbound"
+    "hudChrome.itemSoulbound",
+    "hudChrome.mailbox.parcelQtyDecreaseAria",
+    "hudChrome.mailbox.parcelQtyIncreaseAria"
   ],
   "pl_PL": [
     "entities.items.chunk_of_ore.name",
@@ -113,7 +131,9 @@ export const pending: Record<string, readonly string[]> = {
     "entities.quests.q_prof_intro.text",
     "entities.quests.q_prof_intro.title",
     "hudChrome.itemHeroicTag",
-    "hudChrome.itemSoulbound"
+    "hudChrome.itemSoulbound",
+    "hudChrome.mailbox.parcelQtyDecreaseAria",
+    "hudChrome.mailbox.parcelQtyIncreaseAria"
   ],
   "id_ID": [
     "entities.items.chunk_of_ore.name",
@@ -122,7 +142,9 @@ export const pending: Record<string, readonly string[]> = {
     "entities.quests.q_prof_intro.text",
     "entities.quests.q_prof_intro.title",
     "hudChrome.itemHeroicTag",
-    "hudChrome.itemSoulbound"
+    "hudChrome.itemSoulbound",
+    "hudChrome.mailbox.parcelQtyDecreaseAria",
+    "hudChrome.mailbox.parcelQtyIncreaseAria"
   ],
   "tr_TR": [
     "entities.items.chunk_of_ore.name",
@@ -131,7 +153,9 @@ export const pending: Record<string, readonly string[]> = {
     "entities.quests.q_prof_intro.text",
     "entities.quests.q_prof_intro.title",
     "hudChrome.itemHeroicTag",
-    "hudChrome.itemSoulbound"
+    "hudChrome.itemSoulbound",
+    "hudChrome.mailbox.parcelQtyDecreaseAria",
+    "hudChrome.mailbox.parcelQtyIncreaseAria"
   ],
   "sv_SE": [
     "entities.items.chunk_of_ore.name",
@@ -140,7 +164,9 @@ export const pending: Record<string, readonly string[]> = {
     "entities.quests.q_prof_intro.text",
     "entities.quests.q_prof_intro.title",
     "hudChrome.itemHeroicTag",
-    "hudChrome.itemSoulbound"
+    "hudChrome.itemSoulbound",
+    "hudChrome.mailbox.parcelQtyDecreaseAria",
+    "hudChrome.mailbox.parcelQtyIncreaseAria"
   ],
   "vi_VN": [
     "entities.items.chunk_of_ore.name",
@@ -149,7 +175,9 @@ export const pending: Record<string, readonly string[]> = {
     "entities.quests.q_prof_intro.text",
     "entities.quests.q_prof_intro.title",
     "hudChrome.itemHeroicTag",
-    "hudChrome.itemSoulbound"
+    "hudChrome.itemSoulbound",
+    "hudChrome.mailbox.parcelQtyDecreaseAria",
+    "hudChrome.mailbox.parcelQtyIncreaseAria"
   ],
   "da_DK": [
     "entities.items.chunk_of_ore.name",
@@ -158,6 +186,8 @@ export const pending: Record<string, readonly string[]> = {
     "entities.quests.q_prof_intro.text",
     "entities.quests.q_prof_intro.title",
     "hudChrome.itemHeroicTag",
-    "hudChrome.itemSoulbound"
+    "hudChrome.itemSoulbound",
+    "hudChrome.mailbox.parcelQtyDecreaseAria",
+    "hudChrome.mailbox.parcelQtyIncreaseAria"
   ]
 };
