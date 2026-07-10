@@ -523,7 +523,7 @@
   body.mobile-touch #mobile-action-ring > button::after,
   body.mobile-touch .action-btn::after,
   body.mobile-touch #mobile-utility-cluster .mobile-btn::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
