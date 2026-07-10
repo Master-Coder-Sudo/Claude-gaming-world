@@ -1166,7 +1166,7 @@ export const ZONE3_NPCS: Record<string, NpcDef> = {
     // road up from Fenbridge (clear of the house footprint at {8,650}).
     pos: { x: -3, z: 650 },
     facing: 0.2,
-    color: 0x7d6f94,
+    color: 0x5a6fd6, // cool indigo: the chronicler tint is her identity (shared mage visual)
     questIds: [],
     greeting: 'The mountain forgets nothing, $N, and neither do I. Let us see what you have done.',
   },

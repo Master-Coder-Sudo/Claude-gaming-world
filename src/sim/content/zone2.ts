@@ -702,7 +702,7 @@ export const ZONE2_NPCS: Record<string, NpcDef> = {
     // down the causeway (west of x=9: the inn's collider margin, see above).
     pos: { x: 6, z: 305 },
     facing: -2.4,
-    color: 0x6b8f6a,
+    color: 0x3fa66b, // fen teal: the chronicler tint is his identity (shared mage visual)
     questIds: [],
     greeting: 'Mind the damp on the pages, $N. The fen eats more books than readers ever will.',
   },

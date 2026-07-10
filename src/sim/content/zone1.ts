@@ -680,7 +680,7 @@ export const ZONE1_NPCS: Record<string, NpcDef> = {
     // Merchant's stall (clear of the well prop and the player start).
     pos: { x: -4, z: -2 },
     facing: 0.8,
-    color: 0x9b8556,
+    color: 0xd08a2e, // warm amber: the chronicler tint is his identity (shared mage visual)
     questIds: [],
     greeting:
       'Every deed worth doing is worth writing down twice, $N: once for the ledger and once for the fireside.',
