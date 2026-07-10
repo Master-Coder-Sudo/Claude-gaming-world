@@ -2689,14 +2689,18 @@
     display: none;
   }
   /* Redesigned vendor chrome (.window-titlebar / .window-close, the inner
-     window-frame mount from vendor_window.ts): mirror the two legacy panel-title
-     rules above for the docked cluster. The header pins to the same 47px as the
-     #bags .panel-title half so the 50/50 split lines up, and the vendor's own
-     close control hides because the cluster closes as one unit through the bags
-     close (hud.ts closeVendor pairing), exactly like the legacy x-btn. */
-  body.mobile-touch.vendor-open #vendor-window .window-titlebar {
-    height: 47px;
-    min-height: 47px;
+     window-frame mount from vendor_window.ts). Both halves of the docked cluster
+     are now framed windows: #bags migrated to .window-frame, so its header is the
+     generic .window-titlebar taking the 48px AAA touch floor above (not the dead
+     47px legacy .panel-title rule). Pin the vendor header to the SAME 48px so the
+     two titlebars line up across the 50/50 split (consolidated on 48px, the one
+     shared touch titlebar height, rather than the old bespoke 47px that fought the
+     floor). The vendor's own close control hides because the cluster closes as one
+     unit through the bags close (hud.ts closeVendor pairing). */
+  body.mobile-touch.vendor-open #vendor-window .window-titlebar,
+  body.mobile-touch.vendor-open #bags .window-titlebar {
+    height: var(--window-titlebar-h-touch);
+    min-height: var(--window-titlebar-h-touch);
     box-sizing: border-box;
   }
   body.mobile-touch.vendor-open #vendor-window .window-close {

@@ -3288,7 +3288,12 @@
   /* Short landscape phones: keep the bank-cluster chip filter-row ONE horizontally
      scrollable row so a two-row wrap never squeezes the docked grid to a sliver
      (the behavior the legacy .bag-chips rule protected, re-provided for the grammar
-     container; standalone bags and the vendor cluster keep the family wrap). */
+     container; standalone bags and the vendor cluster keep the family wrap).
+     HOME NOTE (task 11): these bags/bank body.mobile-touch rules deliberately STAY
+     in components.css (the tidier home) rather than re-home into hud.mobile.css: the
+     hud-mobile layer carries no competing .chip/.filter-row rule, so layer order
+     makes them correct where they sit, grouped with the bags/bank grammar they
+     modify, and a lateral move would only add churn/regression risk. */
   body.mobile-touch #bank-window .window-frame .filter-row,
   body.mobile-touch.bank-open #bags .window-frame .filter-row {
     flex-wrap: nowrap;
