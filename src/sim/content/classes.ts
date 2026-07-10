@@ -647,9 +647,13 @@ export const ABILITIES: Record<string, AbilityDef> = {
     range: 0,
     school: 'physical',
     requiresTarget: true,
-    // Owner decision 2026-07-09: baseline early rage SPENDER (all specs, learned at
-    // level 2), costing 20 rage per use. The classic dodge-proc gate stays gone (too
-    // RNG); the requiresDodgeProc machinery itself remains for hunter mongoose_bite.
+    // Owner decision 2026-07-09: baseline early rage SPENDER (learned at level 2),
+    // costing 20 rage per use. The classic dodge-proc gate stays gone (too RNG);
+    // the requiresDodgeProc machinery itself remains for hunter mongoose_bite.
+    // Fury drops it at commit (owner 2026-07-10): its empower rider feeds Maiming
+    // Strike, which is Arms-granted, so for Fury the button is a dead rider next
+    // to Bloodletting/Twinstrike.
+    excludeSpecs: ['fury'],
     effects: [
       { type: 'weaponStrike', bonus: 5, cannotBeDodged: true },
       // Empowers the next Maiming Strike (+20% per stack, up to 2), consumed in

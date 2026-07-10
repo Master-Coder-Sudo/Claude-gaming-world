@@ -70,6 +70,16 @@ describe('spec-gated warrior base kit (content table)', () => {
     expect(ABILITIES.revenge?.specs).toEqual(['prot']);
     expect(ABILITIES.revenge?.excludeSpecs).toBeUndefined();
   });
+
+  it('Redhand is excluded from Fury (owner 2026-07-10): its rider feeds the Arms-granted Maiming Strike', () => {
+    expect(ABILITIES.overpower?.specs).toBeUndefined();
+    expect(ABILITIES.overpower?.excludeSpecs).toEqual(['fury']);
+    expect(knownIds('fury').has('overpower')).toBe(false);
+    // no-spec keeps it as the early rage spender; Arms and Prot keep it committed.
+    expect(knownIds(null).has('overpower')).toBe(true);
+    expect(knownIds('arms').has('overpower')).toBe(true);
+    expect(knownIds('prot').has('overpower')).toBe(true);
+  });
 });
 
 describe('abilitiesKnownAt spec filter', () => {
