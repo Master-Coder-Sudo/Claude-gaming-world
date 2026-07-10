@@ -363,6 +363,19 @@ describe('options_window: conflict surfacing (P4)', () => {
     const refresh = painter.slice(painter.indexOf('refreshControllerLabels(): void'));
     expect(refresh.slice(0, refresh.indexOf('const footer'))).toContain('this.renderRail();');
   });
+
+  it('routes the pad connect refresh through the shell painter on the back-stack', () => {
+    // gamepadconnected/disconnected -> hud -> refreshControllerLabels() also fires
+    // with the options open on the NARROW mobile shell, where no .opt-rail exists:
+    // the desktop rail/detail/footer trio would deref the null rail and THROW on
+    // the very event this refresh exists for. The refresh must branch to render()
+    // (the shell painter, idempotent for the current stack page) BEFORE any rail
+    // work.
+    const refresh = painter.slice(painter.indexOf('refreshControllerLabels(): void'));
+    const beforeRail = refresh.slice(0, refresh.indexOf('this.renderRail();'));
+    expect(beforeRail).toContain("if (this.renderMode() === 'backstack')");
+    expect(beforeRail).toContain('this.render();');
+  });
 });
 
 describe('options_window: search go-to + synonyms + typeahead (P4)', () => {

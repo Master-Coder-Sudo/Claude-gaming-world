@@ -573,6 +573,16 @@ export class OptionsWindow {
    *  the footer legend strip (which appears only while a pad is connected). */
   refreshControllerLabels(): void {
     if (!this.isOpen) return;
+    // The narrow back-stack shell mounts no rail/detail/footer chrome, so the
+    // desktop trio below would deref the null rail and THROW on the very pad
+    // connect/disconnect this refresh exists for (the same null-rail hazard
+    // class the LB/RB guard covers). render() routes to the shell painter and
+    // is idempotent for the current page, so the visible stack page (and its
+    // Controller labels, when that page is up) refreshes in place.
+    if (this.renderMode() === 'backstack') {
+      this.render();
+      return;
+    }
     // The pad map (and thus the Controller duplicate aggregate) can change on
     // connect/disconnect, so refresh the rail dot alongside the pane.
     this.renderRail();
