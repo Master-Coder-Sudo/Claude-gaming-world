@@ -252,9 +252,9 @@ function musicEditorSavePlugin() {
             for (const name of names) {
               const t = overrides[name];
               lines.push(
-                '  ' + name + ': {',
-                '    bpm: ' + t.bpm + ',',
-                '    bars: ' + t.bars + ',',
+                `  ${name}: {`,
+                `    bpm: ${t.bpm},`,
+                `    bars: ${t.bars},`,
                 '    events: [',
               );
               const sorted = [...t.events].sort((a, b) => a.beat - b.beat);
