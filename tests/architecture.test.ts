@@ -145,6 +145,7 @@ const UI_PURE_CORES = [
   'src/ui/options_view.ts',
   'src/ui/options_ia.ts',
   'src/ui/options_focus_model.ts',
+  'src/ui/options_mobile_shell_view.ts',
   'src/ui/keybind_conflicts.ts',
   'src/ui/vendor_view.ts',
   'src/ui/heroic_vendor_view.ts',
