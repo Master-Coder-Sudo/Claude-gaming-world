@@ -340,6 +340,10 @@ export class OptionsWindow {
     this.deps.options()?.perfOverlay.setPlacement(false);
     this.render();
     this.deps.root().style.display = 'flex';
+    // Spec section 5: the menu opens with focus ON the Overview rail tab. This also
+    // seeds the controller path: hud routes pad menu verbs to this window only while
+    // focus is inside it, so without this a fresh open would strand a pad user.
+    this.deps.focusFirstInteractive(this.deps.root(), '.opt-tab.is-active');
     music.pauseForMenu();
     audio.click();
   }
@@ -858,6 +862,12 @@ export class OptionsWindow {
       t('hudChrome.options.keybindCleared', { action: this.actionDisplayName(action, action) }),
     );
     this.renderDetail();
+    // The repaint detached the focused cap; re-home focus onto the rebuilt cap so
+    // the controller cursor survives and the next verb keeps working.
+    this.deps
+      .root()
+      .querySelector<HTMLElement>(`.kb-key[data-action="${action}"][data-index="${index}"]`)
+      ?.focus();
   }
 
   /** RT/LT: page-scroll the detail pane (RT = down, LT = up). */

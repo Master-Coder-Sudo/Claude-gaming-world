@@ -14095,14 +14095,21 @@ export class Hud {
    *  other trapped modal operable (B closes it, A activates the focused control). */
   handleMenuGamepadIntent(intent: MenuIntentKind): void {
     const optionsRoot = $('#options-menu');
-    if (this.optionsWindow.isOpen && optionsRoot.contains(document.activeElement)) {
+    const active = document.activeElement;
+    // Route to the Esc menu while focus is INSIDE it, and also when focus was
+    // dropped entirely (body/null, e.g. a repaint detached the focused node) while
+    // it is open: the menu self-heals by re-homing row focus. Focus resting inside
+    // a DIFFERENT element (a stacked confirm dialog) keeps the generic fallback so
+    // the top trap stays in charge.
+    const focusLost = !(active instanceof HTMLElement) || active === document.body;
+    if (this.optionsWindow.isOpen && (optionsRoot.contains(active) || focusLost)) {
       this.optionsWindow.handleMenuIntent(intent);
       return;
     }
     if (intent === 'back') {
       this.closeAll();
-    } else if (intent === 'activate' && document.activeElement instanceof HTMLElement) {
-      document.activeElement.click();
+    } else if (intent === 'activate' && active instanceof HTMLElement) {
+      active.click();
     }
   }
 

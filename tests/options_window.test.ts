@@ -78,6 +78,14 @@ describe('options_window: always opens on Overview (never last-visited)', () => 
   it('the default field value is the Overview landing', () => {
     expect(painter).toContain("private activeCategory: CategoryId = 'overview';");
   });
+
+  it('opens with focus ON the Overview rail tab (spec section 5; seeds controller routing)', () => {
+    const toggle = painter.slice(painter.indexOf('toggle(): void {'));
+    const body = toggle.slice(0, toggle.indexOf('\n  }\n'));
+    expect(body).toContain(
+      "this.deps.focusFirstInteractive(this.deps.root(), '.opt-tab.is-active')",
+    );
+  });
 });
 
 describe('options_window: WCAG 2.2 AA', () => {
@@ -327,6 +335,9 @@ describe('options_window: controller navigation + legend (P3)', () => {
     expect(body).toContain('this.deps.keybinds().clear(action, Number(index))');
     expect(body).toContain('this.announce(');
     expect(body).toContain("t('hudChrome.options.keybindCleared', {");
+    // After the repaint, focus re-homes to the rebuilt cap so the controller
+    // cursor survives an X-clear.
+    expect(body).toContain('.kb-key[data-action="${action}"][data-index="${index}"]');
     // The caps carry the data the clear reads.
     expect(painter).toContain('key.dataset.action = action.id;');
     expect(painter).toContain('key.dataset.index = String(index);');
@@ -351,6 +362,15 @@ describe('options_window: controller navigation + legend (P3)', () => {
     expect(hudTs).toContain('return this.focusManager.hasActiveTrap();');
     expect(hudTs).toContain('handleMenuGamepadIntent(intent: MenuIntentKind): void');
     expect(hudTs).toContain('this.optionsWindow.handleMenuIntent(intent);');
+    // The router self-heals lost focus (body/null) while the menu is open, so the
+    // controller path never dead-ends after a repaint detaches the focused node;
+    // focus inside a DIFFERENT trapped element keeps the generic fallback.
+    expect(hudTs).toContain(
+      'const focusLost = !(active instanceof HTMLElement) || active === document.body;',
+    );
+    expect(hudTs).toContain(
+      'if (this.optionsWindow.isOpen && (optionsRoot.contains(active) || focusLost)) {',
+    );
     // main: the gamepad callbacks gate menu mode on the trap + surface pad connection.
     expect(mainSrc).toContain('isMenuMode: () => hud.isFocusTrapped()');
     expect(mainSrc).toContain('onMenuIntent: (intent) => hud.handleMenuGamepadIntent(intent)');
