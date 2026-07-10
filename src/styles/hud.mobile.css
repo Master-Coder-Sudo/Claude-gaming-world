@@ -2347,6 +2347,13 @@
   body.mobile-touch #daily-rewards-window .dr-body {
     column-count: 2;
     column-gap: 12px;
+    /* Unbind the desktop 62vh cap: a height-BOUNDED multicol container grows
+       sideways (columns 3, 4, ... clip off-screen with no affordance; the
+       vertical scroller never engages because multicol fills the inline axis
+       first). Height-free, the two columns balance the FULL content and the
+       sheet-pinned window ROOT is the one vertical scroller. */
+    max-height: none;
+    overflow-y: visible;
   }
   body.mobile-touch #daily-rewards-window .dr-body > * {
     break-inside: avoid;
@@ -2381,6 +2388,7 @@
   body.mobile-touch #valecup-window,
   body.mobile-touch #delve-board,
   body.mobile-touch #leaderboard-window,
+  body.mobile-touch #daily-rewards-window,
   body.mobile-touch #loot-settings-window,
   body.mobile-touch #town-focus-window {
     left: 10px;
@@ -2434,8 +2442,14 @@
     overflow: hidden;
   }
   /* The leaderboard body (.lb-body) has its own 56vh scroll; cap the whole sheet to
-     the viewport so a long board never runs the window past the bottom edge. */
-  body.mobile-touch #leaderboard-window {
+     the viewport so a long board never runs the window past the bottom edge. The
+     Daily Rewards sheet takes the same cap: its root is the scroller for the
+     2-column dr-body flow (the columns balance to the FULL content height and the
+     root scrolls; the sheet pin above is what makes both columns fit, the old
+     480px desktop-centered box clipped the second column off-screen with no
+     horizontal affordance). */
+  body.mobile-touch #leaderboard-window,
+  body.mobile-touch #daily-rewards-window {
     max-height: calc(var(--app-vh) / var(--ui-scale, 1) - 20px);
   }
   /* Loot Settings is a small dialog; JS docks it beside the party frames on desktop
@@ -2910,6 +2924,11 @@
   body.mobile-touch.market-open #market-window {
     left: max(10px, env(safe-area-inset-left));
     right: calc(var(--app-vw) / var(--ui-scale, 1) / 2);
+    /* height: auto is load-bearing: the desktop rule pins an explicit
+       min(640px, 85vh) height, which beats the top/bottom insets and left the
+       market half shorter than the bags half (a live-world strip showed under
+       it inside the dock). auto lets the insets stretch both halves flush. */
+    height: auto;
     overflow: hidden;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
@@ -4308,6 +4327,22 @@
   body.mobile-touch .window-frame {
     background-color: var(--color-panel-l2-base);
   }
+  /* The frameless legacy windows (quest dialog, market, loot, trade: .window.panel
+     roots that never mounted a .window-frame) escape the frame rule above, and
+     their .panel `background:` shorthand resets background-color to transparent,
+     leaving only the 0.95-alpha gradient: bright world text (zone banners,
+     nameplates) still ghosts through them. Same L2 doctrine, applied to the ROOT,
+     scoped to :not(:has(.window-frame)) so a framed window's neutralized root is
+     never re-painted behind its frame (corner radii differ). */
+  body.mobile-touch .window.panel:not(:has(.window-frame)) {
+    background-color: var(--color-panel-l2-base);
+  }
+  /* Mirror of the pointer-coarse .vcup-role floor onto the class gate every other
+     floor in this sweep uses: fine-pointer touch hybrids (and class-only test
+     emulation) otherwise keep 28px rows. */
+  body.mobile-touch .vcup-role {
+    min-height: 40px;
+  }
   /* One scroller per window: the vendor sheet scrolls on its ROOT (the dock rule
      re-asserts overflow-y:auto there), so the framed tab panels must not open a
      SECOND nested scrollport (root 969/338 AND panel 916/243 measured live: two
@@ -4410,6 +4445,8 @@
     body.mobile-touch #loot-settings-window,
     body.mobile-touch #town-focus-window,
     body.mobile-touch #inspect-window,
+    body.mobile-touch #trade-window,
+    body.mobile-touch #daily-rewards-window,
     body.mobile-touch:not(.vendor-open):not(.bank-open):not(.market-open) #bags {
       max-width: 900px;
       margin-inline: auto;
