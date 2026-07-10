@@ -16,7 +16,7 @@ content) must follow.
 | Chronicler | The in-world NPC face of a zone's Chronicle (Saul, Osric Fenn, Zenzie). |
 | Feat | A zero-Renown deed: legacy, world-first, or unobtainable-by-design. Excluded from completion percentages. |
 | Title | A cosmetic name suffix a player can select and display (nameplate, chat, target frame, character panel, boards). |
-| Border | A cosmetic badge border flourish on meta capstones. |
+| Border | A cosmetic badge border flourish on capstone deeds. |
 
 ## Architecture
 
@@ -89,14 +89,16 @@ server store always canonical.
    game's playful classic voice, Renown on the scale above, a trigger from
    the closed vocabulary, reward (most deeds: none), hidden flag, Steam
    decision.
-2. Add the `DeedDef` to `DEEDS` and APPEND the id to `DEED_ORDER` in
-   `src/sim/content/deeds.ts` (append-only, like `QUEST_ORDER`; never
-   reorder or edit existing entries).
+2. Add the `DeedDef` at the END of the `DEEDS` table in
+   `src/sim/content/deeds.ts`. `DEED_ORDER` derives from table order, so the
+   table is append-only: never reorder or edit existing entries.
 3. If no persisted state covers the trigger, add a `DeedStatKey` counter and
-   bump it at the gameplay site via the append-only `SimContext` callback
-   shape (`markDeedsDirty`), or call the bespoke grant helper for `manual`
-   deeds. Never ship a counter no deed reads, and never ship a deed no site
-   can satisfy (a visible-but-unearnable deed is worse than none).
+   bump it at the gameplay site through the append-only `SimContext`
+   callbacks (`bumpDeedStat`, which also marks the player dirty; a site that
+   changes trigger-relevant state without a counter calls `markDeedsDirty`),
+   or call the bespoke grant helper for `manual` deeds. Never ship a counter
+   no deed reads, and never ship a deed no site can satisfy (a
+   visible-but-unearnable deed is worse than none).
 4. Tests: `tests/deeds_content.test.ts` pins the catalog (ids, renown
    values, trigger integrity against the real content tables);
    `tests/deeds_sites.test.ts` covers grant sites. New counters and sites
