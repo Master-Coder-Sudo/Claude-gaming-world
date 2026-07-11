@@ -1298,6 +1298,19 @@ export class OptionsWindow {
   // -------------------------------------------------------------------------
 
   private renderDetail(): void {
+    // The desktop/wide-rail '.opt-detail-inner' pane does not exist on the
+    // back-stack shell (category pages render straight into the shell's
+    // '.opt-mshell-content'), yet shared row handlers reach this dispatcher
+    // from shell pages too: the theme preset / Custom Colors reset, the
+    // controller remap rows, and every rerender:true choice row. Route the
+    // shell to the idempotent full render() (the refreshControllerLabels
+    // policy), guarded HERE at the one dispatcher so every call site is
+    // shell-safe; the old unguarded detailEl() deref threw on the first
+    // theme-preset tap of a touch session.
+    if (this.backStackActive()) {
+      this.render();
+      return;
+    }
     const detail = this.detailEl();
     detail.replaceChildren();
     if (this.subView === 'bugreport') {
@@ -2088,6 +2101,10 @@ export class OptionsWindow {
     pinsHead.appendChild(pinsTitle);
     pinsSection.appendChild(pinsHead);
     for (const pin of OVERVIEW_PINS) {
+      // Without hooks NO pin can render its control (the language/theme
+      // renderers no-op internally, the settings branch needs the source), so
+      // stop rather than emit a column of crumb-only cells.
+      if (!hooks || !source) break;
       // Each pin's row(s) + home crumb render into ONE .opt-pin wrapper cell:
       // the mobile shell's 2-column section grid treats every non-.opt-row
       // child as a full-width break, so loose row + crumb siblings stranded

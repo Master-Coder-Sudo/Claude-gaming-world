@@ -226,6 +226,22 @@ describe('options_window: Overview pins are one wrapper cell each', () => {
   });
 });
 
+describe('options_window: renderDetail is back-stack shell safe', () => {
+  // Shared row handlers (theme preset, Custom Colors reset, controller remap
+  // rows, every rerender:true choice) call renderDetail() from shell pages,
+  // where the desktop '.opt-detail-inner' pane does not exist: the unguarded
+  // detailEl() deref threw on the first theme-preset tap of a touch session.
+  // The dispatcher must route the shell to the full render() FIRST.
+  it('guards the desktop pane deref behind backStackActive()', () => {
+    const detail = painter.slice(painter.indexOf('private renderDetail'));
+    const body = detail.slice(0, detail.indexOf('\n  private '));
+    const guard = body.indexOf('if (this.backStackActive())');
+    const deref = body.indexOf('this.detailEl()');
+    expect(guard).toBeGreaterThan(-1);
+    expect(deref).toBeGreaterThan(guard);
+  });
+});
+
 describe('options_window: bug-report dispatch + async states (preserved)', () => {
   it('preserves the submit action and the no-text / in-flight / failure states', () => {
     const bug = painter.slice(
