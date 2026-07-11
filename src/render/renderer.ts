@@ -5555,7 +5555,7 @@ export class Renderer {
     b.el.textContent = text; // textContent: chat is player input, never HTML
     b.el.classList.toggle('yell', yell);
     // Channel tint: party bubbles are blue, guild green, officer dark-green,
-    // whisper pink — each gets its own CSS class so it is recognisable at a glance.
+    // whisper pink, each gets its own CSS class so it is recognisable at a glance.
     b.el.classList.toggle('party', channel === 'party');
     b.el.classList.toggle('guild', channel === 'guild');
     b.el.classList.toggle('officer', channel === 'officer');

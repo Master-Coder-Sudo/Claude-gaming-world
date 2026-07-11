@@ -5718,7 +5718,7 @@ export class Hud {
             return;
           }
           // On-bar keybinding: Shift+any other key on a focused slot enters
-          // bind mode — the next keypress replaces the slot's primary binding.
+          // bind mode: the next keypress replaces the slot's primary binding.
           const slotIndex = slot - 1;
           e.preventDefault();
           e.stopPropagation();

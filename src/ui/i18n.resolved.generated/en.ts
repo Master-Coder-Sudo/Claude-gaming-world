@@ -4690,7 +4690,7 @@ export const en: EnTranslations = {
       "releaseSpirit": "Release Spirit",
       "chatTab": "Chat",
       "combatLogTab": "Combat Log",
-      "chatPlaceholder": "Say something... (/s say, /w name whisper, /r reply, /p party, /gu guild, /o officer, /general general, /help) — type ! for community commands",
+      "chatPlaceholder": "Say something... (/s say, /w name whisper, /r reply, /p party, /gu guild, /o officer, /general general, /help), type ! for community commands",
       "chatChannels": {
         "add": "Add chat channel",
         "addTitle": "Add channel",

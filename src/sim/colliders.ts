@@ -132,7 +132,7 @@ function staticWorldColliders(seed: number): Collider[] {
     out.push({ type: 'circle', x, z, r: 5, cameraTopY: topY(seed, x, z, 5.2), camGhost: true });
   }
 
-  // dock platforms (the pier itself, not the hut — 3 sections deep)
+  // dock platforms (the pier itself, not the hut, 3 sections deep)
   for (const d of PROPS.docks) {
     // The dock platform extends ~3.2 units out from origin towards deep water
     // (local z = -1.05 to -5.31 for 3 sections, centre ~ -3.2, half-depth ~2.5).
