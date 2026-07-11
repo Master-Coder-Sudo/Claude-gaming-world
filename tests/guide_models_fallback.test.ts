@@ -35,7 +35,8 @@ class FakeEl {
     return this.attrs[name] ?? null;
   }
   addEventListener(type: string, fn: (e: unknown) => void): void {
-    (this.listeners[type] ??= []).push(fn);
+    this.listeners[type] = this.listeners[type] ?? [];
+    this.listeners[type].push(fn);
   }
   removeEventListener(type: string, fn: (e: unknown) => void): void {
     this.listeners[type] = (this.listeners[type] ?? []).filter((f) => f !== fn);
