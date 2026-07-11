@@ -158,7 +158,9 @@ export const ko_KR: EnTranslations = {
       "prompt": "{name} 님이 준비 확인을 시작했습니다. 준비되셨습니까?",
       "ready": "준비 완료",
       "notReady": "준비 안 됨",
-      "result": "준비 확인: {ready}명 준비 완료, {notReady}명 준비 안 됨, {noResponse}명 무응답."
+      "result": "준비 확인: {ready}명 준비 완료, {notReady}명 준비 안 됨, {noResponse}명 무응답.",
+      "notInPartyError": "준비 확인을 시작하려면 파티에 속해 있어야 합니다.",
+      "inProgressError": "준비 확인이 이미 진행 중입니다."
     },
     "death": {
       "resurrectAtCorpse": "시신에서 부활",
@@ -608,14 +610,14 @@ export const ko_KR: EnTranslations = {
         "catSystemName": "시스템",
         "catSystemSub": "성능, 지원, 정보."
       },
-      "done": "Done",
+      "done": "완료",
       "resetAllTitle": "모든 설정을 초기화할까요?",
       "resetAllBody": "모든 설정을 기본값으로 되돌립니다. 이 작업은 취소할 수 없습니다.",
       "searchPlaceholder": "설정 검색",
       "searchScopeAll": "모든 설정",
       "searchScopeThis": "이 섹션",
       "searchEmpty": "검색과 일치하는 설정이 없습니다.",
-      "searchGoTo": "Go to {category}",
+      "searchGoTo": "{category}로 이동",
       "modeOnline": "온라인",
       "modeOffline": "오프라인",
       "changed": "{count}개 변경됨",
@@ -624,28 +626,28 @@ export const ko_KR: EnTranslations = {
         "category": "카테고리",
         "navigate": "이동",
         "select": "선택",
-        "back": "Back",
+        "back": "뒤로",
         "reset": "초기화",
         "clear": "지우기",
-        "page": "Page"
+        "page": "페이지"
       },
       "keybindCleared": "{action} 지움",
       "keybindRebinding": "{action} 재설정 중입니다. 키를 누르거나 Esc로 취소하세요.",
       "keybindEvicted": "{key}을 {action}에 지정했습니다. {evicted}에서는 해제되었습니다.",
       "keybindTaken": "키 해제됨",
-      "keybindUnbound": "{action} has no key",
+      "keybindUnbound": "{action}에 지정된 키가 없습니다",
       "keybindModifierHint": "팁: 조합 키를 지정할 수 있습니다. Shift, Ctrl 또는 Alt를 누른 채 키를 누르면 조합이 등록됩니다(예: Shift+1).",
       "conflictDot": "키 충돌",
       "overviewConflictAlert": "일부 키 지정이 충돌하거나 지정되지 않았습니다.",
       "sec": {
         "quality": "품질",
-        "view": "View",
+        "view": "시야",
         "general": "일반",
         "scaleText": "배율 및 텍스트",
         "panels": "패널",
         "unitFrames": "유닛 프레임",
         "actionBars": "액션 바",
-        "chat": "Chat",
+        "chat": "채팅",
         "combatTooltips": "전투 및 툴팁",
         "hudExtras": "HUD 부가 기능",
         "motionContrast": "모션 및 대비",
@@ -655,9 +657,9 @@ export const ko_KR: EnTranslations = {
         "combat": "전투",
         "feedback": "피드백",
         "inputMode": "입력 모드",
-        "feel": "Feel",
+        "feel": "조작감",
         "sticks": "스틱",
-        "look": "Look",
+        "look": "시점",
         "buttons": "버튼",
         "volume": "볼륨",
         "toggles": "켜기/끄기",
@@ -819,7 +821,7 @@ export const ko_KR: EnTranslations = {
     "tips": {
       "joinChannels": "팁: /join world 또는 /join lfg를 입력하면 월드 전역의 플레이어와 대화할 수 있습니다."
     },
-    "itemHeroicTag": "[HEROIC]",
+    "itemHeroicTag": "[영웅]",
     "itemSoulbound": "귀속",
     "itemSet": {
       "header": "{name} ({have}/{total})",
@@ -5241,7 +5243,7 @@ export const ko_KR: EnTranslations = {
       "buybackTitle": "되사기",
       "buybackEmpty": "물품 없음",
       "buybackAria": "{item}을(를) {price}에 되사기",
-      "sellItemAria": "Sell {item} for {price}",
+      "sellItemAria": "{item}을(를) {price}에 판매",
       "sellRolledWarning": "무작위 능력치는 되사기로 되돌릴 수 없습니다.",
       "sellQuantityTitle": "{item} 판매",
       "sellQuantityInput": "판매할 수량",
@@ -7867,7 +7869,7 @@ export const ko_KR: EnTranslations = {
       "q_prof_intro": {
         "title": "검 말고도 할 수 있는 일",
         "text": "이스트브룩의 모든 사람은 검 말고도 생업이 있다네, {playerName}. 마을 주변에 광맥이 흩어져 있지. 곡괭이를 휘둘러 광석 5덩이를 가져다 주게. 직접 캐야 하네, 내가 다 구분할 수 있으니까.",
-        "completion": "봤나? 가방엔 광석, 손엔 굳은살이지. 길을 다니며 채광, 벌목, 약초 채집을 계속해 보게. 마을에 돌아오면 시장 옆의 마을 집중 게시판과 근처 제작대도 눈여겨보고. 원한다면 그 안에 정직한 거래가 기다리고 있다네.",
+        "completion": "봤나? 가방엔 광석, 손엔 굳은살이지. 길을 다니며 채광, 벌목, 약초 채집을 계속해 보게. 마을에 돌아오면 시장 옆의 마을 집중 게시판과 근처 제작대도 눈여겨보고. 원한다면 이 모든 일로 떳떳하게 생계를 꾸릴 수 있다네.",
         "objectives": {
           "0": {
             "label": "광석 조각"
