@@ -166,7 +166,7 @@ describe('DEED_LOCALE_TABLES (the release fill)', () => {
 
   it('keeps every value free of em/en dashes and emoji (this file sits outside the overlay copy-scan exemption)', () => {
     const forbidden =
-      /[–—―]|[\u{1F000}-\u{1FAFF}]|[\u{1F1E6}-\u{1F1FF}]|[\u{2600}-\u{27BF}]|\u{FE0F}/u;
+      /[\u{2013}\u{2014}\u{2015}]|[\u{1F000}-\u{1FAFF}]|[\u{1F1E6}-\u{1F1FF}]|[\u{2600}-\u{27BF}]|\u{FE0F}/u;
     for (const lang of tableLocales) {
       for (const [id, entry] of Object.entries(DEED_LOCALE_TABLES[lang])) {
         for (const field of ['name', 'desc', 'title'] as const) {
@@ -211,7 +211,7 @@ describe('DEED_LOCALE_TABLES (the release fill)', () => {
 
   it('dialect overrides carry only real catalog ids and obey the same copy rules', () => {
     const forbidden =
-      /[–—―]|[\u{1F000}-\u{1FAFF}]|[\u{1F1E6}-\u{1F1FF}]|[\u{2600}-\u{27BF}]|\u{FE0F}/u;
+      /[\u{2013}\u{2014}\u{2015}]|[\u{1F000}-\u{1FAFF}]|[\u{1F1E6}-\u{1F1FF}]|[\u{2600}-\u{27BF}]|\u{FE0F}/u;
     for (const [dialect, table] of Object.entries(DEED_LOCALE_DIALECT_OVERRIDES)) {
       const base = dialect === 'es_ES' ? DEED_LOCALE_TABLES.es : DEED_LOCALE_TABLES.fr_FR;
       for (const [id, entry] of Object.entries(table)) {
