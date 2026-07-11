@@ -1213,10 +1213,11 @@ export const guideStrings = {
     intro:
       'Every figure here is the same model you meet in the game, rendered live in your browser. Pick one to load it.',
     groupClasses: 'Classes',
+    // The in-game shapeshift names (bear_form/cat_form/travel_form in classes.ts).
     groupForms: 'Druid Forms',
-    formBear: 'Bear Form',
-    formCat: 'Cat Form',
-    formTravel: 'Travel Form',
+    formBear: 'Bruin Form',
+    formCat: 'Wolf Form',
+    formTravel: 'Fleet Form',
     groupCreatures: 'Creatures',
     groupPets: 'Warlock Demons',
     pickerLabel: 'Choose a model to view',
