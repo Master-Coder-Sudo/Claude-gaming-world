@@ -57,11 +57,11 @@ function buildIndex(): SearchEntry[] {
     add(
       d.isRaid ? t('guide.dungeonsPage.raidName') : (d.name ?? ''),
       t('guide.search.typeDungeon'),
-      hrefFor('dungeons'),
+      `${hrefFor('dungeons')}#dungeon-${d.id}`,
     );
   }
   for (const d of GUIDE_DELVES) {
-    add(d.name, t('guide.search.typeDelve'), hrefFor('delves'));
+    add(d.name, t('guide.search.typeDelve'), `${hrefFor('delves')}#delve-${d.id}`);
   }
   for (const g of GLOSSARY_TERMS) {
     add(t(g.term), t('guide.search.typeTerm'), `${hrefFor('reference/glossary')}#term-${g.slug}`);
@@ -69,17 +69,46 @@ function buildIndex(): SearchEntry[] {
   return entries;
 }
 
+// Token match: every query token must appear somewhere in the haystack, so word order
+// never matters ("crypt hollow" finds The Hollow Crypt). Scored so label prefixes beat
+// word prefixes beat plain substrings.
+function scoreEntry(e: SearchEntry, tokens: string[]): number {
+  const label = e.label.toLowerCase();
+  let score = 0;
+  for (const tok of tokens) {
+    if (!e.haystack.includes(tok)) return -1;
+    if (label.startsWith(tok)) score += 3;
+    else if (label.includes(` ${tok}`)) score += 2;
+    else if (label.includes(tok)) score += 1;
+  }
+  return score;
+}
+
 function rank(index: SearchEntry[], query: string): SearchEntry[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
-  const hits = index.filter((e) => e.haystack.includes(q));
-  // Prefix matches on the label first, then the rest, alphabetical within each.
-  hits.sort((a, b) => {
-    const ap = a.label.toLowerCase().startsWith(q) ? 0 : 1;
-    const bp = b.label.toLowerCase().startsWith(q) ? 0 : 1;
-    return ap - bp || a.label.localeCompare(b.label);
-  });
-  return hits.slice(0, MAX_RESULTS);
+  const tokens = q.split(/\s+/).filter(Boolean);
+  const hits = index.map((e) => ({ e, score: scoreEntry(e, tokens) })).filter((h) => h.score >= 0);
+  hits.sort((a, b) => b.score - a.score || a.e.label.localeCompare(b.e.label));
+  return hits.slice(0, MAX_RESULTS).map((h) => h.e);
+}
+
+// Wrap each matched query token in <mark> so the reader sees why a result matched.
+// Matches on the RAW label, then escapes every segment individually (matched and
+// unmatched alike), so entities in a label ("Gear & Items") can never be split by a
+// token and no unescaped text ever reaches the panel HTML.
+function highlightLabel(label: string, query: string): string {
+  const tokens = query
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((tok) => tok.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  if (!tokens.length) return esc(label);
+  const re = new RegExp(`(${tokens.join('|')})`, 'gi');
+  return label
+    .split(re)
+    .map((part, i) => (i % 2 === 1 ? `<mark>${esc(part)}</mark>` : esc(part)))
+    .join('');
 }
 
 /** Wire the header search combobox. Cleaned up via the chrome's AbortSignal. */
@@ -132,7 +161,7 @@ export function mountSearch(root: HTMLElement, signal: AbortSignal): void {
     panel.innerHTML = results
       .map(
         (r, i) =>
-          `<a class="guide-search-opt" role="option" id="gso-${i}" href="${esc(r.href)}" aria-selected="false" tabindex="-1"><span class="guide-search-opt-label">${esc(r.label)}</span><span class="guide-search-opt-type">${esc(r.type)}</span></a>`,
+          `<a class="guide-search-opt" role="option" id="gso-${i}" href="${esc(r.href)}" aria-selected="false" tabindex="-1"><span class="guide-search-opt-label">${highlightLabel(r.label, input.value)}</span><span class="guide-search-opt-type">${esc(r.type)}</span></a>`,
       )
       .join('');
     panel.hidden = false;
