@@ -42,11 +42,11 @@ const captured = [];
 // CDP override never grows the window), so each shot clips to the live CSS
 // viewport. currentClip is set by flipViewport below.
 let currentClip = null;
-async function shot(page, file, surface, viewport) {
+async function shot(page, file, surface, viewport, settleMs = 250) {
   // Park the cursor first: a hover tooltip left over from the last click
   // would otherwise photobomb the frame.
   await page.mouse.move(0, 0);
-  await sleep(250);
+  await sleep(settleMs);
   await page.screenshot({ path: `${OUT}/${file}`, ...(currentClip ? { clip: currentClip } : {}) });
   captured.push({ file, surface, viewport });
   console.log(`shot  ${file}`);
@@ -205,10 +205,11 @@ async function clickNpc(npcId) {
   return true;
 }
 
-async function clickChronicler(npcId) {
+async function clickChronicler(npcId, stepMs = 1000) {
   await clickNpc(npcId);
-  for (let i = 0; i < 8; i++) {
-    await sleep(1000);
+  const deadline = Date.now() + 8000;
+  while (Date.now() < deadline) {
+    await sleep(stepMs);
     if (await evr(deedsOpen)) return true;
   }
   return false;
@@ -304,9 +305,14 @@ await flipViewport(1600, 900, 1, false);
 const bursar = await goTo('bursar_fernando', -3, 3.5);
 check(!!bursar, 'bursar found in the live world');
 await sleep(1500);
-// The projected click can land a hair off while the camera settles, so
-// retry the talk until the deed lands (the Saul streak below does the same).
-for (let attempt = 0; attempt < 3; attempt++) {
+// The projected click can land a hair off while the camera settles, and a
+// miss that hits the ground is a MOVE order that walks the player away, so
+// every retry re-teleports and re-aims before clicking again.
+for (let attempt = 0; attempt < 6; attempt++) {
+  if (attempt > 0) {
+    await goTo('bursar_fernando', -3, 3.5);
+    await sleep(1200);
+  }
   await clickNpc(bursar.id);
   await sleep(1500);
   await escapeUntilClear();
@@ -330,8 +336,15 @@ await sleep(2000);
 for (let n = 1; n <= 9; n++) {
   let opened = false;
   for (let attempt = 0; attempt < 3 && !opened; attempt++) {
-    opened = await clickChronicler(saul.id);
-    if (!opened) await sleep(1500);
+    if (attempt > 0) {
+      // A missed click is a move order that can carry the player out of
+      // interact range, so re-seat before trying the talk again.
+      await goTo('chronicler_saul', -2.5, 2.7);
+      await sleep(1200);
+    }
+    // The ninth talk polls fine-grained: the unlock banner slot is only 2.6s
+    // and a coarse poll spends most of it before detection.
+    opened = await clickChronicler(saul.id, n === 9 ? 150 : 1000);
   }
   if (!opened) {
     check(false, `saul streak: talk ${n} did not open the Book`);
@@ -339,23 +352,46 @@ for (let n = 1; n <= 9; n++) {
   }
   if (n < 9) await escapeUntilClear();
 }
-// The ninth talk fires the unlock at the tick tail; close the Book fast and
-// catch the banner (2.6s slot) plus the durable gold chat line.
-await sleep(600);
+// The ninth talk fires the unlock at the tick tail; close the Book
+// immediately and catch the banner inside its slot plus the durable gold
+// chat line. Every fixed delay here is pared down and the earn assert runs
+// after the capture, because the whole path from detection to capture races
+// the 2.6s banner slot.
 await page.keyboard.press('Escape');
-await sleep(400);
+await sleep(150);
+await shot(
+  page,
+  '01-unlock-moment-1600x900.png',
+  'Deed unlock moment (banner + gold chat line)',
+  '1600x900',
+  100,
+);
+// Verify the CAPTURED pixels, not post-hoc DOM state: under software GL the
+// probe-to-capture lag exceeds the 1.2s fade, so live opacity says nothing
+// decisive about the frame. The banner renders #ffd100 capitals across the
+// top-center band; a faded banner blends toward the bright sky and stops
+// matching, so a healthy gold count means a near-full-brightness capture.
+{
+  const sharp = (await import('sharp')).default;
+  const band = await sharp(`${OUT}/01-unlock-moment-1600x900.png`)
+    .extract({ left: 300, top: 215, width: 1000, height: 100 })
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  let gold = 0;
+  for (let i = 0; i < band.data.length; i += band.info.channels) {
+    const r = band.data[i];
+    const g = band.data[i + 1];
+    const b = band.data[i + 2];
+    if (r > 200 && g > 140 && g < 225 && b < 90) gold++;
+  }
+  check(gold > 800, `unlock banner visible in the captured frame (${gold} gold pixels)`);
+}
 check(
   await evr(() => {
     const sim = window.__game.world;
     return sim.players.get(sim.playerId)?.deedsEarned.has('hid_saul_footnote') ?? false;
   }),
   'hid_saul_footnote earned after nine consecutive Saul talks',
-);
-await shot(
-  page,
-  '01-unlock-moment-1600x900.png',
-  'Deed unlock moment (banner + gold chat line)',
-  '1600x900',
 );
 await escapeUntilClear();
 
@@ -383,16 +419,28 @@ check(
 );
 await escapeUntilClear();
 
-// Chat: the own say line carries the bracketed title.
-await page.keyboard.press('Enter');
-await sleep(300);
-await page.keyboard.type('/s For the Vale!');
-await page.keyboard.press('Enter');
-await sleep(1200);
-check(
-  await evr(() => (document.querySelector('#chatlog')?.textContent ?? '').includes('[')),
-  'own say line reached the chat log',
-);
+// Chat: the own say line carries the bracketed title. Under machine load a
+// keypress can be dropped, and characters typed WITHOUT the composer focused
+// would fire keybinds instead, so confirm focus before typing and retry the
+// whole line until the full say text lands in the log.
+let sayLanded = false;
+for (let attempt = 0; attempt < 3 && !sayLanded; attempt++) {
+  let composerOpen = false;
+  for (let i = 0; i < 4 && !composerOpen; i++) {
+    await page.keyboard.press('Enter');
+    await sleep(400);
+    composerOpen = await evr(() => document.activeElement?.id === 'chat-input');
+  }
+  if (!composerOpen) continue;
+  await page.keyboard.type('/s For the Vale!');
+  await sleep(200);
+  await page.keyboard.press('Enter');
+  await sleep(1200);
+  sayLanded = await evr(() =>
+    (document.querySelector('#chatlog')?.textContent ?? '').includes('For the Vale!'),
+  );
+}
+check(sayLanded, 'own say line reached the chat log');
 await shot(page, '06-chat-title-1600x900.png', 'Chat say line with the equipped title', '1600x900');
 
 // Own nameplate: KeyV toggles nameplates; the own plate renders the title.
@@ -460,7 +508,20 @@ for (const c of CHRONICLERS) {
   const [ox, oz] = CHRONICLER_OFFSETS[c.id];
   const found = await goTo(c.id, ox, oz);
   check(!!found, `${c.id} found in the live world`);
-  await sleep(2500);
+  // A teleport into a new zone fires the crossing banner (2.6s slot plus a
+  // 1.2s fade) over the top-center where it photobombs the chronicler's
+  // plate, and a fixed settle races it. Give the crossing time to commit,
+  // then outwait the banner by its computed opacity.
+  await sleep(1500);
+  for (let i = 0; i < 20; i++) {
+    const faded = await evr(() => {
+      const el = document.getElementById('banner');
+      return !el || Number.parseFloat(getComputedStyle(el).opacity) < 0.05;
+    });
+    if (faded) break;
+    await sleep(400);
+  }
+  await sleep(500);
   await shot(page, c.file, c.label, '1600x900');
 }
 
@@ -539,14 +600,12 @@ async function surfacePass(vp, phone) {
     await evr(() => window.__game.hud.toggleLeaderboard());
     await sleep(900);
     lbOpen = await evr(
-      () =>
-        (document.querySelector('#leaderboard-window')?.getBoundingClientRect().width ?? 0) > 0,
+      () => (document.querySelector('#leaderboard-window')?.getBoundingClientRect().width ?? 0) > 0,
     );
   } else {
     lbOpen = await pressKey(
       'KeyK',
-      () =>
-        (document.querySelector('#leaderboard-window')?.getBoundingClientRect().width ?? 0) > 0,
+      () => (document.querySelector('#leaderboard-window')?.getBoundingClientRect().width ?? 0) > 0,
     );
   }
   check(lbOpen, `${vp}: the leaderboard window opens`);
@@ -568,23 +627,68 @@ for (const tier of TIERS) {
     // Chat is collapsed behind the Chat button on phones, and the button is
     // pointer-bound (a synthetic element.click() never fires it), so tap it
     // through the real input pipeline; a second tap closes it again.
-    const tapChatButton = async () => {
-      const pt = await evr(() => {
-        const r = document.querySelector('#mobile-chat')?.getBoundingClientRect();
+    const tapById = async (sel) => {
+      const pt = await evr((s) => {
+        const r = document.querySelector(s)?.getBoundingClientRect();
         return r && r.width > 0 ? { x: r.x + r.width / 2, y: r.y + r.height / 2 } : null;
-      });
+      }, sel);
       // Touchscreen, not mouse: under touch emulation the mouse path never
       // reaches the button's pointer handlers.
       if (pt) await page.touchscreen.tap(pt.x, pt.y);
       await sleep(900);
     };
-    await tapChatButton();
-    check(
-      await evr(() => document.body.classList.contains('mobile-chat-open')),
-      '844x390: the chat panel opens via the Chat button',
-    );
+    const tapChatButton = () => tapById('#mobile-chat');
+    // A deliberate long hold on the Chat button (past the 420ms classifier)
+    // toggles the read-only log peek; it is the only gesture that dismisses a
+    // peek without opening the composer.
+    const longPressChat = async () => {
+      const pt = await evr(() => {
+        const r = document.querySelector('#mobile-chat')?.getBoundingClientRect();
+        return r && r.width > 0 ? { x: r.x + r.width / 2, y: r.y + r.height / 2 } : null;
+      });
+      if (!pt) return;
+      await page.touchscreen.touchStart(pt.x, pt.y);
+      await sleep(700);
+      await page.touchscreen.touchEnd();
+      await sleep(600);
+    };
+    // The menu cluster ships collapsed behind its chevron toggle, so the Chat
+    // button has no live rect until a real tap expands it, exactly the flow a
+    // player follows. Collapsed is the shipping default, so the toggle is
+    // tapped again after the chat shots to restore it for the later frames.
+    const menuOpen = () => document.body.classList.contains('mobile-menu-open');
+    if (!(await evr(menuOpen))) await tapById('#mobile-menu-collapse-toggle');
+    check(await evr(menuOpen), '844x390: the menu cluster expands via its collapse toggle');
+    // The long-press classifier can misfire a real tap into the log peek when
+    // the software-GL main thread delays the synthesized pointerup past
+    // 420ms, so retry: a short tap opens the panel from ANY state (it clears
+    // a peek), and the loop stops the moment the panel is up.
+    const chatOpen = () => document.body.classList.contains('mobile-chat-open');
+    for (let i = 0; i < 4 && !(await evr(chatOpen)); i++) await tapChatButton();
+    if (!(await evr(chatOpen))) {
+      // At dsf3 the software-GL main thread can hold EVERY frame past the
+      // classifier threshold, so no real tap can register short. Dispatch the
+      // button's own pointer pair in one task (the classifier timer cannot
+      // fire between two synchronous dispatches); this still runs the shipped
+      // pointer handlers, only the transport is synthetic.
+      await evr(() => {
+        const btn = document.querySelector('#mobile-chat');
+        const opts = { bubbles: true, pointerId: 7, pointerType: 'touch' };
+        btn?.dispatchEvent(new PointerEvent('pointerdown', opts));
+        btn?.dispatchEvent(new PointerEvent('pointerup', opts));
+      });
+      await sleep(900);
+    }
+    check(await evr(chatOpen), '844x390: the chat panel opens via the Chat button');
     await shot(page, '06-chat-title-844x390.png', 'Chat panel with the titled say line', '844x390');
-    await tapChatButton();
+    // Close is the same misfire in reverse: a long-classified tap closes the
+    // panel but leaves the peek behind, and only a long press clears a peek.
+    for (let i = 0; i < 4 && (await evr(chatOpen)); i++) await tapChatButton();
+    check(!(await evr(chatOpen)), '844x390: the chat panel closes via the Chat button');
+    if (await evr(() => document.body.classList.contains('mobile-chatlog-peek'))) {
+      await longPressChat();
+    }
+    if (await evr(menuOpen)) await tapById('#mobile-menu-collapse-toggle');
     await page.keyboard.press('KeyV');
     await sleep(900);
     await shot(
@@ -615,6 +719,10 @@ Captured by \`node scripts/deeds_screenshots.mjs\` against the offline world
 (\`npm run dev\`), real play only: the earns, the equipped title, and the
 watchlist all come from actual game actions. Regenerate by re-running the
 script; names are stable so diffs stay legible.
+
+Two tiers are committed as the PR evidence set, desktop 1600x900 and phone
+landscape 844x390; the capture harness writes exactly these, so a fresh run
+reproduces the tracked set.
 
 | File | Surface | Viewport | Date | Tree |
 |---|---|---|---|---|
