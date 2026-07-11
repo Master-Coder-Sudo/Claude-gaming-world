@@ -30,7 +30,7 @@ import { ITEMS, MOBS, NPCS, QUESTS } from '../data';
 import * as deedsMod from '../deeds';
 import { createMob, createNpc } from '../entity';
 import { applyHeroicMobTuning, mobTemplateForDungeonDifficulty } from '../instances/difficulty';
-import { heroicLockoutId } from '../instances/dungeons';
+import { heroicLockoutId, instanceLockoutMetas } from '../instances/dungeons';
 import type { PlayerMeta } from '../sim';
 import type { SimContext } from '../sim_context';
 import { clearThreat, threatEntries } from '../threat';
@@ -507,12 +507,27 @@ export function grantNythraxisLockout(ctx: SimContext, boss: Entity): void {
   const lockId = isHeroicNythraxis(ctx, boss)
     ? heroicLockoutId('nythraxis_boss_arena')
     : 'nythraxis_boss_arena';
-  const metas = nythraxisRoomMetas(ctx, boss);
-  for (const meta of metas) {
+  // The kill locks the UNION of the room and the claim sweep. The claim sweep
+  // (instanceLockoutMetas) covers the whole owning raid group plus anyone
+  // inside the generic instance footprint: a raider who released, camped the
+  // entrance, or never zoned in must not stay unlocked, or one unlocked member
+  // re-claims the arena for the locked raid. The room metas stay in the union
+  // because the arena interior is WIDER than the generic 120-yd footprint
+  // (walls at roughly +/-230 local x): a raider who left the raid while parked
+  // in a side wing sits outside both claim arms yet can still hold the tap and
+  // its rewards, so the 260-yd boss room must keep locking them.
+  const roomMetas = nythraxisRoomMetas(ctx, boss);
+  const lockoutMetas = new Map<number, PlayerMeta>();
+  for (const meta of roomMetas) lockoutMetas.set(meta.entityId, meta);
+  const inst = ctx.instances.find((i) => i.partyKey !== null && i.mobIds.includes(boss.id));
+  if (inst) {
+    for (const meta of instanceLockoutMetas(ctx, inst)) lockoutMetas.set(meta.entityId, meta);
+  }
+  for (const meta of lockoutMetas.values()) {
     meta.raidLockouts.set(lockId, until);
   }
-  // Raid deed credit rides the same room roster as the lockout.
-  deedsMod.onNythraxisKillForDeeds(ctx, boss, metas);
+  // Raid deed credit stays scoped to the boss room roster.
+  deedsMod.onNythraxisKillForDeeds(ctx, boss, roomMetas);
 }
 
 // ----- phase-one mechanics --------------------------------------------------------

@@ -85,6 +85,7 @@ function encounterInstance(
     objectIds: [],
     exitId: null,
     emptyFor: 0,
+    clearedBy: new Set(),
   };
   sim.ctx.instances.push(inst);
   const recipients = names.map((name) => {

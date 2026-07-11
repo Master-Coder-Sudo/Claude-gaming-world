@@ -310,6 +310,7 @@ import {
   awardHeroicMarks as awardHeroicMarksImpl,
   enterCrypt as enterCryptImpl,
   enterDungeon as enterDungeonImpl,
+  grantHeroicKillLockout as grantHeroicKillLockoutImpl,
   instanceInfoAt as instanceInfoAtImpl,
   instanceKeyFor as instanceKeyForImpl,
   instanceOriginOf as instanceOriginOfImpl,
@@ -740,6 +741,11 @@ export interface InstanceSlot {
   // Sim-time (seconds) this slot was claimed, cleared with the claim. Session
   // state (instances never persist); the Sanctum speed deed reads it.
   claimedAt?: number;
+  // Players whose heroic daily lockout FIRST landed with THIS claim's final-boss
+  // kill (instances/dungeons lockToHeroicClaim). The heroic door's cleared-run
+  // exception admits only these: a player locked by an earlier run can never
+  // treat someone else's cleared claim as their own loot run.
+  clearedBy: Set<number>;
 }
 
 export interface ResolvedAbility {
@@ -1514,6 +1520,7 @@ export class Sim {
             objectIds: [],
             exitId: null,
             emptyFor: 0,
+            clearedBy: new Set(),
           });
         }
         continue;
@@ -1540,6 +1547,7 @@ export class Sim {
           objectIds: [],
           exitId: null,
           emptyFor: 0,
+          clearedBy: new Set(),
         });
       }
     }
@@ -3035,6 +3043,9 @@ export class Sim {
       dungeonDifficulty: sim.dungeonDifficulty.bind(sim),
       setDungeonDifficulty: sim.setDungeonDifficulty.bind(sim),
       awardHeroicMarks: sim.awardHeroicMarks.bind(sim),
+      // Kill-site heroic daily lockout (instances/dungeons): C1's death hub calls it
+      // for every mob death, credit or no credit; late-bound arrow, no Sim facade.
+      grantHeroicKillLockout: (mob) => grantHeroicKillLockoutImpl(sim.ctx, mob),
       addEntity: sim.addEntity.bind(sim),
       dropEntity: sim.dropEntity.bind(sim),
       rebucket: sim.rebucket.bind(sim),
