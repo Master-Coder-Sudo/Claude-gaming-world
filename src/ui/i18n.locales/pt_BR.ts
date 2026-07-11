@@ -51,7 +51,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'guide.nav.professions': 'Profissões',
   'guide.nav.valeCup': 'Copa do Vale',
   'guide.professions.archetypeChooseBody':
-    'Você declara seu primeiro arquétipo por meio de uma missão de história do início da zona um que o aceita formalmente nessa identidade. Até completar essa missão, você ainda não escolheu arquétipo algum.',
+    'Declarar um arquétipo será um momento de história: uma missão que o aceita formalmente naquela identidade. Esse caminho ainda está sendo construído, então, por ora, cada personagem percorre o mundo com a escolha ainda pela frente, e cada ofício avança até o grau de qualidade raro nesse meio-tempo.',
   'guide.professions.archetypeChooseTitle': 'Escolhendo seu arquétipo',
   'guide.professions.archetypeIdentityBody':
     'Seu arquétipo ativo é uma declaração sobre quem o seu personagem é no mundo, reconhecida na forma como os outros e o próprio mundo se dirigem a você. As recompensas e os reconhecimentos exatos que o acompanham ainda estão sendo finalizados; volte aqui conforme o sistema for se completando.',
@@ -59,7 +59,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'guide.professions.archetypeIntro':
     'Cada um dos dez ofícios também representa um arquétipo, uma identidade mais ampla que você pode adotar além de simplesmente trabalhar naquele ofício. Seu arquétipo ativo é uma escolha única por vez, não uma lista de tarefas: você carrega um, e pode trocar depois se quiser.',
   'guide.professions.archetypeSwitchBody':
-    'Ter declarado um arquétipo uma vez não prende você a ele para sempre. Mudar para outro arquétipo exige antes completar uma missão repetível de "fazer as pazes" com o antigo, e a cada troca a reparação esperada da próxima vez fica um pouco mais exigente, para que trocar continue significativo em vez de gratuito.',
+    'Uma declaração também não será uma sentença perpétua. O plano é um ato repetível de fazer as pazes com o seu antigo ofício antes de assumir um novo, com a reparação ficando mais exigente a cada troca, para que a escolha continue significativa em vez de gratuita. Assim como a própria declaração, ele ainda está a caminho.',
   'guide.professions.archetypeSwitchTitle': 'Mudando de ideia',
   'guide.professions.archetypeTitle': 'Os dez arquétipos',
   'guide.professions.craftComboBody':
@@ -4744,7 +4744,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'guide.controls.talents': 'Talentos',
   'guide.controls.targetFriendly': 'Mirar o aliado mais próximo',
   'guide.delvesPage.affixesBody':
-    'Incursões mais difíceis sorteiam um modificador que muda como a descida se desenrola, de mortos inquietos a ar viciado, até obras de teto que cedem. Eles elevam o perigo e a recompensa na mesma medida. Uma incursão com tema de cripta pode sortear qualquer um destes:',
+    'Incursões mais difíceis sorteiam um modificador que muda como a descida se desenrola, de mortos inquietos a ar viciado, até obras de teto que cedem. Eles elevam o perigo e a recompensa na mesma medida. Cada incursão recorre aos modificadores que combinam com seu tema; pelo reino afora, o conjunto é assim:',
   'guide.delvesPage.affixesHeading': 'Modificadores de incursão',
   'guide.delvesPage.affixesLabel': 'Modificadores possíveis',
   'guide.delvesPage.companionBody':
@@ -4776,7 +4776,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
     'Uma incursão é uma pequena masmorra instanciada feita só para você e até um aliado, uma cópia privada na qual você não pode ser perturbado. Você a inicia a partir de um quadro mantido por um guardião de incursões pelo mundo, entra, luta descendo por um punhado de salas e termina num único guardião. As incursões são rápidas e feitas para serem repetidas, então uma incursão é um progresso confiável sempre que o mundo aberto seca.',
   'guide.delvesPage.whatHeading': 'O que é uma incursão',
   'guide.delvesPage.whereBody':
-    'A primeira incursão, o Relicário Desmoronado, abre na Colina do Relicário, no vale inicial do Vale de Eastbrook. O Irmão Halven cuida do quadro por lá, e vai mandar você descer assim que estiver pronto.',
+    'A primeira incursão, o Relicário Desmoronado, abre na Colina do Relicário, no vale inicial do Vale de Eastbrook. O Irmão Halven cuida do quadro por lá, e vai mandar você descer assim que estiver pronto. As rondas dele não param por aí: passados os Montículos dos Trolls, na orla norte do pântano de Mirefen, o mesmo guardião abre A Ladainha Afogada para os desbravadores que já ganharam firmeza.',
   'guide.delvesPage.whereHeading': 'Onde encontrar uma',
   'guide.docTitle': '{page} - {brand}',
   'guide.dungeonsPage.bastionBody':
@@ -4793,7 +4793,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'guide.dungeonsPage.party':
     'As masmorras são feitas para um grupo de cinco. O raide de fim de jogo é para dez.',
   'guide.dungeonsPage.raidBody':
-    'Além de uma porta real selada aguarda um desafio de dez jogadores: uma luta de várias fases e um poder sem morte que o raide inteiro deve neutralizar em conjunto. Conquiste sua entrada e depois traga nove amigos.',
+    'Além de uma porta real selada aguarda um desafio de dez jogadores: uma luta de várias fases e um poder imortal que o raide inteiro precisa neutralizar em conjunto. Conquiste sua entrada e depois traga nove amigos.',
   'guide.dungeonsPage.raidName': 'O raide de fim de jogo',
   'guide.dungeonsPage.raidSize': 'Dez jogadores, nível {n}',
   'guide.dungeonsPage.sanctumBody':
@@ -4965,7 +4965,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'guide.howToPlay.basicsHeading': 'O básico',
   'guide.howToPlay.controlsLink': 'Veja a referência completa de controles',
   'guide.howToPlay.deathBody':
-    'Se você cair, liberta seu espírito e revive no cemitério mais próximo, de volta com vida cheia, e depois segue até onde estava. Nenhuma experiência é perdida.',
+    'Se você cair, seu corpo fica onde tombou e você se ergue como um fantasma no cemitério mais próximo. Corra com seu espírito de volta até o corpo para reviver ali mesmo, sem penalidade alguma, ou aceite o Guardião Pálido no cemitério para um ressurgimento imediato ao custo de uma fraqueza passageira. Heróis recém-criados são poupados por completo da fraqueza, e nada do que você possui ou conquistou é jamais perdido.',
   'guide.howToPlay.deathTitle': 'A morte não é o fim',
   'guide.howToPlay.firstHeading': 'Seus primeiros 15 minutos',
   'guide.howToPlay.groupingBody':
@@ -4980,7 +4980,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
     'Aceite missões de pessoas com um marcador acima da cabeça, complete o objetivo e entregue-as por experiência, moedas e equipamento. O rastreador na tela mantém suas metas à vista.',
   'guide.howToPlay.questsTitle': 'Missões',
   'guide.howToPlay.reassure':
-    'Os talentos são liberados no nível 10 e podem ser redefinidos a qualquer momento, então suas escolhas iniciais nunca são permanentes. Experimente à vontade.',
+    'Os talentos são liberados no nível 10 e podem ser redefinidos a qualquer momento em que você estiver fora de combate, então suas escolhas iniciais nunca são permanentes. Experimente à vontade.',
   'guide.howToPlay.resourcesBody':
     'Feitiços e habilidades custam um recurso. Guerreiros acumulam Fúria lutando, ladinos gastam Energia que se recarrega sozinha, e todos os demais conjuram a partir de uma reserva de Mana.',
   'guide.howToPlay.resourcesTitle': 'Recursos',
@@ -5212,7 +5212,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'guide.dungeonsPage.levelBand': 'Níveis {min} a {max}',
   'guide.dungeonsPage.partySize': '{n} jogadores',
   'guide.faqPage.a10':
-    'O limite é o nível {cap}. A partir daí você encara as masmorras de cinco jogadores e a raide de dez jogadores, busca equipamentos melhores e se testa na arena.',
+    'O limite é o nível {cap}. A partir daí você encara as masmorras de cinco jogadores e a raide de dez jogadores, enfrenta-as de novo em modo heroico por saque aprimorado, encara o chefe mundial quando ele se ergue e se testa na arena.',
   'guide.faqPage.a11':
     'Convide qualquer pessoa que encontrar para um grupo, pergunte no chat ou junte-se a outros na entrada de uma masmorra. A maior parte do mundo pode ser feita sozinho, então agrupar é uma escolha, não uma exigência.',
   'guide.faqPage.a9':
@@ -5312,10 +5312,10 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
     'Toda classe se vira bem e chega ao limite. Escolha a fantasia que você gosta, não a que outra pessoa diz ser a melhor.',
   'guide.wishPage.i1Title': 'Não dá para escolher a classe errada',
   'guide.wishPage.i2Body':
-    'Quando você cai, liberta seu espírito e revive no cemitério mais próximo, e depois volta caminhando. Nenhuma experiência é perdida, então é seguro arriscar e aprender.',
+    'Quando você cai, ergue-se como um fantasma no cemitério mais próximo. Corra de volta até seu corpo para reviver sem custo, ou aceite o ressurgimento imediato do Guardião Pálido e carregue uma fraqueza passageira pela conveniência. Nenhuma experiência, equipamento ou dinheiro é jamais perdido, então é seguro arriscar e aprender.',
   'guide.wishPage.i2Title': 'Morrer quase não custa nada',
   'guide.wishPage.i3Body':
-    'Eles ficam disponíveis no nível 10 e podem ser redefinidos quando você quiser, então suas escolhas iniciais nunca são permanentes.',
+    'Eles ficam disponíveis no nível 10 e podem ser redefinidos quando você quiser, fora de combate, então suas escolhas iniciais nunca são permanentes.',
   'guide.wishPage.i3Title': 'Os talentos não são uma armadilha',
   'guide.wishPage.i4Body':
     'As missões são a forma mais rápida de subir de nível e elas guiam você pelo mundo. Quando estiver em dúvida sobre aonde ir, encontre o próximo marcador.',
@@ -5366,9 +5366,9 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
     'Um elemental de tempestade ganhando ombros, caminhando pelos despenhadeiros distantes acima de Stormcrag com um fragmento-coração que vale enfrentar os raios.',
   'guide.bestiary.notedLabel': 'Digno de nota',
   'guide.combat.ccBody':
-    'Controle de grupo é um tipo especial de penalidade que limita o que um alvo pode fazer: atordoamentos, enraizamentos e reduções de velocidade, silêncios que impedem conjurações, desarmes, medos e transformações que tornam um inimigo inofensivo por um instante. Alguns deles, como enraizamentos, medos e transformações, perdem o efeito quando reaplicados rápido demais, então não podem ser encadeados para sempre.',
+    'Controle de grupo é um tipo especial de penalidade que limita o que um alvo pode fazer: atordoamentos, enraizamentos e reduções de velocidade, silêncios que impedem conjurações, desarmes, medos e transformações que tornam um inimigo inofensivo por um instante. Contra outros jogadores, o controle se desgasta com a repetição: o mesmo tipo reaplicado rápido demais enfraquece e depois falha por completo, e um atordoamento que abre a partir da furtividade é contado à parte dos atordoamentos que vêm depois, então ninguém pode ser mantido indefeso para sempre. As criaturas do mundo não guardam esse rancor; o controle recai sobre elas com força total todas as vezes.',
   'guide.combat.deathBody':
-    'Se sua vida chegar a zero, você é derrubado. Liberte seu espírito para reviver no cemitério mais próximo com vida cheia, e depois volte caminhando, então uma morte custa um pouco de tempo, não seu progresso. Entre lutas, sente-se para comer e beber, assim você começa a próxima com força total.',
+    'Se sua vida chegar a zero, você é derrubado onde está, e seu corpo fica ali. Liberte seu espírito e você se ergue como um fantasma no cemitério mais próximo: mais veloz que os vivos, fora do alcance dos seus inimigos, mas incapaz de lutar, saquear ou falar com quem quer que seja, exceto o Guardião Pálido que paira sobre as lápides. Dali você escolhe. Leve seu fantasma de volta até o corpo e você revive ali mesmo, com parte da sua vida e mana restauradas e nenhuma penalidade. Ou aceite do Guardião Pálido um ressurgimento imediato onde está, ao preço do Tributo do Guardião: um enfraquecimento temporário de tudo o que você é, que dura mais quanto mais experiente você for, e poupa por completo os personagens recém-criados. Caia dentro de uma masmorra e seu espírito aguarda no cemitério do lado de fora; leve seu fantasma de volta pela porta e você revive na entrada. Por qualquer caminho, você não perde experiência, equipamento nem dinheiro. Entre lutas, sente-se para comer e beber, assim você começa a próxima com força total.',
   'guide.combat.deathTitle': 'Quando você cai',
   'guide.combat.effectsBody':
     'Muitas habilidades aplicam um efeito que perdura. Os úteis (benefícios) aumentam seus atributos, escudam você ou curam um pouco de cada vez; os prejudiciais (penalidades) drenam sua vida com dano ao longo do tempo ou enfraquecem você. Observe os pequenos ícones perto da sua barra de ação para ver o que está em você e quanto tempo dura.',
@@ -5402,8 +5402,8 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
     'O preço fica a seu critério. Listar um pouco abaixo do que os outros pedem tende a vender mais rápido, enquanto um preço alto pode ficar parado. Navegue primeiro para ver qual é o preço de mercado antes de anunciar.',
   'guide.economy.marketTitle': 'O Mercado Mundial',
   'guide.economy.marksBody':
-    'Moedas não são a única coisa que você acumula. As incursões pagam Selos de Incursão, uma moeda separada que você gasta apenas com o guardião de incursões, em melhorias para a companheira e equipamentos que você não encontra em outro lugar. Eles nunca se misturam com o seu dinheiro.',
-  'guide.economy.marksTitle': 'Uma segunda moeda: Selos de Incursão',
+    'Dinheiro não é a única coisa que você acumula. As incursões pagam Selos de Incursão, gastos apenas com o guardião de incursões, em melhorias para a companheira e equipamentos que você não encontra em outro lugar. As masmorras heroicas deixam Marcas Heroicas no chefe final, gastas com o Intendente Heroico em Highwatch, em joalheria que nenhum outro canto do reino vende. Nenhuma delas jamais se mistura com o seu dinheiro.',
+  'guide.economy.marksTitle': 'Selos e Marcas: as moedas além do dinheiro',
   'guide.economy.tradeBody':
     'Você pode negociar cara a cara com qualquer um que esteja perto de você. Os dois colocam itens e moedas numa janela compartilhada, e a troca só acontece depois que ambos confirmam, então nenhum dos lados pode ser enganado. É o jeito simples de passar um saque a um amigo ou fechar um acordo.',
   'guide.economy.tradeTitle': 'Negociando com outros jogadores',
@@ -5453,7 +5453,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'guide.gear.qualityTitle': 'Qualidade, num relance',
   'guide.gear.qualityUncommon': 'Incomum',
   'guide.gear.setsBody':
-    'As armaduras mais raras vêm em famílias combinando, várias peças talhadas para parecer e lutar como uma só. Vista o bastante de uma família ao mesmo tempo e o conjunto desperta, concedendo bônus por cima dos atributos de cada peça, e quanto mais peças você usa mais forte ele fica. Elas largam do conteúdo em grupo mais difícil perto do limite de nível, então perseguir um conjunto completo é um objetivo clássico de fim de jogo.',
+    'Algumas armaduras vêm em famílias combinando, várias peças talhadas para parecer e lutar como uma só. Vista o bastante de uma família ao mesmo tempo e o conjunto desperta, concedendo bônus por cima dos atributos de cada peça, e quanto mais peças você usa mais forte ele fica. Algumas dessas famílias surgem como saques valiosos enquanto você sobe de nível; as maiores delas vêm do conteúdo em grupo mais difícil perto do limite de nível, então perseguir um conjunto completo é um objetivo clássico de fim de jogo.',
   'guide.gear.setsTitle': 'Conjuntos e bônus de conjunto',
   'guide.gear.slotChest': 'Peito',
   'guide.gear.slotFeet': 'Pés',
@@ -5464,10 +5464,10 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'guide.gear.slotShoulder': 'Ombros',
   'guide.gear.slotWaist': 'Cintura',
   'guide.gear.slotsBody':
-    'Você tem um espaço de arma e sete espaços de armadura. Cada classe pode usar apenas certas armas e veste armadura até o seu próprio peso, tecido, couro ou malha, então as melhorias que servem para você são as feitas para sua classe. Dentro disso, preencha cada espaço com a melhor peça que encontrar.',
+    'Você tem um espaço de arma, sete espaços de armadura e três espaços de joalheria: um de pescoço e dois de dedo. Cada classe pode usar apenas certas armas e veste armadura até o seu próprio peso, tecido, couro ou malha, então as melhorias que servem para você são as feitas para sua classe. A joalheria não tem peso algum: qualquer classe veste o que quer que conquiste. Dentro disso, preencha cada espaço com a melhor peça que encontrar.',
   'guide.gear.slotsTitle': 'O que você pode equipar',
   'guide.gear.sourcesBody':
-    'A maioria das suas melhorias iniciais são recompensas de missões, então vale a pena terminar missões em vez de farmar. Inimigos largam equipamento quando você os derrota, vendedores na cidade vendem o básico de confiança, e o mercado de jogadores permite comprar de outros aventureiros.',
+    'A maioria das suas melhorias iniciais são recompensas de missões, então vale a pena terminar missões em vez de farmar. Inimigos largam equipamento quando você os derrota, vendedores na cidade vendem o básico de confiança, artesãos transformam materiais coletados em peças vestíveis, e o mercado de jogadores permite comprar de outros aventureiros. Lá no topo, duas moedas de selos compram equipamentos que não se encontram em nenhum outro lugar: os Selos de Incursão com o guardião de incursões, e as Marcas Heroicas com o Intendente Heroico.',
   'guide.gear.sourcesTitle': 'De onde vem o equipamento',
   'guide.gear.upgradeBody':
     'Trocar uma peça antiga por uma melhoria nova faz mais por você do que jogar de forma impecável com um equipamento que você já superou. Quando algo melhor cair ou uma missão oferecer, pegue. Não guarde seus bons itens para depois.',
@@ -5503,7 +5503,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'guide.progression.capBody':
     'Cada nível torna você mais resistente e traz novas habilidades, até o limite do nível {cap}.',
   'guide.progression.capJourneyBody':
-    'O nível {cap} é o limite, o fim da progressão de nível, mas não do crescimento. A partir dali você encara masmorras e o raide, busca equipamento melhor e se testa na arena.',
+    'O nível {cap} é o limite, o fim da progressão de nível, mas não do crescimento. A partir dali você encara masmorras e o raide no normal e no heroico, encara o chefe mundial quando ele se ergue, busca equipamento melhor e se testa na arena.',
   'guide.progression.capTitle': 'Chegando ao nível {cap}',
   'guide.progression.intro':
     'Toda luta, missão e passo ao norte deixa seu herói mais forte. Veja como a progressão de nível funciona e o que mantém você crescendo depois de chegar ao topo.',
@@ -5543,7 +5543,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
     'Ao lado da história, os marechais e guardiões do Vale e do brejo oferecem uma escada de recompensas fixa. Suba por ela, inimigo a inimigo, do jeito que cada caçador de recompensas antes de você conquistou seu lugar. É progressão honesta e um tour pelos piores encrenqueiros de cada zona.',
   'guide.questsPage.sideWardenTitle': 'Conquistando seu nome',
   'guide.questsPage.typeGatherBody':
-    'Colete itens do mundo ou do que os inimigos largam: ervas, minério, cartas perdidas, os sombrios reagentes de um culto. Algumas peças só caem de um inimigo específico, então a caçada e a coleta andam juntas.',
+    'Colete itens do mundo ou do que os inimigos largam: ervas, minério, os sombrios reagentes de um culto. Algumas peças só caem de um inimigo específico, então a caçada e a coleta andam juntas.',
   'guide.questsPage.typeGatherTitle': 'Coletar',
   'guide.questsPage.typeGroupBody':
     'Cada capítulo da história principal termina numa porta de masmorra. A introdução pode ser feita sozinho, mas o golpe final contra o vilão de um capítulo é feito para um grupo de cinco.',
@@ -5634,7 +5634,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
     'A armadura reduz o dano físico que você sofre. Ela vem principalmente do que você veste, e as classes de armadura mais pesada carregam muito mais dela. Mais armadura contra um inimigo perto do seu nível faz cada golpe dele acertar mais leve.',
   'guide.stats.armorTitle': 'Armadura',
   'guide.stats.critBody':
-    'Sua chance de acerto crítico é a frequência com que um ataque acerta com dano extra. Todos começam com uma pequena chance básica, e a Agilidade (mais alguns talentos e equipamentos) a aumenta.',
+    'Sua chance de acerto crítico é a frequência com que um ataque acerta com dano extra. Todos começam com uma pequena chance básica, e a Agilidade (mais alguns talentos e equipamentos) a aumenta. Sua ficha mostra tanto a chance em si quanto o índice de crítico com que seu equipamento contribui para ela.',
   'guide.stats.critTitle': 'Acerto crítico',
   'guide.stats.dodgeBody':
     'Esquiva é sua chance de evitar por completo um ataque corpo a corpo. Você começa com uma pequena chance básica, e a Agilidade a aumenta, então classes ágeis escapam de mais golpes.',
@@ -5681,7 +5681,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'guide.worldPage.marshGreeting':
     'Pare no portão. Passando aqueles juncos, o brejo faz a matança por nós.',
   'guide.worldPage.marshPlaceNotes':
-    'Fenbridge guarda a única estrada seca. Os Juncos do Espreitador e os Baixios de Deepfen fervilham de feras do pântano e Mudfins; o Matagal da Viúva é tecido de teias; a Capela Afogada e os Montículos dos Trolls guardam perigos mais antigos; o Acampamento de Gravecaller é o culto entrincheirado, e o Bastião Submerso é o coração instanciado do pântano.',
+    'Fenbridge guarda a única estrada seca. Os Juncos do Espreitador e os Baixios de Deepfen fervilham de feras do pântano e Mudfins; o Matagal da Viúva é tecido de teias; a Capela Afogada e os Montículos dos Trolls guardam perigos mais antigos, com A Ladainha Afogada, a incursão do próprio pântano, abrindo logo ao norte dos montículos; o Acampamento de Gravecaller é o culto entrincheirado, e o Bastião Submerso é o coração instanciado do pântano.',
   'guide.worldPage.peaksGreeter': 'Capitã Thessaly, Highwatch',
   'guide.worldPage.peaksGreeting':
     'Duzentos anos esta muralha resistiu. Ela não cairá sob minha vigilância, mas range.',
@@ -5690,7 +5690,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'guide.worldPage.valeGreeter': 'Marechal Redbrook, Eastbrook',
   'guide.worldPage.valeGreeting': 'Mantenha sua lâmina por perto. O Vale não é mais o que era.',
   'guide.worldPage.valePlaceNotes':
-    'Eastbrook é sua primeira base de operações. A Trilha do Lobo e a Campina do Javali são terreno de caça ameno; o Lago Espelho é água tranquila para pescar; a Sableweb e a Escavação de Cobre escondem aranhas e escavadores gananciosos por minério; um Acampamento de Bandidos e a Capela Caída guardam trabalhos mais duros; a Colina do Relicário desce até o Relicário Desmoronado, o primeiro delve do mundo; e a Clareira de Brightwood é um bosque calmo e ensolarado ao norte.',
+    'Eastbrook é sua primeira base de operações. A Trilha do Lobo e a Campina do Javali são terreno de caça ameno; o Lago Espelho é água tranquila para pescar; a Sableweb e a Escavação de Cobre escondem aranhas e escavadores gananciosos por minério; um Acampamento de Bandidos e a Capela Caída guardam trabalhos mais duros; a Colina do Relicário desce até o Relicário Desmoronado, a primeira incursão do reino; a Clareira de Brightwood é um bosque calmo e ensolarado ao norte; e o Sowfield é o campo murado de boarball de Eastbrook, onde a Copa do Vale é disputada sob uma trégua de colheita.',
   'guide.worldPage.gladeTitle': 'Um canto tranquilo: Clareira de Brightwood',
   'guide.worldPage.gladeBody':
     'Nem toda história no Vale fala dos mortos. Ao norte, uma clareira ensolarada chamada Brightwood Glade mantém seu próprio ritmo mais gentil, só trilhas silenciosas e luz salpicada sob os galhos. É um contraponto suave à trilha que você segue, e vale ser vista quando a estrada lhe der espaço para vaguear.',
@@ -6478,7 +6478,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
     'Chuva ambiente e neve. Apenas atmosfera, e desligá-lo economiza um pouco durante as tempestades.',
   'guide.settingsPage.tableFoot':
     'Procurando um controle deslizante de distância de desenho ou um limite FPS? Não há nada para procurar: a distância de visualização faz parte de cada nível de qualidade e o ritmo dos quadros segue a sua exibição.',
-  'guide.settingsPage.tableHeading': 'Cada opção, explicada',
+  'guide.settingsPage.tableHeading': 'Cada opção de gráficos, explicada',
   'guide.settingsPage.tagReload': 'depois de recarregar',
   'guide.settingsPage.value100': '100%',
   'guide.settingsPage.value50to70': '50 a 70%',
@@ -6694,7 +6694,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
     'As Proezas são uma prateleira à parte: registros de legado e de primazias mundiais, os feitos ligados a uma era que já passou ou a um momento que só vai acontecer uma vez. Elas não rendem Renome e ficam fora da contagem de conclusão, guardadas para sempre como memória do que foi feito.',
   'guide.deedsPage.featsHeading': 'Proezas',
   'guide.deedsPage.howBody':
-    'Os feitos são conquistados um personagem de cada vez e exibidos para a conta inteira, então cada herói que você joga soma à mesma coleção. Cada feito diz com clareza o que pede de você, ali mesmo no Livro dos Feitos dentro do jogo, então você sempre sabe o que perseguir, e pode acompanhar os que estiver caçando para mantê-los à vista enquanto joga. Uns poucos permanecem secretos e só se revelam depois de conquistados.',
+    'Os feitos são conquistados um personagem de cada vez e exibidos para a conta inteira, então cada herói que você joga soma à mesma coleção. Cada feito diz com clareza o que pede de você, ali mesmo no Livro dos Feitos dentro do jogo, então você sempre sabe o que perseguir, e pode acompanhar os que estiver caçando para mantê-los à vista enquanto joga. Uns poucos permanecem secretos e só se revelam depois de conquistados. O Livro também se mantém honesto: tudo o que o seu histórico passado puder comprovar, ele credita na hora, então um veterano nunca o abre numa página vazia; só os feitos de contagem começam sua conta do zero.',
   'guide.deedsPage.howHeading': 'Como funcionam os feitos',
   'guide.deedsPage.intro':
     'O Livro dos Feitos é onde o mundo anota tudo o que você já fez, dos primeiros passos fora do vale inicial às lutas mais duras que o reino pode oferecer. Conquiste feitos enquanto joga, ostente os títulos que eles concedem e veja seu Renome subir.',

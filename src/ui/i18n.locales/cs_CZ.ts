@@ -37,7 +37,7 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
   'guide.nav.professions': 'Profese',
   'guide.nav.valeCup': 'Pohár údolí',
   'guide.professions.archetypeChooseBody':
-    'Svůj první archetyp vyhlašuješ skrze raný příběhový úkol v první zóně, který tě do dané identity formálně přijme. Dokud tento úkol nedokončíš, žádný archetyp sis ještě nezvolil.',
+    'Vyhlášení archetypu bude příběhový okamžik: úkol, který tě do dané identity formálně přijme. Tato cesta se teprve buduje, takže prozatím každá postava chodí světem s volbou před sebou a každé řemeslo mezitím postupuje až po vzácnou úroveň kvality.',
   'guide.professions.archetypeChooseTitle': 'Volba archetypu',
   'guide.professions.archetypeIdentityBody':
     'Tvůj aktivní archetyp je prohlášením o tom, kým tvá postava ve světě je, a projevuje se v tom, jak tě ostatní i svět oslovují. Přesné odměny a uznání, které s ním přicházejí, se ještě dolaďují; vracej se sem, jak se systém bude doplňovat.',
@@ -45,7 +45,7 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
   'guide.professions.archetypeIntro':
     'Každé z deseti řemesel zároveň představuje archetyp, širší identitu, kterou můžeš přijmout nad rámec samotné práce v daném oboru. Aktivní archetyp je vždy jen jedna volba, ne seznam k odškrtání: neseš jeden a později ho můžeš změnit, pokud se tak rozhodneš.',
   'guide.professions.archetypeSwitchBody':
-    'Jednou vyhlášený archetyp tě nesvazuje navždy. Přechod k jinému archetypu znamená nejprve dokončit opakovatelný úkol "odčinění" u toho starého, a s každou další změnou je od tebe očekávané odčinění o něco náročnější, takže změna zůstává smysluplná, ne bezplatná.',
+    'Ani vyhlášení nebude doživotní ortel. V plánu je opakovatelné odčinění vůči tvému starému oboru, než se chopíš nového, přičemž s každou další změnou je odčinění strmější, takže volba zůstává smysluplná, ne bezplatná. Stejně jako samotné vyhlášení je i tohle teprve na cestě.',
   'guide.professions.archetypeSwitchTitle': 'Změna názoru',
   'guide.professions.archetypeTitle': 'Deset archetypů',
   'guide.professions.craftComboBody':
@@ -5457,7 +5457,7 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
     'Přijímej úkoly od lidí se značkou nad hlavou, splň cíl a odevzdej je za zkušenosti, mince a výbavu. Tracker na obrazovce drží cíle na očích.',
   'guide.howToPlay.deathTitle': 'Smrt není konec',
   'guide.howToPlay.deathBody':
-    'Když padneš, propustíš ducha a oživíš se na nejbližším hřbitově s plným zdravím, potom se vrátíš, kde jsi byl. Neztrácíš zkušenosti.',
+    'Když padneš, tvé tělo zůstane tam, kde kleslo, a ty povstaneš jako duch na nejbližším hřbitově. Doběhni duchem zpět ke svému tělu a oživíš se na místě bez postihu, nebo přijmi u hřbitova Bledého strážce a nech se okamžitě vzkřísit za cenu pomíjivé slabosti. Úplně noví hrdinové jsou slabosti zcela ušetřeni a nikdy nepřijdeš o nic, co vlastníš nebo sis vydobyl.',
   'guide.howToPlay.groupingTitle': 'Hraní spolu',
   'guide.howToPlay.groupingBody':
     'Pozvi ostatní do party, sdílejte postup v úkolech a pouštějte se do dungeonů. Většinu světa zvládneš sólo, takže skupina je volba, ne povinnost.',
@@ -5465,7 +5465,7 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
   'guide.howToPlay.onlineBody':
     'Hraj sdílený online svět s ostatními, nebo spusť okamžitý offline svět v prohlížeči a nauč se základy.',
   'guide.howToPlay.reassure':
-    'Talenty se odemykají na úrovni 10 a dají se kdykoli resetovat, takže rané volby nejsou nikdy trvalé. Volně experimentuj.',
+    'Talenty se odemykají na úrovni 10 a můžeš je kdykoli mimo boj resetovat, takže rané volby nejsou nikdy trvalé. Volně experimentuj.',
   'guide.howToPlay.controlsLink': 'Zobrazit úplnou referenci ovládání',
   'guide.controls.intro': 'Výchozí klávesy pro desktop. Každou vazbu lze změnit v nastavení hry.',
   'guide.controls.keyHeader': 'Klávesa',
@@ -5535,7 +5535,7 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
     'Pokročilé vychází z vysokého stupně a odemkne čtyři další volby, takže můžeš utratit snímky tam, kde si jich všimneš: detail terénu, hustota vegetace, efekty a osvětlení a kvalita stínů. Stejně jako kvalita grafiky platí po znovunačtení.',
   'guide.settingsPage.advancedMixes':
     'Dvě oblíbené kombinace: nech kvalitu stínů na vysoké a nastav efekty a osvětlení na nízké pro ostrý vzhled bez záře, který běží lehce, nebo to obrať a nech bloom se zjemněnými stíny.',
-  'guide.settingsPage.tableHeading': 'Každá volba, vysvětlená',
+  'guide.settingsPage.tableHeading': 'Každá grafická volba, vysvětlená',
   'guide.settingsPage.colSetting': 'Nastavení',
   'guide.settingsPage.colDoes': 'Co dělá',
   'guide.settingsPage.colImpact': 'Dopad na FPS',
@@ -5590,10 +5590,10 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
   'guide.combat.effectsBody':
     'Mnoho schopností zanechá přetrvávající efekt. Užitečné efekty, buffy, zvedají statistiky, štítí tě nebo tě postupně léčí; škodlivé efekty, debuffy, vysávají zdraví poškozením v čase nebo tě oslabují. Sleduj malé ikony u akční lišty, ať víš, co na tobě je a jak dlouho to trvá.',
   'guide.combat.ccBody':
-    'Crowd control je zvláštní druh debuffu, který omezuje, co cíl dokáže: omráčení, zakořenění a zpomalení, umlčení kouzel, odzbrojení, strach a proměny, které na chvíli udělají z protivníka neškodný cíl. Některé z nich, jako kořeny, strachy a proměny, ztrácejí účinek, když se opakují příliš rychle, takže nejdou řetězit navždy.',
+    'Crowd control je zvláštní druh debuffu, který omezuje, co cíl dokáže: omráčení, zakořenění a zpomalení, umlčení zastavující sesílání, odzbrojení, strach a proměny, které z protivníka na chvíli udělají neškodný cíl. Proti ostatním hráčům se ovládání opakováním ztenčuje: stejný druh nasazený příliš rychle po sobě slábne a nakonec selže úplně, a omráčení otevřené ze stealthu se počítá zvlášť od těch, která následují, takže nikoho nelze držet bezmocného navěky. Bytosti světa žádnou takovou zášť nechovají; na ně ovládání dopadá pokaždé v plné síle.',
   'guide.combat.deathTitle': 'Když padneš',
   'guide.combat.deathBody':
-    'Když zdraví klesne na nulu, padneš. Propusť ducha, oživ se na nejbližším hřbitově s plným zdravím a vrať se zpět, takže smrt stojí trochu času, ne postup. Mezi boji si sedni k jídlu a pití, ať začneš další souboj v plné síle.',
+    'Když ti zdraví klesne na nulu, padneš tam, kde stojíš, a tvé tělo tam zůstane. Propusť ducha a povstaneš jako duch na nejbližším hřbitově: rychlejší na nohou než živí, mimo dosah svých nepřátel, ale neschopný bojovat, lootovat nebo s kýmkoli mluvit, kromě Bledého strážce vznášejícího se nad kameny. Odtud se rozhoduješ. Doběhni duchem zpět ke svému tělu a oživíš se na místě s obnovenou částí zdraví a many a bez jakéhokoli postihu. Nebo přijmi od Bledého strážce okamžité vzkříšení tam, kde jsi, za cenu Strážcova mýta: dočasného oslabení všeho, čím jsi, které trvá tím déle, čím jsi zkušenější, a úplně nové postavy zcela míjí. Padneš-li uvnitř dungeonu, tvůj duch čeká na hřbitově venku; projdi duchem zpět dveřmi a oživíš se u vchodu. Ať tak či onak, nepřijdeš o žádné zkušenosti, výbavu ani mince. Mezi boji si sedni k jídlu a pití, ať další začneš v plné síle.',
   'guide.glossary.intro': 'Rychlá reference termínů používaných v průvodci a chatu.',
   'guide.glossary.aggroTerm': 'Aggro',
   'guide.glossary.aggroDef':
@@ -5682,7 +5682,7 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
     'Ano. Vyvolej kohokoli na duel pro zábavu, nebo vstup do Popelavého kolosea bojovat s ostatními hráči. PvP je dobrovolné, nikdy tě k němu hra nenutí.',
   'guide.faqPage.q10': 'Co dělat na maximální úrovni?',
   'guide.faqPage.a10':
-    'Maximum je úroveň {cap}. Odtud běháš pětičlenné dungeony a desetičlenný raid, lovíš lepší výbavu a zkoušíš se v aréně.',
+    'Maximum je úroveň {cap}. Odtud běháš pětičlenné dungeony a desetičlenný raid, pouštíš se do nich znovu v hrdinském režimu za vylepšenou kořist, čelíš světovému bossovi, když povstane, a zkoušíš se v aréně.',
   'guide.faqPage.q11': 'Jak najdu skupinu?',
   'guide.faqPage.a11':
     'Pozvi kohokoli, koho potkáš, do party, zeptej se v chatu nebo se spojte u dungeonu. Většina světa jde sólo, takže skupina je volba, ne požadavek.',
@@ -5897,9 +5897,9 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
     'Dvě stě let tahle zeď drží. Na mé hlídce se nezlomí, ale sténá.',
   'guide.worldPage.peaksGreeter': 'Kapitánka Thessaly, Highwatch',
   'guide.worldPage.valePlaceNotes':
-    'Eastbrook je tvoje první domovská základna. Vlčí stezka a Kančí louka jsou mírná loviště; Zrcadlové jezero je klidná voda pro rybaření; Černopavučina a Měděná štola skrývají pavouky a rudychtivé kopáče; Tábor banditů a Padlá kaple drží drsnější práci; Vrch relikviáře klesá do Zhrouceného relikviáře, první výpravy světa; a Mýtina Brightwoodu je tichý, sluncem zalitý háj na severu.',
+    'Eastbrook je tvoje první domovská základna. Vlčí stezka a Kančí louka jsou mírná loviště; Zrcadlové jezero je klidná voda pro rybaření; Černopavučina a Měděná štola skrývají pavouky a rudychtivé kopáče; Tábor banditů a Padlá kaple drží drsnější práci; Vrch relikviáře klesá do Zhrouceného relikviáře, první výpravy světa; Mýtina Brightwoodu je tichý, sluncem zalitý háj na severu; a Prasečí pole je hrazené kančbalové hřiště Eastbrooku, kde se pod žňovým příměřím hraje o Pohár údolí.',
   'guide.worldPage.marshPlaceNotes':
-    'Fenbridge hlídá jedinou suchou cestu. Rákosiny slídilů a Mělčiny Deepfenu se hemží močálovými šelmami a bahenními ploutvemi; Vdoví houština je hustě opředená pavučinami; Utopená kaple a Trollí mohyly drží starší nebezpečí; Tábor Hrobovolajících je zakopaný kult a Potopená bašta je instancované srdce močálu.',
+    'Fenbridge hlídá jedinou suchou cestu. Rákosiny slídilů a Mělčiny Deepfenu se hemží močálovými šelmami a bahenními ploutvemi; Vdoví houština je hustě opředená pavučinami; Utopená kaple a Trollí mohyly drží starší nebezpečí a hned severně od mohyl se otevírá Utopená litanie, vlastní výprava močálu; Tábor Hrobovolajících je zakopaný kult a Potopená bašta je instancované srdce močálu.',
   'guide.worldPage.peaksPlaceNotes':
     'Highwatch drží zeď. Hřeben slídilů a Hlubokamenné nory patří hřebenovým kočkám a norníkům; Zlobří podhůří a Drogmarův válečný tábor surovcům za žold; Bouřný skalní štít praská elementály a Třpytivé pleso září pod ním; Stany kultu draka a Pole revenantů obkružují vyvýšeninu kultu, se Svatyní Hrobodraka na vrcholu.',
   'guide.worldPage.gladeTitle': 'Tichý kout: Mýtina Brightwoodu',
@@ -5933,7 +5933,7 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
     'Prořeď smečku šelem nebo zlom vliv kultu poražením určitého počtu označených nepřátel. První úkol ve hře, čištění vlků z eastbrookské cesty, je jedním z nich.',
   'guide.questsPage.typeGatherTitle': 'Sbírání',
   'guide.questsPage.typeGatherBody':
-    'Sbírej předměty ze světa nebo z toho, co pouštějí nepřátelé: byliny, rudu, ztracené dopisy, pochmurná činidla kultu. Některé kusy padají jen z konkrétního protivníka, takže lov a sběr patří k sobě.',
+    'Sbírej předměty ze světa nebo z toho, co pouštějí nepřátelé: byliny, rudu, pochmurná činidla kultu. Některé kusy padají jen z konkrétního protivníka, takže lov a sběr patří k sobě.',
   'guide.questsPage.typeInteractTitle': 'Interakce',
   'guide.questsPage.typeInteractBody':
     'Použij, očisti nebo přečti něco pevně umístěného ve světě: poskvrněný hrob, varování vyryté do břehové skály, zapečetěné dveře krypty. Dojdi ke značce a jednej.',
@@ -6000,7 +6000,7 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
     'Temné srdce Thornpeaku, kde dlouhá práce kultu dosáhne strašného vrcholu.',
   'guide.dungeonsPage.raidName': 'Endgame raid',
   'guide.dungeonsPage.raidBody':
-    'Za zapečetěnými královskými dveřmi čeká desetičlenná zkouška: vícefázový boj a nesmrtelná síla, kterou musí celý raid společně umlčet. Získej si vstup a přiveď devět přátel.',
+    'Za zapečetěnými královskými dveřmi čeká desetičlenná zkouška: vícefázový boj a nesmrtelná síla, kterou musí celý raid společně vyřadit. Získej si vstup a přiveď devět přátel.',
   'guide.dungeonsPage.templeLoreTitle': 'Utopený chrám, o trochu hlouběji',
   'guide.dungeonsPage.templeLoreBody':
     'Chrám má vlastní legendu, starší než kult, který pronásleduješ jinde. Na břehu Třpytivého plesa, horského jezera, které pije měsíční světlo a vrací utopené, drží osamělý hlídač bránu bledého světla. Pod hladinou k ní vede schodiště studeného kamene. Lidé, kteří tam klesli, se neutopili nešťastnou náhodou: byli Bledý sbor, který sestoupil pod vodu v uctívání a nikdy nepřestal zpívat. Staří strážci vyryli do skal jediné varování, než je voda vzala, modlitbu k něčemu, čemu říkali Utopený měsíc, a pevnější ruka pod ni přidala dvě slova: jen spí.',
@@ -6035,13 +6035,13 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
     'Výprava nabízí víc než jednu obtížnost. Vyšší zesílí nepřátele, přidá modifikátor běhu a zaplatí víc. Také chce, abys měl pár úrovní za sebou, než tě pustí dovnitř.',
   'guide.delvesPage.affixesHeading': 'Modifikátory běhu',
   'guide.delvesPage.affixesBody':
-    'Těžší běhy losují modifikátor, který mění sestup, od neklidných mrtvých přes zkažený vzduch po selhávající střechu. Zvedají nebezpečí i odměnu. Kryptová výprava může dostat kterýkoli z nich:',
+    'Těžší běhy losují modifikátor, který mění, jak sestup probíhá, od neklidných mrtvých přes zkažený vzduch po selhávající strop. Zvedají nebezpečí i odměnu společně. Každá výprava čerpá z modifikátorů, které sedí jejímu tématu; napříč říší vypadá jejich zásoba takto:',
   'guide.delvesPage.marksHeading': 'Známky výprav',
   'guide.delvesPage.marksBody':
     'Čištění výprav vydělává Známky výprav, měnu oddělenou od mincí. Utrať je u správce za posílení společníka a výbavu, kterou nikde jinde nenajdeš.',
   'guide.delvesPage.whereHeading': 'Kde nějakou najít',
   'guide.delvesPage.whereBody':
-    'První výprava, Zhroucený relikviář, se otevírá na Vrchu relikviáře v počátečním Eastbrookském údolí. Bratr Halven tam drží tabuli a pošle tě dolů, až budeš připraven.',
+    'První výprava, Zhroucený relikviář, se otevírá na Vrchu relikviáře v počátečním Eastbrookském údolí. Bratr Halven tam drží tabuli a pošle tě dolů, až budeš připraven. Jeho pochůzky tam ale nekončí: za Trollími mohylami na severním okraji Mirefenského močálu tentýž správce otevírá Utopenou litanii výpravníkům, kteří už mají něco za sebou.',
   'guide.talentsPage.heading': 'Talenty a specializace',
   'guide.talentsPage.intro':
     'Talenty jsou způsob, jak udělat třídu vlastní. Jsou volitelné, odpouštějí chyby a snadno se mění, takže můžeš experimentovat bez strachu.',
@@ -6099,10 +6099,10 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
     'Každá třída obstojí a dosáhne maxima. Vyber fantazii, která se ti líbí, ne tu, kterou někdo jiný nazývá nejlepší.',
   'guide.wishPage.i2Title': 'Smrt tě skoro nic nestojí',
   'guide.wishPage.i2Body':
-    'Když padneš, propustíš ducha, oživíš se na nejbližším hřbitově a vrátíš se zpět. Neztrácíš zkušenosti, takže je bezpečné riskovat a učit se.',
+    'Když padneš, povstaneš jako duch na nejbližším hřbitově. Doběhni zpět ke svému tělu a oživíš se zdarma, nebo přijmi okamžité vzkříšení od Bledého strážce a za to pohodlí si odnes krátce trvající slabost. Nikdy nepřijdeš o žádné zkušenosti, výbavu ani mince, takže je bezpečné riskovat a učit se.',
   'guide.wishPage.i3Title': 'Talenty nejsou past',
   'guide.wishPage.i3Body':
-    'Odemykají se na úrovni 10 a resetuješ je, kdykoli chceš, takže rané volby nejsou nikdy trvalé.',
+    'Odemykají se na úrovni 10 a resetuješ je, kdykoli chceš, mimo boj, takže rané volby nejsou nikdy trvalé.',
   'guide.wishPage.i4Title': 'Sleduj stopu úkolů',
   'guide.wishPage.i4Body':
     'Úkoly jsou nejrychlejší cesta k levelování a vedou tě světem. Když nevíš, kam jít, najdi další značku.',
@@ -6141,7 +6141,7 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
     'Výbava je vybavení, které postava nosí, a předměty, které nese. Lepší výbava je nejstabilnější cesta k síle a většinu získáš prostě hraním.',
   'guide.gear.slotsTitle': 'Co můžeš vybavit',
   'guide.gear.slotsBody':
-    'Máš slot na zbraň a sedm slotů zbroje. Každá třída umí používat jen určité zbraně a nosí zbroj jen do své váhy, látku, kůži nebo kroužkovou zbroj, takže vhodná vylepšení jsou ta dělaná pro tvoji třídu. V rámci toho zaplň každý slot nejlepším kusem, který najdeš.',
+    'Máš slot na zbraň, sedm slotů zbroje a tři sloty na klenoty: jeden na krk a dva na prsty. Každá třída umí používat jen určité zbraně a nosí zbroj jen do své váhy, látku, kůži nebo kroužkovou zbroj, takže vhodná vylepšení jsou ta dělaná pro tvoji třídu. Klenoty nemají žádnou váhu: každá třída nosí, co si vyslouží. V rámci toho zaplň každý slot nejlepším kusem, který najdeš.',
   'guide.gear.slotMainhand': 'Zbraň',
   'guide.gear.slotHelmet': 'Hlava',
   'guide.gear.slotShoulder': 'Ramena',
@@ -6168,10 +6168,10 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
     'Chceš-li rychle porovnat dva kusy, zapni v nastavení Zobrazit úroveň předmětu. Každá zbraň a kus zbroje pak ukazuje item level, jedno číslo pro přibližnou sílu podle původu, takže na první pohled poznáš, které vylepšení má větší váhu, i napříč sloty.',
   'guide.gear.sourcesTitle': 'Odkud výbava pochází',
   'guide.gear.sourcesBody':
-    'Většina raných vylepšení jsou odměny z úkolů, takže se vyplatí úkoly dokončovat, ne grindit. Nepřátelé pouštějí výbavu po porážce, prodejci ve městě prodávají solidní základy a hráčský trh ti dovolí nakupovat od ostatních dobrodruhů.',
+    'Většina raných vylepšení jsou odměny z úkolů, takže se vyplatí úkoly dokončovat, ne grindit. Nepřátelé pouštějí výbavu po porážce, prodejci ve městě prodávají solidní základy, řemeslníci mění nasbírané suroviny v nositelné kusy a hráčský trh ti dovolí nakupovat od ostatních dobrodruhů. Na vrcholu kopce kupují výbavu, kterou nikde jinde nenajdeš, dvě známkové měny: Známky výprav u správce výprav a Hrdinské značky u hrdinského zásobovače.',
   'guide.gear.setsTitle': 'Sady a bonusy sad',
   'guide.gear.setsBody':
-    'Nejvzácnější zbroj přichází v sladěných rodinách, několika kusech střižených tak, aby vypadaly a bojovaly jako jeden celek. Oblékni dost kusů jedné rodiny najednou a sada se probudí, přidá bonusy nad vlastní statistiky každého kusu, a čím víc kusů nosíš, tím silnější je. Padají z nejtěžšího skupinového obsahu blízko maxima, takže honba za celou sadou je klasický endgame cíl.',
+    'Některá zbroj přichází ve sladěných rodinách, několika kusech střižených tak, aby vypadaly a bojovaly jako jeden celek. Oblékni dost kusů jedné rodiny najednou a sada se probudí, přidá bonusy nad vlastní statistiky každého kusu, a čím víc kusů nosíš, tím silnější je. Pár takových rodin se objevuje jako ceněné dropy během levelování; ty největší pocházejí z nejtěžšího skupinového obsahu blízko maximální úrovně, takže honba za celou sadou je klasický endgame cíl.',
   'guide.gear.consumablesTitle': 'Spotřební předměty',
   'guide.gear.consumablesIntro':
     'Některé předměty použiješ jednou pro rychlou výhodu. Jsou levné pojištění, takže pár měj po ruce.',
@@ -6207,9 +6207,9 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
   'guide.economy.vendorsTitle': 'Prodejci a co drží skladem',
   'guide.economy.vendorsBody':
     'Města a výspy jsou poseté obchodníky, každý má vlastní řemeslo. Zásobovači drží jídlo a pití, zbrojíři a zbraňoví kováři výbavu a intendant praktický cestovní kit. Přistup k některému a uvidíš, co prodává.',
-  'guide.economy.marksTitle': 'Druhá měna: Známky výprav',
+  'guide.economy.marksTitle': 'Známky: měny nad rámec mincí',
   'guide.economy.marksBody':
-    'Mince nejsou jediné, co ukládáš. Výpravy vyplácejí Známky výprav, samostatnou měnu, kterou utrácíš jen u správce výprav za vylepšení společníka a výbavu, kterou jinde nenajdeš. Nikdy se nemíchají s mincemi.',
+    'Mince nejsou jediné, co ukládáš. Výpravy vyplácejí Známky výprav, které utrácíš jen u správce výprav za vylepšení společníka a výbavu, kterou jinde nenajdeš. Hrdinské běhy dungeonů nechávají na posledním bossovi Hrdinské značky, které utratíš u hrdinského zásobovače v Highwatchi za klenoty, jaké neprodává žádný jiný kout říše. Ani jedny se nikdy nemíchají s mincemi.',
   'guide.economy.buyingTitle': 'Nákup a prodej',
   'guide.economy.buyingBody':
     'Postav se blízko obchodníka a otevři jeho okno. Můžeš koupit cokoli má skladem, pokud na to máš, a prodat většinu věcí z batohů za mince. Když něco prodáš omylem, prodejce podrží nedávné prodeje, abys je mohl koupit zpět.',
@@ -6324,7 +6324,7 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
     'Síla kouzel je sesilatelský protějšek síly útoku: zvedá poškození kouzel. Krmí ji intelekt a výbava i buffy sesilatelů přidávají další, takže sesilatel sleduje sílu kouzel jako bojovník na blízko sílu útoku.',
   'guide.stats.critTitle': 'Kritický zásah',
   'guide.stats.critBody':
-    'Šance na kritický zásah říká, jak často útok dopadne s extra poškozením. Každý začíná s malou základní šancí a obratnost, plus některé talenty a výbava, ji zvyšuje.',
+    'Šance na kritický zásah říká, jak často útok dopadne s extra poškozením. Každý začíná s malou základní šancí a obratnost (plus některé talenty a výbava) ji zvyšuje. Tvůj panel ukazuje jak samotnou šanci, tak hodnocení kritického zásahu, kterým k ní tvá výbava přispívá.',
   'guide.stats.dodgeTitle': 'Uhýbání',
   'guide.stats.dodgeBody':
     'Uhýbání je šance se zcela vyhnout příchozímu útoku na blízko. Začínáš s malou základní šancí a obratnost ji zvedá, takže mrštné třídy unikají více ranám.',
@@ -6353,7 +6353,7 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
     'Odpočívej na bezpečném místě, třeba v hostinci, mimo boj, a postava během sezení nasbírá odpočaté zkušenosti. Až půjdeš příště bojovat, tato zásoba dá zabitím extra bonus, dokud nedojde. Pauza v hostinci není ztracený čas; urychlí další kus levelování.',
   'guide.progression.capTitle': 'Dosažení úrovně {cap}',
   'guide.progression.capJourneyBody':
-    'Úroveň {cap} je maximum, konec levelování, ale ne růstu. Odtud běháš dungeony a raid, lovíš lepší výbavu a testuješ se v aréně.',
+    'Úroveň {cap} je maximum, konec levelování, ale ne růstu. Odtud běháš dungeony a raid v normálním i hrdinském režimu, čelíš světovému bossovi, když povstane, honíš lepší výbavu a zkoušíš se v aréně.',
   'guide.progression.prestigeBody':
     'Zkušenosti se počítají i po maximu. Krmí kosmetickou virtuální úroveň, takže lišta zkušeností dál stoupá, a dlouhodobou prestižní hodnost pro uznání. Velké milníky celoživotních zkušeností také odemykají kosmetické tituly a rámečky jmenovek viditelné na panelu postavy. Všechno je čistě volitelné a nikdy nedává sílu, jen značku cesty, kterou jsi prošel.',
   'guide.progression.noRush':
@@ -6538,7 +6538,7 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
     'Počiny stojí na zvláštní polici: záznamy odkazu a světových prvenství, skutky spjaté s minulou érou nebo s okamžikem, který se stane jen jednou. Nenesou žádný věhlas a nepočítají se do celkového dokončení; zůstávají navěky uchované jako památka na to, co bylo vykonáno.',
   'guide.deedsPage.featsHeading': 'Počiny',
   'guide.deedsPage.howBody':
-    'Skutky se vykonávají za jednotlivé postavy, ale zobrazují se napříč celým účtem, takže každý hrdina, za kterého hraješ, přispívá do téže sbírky. Každý skutek přímo v Knize skutků ve hře jasně říká, co od tebe žádá, takže vždy víš, za čím se hnát, a ty, o které usiluješ, si můžeš označit ke sledování, aby ti při hře zůstaly na očích. Malá hrstka jich zůstává tajných a odhalí se teprve tehdy, když je vykonáš.',
+    'Skutky se vykonávají za jednotlivé postavy, ale zobrazují se napříč celým účtem, takže každý hrdina, za kterého hraješ, přispívá do téže sbírky. Každý skutek přímo v Knize skutků ve hře jasně říká, co od tebe žádá, takže vždy víš, za čím se hnát, a ty, o které usiluješ, si můžeš označit ke sledování, aby ti při hře zůstaly na očích. Malá hrstka jich zůstává tajných a odhalí se teprve tehdy, když je vykonáš. Kniha se také drží poctivě: cokoli tvůj dosavadní záznam dokáže doložit, připíše ti okamžitě, takže veterán ji nikdy neotevře na prázdné stránce; jen počítací skutky začínají svůj součet od nuly.',
   'guide.deedsPage.howHeading': 'Jak skutky fungují',
   'guide.deedsPage.intro':
     'Kniha skutků je místo, kde si svět počítá vše, co máš za sebou: od prvních kroků z počátečního údolí až po nejtěžší boje, jaké říše nabízí. Vykonávej skutky při hraní, nos tituly, které ti udělí, a sleduj, jak tvůj věhlas roste.',

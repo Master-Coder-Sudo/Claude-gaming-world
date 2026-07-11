@@ -36,7 +36,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'guide.nav.professions': 'Professioner',
   'guide.nav.valeCup': 'Dalpokalen',
   'guide.professions.archetypeChooseBody':
-    'Du erklærer din første arketype gennem et tidligt historieopdrag i zone et, som formelt optager dig i den identitet. Før du har fuldført det opdrag, har du slet ikke valgt en arketype endnu.',
+    'At erklære en arketype vil blive et historieøjeblik: et opdrag, der formelt optager dig i den identitet. Den vej er stadig under opbygning, så indtil videre vandrer hver karakter gennem verden med valget foran sig, og hvert håndværk avancerer til den sjældne kvalitetsgrad i mellemtiden.',
   'guide.professions.archetypeChooseTitle': 'Valg af din arketype',
   'guide.professions.archetypeIdentityBody':
     'Din aktive arketype er en erklæring om, hvem din karakter er i verden, og den anerkendes i, hvordan andre og verden tiltaler dig. De præcise belønninger og den anerkendelse, der følger med, er stadig ved at blive fastlagt; kig forbi igen, efterhånden som systemet vokser til.',
@@ -44,7 +44,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'guide.professions.archetypeIntro':
     'Hvert af de ti håndværk står også for en arketype, en bredere identitet du kan påtage dig ud over blot at arbejde med faget. Din aktive arketype er ét valg ad gangen, ikke en tjekliste: du bærer én og kan senere skifte til en anden, hvis du vil.',
   'guide.professions.archetypeSwitchBody':
-    'At have erklæret en arketype én gang låser dig ikke fast for evigt. At skifte til en anden arketype kræver først, at du fuldfører et gentageligt "gør bod"-opdrag for din gamle, og hver gang du skifter, bliver den bod, der forventes af dig næste gang, lidt større, så et skifte forbliver meningsfuldt frem for omkostningsfrit.',
+    'En erklæring vil heller ikke være en livstidsdom. Planen er en gentagelig handling, hvor du gør bod over for dit gamle fag, før du tager et nyt op, og boden bliver stejlere for hver gang du skifter, så valget forbliver meningsfuldt frem for omkostningsfrit. Ligesom selve erklæringen er den stadig på vej.',
   'guide.professions.archetypeSwitchTitle': 'At skifte mening',
   'guide.professions.archetypeTitle': 'De ti arketyper',
   'guide.professions.craftComboBody':
@@ -3462,9 +3462,9 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'guide.classPage.roleLabel': 'Spiller som',
   'guide.classPage.specsHeading': 'Specialiseringer',
   'guide.combat.ccBody':
-    'Massekontrol er en særlig slags svækkelse der begrænser hvad et mål kan gøre: lammelser, rødder og sløvninger, forstummelser der stopper besværgelser, afvæbninger, frygt og forvandlinger der gør en fjende harmløs et øjeblik. Nogle af disse, som rødder, frygt og forvandlinger, mister deres greb når de påføres igen for hurtigt, så de kan ikke lænkes i det uendelige.',
+    'Massekontrol er en særlig slags svækkelse, der begrænser, hvad et mål kan gøre: lammelser, rødder og sløvninger, forstummelser der stopper besværgelser, afvæbninger, frygt og forvandlinger, der gør en fjende harmløs et øjeblik. Mod andre spillere slides kontrollen tynd ved gentagelse: den samme slags påført igen for hurtigt svækkes og svigter så helt, og en lammelse, der åbner fra snigen, tælles for sig, adskilt fra de lammelser der følger efter, så ingen kan lænkes hjælpeløs for evigt. Verdenens skabninger nærer intet sådant nag; kontrol lander på dem ved fuld styrke hver gang.',
   'guide.combat.deathBody':
-    'Hvis dit helbred når nul, bliver du slået ned. Frigiv din ånd for at genopstå ved den nærmeste kirkegård ved fuldt helbred, og find så vej tilbage, så en død koster dig lidt tid, ikke din fremgang. Mellem kampe, sæt dig ned for at spise og drikke, så du starter den næste ved fuld styrke.',
+    'Hvis dit helbred når nul, bliver du slået ned, hvor du står, og dit lig bliver liggende der. Frigiv din ånd, og du rejser dig som et genfærd ved den nærmeste kirkegård: lettere til bens end de levende, uden for dine fjenders rækkevidde, men ude af stand til at kæmpe, samle bytte op eller tale med nogen anden end Den Blege Vogter, der svæver over stenene. Derfra vælger du selv. Løb dit genfærd tilbage til dit lig, og du genopstår på stedet med en del af dit helbred og din mana genoprettet og slet ingen straf. Eller tag imod Den Blege Vogters øjeblikkelige genopstandelse, hvor du står, mod prisen af Vogterens Told: en midlertidig svækkelse af alt, hvad du er, som varer længere, jo mere garvet du er, og som skåner splinternye karakterer helt. Falder du inde i et fangehul, venter din ånd ved kirkegården udenfor; gå dit genfærd tilbage gennem døren, og du genopstår ved indgangen. Uanset vejen mister du hverken erfaring, udstyr eller mønter. Mellem kampe, sæt dig ned for at spise og drikke, så du starter den næste ved fuld styrke.',
   'guide.combat.deathTitle': 'Når du falder',
   'guide.combat.effectsBody':
     'Mange evner påfører en effekt der hænger ved. De gavnlige (forstærkninger) hæver dine egenskaber, skjolder dig eller helbreder dig lidt ad gangen; de skadelige (svækkelser) dræner dit helbred med skade over tid eller svækker dig. Hold øje med de små ikoner nær din handlingsbjælke for at se hvad der er på dig og hvor længe det varer.',
@@ -3506,7 +3506,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'guide.controls.talents': 'Talenter',
   'guide.controls.targetFriendly': 'Vælg nærmeste venlige',
   'guide.delvesPage.affixesBody':
-    'Sværere løb ruller en modifikator, der ændrer, hvordan nedstigningen forløber, fra rastløse døde til dårlig luft til svigtende tagværk. De hæver faren og belønningen sammen. En delve med gravtema kan rulle en hvilken som helst af disse:',
+    'Sværere løb ruller en modifikator, der ændrer, hvordan nedstigningen forløber, fra rastløse døde til dårlig luft til svigtende tagværk. De hæver faren og belønningen sammen. Hver delve trækker fra de modifikatorer, der passer til dens tema; på tværs af riget ser puljen sådan ud:',
   'guide.delvesPage.affixesHeading': 'Løbsmodifikatorer',
   'guide.delvesPage.affixesLabel': 'Mulige modifikatorer',
   'guide.delvesPage.companionBody':
@@ -3538,7 +3538,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
     'En delve er et lille instanseret fangehul, der er lavet kun til dig og op til én allieret, en privat kopi, hvor du ikke kan blive forstyrret. Du starter den fra en tavle, der holdes af en delve-vogter ude i verden, hopper ind, kæmper dig ned gennem en håndfuld rum og slutter på en enkelt vægter. Løb er hurtige og ment til at blive gentaget, så en delve er et stabilt stykke fremgang, hver gang den åbne verden tørrer ud.',
   'guide.delvesPage.whatHeading': 'Hvad en delve er',
   'guide.delvesPage.whereBody':
-    'Den første delve, Det Sammenstyrtede Relikvarium, åbner ved Relikvariebakken i startdalen Østbæk Dal. Broder Halven holder tavlen der, og han sender dig ned, så snart du er klar.',
+    'Den første delve, Det Sammenstyrtede Relikvarium, åbner ved Relikvariebakken i startdalen Østbæk Dal. Broder Halven holder tavlen der, og han sender dig ned, så snart du er klar. Hans runder ender ikke der: forbi Troll Mounds ved den nordlige rand af Mosekær Sump åbner den samme vogter Det Druknede Litani for delvere, der har fundet fodfæste.',
   'guide.delvesPage.whereHeading': 'Hvor du finder en',
   'guide.docTitle': '{page} - {brand}',
   'guide.dungeonsPage.bastionBody':
@@ -3597,8 +3597,8 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
     'Prissætningen er op til dig. At slå en smule under, hvad andre forlanger, plejer at sælge hurtigere, mens en stejl pris kan blive liggende urørt. Gennemse først for at se, hvad den gængse pris ligger på, før du slår op.',
   'guide.economy.marketTitle': 'Verdensmarkedet',
   'guide.economy.marksBody':
-    'Mønter er ikke det eneste, du lægger til side. Delves udbetaler Delve-Mærker, en særskilt valuta, du kun bruger hos delve-vogteren, på ledsageropgraderinger og udstyr, du ikke finder andre steder. De blandes aldrig med dine mønter.',
-  'guide.economy.marksTitle': 'En anden valuta: Delve-Mærker',
+    'Mønter er ikke det eneste, du lægger til side. Delves udbetaler Delve-Mærker, der kun bruges hos delve-vogteren på ledsageropgraderinger og udstyr, du ikke finder andre steder. Heroiske fangehulsløb efterlader Heroiske Mærker på den sidste boss, der bruges hos den heroiske kvartermester i Highwatch på smykker, som intet andet hjørne af riget sælger. Ingen af dem blandes nogensinde med dine mønter.',
+  'guide.economy.marksTitle': 'Mærker: valutaerne ud over mønter',
   'guide.economy.tradeBody':
     'Du kan handle ansigt til ansigt med enhver, der står nær dig. I lægger begge genstande og mønter i et delt vindue, og byttet sker først, når I begge bekræfter det, så ingen af parterne kan snydes. Det er den enkle måde at give en ven et drop eller afslutte en aftale.',
   'guide.economy.tradeTitle': 'Handel med andre spillere',
@@ -3637,7 +3637,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'guide.faqPage.a1':
     'Ja. Hele spillet er gratis at spille til niveaugrænsen, og kildekoden er åben på GitHub.',
   'guide.faqPage.a10':
-    'Grænsen er niveau {cap}. Derfra løber du fangehullerne for fem spillere og raidet for ti, jagter bedre udstyr og afprøver dig selv i arenaen.',
+    'Grænsen er niveau {cap}. Derfra løber du fangehullerne for fem spillere og raidet for ti, tager dem igen i heroisk tilstand for opgraderet bytte, møder verdensbossen når han rejser sig, og afprøver dig selv i arenaen.',
   'guide.faqPage.a11':
     'Inviter enhver, du møder, til et følge, spørg i chatten, eller slå jer sammen ved et fangehul. Det meste af verden kan klares alene, så at danne grupper er et valg, ikke et krav.',
   'guide.faqPage.a2':
@@ -3718,7 +3718,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'guide.gear.qualityTitle': 'Kvalitet, med et blik',
   'guide.gear.qualityUncommon': 'Ualmindelig',
   'guide.gear.setsBody':
-    'Den mest sjældne rustning kommer i matchede familier, flere stykker skåret til at se ud og kæmpe som ét. Bær nok af en familie på én gang, og sættet vågner og giver bonusser oven i hvert stykkes egne statistikker, og jo flere stykker du bærer, jo stærkere bliver det. De falder fra det sejeste gruppeindhold nær niveauloftet, så at jagte et fuldt sæt er et klassisk slutspilsmål.',
+    'Noget rustning kommer i matchede familier, flere stykker skåret til at se ud og kæmpe som ét. Bær nok af en familie på én gang, og sættet vågner og giver bonusser oven i hvert stykkes egne statistikker, og jo flere stykker du bærer, jo stærkere bliver det. Nogle få sådanne familier dukker op som eftertragtet bytte, mens du leveler; de største af dem kommer fra det sejeste gruppeindhold nær niveauloftet, så at jagte et fuldt sæt er et klassisk slutspilsmål.',
   'guide.gear.setsTitle': 'Sæt og sætbonusser',
   'guide.gear.slotChest': 'Bryst',
   'guide.gear.slotFeet': 'Fødder',
@@ -3729,10 +3729,10 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'guide.gear.slotShoulder': 'Skuldre',
   'guide.gear.slotWaist': 'Talje',
   'guide.gear.slotsBody':
-    'Du har en våbenplads og syv rustningspladser. Hver klasse kan kun bruge bestemte våben og bærer rustning op til sin egen vægt, stof, læder eller ringbrynje, så de opgraderinger, der passer dig, er dem, der er lavet til din klasse. Inden for det, fyld hver plads med det bedste stykke, du finder.',
+    'Du har en våbenplads, syv rustningspladser og tre smykkepladser: en hals og to fingre. Hver klasse kan kun bruge bestemte våben og bærer rustning op til sin egen vægt, stof, læder eller ringbrynje, så de opgraderinger, der passer dig, er dem, der er lavet til din klasse. Smykker vejer slet ingenting: enhver klasse bærer, hvad den tjener. Inden for det, fyld hver plads med det bedste stykke, du finder.',
   'guide.gear.slotsTitle': 'Hvad du kan tage på',
   'guide.gear.sourcesBody':
-    'De fleste af dine tidlige opgraderinger er opgavebelønninger, så det betaler sig at gøre opgaver færdige frem for at grinde. Fjender taber udstyr, når du besejrer dem, handlende i byen sælger solide basisvarer, og spillermarkedet lader dig købe fra andre eventyrere.',
+    'De fleste af dine tidlige opgraderinger er opgavebelønninger, så det betaler sig at gøre opgaver færdige frem for at grinde. Fjender taber udstyr, når du besejrer dem, handlende i byen sælger solide basisvarer, håndværkere forvandler indsamlede materialer til bærbare stykker, og spillermarkedet lader dig købe fra andre eventyrere. På toppen af bakken køber to mærkevalutaer udstyr, som ikke findes andre steder: Delve-Mærker hos delve-vogteren og Heroiske Mærker hos den heroiske kvartermester.',
   'guide.gear.sourcesTitle': 'Hvor udstyr kommer fra',
   'guide.gear.upgradeBody':
     'At udskifte et gammelt stykke med en frisk opgradering gør mere for dig end at spille perfekt i udstyr, du er vokset fra. Når noget bedre falder, eller en opgave tilbyder det, så tag det. Gem ikke dine gode genstande til senere.',
@@ -3864,7 +3864,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'guide.howToPlay.basicsHeading': 'Det grundlæggende',
   'guide.howToPlay.controlsLink': 'Se den fulde oversigt over styring',
   'guide.howToPlay.deathBody':
-    'Hvis du falder, frigiver du din ånd og genopstår ved den nærmeste kirkegård, tilbage ved fuldt helbred, og finder så vej tilbage til, hvor du var. Ingen erfaring går tabt.',
+    'Hvis du falder, bliver dit lig liggende, hvor det faldt, og du rejser dig som et genfærd ved den nærmeste kirkegård. Løb din ånd tilbage til dit lig for at genopstå på stedet uden nogen straf, eller tag imod Den Blege Vogter ved kirkegården for en øjeblikkelig genopstandelse mod en forbigående svækkelse. Splinternye helte skånes helt for svækkelsen, og intet af det, du ejer eller har tjent, går nogensinde tabt.',
   'guide.howToPlay.deathTitle': 'Døden er ikke enden',
   'guide.howToPlay.firstHeading': 'Dine første 15 minutter',
   'guide.howToPlay.groupingBody':
@@ -3879,7 +3879,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
     'Tag imod quests fra folk med en markør over hovedet, fuldfør målet, og aflever dem for erfaring, mønter og udstyr. Sporeren på skærmen holder dine mål synlige.',
   'guide.howToPlay.questsTitle': 'Quests',
   'guide.howToPlay.reassure':
-    'Talenter låses op på niveau 10 og kan nulstilles når som helst, så dine tidlige valg er aldrig permanente. Eksperimentér frit.',
+    'Talenter låses op på niveau 10 og kan nulstilles når som helst, du er uden for kamp, så dine tidlige valg er aldrig permanente. Eksperimentér frit.',
   'guide.howToPlay.resourcesBody':
     'Besværgelser og evner koster en ressource. Krigere opbygger Raseri ved at kæmpe, slyngler bruger Energi, der fylder op af sig selv, og alle andre kaster fra en pulje af Mana.',
   'guide.howToPlay.resourcesTitle': 'Ressourcer',
@@ -3975,7 +3975,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'guide.progression.capBody':
     'Hvert niveau gør dig sejere og bringer nye evner, hele vejen op til loftet ved niveau {cap}.',
   'guide.progression.capJourneyBody':
-    'Niveau {cap} er loftet, enden på opleveling, men ikke på udvikling. Derfra løber du fangekældre og raidet, jagter bedre udstyr og udfordrer dig selv i arenaen.',
+    'Niveau {cap} er loftet, enden på opleveling, men ikke på udvikling. Derfra løber du fangehuller og raidet på normal og heroisk, møder verdensbossen når han rejser sig, jagter bedre udstyr og udfordrer dig selv i arenaen.',
   'guide.progression.capTitle': 'At nå niveau {cap}',
   'guide.progression.intro':
     'Hver kamp, hvert opdrag og hvert skridt mod nord gør din helt stærkere. Her er, hvordan opleveling fungerer, og hvad der holder dig i vækst, når du når toppen.',
@@ -4035,7 +4035,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
     'Bring et færdigt opdrag til dets afleveringsmarkør, kortet viser dig hvor, for erfaring, mønter og ofte et stykke udstyr valgt til at passe din klasse. Det er som regel den, der gav dig det, men nogle opdrag sender dig videre til en anden.',
   'guide.questsPage.turninTitle': 'At aflevere',
   'guide.questsPage.typeGatherBody':
-    'Saml genstande fra verden eller fra hvad fjender taber: urter, malm, tabte breve, en kults dystre reagenser. Nogle stykker falder kun fra en bestemt fjende, så jagten og hjembringningen følges ad.',
+    'Saml genstande fra verden eller fra hvad fjender taber: urter, malm, en kults dystre reagenser. Nogle stykker falder kun fra en bestemt fjende, så jagten og hjembringningen følges ad.',
   'guide.questsPage.typeGatherTitle': 'Indsaml',
   'guide.questsPage.typeGroupBody':
     'Hvert kapitel af hovedhistorien ender ved en fangekælderdør. Optakten kan klares solo, men det sidste slag mod et kapitels skurk er ment for en følgesvende-gruppe på fem.',
@@ -4146,7 +4146,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
     'Rustning reducerer den fysiske skade du tager. Den kommer mest fra hvad du bærer, og de tungere rustningsklasser bærer langt mere af den. Mere rustning mod en fjende nær dit niveau betyder, at hvert af dens slag lander blødere.',
   'guide.stats.armorTitle': 'Rustning',
   'guide.stats.critBody':
-    'Din kritiske slagchance er, hvor ofte et angreb lander for ekstra skade. Alle starter med en lille basischance, og Smidighed (plus nogle talenter og udstyr) bygger oven på den.',
+    'Din kritiske slagchance er, hvor ofte et angreb lander for ekstra skade. Alle starter med en lille basischance, og Smidighed (plus nogle talenter og udstyr) bygger oven på den. Dit ark viser både chancen selv og den kritvurdering, dit udstyr bidrager med til den.',
   'guide.stats.critTitle': 'Kritisk slag',
   'guide.stats.dodgeBody':
     'Undvigelse er din chance for helt at undgå et indkommende nærkampsangreb. Du begynder med en lille basischance, og Smidighed hæver den, så adrætte klasser slipper for flere slag.',
@@ -4223,10 +4223,10 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
     'Enhver klasse kan klare sig og nå grænsen. Vælg den fantasi, du kan lide, ikke den, som en anden kalder bedst.',
   'guide.wishPage.i1Title': 'Du kan ikke vælge en forkert klasse',
   'guide.wishPage.i2Body':
-    'Når du falder, frigiver du din ånd og genopstår ved den nærmeste kirkegård og finder så vej tilbage. Ingen erfaring går tabt, så det er trygt at tage chancer og lære.',
+    'Når du falder, rejser du dig som et genfærd ved den nærmeste kirkegård. Løb tilbage til dit lig for at genopstå gratis, eller tag Den Blege Vogters øjeblikkelige genopstandelse og bær en kortvarig svækkelse for nemhedens skyld. Ingen erfaring, intet udstyr og ingen mønter går nogensinde tabt, så det er trygt at tage chancer og lære.',
   'guide.wishPage.i2Title': 'Døden koster dig knap nok noget',
   'guide.wishPage.i3Body':
-    'De låses op på niveau 10 og nulstilles, når du vil, så dine tidlige valg er aldrig permanente.',
+    'De låses op på niveau 10 og nulstilles, når du vil, uden for kamp, så dine tidlige valg er aldrig permanente.',
   'guide.wishPage.i3Title': 'Talenter er ikke en fælde',
   'guide.wishPage.i4Body':
     'Quests er den hurtigste vej til at stige i niveau, og de fører dig rundt i verden. Når du er i tvivl om, hvor du skal hen, så find den næste markør.',
@@ -4260,7 +4260,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'guide.worldPage.marshGreeter': 'Vægter Fenwick, Fenbridge',
   'guide.worldPage.marshGreeting': 'Hold ved porten. Bag de siv klarer mosen drabet for os.',
   'guide.worldPage.marshPlaceNotes':
-    'Fenbridge bevogter den eneste tørre vej. Prowler Reeds og Deepfen Shallows myldrer med mosebæster og mudfiner; Widow Thicket er spundet tæt med spind; Drowned Chapel og Troll Mounds rummer ældre farer; Gravecaller Encampment er kulten gravet ind, og Den Sunkne Bastion er mosens instans-hjerte.',
+    'Fenbridge bevogter den eneste tørre vej. Prowler Reeds og Deepfen Shallows myldrer med mosebæster og mudfiner; Widow Thicket er spundet tæt med spind; Drowned Chapel og Troll Mounds rummer ældre farer, med Det Druknede Litani, mosens egen delve, der åbner lige nord for højene; Gravecaller Encampment er kulten gravet ind, og Den Sunkne Bastion er mosens instans-hjerte.',
   'guide.worldPage.peaksBlurb':
     'Vindskurede rygge og gamle minegange, der klatrer mod rigets koldeste og højeste farer, holdt af forposten Highwatch.',
   'guide.worldPage.peaksGreeter': 'Kaptajn Thessaly, Highwatch',
@@ -4275,7 +4275,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'guide.worldPage.valeGreeter': 'Marskal Redbrook, Eastbrook',
   'guide.worldPage.valeGreeting': 'Hold dit blad nært. Dalen er ikke, hvad den var.',
   'guide.worldPage.valePlaceNotes':
-    'Eastbrook er din første hjemmebase. Wolf Run og Boar Meadow er milde jagtmarker; Spejlsøen er stille vand at fiske i; Sableweb og Copper Dig skjuler edderkopper og malmgriske gravere; en Bandit Camp og Fallen Chapel rummer barskere arbejde; Reliquary Hill falder ned i Collapsed Reliquary, rigets første delve; og Brightwood Glade er en rolig, solbeskinnet lund i nord.',
+    'Eastbrook er din første hjemmebase. Wolf Run og Boar Meadow er milde jagtmarker; Spejlsøen er stille vand at fiske i; Sableweb og Copper Dig skjuler edderkopper og malmgriske gravere; en Bandit Camp og Fallen Chapel rummer barskere arbejde; Reliquary Hill falder ned i Collapsed Reliquary, rigets første delve; Brightwood Glade er en rolig, solbeskinnet lund i nord; og Somarken er Eastbrooks indhegnede vildsvineboldbane, hvor Dalpokalen spilles under en høstfred.',
   'highscores.desc': 'Følg verdenens største mestre og sammenlign din fremgang.',
   'highscores.title': 'Highscore-Ranglisten',
   'hud.arena.close': 'Luk arena',
@@ -6378,7 +6378,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
     'Omgivende regn og sne. Kun atmosfære, og at slukke for den sparer lidt under storme.',
   'guide.settingsPage.tableFoot':
     'Leder du efter en skyder til trækafstand eller en FPS kasket? Der er ikke noget at jage efter: Visningsafstand er en del af hvert kvalitetsniveau, og frame pacing følger din skærm.',
-  'guide.settingsPage.tableHeading': 'Hver mulighed, forklaret',
+  'guide.settingsPage.tableHeading': 'Hver grafikmulighed, forklaret',
   'guide.settingsPage.tagReload': 'efter genindlæsning',
   'guide.settingsPage.value100': '100 %',
   'guide.settingsPage.value50to70': '50 til 70 %',
@@ -6593,7 +6593,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
     'Bragder står på en hylde for sig: optegnelser over eftermæle og over det, der blev gjort først i hele verden, de bedrifter, der er bundet til en svunden tid eller et øjeblik, som kun indtræffer én gang. De giver ingen hæder og tæller ikke med i fuldførelsestallet, men bevares for altid som et minde om det, der blev gjort.',
   'guide.deedsPage.featsHeading': 'Bragder',
   'guide.deedsPage.howBody':
-    'Bedrifter opnås af én karakter ad gangen og vises for hele din konto, så hver helt, du spiller, føjer til den samme samling. Hver bedrift fortæller ligeud, hvad den kræver af dig, lige der i Bedrifternes Bog inde i spillet, så du altid ved, hvad du skal jage, og du kan sætte sporing på dem, du går efter, så du har dem for øje, mens du spiller. Nogle ganske få holder sig skjult og giver sig først til kende, når du har opnået dem.',
+    'Bedrifter opnås af én karakter ad gangen og vises for hele din konto, så hver helt, du spiller, føjer til den samme samling. Hver bedrift fortæller ligeud, hvad den kræver af dig, lige der i Bedrifternes Bog inde i spillet, så du altid ved, hvad du skal jage, og du kan sætte sporing på dem, du går efter, så du har dem for øje, mens du spiller. Nogle ganske få holder sig skjult og giver sig først til kende, når du har opnået dem. Bogen holder også sig selv ærlig: hvad end din tidligere indsats kan bevise, krediterer den på stedet, så en veteran åbner den aldrig til en tom side; kun de tællende bedrifter begynder deres optælling forfra.',
   'guide.deedsPage.howHeading': 'Sådan fungerer bedrifter',
   'guide.deedsPage.intro':
     'Bedrifternes Bog er stedet, hvor verden holder regnskab med alt, hvad du har udrettet, fra dine første skridt ud af startdalen til de hårdeste kampe, riget kan byde på. Opnå bedrifter, mens du spiller, bær de titler, de skænker, og se din hæder stige.',

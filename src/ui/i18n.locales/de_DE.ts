@@ -50,7 +50,7 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'guide.nav.professions': 'Berufe',
   'guide.nav.valeCup': 'Talpokal',
   'guide.professions.archetypeChooseBody':
-    'Deinen ersten Archetyp erklärst du über eine frühe Story-Quest im ersten Gebiet, die dich förmlich in diese Identität aufnimmt. Bis du diese Quest abgeschlossen hast, hast du noch gar keinen Archetyp gewählt.',
+    'Einen Archetyp zu erklären wird ein Story-Moment sein: eine Quest, die dich förmlich in diese Identität aufnimmt. Dieser Weg wird noch gebaut, daher zieht vorerst jeder Charakter mit der noch offenen Wahl durch die Welt, und jedes Handwerk steigt in der Zwischenzeit bis zur Qualitätsstufe Selten auf.',
   'guide.professions.archetypeChooseTitle': 'Deinen Archetyp wählen',
   'guide.professions.archetypeIdentityBody':
     'Dein aktiver Archetyp ist eine Aussage darüber, wer dein Charakter in der Welt ist, und spiegelt sich darin, wie andere und die Welt dich ansprechen. Die genauen Belohnungen und die Anerkennung, die damit einhergehen, werden noch ausgearbeitet; schau wieder vorbei, während das System Gestalt annimmt.',
@@ -58,7 +58,7 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'guide.professions.archetypeIntro':
     'Jedes der zehn Handwerke steht zugleich für einen Archetyp, eine umfassendere Identität, die du über das bloße Ausüben des Gewerbes hinaus annehmen kannst. Dein aktiver Archetyp ist eine einzelne Wahl, keine Checkliste: Du trägst einen und kannst später wechseln, wenn du möchtest.',
   'guide.professions.archetypeSwitchBody':
-    'Einmal einen Archetyp erklärt zu haben, bindet dich nicht für immer. Wer zu einem anderen Archetyp wechseln will, muss zuerst eine wiederholbare Quest der Wiedergutmachung für den alten abschließen, und mit jedem Wechsel fällt die nächste erwartete Wiedergutmachung ein wenig strenger aus, damit der Wechsel bedeutsam bleibt statt kostenlos.',
+    'Eine Erklärung wird auch keine lebenslange Bindung sein. Der Plan ist ein wiederholbarer Akt der Wiedergutmachung gegenüber deinem alten Gewerbe, bevor du ein neues aufnimmst, wobei die Wiedergutmachung mit jedem Wechsel steiler ausfällt, damit die Wahl bedeutsam bleibt statt kostenlos. Wie die Erklärung selbst ist auch er noch unterwegs.',
   'guide.professions.archetypeSwitchTitle': 'Es dir anders überlegen',
   'guide.professions.archetypeTitle': 'Die zehn Archetypen',
   'guide.professions.craftComboBody':
@@ -4788,7 +4788,7 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'guide.controls.talents': 'Talente',
   'guide.controls.targetFriendly': 'Nächstes freundliches Ziel anvisieren',
   'guide.delvesPage.affixesBody':
-    'Schwerere Läufe würfeln einen Modifikator aus, der den Abstieg verändert, von ruhelosen Toten über schlechte Luft bis zu brüchigem Dachwerk. Sie erhöhen Gefahr und Belohnung zugleich. Ein Tiefgang im Gruft-Stil kann jeden von diesen auswürfeln:',
+    'Schwerere Läufe würfeln einen Modifikator aus, der den Abstieg verändert, von ruhelosen Toten über schlechte Luft bis zu brüchigem Dachwerk. Sie erhöhen Gefahr und Belohnung zugleich. Jeder Tiefgang greift auf die Modifikatoren zurück, die zu seinem Thema passen; über das ganze Reich hinweg sieht der Vorrat so aus:',
   'guide.delvesPage.affixesHeading': 'Laufmodifikatoren',
   'guide.delvesPage.affixesLabel': 'Mögliche Modifikatoren',
   'guide.delvesPage.companionBody':
@@ -4820,7 +4820,7 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
     'Ein Tiefgang ist ein kleiner instanzierter Dungeon, der nur für dich und höchstens einen Verbündeten erstellt wird, eine private Kopie, in der dich niemand stören kann. Du startest ihn an einer Tafel, die ein Tiefgang-Hüter draußen in der Welt verwaltet, lässt dich hinab, kämpfst dich durch eine Handvoll Räume und schließt mit einem einzelnen Wächter ab. Läufe sind schnell und auf Wiederholung ausgelegt, daher ist ein Tiefgang ein verlässliches Stück Fortschritt, wann immer die offene Welt versiegt.',
   'guide.delvesPage.whatHeading': 'Was ein Tiefgang ist',
   'guide.delvesPage.whereBody':
-    'Der erste Tiefgang, das Eingestürzte Reliquiar, öffnet sich am Reliquiarhügel im Eastbrook-Tal, dem Starttal. Bruder Halven verwaltet dort die Tafel, und er schickt dich hinab, sobald du bereit bist.',
+    'Der erste Tiefgang, das Eingestürzte Reliquiar, öffnet sich am Reliquiarhügel im Eastbrook-Tal, dem Starttal. Bruder Halven verwaltet dort die Tafel, und er schickt dich hinab, sobald du bereit bist. Seine Runden enden dort nicht: jenseits der Trollhügel am nördlichen Rand des Mirefen-Moores öffnet derselbe Hüter die Ertrunkene Litanei für Tiefgänger, die festen Boden unter den Füßen gefunden haben.',
   'guide.delvesPage.whereHeading': 'Wo du einen findest',
   'guide.docTitle': '{page} - {brand}',
   'guide.dungeonsPage.bastionBody':
@@ -5011,7 +5011,7 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'guide.howToPlay.basicsHeading': 'Die Grundlagen',
   'guide.howToPlay.controlsLink': 'Die vollständige Steuerungsübersicht ansehen',
   'guide.howToPlay.deathBody':
-    'Wenn du fällst, lässt du deinen Geist frei und wirst auf dem nächsten Friedhof wiederbelebt, zurück bei voller Gesundheit, und findest dann deinen Weg dorthin zurück, wo du warst. Es geht keine Erfahrung verloren.',
+    'Wenn du fällst, bleibt dein Körper dort liegen, wo er gefallen ist, und du erhebst dich als Geist auf dem nächsten Friedhof. Lauf mit deinem Geist zurück zu deinem Körper, um an Ort und Stelle und ohne jede Strafe wiederbelebt zu werden, oder nimm den Bleichen Hüter auf dem Friedhof an, für eine sofortige Auferstehung zum Preis einer vorübergehenden Schwäche. Brandneue Helden bleiben von der Schwäche gänzlich verschont, und nichts, was du besitzt oder dir verdient hast, geht jemals verloren.',
   'guide.howToPlay.deathTitle': 'Der Tod ist nicht das Ende',
   'guide.howToPlay.firstHeading': 'Deine ersten 15 Minuten',
   'guide.howToPlay.groupingBody':
@@ -5026,7 +5026,7 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
     'Nimm Quests von Personen mit einer Markierung über dem Kopf an, erfülle das Ziel und gib sie für Erfahrung, Gold und Ausrüstung ab. Die Verfolgungsanzeige auf dem Bildschirm behält deine Ziele im Blick.',
   'guide.howToPlay.questsTitle': 'Quests',
   'guide.howToPlay.reassure':
-    'Talente werden auf Stufe 10 freigeschaltet und können jederzeit zurückgesetzt werden, deine frühen Entscheidungen sind also niemals endgültig. Probiere ungezwungen aus.',
+    'Talente werden auf Stufe 10 freigeschaltet und lassen sich jederzeit außerhalb des Kampfes zurücksetzen, deine frühen Entscheidungen sind also niemals endgültig. Probiere ungezwungen aus.',
   'guide.howToPlay.resourcesBody':
     'Zauber und Fähigkeiten kosten eine Ressource. Krieger bauen durch Kämpfen Wut auf, Schurken verbrauchen Energie, die sich von selbst auffüllt, und alle anderen wirken Zauber aus einem Vorrat an Mana.',
   'guide.howToPlay.resourcesTitle': 'Ressourcen',
@@ -5260,7 +5260,7 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'guide.dungeonsPage.levelBand': 'Stufe {min} bis {max}',
   'guide.dungeonsPage.partySize': '{n} Spieler',
   'guide.faqPage.a10':
-    'Die Höchststufe ist Stufe {cap}. Von dort aus läufst du die Fünf-Spieler-Dungeons und den Zehn-Spieler-Schlachtzug, jagst nach besserer Ausrüstung und misst dich in der Arena.',
+    'Die Höchststufe ist Stufe {cap}. Von dort aus läufst du die Fünf-Spieler-Dungeons und den Zehn-Spieler-Schlachtzug, nimmst sie im heroischen Modus erneut in Angriff für verbesserte Beute, stellst dich dem Weltboss, wenn er sich erhebt, und misst dich in der Arena.',
   'guide.faqPage.a11':
     'Lade jeden, dem du begegnest, in eine Gruppe ein, frag im Chat, oder schließt euch an einem Dungeon zusammen. Der Großteil der Welt ist alleine zu schaffen, Gruppenspiel ist also eine Wahl, keine Pflicht.',
   'guide.faqPage.a9':
@@ -5361,10 +5361,10 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
     'Jede Klasse kann sich behaupten und die Höchststufe erreichen. Wähle die Fantasie, die dir gefällt, nicht die, die jemand anderes als die beste bezeichnet.',
   'guide.wishPage.i1Title': 'Du kannst keine falsche Klasse wählen',
   'guide.wishPage.i2Body':
-    'Wenn du fällst, lässt du deinen Geist frei und wirst auf dem nächsten Friedhof wiederbelebt, und findest dann deinen Weg zurück. Es geht keine Erfahrung verloren, es ist also sicher, Risiken einzugehen und dazuzulernen.',
+    'Wenn du fällst, erhebst du dich als Geist auf dem nächsten Friedhof. Lauf zurück zu deinem Körper, um kostenlos wiederbelebt zu werden, oder nimm die sofortige Auferstehung des Bleichen Hüters an und trage für die Bequemlichkeit eine kurzlebige Schwäche. Es geht niemals Erfahrung, Ausrüstung oder Geld verloren, es ist also sicher, Risiken einzugehen und dazuzulernen.',
   'guide.wishPage.i2Title': 'Sterben kostet dich kaum etwas',
   'guide.wishPage.i3Body':
-    'Sie schalten sich auf Stufe 10 frei und lassen sich zurücksetzen, wann immer du willst, deine frühen Entscheidungen sind also nie endgültig.',
+    'Sie schalten sich auf Stufe 10 frei und lassen sich zurücksetzen, wann immer du willst, außerhalb des Kampfes, deine frühen Entscheidungen sind also nie endgültig.',
   'guide.wishPage.i3Title': 'Talente sind keine Falle',
   'guide.wishPage.i4Body':
     'Quests sind der schnellste Weg, um aufzusteigen, und sie führen dich durch die ganze Welt. Wenn du nicht weißt, wohin, suche die nächste Markierung.',
@@ -5415,9 +5415,9 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
     'Ein Sturmelementar, dem man Schultern gegeben hat und der über die fernen Felszacken hoch über Stormcrag wandelt, mit einem Herzsplitter, für den es sich lohnt, dem Blitz zu trotzen.',
   'guide.bestiary.notedLabel': 'Bemerkenswert',
   'guide.combat.ccBody':
-    'Massenkontrolle ist eine besondere Art von Schwächungszauber, die einschränkt, was ein Ziel tun kann: Betäubungen, Verwurzelungen und Verlangsamungen, Stille, die das Zaubern unterbindet, Entwaffnungen, Furchteffekte und Verwandlungen, die einen Feind für einen Moment harmlos machen. Manche davon, wie Verwurzelungen, Furcht und Verwandlungen, verlieren ihren Halt, wenn sie zu schnell erneut angewandt werden, sie lassen sich also nicht ewig aneinanderreihen.',
+    'Massenkontrolle ist eine besondere Art von Schwächungszauber, die einschränkt, was ein Ziel tun kann: Betäubungen, Verwurzelungen und Verlangsamungen, Stille, die das Zaubern unterbindet, Entwaffnungen, Furchteffekte und Verwandlungen, die einen Feind für einen Moment harmlos machen. Gegen andere Spieler nutzt sich Kontrolle mit Wiederholung ab: dieselbe Art zu schnell erneut angewandt schwächt sich ab und versagt dann ganz, und eine Betäubung, die aus der Verstohlenheit heraus eröffnet, wird getrennt von den darauf folgenden Betäubungen gezählt, sodass niemand für immer wehrlos aneinandergereiht werden kann. Die Kreaturen der Welt hegen keinen solchen Groll; bei ihnen landet Kontrolle jedes Mal in voller Stärke.',
   'guide.combat.deathBody':
-    'Erreicht deine Gesundheit null, wirst du niedergestreckt. Lass deinen Geist frei, um auf dem nächsten Friedhof mit voller Gesundheit wiederbelebt zu werden, und finde dann deinen Weg zurück, ein Tod kostet dich also etwas Zeit, nicht deinen Fortschritt. Setze dich zwischen den Kämpfen, um zu essen und zu trinken, damit du den nächsten in voller Stärke beginnst.',
+    'Erreicht deine Gesundheit null, wirst du dort niedergestreckt, wo du stehst, und dein Körper bleibt liegen. Lass deinen Geist frei, und du erhebst dich als Geist auf dem nächsten Friedhof: schneller zu Fuß als die Lebenden, außer Reichweite deiner Feinde, aber unfähig zu kämpfen, zu plündern oder mit irgendjemandem zu sprechen außer dem Bleichen Hüter, der über den Steinen schwebt. Von dort hast du die Wahl. Lauf mit deinem Geist zurück zu deinem Körper, und du wirst an Ort und Stelle wiederbelebt, mit einem Teil deiner Gesundheit und deines Manas zurück und ganz ohne Strafe. Oder nimm beim Bleichen Hüter eine sofortige Auferstehung dort an, wo du stehst, zum Preis des Zolls des Hüters: eine vorübergehende Schwächung all dessen, was du bist, die umso länger anhält, je erfahrener du bist, und brandneue Charaktere gänzlich verschont. Fällst du in einem Dungeon, wartet dein Geist auf dem Friedhof draußen; lauf mit deinem Geist zurück durch die Tür, und du wirst am Eingang wiederbelebt. Auf beiden Wegen verlierst du weder Erfahrung noch Ausrüstung noch Geld. Setze dich zwischen den Kämpfen, um zu essen und zu trinken, damit du den nächsten in voller Stärke beginnst.',
   'guide.combat.deathTitle': 'Wenn du fällst',
   'guide.combat.effectsBody':
     'Viele Fähigkeiten legen einen Effekt an, der nachwirkt. Hilfreiche (Stärkungszauber) erhöhen deine Werte, schirmen dich ab oder heilen dich nach und nach; schädliche (Schwächungszauber) zehren deine Gesundheit durch Schaden über Zeit auf oder schwächen dich. Achte auf die kleinen Symbole nahe deiner Aktionsleiste, um zu sehen, was auf dir liegt und wie lange es anhält.',
@@ -5451,8 +5451,8 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
     'Die Preisgestaltung liegt bei dir. Etwas unter dem zu bieten, was andere verlangen, verkauft sich tendenziell schneller, während ein gesalzener Preis vielleicht unangetastet liegen bleibt. Stöbere erst, um zu sehen, wie der gängige Kurs aussieht, bevor du etwas einstellst.',
   'guide.economy.marketTitle': 'Der Weltmarkt',
   'guide.economy.marksBody':
-    'Geld ist nicht das Einzige, was du anhäufst. Tiefgänge zahlen Tiefgang-Marken aus, eine eigene Währung, die du nur beim Tiefgang-Hüter ausgibst, für Verbesserungen deiner Gefährtin und Ausrüstung, die du nirgendwo sonst findest. Sie vermischen sich nie mit deinem Geld.',
-  'guide.economy.marksTitle': 'Eine zweite Währung: Tiefgang-Marken',
+    'Geld ist nicht das Einzige, was du anhäufst. Tiefgänge zahlen Tiefgang-Marken aus, die du nur beim Tiefgang-Hüter ausgibst, für Verbesserungen deiner Gefährtin und Ausrüstung, die du nirgendwo sonst findest. Heroische Dungeon-Läufe hinterlassen Heroische Marken beim Endboss, die du beim heroischen Quartiermeister in Highwatch für Schmuck ausgibst, den kein anderer Winkel des Reichs verkauft. Keine von beiden vermischt sich je mit deinem Geld.',
+  'guide.economy.marksTitle': 'Marken: die Währungen jenseits des Geldes',
   'guide.economy.tradeBody':
     'Du kannst von Angesicht zu Angesicht mit jedem handeln, der nahe bei dir steht. Ihr beide legt Gegenstände und Münzen in ein gemeinsames Fenster, und der Tausch findet erst statt, sobald ihr ihn beide bestätigt, sodass keine Seite übers Ohr gehauen werden kann. Es ist der einfache Weg, einem Freund eine Beute zu reichen oder ein Geschäft abzuschließen.',
   'guide.economy.tradeTitle': 'Handeln mit anderen Spielern',
@@ -5502,7 +5502,7 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'guide.gear.qualityTitle': 'Qualität auf einen Blick',
   'guide.gear.qualityUncommon': 'Ungewöhnlich',
   'guide.gear.setsBody':
-    'Die seltenste Rüstung kommt in zusammengehörigen Familien, mehreren Teilen, die darauf zugeschnitten sind, als Einheit auszusehen und zu kämpfen. Trage genug Teile einer Familie gleichzeitig, und das Set erwacht und gewährt Boni zusätzlich zu den eigenen Werten jedes Teils, und je mehr Teile du trägst, desto stärker wird es. Diese fallen im härtesten Gruppeninhalt nahe der Höchststufe, weshalb die Jagd nach einem vollständigen Set ein klassisches Endgame-Ziel ist.',
+    'Manche Rüstung kommt in zusammengehörigen Familien, mehreren Teilen, die darauf zugeschnitten sind, als Einheit auszusehen und zu kämpfen. Trage genug Teile einer Familie gleichzeitig, und das Set erwacht und gewährt Boni zusätzlich zu den eigenen Werten jedes Teils, und je mehr Teile du trägst, desto stärker wird es. Einige wenige solcher Familien tauchen als begehrte Beute auf, während du aufsteigst; die größten von ihnen stammen aus dem härtesten Gruppeninhalt nahe der Höchststufe, weshalb die Jagd nach einem vollständigen Set ein klassisches Endgame-Ziel ist.',
   'guide.gear.setsTitle': 'Sets und Set-Boni',
   'guide.gear.slotChest': 'Brust',
   'guide.gear.slotFeet': 'Füße',
@@ -5513,10 +5513,10 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'guide.gear.slotShoulder': 'Schultern',
   'guide.gear.slotWaist': 'Taille',
   'guide.gear.slotsBody':
-    'Du hast einen Waffenplatz und sieben Rüstungsplätze. Jede Klasse kann nur bestimmte Waffen führen und trägt Rüstung bis zu ihrer eigenen Gewichtsklasse, Stoff, Leder oder Kette, die Verbesserungen, die zu dir passen, sind also jene, die für deine Klasse gemacht sind. Innerhalb dessen füllst du jeden Platz mit dem besten Stück, das du findest.',
+    'Du hast einen Waffenplatz, sieben Rüstungsplätze und drei Schmuckplätze: einen Hals und zwei Finger. Jede Klasse kann nur bestimmte Waffen führen und trägt Rüstung bis zu ihrer eigenen Gewichtsklasse, Stoff, Leder oder Kette, die Verbesserungen, die zu dir passen, sind also jene, die für deine Klasse gemacht sind. Schmuck hat überhaupt kein Gewicht: jede Klasse trägt, was auch immer sie sich verdient. Innerhalb dessen füllst du jeden Platz mit dem besten Stück, das du findest.',
   'guide.gear.slotsTitle': 'Was du anlegen kannst',
   'guide.gear.sourcesBody':
-    'Die meisten deiner frühen Verbesserungen sind Questbelohnungen, es zahlt sich also aus, Quests abzuschließen, statt zu grinden. Feinde lassen Ausrüstung fallen, wenn du sie bezwingst, Händler in der Stadt verkaufen solide Grundausstattung, und der Spielermarkt lässt dich von anderen Abenteurern kaufen.',
+    'Die meisten deiner frühen Verbesserungen sind Questbelohnungen, es zahlt sich also aus, Quests abzuschließen, statt zu grinden. Feinde lassen Ausrüstung fallen, wenn du sie bezwingst, Händler in der Stadt verkaufen solide Grundausstattung, Handwerker verwandeln gesammelte Materialien in tragbare Stücke, und der Spielermarkt lässt dich von anderen Abenteurern kaufen. Ganz oben auf dem Berg kaufen zwei Marken-Währungen Ausrüstung, die es sonst nirgends gibt: Tiefgang-Marken beim Tiefgang-Hüter und Heroische Marken beim heroischen Quartiermeister.',
   'guide.gear.sourcesTitle': 'Woher Ausrüstung kommt',
   'guide.gear.upgradeBody':
     'Ein altes Stück durch eine frische Verbesserung zu ersetzen, bringt dir mehr, als in Ausrüstung, der du entwachsen bist, perfekt zu spielen. Wenn etwas Besseres fällt oder eine Quest es anbietet, nimm es. Spare deine guten Gegenstände nicht für später auf.',
@@ -5552,7 +5552,7 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'guide.progression.capBody':
     'Jede Stufe macht dich widerstandsfähiger und bringt neue Fähigkeiten, bis hinauf zur Höchststufe {cap}.',
   'guide.progression.capJourneyBody':
-    'Stufe {cap} ist die Höchststufe, das Ende des Aufstiegs, aber nicht des Wachstums. Von da an läufst du Dungeons und den Schlachtzug, jagst besserer Ausrüstung nach und stellst dich in der Arena auf die Probe.',
+    'Stufe {cap} ist die Höchststufe, das Ende des Aufstiegs, aber nicht des Wachstums. Von da an läufst du Dungeons und den Schlachtzug auf normal und heroisch, stellst dich dem Weltboss, wenn er sich erhebt, jagst besserer Ausrüstung nach und stellst dich in der Arena auf die Probe.',
   'guide.progression.capTitle': 'Stufe {cap} erreichen',
   'guide.progression.intro':
     'Jeder Kampf, jede Quest und jeder Schritt nach Norden macht deinen Helden stärker. Hier erfährst du, wie der Aufstieg funktioniert und was dich weiter wachsen lässt, sobald du an der Spitze bist.',
@@ -5592,7 +5592,7 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
     'Neben der Geschichte vergeben die Marschälle und Wächter des Tals und des Moores eine stehende Kopfgeldleiter. Arbeite dich an ihr empor, Feind für Feind, so wie sich jeder Kopfgeldjäger vor dir seinen Platz verdient hat. Es ist ehrlicher Aufstieg und eine Rundreise zu den schlimmsten Unruhestiftern jedes Gebiets.',
   'guide.questsPage.sideWardenTitle': 'Sich einen Namen machen',
   'guide.questsPage.typeGatherBody':
-    'Sammle Gegenstände aus der Welt oder von dem, was Feinde fallen lassen: Kräuter, Erz, verlorene Briefe, die grausigen Reagenzien eines Kults. Manche Stücke fallen nur von einem bestimmten Feind, die Jagd und die Ausbeute gehören also zusammen.',
+    'Sammle Gegenstände aus der Welt oder von dem, was Feinde fallen lassen: Kräuter, Erz, die grausigen Reagenzien eines Kults. Manche Stücke fallen nur von einem bestimmten Feind, die Jagd und die Ausbeute gehören also zusammen.',
   'guide.questsPage.typeGatherTitle': 'Sammeln',
   'guide.questsPage.typeGroupBody':
     'Jedes Kapitel der Hauptgeschichte endet an einer Dungeon-Tür. Die Einführung ist im Alleingang lösbar, doch der finale Schlag gegen den Schurken eines Kapitels ist für eine Gruppe von fünf gedacht.',
@@ -5683,7 +5683,7 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
     'Rüstung verringert den physischen Schaden, den du erleidest. Sie kommt größtenteils von dem, was du trägst, und die schwereren Rüstungsklassen tragen weit mehr davon. Mehr Rüstung gegen einen Feind nahe deiner Stufe bedeutet, dass jeder seiner Treffer sanfter landet.',
   'guide.stats.armorTitle': 'Rüstung',
   'guide.stats.critBody':
-    'Deine kritische Trefferchance ist, wie oft ein Angriff für zusätzlichen Schaden landet. Jeder beginnt mit einer kleinen Grundchance, und Beweglichkeit (dazu manche Talente und Ausrüstung) baut darauf auf.',
+    'Deine kritische Trefferchance ist, wie oft ein Angriff für zusätzlichen Schaden landet. Jeder beginnt mit einer kleinen Grundchance, und Beweglichkeit (dazu manche Talente und Ausrüstung) baut darauf auf. Dein Charakterbogen zeigt sowohl die Chance selbst als auch die kritische Trefferwertung, die deine Ausrüstung dazu beiträgt.',
   'guide.stats.critTitle': 'Kritischer Treffer',
   'guide.stats.dodgeBody':
     'Ausweichen ist deine Chance, einem eingehenden Nahkampfangriff gänzlich zu entgehen. Du beginnst mit einer kleinen Grundchance, und Beweglichkeit hebt sie an, sodass flinke Klassen mehr Schläge entwischen.',
@@ -5730,7 +5730,7 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'guide.worldPage.marshGreeting':
     'Halt am Tor. Jenseits dieses Schilfs erledigt das Moor das Töten für uns.',
   'guide.worldPage.marshPlaceNotes':
-    'Fenbridge bewacht die einzige trockene Straße. Das Pirscherschilf und die Deepfen-Niederung wimmeln von Moorbestien und Mudfins; das Witwendickicht ist dicht mit Netzen versponnen; die Ertrunkene Kapelle und die Trollhügel beherbergen ältere Gefahren; das Gravecaller-Lager ist der eingegrabene Kult, und die versunkene Bastion ist das instanzierte Herz des Moores.',
+    'Fenbridge bewacht die einzige trockene Straße. Das Pirscher-Schilf und die Deepfen-Untiefen wimmeln von Moorbestien und Mudfins; das Witwendickicht ist dicht mit Netzen versponnen; die Ertrunkene Kapelle und die Trollhügel bergen ältere Gefahren, und die Ertrunkene Litanei, der eigene Tiefgang des Moores, öffnet sich gleich nördlich der Hügel; das Gravecaller-Lager ist der eingegrabene Kult, und die versunkene Bastion ist das instanzierte Herz des Moores.',
   'guide.worldPage.peaksGreeter': 'Hauptmann Thessaly, Highwatch',
   'guide.worldPage.peaksGreeting':
     'Zweihundert Jahre hat diese Mauer gehalten. Unter meiner Wache wird sie nicht brechen, doch sie ächzt.',
@@ -5740,7 +5740,7 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'guide.worldPage.valeGreeting':
     'Halt deine Klinge griffbereit. Das Tal ist nicht mehr, was es war.',
   'guide.worldPage.valePlaceNotes':
-    'Eastbrook ist deine erste Heimatbasis. Der Wolfslauf und die Eberwiese sind sanftes Jagdgebiet; der Spiegelsee ist stilles Wasser zum Angeln; das Sableweb und die Kupfergrube verbergen Spinnen und erzgierige Schaufler; ein Banditenlager und die Gefallene Kapelle bergen rauere Arbeit; der Reliquienhügel führt hinab in das Eingestürzte Reliquiar, die erste Tiefe des Reichs; und Brightwood Glade ist ein ruhiger, sonnenheller Hain im Norden.',
+    'Eastbrook ist deine erste Heimatbasis. Der Wolfslauf und die Eberwiese sind sanftes Jagdgebiet; der Spiegelsee ist stilles Wasser zum Angeln; das Sableweb und die Kupfergrube verbergen Spinnen und erzgierige Schaufler; ein Banditenlager und die Gefallene Kapelle bergen rauere Arbeit; der Reliquiarhügel führt hinab in das Eingestürzte Reliquiar, den ersten Tiefgang des Reichs; Brightwood Glade ist ein ruhiger, sonnenheller Hain im Norden; und das Saufeld ist Eastbrooks ummauerter Keilerball-Platz, auf dem der Talpokal unter einem Erntefrieden ausgetragen wird.',
   'guide.worldPage.gladeTitle': 'Eine stille Ecke: Brightwood Glade',
   'guide.worldPage.gladeBody':
     'Nicht jede Geschichte im Tal handelt von den Toten. Im Norden bewahrt ein sonnenheller Hain namens Brightwood Glade seinen eigenen, sanfteren Rhythmus, ganz aus stillen Pfaden und geflecktem Licht unter den Zweigen. Er ist ein sanfter Gegenklang zu der Spur, der du folgst, und einen Blick wert, wenn die Straße dir Raum zum Umherstreifen lässt.',
@@ -6538,7 +6538,7 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
     'Umgebungsregen und Schnee. Nur Atmosphäre, und das Ausschalten spart bei Gewittern ein wenig.',
   'guide.settingsPage.tableFoot':
     'Suchen Sie nach einem Schieberegler für die Zugentfernung oder einer FPS-Kappe? Es gibt nichts, wonach Sie suchen müssen: Der Betrachtungsabstand ist Teil jeder Qualitätsstufe und die Bildgeschwindigkeit folgt Ihrer Anzeige.',
-  'guide.settingsPage.tableHeading': 'Jede Option, erklärt',
+  'guide.settingsPage.tableHeading': 'Jede Grafikoption, erklärt',
   'guide.settingsPage.tagReload': 'nach dem Neuladen',
   'guide.settingsPage.value100': '100 %',
   'guide.settingsPage.value50to70': '50 bis 70 %',
@@ -6758,7 +6758,7 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
     'Heldentaten stehen auf einem eigenen Regal: Zeugnisse vergangener Zeiten und Welterster, Taten, die an eine vergangene Ära oder einen Moment gebunden sind, der nur ein einziges Mal geschieht. Sie bringen kein Ansehen und fließen nicht in die Abschlusszählung ein, sondern bleiben für immer als Erinnerung an das Vollbrachte erhalten.',
   'guide.deedsPage.featsHeading': 'Heldentaten',
   'guide.deedsPage.howBody':
-    'Taten werden mit jeweils einem Charakter errungen und für dein gesamtes Konto angezeigt, sodass jeder Held, den du spielst, zur selben Sammlung beiträgt. Jede Tat benennt klar und deutlich, was sie von dir verlangt, direkt im Buch der Taten im Spiel, sodass du immer weißt, was es zu erjagen gilt; und die Taten, hinter denen du her bist, kannst du verfolgen, um sie beim Spielen im Blick zu behalten. Einige wenige bleiben geheim und geben sich erst zu erkennen, wenn du sie errungen hast.',
+    'Taten werden mit jeweils einem Charakter errungen und für dein gesamtes Konto angezeigt, sodass jeder Held, den du spielst, zur selben Sammlung beiträgt. Jede Tat benennt klar und deutlich, was sie von dir verlangt, direkt im Buch der Taten im Spiel, sodass du immer weißt, was es zu erjagen gilt; und die Taten, hinter denen du her bist, kannst du verfolgen, um sie beim Spielen im Blick zu behalten. Einige wenige bleiben geheim und geben sich erst zu erkennen, wenn du sie errungen hast. Das Buch hält sich auch selbst ehrlich: Was immer deine bisherige Bilanz belegen kann, schreibt es dir sofort gut, sodass ein Veteran es nie mit leerer Seite aufschlägt; nur die zählenden Taten beginnen ihre Zählung von neuem.',
   'guide.deedsPage.howHeading': 'So funktionieren Taten',
   'guide.deedsPage.intro':
     'Im Buch der Taten führt die Welt Buch über alles, was du vollbracht hast: von deinen ersten Schritten aus dem Starttal bis zu den härtesten Kämpfen, die das Reich zu bieten hat. Erringe Taten, während du spielst, trage die Titel, die sie verleihen, und sieh zu, wie dein Ansehen wächst.',

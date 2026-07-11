@@ -36,7 +36,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'guide.nav.professions': 'Profesi',
   'guide.nav.valeCup': 'Piala Lembah',
   'guide.professions.archetypeChooseBody':
-    'Kamu menyatakan arketipe pertamamu melalui misi cerita awal di zona satu yang secara resmi menerimamu ke dalam identitas itu. Sebelum misi itu selesai, kamu sama sekali belum memilih arketipe.',
+    'Menyatakan sebuah arketipe akan menjadi momen cerita: sebuah misi yang secara resmi menerimamu ke dalam identitas itu. Jalan itu masih dibangun, jadi untuk saat ini setiap karakter menjelajahi dunia dengan pilihan itu masih di depannya, dan setiap kerajinan berkembang hingga tingkat kualitas Langka untuk sementara.',
   'guide.professions.archetypeChooseTitle': 'Memilih arketipemu',
   'guide.professions.archetypeIdentityBody':
     'Arketipe aktifmu adalah pernyataan tentang siapa karaktermu di dunia, terlihat dari cara orang lain dan dunia menyapamu. Hadiah dan pengakuan pastinya masih dirampungkan; tengok kembali seiring sistem ini dilengkapi.',
@@ -44,7 +44,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'guide.professions.archetypeIntro':
     'Masing-masing dari sepuluh kerajinan juga mewakili sebuah arketipe, identitas yang lebih luas yang bisa kamu sandang di luar sekadar menekuni kerajinannya. Arketipe aktifmu adalah satu pilihan pada satu waktu, bukan daftar centang: kamu menyandang satu, dan bisa menggantinya kelak jika mau.',
   'guide.professions.archetypeSwitchBody':
-    'Menyatakan sebuah arketipe sekali tidak mengikatmu selamanya. Berpindah ke arketipe lain berarti lebih dulu menyelesaikan misi "menebus kesalahan" yang dapat diulang untuk arketipe lamamu, dan setiap kali kamu berpindah, tebusan yang diminta berikutnya sedikit lebih berat, sehingga berpindah tetap bermakna, bukan tanpa harga.',
+    'Pernyataan pun tak akan menjadi hukuman seumur hidup. Rencananya adalah tindakan menebus kesalahan yang dapat diulang kepada kerajinan lamamu sebelum menekuni yang baru, dengan tebusan yang semakin berat setiap kali kamu berpindah, sehingga pilihan itu tetap bermakna, bukan tanpa harga. Seperti pernyataan itu sendiri, ini pun masih dalam perjalanan.',
   'guide.professions.archetypeSwitchTitle': 'Berubah pikiran',
   'guide.professions.archetypeTitle': 'Sepuluh arketipe',
   'guide.professions.craftComboBody':
@@ -3541,9 +3541,9 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'guide.classPage.roleLabel': 'Berperan sebagai',
   'guide.classPage.specsHeading': 'Spesialisasi',
   'guide.combat.ccBody':
-    'Kontrol kerumunan adalah jenis pelemahan khusus yang membatasi apa yang bisa dilakukan sasaran: pingsan, akar dan pelambatan, pembungkaman yang menghentikan perapalan mantra, pelucutan senjata, ketakutan, dan ubah wujud yang membuat lawan tak berbahaya sejenak. Sebagian, seperti akar, ketakutan, dan ubah wujud, kehilangan cengkeramannya bila dipasang ulang terlalu cepat, sehingga tak bisa dirantai selamanya.',
+    'Kontrol kerumunan adalah jenis pelemahan khusus yang membatasi apa yang bisa dilakukan sasaran: pingsan, akar dan pelambatan, pembungkaman yang menghentikan perapalan mantra, pelucutan senjata, ketakutan, dan ubah wujud yang membuat lawan tak berbahaya sejenak. Melawan pemain lain, kontrol menipis bila diulang: jenis yang sama yang dipasang kembali terlalu cepat melemah lalu gagal sama sekali, dan pingsan yang dibuka dari siluman dihitung terpisah dari pingsan yang menyusul, sehingga tak seorang pun bisa dirantai tak berdaya selamanya. Makhluk-makhluk dunia tak menyimpan dendam semacam itu; kontrol mengenai mereka dengan kekuatan penuh setiap kali.',
   'guide.combat.deathBody':
-    'Jika nyawamu mencapai nol, kamu tumbang. Lepaskan rohmu untuk bangkit kembali di kuburan terdekat dengan nyawa penuh, lalu tempuh jalanmu kembali, jadi kematian merenggut sedikit waktumu, bukan kemajuanmu. Di antara pertarungan, duduklah untuk makan dan minum agar kamu memulai yang berikutnya dengan kekuatan penuh.',
+    'Jika nyawamu mencapai nol, kamu tumbang di tempatmu berdiri, dan tubuhmu tetap di sana. Lepaskan rohmu dan kamu bangkit sebagai hantu di kuburan terdekat: lebih gesit langkahnya daripada yang hidup, di luar jangkauan musuh-musuhmu, tetapi tak mampu bertarung, menjarah, atau berbicara dengan siapa pun kecuali Sang Penjaga Pucat yang melayang di atas bebatuan. Dari sana kamu memilih. Larikan hantumu kembali ke tubuhmu dan kamu bangkit di tempat dengan sebagian nyawa dan mana pulih serta tanpa hukuman sama sekali. Atau terimalah tawaran Sang Penjaga Pucat untuk kebangkitan seketika di tempatmu berdiri, dengan harga Upeti Sang Penjaga: pelemahan sementara atas segenap dirimu yang bertahan lebih lama makin berpengalaman dirimu, dan sama sekali membebaskan karakter yang baru dibuat. Tumbang di dalam ruang bawah tanah dan rohmu menunggu di kuburan luar; bawa hantumu kembali melewati pintu dan kamu bangkit di gerbang masuk. Jalan mana pun, kamu tak kehilangan pengalaman, perlengkapan, atau koin. Di antara pertarungan, duduklah untuk makan dan minum agar kamu memulai yang berikutnya dengan kekuatan penuh.',
   'guide.combat.deathTitle': 'Saat kamu tumbang',
   'guide.combat.effectsBody':
     'Banyak kemampuan memberi efek yang bertahan. Yang menguntungkan (penguat) menaikkan statistikmu, melindungimu, atau menyembuhkanmu sedikit demi sedikit; yang merugikan (pelemah) menguras nyawamu dengan kerusakan seiring waktu atau melemahkanmu. Perhatikan ikon kecil di dekat bilah aksimu untuk melihat apa yang menempel padamu dan berapa lama bertahan.',
@@ -3585,7 +3585,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'guide.controls.talents': 'Bakat',
   'guide.controls.targetFriendly': 'Targetkan kawan terdekat',
   'guide.delvesPage.affixesBody':
-    'Penjelajahan yang lebih sulit akan memunculkan satu pengubah yang mengubah jalannya penurunan, dari mayat yang gelisah, udara busuk, hingga atap yang mulai runtuh. Semuanya menaikkan bahaya dan ganjaran sekaligus. Sebuah delve bertema kripta bisa memunculkan salah satu dari ini:',
+    'Penjelajahan yang lebih sulit akan memunculkan satu pengubah yang mengubah jalannya penurunan, dari mayat yang gelisah, udara busuk, hingga atap yang mulai runtuh. Semuanya menaikkan bahaya dan ganjaran sekaligus. Setiap delve menarik dari pengubah yang cocok dengan temanya; di seluruh realm, kumpulannya tampak seperti ini:',
   'guide.delvesPage.affixesHeading': 'Pengubah penjelajahan',
   'guide.delvesPage.affixesLabel': 'Pengubah yang mungkin',
   'guide.delvesPage.companionBody':
@@ -3617,7 +3617,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
     'Delve adalah dungeon ber-instance kecil yang dibuat khusus untukmu dan paling banyak satu sekutu, salinan pribadi tempat kamu tak bisa diganggu. Kamu memulainya dari papan yang dijaga seorang penjaga delve di dunia luar, masuk, bertarung menurun melalui segelintir ruangan, dan menutup pada satu penjaga akhir. Penjelajahan berlangsung cepat dan memang dimaksudkan untuk diulang, jadi delve adalah perkembangan yang andal kapan pun dunia terbuka mulai sepi.',
   'guide.delvesPage.whatHeading': 'Apa itu delve',
   'guide.delvesPage.whereBody':
-    'Delve pertama, Reliquary yang Runtuh, terbuka di Bukit Reliquary, di lembah awal Lembah Eastbrook. Bruder Halven menjaga papannya di sana, dan ia akan mengirimmu turun begitu kamu siap.',
+    'Delve pertama, Reliquary yang Runtuh, terbuka di Bukit Reliquary, di lembah awal Lembah Eastbrook. Bruder Halven menjaga papannya di sana, dan ia akan mengirimmu turun begitu kamu siap. Tugasnya tak berakhir di situ: melewati Gundukan Troll di tepi utara Rawa Mirefen, penjaga yang sama membuka Litani Tenggelam bagi para penjelajah yang telah menemukan pijakan mereka.',
   'guide.delvesPage.whereHeading': 'Di mana menemukannya',
   'guide.docTitle': '{page} - {brand}',
   'guide.dungeonsPage.bastionBody':
@@ -3640,7 +3640,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
     'Ruang bawah tanah dirancang untuk kelompok beranggota lima orang. Raid akhir permainan untuk sepuluh orang.',
   'guide.dungeonsPage.partySize': '{n} pemain',
   'guide.dungeonsPage.raidBody':
-    'Di balik pintu kerajaan yang tersegel menanti cobaan untuk sepuluh pemain: pertarungan berfase ganda dan sebuah kekuatan abadi yang harus dipadamkan bersama oleh seluruh raid. Raih jalanmu untuk masuk, lalu bawa sembilan kawan.',
+    'Di balik pintu kerajaan yang tersegel menanti cobaan untuk sepuluh pemain: pertarungan berfase banyak dan sebuah kekuatan abadi yang harus dipadamkan bersama oleh seluruh raid. Raih jalanmu untuk masuk, lalu bawa sembilan kawan.',
   'guide.dungeonsPage.raidName': 'Raid akhir permainan',
   'guide.dungeonsPage.raidSize': 'Sepuluh pemain, level {n}',
   'guide.dungeonsPage.sanctumBody':
@@ -3677,8 +3677,8 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
     'Penentuan harga terserah padamu. Memasang sedikit di bawah harga yang diminta orang lain cenderung lebih cepat laku, sementara harga selangit mungkin teronggok tak tersentuh. Telusuri dulu untuk melihat seperti apa harga pasaran sebelum kamu memasang.',
   'guide.economy.marketTitle': 'Pasar Dunia',
   'guide.economy.marksBody':
-    'Koin bukan satu-satunya yang kamu simpan. Delve membayar Tanda Delve, mata uang terpisah yang hanya kamu belanjakan di penjaga delve, untuk peningkatan pendamping dan perlengkapan yang tak akan kamu temukan di tempat lain. Tanda ini tak pernah bercampur dengan koinmu.',
-  'guide.economy.marksTitle': 'Mata uang kedua: Tanda Delve',
+    'Koin bukan satu-satunya yang kamu simpan. Delve membayar Tanda Delve, yang hanya kamu belanjakan di penjaga delve untuk peningkatan pendamping dan perlengkapan yang tak akan kamu temukan di tempat lain. Penjelajahan dungeon heroik meninggalkan Tanda Heroik pada bos akhir, yang kamu belanjakan bersama Kepala Perbekalan Heroik di Highwatch untuk perhiasan yang tak dijual di sudut realm mana pun lainnya. Keduanya tak pernah bercampur dengan koinmu.',
+  'guide.economy.marksTitle': 'Tanda: mata uang di luar koin',
   'guide.economy.tradeBody':
     'Kamu bisa berdagang langsung dengan siapa pun yang berdiri di dekatmu. Kalian berdua menaruh barang dan koin ke dalam jendela bersama dan pertukaran baru terjadi setelah kalian berdua mengonfirmasinya, sehingga tak ada pihak yang bisa diperdaya. Inilah cara mudah memberikan barang rampasan pada kawan atau menyelesaikan sebuah kesepakatan.',
   'guide.economy.tradeTitle': 'Berdagang dengan pemain lain',
@@ -3717,7 +3717,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'guide.faqPage.a1':
     'Ya. Seluruh permainan gratis dimainkan hingga batas level, dan kode sumbernya terbuka di GitHub.',
   'guide.faqPage.a10':
-    'Batasnya adalah level {cap}. Dari sana kamu menjalankan ruang bawah tanah untuk lima pemain dan raid untuk sepuluh pemain, mengejar perlengkapan yang lebih baik, dan menguji dirimu di arena.',
+    'Batasnya adalah level {cap}. Dari sana kamu menjalankan ruang bawah tanah untuk lima pemain dan raid untuk sepuluh pemain, menantangnya lagi dalam mode heroik demi jarahan yang ditingkatkan, menghadapi bos dunia saat ia bangkit, dan menguji dirimu di arena.',
   'guide.faqPage.a11':
     'Undang siapa pun yang kamu temui ke sebuah kelompok, bertanyalah di obrolan, atau bekerja samalah di sebuah ruang bawah tanah. Sebagian besar dunia bisa dijalani sendiri, jadi membentuk kelompok adalah pilihan, bukan keharusan.',
   'guide.faqPage.a2':
@@ -3798,7 +3798,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'guide.gear.qualityTitle': 'Kualitas, sekilas pandang',
   'guide.gear.qualityUncommon': 'Tak Lazim',
   'guide.gear.setsBody':
-    'Zirah paling langka hadir dalam keluarga yang serasi, beberapa potongan yang dirancang untuk tampak dan bertarung sebagai satu kesatuan. Kenakan cukup banyak dari satu keluarga sekaligus dan set itu pun bangkit, memberi bonus di atas stat tiap potongannya, dan makin banyak potongan yang kamu kenakan makin kuat jadinya. Ini jatuh dari konten kelompok paling tangguh di dekat batas level, jadi memburu satu set lengkap adalah tujuan babak akhir yang klasik.',
+    'Sebagian zirah hadir dalam keluarga yang serasi, beberapa potongan yang dirancang untuk tampak dan bertarung sebagai satu kesatuan. Kenakan cukup banyak dari satu keluarga sekaligus dan set itu pun bangkit, memberi bonus di atas stat tiap potongannya, dan makin banyak potongan yang kamu kenakan makin kuat jadinya. Beberapa keluarga semacam itu muncul sebagai jarahan berharga selagi kamu naik level; yang terhebat di antaranya berasal dari konten kelompok paling tangguh di dekat batas level, jadi memburu satu set lengkap adalah tujuan babak akhir yang klasik.',
   'guide.gear.setsTitle': 'Set dan bonus set',
   'guide.gear.slotChest': 'Dada',
   'guide.gear.slotFeet': 'Kaki',
@@ -3809,10 +3809,10 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'guide.gear.slotShoulder': 'Bahu',
   'guide.gear.slotWaist': 'Pinggang',
   'guide.gear.slotsBody':
-    'Kamu memiliki satu slot senjata dan tujuh slot zirah. Setiap kelas hanya bisa menggunakan senjata tertentu dan mengenakan zirah sesuai bobotnya sendiri, kain, kulit, atau rantai, jadi peningkatan yang cocok untukmu adalah yang dibuat untuk kelasmu. Di dalam batas itu, isi setiap slot dengan potongan terbaik yang kamu temukan.',
+    'Kamu memiliki satu slot senjata, tujuh slot zirah, dan tiga slot perhiasan: satu leher dan dua jari. Setiap kelas hanya bisa menggunakan senjata tertentu dan mengenakan zirah sesuai bobotnya sendiri, kain, kulit, atau rantai, jadi peningkatan yang cocok untukmu adalah yang dibuat untuk kelasmu. Perhiasan sama sekali tak berbobot: kelas mana pun mengenakan apa pun yang diperolehnya. Di dalam batas itu, isi setiap slot dengan potongan terbaik yang kamu temukan.',
   'guide.gear.slotsTitle': 'Apa yang bisa kamu kenakan',
   'guide.gear.sourcesBody':
-    'Sebagian besar peningkatan awalmu adalah hadiah misi, jadi lebih menguntungkan menuntaskan misi daripada menggerus musuh. Musuh menjatuhkan perlengkapan saat kamu mengalahkannya, penjaja di kota menjual barang dasar yang andal, dan pasar pemain memungkinkanmu membeli dari petualang lain.',
+    'Sebagian besar peningkatan awalmu adalah hadiah misi, jadi lebih menguntungkan menuntaskan misi daripada menggerus musuh. Musuh menjatuhkan perlengkapan saat kamu mengalahkannya, penjaja di kota menjual barang dasar yang andal, perajin mengubah bahan yang dikumpulkan menjadi potongan yang bisa dikenakan, dan pasar pemain memungkinkanmu membeli dari petualang lain. Di puncak bukit, dua mata uang tanda membeli perlengkapan yang tak ditemukan di tempat lain: Tanda Delve pada penjaga delve, dan Tanda Heroik pada Kepala Perbekalan Heroik.',
   'guide.gear.sourcesTitle': 'Dari mana perlengkapan berasal',
   'guide.gear.upgradeBody':
     'Mengganti potongan lama dengan peningkatan baru lebih berguna bagimu daripada bermain sempurna dengan perlengkapan yang sudah kamu lampaui. Saat sesuatu yang lebih baik jatuh atau sebuah misi menawarkannya, ambillah. Jangan simpan barang bagusmu untuk nanti.',
@@ -3950,7 +3950,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'guide.howToPlay.basicsHeading': 'Dasar-dasarnya',
   'guide.howToPlay.controlsLink': 'Lihat rujukan kontrol selengkapnya',
   'guide.howToPlay.deathBody':
-    'Jika kamu tumbang, kamu melepaskan rohmu dan bangkit kembali di kuburan terdekat dengan nyawa penuh, lalu menuju ke tempatmu semula. Tidak ada pengalaman yang hilang.',
+    'Jika kamu tumbang, tubuhmu tetap di tempat ia jatuh dan kamu bangkit sebagai hantu di kuburan terdekat. Larikan rohmu kembali ke tubuhmu untuk bangkit di tempat, tanpa hukuman, atau terima Sang Penjaga Pucat di kuburan untuk kebangkitan seketika dengan harga kelemahan yang sekejap. Pahlawan yang baru dibuat sama sekali dibebaskan dari kelemahan itu, dan tak ada yang kamu miliki atau kamu raih yang pernah hilang.',
   'guide.howToPlay.deathTitle': 'Kematian bukanlah akhir',
   'guide.howToPlay.firstHeading': '15 menit pertamamu',
   'guide.howToPlay.groupingBody':
@@ -3965,7 +3965,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
     'Terima misi dari orang yang punya penanda di atas kepalanya, selesaikan tujuannya, lalu serahkan untuk mendapatkan pengalaman, koin, dan perlengkapan. Pelacak di layar menjaga tujuanmu tetap terlihat.',
   'guide.howToPlay.questsTitle': 'Misi',
   'guide.howToPlay.reassure':
-    'Talent terbuka di level 10 dan bisa diatur ulang kapan saja, jadi pilihan awalmu tidak pernah permanen. Bereksperimenlah dengan bebas.',
+    'Talent terbuka di level 10 dan bisa diatur ulang kapan saja selama kamu di luar pertempuran, jadi pilihan awalmu tidak pernah permanen. Bereksperimenlah dengan bebas.',
   'guide.howToPlay.resourcesBody':
     'Mantra dan kemampuan membutuhkan sumber daya. Prajurit membangun Rage dengan bertarung, penyamun memakai Energy yang terisi sendiri, dan yang lainnya merapal dari cadangan Mana.',
   'guide.howToPlay.resourcesTitle': 'Sumber daya',
@@ -4062,7 +4062,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'guide.progression.capBody':
     'Setiap level membuatmu lebih tangguh dan menghadirkan kemampuan baru, hingga ke batas akhir level {cap}.',
   'guide.progression.capJourneyBody':
-    'Level {cap} adalah batas akhir, akhir dari menaikkan level tetapi bukan akhir dari berkembang. Dari sana kamu menjelajahi dungeon dan raid, mengejar perlengkapan yang lebih baik, dan menguji diri di arena.',
+    'Level {cap} adalah batas akhir, akhir dari menaikkan level tetapi bukan akhir dari berkembang. Dari sana kamu menjelajahi dungeon dan raid dalam mode normal dan heroik, menghadapi bos dunia saat ia bangkit, mengejar perlengkapan yang lebih baik, dan menguji diri di arena.',
   'guide.progression.capTitle': 'Mencapai level {cap}',
   'guide.progression.intro':
     'Setiap pertempuran, misi, dan langkah ke utara membuat pahlawanmu lebih kuat. Inilah cara kerja menaikkan level dan apa yang membuatmu terus berkembang setelah mencapai puncak.',
@@ -4122,7 +4122,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
     'Bawa misi yang sudah selesai ke penanda penyerahannya, peta menunjukkan letaknya, untuk pengalaman, koin, dan sering kali sepotong perlengkapan yang dipilih sesuai kelasmu. Penanda itu biasanya orang yang memberikannya kepadamu, meski beberapa misi mengirimmu ke orang lain.',
   'guide.questsPage.turninTitle': 'Menyerahkan misi',
   'guide.questsPage.typeGatherBody':
-    'Kumpulkan barang dari dunia atau dari apa yang dijatuhkan musuh: ramuan herbal, bijih, surat yang hilang, reagen suram milik sekte. Beberapa keping hanya jatuh dari musuh tertentu, jadi perburuan dan hasilnya berjalan beriringan.',
+    'Kumpulkan barang dari dunia atau dari apa yang dijatuhkan musuh: ramuan herbal, bijih, reagen suram milik sekte. Beberapa keping hanya jatuh dari musuh tertentu, jadi perburuan dan hasilnya berjalan beriringan.',
   'guide.questsPage.typeGatherTitle': 'Mengumpulkan',
   'guide.questsPage.typeGroupBody':
     'Setiap babak kisah utama berakhir di pintu dungeon. Bagian pengantarnya bisa dimainkan sendirian, tetapi pukulan akhir terhadap penjahat sebuah babak ditujukan bagi party beranggota lima.',
@@ -4234,7 +4234,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
     'Zirah mengurangi kerusakan fisik yang kamu terima. Ia sebagian besar berasal dari apa yang kamu kenakan, dan kelas berzirah berat membawanya jauh lebih banyak. Lebih banyak zirah terhadap musuh yang setara levelmu berarti setiap serangannya mendarat lebih lunak.',
   'guide.stats.armorTitle': 'Zirah',
   'guide.stats.critBody':
-    'Peluang serangan kritismu adalah seberapa sering sebuah serangan mendarat dengan kerusakan ekstra. Setiap orang mulai dengan peluang dasar kecil, dan Agility (ditambah beberapa talenta dan perlengkapan) menambahnya.',
+    'Peluang serangan kritismu adalah seberapa sering sebuah serangan mendarat dengan kerusakan ekstra. Setiap orang mulai dengan peluang dasar kecil, dan Agility (ditambah beberapa talenta dan perlengkapan) menambahnya. Lembar statistikmu menampilkan baik peluang itu sendiri maupun rating serangan kritis yang disumbangkan perlengkapanmu untuknya.',
   'guide.stats.critTitle': 'Serangan kritis',
   'guide.stats.dodgeBody':
     'Dodge adalah peluangmu menghindari sepenuhnya serangan jarak dekat yang datang. Kamu mulai dengan peluang dasar kecil, dan Agility menaikkannya, sehingga kelas yang lincah lebih banyak menepis pukulan.',
@@ -4310,10 +4310,10 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
     'Setiap kelas mampu bertahan sendiri dan mencapai batas tertinggi. Pilih fantasi yang kamu sukai, bukan yang disebut terbaik oleh orang lain.',
   'guide.wishPage.i1Title': 'Kamu tidak mungkin salah pilih kelas',
   'guide.wishPage.i2Body':
-    'Saat kamu tumbang, kamu melepaskan rohmu dan bangkit kembali di kuburan terdekat, lalu menempuh jalan kembali. Tidak ada pengalaman yang hilang, jadi aman untuk mengambil risiko dan belajar.',
+    'Saat kamu tumbang, kamu bangkit sebagai hantu di kuburan terdekat. Larikan kembali ke tubuhmu untuk bangkit tanpa biaya, atau terima kebangkitan seketika dari Sang Penjaga Pucat dan tanggung kelemahan singkat demi kemudahannya. Tak ada pengalaman, perlengkapan, atau koin yang pernah hilang, jadi aman untuk mengambil risiko dan belajar.',
   'guide.wishPage.i2Title': 'Kematian hampir tak merugikanmu',
   'guide.wishPage.i3Body':
-    'Bakat terbuka pada level 10 dan diatur ulang kapan pun kamu mau, jadi pilihan awalmu tidak pernah permanen.',
+    'Bakat terbuka pada level 10 dan diatur ulang kapan pun kamu mau, selama di luar pertempuran, jadi pilihan awalmu tidak pernah permanen.',
   'guide.wishPage.i3Title': 'Bakat bukanlah jebakan',
   'guide.wishPage.i4Body':
     'Misi adalah cara tercepat untuk naik level dan misi menuntunmu menjelajahi dunia. Saat kamu ragu harus ke mana, cari penanda berikutnya.',
@@ -4348,7 +4348,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'guide.worldPage.marshGreeting':
     'Berhenti di gerbang. Lewat alang-alang itu, rawa yang akan membunuh untuk kami.',
   'guide.worldPage.marshPlaceNotes':
-    'Fenbridge menjaga satu-satunya jalan kering. Prowler Reeds dan Deepfen Shallows dipenuhi binatang rawa dan Mudfin; Widow Thicket dipintal tebal oleh jaring; Drowned Chapel dan Troll Mounds menyimpan bahaya yang lebih tua; Gravecaller Encampment adalah sarang kultus yang menggali masuk, dan Benteng Karam adalah jantung berinstans rawa ini.',
+    'Fenbridge menjaga satu-satunya jalan kering. Prowler Reeds dan Deepfen Shallows dipenuhi binatang rawa dan Mudfin; Widow Thicket dipintal tebal oleh jaring; Drowned Chapel dan Troll Mounds menyimpan bahaya yang lebih tua, dengan Litani Tenggelam, delve milik rawa ini, terbuka tepat di utara gundukan itu; Gravecaller Encampment adalah sarang kultus yang menggali masuk, dan Benteng Karam adalah jantung berinstans rawa ini.',
   'guide.worldPage.peaksBlurb':
     'Punggung bukit yang terkikis angin dan bekas tambang tua yang menanjak ke bahaya tertinggi dan terdingin di alam ini, dijaga oleh pos Highwatch.',
   'guide.worldPage.peaksGreeter': 'Captain Thessaly, Highwatch',
@@ -4363,7 +4363,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'guide.worldPage.valeGreeter': 'Marshal Redbrook, Eastbrook',
   'guide.worldPage.valeGreeting': 'Jaga bilahmu tetap dekat. Lembah ini tak lagi seperti dulu.',
   'guide.worldPage.valePlaceNotes':
-    'Eastbrook adalah markas pertamamu. Wolf Run dan Boar Meadow adalah lahan berburu yang lembut; Mirror Lake adalah air tenang untuk memancing; Sableweb dan Copper Dig menyembunyikan laba-laba dan penggali yang rakus bijih; sebuah Bandit Camp dan Fallen Chapel menyimpan pekerjaan yang lebih kasar; Reliquary Hill menurun ke Collapsed Reliquary, delve pertama realm; dan Brightwood Glade adalah hutan kecil tenang yang dibasuh sinar matahari di utara.',
+    'Eastbrook adalah markas pertamamu. Wolf Run dan Boar Meadow adalah lahan berburu yang lembut; Mirror Lake adalah air tenang untuk memancing; Sableweb dan Copper Dig menyembunyikan laba-laba dan penggali yang rakus bijih; sebuah Bandit Camp dan Fallen Chapel menyimpan pekerjaan yang lebih kasar; Reliquary Hill menurun ke Collapsed Reliquary, delve pertama realm; Brightwood Glade adalah hutan kecil tenang yang dibasuh sinar matahari di utara; dan Sowfield adalah lapangan bola babi hutan bertembok milik Eastbrook, tempat Piala Lembah dimainkan di bawah gencatan panen.',
   'highscores.desc': 'Pantau jawara terhebat di dunia ini dan bandingkan perkembanganmu.',
   'highscores.title': 'Papan Peringkat Skor Tertinggi',
   'hud.arena.close': 'Tutup arena',
@@ -6478,7 +6478,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
     'Hujan dan salju sekitar. Hanya atmosfer saja, dan mematikannya akan menghemat sedikit saat terjadi badai.',
   'guide.settingsPage.tableFoot':
     'Mencari penggeser jarak imbang atau penutup FPS? Tidak ada yang perlu diburu: jarak pandang adalah bagian dari setiap tingkat kualitas, dan kecepatan bingkai mengikuti tampilan Anda.',
-  'guide.settingsPage.tableHeading': 'Setiap pilihan, jelaskan',
+  'guide.settingsPage.tableHeading': 'Setiap opsi grafik, dijelaskan',
   'guide.settingsPage.tagReload': 'setelah memuat ulang',
   'guide.settingsPage.value100': '100%',
   'guide.settingsPage.value50to70': '50 hingga 70%',
@@ -6694,7 +6694,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
     'Mahajasa adalah rak tersendiri: catatan warisan dan pencapaian pertama di dunia, jasa-jasa yang terikat pada era yang telah berlalu atau momen yang hanya akan terjadi sekali. Mahajasa tak membawa Kemasyhuran dan berada di luar hitungan penyelesaian, disimpan selamanya sebagai kenangan atas apa yang pernah dilakukan.',
   'guide.deedsPage.featsHeading': 'Mahajasa',
   'guide.deedsPage.howBody':
-    'Jasa diraih oleh satu karakter pada satu waktu dan ditampilkan untuk seluruh akunmu, sehingga setiap pahlawan yang kamu mainkan menambah koleksi yang sama. Setiap jasa menuliskan dengan gamblang apa yang dimintanya darimu, langsung di Kitab Jasa dalam permainan, jadi kamu selalu tahu apa yang harus dikejar, dan kamu bisa memantau jasa yang sedang kamu incar agar tetap terlihat selagi bermain. Segelintir jasa tetap dirahasiakan dan baru menampakkan diri setelah kamu meraihnya.',
+    'Jasa diraih oleh satu karakter pada satu waktu dan ditampilkan untuk seluruh akunmu, sehingga setiap pahlawan yang kamu mainkan menambah koleksi yang sama. Setiap jasa menuliskan dengan gamblang apa yang dimintanya darimu, langsung di Kitab Jasa dalam permainan, jadi kamu selalu tahu apa yang harus dikejar, dan kamu bisa memantau jasa yang sedang kamu incar agar tetap terlihat selagi bermain. Segelintir jasa tetap dirahasiakan dan baru menampakkan diri setelah kamu meraihnya. Kitab itu pun menjaga dirinya tetap jujur: apa pun yang bisa dibuktikan oleh catatan masa lalumu akan dikreditkannya seketika, sehingga seorang veteran tak pernah membukanya ke halaman kosong; hanya jasa penghitung yang memulai hitungannya dari awal.',
   'guide.deedsPage.howHeading': 'Cara kerja jasa',
   'guide.deedsPage.intro':
     'Kitab Jasa adalah tempat dunia mencatat segala yang telah kamu lakukan, dari langkah pertamamu keluar dari lembah permulaan hingga pertarungan tersulit yang bisa disodorkan realm ini. Raih jasa sembari bermain, sandang gelar yang dianugerahkannya, dan saksikan Kemasyhuranmu menanjak.',

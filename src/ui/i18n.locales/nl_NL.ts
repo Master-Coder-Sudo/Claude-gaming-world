@@ -36,7 +36,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'guide.nav.professions': 'Beroepen',
   'guide.nav.valeCup': 'Dalbeker',
   'guide.professions.archetypeChooseBody':
-    'Je eerste archetype kies je via een vroege verhaalquest in het eerste gebied, die je formeel in die identiteit opneemt. Zolang je die quest niet hebt voltooid, heb je nog helemaal geen archetype gekozen.',
+    'Een archetype uitroepen wordt een verhaalmoment: een quest die je formeel in die identiteit opneemt. Die weg wordt nog gebouwd, dus voorlopig loopt elk personage door de wereld met de keuze nog vóór zich, en elk ambacht vordert ondertussen tot de kwaliteitsrang Zeldzaam.',
   'guide.professions.archetypeChooseTitle': 'Je archetype kiezen',
   'guide.professions.archetypeIdentityBody':
     'Je actieve archetype is een uitspraak over wie je personage in de wereld is, herkenbaar in hoe anderen en de wereld je aanspreken. De precieze beloningen en erkenning die erbij horen worden nog uitgewerkt; kom later terug naarmate het systeem zich vult.',
@@ -44,7 +44,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'guide.professions.archetypeIntro':
     'Elk van de tien ambachten staat ook voor een archetype, een bredere identiteit die je kunt aannemen en die verder gaat dan alleen dat vak uitoefenen. Je actieve archetype is één keuze tegelijk, geen afvinklijst: je draagt er één, en kunt later van keuze veranderen als je dat wilt.',
   'guide.professions.archetypeSwitchBody':
-    'Dat je ooit een archetype hebt gekozen, legt je niet voorgoed vast. Overstappen naar een ander archetype betekent eerst een herhaalbare "goedmaak"-quest voltooien voor je oude archetype, en elke keer dat je wisselt wordt wat er de volgende keer van je wordt verwacht iets zwaarder, zodat wisselen betekenisvol blijft in plaats van gratis.',
+    'Een uitroeping is evenmin een levenslange gevangenisstraf. Het plan is een herhaalbare daad van goedmaken tegenover je oude vak voor je een nieuw vak opneemt, waarbij het goedmaken elke keer dat je wisselt steiler wordt, zodat de keuze betekenisvol blijft in plaats van gratis. Net als de uitroeping zelf is ook dit nog onderweg.',
   'guide.professions.archetypeSwitchTitle': 'Van gedachten veranderen',
   'guide.professions.archetypeTitle': 'De tien archetypen',
   'guide.professions.craftComboBody':
@@ -3532,9 +3532,9 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'guide.classPage.roleLabel': 'Speelt als',
   'guide.classPage.specsHeading': 'Specialisaties',
   'guide.combat.ccBody':
-    'Crowd control is een speciaal soort debuff die beperkt wat een doelwit kan doen: verdovingen, wortels en vertragingen, stiltes die het spreuken stilleggen, ontwapeningen, angsten, en transformaties die een vijand even ongevaarlijk maken. Sommige hiervan, zoals wortels, angsten en transformaties, verliezen hun greep wanneer ze te snel opnieuw worden toegepast, zodat ze niet eindeloos kunnen worden aaneengeregen.',
+    'Crowd control is een speciaal soort debuff die beperkt wat een doelwit kan doen: verdovingen, wortels en vertragingen, stiltes die het spreuken stilleggen, ontwapeningen, angsten, en transformaties die een vijand even ongevaarlijk maken. Tegen andere spelers slijt controle door herhaling: dezelfde soort te snel opnieuw toegepast verzwakt en faalt dan volledig, en een verdoving die vanuit sluipmodus opent wordt apart geteld van de verdovingen die erop volgen, zodat niemand voor eeuwig weerloos aaneengeregen kan worden. De wezens van de wereld koesteren zulke wrok niet; bij hen landt controle elke keer op volle sterkte.',
   'guide.combat.deathBody':
-    'Als je gezondheid nul bereikt, ga je neer. Laat je geest los om bij de dichtstbijzijnde begraafplaats te herleven op volle gezondheid, en loop dan terug, dus een dood kost je een beetje tijd, niet je voortgang. Ga tussen gevechten zitten om te eten en te drinken zodat je het volgende op volle kracht begint.',
+    'Als je gezondheid nul bereikt, ga je neer waar je staat, en je lichaam blijft daar liggen. Laat je geest los en je herrijst als een geest bij de dichtstbijzijnde begraafplaats: sneller ter been dan de levenden, buiten het bereik van je vijanden, maar niet in staat om te vechten, te plunderen of met iemand te spreken behalve de Bleke Hoeder die boven de stenen zweeft. Vanaf daar kies je. Loop je geest terug naar je lichaam en je herleeft ter plekke, met een deel van je gezondheid en mana hersteld en zonder enige straf. Of neem de Bleke Hoeder aan voor een onmiddellijke herrijzenis waar je staat, tegen de prijs van de Tol van de Hoeder: een tijdelijke verzwakking van alles wat je bent, die langer duurt naarmate je meer ervaren bent, en gloednieuwe personages helemaal bespaard blijft. Val je in een kerker, dan wacht je geest bij de begraafplaats buiten; loop je geest terug door de deur en je herleeft bij de ingang. Welke weg je ook kiest, je verliest geen ervaring, uitrusting of munten. Ga tussen gevechten zitten om te eten en te drinken zodat je het volgende op volle kracht begint.',
   'guide.combat.deathTitle': 'Wanneer je valt',
   'guide.combat.effectsBody':
     'Veel vaardigheden brengen een effect aan dat blijft hangen. Behulpzame (buffs) verhogen je statistieken, beschermen je, of helen je beetje bij beetje; schadelijke (debuffs) tappen je gezondheid af met schade na verloop van tijd of verzwakken je. Let op de kleine icoontjes bij je actiebalk om te zien wat er op je ligt en hoe lang het duurt.',
@@ -3576,7 +3576,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'guide.controls.talents': 'Talenten',
   'guide.controls.targetFriendly': 'Dichtstbijzijnde bondgenoot aanwijzen',
   'guide.delvesPage.affixesBody':
-    'Zwaardere tochten rollen een modifier die verandert hoe de afdaling speelt, van rusteloze doden tot bedorven lucht tot bezwijkend dakwerk. Ze verhogen het gevaar en de beloning samen. Een delve met een cryptethema kan elk van deze rollen:',
+    'Zwaardere tochten rollen een modifier die verandert hoe de afdaling speelt, van rusteloze doden tot bedorven lucht tot bezwijkend dakwerk. Ze verhogen het gevaar en de beloning samen. Elke delve put uit de modifiers die bij zijn thema passen; over het hele rijk ziet de verzameling er zo uit:',
   'guide.delvesPage.affixesHeading': 'Tochtmodifiers',
   'guide.delvesPage.affixesLabel': 'Mogelijke modifiers',
   'guide.delvesPage.companionBody':
@@ -3608,7 +3608,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
     'Een delve is een kleine geïnstantieerde dungeon, gemaakt speciaal voor jou en hooguit één bondgenoot, een privékopie waarin je niet gestoord kunt worden. Je start hem vanaf een bord dat door een delvebewaarder buiten in de wereld wordt bijgehouden, valt erin, vecht je naar beneden door een handvol kamers, en eindigt bij één enkele wachter. Tochten zijn snel en bedoeld om herhaald te worden, dus een delve is een betrouwbaar stukje voortgang wanneer de open wereld opdroogt.',
   'guide.delvesPage.whatHeading': 'Wat een delve is',
   'guide.delvesPage.whereBody':
-    'De eerste delve, het Ingestorte Reliekschrijn, gaat open bij Reliekschrijnheuvel in de beginvallei Oostbeekdal. Broeder Halven houdt daar het bord bij, en hij stuurt je naar beneden zodra je er klaar voor bent.',
+    'De eerste delve, het Ingestorte Reliekschrijn, gaat open bij Reliekschrijnheuvel in de beginvallei Oostbeekdal. Broeder Halven houdt daar het bord bij, en hij stuurt je naar beneden zodra je er klaar voor bent. Zijn ronde eindigt daar niet: voorbij de Trollenheuvels aan de noordrand van het Slijkveenmoeras opent dezelfde bewaarder De Verdronken Litanie voor delvers die hun draai hebben gevonden.',
   'guide.delvesPage.whereHeading': 'Waar je er een vindt',
   'guide.docTitle': '{page} - {brand}',
   'guide.dungeonsPage.bastionBody':
@@ -3667,8 +3667,8 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
     'De prijs bepaal je zelf. Net iets onder de vraagprijs van anderen aanbieden verkoopt meestal sneller, terwijl een steile prijs onaangeroerd kan blijven liggen. Blader eerst rond om te zien wat de gangbare prijs is voordat je iets plaatst.',
   'guide.economy.marketTitle': 'De Wereldmarkt',
   'guide.economy.marksBody':
-    'Munten zijn niet het enige dat je opspaart. Delves keren Delve-Tekens uit, een aparte valuta die je alleen bij de delvebewaarder uitgeeft, aan metgezelupgrades en uitrusting die je nergens anders vindt. Ze vermengen zich nooit met je munten.',
-  'guide.economy.marksTitle': 'Een tweede valuta: Delve-Tekens',
+    'Munten zijn niet het enige dat je opspaart. Delves keren Delve-Merken uit, alleen te besteden bij de delvebewaarder aan metgezelupgrades en uitrusting die je nergens anders vindt. Heroïsche kerkertochten laten Heroïsche Merken achter op de eindbaas, te besteden bij de heroïsche kwartiermeester in Hoogwacht aan sieraden die geen andere uithoek van het rijk verkoopt. Geen van beide vermengt zich ooit met je munten.',
+  'guide.economy.marksTitle': 'Merken: de valuta naast munten',
   'guide.economy.tradeBody':
     'Je kunt van aangezicht tot aangezicht ruilen met iedereen die bij je in de buurt staat. Jullie zetten beiden voorwerpen en munten in een gedeeld venster en de ruil vindt pas plaats zodra jullie het allebei bevestigen, zodat geen van beide kanten verrast kan worden. Het is de eenvoudige manier om een vriend een buit te geven of een afspraak af te sluiten.',
   'guide.economy.tradeTitle': 'Ruilen met andere spelers',
@@ -3707,7 +3707,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'guide.faqPage.a1':
     'Ja. Het hele spel is gratis te spelen tot aan de niveaulimiet, en de broncode is openbaar op GitHub.',
   'guide.faqPage.a10':
-    'De limiet is niveau {cap}. Vanaf daar speel je de kerkers voor vijf spelers en de raid voor tien, jaag je op betere uitrusting en stel je jezelf op de proef in de arena.',
+    'De limiet is niveau {cap}. Vanaf daar speel je de kerkers voor vijf spelers en de raid voor tien, neem je ze opnieuw op in heroïsche modus voor betere buit, treed je de wereldbaas tegemoet wanneer hij verrijst, en stel je jezelf op de proef in de arena.',
   'guide.faqPage.a11':
     'Nodig iedereen die je tegenkomt uit voor een groep, vraag het in de chat, of werk samen bij een kerker. Het grootste deel van de wereld is solo speelbaar, dus groepen is een keuze, geen vereiste.',
   'guide.faqPage.a2':
@@ -3788,7 +3788,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'guide.gear.qualityTitle': 'Kwaliteit, in één oogopslag',
   'guide.gear.qualityUncommon': 'Ongewoon',
   'guide.gear.setsBody':
-    'De zeldzaamste pantsers komen in bij elkaar passende families, meerdere stukken die zo gesneden zijn dat ze er als één uitzien en als één vechten. Draag er genoeg van een familie tegelijk en de set ontwaakt, en geeft bonussen bovenop de eigen statistieken van elk stuk, en hoe meer stukken je draagt, hoe sterker hij wordt. Deze vallen uit de zwaarste groepscontent vlak bij de levelcap, dus jagen op een volledige set is een klassiek eindspeldoel.',
+    'Sommige pantsers komen in bij elkaar passende families, meerdere stukken die zo gesneden zijn dat ze er als één uitzien en als één vechten. Draag er genoeg van een familie tegelijk en de set ontwaakt, en geeft bonussen bovenop de eigen statistieken van elk stuk, en hoe meer stukken je draagt, hoe sterker hij wordt. Een paar van zulke families duiken op als gewilde drops terwijl je levelt; de grootste ervan komen uit de zwaarste groepscontent vlak bij de levelcap, dus jagen op een volledige set is een klassiek eindspeldoel.',
   'guide.gear.setsTitle': 'Sets en setbonussen',
   'guide.gear.slotChest': 'Borst',
   'guide.gear.slotFeet': 'Voeten',
@@ -3799,10 +3799,10 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'guide.gear.slotShoulder': 'Schouders',
   'guide.gear.slotWaist': 'Middel',
   'guide.gear.slotsBody':
-    'Je hebt een wapengleuf en zeven pantsergleuven. Elke klasse kan slechts bepaalde wapens gebruiken en draagt pantser tot zijn eigen gewicht, stof, leer of maliën, dus de verbeteringen die bij je passen zijn die welke voor jouw klasse zijn gemaakt. Vul daarbinnen elke gleuf met het beste stuk dat je vindt.',
+    'Je hebt een wapengleuf, zeven pantsergleuven en drie sieraadgleuven: een hals en twee vingers. Elke klasse kan slechts bepaalde wapens gebruiken en draagt pantser tot zijn eigen gewicht, stof, leer of maliën, dus de verbeteringen die bij je passen zijn die welke voor jouw klasse zijn gemaakt. Sieraden hebben helemaal geen gewicht: elke klasse draagt wat ze ook verdient. Vul daarbinnen elke gleuf met het beste stuk dat je vindt.',
   'guide.gear.slotsTitle': 'Wat je kunt uitrusten',
   'guide.gear.sourcesBody':
-    'De meeste van je vroege verbeteringen zijn questbeloningen, dus het loont om quests af te ronden in plaats van te grinden. Vijanden laten uitrusting vallen wanneer je ze verslaat, verkopers in de stad verkopen degelijke basisspullen, en op de spelersmarkt kun je van andere avonturiers kopen.',
+    'De meeste van je vroege verbeteringen zijn questbeloningen, dus het loont om quests af te ronden in plaats van te grinden. Vijanden laten uitrusting vallen wanneer je ze verslaat, verkopers in de stad verkopen degelijke basisspullen, ambachtslieden maken van verzamelde materialen draagbare stukken, en op de spelersmarkt kun je van andere avonturiers kopen. Bovenaan de heuvel kopen twee merkvaluta uitrusting die nergens anders te vinden is: Delve-Merken bij de delvebewaarder, en Heroïsche Merken bij de heroïsche kwartiermeester.',
   'guide.gear.sourcesTitle': 'Waar uitrusting vandaan komt',
   'guide.gear.upgradeBody':
     'Een oud stuk vervangen door een verse verbetering doet meer voor je dan perfect spelen in uitrusting die je ontgroeid bent. Wanneer er iets beters valt of een quest het aanbiedt, neem het. Bewaar je goede voorwerpen niet voor later.',
@@ -3938,7 +3938,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'guide.howToPlay.basicsHeading': 'De basis',
   'guide.howToPlay.controlsLink': 'Bekijk de volledige besturingsnaslag',
   'guide.howToPlay.deathBody':
-    'Als je valt, laat je je geest los en herleef je bij de dichtstbijzijnde begraafplaats, terug op volle gezondheid, en loop je vervolgens terug naar waar je was. Er gaat geen ervaring verloren.',
+    'Als je valt, blijft je lichaam liggen waar je viel en herrijs je als een geest bij de dichtstbijzijnde begraafplaats. Loop je geest terug naar je lichaam om ter plekke te herleven, zonder enige straf, of neem de Bleke Hoeder bij de begraafplaats aan voor een onmiddellijke herrijzenis tegen de prijs van een voorbijgaande verzwakking. Gloednieuwe helden blijft die verzwakking helemaal bespaard, en niets van wat je bezit of hebt verdiend gaat ooit verloren.',
   'guide.howToPlay.deathTitle': 'De dood is niet het einde',
   'guide.howToPlay.firstHeading': 'Je eerste 15 minuten',
   'guide.howToPlay.groupingBody':
@@ -3953,7 +3953,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
     'Accepteer quests van mensen met een markering boven hun hoofd, voltooi het doel en lever ze in voor ervaring, munten en uitrusting. De tracker op je scherm houdt je doelen in beeld.',
   'guide.howToPlay.questsTitle': 'Quests',
   'guide.howToPlay.reassure':
-    'Talenten ontgrendelen op niveau 10 en kunnen altijd opnieuw worden ingesteld, dus je vroege keuzes zijn nooit permanent. Experimenteer naar hartenlust.',
+    'Talenten ontgrendelen op niveau 10 en kunnen op elk moment buiten gevecht opnieuw worden ingesteld, dus je vroege keuzes zijn nooit permanent. Experimenteer naar hartenlust.',
   'guide.howToPlay.resourcesBody':
     'Spreuken en vaardigheden kosten een hulpbron. Krijgers bouwen Woede op door te vechten, schurken besteden Energie die vanzelf weer aanvult, en alle anderen toveren uit een voorraad Mana.',
   'guide.howToPlay.resourcesTitle': 'Hulpbronnen',
@@ -4049,7 +4049,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'guide.progression.capBody':
     'Elk niveau maakt je sterker en brengt nieuwe vaardigheden, helemaal tot het maximum van niveau {cap}.',
   'guide.progression.capJourneyBody':
-    'Niveau {cap} is het maximum, het einde van het levelen maar niet van het groeien. Vanaf daar loop je dungeons en de raid, jaag je op betere uitrusting en test je jezelf in de arena.',
+    'Niveau {cap} is het maximum, het einde van het levelen maar niet van het groeien. Vanaf daar loop je kerkers en de raid op normaal en heroïsch, treed je de wereldbaas tegemoet wanneer hij verrijst, jaag je op betere uitrusting en test je jezelf in de arena.',
   'guide.progression.capTitle': 'Niveau {cap} bereiken',
   'guide.progression.intro':
     'Elk gevecht, elke quest en elke stap naar het noorden maakt je held sterker. Zo werkt het levelen en zo blijf je groeien wanneer je de top bereikt.',
@@ -4109,7 +4109,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
     'Breng een voltooide quest naar zijn inlevermarkering, de kaart wijst je waar, voor ervaring, geld en vaak een stuk uitrusting gekozen om bij je klasse te passen. Dat is meestal degene die hem aan je gaf, hoewel sommige quests je doorsturen naar iemand anders.',
   'guide.questsPage.turninTitle': 'Inleveren',
   'guide.questsPage.typeGatherBody':
-    'Verzamel voorwerpen uit de wereld of uit wat vijanden laten vallen: kruiden, erts, verloren brieven, de grimmige reagentia van een cultus. Sommige stukken vallen alleen van een bepaalde vijand, dus de jacht en de buit horen bij elkaar.',
+    'Verzamel voorwerpen uit de wereld of uit wat vijanden laten vallen: kruiden, erts, de grimmige reagentia van een cultus. Sommige stukken vallen alleen van een bepaalde vijand, dus de jacht en de buit horen bij elkaar.',
   'guide.questsPage.typeGatherTitle': 'Verzamelen',
   'guide.questsPage.typeGroupBody':
     'Elk hoofdstuk van het hoofdverhaal eindigt bij een dungeondeur. De aanloop is solo te doen, maar de genadeslag tegen de schurk van een hoofdstuk is bedoeld voor een groep van vijf.',
@@ -4220,7 +4220,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
     'Pantser vermindert de fysieke schade die je oploopt. Het komt vooral van wat je draagt, en de zwaardere pantserklassen dragen er veel meer van. Meer pantser tegen een vijand rond jouw niveau betekent dat elk van zijn treffers zachter aankomt.',
   'guide.stats.armorTitle': 'Pantser',
   'guide.stats.critBody':
-    'Je kans op een kritieke treffer is hoe vaak een aanval extra schade aanricht. Iedereen begint met een kleine basiskans, en Behendigheid (plus enkele talenten en uitrusting) bouwt daarop voort.',
+    'Je kans op een kritieke treffer is hoe vaak een aanval extra schade aanricht. Iedereen begint met een kleine basiskans, en Behendigheid (plus enkele talenten en uitrusting) bouwt daarop voort. Je personageblad toont zowel de kans zelf als de crit-waardering die je uitrusting eraan bijdraagt.',
   'guide.stats.critTitle': 'Kritieke treffer',
   'guide.stats.dodgeBody':
     'Ontwijken is je kans om een inkomende melee-aanval volledig te vermijden. Je begint met een kleine basiskans, en Behendigheid verhoogt deze, dus wendbare klassen ontwijken meer klappen.',
@@ -4297,10 +4297,10 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
     'Elke klasse kan zich staande houden en het maximum bereiken. Kies de fantasie die je leuk vindt, niet die een ander de beste noemt.',
   'guide.wishPage.i1Title': 'Je kunt geen verkeerde klasse kiezen',
   'guide.wishPage.i2Body':
-    "Wanneer je sneuvelt, laat je je geest los en herleef je bij de dichtstbijzijnde begraafplaats, en loop je vervolgens terug. Er gaat geen ervaring verloren, dus het is veilig om risico's te nemen en te leren.",
+    "Wanneer je valt, herrijs je als een geest bij de dichtstbijzijnde begraafplaats. Loop terug naar je lichaam om gratis te herleven, of neem de onmiddellijke herrijzenis van de Bleke Hoeder aan en draag voor het gemak een kortstondige verzwakking. Er gaat nooit ervaring, uitrusting of munten verloren, dus het is veilig om risico's te nemen en te leren.",
   'guide.wishPage.i2Title': 'Sterven kost je nauwelijks iets',
   'guide.wishPage.i3Body':
-    'Ze gaan open op niveau 10 en resetten wanneer je maar wilt, dus je vroege keuzes zijn nooit permanent.',
+    'Ze gaan open op niveau 10 en resetten wanneer je maar wilt, buiten gevecht, dus je vroege keuzes zijn nooit permanent.',
   'guide.wishPage.i3Title': 'Talenten zijn geen valkuil',
   'guide.wishPage.i4Body':
     'Quests zijn de snelste manier om in niveau te stijgen en ze leiden je over de hele wereld. Als je niet zeker weet waar je heen moet, zoek dan de volgende markering.',
@@ -4335,7 +4335,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'guide.worldPage.marshGreeting':
     'Houd halt bij de poort. Voorbij dat riet doet het veen het doden voor ons.',
   'guide.worldPage.marshPlaceNotes':
-    'Fenbridge bewaakt de enige droge weg. Het Prowler Reeds en de Deepfen Shallows wemelen van moerasbeesten en mudfins; het Widow Thicket zit dik onder het web; de Drowned Chapel en de Troll Mounds bergen oudere gevaren; het Gravecaller Encampment is de ingegraven sekte, en het Verzonken Bastion is het instantiehart van het moeras.',
+    'Veenbrug bewaakt de enige droge weg. Het Sluipersriet en de Diepveen-Ondiepten wemelen van moerasbeesten en mudfins; het Weduwestruweel zit dik onder het web; de Verdronken Kapel en de Trollenheuvels bergen oudere gevaren, met De Verdronken Litanie, de eigen delve van het moeras, die net ten noorden van de heuvels opengaat; het Grafroeper-Kampement is de ingegraven sekte, en het Verzonken Bastion is het instantiehart van het moeras.',
   'guide.worldPage.peaksBlurb':
     'Door wind geschuurde bergkammen en oude mijnwerken klimmen op naar de koudste, hoogste gevaren van het rijk, in handen van de buitenpost Highwatch.',
   'guide.worldPage.peaksGreeter': 'Captain Thessaly, Highwatch',
@@ -4350,7 +4350,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'guide.worldPage.valeGreeter': 'Marshal Redbrook, Eastbrook',
   'guide.worldPage.valeGreeting': 'Houd je kling dichtbij. Het Dal is niet meer wat het was.',
   'guide.worldPage.valePlaceNotes':
-    'Eastbrook is je eerste thuisbasis. Wolf Run en Boar Meadow zijn rustig jachtgebied; Mirror Lake is stil water om te vissen; het Sableweb en de Copper Dig verbergen spinnen en ertsbeluste delvers; een Bandit Camp en de Fallen Chapel bieden ruwer werk; Reliquary Hill leidt naar de Collapsed Reliquary, de eerste delve van het rijk; en Brightwood Glade is een kalm, zonovergoten bosje in het noorden.',
+    'Oostbeek is je eerste thuisbasis. Wolvenloop en Everweide zijn rustig jachtgebied; Spiegelmeer is stil water om te vissen; het Sableweb en de Kopergroeve verbergen spinnen en ertsbeluste delvers; een Bandietenkamp en de Gevallen Kapel bieden ruwer werk; Reliekschrijnheuvel leidt naar het Ingestorte Reliekschrijn, de eerste delve van het rijk; Lichtwoudgaarde is een kalm, zonovergoten bosje in het noorden; en het Zeugveld is Oostbeeks ommuurde zwijnenbalveld, waar de Koperen Emmer onder een oogstbestand wordt gespeeld.',
   'highscores.desc': 'Volg de grootste kampioenen van de wereld en vergelijk je voortgang.',
   'highscores.title': 'Topscores-Ranglijst',
   'hud.arena.close': 'Arena sluiten',
@@ -6481,7 +6481,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
     'Omgevingsregen en sneeuw. Alleen sfeer, en uitzetten scheelt een beetje bij storm.',
   'guide.settingsPage.tableFoot':
     'Op zoek naar een trekafstandsschuif of een FPS dop? Er is niets om naar te zoeken: de kijkafstand maakt deel uit van elk kwaliteitsniveau en de framestimulatie volgt uw weergave.',
-  'guide.settingsPage.tableHeading': 'Elke optie uitgelegd',
+  'guide.settingsPage.tableHeading': 'Elke grafische optie, uitgelegd',
   'guide.settingsPage.tagReload': 'na herladen',
   'guide.settingsPage.value100': '100%',
   'guide.settingsPage.value50to70': '50 tot 70%',
@@ -6696,7 +6696,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
     'Wapenfeiten staan op een plank apart: getuigenissen van nalatenschap en wereldprimeurs, de daden die horen bij een vervlogen tijdperk of een moment dat maar één keer zal plaatsvinden. Ze leveren geen Roem op en tellen niet mee voor de voltooiing, maar worden voor altijd bewaard als herinnering aan wat er is verricht.',
   'guide.deedsPage.featsHeading': 'Wapenfeiten',
   'guide.deedsPage.howBody':
-    'Daden behaal je met één personage tegelijk, maar ze worden over je hele account getoond, dus elke held die je speelt draagt bij aan dezelfde verzameling. Elke daad zegt in duidelijke taal wat er van je wordt gevraagd, direct in het Boek der Daden in het spel, zodat je altijd weet waar je op jaagt, en de daden waar je achteraan zit kun je op de volglijst zetten om ze tijdens het spelen in het oog te houden. Een klein aantal blijft geheim en onthult zich pas wanneer je ze hebt behaald.',
+    'Daden behaal je met één personage tegelijk, maar ze worden over je hele account getoond, dus elke held die je speelt draagt bij aan dezelfde verzameling. Elke daad zegt in duidelijke taal wat er van je wordt gevraagd, direct in het Boek der Daden in het spel, zodat je altijd weet waar je op jaagt, en de daden waar je achteraan zit kun je op de volglijst zetten om ze tijdens het spelen in het oog te houden. Een klein aantal blijft geheim en onthult zich pas wanneer je ze hebt behaald. Het Boek houdt zichzelf ook eerlijk: alles wat je verleden kan bewijzen, wordt je meteen toegekend, zodat een veteraan het nooit op een lege bladzijde opent; alleen de tellende daden beginnen hun telling opnieuw.',
   'guide.deedsPage.howHeading': 'Hoe daden werken',
   'guide.deedsPage.intro':
     'In het Boek der Daden houdt de wereld de stand bij van alles wat je hebt verricht, van je eerste stappen buiten het dal waar je begon tot de zwaarste gevechten die het rijk te bieden heeft. Behaal daden terwijl je speelt, draag de titels die ze schenken en zie je Roem stijgen.',
