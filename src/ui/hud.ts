@@ -27,6 +27,7 @@ import {
 import { isFriendlyPet, mobTooltipConColor } from '../render/reaction';
 import type { Renderer } from '../render/renderer';
 import { type AugmentCategory, augmentCategory } from '../sim/content/augments';
+import { DEED_ORDER, DEEDS } from '../sim/content/deeds';
 import { HEROIC_MARK_ITEM_ID } from '../sim/content/dungeon_difficulty';
 import { HEROIC_VENDOR_STOCK } from '../sim/content/heroic_vendor';
 import {
@@ -43,8 +44,6 @@ import {
   ABILITIES,
   CLASSES,
   COMPANION_UPGRADE_COSTS,
-  DEED_ORDER,
-  DEEDS,
   DELVE_AFFIXES,
   DELVE_LIST,
   DELVES,

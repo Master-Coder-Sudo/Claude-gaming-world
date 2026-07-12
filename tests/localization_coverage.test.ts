@@ -2,11 +2,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { abilitiesKnownAt } from '../src/sim/content/classes';
+import { DEEDS } from '../src/sim/content/deeds';
 import { QUEST_LETTERS } from '../src/sim/content/letters';
 import {
   ABILITIES,
   CLASSES,
-  DEEDS,
   DELVES,
   DUNGEONS,
   ITEMS,

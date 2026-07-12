@@ -1,6 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { assertFamiliesKnown } from '../scripts/wiki/family_guard.mjs';
@@ -707,6 +707,106 @@ describe('Guide deeds spoiler safety', () => {
     const one = catalogSections(first ? [first] : []);
     expect(one).toContain(`${t('guide.deedsPage.cat.progression')} (1)`);
     expect(one).not.toContain(t('guide.deedsPage.cat.combat'));
+  });
+});
+
+// The gates above prove hidden deeds stay out of content.generated.ts, but the built wiki
+// also modulepreloads every chunk its static module graph colors: if the guide entry can
+// reach src/sim/content/deeds.ts through value imports, Rollup bakes the whole catalog
+// (hidden names, descs, criteria) into a chunk the public wiki serves. This walk pins the
+// seam at the source level (the architecture.test.ts convention: scan sources, never run a
+// build inside the suite).
+describe('Guide module-graph spoiler containment', () => {
+  const ASSET_SPEC_RE = /\.(css|json|webp|png|jpg|jpeg|svg|glsl|wasm|mjs)$/;
+
+  const resolveRelative = (fromFile: string, spec: string): string | null => {
+    if (!spec.startsWith('./') && !spec.startsWith('../')) return null;
+    if (ASSET_SPEC_RE.test(spec)) return null;
+    const base = resolve(dirname(fromFile), spec);
+    for (const candidate of [base, `${base}.ts`, `${base}.tsx`, resolve(base, 'index.ts')]) {
+      if (/\.tsx?$/.test(candidate) && existsSync(candidate)) return candidate;
+    }
+    // A silent miss would shrink the walked graph and turn the guard vacuous.
+    throw new Error(`guide graph walk cannot resolve "${spec}" from ${fromFile}`);
+  };
+
+  // Static VALUE imports only: import ... from, bare side-effect imports, and
+  // export ... from. Type-only statements (import type / export type) are
+  // erased at build time and a dynamic import() starts its own lazy chunk, so
+  // neither colors the entry's eager graph.
+  const valueImportSpecs = (source: string): string[] => {
+    // One alternation pass: a line comment consumes any "/*" inside it (a
+    // path glob in prose) and a block comment consumes any "//", so neither
+    // strip can eat real code between mismatched markers.
+    const code = source.replace(/\/\*[\s\S]*?\*\/|\/\/[^\n]*/g, '');
+    const specs: string[] = [];
+    for (const re of [
+      /^[ \t]*import\s+([^'";]*?from\s+)?['"]([^'"]+)['"]/gm,
+      /^[ \t]*export\s+([^'";]*?)from\s+['"]([^'"]+)['"]/gm,
+    ]) {
+      for (const m of code.matchAll(re)) {
+        if (/^type[\s{]/.test((m[1] ?? '').trim())) continue;
+        specs.push(m[2]);
+      }
+    }
+    return specs;
+  };
+
+  it('never reaches the deeds catalog from the guide entry (chunk-color containment)', () => {
+    const entry = resolve(repoRoot, 'src/guide/main.ts');
+    const forbidden = resolve(repoRoot, 'src/sim/content/deeds.ts');
+    const parent = new Map<string, string>();
+    const reached = new Set<string>([entry]);
+    const queue = [entry];
+    while (queue.length > 0) {
+      const file = queue.shift() as string;
+      for (const spec of valueImportSpecs(readFileSync(file, 'utf8'))) {
+        const target = resolveRelative(file, spec);
+        if (target === null || reached.has(target)) continue;
+        reached.add(target);
+        parent.set(target, file);
+        queue.push(target);
+      }
+    }
+    // Walker sanity: the graph is real, and it still reaches the sim/data.ts
+    // aggregate (via icons.ts and the entity localizers); only the deeds
+    // slice is severed from it.
+    expect(reached.size).toBeGreaterThan(50);
+    expect(reached.has(resolve(repoRoot, 'src/sim/data.ts'))).toBe(true);
+
+    let chain = '';
+    if (reached.has(forbidden)) {
+      const hops: string[] = [forbidden];
+      let cursor: string | undefined = forbidden;
+      while (cursor !== undefined && cursor !== entry) {
+        cursor = parent.get(cursor);
+        if (cursor !== undefined) hops.unshift(cursor);
+      }
+      chain = hops.map((p) => p.slice(repoRoot.length)).join(' -> ');
+    }
+    expect(
+      reached.has(forbidden),
+      `src/sim/content/deeds.ts is reachable from the guide entry: ${chain}`,
+    ).toBe(false);
+
+    // And no hidden deed prose rides ANY module the guide graph reaches (a
+    // future aggregate or a copied table would re-leak the secret without
+    // touching content/deeds.ts). Bare ids are tolerated by maintainer
+    // judgment: deed_image_ids.ts carries them for the committed crest art,
+    // and an id alone spoils nothing.
+    const hidden = Object.values(DEEDS).filter((d) => d.hidden);
+    expect(hidden.length).toBeGreaterThan(0);
+    for (const file of reached) {
+      const source = readFileSync(file, 'utf8');
+      for (const d of hidden) {
+        for (const needle of [d.name, d.desc]) {
+          expect(
+            source.includes(needle),
+            `hidden deed "${d.id}" prose leaked into guide-reachable ${file.slice(repoRoot.length)}`,
+          ).toBe(false);
+        }
+      }
+    }
   });
 });
 

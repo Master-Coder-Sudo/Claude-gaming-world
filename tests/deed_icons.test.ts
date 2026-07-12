@@ -2,7 +2,7 @@ import { closeSync, existsSync, openSync, readdirSync, readSync } from 'node:fs'
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { DEED_ORDER, DEEDS } from '../src/sim/data';
+import { DEED_ORDER, DEEDS } from '../src/sim/content/deeds';
 import { DEED_IMAGE_IDS } from '../src/ui/deed_image_ids';
 import { DEED_BESPOKE_CRESTS, deedCrestId } from '../src/ui/deeds_view';
 import { deedImageUrl, iconDataUrl } from '../src/ui/icons';

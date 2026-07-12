@@ -7,20 +7,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { POWERUPS } from '../src/sim/content/augments';
-import { DEEDS_ERA } from '../src/sim/content/deeds';
+import { DEED_ORDER, DEEDS, DEEDS_ERA } from '../src/sim/content/deeds';
 import { FISHING_TABLES } from '../src/sim/content/items';
 import { CRAFT_RING, GATHERING_PROFESSION_IDS } from '../src/sim/content/professions';
-import {
-  DEED_ORDER,
-  DEEDS,
-  DELVES,
-  DUNGEONS,
-  ITEMS,
-  MOBS,
-  NPCS,
-  QUESTS,
-  ZONES,
-} from '../src/sim/data';
+import { DELVES, DUNGEONS, ITEMS, MOBS, NPCS, QUESTS, ZONES } from '../src/sim/data';
 import { MILESTONE_DEED_TO_LEGACY, VISITED_MARK_NAMESPACES } from '../src/sim/deeds';
 import { DEED_STAT_KEYS, type DeedCategory, MILESTONES } from '../src/sim/types';
 
@@ -149,7 +139,7 @@ describe('frozen trigger + renown catalog (design rule 9: never retro-edit a tri
   //
   // Regenerate after a DELIBERATE catalog change, then paste the printed hex
   // into FROZEN_CATALOG_SHA256 below (run from the repo root):
-  //   npx tsx -e "import {DEED_ORDER,DEEDS} from './src/sim/data'; import {createHash} from 'node:crypto'; console.log(createHash('sha256').update(JSON.stringify(DEED_ORDER.map((id)=>[id,DEEDS[id].trigger,DEEDS[id].renown])),'utf8').digest('hex'))"
+  //   npx tsx -e "import {DEED_ORDER,DEEDS} from './src/sim/content/deeds'; import {createHash} from 'node:crypto'; console.log(createHash('sha256').update(JSON.stringify(DEED_ORDER.map((id)=>[id,DEEDS[id].trigger,DEEDS[id].renown])),'utf8').digest('hex'))"
   const FROZEN_CATALOG_SHA256 = '574764651ecf9705581112f928dd91986fd345f4694732fbf4007099c1714502';
 
   it('every shipped deed keeps its trigger and renown unchanged', () => {

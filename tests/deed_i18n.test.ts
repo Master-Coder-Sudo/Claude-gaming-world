@@ -4,7 +4,7 @@
 // hide entirely on ''), and the release-fill manifest shape.
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { DEEDS } from '../src/sim/data';
+import { DEEDS } from '../src/sim/content/deeds';
 import {
   deedBroadcastLine,
   deedDesc,

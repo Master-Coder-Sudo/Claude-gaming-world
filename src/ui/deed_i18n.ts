@@ -6,7 +6,7 @@
 // call site. An absent locale table or field still falls back to the
 // authored English (clean English is preferable to a broken guess).
 
-import { DEEDS } from '../sim/data';
+import { DEEDS } from '../sim/content/deeds';
 import { DEED_LOCALE_DIALECT_OVERRIDES, DEED_LOCALE_TABLES } from './deed_i18n.newlocales';
 import { getLanguage, type SupportedLanguage, t } from './i18n';
 

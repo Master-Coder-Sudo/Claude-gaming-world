@@ -4,7 +4,7 @@
 // scramble, drop, or rename an entry.
 import { describe, expect, it } from 'vitest';
 import { ACHIEVEMENT_MAP, MAX_STEAM_ACHIEVEMENTS } from '../server/steam/achievement_map';
-import { DEEDS } from '../src/sim/data';
+import { DEEDS } from '../src/sim/content/deeds';
 
 const ACH_NAME_RE = /^ACH_[A-Z0-9_]+$/;
 
