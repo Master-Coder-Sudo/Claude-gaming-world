@@ -1792,6 +1792,13 @@ export const DEEDS: Record<string, DeedDef> = {
     trigger: { kind: 'meta', deedIds: BOOK_COMPLETE_REQUIREMENTS },
     feat: true,
   },
+  // Legacy feat of strength, the feat_era_cap class: both relics only ever
+  // dropped from the retired Brightwood content (removed_zone1_content.ts
+  // preserves held copies but no live source remains), so new copies cannot
+  // be created. Holders earn it at login or receipt (the items are unbound,
+  // so they still trade); a fresh realm can never mint a first earner. That
+  // is the intended nature of this feat class, it stays visible as a history
+  // marker, and feat deeds are excluded from BOOK_COMPLETE_REQUIREMENTS.
   feat_brightwood_relic: {
     id: 'feat_brightwood_relic',
     name: 'Brightwood Remembered',
@@ -1930,6 +1937,12 @@ export const DEEDS: Record<string, DeedDef> = {
     renown: 5,
     trigger: { kind: 'quest', questId: 'q_prof_intro' },
   },
+  // KNOWN GAP, maintainer decision pending: every hub recipe requires one of
+  // the six tier 4/5 reagents (thorium_ore, arcanite_bar, ashwood_log,
+  // elderwood_log, goldleaf_herb, sunpetal_herb) that items.ts documents as
+  // "vendor/loot-sourced for now", but no vendor, loot table, node, or quest
+  // grants them yet, so this deed cannot complete until that sourcing lands
+  // (and it blocks feat_book_complete via BOOK_COMPLETE_REQUIREMENTS).
   prog_tools_of_the_trade: {
     id: 'prog_tools_of_the_trade',
     name: 'Tools of the Trade',
