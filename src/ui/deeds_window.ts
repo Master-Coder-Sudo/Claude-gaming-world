@@ -155,6 +155,10 @@ export class DeedsWindow {
     this.fetchRarity();
     this.render();
     this.deps.root().style.display = 'flex';
+    // Move keyboard focus into the freshly opened window (onto the close button),
+    // matching the sibling cold windows, so a keyboard user is not stranded on the
+    // opener while the focus trap is active.
+    (this.deps.root().querySelector('[data-close]') as HTMLElement | null)?.focus();
     audio.click();
   }
 

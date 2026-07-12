@@ -82,6 +82,14 @@ beforeEach(() => {
 });
 
 describe('DeedsWindow: focus survives rebuilds', () => {
+  it('focuses the Close button on cold open so a keyboard user enters the dialog', () => {
+    // open() moves focus into the freshly displayed window (the cold-window house
+    // pattern), so a keyboard-only user is not stranded on the opener while the
+    // Tab trap is active. makeWindow calls open() with no manual focus.
+    const { el } = makeWindow(baseState());
+    expect(document.activeElement).toBe(el.querySelector('[data-close]'));
+  });
+
   it('keeps focus on the same rail category button across the rebuild', () => {
     const { el } = makeWindow(baseState());
     const before = focusClick(el, '[data-cat="combat"]');
