@@ -211,6 +211,7 @@ export class LeaderboardWindow {
               name: world.player.name,
               level: world.player.level,
               lifetimeXp: world.lifetimeXp,
+              title: world.activeTitle,
             },
           },
     );
@@ -645,12 +646,15 @@ export class LeaderboardWindow {
   // carries no literal em dash (project style rule).
   private stickyHtml(standing: LeaderboardStanding | null): string {
     if (!standing) return '';
+    // The Renown-tab title-cell treatment, mirroring rowHtml: a deed id in the
+    // view-model, localized here; '' (untitled/stale) renders an empty cell.
+    const deedTitle = standing.title ? deedTitleText(standing.title) : '';
     return (
       `<div class="lb-sticky"><div class="lb-row lb-row-players lb-mine"><span class="lb-rank">&mdash;</span>` +
       `<span class="lb-name">${esc(standing.name)} <span class="lb-you">(${esc(t('game.leaderboard.you'))})</span></span>` +
       `<span class="lb-lvl">${standing.level}</span><span class="lb-vlvl">${standing.virtualLevel}</span>` +
       `<span class="lb-xp">${formatXp(standing.lifetimeXp)}</span>` +
-      `<span class="lb-deed-title"></span></div></div>`
+      `<span class="lb-deed-title">${esc(deedTitle)}</span></div></div>`
     );
   }
 

@@ -23,7 +23,7 @@ import {
 } from '../src/ui/leaderboard_view';
 import type { LeaderboardEntry, LeaderboardPage } from '../src/world_api';
 
-const VIEWER: LeaderboardViewer = { name: 'Me', level: 60, lifetimeXp: 999_999 };
+const VIEWER: LeaderboardViewer = { name: 'Me', level: 60, lifetimeXp: 999_999, title: null };
 
 function entry(over: Partial<LeaderboardEntry> = {}): LeaderboardEntry {
   return {
@@ -175,6 +175,7 @@ describe('buildLeaderboardView: off-page "your standing" sticky row', () => {
       // it is distinct from the viewer's level (60), so a level/vlevel swap is caught.
       virtualLevel: virtualLevel(999_999),
       lifetimeXp: 999_999,
+      title: null,
     });
   });
 
@@ -187,6 +188,28 @@ describe('buildLeaderboardView: off-page "your standing" sticky row', () => {
       }),
     );
     expect(v.standing).toBeNull();
+  });
+
+  it("carries the off-page viewer's own title through to the sticky standing as a DEED ID", () => {
+    const v = ranked(
+      buildLeaderboardView({
+        kind: 'page',
+        page: page('sim', [entry({ name: 'Someone' })]),
+        viewer: { ...VIEWER, title: 'deed_x' },
+      }),
+    );
+    expect(v.standing?.title).toBe('deed_x');
+  });
+
+  it('carries a null title through to the sticky standing when the viewer is untitled', () => {
+    const v = ranked(
+      buildLeaderboardView({
+        kind: 'page',
+        page: page('sim', [entry({ name: 'Someone' })]),
+        viewer: { ...VIEWER, title: null },
+      }),
+    );
+    expect(v.standing?.title).toBeNull();
   });
 });
 

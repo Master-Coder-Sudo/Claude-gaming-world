@@ -27,6 +27,9 @@ export interface LeaderboardViewer {
   name: string;
   level: number;
   lifetimeXp: number;
+  /** The viewer's own selected Book of Deeds title as a DEED ID (null untitled);
+   *  the painter localizes it through deed_i18n.ts (the sticky-standing cell). */
+  title: string | null;
 }
 
 /** One ranked row: rank + the raw class id (painter localizes when known). */
@@ -52,6 +55,9 @@ export interface LeaderboardStanding {
   level: number;
   virtualLevel: number;
   lifetimeXp: number;
+  /** The viewer's selected Book of Deeds title as a DEED ID (null untitled); the
+   *  painter localizes through deed_i18n.ts (the row-cell treatment). */
+  title: string | null;
 }
 
 /** Prev/Next pager state. Null when the whole board fits on one page. */
@@ -122,6 +128,7 @@ export function buildLeaderboardView(input: LeaderboardInput): LeaderboardView {
         level: viewer.level,
         virtualLevel: virtualLevel(viewer.lifetimeXp),
         lifetimeXp: viewer.lifetimeXp,
+        title: viewer.title,
       };
   const pager: LeaderboardPager | null =
     page.pageCount <= 1
