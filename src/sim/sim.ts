@@ -1024,14 +1024,10 @@ export interface CharacterState {
   totalPlayedSeconds?: number;
   // Gathering profession proficiency (JSONB; optional so pre-professions saves
   // load cleanly, defaulting every profession to 0). `professions` is the legacy
-  // pre-rename key, kept for back-compat with old saves; `gatheringProficiency`
-  // is the current key both read (preferred) and written going forward.
-  // load cleanly, defaulting every profession to 0). Key is `professions`
-  // (not `gatheringProficiency`), reserved by the settled professions
-  // contract (src/sim/professions/CLAUDE.md, #1164) parallel to the existing
-  // `delveDaily`/`companionUpgrades` persisted fields.
+  // pre-rename key, still WRITTEN on every save alongside the current
+  // `gatheringProficiency` key (dual-write for downgrade back-compat); reads
+  // prefer `gatheringProficiency` and fall back to `professions`.
   professions?: Partial<Record<string, number>>;
-  // load cleanly, defaulting every profession to 0).
   gatheringProficiency?: Partial<Record<string, number>>;
   copper: number;
   hp: number;

@@ -1,7 +1,7 @@
 // i18n source catalog - in-game HUD chrome strings that were previously hard-coded
 // at their call sites (emote wheel/editor, swing timer, rest indicator, mobile
 // controls, minimap/compass/clock widgets, DPS/HPS meters formatting). English
-// values only; the 13 locale translations live in src/ui/i18n.locales/<lang>.ts
+// values only; the locale translations live in src/ui/i18n.locales/<lang>.ts
 // (the runtime-authoritative overlays), filled by the maintainer at release.
 //
 // Assembled into `en` by ./index.ts under the `hudChrome` namespace. Kept as its
