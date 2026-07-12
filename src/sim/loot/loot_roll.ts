@@ -68,6 +68,10 @@ export interface PendingLootRoll {
   itemName: string;
   quality: ItemDef['quality'];
   candidates: number[];
+  // Name snapshot for every candidate, captured when the roll opened. A winner who
+  // disconnects before resolution is gone from ctx.players by then, so loot-line
+  // text falls back to this instead of rendering "Unknown".
+  candidateNames: Map<number, string>;
   // Full party/raid membership snapshot captured when the roll opened. Whole-group
   // loot broadcasts target this, NOT the live party of a candidate: a snapshot stays
   // anchored to the roll's own party even if a member re-groups during the window.
@@ -293,6 +297,7 @@ function startNeedGreedRoll(ctx: SimContext, itemId: string, mob: Entity): boole
     itemName,
     quality: def?.quality,
     candidates: candidates.map((candidate) => candidate.entityId),
+    candidateNames: new Map(candidates.map((candidate) => [candidate.entityId, candidate.name])),
     partyMembers,
     choices: new Map(),
     expiresAt: ctx.time + LOOT_ROLL_TIMEOUT,
@@ -338,6 +343,7 @@ function startMasterLootRoll(ctx: SimContext, itemId: string, mob: Entity): bool
     itemName,
     quality: def?.quality,
     candidates: candidates.map((candidate) => candidate.entityId),
+    candidateNames: new Map(candidates.map((candidate) => [candidate.entityId, candidate.name])),
     partyMembers: [...party.members],
     choices: new Map(),
     expiresAt: ctx.time + MASTER_LOOT_TIMEOUT,
@@ -608,7 +614,8 @@ export function resolveLootRoll(ctx: SimContext, roll: PendingLootRoll): void {
   // whole group can audit the outcome (passes were already visible live via
   // lootRollGroupStatus and have no number to reveal).
   for (const entry of entries) {
-    const rollerName = ctx.players.get(entry.pid)?.name ?? 'Unknown';
+    const rollerName =
+      ctx.players.get(entry.pid)?.name ?? roll.candidateNames.get(entry.pid) ?? 'Unknown';
     for (const pid of partyMembersForRoll(roll)) {
       ctx.emit({
         type: 'loot',
@@ -625,7 +632,7 @@ export function resolveLootRoll(ctx: SimContext, roll: PendingLootRoll): void {
   const winner =
     tiedWinners.length === 1 ? tiedWinners[0] : tiedWinners[ctx.rng.int(0, tiedWinners.length - 1)];
   const winnerMeta = ctx.players.get(winner.pid);
-  const winnerName = winnerMeta?.name ?? 'Unknown';
+  const winnerName = winnerMeta?.name ?? roll.candidateNames.get(winner.pid) ?? 'Unknown';
   for (const pid of partyMembersForRoll(roll)) {
     ctx.emit({
       type: 'loot',
@@ -653,11 +660,10 @@ export function resolveLootRoll(ctx: SimContext, roll: PendingLootRoll): void {
 }
 
 // Whether `pid` is a currently-connected player the loot hub's addItem/resolve
-// machinery can actually grant to. Mirrors Sim's private `resolve()` guard
-// (both the player record AND the live entity must exist) without needing the
-// full resolve() (which also requires the caller to be alive), since a
-// disconnect-time award should land regardless of the recipient's HP state
-// once they reconnect.
+// machinery can actually grant to. Exactly Sim's private `resolve()` guard
+// (both the player record AND the live entity must exist): kept as its own
+// helper rather than calling ctx.resolve directly to skip that call's result-
+// object allocation here, not because the semantics differ.
 function isPidResolvable(ctx: SimContext, pid: number): boolean {
   return ctx.players.has(pid) && ctx.entities.has(pid);
 }
