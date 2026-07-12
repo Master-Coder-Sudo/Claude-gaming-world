@@ -63,7 +63,7 @@ describe('splitCopper', () => {
   });
 });
 
-describe('characterSheet — shared fields', () => {
+describe('characterSheet: shared fields', () => {
   it('derives classLabel, zone, virtualLevel, prestige, spec, avatar + profile urls', () => {
     const sheet = characterSheet(input());
     expect(sheet.name).toBe('Thrallish');
@@ -89,7 +89,7 @@ describe('characterSheet — shared fields', () => {
   });
 });
 
-describe('characterSheet — owner variant', () => {
+describe('characterSheet: owner variant', () => {
   it('includes stats, vitals, gold, and exact position', () => {
     const sheet = characterSheet(input({ visibility: 'owner' }));
     expect(sheet.gold).toEqual({ gold: 12, silver: 34, copper: 56 });
@@ -115,7 +115,7 @@ describe('characterSheet — owner variant', () => {
   });
 });
 
-describe('characterSheet — public variant leaks nothing sensitive', () => {
+describe('characterSheet: public variant leaks nothing sensitive', () => {
   it('omits stats, vitals, gold, and exact position', () => {
     const sheet = characterSheet(input({ visibility: 'public' }));
     expect(sheet.stats).toBeUndefined();
@@ -162,7 +162,7 @@ describe('characterSheet — public variant leaks nothing sensitive', () => {
   });
 });
 
-describe('characterSheet — deeds.recent hidden/unknown filter', () => {
+describe('characterSheet: deeds.recent hidden/unknown filter', () => {
   // A known non-hidden deed, a known hidden deed, and an id with no live
   // DeedDef (newer content on a mixed-version fleet, or a rollback).
   const recent = [
