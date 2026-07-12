@@ -10,7 +10,7 @@ import path from 'node:path';
 // manifest rebuild without being silently dropped.
 const PROBE_EXTS = ['.mp3', '.wav', '.flac', '.ogg'];
 
-// Valid mob vocalization actions — anchor for parsing subfamily filenames.
+// Valid mob vocalization actions, anchor for parsing subfamily filenames.
 // mob_beast_wolf_aggro_1.mp3 -> family=beast, subfamily=wolf, action=aggro, variant=1
 // mob_beast_aggro_1.mp3      -> family=beast, action=aggro, variant=1 (family-level)
 export const MOB_ACTIONS = new Set(['aggro', 'attack', 'death', 'hurt']);

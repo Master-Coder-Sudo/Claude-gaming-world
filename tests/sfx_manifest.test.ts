@@ -129,7 +129,7 @@ describe('mob subfamily scanning', () => {
     expect(errors[0]).toContain('mob_beast_wolf_bogus_1.mp3');
   });
 
-  it('skips family-level mob files (fewer than 5 parts) — covered by catalog loop', () => {
+  it('skips family-level mob files (fewer than 5 parts), covered by catalog loop', () => {
     // mob_beast_attack_1.mp3 has only 4 parts: mob + beast + attack + 1
     writeFileSync(path.join(sfxDir, 'mob_beast_attack_1.mp3'), '');
     const catalog = [{ key: 'mob_beast_attack' }];

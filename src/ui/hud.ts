@@ -783,7 +783,7 @@ function mobVoiceFamily(templateId: string): string | null {
 /** Most-specific SFX key for a mob action. Prefers the subfamily key
  *  (mob_beast_wolf_attack) when that clip is loaded; falls back to the
  *  family key (mob_beast_attack) otherwise. Resolved at runtime so new
- *  creature-specific files just need a manifest rebuild — no code change. */
+ *  creature-specific files just need a manifest rebuild, no code change. */
 function mobSfxKey(fam: string, templateId: string, action: string): string {
   const subKey = `mob_${fam}_${templateId}_${action}`;
   return sfx.hasVariants(subKey) ? subKey : `mob_${fam}_${action}`;
