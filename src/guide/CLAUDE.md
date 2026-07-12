@@ -17,12 +17,24 @@ sim/render *data*, never the live world or `IWorld`.
   `GUIDE_ROUTES` entry (`id`, `sub`, `navKey`, `group`, optional `topbar`/`descKey`);
   the router, nav chrome, sitemap, and tests all derive from this list.
 - `pages/*.ts`: one module per page, each rendering from `guide.*` `t()` keys plus the
-  generated content. `app.ts` is the shell, `router.ts` the SPA router, `head.ts` the
-  per-route `<title>`/meta, `search.ts` the client search, `chrome.ts` the nav frame,
+  generated content; `pages/index.ts` holds the `PAGES` record mapping route id to page
+  module. `app.ts` is the shell, `router.ts` the SPA router, `head.ts` the per-route
+  `<title>`/meta, `search.ts` the client search, `chrome.ts` the nav frame,
   `class_view.ts` the per-class detail page.
+- `class_meta.ts`: curated (NOT generated) class-chooser feel tags; authored presentation
+  judgments, so a new class needs a hand-written entry here that no generator produces.
+- `nav_aids.ts`: breadcrumbs, prev/next, and the scrollspy TOC, derived from
+  `GUIDE_ROUTES` and page headings; pages stay free of nav chrome.
 - `content.generated.ts`: GENERATED, do not hand-edit (see below).
 - `viewer/`: the lazy 3D model turntable (its own CLAUDE.md; keeps three.js out of the
   main bundle).
+
+**Module-first: where a new feature lands.** A new page or feature is its own
+`pages/<x>.ts` module registered in the `PAGES` record (`pages/index.ts`) behind a
+`GUIDE_ROUTES` entry, never markup appended to `app.ts`/`chrome.ts`; nav, search, head
+meta, breadcrumbs, and the sitemap all derive from the route entry. Its test goes in
+`tests/guide.test.ts`. Fix bugs test-first: a failing test that reproduces the bug, then
+the smallest change that turns it green.
 
 ## Generated data: it never drifts from the game
 `content.generated.ts` is built by `scripts/wiki/build_content.mjs` from the sim source
@@ -58,8 +70,10 @@ in the SAME change that adds it:
   but not byte-identical across machines/GPUs, so they are existence-gated, never diff-gated:
   re-render on the swiftshader path.
 - **A brand-new content TYPE or system** (a new feature like delves, or a new page):
-  extend `scripts/wiki/build_content.mjs` to emit it, add a `pages/<x>.ts` page plus a
-  `GUIDE_ROUTES` entry and its `guide.*` keys, then regenerate the sitemap
-  (`npm run sitemap:build`, also wired into `build`).
+  extend `scripts/wiki/build_content.mjs` to emit it, add a `pages/<x>.ts` page,
+  register it in the `PAGES` record in `pages/index.ts` (`tests/guide.test.ts` fails a
+  `GUIDE_ROUTES` id with no registered page; an unregistered route renders the
+  placeholder), add the `GUIDE_ROUTES` entry and its `guide.*` keys, then regenerate
+  the sitemap (`npm run sitemap:build`, also wired into `build`).
 - Confirm with `npx vitest run tests/guide.test.ts` (freshness, routes, and the sitemap
   entry are all gated there).
