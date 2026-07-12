@@ -45,6 +45,7 @@ import {
   hoverCursorKind,
   isAttackableEntity,
 } from './game/interactions';
+import { createIntroLogoOverlay } from './game/intro_logo_overlay';
 import { Keybinds } from './game/keybinds';
 import { newKeyboardTurnState, stepKeyboardTurnFacing } from './game/keyboard_turn_facing';
 import { applyMobileKeyboardViewport } from './game/keyboard_viewport_applier';
@@ -2725,6 +2726,9 @@ async function startGame(
     // seen rather than replaying it on every boot
   }
   let intro: { cinematic: SpawnCinematic; startedAt: number | null } | null = null;
+  // Wordmark overlay: fades in/hold/out over the opening of the intro cinematic
+  // (see logo_fade.ts for the pure timing curve), well clear of the landing.
+  const introLogo = createIntroLogoOverlay(document.getElementById('intro-logo'));
   const setIntroUiHidden = (hidden: boolean): void => {
     const display = hidden ? 'none' : '';
     const ui = document.getElementById('ui');
@@ -2746,6 +2750,7 @@ async function startGame(
       input.camPitch = end.pitch;
       input.camDist = end.dist;
     }
+    introLogo.hide();
     setIntroUiHidden(false);
     window.removeEventListener('keydown', skipIntro, true);
     window.removeEventListener('pointerdown', skipIntro, true);
@@ -2776,6 +2781,7 @@ async function startGame(
     input.camYaw = pose.yaw;
     input.camPitch = pose.pitch;
     input.camDist = pose.dist;
+    introLogo.tick(elapsed, intro.cinematic.durationSec);
     if (pose.done) finishIntro(false);
   };
   // "Reduce motion" is the EFFECTIVE flag (the OS prefers-reduced-motion query OR the
