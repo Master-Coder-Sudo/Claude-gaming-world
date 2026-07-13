@@ -263,6 +263,9 @@ export interface SimContextCallbacks {
     noRage?: boolean,
     threatOpts?: { flat?: number; mult?: number },
     direct?: boolean,
+    attackAnimationStarted?: boolean,
+    // Amount is already fully source-modified (redirect shares); skip source-output mods.
+    alreadyFinal?: boolean,
   ): void;
   handleDeath(entity: Entity, killer: Entity | null): void;
   cancelCast(entity: Entity): void;
@@ -319,6 +322,7 @@ export interface SimContextCallbacks {
     school: string,
     ability: string | null,
     kind: 'hit' | 'miss' | 'dodge',
+    attackAnimationStarted?: boolean,
   ): void;
   cleanupYumiMatch(match: ArenaMatch): void;
   rollLoot(mob: Entity, meta: PlayerMeta, eligible?: PlayerMeta[]): void;
@@ -467,9 +471,12 @@ export interface SimContextCallbacks {
   grantNythraxisLockout(boss: Entity): void;
   frenzyPackmates(dead: Entity): void;
   armDeathThroes(dead: Entity): void;
-  // C1's grantXp level-up path AND G1a's talent application (progression/talents.ts)
-  // both consume refreshKnownAbilities: the talent path always passes announce=false
-  // (a silent re-resolve, no learnAbility spam); the level-up path passes announce=true.
+  // C1's grantXp level-up path AND G1a's talent application (progression/talents.ts) both
+  // consume refreshKnownAbilities with announce=true, so a spec pick / talent apply that
+  // grants a new ability (e.g. a spec signature) surfaces it: emits learnAbility (the HUD
+  // places it on the bar + spellbook) and a "You have learned" log. Character LOAD uses its
+  // OWN announce=false call (addPlayer/restore) so it never spams on login; the before/after
+  // diff in refreshKnownAbilities means only genuinely new abilities are announced.
   // G1a's talent module also consumes the core `error` sink (declared above). The talent
   // PUBLIC API (applyTalents/spendTalent/setSpec/respec/saveLoadout/switchLoadout/
   // deleteLoadout/talentPoints) is NOT on this seam: Sim keeps thin wrapper methods that
@@ -612,7 +619,13 @@ export interface SimContextCallbacks {
   effectiveAttackPower(e: Entity): number;
   hasLineOfSight(source: Entity, target: Entity): boolean;
   findChargePath(p: Entity, target: Entity): Vec3[];
-  runEffects(p: Entity, meta: PlayerMeta, target: Entity | null, res: ResolvedAbility): void;
+  runEffects(
+    p: Entity,
+    meta: PlayerMeta,
+    target: Entity | null,
+    res: ResolvedAbility,
+    attackAnimationStarted?: boolean,
+  ): void;
 
   // P1a pet AI (src/sim/pet/pet_ai): the moved updatePet/petRangedAttack/petPickTarget
   // reach back for these. All STAY on Sim. `syncPetAspect` is pet-management (the P1b

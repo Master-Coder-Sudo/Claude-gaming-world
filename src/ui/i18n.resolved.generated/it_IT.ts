@@ -244,6 +244,263 @@ export const it_IT: EnTranslations = {
         "banned": "Sei escluso dalle Ricompense giornaliere. Motivo: {reason}"
       }
     },
+    "wocStore": {
+      "title": "WOC Store",
+      "close": "Close WOC Store",
+      "tabsLabel": "WOC Store sections",
+      "storeTab": "Store",
+      "rewardsTab": "Daily Rewards",
+      "loading": "Loading WOC Store...",
+      "error": "The WOC Store is unavailable right now. Please try again shortly.",
+      "balance": "Claudium Balance",
+      "buyClaudium": "Purchase Claudium",
+      "owned": "Owned",
+      "needMoreTitle": "More Claudium Required",
+      "needMoreBody": "You need {shortfall} more Claudium to purchase {item}.",
+      "cancel": "Cancel",
+      "confirmTitle": "Confirm Cosmetic Purchase",
+      "confirmBody": "Purchase {item} for {cost} Claudium?",
+      "confirmPurchase": "Purchase",
+      "priceChanged": "The price changed before the purchase completed. Review the refreshed price and confirm again.",
+      "armoryEyebrow": "Season 1",
+      "armoryTitle": "The Armory",
+      "armoryBody": "Limited weapon skins from the Season 1 Armory. Account-wide, purely cosmetic, and shown to everyone around you.",
+      "collectionLine": "{collection} Collection",
+      "collections": {
+        "guildmark": "Guildmark",
+        "emberwrought": "Emberwrought",
+        "hoarfrost": "Hoarfrost",
+        "fallen_star": "Fallen Star"
+      },
+      "skins": {
+        "guildmark_arming_sword": {
+          "name": "Guildmark Arming Sword",
+          "look": "Blued steel blade, bronze fishtail crossguard, teal-dyed leather grip, small stamped guild sigil.",
+          "lore": "Where the wrought blade is anonymous, this one is signed. An armorer earns the right to sink his mark into the ricasso only once the World Market's Merchant will vouch for his steel, and Smith Haldren's mark is vouched for. Blued against the Vale's damp, balanced to a hair. You pay for the stamp as much as the sword, and it is worth it."
+        },
+        "brasscap_axe": {
+          "name": "Brasscap Hatchet",
+          "look": "Polished steel bit, brass cap and langets on a lacquered ash haft, tidy wrap, a maker's stamp.",
+          "lore": "A stamped axe is a boast you can hold. The brass cap and langets are half armour, half signature: they keep the haft from splitting and they catch the tavern light so everyone knows you bought Armorer Hode's work, not a militia hand-me-down. 'If it cuts, I sell it,' the Highwatch smith says. This one cuts."
+        },
+        "tempered_flanged_mace": {
+          "name": "Tempered Flanged Mace",
+          "look": "Six-flanged tempered blue-steel head, brass collar and pommel, wine-red leather grip.",
+          "lore": "Six flanges of blued, tempered steel, each ground to open a helm, capped in brass and wound in wine-red leather. The realm's armorers don't make ugly weapons even when the work is brutal. This one was commissioned through the World Market, not pulled off a rack; somewhere there's a ledger with a proud buyer's name and the sum he paid Hode for it."
+        },
+        "guildmark_dirk": {
+          "name": "Guildmark Dirk",
+          "look": "Slim tempered-steel dirk, bronze guard and pommel nut, dark-green cord grip, stamped sigil.",
+          "lore": "What a made man wears when the sword stays home: slim, tempered, stamped with the same mark that certifies a full blade, worn on the belt like a signet with an edge. Understated to everyone but those who can read an armorer's proof. Quartermaster Bree keeps a drawer of them at Highwatch for officers who've earned the wall's respect."
+        },
+        "brasscrown_staff": {
+          "name": "Brasscrown Walking Staff",
+          "look": "Hardwood staff topped with a turned brass crown finial, brass ferrule, dyed leather band.",
+          "lore": "Turned from seasoned hardwood and crowned with a brass finial the Eastbrook smiths cast by the hundred but perfect by the one. It belongs to the sort of traveller who wants to be taken seriously at Fenbridge's gate and Highwatch's wall alike. A walking stick that has never truly needed to walk; the dyed band matches a coat you can guess the price of."
+        },
+        "lacquered_wand": {
+          "name": "Lacquered Rod",
+          "look": "Slender deep-red lacquered wand, two polished brass bands, small rounded brass tip.",
+          "lore": "Deep-red lacquer in seven patient coats, banded twice in polished brass: the kind of wand a hedge-mage buys off the World Market once they've started charging real coin and want to look it. It channels the Light no better than a birch stick. But it gleams magnificently across the Merchant's counter, and half of minor magic has always been being believed."
+        },
+        "fletcher_s_guild_bow": {
+          "name": "Fletcher's Guild Bow",
+          "look": "Lacquered walnut recurve bow, brass limb tips, waxed linen string, a guild stamp on the riser.",
+          "lore": "The closest thing the realm has to a guild is a fletcher's stamp on the riser, a promise about what's inside, the way a vintner seals a cask. Lacquered walnut, brass at the limb tips, a waxed linen string that won't fray through a Mirefen rain. Every joint argues for the price. Draw it once past the Widow Thicket and the argument wins."
+        },
+        "cinderbrand_sword": {
+          "name": "Cinderbrand",
+          "look": "Dark forged-steel blade, fuller filled with glowing ember-orange runes, heat-cracks, a smouldering gem in the guard.",
+          "lore": "The first blade quenched not in water but in Blessed Embers raked from Stormcrag, the coals the Highwatch smiths swear 'burn blue and clean, because the mountain remembers its old oath.' Banked into the fuller, that fire smoulders ember-orange and will not die; the runes stay warm to a bare hand on the coldest night of the wall. Cinderbrand never needs lighting. It simply refuses to go out."
+        },
+        "emberbite_axe": {
+          "name": "Emberbite",
+          "look": "Blackened-iron axe with ember-orange cracks glowing through the bit, a banked-coal gem, wisps of heat.",
+          "lore": "Armorer Hode worked a live coal of mountain-fire into the heart of the bit, so the edge never truly cools between blows. The cracks breathe orange on the downswing, as if the strike wakes something the first forging left sleeping in the iron. They say a Stormcrag elemental gave up the ember for it; they say a great many things at Highwatch when the wind is up."
+        },
+        "smoulderfall_mace": {
+          "name": "Smoulderfall",
+          "look": "Dark iron flanges glowing ember-orange along their inner cracks, a molten-cored gem in the head.",
+          "lore": "A mace that carries its own hearth: a molten-cored stone chipped from the Sanctum seal that was 'wrought with mountain-fire,' set glowing in the head. The flanges stay warm to the touch and warmer where they land; a Highwatch sergeant swears a blow from it leaves a bruise that glows faintly till morning. The mountain's fire, at last made for breaking rather than sealing."
+        },
+        "ashspark_dagger": {
+          "name": "Ashspark Shiv",
+          "look": "Short blackened blade veined with glowing ember-orange, a tiny smouldering gem in the pommel, ash and spark.",
+          "lore": "A back-alley blade with the mountain's fire smuggled into its pommel-stone, an armorer's quiet joke: even a cutpurse might carry an ember of the first forging. Blackened, veined with orange, always a shade too warm in the sheath. Draw it in the dark under Highwatch and the glow lights your hand just enough to find the gap in a man's guard."
+        },
+        "forgeheart_staff": {
+          "name": "Forgeheart Stave",
+          "look": "Iron-shod staff crowned with a caged glowing ember core, ember runes up the shaft, rising heat-shimmer.",
+          "lore": "A living coal of mountain-fire caged in iron at its crown. Loremaster Caddis calls it proof that the fire of the first forging can be bound to serve, not only to seal. Heat-shimmer rises from it in a thin, endless ribbon; a mage who carries one never wants for a forge or a watch-fire. The ember, they whisper, was drawn from Voskar the Emberwing's own breath, and it has not cooled since."
+        },
+        "emberwrought_wand": {
+          "name": "Emberwrought Wand",
+          "look": "Blackened-metal wand tipped with a glowing ember coal in iron claws, hairline heat-cracks, warm inner light.",
+          "lore": "The wand that named the grade. When a Highwatch armorer first set a coal of mountain-fire in iron claws and made it answer a mortal hand, even the Priests of the Light stopped calling it heresy and started calling it useful. Warm, patient and quietly dangerous: the ember at its tip has burned, unbroken, since before its owner drew breath."
+        },
+        "cinderlatch_crossbow": {
+          "name": "Cinderlatch",
+          "look": "Blackened-steel crossbow, ember-orange glow seeping from cracks in the prod, a smouldering coal in the tiller.",
+          "lore": "The strangest of the ember-forged: the mountain's fire poured into a machine. Orange seeps from cracks in the prod, and a smouldering coal in the tiller keeps the string from ever stiffening in Thornpeak's cold or Mirefen's damp. Its bolts leave the groove already warm and land warmer. A hunter's answer to a wall where the enemy does not feel the cold either."
+        },
+        "ice_fang_sword": {
+          "name": "Ice Fang",
+          "look": "Curved blade of pale glacial ice, jagged rime crystals along the spine, a glowing cyan frozen core in the fuller, icicle crossguard.",
+          "lore": "The flagship of the frozen grade, and the piece every collector reaches for first. Ice Fang was carved, not forged, from a fang of the glacier that caps Thornpeak above Highwatch, its cyan core burning cold as the light off the Glimmermere. It rimes the very air it cuts. The wall-guard swear one soldier carried it the night the high snows held the Wyrmcult back, and 'bought the wall a winter.'"
+        },
+        "glaciersplit_axe": {
+          "name": "Glaciersplit",
+          "look": "Head of translucent blue glacier-ice, cracked interior glowing cyan, frost crystals bristling, a haft trailing cold vapor.",
+          "lore": "Hewn from the blue heart of the Thornpeak glacier, where two centuries of ice have pressed the cold until it glows on its own. It trails vapour even at rest, and the crack of it landing is a crevasse opening under Stalker Ridge. Highwatch gives its fallen to the ice up there; so this is a weapon meant to keep the thaw, and whatever the thaw would wake, at bay."
+        },
+        "rimecrusher_mace": {
+          "name": "Rimecrusher",
+          "look": "Cluster of jagged ice crystals around a glowing cyan core, hoarfrost creeping down a silvered haft.",
+          "lore": "Not carved but grown: Thornpeak ice coaxed around a cold cyan core until it set as hard as Hode's best steel. Hoarfrost creeps down the silvered haft toward the hand and never quite arrives. Where it strikes, water freezes; where it rests, the ground whitens. The grave-cold of the peaks, made small enough to swing at the things that climb the wall."
+        },
+        "frostbite_dagger": {
+          "name": "Rime Needle",
+          "look": "Wickedly thin dagger of clear blue ice, a glowing cyan vein down the center, needle frost crystals, hoarfrost hilt.",
+          "lore": "Thin as a held breath and twice as cold: a splinter of Thornpeak glacier honed to a single glowing vein, so keen the wound is frozen shut before the blood remembers to run. Its name is borrowed from the grave-chill the dead carry down off the peaks. It never needs sharpening; ice does not dull, Loremaster Caddis notes drily, it only waits."
+        },
+        "hoarfrost_vigil_staff": {
+          "name": "Hoarfrost Vigil",
+          "look": "Silvered staff crowned with a floating, slowly rotating shard of glowing cyan ice, radiating crystals and cold vapor.",
+          "lore": "The staff of the watch that never sleeps on Highwatch's wall. Its crown is a shard of cyan tarn-ice that floats free of the silver and turns, slowly, of its own accord: always, the guard swear, toward the cold that gathers beneath the peaks. To carry the Vigil is to stand two hundred years of watch in a single night, and promise not to look away."
+        },
+        "everwinter_wand": {
+          "name": "Shard of Everwinter",
+          "look": "A single spike of glowing cyan glacier-ice, hoarfrost blooming from a silver collar, faint cold mist.",
+          "lore": "A spike of glowing glacier-ice, said to be broken from the deep tarn below the Sanctum, where the mountain's cold has teeth. Hoarfrost blooms endlessly from its silver collar and never melts, not by fire nor by summer. Mages keep it close for the cold it lends their work, and keep it far on the nights it seems to lean toward Nythraxis's crypt, and listen."
+        },
+        "winterbite": {
+          "name": "Winterbite",
+          "look": "Silvered steel and blue-ice bow, a glowing cyan frozen core in the riser, a nocked arrow of solid ice, cold vapor.",
+          "lore": "A bow of silvered steel and Thornpeak ice, its riser lit by a cold cyan core that freezes the arrow to the string. It nocks a shaft of solid glacier-ice that reforms each draw; the archer carries no quiver on the wall, only the cold. Highwatch held Stalker Ridge through a siege with one like it: a single bowman, they say, and a winter's worth of arrows that were always already there."
+        },
+        "solheim_sword": {
+          "name": "Solheim, Last Light of the Dawn",
+          "look": "Greatsword forged from a fallen star, molten-gold core splitting the blade, cosmos-black steel edged in starlight, golden shards orbiting the guard, aurora ribbon.",
+          "lore": "When the star fell out of the western sky and 'burst like a forge' beyond the Widow Thicket, Brother Aldric pulled its still-smouldering heart from the Mirefen crater and begged the realm's smiths to work 'a thing that does not belong to this world.' They made one greatsword of it: Solheim. Its molten-gold core splits the cosmos-black blade like dawn cracking a night sky, and shards of star-metal orbit the guard on paths no hand set. Only one was ever forged. There will not be another."
+        },
+        "skyrender_axe": {
+          "name": "Skyrender, the Firmament's Wound",
+          "look": "Head like a torn piece of night sky, molten-gold cracks and constellation etchings, starlight shards hovering, an aurora shimmer trailing the edge.",
+          "lore": "Beaten from the crater's rim, where the fallen star tore the sky's own reflection out of Mirefen and left a wound that still steams. The head looks like a piece of torn night: molten-gold cracks, constellations no scholar at Highwatch can name, an aurora bleeding off the edge with every swing. Brother Aldric blessed it and would not touch it. To lift it is to hold the hole the heavens left."
+        },
+        "starfall_mace": {
+          "name": "Starfall, Judgment of the Heavens",
+          "look": "Captive molten-gold star-core ringed by orbiting fragments, cosmos-black flanges veined with starlight, aurora spilling from the seams.",
+          "lore": "A star-core caught the instant before it died, ringed with the debris that fell with it, frozen an inch from oblivion. Its cosmos-black flanges run with trapped starlight, and aurora spills from the seams when it is raised. The old Priests of the Light called a falling star a judgment, a verdict handed down from above that no shield was meant to stop, and named this after the one that came down on Mirefen."
+        },
+        "astravyr_dagger": {
+          "name": "Astravyr, Fang of the Fallen Star",
+          "look": "A sliver of a fallen star, molten-gold glowing edge on cosmos-black metal, a bright star-mote orbiting the pommel, a thin aurora trail.",
+          "lore": "The smallest piece of the star Aldric hauled from the crater, and by some reckonings the most dangerous. A single sliver of that other-worldly heart, its molten-gold edge riding cosmos-black metal, a lone star-mote circling the pommel like a moon that lost its world. It weighs almost nothing and parts almost anything. Small enough to hide, bright enough to find in the dark by its own light."
+        },
+        "cosmarch_staff": {
+          "name": "Cosmarch, Spire of the Endless Void",
+          "look": "Orbiting cluster of golden star-shards around a molten-gold core, constellation-etched cosmos-black shaft, aurora ribbons winding upward.",
+          "lore": "A shaft of star-metal crowned with a molten-gold core and a ring of golden shards that march around it in slow, endless orbit: a little cosmos, etched with constellations that match no sky over Thornpeak. Aurora winds up its length like smoke that forgot to rise. Those who bore it claimed they could feel the void turning through it, the way Ysolei's mere 'drinks the moonlight': patient, and cold, and looking back."
+        },
+        "emberwish_wand": {
+          "name": "Emberwish, Mote of the Dying Sun",
+          "look": "Captive molten-gold dying-star mote wreathed in orbiting sparks, cosmos-black shaft etched with glowing constellations.",
+          "lore": "Not the fallen star itself but the last mote of a dying one: a single molten-gold ember of a sun already gone out, wreathed in the sparks that were its final light. Its cosmos-black shaft is etched with the constellations that watched it die. The Mirefen crofters say it grants one wish to whoever holds it at true dusk; they also say every soul who held it wished for more time, and that the Drowned Moon granted none of them any."
+        },
+        "encore_bow": {
+          "name": "Encore, the Second Falling Star",
+          "look": "Comically oversized star-cannon: a cosmos-black barrel etched with glowing golden constellations, a flared bell muzzle with a molten-gold comet shell seated inside, brass fittings, a wooden shoulder stock.",
+          "lore": "The smiths who worked the fallen star made six relics of it and still had a barrel's worth of star-metal left over, and by then the apprentices had opinions. What came off the anvil is either the realm's first gun or its smallest siege engine: a shoulder cannon that does not so much loose a shot as request a second star, aimed. Brother Aldric declined to bless it, reasoning that anything that loud has already been noticed by heaven. Hunters adore it. Nothing downrange ever has."
+        },
+        "meteorlatch_crossbow": {
+          "name": "Meteorlatch, the Sky's Last Judgment",
+          "look": "Meteoric star-metal, molten-gold core along the tiller, cosmos-black limbs etched with constellations, a nocked bolt of pure starfire.",
+          "lore": "Forged of raw meteoric star-metal while the Mirefen crater still glowed, debris 'too hot to handle,' hammered into limbs of cosmos-black etched with constellations, a molten-gold core banked along the tiller. It nocks no bolt but conjures one: a shaft of starfire, loosed like a verdict and landing like the end of one. When Highwatch feared even the deathless crown of Nythraxis might not be the worst thing beneath the peaks, this is the weapon they wanted on the wall. Aim it well."
+        }
+      },
+      "seasonOne": "Season 1",
+      "rarity": {
+        "uncommon": "Uncommon",
+        "rare": "Rare",
+        "epic": "Epic",
+        "legendary": "Legendary"
+      },
+      "wtype": {
+        "sword": "Sword",
+        "axe": "Axe",
+        "mace": "Mace",
+        "dagger": "Dagger",
+        "staff": "Staff",
+        "wand": "Wand",
+        "bow": "Bow",
+        "crossbow": "Crossbow"
+      },
+      "badge": {
+        "flagship": "Flagship",
+        "hero": "Hero"
+      },
+      "inspectAria": "Inspect {item}",
+      "viewModeLabel": "Preview mode",
+      "tryOn": "Try it on",
+      "weaponOnly": "Weapon only",
+      "sceneLabel": "Scene lighting",
+      "scene": {
+        "day": "Day",
+        "dusk": "Dusk",
+        "night": "Night"
+      },
+      "lore": "Lore",
+      "buySkin": "Purchase Skin",
+      "unavailable": "Unavailable",
+      "applied": "Applied",
+      "apply": "Apply Skin",
+      "detach": "Detach Skin",
+      "equipHint": "Equip a {type} to apply this skin."
+    },
+    "claudium": {
+      "title": "Claudium",
+      "open": "Open Claudium",
+      "close": "Close Claudium",
+      "loading": "Loading Claudium...",
+      "balanceLabel": "Balance",
+      "balanceUnit": "{amount} Claudium",
+      "solBalance": "SOL: {amount}",
+      "wocBalance": "WOC: {amount}",
+      "unavailable": "The Claudium store is unavailable right now. Your balance and purchases are unaffected; please check back shortly.",
+      "disclosure": "Claudium is a one-way soft currency: buy it with money and spend it on cosmetics. It cannot be redeemed, transferred, or cashed out.",
+      "buyTitle": "Buy Claudium",
+      "railLabel": "Payment method",
+      "railStripe": "Card",
+      "railSol": "SOL",
+      "railWoc": "WOC",
+      "railWocDiscount": "20% off",
+      "railWocUnavailable": "WOC pricing is unavailable right now.",
+      "railNativeUnavailable": "SOL/WOC off.",
+      "amountLabel": "Amount",
+      "showAmounts": "Show all Claudium amounts",
+      "hideAmounts": "Hide extra Claudium amounts",
+      "skuRow": "{usd} for {claudium} Claudium",
+      "buyButton": "Buy",
+      "buyUnavailable": "Purchasing is unavailable right now.",
+      "storeTitle": "Cosmetic Store",
+      "storeEmpty": "No cosmetics are available right now.",
+      "storeCost": "{amount} Claudium",
+      "spendButton": "Redeem",
+      "kindCosmetic": "Cosmetic",
+      "kindSkin": "Skin",
+      "kindItem": "Item",
+      "checkoutTitle": "Complete purchase",
+      "checkoutClose": "Close checkout",
+      "checkoutLoading": "Loading checkout...",
+      "checkoutPending": "Transaction in progress. Confirm in your wallet and keep this panel open.",
+      "checkoutPendingButton": "Processing",
+      "checkoutFailed": "Checkout could not be loaded. Please try again.",
+      "checkoutUnavailable": "That Claudium purchase is not available right now.",
+      "checkoutWalletRequired": "Connect a Solana wallet before buying Claudium with crypto.",
+      "checkoutWalletUnsupported": "This wallet cannot sign and send Solana transactions.",
+      "checkoutNotSettled": "The transaction was sent but Claudium was not credited yet. Please try again shortly."
+    },
     "theme": {
       "preset": "Tema dell'interfaccia",
       "customColors": "Colori personalizzati",
@@ -686,13 +943,29 @@ export const it_IT: EnTranslations = {
       "highContrast": "Contrasto elevato",
       "highContrastAria": "Attiva/disattiva lo sfondo a contrasto elevato: disabilita il trailer in movimento per mantenere leggibile il testo della schermata iniziale"
     },
+    "warfare": {
+      "honorAmount": "{amount} Honor",
+      "dualPrice": "{money} + {honor}",
+      "balance": "Honor: {amount}",
+      "honorFloat": "+{amount} Honor",
+      "honorGain": "You gain {amount} Honor ({reason}).",
+      "notEnoughHonor": "Not enough Honor.",
+      "reasons": {
+        "arenaWin": "Arena victory",
+        "fiestaKill": "Fiesta takedown",
+        "fiestaComplete": "Fiesta completed",
+        "fiestaWin": "Fiesta victory"
+      }
+    },
     "statInfo": {
       "fromYour": "Dai tuoi {value} punti {stat}:",
       "names": {
         "spellPower": "Potere Magico",
         "critRating": "Indice di critico",
-        "hasteRating": "Indice di celerità"
+        "hasteRating": "Indice di celerità",
+        "warfare": "Warfare"
       },
+      "warfareValue": "+{increase}% dealt / -{reduction}% taken",
       "desc": {
         "str": "Aumenta la tua potenza d'attacco, così i colpi della tua arma sono più potenti.",
         "agi": "Affina i tuoi riflessi e la tua mira, migliorando diverse delle tue statistiche di combattimento.",
@@ -706,7 +979,8 @@ export const it_IT: EnTranslations = {
         "critChance": "La tua probabilità che un attacco colpisca in modo critico, infliggendo danni doppi.",
         "dodge": "La tua probabilità di evitare completamente un attacco in mischia in arrivo, senza subire danni.",
         "critRating": "Indice di critico dal tuo equipaggiamento e dai bonus di set, che aumenta la tua probabilità di colpo critico. Circa 10 punti conferiscono l'1% di critico.",
-        "hasteRating": "Indice di celerità dal tuo equipaggiamento e dai bonus di set, che accelera i tuoi attacchi e i tuoi lanci. Circa 10 punti conferiscono l'1% di celerità."
+        "hasteRating": "Indice di celerità dal tuo equipaggiamento e dai bonus di set, che accelera i tuoi attacchi e i tuoi lanci. Circa 10 punti conferiscono l'1% di celerità.",
+        "warfare": "Increases damage dealt to players by {increase}% and reduces damage taken from players by {reduction}%."
       },
       "effects": {
         "attackPower": "+{value} Potenza d'attacco",
@@ -958,6 +1232,19 @@ export const it_IT: EnTranslations = {
     "party": {
       "promoteLeader": "Promuovi a Capo",
       "inviteUsage": "Invitare chi? Uso: /invite <nome>."
+    },
+    "playerMenu": {
+      "info": "Info giocatore",
+      "block": "Blocca",
+      "unblock": "Sblocca",
+      "openFor": "Apri il menu giocatore di {name}",
+      "profileUnavailable": "Nessun profilo trovato per {name}.",
+      "aiTag": "[AI]",
+      "aiTagTitle": "Account gestito da IA",
+      "watchTwitch": "Guarda su Twitch",
+      "watchX": "Vedi su X",
+      "watchKick": "Guarda su Kick",
+      "watchYouTube": "Guarda su YouTube"
     },
     "lootSettings": {
       "title": "Impostazioni Bottino",
@@ -1479,7 +1766,15 @@ export const it_IT: EnTranslations = {
     },
     "social": {
       "lastSeen": "Ultimo accesso: {when}",
-      "lastSeenNever": "mai"
+      "lastSeenNever": "mai",
+      "ignoredTab": "Ignorati",
+      "blockedTab": "Bloccati",
+      "ignoredEmpty": "Non stai ignorando nessuno.",
+      "blockedEmpty": "Non hai bloccato nessuno.",
+      "blockSearchPlaceholder": "Nome del giocatore",
+      "blockAction": "Blocca",
+      "nowBlocking": "{name} bloccato.",
+      "stopBlockingTitle": "Sblocca {name}"
     },
     "gathering": {
       "title": "Raccolta",
@@ -5583,6 +5878,10 @@ export const it_IT: EnTranslations = {
         "name": "Ultimo Rito",
         "description": "Una grande ondata di guarigione: ripristina {damage} salute. Tempo di recupero di 10 min."
       },
+      "holy_taunt": {
+        "name": "Sacred Goad",
+        "description": "Taunts the target: your threat rises to match its most hated enemy and it is compelled to attack you for 3 sec."
+      },
       "flash_of_light": {
         "name": "Rammendo di Luce",
         "description": "Un rapido ed efficiente sprazzo di Luce che cura un bersaglio alleato di {damage}."
@@ -5907,6 +6206,98 @@ export const it_IT: EnTranslations = {
         "name": "Furia Ribollente",
         "description": "Entri in una furia ribollente, generando 20 punti rabbia. (talento del guerriero)"
       },
+      "crusader_strike": {
+        "name": "Assalto del Crociato",
+        "description": "Colpisce il bersaglio infliggendo danni dell’arma più {damage} danni sacri. (talento da paladino)"
+      },
+      "chain_heal": {
+        "name": "Chain Heal",
+        "description": "Heals a friendly target for a large amount, then jumps to up to 2 additional nearby allies, healing for 50% less with each jump. (Restoration signature)"
+      },
+      "metamorphosis": {
+        "name": "Metamorfosi",
+        "description": "Assumi potere demoniaco, aumentando armatura e potenza d’attacco per 20 s. (talento da stregone)"
+      },
+      "holy_shock": {
+        "name": "Shock Sacro",
+        "description": "Colpisce un bersaglio alleato con energia Sacra, curandolo di {damage}. (firma Sacro)"
+      },
+      "holy_shield": {
+        "name": "Scudo Sacro",
+        "description": "Ti protegge con potere Sacro per 10 s, aumentando l’armatura di 90 e colpendo gli assalitori in mischia per 12 danni Sacri. (firma Protezione)"
+      },
+      "bestial_wrath": {
+        "name": "Ira Bestiale",
+        "description": "Ti spinge in una furia bestiale, aumentando la potenza d’attacco di 55 per 15 s. (firma Affinità Animale)"
+      },
+      "trueshot_aura": {
+        "name": "Aura di Precisione",
+        "description": "Ispira gli alleati vicini, aumentando la potenza d’attacco di 35 per 5 min. (firma Precisione)"
+      },
+      "wyvern_sting": {
+        "name": "Morso della Viverna",
+        "description": "Punzecchia il nemico a distanza, incapacitandolo per un massimo di 4 s. Qualsiasi danno interrompe l’effetto. (firma Sopravvivenza)"
+      },
+      "arcane_power": {
+        "name": "Potere Arcano",
+        "description": "Aumenta i danni magici del 20% e la celerità magica del 10% per 10 s. (firma Arcano)"
+      },
+      "combustion": {
+        "name": "Combustione",
+        "description": "Aumenta la probabilità di critico magico del 50% per 15 s. (firma Fuoco)"
+      },
+      "icy_veins": {
+        "name": "Vene Gelide",
+        "description": "Aumenta la celerità magica del 30% e impedisce l’interruzione e il contraccolpo dei lanci per 10 s. (firma Gelo)"
+      },
+      "cold_blood": {
+        "name": "Sangue Freddo",
+        "description": "Concentra il tuo intento omicida, così il tuo prossimo attacco è un colpo critico. (firma Assassinio)"
+      },
+      "blade_flurry": {
+        "name": "Vortice di Lame",
+        "description": "Scatena un turbine di lame, aumentando la velocità d’attacco del 20% per 12 s. (firma Combattimento)"
+      },
+      "hemorrhage": {
+        "name": "Emorragia",
+        "description": "Colpisce il nemico per danni dell’arma più {damage} e causa danni da sanguinamento per 12 s. Conferisce 1 punto combo. (firma Scaltrezza)"
+      },
+      "power_infusion": {
+        "name": "Infusione di Potere",
+        "description": "Infone potere in un bersaglio alleato, aumentando la potenza magica di 28 per 15 s. (firma Disciplina)"
+      },
+      "holy_nova": {
+        "name": "Nova Sacra",
+        "description": "Provoca un’esplosione di luce Sacra, curando gli alleati vicini di {damage} e danneggiando i nemici vicini. (firma Sacro)"
+      },
+      "shadowform": {
+        "name": "Forma d'Ombra",
+        "description": "Assume Forma d’Ombra, potenziando la magia d’ombra finché non cambi di nuovo. Lancia ancora per tornare alla forma normale. (firma Ombra)"
+      },
+      "elemental_mastery": {
+        "name": "Maestria Elementale",
+        "description": "Invoca la maestria elementale, rendendo istantaneo il tuo prossimo incantesimo. (firma Elementale)"
+      },
+      "siphon_life": {
+        "name": "Risucchio Vitale",
+        "description": "Risucchia vita dal nemico, infliggendo {damage} danni da Ombra in 30 s e curandoti per i danni inflitti. (firma Afflizione)"
+      },
+      "conflagrate": {
+        "name": "Conflagrazione",
+        "description": "Consuma il tuo Immolazione sul nemico per incendiarlo, infliggendo {damage} danni da Fuoco. (firma Distruzione)"
+      },
+      "moonkin_form": {
+        "name": "Forma di Lunagufo",
+        "description": "Assume Forma di Lunagufo, potenziando il lancio di incantesimi finché non cambi di nuovo. Lancia ancora per tornare alla forma normale. (firma Equilibrio)"
+      },
+      "feral_charge": {
+        "name": "Carica Ferina",
+        "description": "Carica un nemico e lo immobilizza per 1 s. Portata 8-25 m. (firma Aggressore Ferino)"
+      },
+      "swiftmend": {
+        "name": "Rapidità di Guarigione",
+        "description": "Consuma un effetto di cura periodica su un bersaglio alleato per curarlo di {damage}. (firma Guarigione)"
+      },
       "summon_imp": {
         "name": "Evoca Emberkin",
         "description": "Evoca un Emberkin al comando dello stregone. L'Emberkin scaglia Dardi di cenere contro i tuoi nemici a distanza. Evocare un nuovo demone congeda quello attuale. Puoi avere un solo demone alla volta."
@@ -5934,6 +6325,34 @@ export const it_IT: EnTranslations = {
       "summon_doomguard": {
         "name": "Evoca Wraithborn",
         "description": "Vincola un Wraithborn al tuo volere: un demone d'élite che scaglia da lontano ingenti danni d'Ombra. Un lungo tempo di recupero ne limita la potenza devastante. Evocare un nuovo demone congeda quello attuale. Puoi avere un solo demone alla volta."
+      },
+      "pummel": {
+        "name": "Jawcrack",
+        "description": "Interrupts the target's spellcast and prevents casting from that school for 4 sec."
+      },
+      "kick": {
+        "name": "Boot",
+        "description": "Interrupts the target's spellcast and prevents casting from that school for 4 sec."
+      },
+      "counterspell": {
+        "name": "Spellbreak",
+        "description": "Counters the target's spellcast and prevents casting from that school for 6 sec."
+      },
+      "counter_shot": {
+        "name": "Hushing Shot",
+        "description": "A snap shot that interrupts the target's spellcast and locks that school for 4 sec."
+      },
+      "rebuke": {
+        "name": "Reproach",
+        "description": "Interrupts the target's spellcast and prevents casting from that school for 4 sec."
+      },
+      "skull_bash": {
+        "name": "Headbutt",
+        "description": "A lunging headbutt that interrupts the target's spellcast and locks that school for 4 sec."
+      },
+      "spell_lock": {
+        "name": "Gag Order",
+        "description": "Silences the target mid-cast and prevents casting from that school for 5 sec."
       },
       "bear_charge": {
         "name": "Carica di Bruin",
@@ -6578,6 +6997,126 @@ export const it_IT: EnTranslations = {
       "sunpetal_herb": {
         "name": "Erba Petalosole"
       },
+      "furyforged_warhelm": {
+        "name": "Furyforged Warhelm"
+      },
+      "furyforged_warspaulders": {
+        "name": "Furyforged Warspaulders"
+      },
+      "furyforged_warplate": {
+        "name": "Furyforged Warplate"
+      },
+      "furyforged_girdle": {
+        "name": "Furyforged Girdle"
+      },
+      "furyforged_legguards": {
+        "name": "Furyforged Legguards"
+      },
+      "furyforged_gauntlets": {
+        "name": "Furyforged Gauntlets"
+      },
+      "furyforged_sabatons": {
+        "name": "Furyforged Sabatons"
+      },
+      "stormbound_crown": {
+        "name": "Stormbound Crown"
+      },
+      "stormbound_spaulders": {
+        "name": "Stormbound Spaulders"
+      },
+      "stormbound_hauberk": {
+        "name": "Stormbound Hauberk"
+      },
+      "stormbound_waistguard": {
+        "name": "Stormbound Waistguard"
+      },
+      "stormbound_legmail": {
+        "name": "Stormbound Legmail"
+      },
+      "stormbound_handguards": {
+        "name": "Stormbound Handguards"
+      },
+      "stormbound_greaves": {
+        "name": "Stormbound Greaves"
+      },
+      "ashstalker_cowl": {
+        "name": "Ashstalker Cowl"
+      },
+      "ashstalker_shoulderguards": {
+        "name": "Ashstalker Shoulderguards"
+      },
+      "ashstalker_harness": {
+        "name": "Ashstalker Harness"
+      },
+      "ashstalker_waistband": {
+        "name": "Ashstalker Waistband"
+      },
+      "ashstalker_legguards": {
+        "name": "Ashstalker Legguards"
+      },
+      "ashstalker_grips": {
+        "name": "Ashstalker Grips"
+      },
+      "ashstalker_treads": {
+        "name": "Ashstalker Treads"
+      },
+      "cinderweave_cowl": {
+        "name": "Cinderweave Cowl"
+      },
+      "cinderweave_mantle": {
+        "name": "Cinderweave Mantle"
+      },
+      "cinderweave_raiment": {
+        "name": "Cinderweave Raiment"
+      },
+      "cinderweave_cord": {
+        "name": "Cinderweave Cord"
+      },
+      "cinderweave_legwraps": {
+        "name": "Cinderweave Legwraps"
+      },
+      "cinderweave_handwraps": {
+        "name": "Cinderweave Handwraps"
+      },
+      "cinderweave_slippers": {
+        "name": "Cinderweave Slippers"
+      },
+      "final_oath_medallion": {
+        "name": "Medallion of the Final Oath"
+      },
+      "razorwind_torque": {
+        "name": "Razorwind Torque"
+      },
+      "cinder_sigil_pendant": {
+        "name": "Cinder-Sigil Pendant"
+      },
+      "iron_vow_band": {
+        "name": "Iron Vow Band"
+      },
+      "unbroken_circle": {
+        "name": "The Unbroken Circle"
+      },
+      "fleetblood_band": {
+        "name": "Fleetblood Band"
+      },
+      "last_step_signet": {
+        "name": "Last-Step Signet"
+      },
+      "ashen_focus_ring": {
+        "name": "Ashen Focus Ring"
+      },
+      "spellbreakers_seal": {
+        "name": "Spellbreaker's Seal"
+      },
+      "final_argument_greatblade": {
+        "name": "Final Argument Greatblade"
+      },
+      "first_blood_razor": {
+        "name": "First-Blood Razor"
+      },
+      "emberglass_warstaff": {
+        "name": "Emberglass Warstaff"
+      },
       "bristleback_maul": {
         "name": "Martello Gallowglass"
       },
@@ -7085,15 +7624,6 @@ export const it_IT: EnTranslations = {
       "scepter_of_the_deathless_court": {
         "name": "Scettro della corte senza morte"
       },
-      "deathless_warguard_legmail": {
-        "name": "Cosciali di maglia del guardiaguerra senza morte"
-      },
-      "soulrend_diadem": {
-        "name": "Diadema straccianima"
-      },
-      "scourgehide_carapace": {
-        "name": "Carapace di pelle del flagello"
-      },
       "cryptplate_helm": {
         "name": "Elmo della corazza della cripta"
       },
@@ -7132,9 +7662,6 @@ export const it_IT: EnTranslations = {
       },
       "deathless_greatblade": {
         "name": "Spadone senza morte"
-      },
-      "soulforged_warplate": {
-        "name": "Corazza da guerra forgianima"
       },
       "stormcallers_focus": {
         "name": "Focus dell'evocatempesta"
@@ -7450,6 +7977,15 @@ export const it_IT: EnTranslations = {
       "nythraxis_scourge_of_thornpeak": {
         "name": "Nythraxis, Flagello di Thornpeak"
       },
+      "nythraxis_heroic_warrior_add": {
+        "name": "Aldren, Guardiaguerra senza morte"
+      },
+      "nythraxis_heroic_priest_add": {
+        "name": "Malric, Ierofante senza morte"
+      },
+      "nythraxis_heroic_rogue_add": {
+        "name": "Voss, Lama senza morte"
+      },
       "reliquary_ledger_wraith": {
         "name": "Spettro del Registro"
       },
@@ -7717,6 +8253,11 @@ export const it_IT: EnTranslations = {
         "name": "Quartiermastro Vex",
         "title": "Quartiermastro Eroico",
         "greeting": "La prova degli abissi eroici compra gli anelli e i pendenti più pregiati di Highwatch. Mostrami i tuoi marchi."
+      },
+      "fury": {
+        "name": "FURY",
+        "title": "Honor Quartermaster",
+        "greeting": "The sands remember every victory. Spend your honor well."
       },
       "loremaster_caddis": {
         "name": "Maestro del sapere Caddis",
