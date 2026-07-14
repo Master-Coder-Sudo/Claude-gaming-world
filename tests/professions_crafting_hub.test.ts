@@ -218,11 +218,13 @@ describe('hub reagent sourcing (prog_tools_of_the_trade completability)', () => 
     // and buy stays above sell so there is no vendor arbitrage loop.
     for (const id of HUB_REAGENTS) {
       const def = ITEMS[id];
-      // The ternary treats "not epic" as rare, so pin the quality itself too:
-      // a retag to any other quality must fail here, not slip past the prices.
-      expect(['rare', 'epic'], `${id} quality`).toContain(def.quality);
-      expect(def.buyValue, `${id} buyValue`).toBe(def.quality === 'epic' ? 160 : 60);
-      expect(def.sellValue, `${id} sellValue`).toBe(def.quality === 'epic' ? 40 : 15);
+      // Reagents are common (white), NOT a rarity colour: a material must never fall
+      // into the "sell junk" (quality 'poor') sweep. Its tier lives in the price, not
+      // the colour, so pin the two price tiers (60/15 and 160/40) off the buyValue.
+      expect(def.quality, `${id} quality`).toBe('common');
+      expect([60, 160], `${id} buyValue`).toContain(def.buyValue);
+      // The trade-goods 4x staple markup, and buy stays above sell (no arbitrage).
+      expect(def.sellValue, `${id} sellValue`).toBe(def.buyValue / 4);
     }
   });
 
