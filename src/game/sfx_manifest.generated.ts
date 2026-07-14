@@ -3128,6 +3128,11 @@ export const SFX_CLIPS =
         "sha256": "72fb61abd53b4ab93640e15ceda8f28fcf4b4760e02d434e2ff5d29d0ab93310"
       }
     ]
+    "url": "/audio/sfx/spell_nova.mp3",
+    "loop": false
+  "temporal_clock": {
+    "url": "/audio/sfx/temporal_clock.mp3",
+    "loop": false
   }
 } satisfies Record<string, SfxEntry>;
 export type SfxId = keyof typeof SFX_CLIPS;
