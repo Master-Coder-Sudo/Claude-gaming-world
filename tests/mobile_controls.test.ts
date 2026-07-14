@@ -1243,6 +1243,81 @@ describe('MobileControls pointer lifecycle', () => {
     ]);
   });
 
+  it('resets swipe-look rotation when the browser silently drops pointer capture (iOS gesture interruption)', () => {
+    // Regression test for issue #1892: iOS Safari can invalidate an active
+    // touch's pointer capture (a system gesture, Control Center swipe, or an
+    // alert) WITHOUT firing pointerup or pointercancel. If only those two
+    // events reset swipe-look state, the camera is left permanently latched
+    // into "rotate" mode (setTouchLook(true) never flips back), which reads
+    // to the player as the camera getting stuck spinning or losing normal
+    // rotate/zoom control. `lostpointercapture` is the one event guaranteed
+    // to fire when capture is lost, so the canvas must reset on it exactly
+    // like `moveSurface`/`cameraJoystick` already do (mobile_controls.ts).
+    const { canvas } = installMobileControlDom();
+    const lookActive: boolean[] = [];
+    const lookVectors: Array<{ x: number; y: number }> = [];
+    const input = {
+      setTouchMove: () => {},
+      clearTouchMove: () => {},
+      setTouchLook: (active: boolean) => {
+        lookActive.push(active);
+      },
+      setTouchLookVector: (look: { x: number; y: number }) => {
+        lookVectors.push(look);
+      },
+      applyTouchLookDelta: () => {},
+      zoomBy: () => {},
+    } as unknown as Input;
+
+    new MobileControls(input, mobileCallbacks()).start();
+
+    canvas.dispatchEvent(
+      pointerEvent('pointerdown', {
+        pointerId: 33,
+        pointerType: 'touch',
+        clientX: 100,
+        clientY: 100,
+      }),
+    );
+    canvas.dispatchEvent(
+      pointerEvent('pointermove', {
+        pointerId: 33,
+        pointerType: 'touch',
+        clientX: 140,
+        clientY: 120,
+      }),
+    );
+    expect(lookActive).toEqual([true]);
+
+    // No pointerup/pointercancel: the browser just drops capture.
+    canvas.dispatchEvent(
+      pointerEvent('lostpointercapture', { pointerId: 33, pointerType: 'touch' }),
+    );
+
+    expect(lookActive).toEqual([true, false]);
+    expect(lookVectors.at(-1)).toEqual({ x: 0, y: 0 });
+
+    // A fresh single-finger swipe afterward must rotate normally again, not
+    // stay locked out.
+    canvas.dispatchEvent(
+      pointerEvent('pointerdown', {
+        pointerId: 34,
+        pointerType: 'touch',
+        clientX: 100,
+        clientY: 100,
+      }),
+    );
+    canvas.dispatchEvent(
+      pointerEvent('pointermove', {
+        pointerId: 34,
+        pointerType: 'touch',
+        clientX: 140,
+        clientY: 120,
+      }),
+    );
+    expect(lookActive).toEqual([true, false, true]);
+  });
+
   it('cancels canvas swipe rotation when a second finger starts guarded pinch zoom', () => {
     const { canvas } = installMobileControlDom();
     const deltas: Array<{ dx: number; dy: number }> = [];

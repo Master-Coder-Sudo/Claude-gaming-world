@@ -418,6 +418,18 @@ export class MobileControls {
       this.onPinchEnd(e);
       this.onSwipeLookEnd(e);
     });
+    // iOS Safari can silently invalidate an active touch's pointer capture (a
+    // system gesture, Control Center swipe, an alert) WITHOUT ever firing
+    // pointerup or pointercancel. Without this, swipe-look/pinch state stays
+    // latched (setTouchLook never flips back), which reads to the player as
+    // the camera getting stuck spinning or losing rotate/zoom control
+    // (issue #1892). `lostpointercapture` is the one event guaranteed to
+    // fire when capture is lost, so treat it exactly like pointercancel here,
+    // mirroring the moveSurface/cameraJoystick handlers above.
+    this.canvas?.addEventListener('lostpointercapture', (e) => {
+      this.onPinchEnd(e);
+      this.onSwipeLookEnd(e);
+    });
 
     // Tap-outside-to-dismiss: while the More modal is open, a press anywhere
     // outside the modal closes it. The toggle button manages its own state, so
