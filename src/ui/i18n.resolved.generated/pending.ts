@@ -34,15 +34,30 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
-  "zh_CN": [],
-  "zh_TW": [],
-  "ko_KR": [],
-  "ja_JP": [],
+  "zh_CN": [
+    "hudChrome.options.lockActionBar",
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "zh_TW": [
+    "hudChrome.options.lockActionBar",
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "ko_KR": [
+    "hudChrome.options.lockActionBar",
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
+  "ja_JP": [
+    "hudChrome.options.lockActionBar",
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
   "pt_BR": [
     "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
   ],
-  "ru_RU": [],
+  "ru_RU": [
+    "hudChrome.options.lockActionBar",
+    "hudChrome.options.stopAutoAttackOnSwitch"
+  ],
   "cs_CZ": [
     "hudChrome.options.lockActionBar",
     "hudChrome.options.stopAutoAttackOnSwitch"
