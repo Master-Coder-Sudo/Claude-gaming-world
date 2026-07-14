@@ -20,7 +20,10 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.cameraPrompt.intro",
     "hudChrome.cameraPrompt.mouseDesc",
     "hudChrome.cameraPrompt.title",
-    "hudChrome.discord.link.joinServer"
+    "hudChrome.discord.link.joinServer",
+    "hudChrome.meters.autoShowHint",
+    "hudChrome.petFeed.disabledFullHp",
+    "hudChrome.petFeed.disabledNoFood"
   ],
   "es_ES": [
     "guide.family.reptile.desc",
@@ -33,7 +36,10 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.cameraPrompt.intro",
     "hudChrome.cameraPrompt.mouseDesc",
     "hudChrome.cameraPrompt.title",
-    "hudChrome.discord.link.joinServer"
+    "hudChrome.discord.link.joinServer",
+    "hudChrome.meters.autoShowHint",
+    "hudChrome.petFeed.disabledFullHp",
+    "hudChrome.petFeed.disabledNoFood"
   ],
   "fr_FR": [
     "guide.family.reptile.desc",
@@ -46,7 +52,10 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.cameraPrompt.intro",
     "hudChrome.cameraPrompt.mouseDesc",
     "hudChrome.cameraPrompt.title",
-    "hudChrome.discord.link.joinServer"
+    "hudChrome.discord.link.joinServer",
+    "hudChrome.meters.autoShowHint",
+    "hudChrome.petFeed.disabledFullHp",
+    "hudChrome.petFeed.disabledNoFood"
   ],
   "fr_CA": [
     "guide.family.reptile.desc",
@@ -59,7 +68,10 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.cameraPrompt.intro",
     "hudChrome.cameraPrompt.mouseDesc",
     "hudChrome.cameraPrompt.title",
-    "hudChrome.discord.link.joinServer"
+    "hudChrome.discord.link.joinServer",
+    "hudChrome.meters.autoShowHint",
+    "hudChrome.petFeed.disabledFullHp",
+    "hudChrome.petFeed.disabledNoFood"
   ],
   "en_CA": [],
   "it_IT": [
@@ -73,7 +85,10 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.cameraPrompt.intro",
     "hudChrome.cameraPrompt.mouseDesc",
     "hudChrome.cameraPrompt.title",
-    "hudChrome.discord.link.joinServer"
+    "hudChrome.discord.link.joinServer",
+    "hudChrome.meters.autoShowHint",
+    "hudChrome.petFeed.disabledFullHp",
+    "hudChrome.petFeed.disabledNoFood"
   ],
   "de_DE": [
     "guide.family.reptile.desc",
@@ -86,7 +101,10 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.cameraPrompt.intro",
     "hudChrome.cameraPrompt.mouseDesc",
     "hudChrome.cameraPrompt.title",
-    "hudChrome.discord.link.joinServer"
+    "hudChrome.discord.link.joinServer",
+    "hudChrome.meters.autoShowHint",
+    "hudChrome.petFeed.disabledFullHp",
+    "hudChrome.petFeed.disabledNoFood"
   ],
   "zh_CN": [],
   "zh_TW": [],
@@ -103,7 +121,10 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.cameraPrompt.intro",
     "hudChrome.cameraPrompt.mouseDesc",
     "hudChrome.cameraPrompt.title",
-    "hudChrome.discord.link.joinServer"
+    "hudChrome.discord.link.joinServer",
+    "hudChrome.meters.autoShowHint",
+    "hudChrome.petFeed.disabledFullHp",
+    "hudChrome.petFeed.disabledNoFood"
   ],
   "ru_RU": [],
   "cs_CZ": [
@@ -117,7 +138,10 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.cameraPrompt.intro",
     "hudChrome.cameraPrompt.mouseDesc",
     "hudChrome.cameraPrompt.title",
-    "hudChrome.discord.link.joinServer"
+    "hudChrome.discord.link.joinServer",
+    "hudChrome.meters.autoShowHint",
+    "hudChrome.petFeed.disabledFullHp",
+    "hudChrome.petFeed.disabledNoFood"
   ],
   "nl_NL": [
     "guide.family.reptile.desc",
@@ -130,7 +154,10 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.cameraPrompt.intro",
     "hudChrome.cameraPrompt.mouseDesc",
     "hudChrome.cameraPrompt.title",
-    "hudChrome.discord.link.joinServer"
+    "hudChrome.discord.link.joinServer",
+    "hudChrome.meters.autoShowHint",
+    "hudChrome.petFeed.disabledFullHp",
+    "hudChrome.petFeed.disabledNoFood"
   ],
   "pl_PL": [
     "guide.family.reptile.desc",
@@ -143,7 +170,10 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.cameraPrompt.intro",
     "hudChrome.cameraPrompt.mouseDesc",
     "hudChrome.cameraPrompt.title",
-    "hudChrome.discord.link.joinServer"
+    "hudChrome.discord.link.joinServer",
+    "hudChrome.meters.autoShowHint",
+    "hudChrome.petFeed.disabledFullHp",
+    "hudChrome.petFeed.disabledNoFood"
   ],
   "id_ID": [
     "guide.family.reptile.desc",
@@ -156,7 +186,10 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.cameraPrompt.intro",
     "hudChrome.cameraPrompt.mouseDesc",
     "hudChrome.cameraPrompt.title",
-    "hudChrome.discord.link.joinServer"
+    "hudChrome.discord.link.joinServer",
+    "hudChrome.meters.autoShowHint",
+    "hudChrome.petFeed.disabledFullHp",
+    "hudChrome.petFeed.disabledNoFood"
   ],
   "tr_TR": [
     "guide.family.reptile.desc",
@@ -169,7 +202,10 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.cameraPrompt.intro",
     "hudChrome.cameraPrompt.mouseDesc",
     "hudChrome.cameraPrompt.title",
-    "hudChrome.discord.link.joinServer"
+    "hudChrome.discord.link.joinServer",
+    "hudChrome.meters.autoShowHint",
+    "hudChrome.petFeed.disabledFullHp",
+    "hudChrome.petFeed.disabledNoFood"
   ],
   "sv_SE": [
     "guide.family.reptile.desc",
@@ -182,7 +218,10 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.cameraPrompt.intro",
     "hudChrome.cameraPrompt.mouseDesc",
     "hudChrome.cameraPrompt.title",
-    "hudChrome.discord.link.joinServer"
+    "hudChrome.discord.link.joinServer",
+    "hudChrome.meters.autoShowHint",
+    "hudChrome.petFeed.disabledFullHp",
+    "hudChrome.petFeed.disabledNoFood"
   ],
   "vi_VN": [
     "guide.family.reptile.desc",
@@ -195,7 +234,10 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.cameraPrompt.intro",
     "hudChrome.cameraPrompt.mouseDesc",
     "hudChrome.cameraPrompt.title",
-    "hudChrome.discord.link.joinServer"
+    "hudChrome.discord.link.joinServer",
+    "hudChrome.meters.autoShowHint",
+    "hudChrome.petFeed.disabledFullHp",
+    "hudChrome.petFeed.disabledNoFood"
   ],
   "da_DK": [
     "guide.family.reptile.desc",
@@ -208,6 +250,9 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.cameraPrompt.intro",
     "hudChrome.cameraPrompt.mouseDesc",
     "hudChrome.cameraPrompt.title",
-    "hudChrome.discord.link.joinServer"
+    "hudChrome.discord.link.joinServer",
+    "hudChrome.meters.autoShowHint",
+    "hudChrome.petFeed.disabledFullHp",
+    "hudChrome.petFeed.disabledNoFood"
   ]
 };
