@@ -6,18 +6,13 @@ import type {
   ResourceType,
 } from '../sim/types';
 
-/** A compact aura summary for a party row's mini icon strip: the ability/aura id
- *  (drives the icon and the tooltip name), its kind (the fallback icon and the
- *  debuff classification), and neg=1 when the aura's value saps (a negative
- *  stat buff reads as a debuff). Capped at PARTY_MEMBER_AURA_CAP entries per
- *  member (sim/types.ts); deliberately NO remaining time, so the party payload
- *  only changes when the aura SET changes, never every tick of a countdown. */
+/** A compact aura summary for a party row's mini icon strip. Relevant effects are
+ *  selected before the PARTY_MEMBER_AURA_CAP limit is applied. */
 export interface PartyMemberAura {
   id: string;
   kind: AuraKind;
   neg?: 1;
-  /** Whole seconds remaining, when a source populates it (else the strip shows no
-   *  countdown, as before). Optional so no server/sim wire change is required. */
+  /** Whole seconds remaining. Optional for compatibility with older snapshots. */
   remaining?: number;
 }
 
@@ -36,8 +31,7 @@ export interface PartyMemberInfo {
   dead: number;
   inCombat: number;
   group: 1 | 2;
-  /** Remaining absorb-shield total on this member. Optional so no server/sim wire
-   *  change is required; the compact frame treats an absent value as no shield. */
+  /** Remaining absorb-shield total. Optional for compatibility with older snapshots. */
   absorb?: number;
   /** Active specialization role, when known. Older snapshots omit it. */
   role?: 'tank' | 'healer' | 'dps';

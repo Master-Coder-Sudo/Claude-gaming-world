@@ -50,9 +50,9 @@ const PARTY_FRAME_HELPFUL_KINDS: ReadonlySet<AuraKind> = new Set<AuraKind>([
   'cast_shield',
 ]);
 
-// Evasion and Deterrence share buff_dodge with long-lived maintenance buffs, so
-// their stable ability ids distinguish the major defensives from passive upkeep.
-const PARTY_FRAME_HELPFUL_IDS: ReadonlySet<string> = new Set(['evasion', 'deterrence']);
+// Evasion shares buff_dodge with long-lived maintenance buffs, so its stable
+// ability id distinguishes the major defensive from passive upkeep.
+const PARTY_FRAME_HELPFUL_IDS: ReadonlySet<string> = new Set(['evasion']);
 
 /** Effects worth surfacing on a compact party/raid frame: any debuff, a short list
  *  of helpful kinds (HoTs, absorbs), or a named major defensive. Generic maintenance

@@ -1680,6 +1680,11 @@
     grid-template-rows: repeat(2, auto);
     column-gap: 4px;
     row-gap: 0;
+    max-width: calc(100dvw - max(20px, calc(env(safe-area-inset-left) + 10px)) - 10px);
+    max-height: calc(100dvh - max(8px, env(safe-area-inset-top)) - 129px);
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
   }
   /* A real raid must not inherit the party-only two-row column flow: with nine
      visible allies that would create five columns and run off a portrait phone.
@@ -1693,6 +1698,9 @@
     /* +135px (was 130px): the collapse chip is the container's first child now, so keep
        it clear of the target frame's bottom edge (the same +5px nudge as landscape). */
     top: calc(max(8px, env(safe-area-inset-top)) + 135px);
+  }
+  body.mobile-touch #party-frames.below-target .party-rows {
+    max-height: calc(100dvh - max(8px, env(safe-area-inset-top)) - 190px);
   }
   /* party rows are role="button" tap targets (tap to target a member), so they
      must clear the 40x40 mobile touch floor, not the compact desktop
@@ -4109,11 +4117,18 @@
       left: max(6px, env(safe-area-inset-left));
       top: calc(max(6px, env(safe-area-inset-top)) + 58px);
     }
+    body.mobile-touch #party-frames .party-rows {
+      max-width: calc(100dvw - max(6px, env(safe-area-inset-left)) - 10px);
+      max-height: calc(100dvh - max(6px, env(safe-area-inset-top)) - 113px);
+    }
     body.mobile-touch #party-frames.below-target {
       /* +105px (was 100px): the collapse chip is now the container's first child, and
          a chip crowding the scaled target frame reads as a mis-tap pair; the extra 5px
          keeps the chip clear of the target frame's bottom edge (>= 4px). */
       top: calc(max(6px, env(safe-area-inset-top)) + 105px);
+    }
+    body.mobile-touch #party-frames.below-target .party-rows {
+      max-height: calc(100dvh - max(6px, env(safe-area-inset-top)) - 160px);
     }
     /* keep the 40x40 touch floor in landscape too (was 25px); width matches the
        base double-stack tier (issue 1577 (2), a further trim from the old

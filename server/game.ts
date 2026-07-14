@@ -40,6 +40,13 @@ import {
 import type { PickAction } from '../src/sim/lockpick';
 import { sanitizeMarketQuery } from '../src/sim/market_query';
 import { parseMoveInputFrame } from '../src/sim/move_input';
+import {
+  partyFrameAbsorb,
+  partyFrameAggroTargets,
+  partyFrameAuras,
+  partyFrameIncomingHeals,
+  partyFrameRole,
+} from '../src/sim/party_frame_info';
 import type { PetState, PlayerMeta } from '../src/sim/sim';
 import { MAX_CHAT_MESSAGE_LEN, Sim } from '../src/sim/sim';
 import type { VcMatch } from '../src/sim/social/vale_cup';
@@ -54,7 +61,6 @@ import {
   emptyMoveInput,
   isDungeonDifficulty,
   MAX_LEVEL,
-  PARTY_MEMBER_AURA_CAP,
   RUN_SPEED,
   type SimEvent,
   type SportRole,
@@ -5009,6 +5015,11 @@ export class GameServer {
   private partyWire(pid: number): unknown {
     const party = this.sim.partyOf(pid);
     if (!party) return null;
+    const aggroTargets = partyFrameAggroTargets(this.sim.entities.values());
+    const incomingHeals = partyFrameIncomingHeals(
+      this.sim.entities.values(),
+      (abilityId, casterId) => this.sim.resolvedAbility(abilityId, casterId),
+    );
     return {
       leader: party.leader,
       raid: party.raid,
@@ -5034,15 +5045,12 @@ export class GameServer {
                 dead: e.dead ? 1 : 0,
                 inCombat: e.inCombat ? 1 : 0,
                 group: party.raidGroups.get(mPid) ?? 1,
-                // The mini aura strip under the member's party row (mirrors
-                // Sim.partyInfo): first N in aura order, id + kind + sap flag
-                // only, no countdown, so this payload changes only when the
-                // aura SET changes and the party delta elision keeps working.
-                auras: e.auras.slice(0, PARTY_MEMBER_AURA_CAP).map((a) => ({
-                  id: a.id,
-                  kind: a.kind,
-                  ...(a.value < 0 ? { neg: 1 } : {}),
-                })),
+                absorb: partyFrameAbsorb(e.auras),
+                role: partyFrameRole(meta.talentMods.role),
+                connected: this.clients.get(mPid)?.linkdead ? 0 : 1,
+                hasAggro: aggroTargets.has(mPid) ? 1 : 0,
+                incomingHeal: incomingHeals.get(mPid) ?? 0,
+                auras: partyFrameAuras(e.auras),
               }
             : null;
         })

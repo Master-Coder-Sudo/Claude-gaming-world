@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  DEFAULT_PARTY_FRAME_DISPLAY,
   partyFrameAuraIsRelevant,
   partyFrameHealthText,
   partyFrameSignature,
@@ -43,7 +44,6 @@ describe('party frame aura relevance', () => {
     expect(partyFrameAuraIsRelevant({ id: 'renew', kind: 'hot' })).toBe(true);
     expect(partyFrameAuraIsRelevant({ id: 'power_word_shield', kind: 'absorb' })).toBe(true);
     expect(partyFrameAuraIsRelevant({ id: 'blessing_of_might', kind: 'buff_ap' })).toBe(false);
-    expect(partyFrameAuraIsRelevant({ id: 'deterrence', kind: 'buff_dodge' })).toBe(true);
     expect(partyFrameAuraIsRelevant({ id: 'evasion', kind: 'buff_dodge' })).toBe(true);
     expect(partyFrameAuraIsRelevant({ id: 'aspect_of_the_monkey', kind: 'buff_dodge' })).toBe(
       false,
@@ -284,6 +284,29 @@ describe('party frame signature (the per-frame short-circuit)', () => {
         pos,
       ),
     ).toBe(base);
+  });
+
+  it('changes for every live display setting so the painter cannot stay stale', () => {
+    const party = info();
+    const pos = { x: 0, z: 0 };
+    const base = partyFrameSignature(party, 1, pos);
+    const variants = [
+      { showSelf: true },
+      { showResource: false },
+      { showAbsorbs: false },
+      { showAuras: false },
+      { healthText: 2 as const },
+      { sort: 1 as const },
+      { presentation: 2 as const },
+    ];
+    for (const variant of variants) {
+      expect(
+        partyFrameSignature(party, 1, pos, undefined, {
+          ...DEFAULT_PARTY_FRAME_DISPLAY,
+          ...variant,
+        }),
+      ).not.toBe(base);
+    }
   });
 });
 

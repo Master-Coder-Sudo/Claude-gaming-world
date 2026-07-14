@@ -464,6 +464,43 @@ describe('PartyFramesPainter: keyed pool over the elided writers', () => {
     ).toBe(true);
   });
 
+  it('honors the resource, absorb, and aura visibility toggles', () => {
+    painter.sync(
+      [
+        member({
+          pid: 2,
+          hp: 50,
+          mhp: 100,
+          absorb: 25,
+          auras: [{ id: 'power_word_shield', kind: 'absorb' }],
+        }),
+      ],
+      1,
+      false,
+      {
+        ...DEFAULT_PARTY_FRAME_DISPLAY,
+        showResource: false,
+        showAbsorbs: false,
+        showAuras: false,
+      },
+    );
+    expect(
+      calls.some(
+        (call) =>
+          call.m === 'toggleClass' && call.args[0] === 'pf-hide-resource' && call.args[1] === true,
+      ),
+    ).toBe(true);
+    expect(
+      calls.some(
+        (call) =>
+          call.m === 'toggleClass' && call.args[0] === 'pf-hide-auras' && call.args[1] === true,
+      ),
+    ).toBe(true);
+    expect(
+      calls.some((call) => call.m === 'setTransform' && call.args[0] === 'scaleX(0.000)'),
+    ).toBe(true);
+  });
+
   it('reconciles DOM order on reorder + partial-membership churn, reusing the SAME nodes', () => {
     painter.sync([member({ pid: 2 }), member({ pid: 3 }), member({ pid: 4 })], 1, false);
     const [r2, r3, r4] = rows();
