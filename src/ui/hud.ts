@@ -917,6 +917,7 @@ const MAP_BG_RES = 480;
 // Combat/spell/creature SFX are trimmed this much under movement/ambience so the
 // soundscape doesn't get fatiguing in a long fight. One knob for the whole layer.
 const COMBAT_GAIN = 0.7;
+const TEMPORAL_CLOCK_GAIN = 0.72;
 
 /** Append an inline span child (className '' for a plain text slot) and return
  *  it; used to split a pre-existing single-text element into separately
@@ -9396,9 +9397,16 @@ export class Hud {
         if (ev.fx === 'temporalClock') {
           const source = sim.entities.get(ev.sourceId) ?? sim.entities.get(ev.targetId);
           if (source)
-            this.combat('temporal_clock', source.pos.x, source.pos.y, source.pos.z, 0.65, {
-              jitter: false,
-            });
+            this.combat(
+              'temporal_clock',
+              source.pos.x,
+              source.pos.y,
+              source.pos.z,
+              TEMPORAL_CLOCK_GAIN,
+              {
+                jitter: false,
+              },
+            );
           return;
         }
         const cue = spellFxCue(ev);
@@ -10709,7 +10717,9 @@ export class Hud {
           const auraName = auraDisplayNameFromSource(ev.name);
           if (ev.name === 'Polymorph' && ev.gained) audio.sheep();
           if (ev.name === ABILITIES.temporal_hourglass.name && ev.gained && tgt)
-            this.combat('temporal_clock', tgt.pos.x, tgt.pos.y, tgt.pos.z, 0.65, { jitter: false });
+            this.combat('temporal_clock', tgt.pos.x, tgt.pos.y, tgt.pos.z, TEMPORAL_CLOCK_GAIN, {
+              jitter: false,
+            });
           if (ev.targetId === sim.playerId) {
             if (ev.gained) this.noteProcAuraGain(ev.name);
             else this.noteProcAuraConsume(ev.auraKind);
