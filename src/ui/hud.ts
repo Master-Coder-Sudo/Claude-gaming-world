@@ -10399,7 +10399,7 @@ export class Hud {
       // a screen reader hears (the throttled self-note precedent above).
       this.combatAnnouncer.push(bannerText, performance.now());
     }
-    if (plan.playSound) audio.levelUp();
+    if (plan.playSound) audio.achievement();
     if (plan.retroCount > 0) {
       const retroText = t('hudChrome.deeds.retroSummary', {
         count: formatNumber(plan.retroCount, { maximumFractionDigits: 0 }),
