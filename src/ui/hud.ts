@@ -287,27 +287,8 @@ import {
 import { MobileActionRingPainter } from './hud/action_bar/mobile_action_ring_painter';
 import { playerStealthed } from './hud/action_bar/player_stealthed';
 import { ChatAnnouncer } from './hud/chat/chat_announcer';
-import {
-  CHANNEL_LABEL_KEYS,
-  CHAT_TAB_CHANNELS,
-  type ChatInputTintTarget,
-  type ChatOpenTab,
-  type ChatTabChannel,
-  type ChatTabId,
-  channelNeedsJoin,
-  chatChannelColor,
-  chatInputTint,
-  chatOpenTabLabelKey,
-  composeChatLine,
-  composeWhisperReply,
-  isChatOpenTab,
-  isChatTabChannel,
-  parseChatTabs,
-  sentLineChannel,
-  serializeChatTabs,
-  WHISPER_TAB,
-  WHISPER_TAB_LABEL_KEY,
-} from './hud/chat/chat_channels';
+import { chatChannelColor } from './hud/chat/chat_channels';
+import { ChatGeometryController } from './hud/chat/chat_geometry_controller';
 import {
   appendChatLineParts,
   CHAT_MESSAGE_TOKEN,
@@ -315,13 +296,7 @@ import {
   chatAiTagEl,
 } from './hud/chat/chat_line';
 import { type ChatClock, clampChatClock, formatChatTimestamp } from './hud/chat/chat_timestamp';
-import {
-  CHAT_BOX_LIMITS,
-  type ChatBoxGeometry,
-  parseChatBox,
-  placeChatBox,
-  serializeChatBox,
-} from './hud/chat/chat_window';
+import { ChatWindowController } from './hud/chat/chat_window_controller';
 import { DelveMapPainter } from './hud/delve/delve_map_painter';
 import { PICK_ACTION_HOTKEYS } from './hud/delve/lockpick_panel';
 import { LockpickWindow } from './hud/delve/lockpick_window';
@@ -353,7 +328,7 @@ import {
   publishCard,
 } from './hud/player_card/player_card_share';
 import { gossipMenuIsEmpty } from './hud/quest/gossip_menu';
-import { encodeItemLink, encodeQuestLink, parseChatSegments } from './hud/quest/quest_link';
+import { parseChatSegments } from './hud/quest/quest_link';
 import { QuestProgressBanner } from './hud/quest/quest_progress_banner';
 import {
   type QuestTrackerView,
@@ -451,11 +426,7 @@ import {
   statNameKey,
   statTooltipHtml,
 } from './stat_tooltip_view';
-import {
-  mountStorePromoCard,
-  type StorePromoCardController,
-  storePromoReservedHeight,
-} from './store_promo_card';
+import { mountStorePromoCard, type StorePromoCardController } from './store_promo_card';
 import { nearestSubzone } from './subzone';
 import { swingTimerState } from './swing_timer';
 import { SwingTimerPainter } from './swing_timer_painter';
@@ -842,18 +813,6 @@ const ZONE_BANNER_DEADBAND = 5;
 // chat event filter): keeping a second, name-keyed local list live online is
 // exactly how you get "I unignored them and still cannot see them".
 const LOCAL_IGNORES_KEY = 'woc_ignored_chat_names';
-// Classic-style chat tabs: the ordered channel tabs the player has opened, and the
-// tab that was active last session. The built-in `all`/`combat` views are
-// implicit and never stored.
-const CHAT_TABS_KEY = 'woc_chat_tabs';
-const CHAT_ACTIVE_TAB_KEY = 'woc_chat_active_tab';
-// Persisted chat-window geometry (drag position + resize size). Desktop only —
-// the mobile layout owns its own placement and ignores this.
-const CHAT_GEOMETRY_KEY = 'woc_chat_geometry';
-// Persisted MOBILE chat panel size: the panel's bottom inset in px, dragged via the
-// bottom resize handle. CSS clamps it to a valid range for the live viewport, so a value
-// saved in one orientation stays safe in another (never an off-screen / tiny panel).
-const MOBILE_CHAT_BOTTOM_KEY = 'woc_mobile_chat_bottom';
 // The persisted top-left keys for the movable unit frames live in
 // frame_pos_reset.ts (imported above) so the one-time reset clears the same
 // keys the MovableFrames read.
@@ -1072,20 +1031,6 @@ export class Hud {
   // ./focus_manager. Escape is NOT handled here: it stays with the existing unified
   // dispatcher (main.ts game input -> hud.closeAll()), so there is one Escape path.
   private readonly focusManager = new FocusManager();
-  // Classic-style chat tabs. `chatTabs` are the player-added tabs (send-capable
-  // channels plus the optional filter-only whisper collector; the built-in
-  // `all`/`combat` views are implicit); `activeChatTab` is the one currently
-  // shown, and drives both the log filter and the send channel.
-  private chatTabs: ChatOpenTab[] = [];
-  private activeChatTab: ChatTabId = 'all';
-  // The last standing channel the player actually sent to (classic sticky-channel
-  // behavior). On the All/combat views a plain typed line goes here and the input
-  // is tinted with its color; a channel-bound tab always overrides it. `say` is
-  // the neutral default (no tint, generic placeholder). Whisper never sets it.
-  private stickyChannel: ChatTabChannel = 'say';
-  // Bind the tab-strip wheel-to-horizontal-scroll listener exactly once (renderChatTabs
-  // rebuilds the strip's children but the bar element itself persists).
-  private chatTabsWheelBound = false;
   // The control that opened the shared #ctx-menu (the chat "+" button), so the
   // outside-click closer can defer to that opener's own toggle click. Cleared on
   // every close path (closeContextMenu + item activation).
@@ -1315,9 +1260,6 @@ export class Hud {
   });
   private openGossipNpcId: number | null = null;
   private openQuestDetailId: string | null = null;
-  // Ordered so two base/heroic items with the same display name retain their
-  // distinct tokens when the readable draft is converted for sending.
-  private pendingChatLinks: readonly { display: string; token: string }[] = [];
   private questDialogTrap: FocusTrapHandle | null = null;
   private questDialogOpenedAtMs = 0;
   // The NPC whose voice line is currently sounding, so update() can fade it by
@@ -1391,23 +1333,8 @@ export class Hud {
   // tooltip's hit-test (quest names + level requirements). Empty in delve mode.
   private mapNpcMarkers: MapNpcMarker[] = [];
   private windowDragController: WindowDragController | null = null;
-  // Movable/resizable chat box: current geometry (null = stock CSS default) plus
-  // the in-progress pointer gesture, if any. See chat_window.ts for the math.
-  private chatBox: ChatBoxGeometry | null = null;
-  private chatBoxGesture:
-    | { kind: 'move'; pointerId: number; grabX: number; grabY: number }
-    | {
-        kind: 'resize';
-        pointerId: number;
-        startX: number;
-        startY: number;
-        startW: number;
-        startH: number;
-      }
-    | null = null;
-  // Mobile chat resize gesture (drag the bottom handle to set the panel's bottom inset).
-  private mobileChatResize: { pointerId: number; startY: number; startBottom: number } | null =
-    null;
+  private readonly chatGeometry: ChatGeometryController;
+  private readonly chatWindow: ChatWindowController;
   // Movable unit frames (the shared MovableFrame controller, movable_frame.ts):
   // the target frame and the player frame each get a corner move/lock button, a
   // pointer drag, and a persisted top-left. Constructed once in initFrameMovers.
@@ -1491,8 +1418,43 @@ export class Hud {
   ) {
     this.localIgnoredNames = this.loadLocalIgnoredNames();
     this.meters = new Meters(sim);
-    this.initChatTabs();
-    this.initChatBoxGeometry();
+    this.chatGeometry = new ChatGeometryController({
+      document,
+      window,
+      storage: localStorage,
+      isMobileLayout: () => this.isMobileLayout(),
+      hasStorePromoCard: () => this.storePromoCard !== null,
+      uiScale: getUiScale,
+    });
+    this.chatWindow = new ChatWindowController({
+      document,
+      storage: localStorage,
+      chatLog: this.chatLogEl,
+      combatLog: this.combatLogEl,
+      contextMenu: {
+        element: $('#ctx-menu'),
+        opener: () => this.ctxMenuOpener,
+        setOpener: (opener) => {
+          this.ctxMenuOpener = opener;
+        },
+        close: () => this.closeContextMenu(),
+        place: (element, x, y, reserveRight, reserveBottom, minLeft, minTop) =>
+          this.placePopupAt(element, x, y, reserveRight, reserveBottom, minLeft, minTop),
+        bind: (onActivate) => this.bindContextMenuActions(onActivate),
+      },
+      sendChat: (line) => this.sim.chat(line),
+      isMobileLayout: () => this.isMobileLayout(),
+      itemDisplayName: (itemId) => {
+        const item = ITEMS[itemId];
+        return item ? itemDisplayName(item) : null;
+      },
+      questTitle,
+      selectedQuestId: () => this.questlogWindow.selectedQuestId,
+      hasQuest: (questId) => this.sim.questLog.has(questId),
+      showError: (text) => this.showError(text),
+    });
+    this.chatWindow.init();
+    this.chatGeometry.init();
     this.initFrameMovers();
     this.initWindowManagement();
     this.emoteWheelSlots = this.loadEmoteWheelSlots();
@@ -2460,329 +2422,12 @@ export class Hud {
     this.syncAnyWindowOpenState();
   }
 
-  // -------------------------------------------------------------------------
-  // Chat tabs (classic-style): the built-in "Chat" (all) and "Combat Log" views,
-  // plus player-added per-channel tabs. The active tab drives BOTH the log
-  // filter (which messages show) and the send channel (what plain text targets),
-  // so a player can chat in World/LFG/Party/etc. without retyping the command.
-  // -------------------------------------------------------------------------
-
-  private initChatTabs(): void {
-    let savedTabs: string | null = null;
-    let savedActive: string | null = null;
-    try {
-      savedTabs = localStorage.getItem(CHAT_TABS_KEY);
-      savedActive = localStorage.getItem(CHAT_ACTIVE_TAB_KEY);
-    } catch {
-      /* storage unavailable */
-    }
-    this.chatTabs = parseChatTabs(savedTabs);
-    this.activeChatTab =
-      savedActive === 'all' ||
-      savedActive === 'combat' ||
-      (isChatOpenTab(savedActive) && this.chatTabs.includes(savedActive))
-        ? (savedActive as ChatTabId)
-        : 'all';
-    // re-join any opt-in global channels whose tabs were restored, so messages
-    // typed there are delivered this session too (the whisper tab never joins)
-    for (const ch of this.chatTabs)
-      if (isChatTabChannel(ch) && channelNeedsJoin(ch)) this.sim.chat(`/join ${ch}`);
-    this.renderChatTabs();
-    this.selectChatTab(this.activeChatTab, false);
-  }
-
-  private persistChatTabs(): void {
-    try {
-      localStorage.setItem(CHAT_TABS_KEY, serializeChatTabs(this.chatTabs));
-      localStorage.setItem(CHAT_ACTIVE_TAB_KEY, this.activeChatTab);
-    } catch {
-      /* storage unavailable */
-    }
-  }
-
-  // -------------------------------------------------------------------------
-  // Movable / resizable chat window (desktop only). The pure geometry math
-  // (clamping, (de)serialization) lives in chat_window.ts; this section is just
-  // the DOM wiring: a drag handle on the tab strip, a corner resize grip, and
-  // localStorage persistence with a reset path back to the CSS default.
-  // -------------------------------------------------------------------------
-
   private isMobileLayout(): boolean {
     return document.body.classList.contains('mobile-touch');
   }
 
-  private initChatBoxGeometry(): void {
-    const wrap = document.getElementById('chatlog-wrap');
-    const tabs = document.getElementById('chatlog-tabs');
-    const frame = document.getElementById('chatlog-frame');
-    if (!wrap || !tabs || !frame) return;
-
-    // Resize grip pinned to the frame's bottom-right corner.
-    const grip = document.createElement('div');
-    grip.className = 'chat-resize-grip';
-    grip.title = t('hudChrome.chatWindow.resize');
-    grip.setAttribute('aria-hidden', 'true');
-    frame.appendChild(grip);
-
-    // Mobile-only resize handle: a BODY-LEVEL bar pinned by CSS to the open panel's bottom
-    // edge (it shares the panel's --mobile-chat-bottom var, so they move together) with a
-    // very high z-index so nothing can overlay it, and touch-action:none so a drag on it is
-    // a RESIZE, not a page scroll. Dragging it sets --mobile-chat-bottom (clamped by CSS).
-    // It is a direct child of body (not #ui / the wrap) so its z-index is not capped by an
-    // ancestor stacking context. Hidden on desktop via CSS.
-    const resizeHandle = document.createElement('div');
-    resizeHandle.className = 'chat-mobile-resize';
-    resizeHandle.title = t('hudChrome.chatWindow.resize');
-    resizeHandle.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(resizeHandle);
-    resizeHandle.addEventListener('pointerdown', (ev) =>
-      this.onMobileChatResizeStart(ev, resizeHandle),
-    );
-    resizeHandle.addEventListener('pointermove', (ev) => this.onMobileChatResizeMove(ev));
-    const endMobileResize = (ev: PointerEvent) => this.onMobileChatResizeEnd(ev);
-    resizeHandle.addEventListener('pointerup', endMobileResize);
-    resizeHandle.addEventListener('pointercancel', endMobileResize);
-    try {
-      const savedBottom = localStorage.getItem(MOBILE_CHAT_BOTTOM_KEY);
-      if (savedBottom) {
-        // Clamp on restore so a value saved from a larger viewport (or an earlier build)
-        // cannot land out of range and make the first drag feel dead.
-        const clamped = this.clampMobileChatBottom(Number.parseInt(savedBottom, 10) || 52);
-        document.documentElement.style.setProperty('--mobile-chat-bottom', `${clamped}px`);
-      }
-    } catch {
-      /* storage unavailable */
-    }
-
-    // touch-action lives in CSS now: `none` on desktop so a touch-drag on the empty
-    // strip moves the chat box (the move gesture is desktop-only, see
-    // onChatBoxMoveStart), and `pan-x` on mobile so overflowed tabs can be swiped
-    // (hud.mobile.css). An inline style here would override those rules.
-    tabs.setAttribute('aria-label', t('hudChrome.chatWindow.move'));
-    tabs.addEventListener('pointerdown', (ev) => this.onChatBoxMoveStart(ev, wrap, tabs));
-    grip.addEventListener('pointerdown', (ev) => this.onChatBoxResizeStart(ev, wrap, frame));
-    document.addEventListener('pointermove', (ev) => this.onChatBoxPointerMove(ev));
-    const end = (ev: PointerEvent) => this.onChatBoxPointerEnd(ev);
-    document.addEventListener('pointerup', end);
-    document.addEventListener('pointercancel', end);
-    // Re-clamp into view when the viewport changes (mirrors the .window.panel logic).
-    window.addEventListener('resize', () => {
-      if (this.chatBox) this.applyChatBoxGeometry();
-    });
-
-    let saved: string | null = null;
-    try {
-      saved = localStorage.getItem(CHAT_GEOMETRY_KEY);
-    } catch {
-      /* storage unavailable */
-    }
-    this.chatBox = parseChatBox(saved);
-    if (this.chatBox) this.applyChatBoxGeometry();
-  }
-
-  // Seed this.chatBox from the live layout the first time a gesture starts, so a
-  // box still on its CSS default converts cleanly to explicit px coordinates.
-  private ensureChatBoxGeometry(wrap: HTMLElement, tabs: HTMLElement): void {
-    if (this.chatBox) return;
-    const wrapRect = wrap.getBoundingClientRect();
-    const frameRect = document.getElementById('chatlog-frame')?.getBoundingClientRect();
-    const chromeH = tabs.getBoundingClientRect().height;
-    this.chatBox = {
-      left: wrapRect.left,
-      top: wrapRect.top,
-      width: wrapRect.width,
-      height: frameRect ? frameRect.height : Math.max(0, wrapRect.height - chromeH),
-    };
-  }
-
-  private onChatBoxMoveStart(ev: PointerEvent, wrap: HTMLElement, tabs: HTMLElement): void {
-    if (ev.button !== 0 || this.isMobileLayout()) return;
-    const target = ev.target as HTMLElement | null;
-    // Tab buttons (select / add / close) keep their own click behaviour; only the
-    // empty strip area initiates a move.
-    if (!target || target.closest('button')) return;
-    ev.preventDefault();
-    this.ensureChatBoxGeometry(wrap, tabs);
-    const rect = wrap.getBoundingClientRect();
-    this.chatBoxGesture = {
-      kind: 'move',
-      pointerId: ev.pointerId,
-      grabX: ev.clientX - rect.left,
-      grabY: ev.clientY - rect.top,
-    };
-    document.body.classList.add('chat-box-dragging');
-    try {
-      tabs.setPointerCapture?.(ev.pointerId);
-    } catch {
-      /* synthetic pointer */
-    }
-  }
-
-  private onChatBoxResizeStart(ev: PointerEvent, wrap: HTMLElement, frame: HTMLElement): void {
-    if (ev.button !== 0 || this.isMobileLayout()) return;
-    ev.preventDefault();
-    ev.stopPropagation();
-    const tabs = document.getElementById('chatlog-tabs');
-    if (tabs) this.ensureChatBoxGeometry(wrap, tabs);
-    if (!this.chatBox) return;
-    this.chatBoxGesture = {
-      kind: 'resize',
-      pointerId: ev.pointerId,
-      startX: ev.clientX,
-      startY: ev.clientY,
-      startW: this.chatBox.width,
-      startH: this.chatBox.height,
-    };
-    document.body.classList.add('chat-box-dragging');
-    try {
-      frame.setPointerCapture?.(ev.pointerId);
-    } catch {
-      /* synthetic pointer */
-    }
-  }
-
-  private onChatBoxPointerMove(ev: PointerEvent): void {
-    const g = this.chatBoxGesture;
-    if (!g || g.pointerId !== ev.pointerId || !this.chatBox) return;
-    ev.preventDefault();
-    if (g.kind === 'move') {
-      this.chatBox = { ...this.chatBox, left: ev.clientX - g.grabX, top: ev.clientY - g.grabY };
-    } else {
-      this.chatBox = {
-        ...this.chatBox,
-        width: g.startW + (ev.clientX - g.startX),
-        height: g.startH + (ev.clientY - g.startY),
-      };
-    }
-    this.applyChatBoxGeometry();
-  }
-
-  private onChatBoxPointerEnd(ev: PointerEvent): void {
-    const g = this.chatBoxGesture;
-    if (!g || g.pointerId !== ev.pointerId) return;
-    this.chatBoxGesture = null;
-    document.body.classList.remove('chat-box-dragging');
-    this.persistChatBoxGeometry();
-  }
-
-  // Clamp the panel's bottom inset to the same range the CSS clamp uses (12px .. viewport
-  // minus a reserved top band), so the stored value never drifts out of range. If it did,
-  // the CSS clamps it for display but a drag starting from the out-of-range raw value would
-  // not move the (already-clamped) panel until the raw crossed back in, which reads as a
-  // dead drag. Clamping in JS too keeps the drag responsive from the first pixel.
-  private clampMobileChatBottom(v: number): number {
-    const hi = Math.max(12, window.innerHeight - 320);
-    return Math.min(hi, Math.max(12, v));
-  }
-
-  // Mobile chat resize: drag the bottom handle to set --mobile-chat-bottom (the panel's
-  // bottom inset). Dragging DOWN lowers the inset (taller panel); UP raises it (shorter).
-  // The handle has touch-action:none and captures the pointer, so the drag is a resize (not
-  // a scroll) and follows the finger.
-  private onMobileChatResizeStart(ev: PointerEvent, handle: HTMLElement): void {
-    if (!this.isMobileLayout()) return;
-    ev.preventDefault();
-    ev.stopPropagation();
-    const raw = document.documentElement.style.getPropertyValue('--mobile-chat-bottom');
-    const startBottom = this.clampMobileChatBottom(raw ? Number.parseInt(raw, 10) || 52 : 52);
-    this.mobileChatResize = { pointerId: ev.pointerId, startY: ev.clientY, startBottom };
-    document.body.classList.add('chat-box-dragging');
-    try {
-      handle.setPointerCapture?.(ev.pointerId);
-    } catch {
-      /* synthetic pointer */
-    }
-  }
-
-  private onMobileChatResizeMove(ev: PointerEvent): void {
-    const g = this.mobileChatResize;
-    if (!g || g.pointerId !== ev.pointerId) return;
-    ev.preventDefault();
-    // Finger moving down (clientY grows) shrinks the bottom inset so the panel grows down.
-    const bottom = this.clampMobileChatBottom(g.startBottom - (ev.clientY - g.startY));
-    document.documentElement.style.setProperty('--mobile-chat-bottom', `${Math.round(bottom)}px`);
-  }
-
-  private onMobileChatResizeEnd(ev: PointerEvent): void {
-    const g = this.mobileChatResize;
-    if (!g || g.pointerId !== ev.pointerId) return;
-    this.mobileChatResize = null;
-    document.body.classList.remove('chat-box-dragging');
-    const bottom = document.documentElement.style.getPropertyValue('--mobile-chat-bottom');
-    try {
-      if (bottom) localStorage.setItem(MOBILE_CHAT_BOTTOM_KEY, bottom.trim());
-    } catch {
-      /* storage unavailable */
-    }
-  }
-
-  private applyChatBoxGeometry(): void {
-    if (!this.chatBox || this.isMobileLayout()) return;
-    const wrap = document.getElementById('chatlog-wrap');
-    const tabs = document.getElementById('chatlog-tabs');
-    const frame = document.getElementById('chatlog-frame');
-    if (!wrap || !tabs || !frame) return;
-    const chromeH = tabs.getBoundingClientRect().height || 22;
-    // this.chatBox, the rect, and the viewport are all in visual (post-zoom) space.
-    // The wrap + frame live inside #ui (`zoom: var(--ui-scale)`), so their style
-    // writes divide by the live UI scale into author space (placeChatBox); the
-    // clamped VISUAL geometry is what we keep + persist, so a saved box renders at
-    // the same visual place at any UI Scale.
-    const z = getUiScale();
-    const placement = placeChatBox(
-      this.chatBox,
-      { w: window.innerWidth, h: window.innerHeight },
-      chromeH,
-      z,
-      CHAT_BOX_LIMITS,
-      this.storePromoCard ? (width) => storePromoReservedHeight(width, z) : 0,
-    );
-    this.chatBox = placement.geo;
-    const { css } = placement;
-    wrap.style.left = `${css.left}px`;
-    wrap.style.top = `${css.top}px`;
-    wrap.style.right = 'auto';
-    wrap.style.bottom = 'auto';
-    wrap.style.width = `${css.width}px`;
-    frame.style.height = `${css.height}px`;
-    // Keep the (separately positioned) chat input bar aligned above the box.
-    // #chat-input is a SIBLING of #ui (a direct child of #game-ui-template, see
-    // index.html), so it is OUTSIDE the zoom: its writes stay in the visual space
-    // of the clamped geometry, undivided, to line up with the re-multiplied box.
-    const input = document.getElementById('chat-input');
-    if (input) {
-      const { geo } = placement;
-      input.style.left = `${geo.left}px`;
-      input.style.width = `${geo.width}px`;
-      input.style.bottom = `${Math.max(0, window.innerHeight - geo.top + 4)}px`;
-    }
-  }
-
-  private persistChatBoxGeometry(): void {
-    if (!this.chatBox) return;
-    try {
-      localStorage.setItem(CHAT_GEOMETRY_KEY, serializeChatBox(this.chatBox));
-    } catch {
-      /* storage unavailable */
-    }
-  }
-
-  // Public: snap the chat window back to its stock CSS position/size and forget
-  // the saved geometry. Wired to the "Reset Chat Window" interface option.
   resetChatWindow(): void {
-    this.chatBox = null;
-    try {
-      localStorage.removeItem(CHAT_GEOMETRY_KEY);
-    } catch {
-      /* storage unavailable */
-    }
-    const ids = ['chatlog-wrap', 'chatlog-frame', 'chat-input'];
-    for (const id of ids) {
-      const el = document.getElementById(id);
-      if (!el) continue;
-      for (const prop of ['left', 'top', 'right', 'bottom', 'width', 'height'])
-        el.style.removeProperty(prop);
-    }
+    this.chatGeometry.reset();
   }
 
   // -------------------------------------------------------------------------
@@ -2847,7 +2492,7 @@ export class Hud {
 
   /** Repaint persisted visual-space geometry after a live UI Scale change. */
   reapplySavedGeometry(): void {
-    this.applyChatBoxGeometry();
+    this.chatGeometry.reapply();
     this.targetFrameMover?.reapplyPosition();
     this.playerFrameMover?.reapplyPosition();
   }
@@ -2905,325 +2550,44 @@ export class Hud {
     }
   }
 
-  private renderChatTabs(): void {
-    const bar = $('#chatlog-tabs');
-    // Overflowed tabs scroll horizontally (see #chatlog-tabs in hud.css); translate
-    // a vertical wheel into that scroll (bound once, the bar element persists across
-    // these innerHTML rebuilds) so a mouse without a horizontal wheel can still reach
-    // them. A no-op until the strip actually overflows.
-    if (!this.chatTabsWheelBound) {
-      this.chatTabsWheelBound = true;
-      bar.addEventListener(
-        'wheel',
-        (ev) => {
-          if (ev.deltaY === 0 || bar.scrollWidth <= bar.clientWidth) return;
-          ev.preventDefault();
-          bar.scrollLeft += ev.deltaY;
-        },
-        { passive: false },
-      );
-    }
-    bar.innerHTML = '';
-    bar.setAttribute('role', 'tablist');
-    const makeTab = (id: ChatTabId, label: string): HTMLButtonElement => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'chat-tab';
-      btn.dataset.tab = id;
-      btn.setAttribute('role', 'tab');
-      btn.textContent = label;
-      btn.addEventListener('click', () => this.selectChatTab(id, true));
-      return btn;
-    };
-    bar.append(
-      makeTab('all', t('hud.core.chatTab')),
-      makeTab('combat', t('hud.core.combatLogTab')),
-    );
-    for (const ch of this.chatTabs) {
-      const label = t(chatOpenTabLabelKey(ch));
-      const btn = makeTab(ch, label);
-      btn.title = t('hud.core.chatChannels.close', { channel: label });
-      // right-click / long-press a channel tab to close it (the + menu also toggles)
-      btn.addEventListener('contextmenu', (ev) => {
-        ev.preventDefault();
-        this.removeChatTab(ch);
-      });
-      bar.append(btn);
-    }
-    const add = document.createElement('button');
-    add.type = 'button';
-    add.className = 'chat-tab chat-tab-add';
-    add.textContent = '+';
-    add.setAttribute('aria-label', t('hud.core.chatChannels.add'));
-    add.title = t('hud.core.chatChannels.add');
-    add.addEventListener('click', () => {
-      // Toggle: a second click on + closes the picker it opened.
-      const menu = $('#ctx-menu');
-      if (menu.style.display === 'block' && this.ctxMenuOpener === add) {
-        this.closeContextMenu();
-        return;
-      }
-      const r = add.getBoundingClientRect();
-      this.openChatChannelMenu(r.left, r.bottom, add);
-    });
-    bar.append(add);
-    this.updateActiveTabStyles();
-  }
-
-  private updateActiveTabStyles(): void {
-    $('#chatlog-tabs')
-      .querySelectorAll<HTMLButtonElement>('.chat-tab')
-      .forEach((btn) => {
-        if (btn.classList.contains('chat-tab-add')) return;
-        const active = btn.dataset.tab === this.activeChatTab;
-        btn.classList.toggle('active', active);
-        btn.setAttribute('aria-selected', active ? 'true' : 'false');
-        btn.tabIndex = active ? 0 : -1;
-      });
-  }
-
-  private selectChatTab(tab: ChatTabId, persist = true): void {
-    this.activeChatTab = tab;
-    const showCombat = tab === 'combat';
-    this.chatLogEl.classList.toggle('active', !showCombat);
-    this.combatLogEl.classList.toggle('active', showCombat);
-    if (!showCombat) this.applyChatFilter();
-    this.updateActiveTabStyles();
-    if (persist) this.persistChatTabs();
-    this.applyChatInputPresentation();
-  }
-
-  // Add a channel tab if not already present. Does NOT switch the active send
-  // channel — the player stays on their current tab (All/Say is the catch-all
-  // home that shows every channel and sends Say), so opening a channel never
-  // hijacks where typed text goes. `join` auto-joins opt-in global channels;
-  // skip it when the caller already sent the /join (e.g. a typed command).
-  // `select` focuses the new tab — reserved for a deliberate tab click.
-  private addChatTab(channel: ChatOpenTab, opts: { join?: boolean; select?: boolean } = {}): void {
-    const { join = true, select = false } = opts;
-    if (!this.chatTabs.includes(channel)) {
-      this.chatTabs.push(channel);
-      // The whisper tab is filter-only (no channel to /join); only real channels join.
-      if (join && isChatTabChannel(channel) && channelNeedsJoin(channel))
-        this.sim.chat(`/join ${channel}`);
-      this.renderChatTabs();
-      this.persistChatTabs();
-    }
-    if (select) this.selectChatTab(channel, true);
-  }
-
-  // Mirror a typed "/join|/leave <world|lfg>" into the tab bar so the command
-  // line and the "+" menu stay in sync: /join opens the channel's tab and
-  // /leave closes it. We never re-issue the command — main.ts already sent it,
-  // and creating the tab leaves the active send channel untouched.
   syncChatTabsForInput(typed: string): void {
-    const m = /^\/(join|leave)\b\s*(\S*)/i.exec(typed.trim());
-    if (!m) return;
-    const channel = m[2].toLowerCase();
-    if (!isChatTabChannel(channel) || !channelNeedsJoin(channel)) return;
-    if (m[1].toLowerCase() === 'join') this.addChatTab(channel, { join: false });
-    else if (this.chatTabs.includes(channel)) this.removeChatTab(channel);
+    this.chatWindow.syncTabsForInput(typed);
   }
 
-  private removeChatTab(channel: ChatOpenTab): void {
-    const i = this.chatTabs.indexOf(channel);
-    if (i < 0) return;
-    this.chatTabs.splice(i, 1);
-    // closing a tab does not /leave the channel (you stay subscribed, classic behavior)
-    if (this.activeChatTab === channel) this.activeChatTab = 'all';
-    this.renderChatTabs();
-    this.selectChatTab(this.activeChatTab, true);
+  private hideIfFiltered(element: HTMLElement, channel: string): void {
+    this.chatWindow.hideIfFiltered(element, channel);
   }
 
-  // The "+" menu: a toggle list of every openable tab. Open tabs show a check and
-  // toggle off; the rest add a tab. Whisper is offered alongside the channels as
-  // a filter-only tab that gathers every whisper in one place. Reuses the shared
-  // #ctx-menu, so it inherits its outside-click / Escape close behaviour.
-  private openChatChannelMenu(x: number, y: number, opener: HTMLElement | null = null): void {
-    const el = $('#ctx-menu');
-    this.ctxMenuOpener = opener;
-    let html = `<div class="ctx-title">${esc(t('hud.core.chatChannels.addTitle'))}</div>`;
-    // A trailing check mark flags already-open tabs, exactly as the channel list
-    // did before this whisper tab was added. Built from its char code so no literal
-    // glyph sits in source, keeping the no-emoji source guard green.
-    const checkMark = ` ${String.fromCharCode(0x2713)}`;
-    const item = (id: ChatOpenTab, labelKey: TranslationKey): string => {
-      const open = this.chatTabs.includes(id);
-      return `<div class="ctx-item" data-act="${id}">${esc(t(labelKey))}${open ? checkMark : ''}</div>`;
-    };
-    for (const ch of CHAT_TAB_CHANNELS) html += item(ch, CHANNEL_LABEL_KEYS[ch]);
-    html += item(WHISPER_TAB, WHISPER_TAB_LABEL_KEY);
-    html += `<div class="ctx-item" data-act="close">${esc(t('hud.chat.context.cancel'))}</div>`;
-    el.innerHTML = html;
-    this.placePopupAt(el, x, y, 170, 320, 0, 8);
-    el.style.display = 'block';
-    this.bindContextMenuActions((act) => {
-      if (!isChatOpenTab(act)) return;
-      if (this.chatTabs.includes(act)) this.removeChatTab(act);
-      // Focus the whisper tab on open so the effect is visible (channels stay put,
-      // as opening one must not hijack where the player's typed text goes).
-      else this.addChatTab(act, { select: act === WHISPER_TAB });
-    });
-  }
-
-  // The tab that FILTERS the log (which messages show): null on all/combat, else
-  // the active tab, including the whisper collector (its messages carry chan
-  // 'whisper', so the same dataset.chan filter gathers them).
-  private chatFilterTab(): ChatOpenTab | null {
-    return this.activeChatTab === 'all' || this.activeChatTab === 'combat'
-      ? null
-      : this.activeChatTab;
-  }
-
-  // The SEND channel a plain typed line targets: null on all/combat AND on the
-  // whisper tab (whisper has no generic send channel; the whisper tab replies via
-  // /r instead, handled in composeChatSend).
-  private chatSendChannel(): ChatTabChannel | null {
-    const tab = this.chatFilterTab();
-    return tab !== null && isChatTabChannel(tab) ? tab : null;
-  }
-
-  // The standing channel a plain typed line actually reaches, honoring both the
-  // active tab and the sticky "last used" channel: a channel-bound tab wins (its
-  // bound channel), otherwise the All/combat views fall back to the sticky
-  // channel (`say` by default). The whisper tab is handled separately in
-  // composeChatSend (it has no standing channel), so this is only reached off it.
-  private effectiveSendChannel(): ChatTabChannel {
-    return this.chatSendChannel() ?? this.stickyChannel;
-  }
-
-  // The channel the chat input's tint should signal: the whisper collector when
-  // on its tab (plain text replies as a whisper), else the effective send
-  // channel. chatInputTint maps `say` to no tint (the default input color).
-  private chatInputTintTarget(): ChatInputTintTarget {
-    return this.activeChatTab === WHISPER_TAB ? WHISPER_TAB : this.effectiveSendChannel();
-  }
-
-  private applyChatFilter(): void {
-    const filter = this.chatFilterTab();
-    for (const child of Array.from(this.chatLogEl.children)) {
-      const chan = (child as HTMLElement).dataset.chan;
-      (child as HTMLElement).classList.toggle('chat-hidden', filter !== null && chan !== filter);
-    }
-    this.chatLogEl.scrollTop = this.chatLogEl.scrollHeight;
-  }
-
-  private hideIfFiltered(div: HTMLElement, chan: string): void {
-    const filter = this.chatFilterTab();
-    if (filter !== null && chan !== filter) div.classList.add('chat-hidden');
-  }
-
-  // Reflect the effective send channel on the chat input: its placeholder text
-  // and its text tint (a non-say channel tints the typed text to that channel's
-  // color so the player can see where plain text will go; say/default clears the
-  // tint). Called on every open path and whenever the active tab changes.
   applyChatInputPresentation(): void {
-    const input = document.getElementById('chat-input') as HTMLTextAreaElement | null;
-    if (input) this.presentChatInput(input);
+    this.chatWindow.applyInputPresentation();
   }
 
-  // Set the placeholder + tint on an already-resolved chat-input element (the
-  // shared body of applyChatInputPresentation and insertChatLink).
-  private presentChatInput(input: HTMLTextAreaElement | HTMLInputElement): void {
-    input.placeholder = this.activeChatPlaceholder();
-    input.style.color = chatInputTint(this.chatInputTintTarget()) ?? '';
-  }
-
-  // Remember the standing channel a just-sent line reached as the sticky default
-  // for the next chat open on the All tab. Whisper/reply, emotes, rolls, channel
-  // membership, and unknown commands leave the sticky channel unchanged.
   noteSentChannel(sentLine: string): void {
-    const ch = sentLineChannel(sentLine);
-    if (ch) this.stickyChannel = ch;
+    this.chatWindow.noteSentChannel(sentLine);
   }
 
-  // The line actually sent for what the player typed, honoring the active tab and
-  // the sticky "last used" channel. main.ts calls this on Enter so a channel tab
-  // (or the sticky channel) works without retyping the slash command; an explicit
-  // "/..." the player typed still wins. On the whisper tab, plain text replies to
-  // the last whisperer (/r) instead of binding a channel.
   composeChatSend(typed: string): string {
-    const withLinks = this.applyPendingChatLinks(typed);
-    if (this.activeChatTab === WHISPER_TAB) return composeWhisperReply(withLinks);
-    return composeChatLine(this.effectiveSendChannel(), withLinks);
+    return this.chatWindow.composeSend(typed);
   }
 
-  // Shift-click a quest-log entry: open the chat input and insert a readable
-  // [Name] link. composeChatSend swaps it for the canonical [[q:id]] token on send.
   insertQuestChatLink(questId: string): void {
-    this.insertChatLink(`[${questTitle(questId)}]`, encodeQuestLink(questId));
+    this.chatWindow.insertQuestLink(questId);
   }
 
-  // Shift-click a bag item: insert a readable [Item Name] link into chat. On send,
-  // composeChatSend swaps it for the canonical [[i:id]] token (name resolved at render).
   insertItemChatLink(itemId: string): void {
-    const item = ITEMS[itemId];
-    if (!item) return;
-    this.insertChatLink(`[${itemDisplayName(item)}]`, encodeItemLink(itemId));
+    this.chatWindow.insertItemLink(itemId);
   }
 
-  // Shared affordance: append a readable [Name] to the chat input and remember the
-  // token it stands for, so applyPendingChatLinks can swap it back in on send.
-  private insertChatLink(display: string, token: string): void {
-    const input = $('#chat-input') as unknown as HTMLInputElement;
-    this.pendingChatLinks = [...this.pendingChatLinks, { display, token }];
-    this.presentChatInput(input);
-    input.style.display = 'block';
-    input.value =
-      input.value && !input.value.endsWith(' ')
-        ? `${input.value} ${display}`
-        : `${input.value}${display}`;
-    input.focus();
-  }
-
-  // Drop any shift-click-inserted links that were never sent (chat closed/cleared),
-  // so a stale [Name] entry can't silently rewrite a later message.
   clearPendingChatLinks(): void {
-    this.pendingChatLinks = [];
+    this.chatWindow.clearPendingLinks();
   }
 
-  // Replace any inserted readable [Name] with its [[q:id]]/[[i:id]] token, then forget them.
-  private applyPendingChatLinks(typed: string): string {
-    if (this.pendingChatLinks.length === 0) return typed;
-    const pending = this.pendingChatLinks;
-    this.pendingChatLinks = [];
-    let out = typed;
-    for (const { display, token } of pending) out = out.replace(display, token);
-    return out;
-  }
-
-  // Intercept "/share": link the selected quest into party chat. Returns true when
-  // handled (the caller then skips normal send). Not-in-a-party is left to the sim's
-  // existing "You are not in a party." error from the /p path.
   maybeHandleQuestShareCommand(raw: string): boolean {
-    if (!/^\/share(?:\s|$)/i.test(raw.trim())) return false;
-    const id = this.questlogWindow.selectedQuestId;
-    if (!id || !this.sim.questLog.has(id)) {
-      this.showError(t('hudChrome.questShare.noQuestSelected'));
-      return true;
-    }
-    this.sim.chat(`/p ${encodeQuestLink(id)}`);
-    return true;
+    return this.chatWindow.maybeHandleQuestShareCommand(raw);
   }
 
-  // Placeholder for the chat input reflecting the active tab and sticky channel.
   activeChatPlaceholder(): string {
-    if (this.activeChatTab === WHISPER_TAB)
-      return t('hud.core.chatChannels.sendingTo', { channel: t(WHISPER_TAB_LABEL_KEY) });
-    // A channel-bound tab keeps its "Message {channel}" prompt (unchanged, incl. a
-    // Say tab). On the All/combat views a non-say sticky channel surfaces the same
-    // "Message {channel}" prompt so the player sees where plain text will go.
-    const bound = this.chatSendChannel();
-    const ch = bound ?? this.stickyChannel;
-    if (bound !== null || ch !== 'say')
-      return t('hud.core.chatChannels.sendingTo', { channel: t(CHANNEL_LABEL_KEYS[ch]) });
-    // Default (All tab, sticky say): the compact touch composer has no room for the
-    // desktop slash-command legend (/s, /w, /r, ...), so use a short prompt on the
-    // mobile HUD. The channel-aware "Message {channel}" variants above are already
-    // short and stay as-is.
-    return this.isMobileLayout()
-      ? t('hudChrome.mobile.chatPlaceholder')
-      : t('hud.core.chatPlaceholder');
+    return this.chatWindow.activePlaceholder();
   }
 
   // -------------------------------------------------------------------------
@@ -14061,9 +13425,7 @@ export class Hud {
         this.storePromoCard = null;
       },
     });
-    const tabs = document.getElementById('chatlog-tabs');
-    if (tabs) this.ensureChatBoxGeometry(host, tabs);
-    this.applyChatBoxGeometry();
+    this.chatGeometry.reapply();
   }
 
   /**

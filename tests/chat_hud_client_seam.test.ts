@@ -17,14 +17,11 @@ describe('Hud to ClientWorld chat seam', () => {
     vi.stubGlobal('WebSocket', { OPEN: 1 });
     const hud = Object.create(Hud.prototype) as InstanceType<typeof Hud>;
     const state = hud as unknown as {
-      activeChatTab: string;
-      stickyChannel: string;
-      pendingChatLinks: readonly unknown[];
-      chatInputTintTarget(): string;
+      chatWindow: { composeSend(typed: string): string };
     };
-    state.activeChatTab = 'all';
-    state.stickyChannel = 'say';
-    state.pendingChatLinks = [];
+    state.chatWindow = {
+      composeSend: (typed) => `/say ${typed}`,
+    };
 
     const sent: unknown[] = [];
     const client = Object.create(ClientWorld.prototype) as ClientWorld;
@@ -34,7 +31,6 @@ describe('Hud to ClientWorld chat seam', () => {
       ws: { readyState: 1, send: (raw: string) => sent.push(JSON.parse(raw)) },
     });
 
-    expect(state.chatInputTintTarget()).toBe('say');
     client.chat(hud.composeChatSend('hello nearby players'));
 
     expect(sent).toEqual([{ t: 'cmd', cmd: 'chat', text: '/say hello nearby players' }]);
