@@ -248,11 +248,12 @@ Skip if no `src/sim/content/` files are in scope.
 - Recommend `npm run gate` (`scripts/gate.mjs`) over an ad-hoc shell chain for the full check
   (release-tier automatically on a `release/**` branch); the rationale (piped exit codes,
   load flakes, worker caps) is in root `CLAUDE.md`.
-- The SFX suites and the gate resolve FFmpeg from the bundled `ffmpeg-static`/`ffprobe-static`
-  packages with a PATH fallback (`scripts/sfx/ffmpeg_paths.mjs`;
-  `tests/sfx_gate_preflight.test.ts` pins the fail-fast message). A red sfx test on a machine
-  whose install skipped package scripts and has no PATH FFmpeg is environmental, not a
-  regression.
+- FFmpeg comes from the bundled `ffmpeg-static`/`ffprobe-static` packages: the SFX suites and
+  the conformance/export validators bind to the static binaries directly, while the gate
+  preflight and the Studio playback spawns resolve via `scripts/sfx/ffmpeg_paths.mjs` with a
+  PATH fallback (`tests/sfx_gate_preflight.test.ts` pins the fail-fast message). A red sfx
+  test on a machine whose install skipped package scripts (`npm ci` fixes it) is
+  environmental, not a regression.
 - No em dashes, en dashes, or emojis in code, comments, docs, commit/PR text, or player copy. Do
   NOT strip a dash that is native to a locale overlay (for example ru); that is correct there.
 - On a `release/**` branch, the release-tier i18n gate shows pending=0 and the release malware

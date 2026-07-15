@@ -284,8 +284,10 @@ npm run gate
 
 `FFmpeg is unavailable`
 : The bundled `ffmpeg-static`/`ffprobe-static` binaries are missing (an install
-  that skipped package scripts leaves them undownloaded). Rerun `npm ci`, or
-  install FFmpeg and FFprobe on `PATH` as the fallback.
+  that skipped package scripts leaves them undownloaded). Rerun `npm ci`. A `PATH`
+  FFmpeg install only restores playback and encoding (which fall back via
+  `scripts/sfx/ffmpeg_paths.mjs`); the production bundle export validates with the
+  static binaries directly and stays broken until they are reinstalled.
 
 `another SFX Studio server is already using this repository`
 : Stop the earlier process. If it crashed, rerun after confirming no Studio
