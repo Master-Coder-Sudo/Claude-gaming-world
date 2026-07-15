@@ -1,11 +1,12 @@
-import { describe, expect, it, vi } from 'vitest';
-import { NPCS } from '../src/sim/data';
+// @vitest-environment jsdom
+
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { DELVES, NPCS } from '../src/sim/data';
 import { CHRONICLER_TEMPLATE_IDS } from '../src/sim/deeds';
 import type { Entity } from '../src/sim/types';
 import type { FocusTrapHandle } from '../src/ui/focus_manager';
 import { QuestDialogController } from '../src/ui/hud/quest/quest_dialog_controller';
 import type { IWorld } from '../src/world_api';
-import { FakeDocument } from './helpers/fake_dom';
 
 function npc(id: number, templateId: string, x = 0): Entity {
   return {
@@ -27,26 +28,31 @@ function ordinaryNpcId(): string {
   return entry.id;
 }
 
-function harness(entity = npc(10, ordinaryNpcId())) {
-  const document = new FakeDocument();
-  const element = document.element('quest-dialog');
+function harness(entity = npc(10, ordinaryNpcId()), questState = 'available') {
+  document.body.innerHTML = '';
+  const element = document.createElement('div');
+  element.id = 'quest-dialog';
+  document.body.appendChild(element);
   const entities = new Map([[entity.id, entity]]);
   const targetEntity = vi.fn();
   const interact = vi.fn();
   const acceptLinkedQuest = vi.fn();
+  const acceptQuest = vi.fn();
+  const turnInQuest = vi.fn();
+  const reportTelemetry = vi.fn();
   const world = {
     entities,
     cfg: { playerClass: 'warrior' },
     player: { name: 'Ari', pos: { x: 0, y: 0, z: 0 } },
     questLog: new Map(),
     partyInfo: null,
-    questState: vi.fn(() => 'available'),
+    questState: vi.fn(() => questState),
     targetEntity,
     interact,
     acceptLinkedQuest,
-    acceptQuest: vi.fn(),
-    turnInQuest: vi.fn(),
-    reportTelemetry: vi.fn(),
+    acceptQuest,
+    turnInQuest,
+    reportTelemetry,
   } as unknown as IWorld;
   const release = vi.fn();
   const focusFirst = vi.fn();
@@ -57,9 +63,14 @@ function harness(entity = npc(10, ordinaryNpcId())) {
     setDistance: vi.fn(),
   };
   const openChronicles = vi.fn();
+  const openVendor = vi.fn();
+  const openHeroicVendor = vi.fn();
+  const openMarket = vi.fn();
+  const openDelveBoard = vi.fn();
+  const openValeCup = vi.fn();
   const controller = new QuestDialogController({
-    element: element as unknown as HTMLElement,
-    document: document as unknown as Document,
+    element,
+    document,
     world: () => world,
     now: () => 1_000,
     text: {
@@ -83,11 +94,11 @@ function harness(entity = npc(10, ordinaryNpcId())) {
     itemTooltip: () => 'tooltip',
     attachTooltip: vi.fn(),
     openChronicles,
-    openVendor: vi.fn(),
-    openHeroicVendor: vi.fn(),
-    openMarket: vi.fn(),
-    openDelveBoard: vi.fn(),
-    openValeCup: vi.fn(),
+    openVendor,
+    openHeroicVendor,
+    openMarket,
+    openDelveBoard,
+    openValeCup,
     voice,
   });
   return {
@@ -100,14 +111,26 @@ function harness(entity = npc(10, ordinaryNpcId())) {
     targetEntity,
     interact,
     acceptLinkedQuest,
+    acceptQuest,
+    turnInQuest,
+    reportTelemetry,
     release,
     focusFirst,
     voice,
     openChronicles,
+    openVendor,
+    openHeroicVendor,
+    openMarket,
+    openDelveBoard,
+    openValeCup,
   };
 }
 
 describe('QuestDialogController', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '';
+  });
+
   it('owns the normal gossip lifecycle and fades the greeting from NPC distance', () => {
     const test = harness();
 
@@ -155,10 +178,68 @@ describe('QuestDialogController', () => {
 
     test.controller.openLinked('q_wolves', 42);
 
-    const accept = test.element.children.find((child) => child.textContent?.length);
-    accept?.dispatchEvent(new Event('click'));
+    test.element.querySelector<HTMLButtonElement>('.btn')?.click();
     expect(test.acceptLinkedQuest).toHaveBeenCalledWith('q_wolves', 42);
     expect(test.element.style.display).toBe('none');
+  });
+
+  it('routes available and ready quest actions through IWorld with telemetry', () => {
+    const offeredNpc = npc(30, 'marshal_redbrook');
+    offeredNpc.questIds = ['q_wolves'];
+    const offered = harness(offeredNpc, 'available');
+    offered.controller.open(offeredNpc.id);
+    offered.element.querySelector<HTMLButtonElement>('[data-quest="q_wolves"]')?.click();
+    expect(offered.element.innerHTML).toContain('text:q_wolves');
+    offered.element.querySelector<HTMLButtonElement>('.btn')?.click();
+
+    expect(offered.acceptQuest).toHaveBeenCalledWith('q_wolves');
+    expect(offered.reportTelemetry).toHaveBeenCalledWith('quest_accept', { timeMs: 0 });
+
+    const readyNpc = npc(31, 'marshal_redbrook');
+    readyNpc.questIds = ['q_wolves'];
+    const ready = harness(readyNpc, 'ready');
+    ready.controller.open(readyNpc.id);
+    ready.element.querySelector<HTMLButtonElement>('[data-quest="q_wolves"]')?.click();
+    expect(ready.element.innerHTML).toContain('completion:q_wolves');
+    ready.element.querySelector<HTMLButtonElement>('.btn')?.click();
+
+    expect(ready.turnInQuest).toHaveBeenCalledWith('q_wolves');
+    expect(ready.reportTelemetry).toHaveBeenCalledWith('quest_turnin', { timeMs: 0 });
+  });
+
+  it('closes gossip before opening every non-quest destination', () => {
+    const vendorNpc = npc(40, ordinaryNpcId());
+    vendorNpc.vendorItems = ['minor_healing_potion'];
+    const vendor = harness(vendorNpc);
+    vendor.controller.open(vendorNpc.id);
+    vendor.element.querySelector<HTMLButtonElement>('[data-vendor]')?.click();
+    expect(vendor.openVendor).toHaveBeenCalledWith(vendorNpc.id);
+    expect(vendor.release).toHaveBeenCalledWith(false);
+
+    const marketId = Object.values(NPCS).find((definition) => definition.market)?.id;
+    const heroicId = Object.values(NPCS).find((definition) => definition.heroicVendor)?.id;
+    if (!marketId || !heroicId) throw new Error('quest route fixtures not found');
+
+    const market = harness(npc(41, marketId));
+    market.controller.open(41);
+    market.element.querySelector<HTMLButtonElement>('[data-market]')?.click();
+    expect(market.openMarket).toHaveBeenCalledTimes(1);
+
+    const heroic = harness(npc(42, heroicId));
+    heroic.controller.open(42);
+    heroic.element.querySelector<HTMLButtonElement>('[data-heroic-shop]')?.click();
+    expect(heroic.openHeroicVendor).toHaveBeenCalledWith(42);
+
+    const boardNpcId = DELVES.collapsed_reliquary.boardNpcId;
+    const board = harness(npc(43, boardNpcId));
+    board.controller.open(43);
+    board.element.querySelector<HTMLButtonElement>('[data-delve-board]')?.click();
+    expect(board.openDelveBoard).toHaveBeenCalledWith(43);
+
+    const valeCup = harness(npc(44, 'groundskeeper_bram'));
+    valeCup.controller.open(44);
+    valeCup.element.querySelector<HTMLButtonElement>('[data-vcup]')?.click();
+    expect(valeCup.openValeCup).toHaveBeenCalledTimes(1);
   });
 
   it('closes stale gossip when the authoritative NPC disappears', () => {

@@ -68,6 +68,10 @@ function makeHarness(
 }
 
 describe('ActionBarController form persistence', () => {
+  it('keeps the public bar contract at one attack slot plus 22 configurable slots', () => {
+    expect(ACTION_BAR_ABILITY_SLOTS).toBe(22);
+  });
+
   it('keeps Rogue normal and stealth pages independently editable', () => {
     const normal = bar('sinister_strike', 'stealth');
     const stealth = bar('ambush', 'garrote', 'stealth');
@@ -247,6 +251,22 @@ describe('ActionBarController form persistence', () => {
 
     expect(rogue.controller.resolveActiveForm()).toBe('sport');
     expect(druid.controller.resolveActiveForm()).toBe('sport');
+  });
+
+  it('isolates sport abilities from the saved class page', () => {
+    const harness = makeHarness('rogue', ['sinister_strike'], bar('sinister_strike'));
+    harness.controller.syncKnownAbilities();
+    harness.state.known.push('sport_shoot', 'sport_pass');
+    harness.controller.syncKnownAbilities();
+    expect(harness.controller.actions).toEqual(bar('sinister_strike'));
+
+    harness.state.sportTeam = 0;
+    harness.controller.syncActiveForm();
+    expect(harness.controller.actions).toEqual(bar('sport_shoot', 'sport_pass'));
+
+    harness.state.sportTeam = null;
+    harness.controller.syncActiveForm();
+    expect(harness.controller.actions).toEqual(bar('sinister_strike'));
   });
 
   it('never seeds or auto-populates a stealth form kit', () => {

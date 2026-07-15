@@ -5,7 +5,7 @@ describe('live UI Scale geometry refresh', () => {
   it('reapplies chat and both unit-frame geometries through the live Hud seam', () => {
     const hud = readFileSync(new URL('../src/ui/hud.ts', import.meta.url), 'utf8');
     expect(hud).toMatch(
-      /reapplySavedGeometry\(\): void {\s*this\.applyChatBoxGeometry\(\);\s*this\.targetFrameMover\?\.reapplyPosition\(\);\s*this\.playerFrameMover\?\.reapplyPosition\(\);\s*}/,
+      /reapplySavedGeometry\(\): void {\s*this\.chatGeometry\.reapply\(\);\s*this\.targetFrameMover\?\.reapplyPosition\(\);\s*this\.playerFrameMover\?\.reapplyPosition\(\);\s*}/,
     );
   });
 

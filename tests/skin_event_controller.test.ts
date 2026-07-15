@@ -1,11 +1,16 @@
-import { describe, expect, it, vi } from 'vitest';
+// @vitest-environment jsdom
+
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { FocusTrapHandle } from '../src/ui/focus_manager';
 import { SkinEventController } from '../src/ui/hud/cosmetics/skin_event_controller';
 import type { IWorld } from '../src/world_api';
-import { FakeDocument } from './helpers/fake_dom';
+
+vi.mock('../src/render/characters/portrait', () => ({
+  playerPortraitDataUrl: () => null,
+  visualPortraitDataUrl: () => null,
+}));
 
 function harness(reduceMotion = false) {
-  const document = new FakeDocument();
   const scheduled = new Map<number, { callback: () => void; delay: number }>();
   let timerId = 0;
   const clearTimeout = vi.fn((id: number) => scheduled.delete(id));
@@ -31,11 +36,15 @@ function harness(reduceMotion = false) {
     click: vi.fn(),
     levelUp: vi.fn(),
   };
+  const claimEventSkin = vi.fn();
+  const preview = { mount: vi.fn(), setSkin: vi.fn() };
+  const showBanner = vi.fn();
+  const renderBagsIfOpen = vi.fn();
   const controller = new SkinEventController({
-    document: document as unknown as Document,
+    document,
     window,
     world: () =>
-      ({ cfg: { playerClass: 'warrior' }, claimEventSkin: vi.fn() }) as unknown as Pick<
+      ({ cfg: { playerClass: 'warrior' }, claimEventSkin }) as unknown as Pick<
         IWorld,
         'cfg' | 'claimEventSkin'
       >,
@@ -43,32 +52,47 @@ function harness(reduceMotion = false) {
     hideTooltip: vi.fn(),
     onPortraitsReady: vi.fn(),
     preloadMechAssets: vi.fn(() => Promise.resolve()),
-    preview: { mount: vi.fn(), setSkin: vi.fn() },
+    preview,
     openFocusTrap: vi.fn(() => trap),
     attachTooltip: vi.fn(),
-    showBanner: vi.fn(),
-    renderBagsIfOpen: vi.fn(),
+    showBanner,
+    renderBagsIfOpen,
     random: () => 0.5,
     audio,
   });
-  return { controller, document, scheduled, clearTimeout, closeTop, release, audio };
+  return {
+    controller,
+    scheduled,
+    clearTimeout,
+    closeTop,
+    release,
+    audio,
+    claimEventSkin,
+    preview,
+    showBanner,
+    renderBagsIfOpen,
+  };
 }
 
 describe('SkinEventController', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '';
+  });
+
   it('closes stacked surfaces, opens a trapped wheel, and owns timed teardown', () => {
     const test = harness();
 
     test.controller.open('rare');
 
     expect(test.closeTop).toHaveBeenCalledTimes(3);
-    expect(test.document.body.children).toHaveLength(1);
-    expect(test.document.body.children[0].classList.contains('open')).toBe(true);
+    expect(document.body.children).toHaveLength(1);
+    expect(document.body.children[0].classList.contains('open')).toBe(true);
     expect([...test.scheduled.values()].map((timer) => timer.delay)).toEqual([6600]);
     expect(test.audio.bagOpen).toHaveBeenCalledTimes(1);
 
     test.controller.close();
 
-    expect(test.document.body.children[0].classList.contains('open')).toBe(false);
+    expect(document.body.children[0].classList.contains('open')).toBe(false);
     expect(test.clearTimeout).toHaveBeenCalledTimes(1);
     expect(test.release).toHaveBeenCalledTimes(1);
     expect(test.audio.bagClose).toHaveBeenCalledTimes(1);
@@ -80,5 +104,29 @@ describe('SkinEventController', () => {
     test.controller.open('epic');
 
     expect([...test.scheduled.values()].map((timer) => timer.delay)).toEqual([140]);
+  });
+
+  it('reveals selectable skins and claims the selected skin through IWorld', () => {
+    const test = harness();
+    test.controller.open('rare');
+
+    const reveal = [...test.scheduled.values()][0];
+    reveal.callback();
+
+    const swatch = document.querySelector<HTMLButtonElement>('[data-lockable="true"]');
+    const lock = document.querySelector<HTMLButtonElement>('[data-lockin]');
+    expect(swatch).not.toBeNull();
+    expect(lock).not.toBeNull();
+    swatch?.click();
+    expect(test.preview.setSkin).toHaveBeenCalledWith(Number(swatch?.dataset.skin));
+    expect(lock?.disabled).toBe(false);
+
+    lock?.click();
+
+    expect(test.claimEventSkin).toHaveBeenCalledWith(Number(swatch?.dataset.skin));
+    expect(test.showBanner).toHaveBeenCalledTimes(1);
+    expect(test.audio.levelUp).toHaveBeenCalledTimes(1);
+    expect(test.renderBagsIfOpen).toHaveBeenCalledTimes(1);
+    expect(document.getElementById('skin-event')?.classList.contains('open')).toBe(false);
   });
 });

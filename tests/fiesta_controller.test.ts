@@ -1,7 +1,8 @@
-import { describe, expect, it, vi } from 'vitest';
+// @vitest-environment jsdom
+
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { FiestaController } from '../src/ui/hud/fiesta/fiesta_controller';
 import type { FiestaMatchInfo, IWorld } from '../src/world_api';
-import { FakeDocument } from './helpers/fake_dom';
 
 function match(overrides: Partial<FiestaMatchInfo> = {}): FiestaMatchInfo {
   return {
@@ -27,12 +28,18 @@ function match(overrides: Partial<FiestaMatchInfo> = {}): FiestaMatchInfo {
 }
 
 function harness() {
-  const document = new FakeDocument();
-  const ui = document.element('ui');
-  const score = document.element('fiesta-score');
-  const respawn = document.element('fiesta-respawn');
-  const augments = document.element('fiesta-augments');
-  const pending = document.element('fiesta-pending');
+  document.body.innerHTML = `
+    <div id="ui">
+      <div id="fiesta-score"></div>
+      <div id="fiesta-respawn"></div>
+      <div id="fiesta-augments"></div>
+      <div id="fiesta-pending"></div>
+    </div>`;
+  const ui = document.getElementById('ui') as HTMLElement;
+  const score = document.getElementById('fiesta-score') as HTMLElement;
+  const respawn = document.getElementById('fiesta-respawn') as HTMLElement;
+  const augments = document.getElementById('fiesta-augments') as HTMLElement;
+  const pending = document.getElementById('fiesta-pending') as HTMLElement;
   const fiesta = match();
   const arenaInfo: {
     match: { state: 'active' | 'over'; fiesta: FiestaMatchInfo };
@@ -42,9 +49,10 @@ function harness() {
       fiesta,
     },
   };
+  const arenaAugmentPick = vi.fn();
   const world = {
     arenaInfo,
-    arenaAugmentPick: vi.fn(),
+    arenaAugmentPick,
   } as unknown as Pick<IWorld, 'arenaInfo' | 'arenaAugmentPick'>;
   const audio = {
     click: vi.fn(),
@@ -53,7 +61,7 @@ function harness() {
   };
   const scheduled: Array<{ callback: () => void; delayMs: number }> = [];
   const controller = new FiestaController({
-    document: document as unknown as Document,
+    document,
     world: () => world,
     audio,
     crestIconUrl: (playerClass) => `crest:${playerClass}`,
@@ -72,10 +80,15 @@ function harness() {
     arenaInfo,
     audio,
     scheduled,
+    arenaAugmentPick,
   };
 }
 
 describe('FiestaController', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '';
+  });
+
   it('paints the active authoritative score without firing a synthetic score cue', () => {
     const test = harness();
 
@@ -96,9 +109,9 @@ describe('FiestaController', () => {
 
     expect(test.audio.scorePing).toHaveBeenCalledWith(true);
     expect(test.score.classList.contains('flash-mine')).toBe(true);
-    expect(test.ui.children.some((child) => child.classList.contains('fiesta-confetti'))).toBe(
-      true,
-    );
+    expect(
+      Array.from(test.ui.children).some((child) => child.classList.contains('fiesta-confetti')),
+    ).toBe(true);
     expect(test.scheduled.some(({ delayMs }) => delayMs === 2800)).toBe(true);
   });
 
@@ -137,8 +150,29 @@ describe('FiestaController', () => {
 
     test.controller.wordPop(parts.text, parts.color, parts.tier);
 
-    const pop = test.ui.children.find((child) => child.classList.contains('fiesta-word'));
+    const pop = Array.from(test.ui.children).find((child) =>
+      child.classList.contains('fiesta-word'),
+    );
     expect(pop?.textContent).toBe(parts.text);
     expect(test.scheduled.at(-1)?.delayMs).toBe(1400);
+  });
+
+  it('renders the authoritative augment offer and submits one selected choice', () => {
+    const test = harness();
+    test.fiesta.offer = {
+      tier: 'silver',
+      wave: 1,
+      choices: ['aug_brutality', 'aug_toughness', 'aug_keen_eye'],
+    };
+
+    test.controller.update();
+
+    const cards = test.augments.querySelectorAll<HTMLButtonElement>('.fa-card');
+    expect(cards).toHaveLength(3);
+    cards[1].click();
+    expect(test.arenaAugmentPick).toHaveBeenCalledWith('aug_toughness');
+    expect(test.audio.click).toHaveBeenCalledTimes(1);
+    expect(test.augments.style.display).toBe('none');
+    expect(test.augments.innerHTML).toBe('');
   });
 });

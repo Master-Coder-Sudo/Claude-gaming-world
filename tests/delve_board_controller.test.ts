@@ -1,19 +1,20 @@
-import { describe, expect, it, vi } from 'vitest';
-import { DELVES } from '../src/sim/data';
+// @vitest-environment jsdom
+
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { DELVES, ITEMS } from '../src/sim/data';
 import type { FocusTrapHandle } from '../src/ui/focus_manager';
 import { DelveBoardController } from '../src/ui/hud/delve/delve_board_controller';
 import type { IWorld } from '../src/world_api';
-import { FakeDocument } from './helpers/fake_dom';
+
+const shopItemId = Object.keys(ITEMS)[0];
+if (!shopItemId) throw new Error('delve shop item fixture not found');
 
 function makeHarness(validNpc = true) {
-  const document = new FakeDocument();
-  const enterButton = document.createElement('button');
-  const panel = {
-    style: { display: 'none' },
-    innerHTML: '',
-    querySelectorAll: () => [],
-    querySelector: (selector: string) => (selector === '[data-delve-enter]' ? enterButton : null),
-  } as unknown as HTMLElement;
+  document.body.innerHTML = '';
+  const panel = document.createElement('div');
+  panel.id = 'delve-board';
+  panel.style.display = 'none';
+  document.body.appendChild(panel);
   const delve = DELVES.collapsed_reliquary;
   const entities = new Map([
     [
@@ -25,14 +26,24 @@ function makeHarness(validNpc = true) {
   ]);
   const enterDelve = vi.fn();
   const companionUpgrade = vi.fn();
+  const delveBuyShopItem = vi.fn();
+  const delveShopOffers = vi.fn(() => [
+    {
+      itemId: shopItemId,
+      marks: 2,
+      unlocked: true,
+      requiresHeroicClear: false,
+      requiresClears: 0,
+    },
+  ]);
   const world = {
     entities,
     player: { level: delve.minLevel, name: 'BoardTester' },
     partyInfo: null,
-    delveMarks: 0,
+    delveMarks: 10,
     companionUpgrades: {},
-    delveShopOffers: () => [],
-    delveBuyShopItem: vi.fn(),
+    delveShopOffers,
+    delveBuyShopItem,
     companionUpgrade,
     enterDelve,
   } as unknown as IWorld;
@@ -58,9 +69,11 @@ function makeHarness(validNpc = true) {
   return {
     controller,
     panel,
-    enterButton,
     entities,
     enterDelve,
+    companionUpgrade,
+    delveBuyShopItem,
+    delveShopOffers,
     preloadInterior,
     focusFirst,
     release,
@@ -71,6 +84,10 @@ function makeHarness(validNpc = true) {
 }
 
 describe('DelveBoardController', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '';
+  });
+
   it('rejects entities that are not a matching board NPC', () => {
     const test = makeHarness(false);
 
@@ -95,20 +112,34 @@ describe('DelveBoardController', () => {
     expect(test.focusFirst).toHaveBeenCalledWith('.delve-enter-btn');
   });
 
-  it('sends the selected tier through IWorld and preloads the same interior event', () => {
+  it('sends the selected heroic tier through IWorld and preloads the same interior event', () => {
     const test = makeHarness();
     test.controller.open(7);
 
-    test.enterButton.dispatchEvent(new Event('click'));
+    test.panel.querySelector<HTMLButtonElement>('[data-tier-pick="heroic"]')?.click();
+    test.panel.querySelector<HTMLButtonElement>('[data-delve-enter]')?.click();
 
-    expect(test.enterDelve).toHaveBeenCalledWith('collapsed_reliquary', 'normal');
+    expect(test.enterDelve).toHaveBeenCalledWith('collapsed_reliquary', 'heroic');
     expect(test.preloadInterior).toHaveBeenCalledWith({
       type: 'delveEntered',
       delveId: 'collapsed_reliquary',
-      tierId: 'normal',
+      tierId: 'heroic',
     });
     expect(test.controller.isOpen).toBe(false);
     expect(test.release).toHaveBeenCalledWith(true);
+  });
+
+  it('routes companion upgrades and shop purchases through IWorld', () => {
+    const test = makeHarness();
+    test.controller.open(7);
+
+    test.panel.querySelector<HTMLButtonElement>('[data-companion-upgrade]')?.click();
+    expect(test.companionUpgrade).toHaveBeenCalledWith('companion_tessa');
+
+    test.panel.querySelector<HTMLButtonElement>('[data-board-tab="shop"]')?.click();
+    expect(test.delveShopOffers).toHaveBeenCalledWith('collapsed_reliquary');
+    test.panel.querySelector<HTMLButtonElement>(`[data-buy="${shopItemId}"]`)?.click();
+    expect(test.delveBuyShopItem).toHaveBeenCalledWith('collapsed_reliquary', shopItemId);
   });
 
   it('closes and restores focus if the authoritative NPC disappears', () => {
