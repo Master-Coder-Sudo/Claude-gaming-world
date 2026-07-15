@@ -165,3 +165,11 @@ tests added, dead code removed, deferrals.
   spike ran after the main deliverables and recorded a measured deferral in
   state.md (mechanism sound, 21/21 derivation equivalence; bundle premise false:
   sameAsEnglish is 3,753 keys, one-file emit costs ~8 KB gzip eager at release).
+  One pin outside the phase's mapped touch set surfaced in the full gate:
+  tests/i18n_emit_shape.test.ts pins the exact I18N_OUT_DIR emit set per build
+  script, so the game build's expected set gained translation_keys.generated.ts
+  (admin's unchanged). Later phases touching the emit set must update it too.
+  Mid-phase the release base moved (PR #1861 added two catalog keys); the merge
+  was clean, the union regenerated with the two keys interior and sorted (the
+  line-item merge-benign property observed live), and release-merge-audit found
+  no divergence.
