@@ -1121,6 +1121,15 @@ export class GameServer {
   readonly social: SocialService;
   private readonly moderation: ModerationService<ClientSession>;
   private wireCache = new Map<number, EntityWireCache>();
+  // partyFrameAggroTargets / partyFrameIncomingHeals scan the whole entity set and
+  // are GLOBAL (identical for every grouped session), yet partyWire runs once per
+  // grouped session per tick. Memoize both once per tick so a 40-raid does one scan,
+  // not one per member. (see review #1864, finding 1)
+  private partyFrameGlobalsCache: {
+    tick: number;
+    aggroTargets: ReturnType<typeof partyFrameAggroTargets>;
+    incomingHeals: ReturnType<typeof partyFrameIncomingHeals>;
+  } | null = null;
   private lastWireSweepTick = 0;
   private interval: NodeJS.Timeout | null = null;
   private holderTierInterval: NodeJS.Timeout | null = null;
@@ -5206,14 +5215,30 @@ export class GameServer {
     return extra === '' ? json : `${json.slice(0, -1)}${extra}}`;
   }
 
+  // Global party-frame aggregates (aggro holders + incoming heals), scanned once
+  // per tick and shared by every partyWire call in that tick.
+  private partyFrameGlobals(): {
+    aggroTargets: ReturnType<typeof partyFrameAggroTargets>;
+    incomingHeals: ReturnType<typeof partyFrameIncomingHeals>;
+  } {
+    const tick = this.sim.tickCount;
+    const cache = this.partyFrameGlobalsCache;
+    if (cache && cache.tick === tick) return cache;
+    const fresh = {
+      tick,
+      aggroTargets: partyFrameAggroTargets(this.sim.entities.values()),
+      incomingHeals: partyFrameIncomingHeals(this.sim.entities.values(), (abilityId, casterId) =>
+        this.sim.resolvedAbility(abilityId, casterId),
+      ),
+    };
+    this.partyFrameGlobalsCache = fresh;
+    return fresh;
+  }
+
   private partyWire(pid: number): unknown {
     const party = this.sim.partyOf(pid);
     if (!party) return null;
-    const aggroTargets = partyFrameAggroTargets(this.sim.entities.values());
-    const incomingHeals = partyFrameIncomingHeals(
-      this.sim.entities.values(),
-      (abilityId, casterId) => this.sim.resolvedAbility(abilityId, casterId),
-    );
+    const { aggroTargets, incomingHeals } = this.partyFrameGlobals();
     return {
       leader: party.leader,
       raid: party.raid,

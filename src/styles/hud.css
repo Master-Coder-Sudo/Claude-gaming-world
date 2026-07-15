@@ -4361,20 +4361,6 @@
     text-shadow: 1px 1px 1px #000;
     pointer-events: none;
   }
-  .party-frame .pfm-rewind {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: var(--rewind-start, 0%);
-    width: 0;
-    z-index: 1;
-    background: repeating-linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--color-debuff-arcane) 55%, transparent) 0 4px,
-      color-mix(in srgb, var(--color-debuff-arcane) 20%, transparent) 4px 8px
-    );
-    pointer-events: none;
-  }
   .party-frame .pfm-incoming {
     position: absolute;
     top: 0;
@@ -4476,12 +4462,6 @@
       opacity: 0.4;
     }
   }
-  #party-leave {
-    font-size: 10px;
-    padding: 2px 8px;
-    margin: 0;
-  }
-
   /* ---------- context menu ---------- */
   #ctx-menu {
     position: absolute;
