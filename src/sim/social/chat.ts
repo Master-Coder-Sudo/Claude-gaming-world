@@ -572,6 +572,10 @@ export function chat(ctx: SimContext, text: string, pid?: number): SentChat | nu
     );
     return null;
   }
+  if (/^\/(?:dungeons|dungeon|instances)\s+reset\s*$/i.test(raw)) {
+    ctx.resetDungeonInstances(r.meta.entityId);
+    return null;
+  }
   if (/^\/(?:dungeons|dungeon|instances)(?:\s|$)/i.test(raw)) {
     ctx.error(r.meta.entityId, readouts.dungeonsReadout());
     ctx.error(
@@ -579,6 +583,10 @@ export function chat(ctx: SimContext, text: string, pid?: number): SentChat | nu
       ctx.dungeonDifficulty(r.meta.entityId) === 'heroic'
         ? 'Dungeon difficulty: Heroic. Use /dungeon normal to change it.'
         : 'Dungeon difficulty: Normal. Use /dungeon heroic to change it.',
+    );
+    ctx.error(
+      r.meta.entityId,
+      'Use /dungeon reset to abandon your empty instances after changing difficulty.',
     );
     return null;
   }
@@ -761,9 +769,11 @@ export function chat(ctx: SimContext, text: string, pid?: number): SentChat | nu
     return { channel: 'party', message: clean };
   }
 
-  // "/g message": world-wide general channel (no pid = broadcast to all)
-  if (/^\/g(eneral)?\s/i.test(raw)) {
-    const clean = raw.replace(/^\/g(eneral)?\s+/i, '').trim();
+  // "/g message" / "/1 message": world-wide general channel (no pid = broadcast to
+  // all). "/1" is the classic numbered-channel shortcut for General; unlike "/g" it
+  // is never claimed by the online guild router, so it always reaches General.
+  if (/^\/(?:g(?:eneral)?|1)\s/i.test(raw)) {
+    const clean = raw.replace(/^\/(?:g(?:eneral)?|1)\s+/i, '').trim();
     if (!clean) return null;
     ctx.emit({
       type: 'chat',
