@@ -271,11 +271,10 @@ import { DelveTrackerController } from './hud/delve/delve_tracker_controller';
 import { LockpickController } from './hud/delve/lockpick_controller';
 import { RiteController } from './hud/delve/rite_controller';
 import { FiestaController } from './hud/fiesta/fiesta_controller';
-import { corpseHarvestView } from './hud/loot/corpse_harvest_view';
-import { renderCorpseHarvestPicker } from './hud/loot/corpse_harvest_window';
 import { LootRollController } from './hud/loot/loot_roll_controller';
 import { lootSettingsView } from './hud/loot/loot_settings_view';
 import { renderLootSettingsWindow } from './hud/loot/loot_settings_window';
+import { LootWindowController } from './hud/loot/loot_window_controller';
 import { PlayerCardController } from './hud/player_card/player_card_controller';
 import { QuestDialogController } from './hud/quest/quest_dialog_controller';
 import { parseChatSegments } from './hud/quest/quest_link';
@@ -1138,8 +1137,7 @@ export class Hud {
   private mapPrewarmVia: 'idle' | 'timeout' | null = null;
   // Delve schematic caches: static background (floor/pillars/tombs/dais/exit)
   // keyed by module id, redrawn only when the module changes.
-  private openLootMobId: number | null = null;
-  private openLootChestId: number | null = null;
+  private readonly lootWindow: LootWindowController;
   private readonly lootRolls: LootRollController;
   private openVendorNpcId: number | null = null;
   private openHeroicVendorNpcId: number | null = null;
@@ -1402,6 +1400,22 @@ export class Hud {
         setDistance: (distance) =>
           voice.setDistanceGain(distance === null ? 0 : voiceDistanceGain(distance)),
       },
+    });
+    this.lootWindow = new LootWindowController({
+      element: $('#loot-window'),
+      document,
+      world: () => this.sim,
+      closeTransient: () => this.closeOtherWindows('#loot-window'),
+      hideTooltip: () => this.hideTooltip(),
+      entityName: entityDisplayName,
+      money: (copper) => this.moneyHtml(copper),
+      coinIconUrl: () => iconDataUrl('item', 'coin_gold'),
+      itemIcon: (item) => this.itemIcon(item),
+      itemTooltip: (item) => this.itemTooltip(item),
+      attachTooltip: (element, html) => this.attachTooltip(element, html),
+      centerPopup: (element) => this.centerPopupInViewport(element),
+      placePopup: (element, x, y, reserveRight, reserveBottom, minLeft, minTop) =>
+        this.placePopupAt(element, x, y, reserveRight, reserveBottom, minLeft, minTop),
     });
     this.lootRolls = new LootRollController({
       document,
@@ -6689,14 +6703,7 @@ export class Hud {
       if ($('#dungeon-finder-window').style.display === 'flex') this.dungeonFinderWindow.render();
       if (this.dungeonFinderProposalPopup.isOpen) this.dungeonFinderProposalPopup.render();
       if ($('#valecup-window').style.display === 'block') this.valeCupWindow.render();
-      if (this.openLootMobId !== null) {
-        const mob = sim.entities.get(this.openLootMobId);
-        if (!mob?.lootable || dist2d(p.pos, mob.pos) > 7) this.closeLoot();
-      }
-      if (this.openLootChestId !== null) {
-        const chest = sim.entities.get(this.openLootChestId);
-        if (!chest || dist2d(p.pos, chest.pos) > 7) this.closeLoot();
-      }
+      this.lootWindow.updateProximity();
       if (this.openVendorNpcId !== null) {
         const npc = sim.entities.get(this.openVendorNpcId);
         if (!npc || dist2d(p.pos, npc.pos) > 8) this.closeVendor();
@@ -6924,33 +6931,7 @@ export class Hud {
 
   private openDelveLoot(chestId: number, items: { itemId: string; count: number }[]): void {
     this.closeLockpick();
-    if (items.length === 0) return;
-    this.closeOtherWindows('#loot-window');
-    this.openLootMobId = null;
-    this.openLootChestId = chestId;
-    const chest = this.sim.entities.get(chestId);
-    const el = $('#loot-window');
-    let html = `<div class="panel-title"><span>${esc(chest ? entityDisplayName(chest) : t('hudChrome.loot.chestTitle'))}</span><button type="button" class="x-btn" data-close aria-label="${esc(t('itemUi.loot.close'))}">${svgIcon('close')}</button></div>`;
-    for (const s of items) {
-      const item = ITEMS[s.itemId];
-      html += `<div class="loot-item" data-item="${s.itemId}">${this.itemIcon(item)}<span style="font-size:12px">${esc(itemDisplayName(item))}${s.count > 1 ? ` ${esc(t('itemUi.bags.stackCount', { count: formatNumber(s.count, { maximumFractionDigits: 0 }) }))}` : ''}</span></div>`;
-    }
-    el.innerHTML = html;
-    el.querySelectorAll('[data-item]').forEach((row) => {
-      const itemId = (row as HTMLElement).dataset.item ?? '';
-      this.attachTooltip(row as HTMLElement, () => this.itemTooltip(ITEMS[itemId]));
-    });
-    const btn = document.createElement('button');
-    btn.className = 'btn';
-    btn.textContent = t('itemUi.loot.takeAll');
-    btn.addEventListener('click', () => {
-      this.sim.collectDelveChestLoot(chestId);
-      this.closeLoot();
-    });
-    el.appendChild(btn);
-    el.querySelector('[data-close]')?.addEventListener('click', () => this.closeLoot());
-    el.style.display = 'block';
-    this.centerPopupInViewport(el);
+    this.lootWindow.openChest(chestId, items);
   }
 
   flushLockpickEvents(): void {
@@ -9667,66 +9648,11 @@ export class Hud {
   // -------------------------------------------------------------------------
 
   openLoot(mobId: number, screenX: number, screenY: number): void {
-    const mob = this.sim.entities.get(mobId);
-    if (!mob) return;
-    const componentTags = MOBS[mob.templateId]?.componentTags;
-    const harvestable = !!componentTags?.length && mob.harvestClaimedBy === null;
-    const visibleItems = mob.loot
-      ? mob.loot.items.filter((s) => !s.personalFor || s.personalFor.includes(this.sim.playerId))
-      : [];
-    const hasLoot = !!mob.loot && (mob.loot.copper > 0 || visibleItems.length > 0);
-    if (!hasLoot && !harvestable) return;
-    this.closeOtherWindows('#loot-window');
-    this.openLootMobId = mobId;
-    this.openLootChestId = null;
-    const el = $('#loot-window');
-    let html = `<div class="panel-title"><span>${esc(entityDisplayName(mob))}</span><button type="button" class="x-btn" data-close aria-label="${esc(t('itemUi.loot.close'))}">${svgIcon('close')}</button></div>`;
-    if (mob.loot && mob.loot.copper > 0) {
-      html += `<div class="loot-item"><img class="item-icon q-common" src="${iconDataUrl('item', 'coin_gold')}" alt="" draggable="false"><span>${this.moneyHtml(mob.loot.copper)}</span></div>`;
-    }
-    for (const s of visibleItems) {
-      const item = ITEMS[s.itemId];
-      html += `<div class="loot-item" data-item="${s.itemId}">${this.itemIcon(item)}<span style="font-size:12px">${esc(itemDisplayName(item))}${s.count > 1 ? ` ${esc(t('itemUi.bags.stackCount', { count: formatNumber(s.count, { maximumFractionDigits: 0 }) }))}` : ''}</span></div>`;
-    }
-    el.innerHTML = html;
-    el.querySelectorAll('[data-item]').forEach((row) => {
-      const itemId = (row as HTMLElement).dataset.item ?? '';
-      this.attachTooltip(row as HTMLElement, () => this.itemTooltip(ITEMS[itemId]));
-    });
-    if (hasLoot) {
-      const btn = document.createElement('button');
-      btn.className = 'btn';
-      btn.textContent = t('itemUi.loot.takeAll');
-      btn.title = t('hudChrome.loot.takeAllTooltip');
-      btn.addEventListener('click', () => {
-        this.sim.lootCorpse(mobId);
-        this.closeLoot();
-      });
-      el.appendChild(btn);
-    }
-    if (harvestable && componentTags) {
-      renderCorpseHarvestPicker(el, corpseHarvestView(componentTags, new Set()), {
-        onHarvest: (chosen) => {
-          this.sim.harvestCorpse(mobId, chosen);
-          this.closeLoot();
-        },
-      });
-    }
-    el.querySelector('[data-close]')?.addEventListener('click', () => this.closeLoot());
-    el.style.display = 'block';
-    if (document.body.classList.contains('mobile-touch')) {
-      this.centerPopupInViewport(el);
-    } else {
-      this.placePopupAt(el, screenX - 115, screenY - 30, 260, 280, 10, 10);
-      el.style.transform = 'none'; // loot pops at the cursor, not the centred slot
-    }
+    this.lootWindow.openCorpse(mobId, screenX, screenY);
   }
 
   closeLoot(): void {
-    $('#loot-window').style.display = 'none';
-    this.openLootMobId = null;
-    this.openLootChestId = null;
-    this.hideTooltip();
+    this.lootWindow.close();
   }
 
   // -------------------------------------------------------------------------
@@ -12138,7 +12064,7 @@ export class Hud {
 
   // Closes the topmost UI. Returns true if something was closed.
   closeAll(): boolean {
-    if (this.openLootChestId !== null) {
+    if (this.lootWindow.hasOpenChest) {
       this.closeLoot();
       return true;
     }

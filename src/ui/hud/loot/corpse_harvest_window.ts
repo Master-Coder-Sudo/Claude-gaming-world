@@ -39,6 +39,7 @@ export function renderCorpseHarvestPicker(
   deps: CorpseHarvestPainterDeps,
 ): void {
   if (view.rows.length === 0) return;
+  const document = container.ownerDocument;
   const section = document.createElement('div');
   section.className = 'corpse-harvest';
   section.innerHTML = `<div class="corpse-harvest-title">${esc(t('hudChrome.corpseHarvest.title'))}</div>
