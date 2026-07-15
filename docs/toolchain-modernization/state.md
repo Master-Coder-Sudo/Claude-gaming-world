@@ -3,8 +3,12 @@
 ## Current phase
 
 Phase 1 (Degit the i18n aggregate artifacts): IMPLEMENTED 2026-07-14, draft PR #1931
-open against release/v0.26.0. Next: the Phase 1 QA session (phase-01-qa.md) marks the
-PR ready on PASS; the merge stays owner-scheduled at a release cut (OPEN item 3).
+open against release/v0.26.0. Phase 1 QA ran 2026-07-14: verdict FAIL on acceptance
+criterion 2 only (the two-branch merge experiment conflicts in the pre-existing
+src/ui/i18n.resolved.generated/pending.ts; see the Phase 1 QA notes below and OPEN
+item 8); every other criterion verified and all SHOULD-FIX findings fixed. The PR
+stays DRAFT until the owner decides OPEN item 8; the merge stays owner-scheduled at a
+release cut (OPEN item 3).
 
 ## Phase 1 execution notes (2026-07-14, for later phases)
 
@@ -24,6 +28,10 @@ PR ready on PASS; the merge stays owner-scheduled at a release cut (OPEN item 3)
 - Merge experiment result: two branches each adding a key in a different catalog domain
   merged with zero conflicts, AND the auto-merged slices were byte-identical to a fresh
   regeneration of the merged union (textual merge = semantic merge for line-item slices).
+  (CORRECTED 2026-07-14 by Phase 1 QA: this result does not generalize. Probe keys
+  sorting past the pending.ts tail conflict in every locale array; the byte-identical
+  claim held for the 24 locale slices and en.ts but not pending.ts. See the Phase 1
+  QA notes and OPEN item 8.)
 - Local environment gotchas (this dev machine, relevant to every later phase):
   Node 25.2.1 (shell default) ships a built-in localStorage that breaks jsdom suites
   (deeds_window_focus reds); run gates under nvm Node 24 (CI pins Node 22). ffmpeg and
@@ -32,6 +40,43 @@ PR ready on PASS; the merge stays owner-scheduled at a release cut (OPEN item 3)
   one-time npx playwright install chromium-headless-shell, and then has ONE pre-existing
   environmental failure (armory_mobile_layout pixel-height assertion) that reproduces
   identically on the untouched release/v0.26.0 tip; CI is the arbiter for that suite.
+
+## Phase 1 QA notes (2026-07-14)
+
+- Verdict: FAIL on acceptance criterion 2 only; the phase's own deliverables are sound.
+  Counts: 1 BLOCKING found (surfaced as OPEN item 8, not fixable in phase scope),
+  2 SHOULD-FIX found and fixed, 3 NICE-TO-HAVE confirmed and deferred, 11 candidate
+  findings rejected by a 3-lens adversarial verification panel.
+- The BLOCKING finding: src/ui/i18n.resolved.generated/pending.ts (pre-existing, NOT a
+  Phase 1 artifact) is a small sorted per-locale array file, so any two concurrent
+  new-key PRs whose keys both sort past its current tail (hudChrome.plurals.*, which
+  most catalog domains do) conflict in every non-empty locale array. The two aggregates
+  Phase 1 removed ARE gone, and the 24 locale slices plus en.ts auto-merge
+  byte-identically to a fresh regeneration; pending.ts is the sole remaining
+  pairwise-conflict artifact. Reproduced independently three times (QA finder plus
+  three verification lenses, all BLOCKING).
+- SHOULD-FIX fixes applied: scripts/i18n_coverage_summary.mjs header no longer calls
+  the summary committed; acceptance criterion 6 amended to record the owner-approved
+  historical-annotation treatment of
+  docs/i18n-scaling/lazy-locales-and-contributor-workflow.md, whose three unannotated
+  pre-D4 mentions (goal 6, the artifact-decision table, the cross-proposal paragraph)
+  now carry dated D4 notes.
+- Deferred NICE-TO-HAVE (recorded, not fixed): criterion 5 is proven by evidence chain
+  rather than an observed rendered summary (GitHub exposes no API for step summaries
+  and hides them from signed-out viewers; the owner can eyeball run 29367611824); the
+  defensive fallback branches in i18n_coverage_summary.mjs are untested; the
+  release-gate arm of the two i18n steps has no live run yet (the first release-branch
+  push exercises it).
+- Live-CI evidence for criteria 4 and 5 (previously unrecorded): green run 29367611824
+  on PR #1931 head 1f32e20c0 (freshness step green; coverage step logged 'appended the
+  rollup to $GITHUB_STEP_SUMMARY'). Probe PR #1932 test/i18n-freshness-redpath, run
+  29367801113, failed at the freshness step with legible per-file hunks and was closed
+  unmerged.
+- Gate re-run with the QA fixes (2026-07-14, Node 24 + ffmpeg shim per the execution
+  notes): steps 1 to 6 green including the full vitest suite (13819 passed); browser
+  regressions red ONLY at the known environmental armory_mobile_layout pixel assertion
+  (PR CI green on the same HEAD is the arbiter); typecheck and the env, server, and
+  client builds green.
 
 ## Locked design decisions (record once, reference forever)
 
@@ -192,3 +237,20 @@ Workstream C (Phases 3, 4 touch set):
    and recorded in brainstorm.md (7 vs 8 files, timing, leaf counts).
 7. The i18n:gen output is deterministic; running it twice must leave a clean tree. Any
    phase that sees a dirty tree after a second regen has found a real bug: stop and report.
+8. pending.ts conflict class (Phase 1 QA BLOCKING, 2026-07-14, owner decision needed):
+   make concurrent new-key PRs merge clean in src/ui/i18n.resolved.generated/pending.ts
+   (and its src/admin twin). Candidates: (a) full-universe anchoring: emit a per-key
+   table over ALL catalog keys (empty list = fully translated) so inserts are always
+   interior, exactly why the big slices merge clean; guaranteed fix, but pending.ts is
+   imported eagerly by src/ui/i18n.ts, so this adds an estimated 25 to 35 KB gzip to
+   the client bundle (estimate only, measure before choosing) unless the runtime import
+   is restructured; (b) degit pending.ts like the status registry and re-derive it via
+   i18n:gen; breaks fresh-clone tsc and editors until a regen runs, the exact breakage
+   committed slices exist to prevent; (c) accept the residual conflict and re-scope
+   criterion 2 to the aggregates the phase removed; the resolution recipe is already
+   'rerun npm run i18n:gen after the merge and commit' and the freshness gate catches a
+   forgotten regen, but note that right after a release locale-fill (pending arrays
+   empty) EVERY concurrent new-key pair conflicts, so mid-cycle pain returns. QA
+   recommendation: (c) immediately (document the recipe where contributors see it,
+   e.g. src/ui/CLAUDE.md's merge-conflict rule), with (a) as the durable fix if
+   mid-cycle conflicts prove frequent; (b) is not recommended.

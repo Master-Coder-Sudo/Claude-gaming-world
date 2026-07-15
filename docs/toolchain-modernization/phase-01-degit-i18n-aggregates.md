@@ -129,18 +129,48 @@ STEP 4 - COMMIT CADENCE (Conventional Commits with scope; EXPLICIT paths; no em 
 - test(i18n): retire committed-artifact assertions for the removed aggregates
 
 STEP 5 - ACCEPTANCE CRITERIA:
-- [ ] git ls-files shows neither src/ui/i18n.resolved.sha256 nor
+- [x] git ls-files shows neither src/ui/i18n.resolved.sha256 nor
       src/ui/i18n.status.summary.json; npm run i18n:gen still emits the summary locally
+      (verified 2026-07-14, Phase 1 QA)
 - [ ] The two-branch merge experiment produces zero conflicts
-- [ ] npm run gate fully green on the branch
-- [ ] A deliberately staled slice (edit a catalog key without regenerating) still turns
-      the CI freshness step red on a test PR
-- [ ] The audit counts render in the GitHub job summary on a test PR
-- [ ] git grep finds no remaining reference to i18n.resolved.sha256 or the i18n:hash
+      (FALSIFIED 2026-07-14, Phase 1 QA: an independent re-run off 1f32e20c0 with
+      questUi.tracker.* and hudChrome.spectate.* probe keys conflicts in
+      src/ui/i18n.resolved.generated/pending.ts, 20 hunks, one per locale array.
+      Structural, not key luck: pending.ts is a small sorted per-locale array file
+      whose tail is hudChrome.plurals.*, so any two concurrent new keys sorting past
+      that tail rewrite the same tail lines. The two removed aggregates ARE gone and
+      all 24 other slices auto-merge byte-identically to a fresh regen; pending.ts is
+      the sole remaining pairwise-conflict artifact. Fix requires an owner decision
+      recorded in state.md, OPEN item 8.)
+- [x] npm run gate fully green on the branch (verified 2026-07-14, Phase 1 QA, with
+      one documented environmental exception: on the dev laptop the gate reds only at
+      the known pre-existing armory_mobile_layout browser pixel assertion, which
+      reproduces on the untouched release/v0.26.0 tip; every other step is green
+      locally, including the full vitest suite, typecheck, and all three builds, and
+      PR CI on the same HEAD, the recorded arbiter for that suite, is fully green.)
+- [x] A deliberately staled slice (edit a catalog key without regenerating) still turns
+      the CI freshness step red on a test PR (verified 2026-07-14, Phase 1 QA: probe
+      PR #1932 test/i18n-freshness-redpath, run 29367801113, pr-gate failed at the
+      freshness step with legible per-file hunks; PR closed unmerged. Local
+      simulation of the same command also exits non-zero.)
+- [x] The audit counts render in the GitHub job summary on a test PR (verified
+      2026-07-14, Phase 1 QA, by evidence chain on green run 29367611824: the summary
+      was generated before the step, the step succeeded logging 'appended the rollup
+      to $GITHUB_STEP_SUMMARY', and the script appends non-empty markdown before
+      printing that line. GitHub exposes no API for rendered step summaries and hides
+      them from signed-out viewers; an owner eyeball of the run page is the only
+      stronger proof.)
+- [x] git grep finds no remaining reference to i18n.resolved.sha256 or the i18n:hash
       --write re-baseline flow in any LIVING surface (src/, scripts/, tests/, server/,
       .github/, .githooks/, .claude/, docs/i18n-scaling/, CONTRIBUTING.md, the
       CLAUDE.md files); the historical program records (ip-refactor/,
-      docs/api-pipeline/) and this packet are the only permitted remaining hits
+      docs/api-pipeline/) and this packet are the only permitted remaining hits.
+      (Amended and verified 2026-07-14, Phase 1 QA: per the docs-sweep deliverable
+      above, docs/i18n-scaling/lazy-locales-and-contributor-workflow.md is also
+      permitted to retain its pre-D4 text as a historical design record, provided
+      every retained old-flow mention carries a dated D4 note; the addendum plus
+      in-body annotations satisfy that, and stays-untracked pins and
+      removal-explaining prose are permitted references everywhere.)
 
 STEP 6 - DOC UPDATES + MEMORY:
 - Update docs/toolchain-modernization/progress.md (Phase 1 checklist + status) and

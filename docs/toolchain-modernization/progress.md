@@ -4,8 +4,8 @@
 
 | Phase | Status | Started | Completed |
 |---|---|---|---|
-| Phase 1: Degit i18n aggregates | implemented, draft PR #1931 open (merge owner-scheduled) | 2026-07-14 | |
-| Phase 1 QA | not started | | |
+| Phase 1: Degit i18n aggregates | implemented, draft PR #1931 open (stays draft pending state.md OPEN item 8; merge owner-scheduled) | 2026-07-14 | |
+| Phase 1 QA | complete: FAIL on criterion 2 only (pending.ts, surfaced as state.md OPEN item 8); 2 SHOULD-FIX fixed | 2026-07-14 | 2026-07-14 |
 | Phase 2: Flat TranslationKey + baseUrl | not started | | |
 | Phase 2 QA | not started | | |
 | Phase 3: CI parallel checks + FFmpeg | not started | | |
@@ -102,7 +102,19 @@
 Each QA phase records here: BLOCKING/SHOULD-FIX/NICE-TO-HAVE counts found and fixed,
 tests added, dead code removed, deferrals.
 
-- Phase 1 QA:
+- Phase 1 QA: 1 BLOCKING found, 0 fixed (the two-branch merge experiment conflicts in
+  the pre-existing src/ui/i18n.resolved.generated/pending.ts; not fixable in phase
+  scope, surfaced as state.md OPEN item 8 with fix candidates and a recommendation);
+  2 SHOULD-FIX found and fixed (scripts/i18n_coverage_summary.mjs header called the
+  summary committed; acceptance criterion 6 never recorded the historical-annotation
+  exemption for docs/i18n-scaling/lazy-locales-and-contributor-workflow.md, now
+  amended, plus three dated D4 notes added to that doc's unannotated pre-D4 mentions);
+  3 NICE-TO-HAVE confirmed and deferred (criterion 5 proven by evidence chain only;
+  untested defensive fallbacks in the coverage script; release-gate arm of the two
+  i18n steps unexercised live); 11 candidates rejected by the 3-lens adversarial
+  panel. Tests added: none (no code behavior changed). Dead code removed: none.
+  Live evidence recorded: PR #1931 green run 29367611824; freshness-red probe
+  PR #1932 run 29367801113, closed unmerged.
 - Phase 2 QA:
 - Phase 3 QA:
 - Phase 4 QA:
