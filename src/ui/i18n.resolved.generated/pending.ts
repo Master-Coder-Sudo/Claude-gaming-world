@@ -12,6 +12,9 @@ export const pending: Record<string, readonly string[]> = {
   "es": [
     "guide.family.reptile.desc",
     "guide.family.reptile.name",
+    "hudChrome.bags.dragDestroyHint",
+    "hudChrome.bags.dragEquipHint",
+    "hudChrome.bags.reorderNeedsRecent",
     "hudChrome.bags.rightClickDestroy",
     "hudChrome.cameraPrompt.changeLater",
     "hudChrome.cameraPrompt.classicDesc",
@@ -135,6 +138,9 @@ export const pending: Record<string, readonly string[]> = {
   "es_ES": [
     "guide.family.reptile.desc",
     "guide.family.reptile.name",
+    "hudChrome.bags.dragDestroyHint",
+    "hudChrome.bags.dragEquipHint",
+    "hudChrome.bags.reorderNeedsRecent",
     "hudChrome.bags.rightClickDestroy",
     "hudChrome.cameraPrompt.changeLater",
     "hudChrome.cameraPrompt.classicDesc",
@@ -258,6 +264,9 @@ export const pending: Record<string, readonly string[]> = {
   "fr_FR": [
     "guide.family.reptile.desc",
     "guide.family.reptile.name",
+    "hudChrome.bags.dragDestroyHint",
+    "hudChrome.bags.dragEquipHint",
+    "hudChrome.bags.reorderNeedsRecent",
     "hudChrome.bags.rightClickDestroy",
     "hudChrome.cameraPrompt.changeLater",
     "hudChrome.cameraPrompt.classicDesc",
@@ -381,6 +390,9 @@ export const pending: Record<string, readonly string[]> = {
   "fr_CA": [
     "guide.family.reptile.desc",
     "guide.family.reptile.name",
+    "hudChrome.bags.dragDestroyHint",
+    "hudChrome.bags.dragEquipHint",
+    "hudChrome.bags.reorderNeedsRecent",
     "hudChrome.bags.rightClickDestroy",
     "hudChrome.cameraPrompt.changeLater",
     "hudChrome.cameraPrompt.classicDesc",
@@ -505,6 +517,9 @@ export const pending: Record<string, readonly string[]> = {
   "it_IT": [
     "guide.family.reptile.desc",
     "guide.family.reptile.name",
+    "hudChrome.bags.dragDestroyHint",
+    "hudChrome.bags.dragEquipHint",
+    "hudChrome.bags.reorderNeedsRecent",
     "hudChrome.bags.rightClickDestroy",
     "hudChrome.cameraPrompt.changeLater",
     "hudChrome.cameraPrompt.classicDesc",
@@ -628,6 +643,9 @@ export const pending: Record<string, readonly string[]> = {
   "de_DE": [
     "guide.family.reptile.desc",
     "guide.family.reptile.name",
+    "hudChrome.bags.dragDestroyHint",
+    "hudChrome.bags.dragEquipHint",
+    "hudChrome.bags.reorderNeedsRecent",
     "hudChrome.bags.rightClickDestroy",
     "hudChrome.cameraPrompt.changeLater",
     "hudChrome.cameraPrompt.classicDesc",
@@ -767,6 +785,9 @@ export const pending: Record<string, readonly string[]> = {
   "pt_BR": [
     "guide.family.reptile.desc",
     "guide.family.reptile.name",
+    "hudChrome.bags.dragDestroyHint",
+    "hudChrome.bags.dragEquipHint",
+    "hudChrome.bags.reorderNeedsRecent",
     "hudChrome.bags.rightClickDestroy",
     "hudChrome.cameraPrompt.changeLater",
     "hudChrome.cameraPrompt.classicDesc",
@@ -894,6 +915,9 @@ export const pending: Record<string, readonly string[]> = {
   "cs_CZ": [
     "guide.family.reptile.desc",
     "guide.family.reptile.name",
+    "hudChrome.bags.dragDestroyHint",
+    "hudChrome.bags.dragEquipHint",
+    "hudChrome.bags.reorderNeedsRecent",
     "hudChrome.bags.rightClickDestroy",
     "hudChrome.cameraPrompt.changeLater",
     "hudChrome.cameraPrompt.classicDesc",
@@ -1017,6 +1041,9 @@ export const pending: Record<string, readonly string[]> = {
   "nl_NL": [
     "guide.family.reptile.desc",
     "guide.family.reptile.name",
+    "hudChrome.bags.dragDestroyHint",
+    "hudChrome.bags.dragEquipHint",
+    "hudChrome.bags.reorderNeedsRecent",
     "hudChrome.bags.rightClickDestroy",
     "hudChrome.cameraPrompt.changeLater",
     "hudChrome.cameraPrompt.classicDesc",
@@ -1140,6 +1167,9 @@ export const pending: Record<string, readonly string[]> = {
   "pl_PL": [
     "guide.family.reptile.desc",
     "guide.family.reptile.name",
+    "hudChrome.bags.dragDestroyHint",
+    "hudChrome.bags.dragEquipHint",
+    "hudChrome.bags.reorderNeedsRecent",
     "hudChrome.bags.rightClickDestroy",
     "hudChrome.cameraPrompt.changeLater",
     "hudChrome.cameraPrompt.classicDesc",
@@ -1263,6 +1293,9 @@ export const pending: Record<string, readonly string[]> = {
   "id_ID": [
     "guide.family.reptile.desc",
     "guide.family.reptile.name",
+    "hudChrome.bags.dragDestroyHint",
+    "hudChrome.bags.dragEquipHint",
+    "hudChrome.bags.reorderNeedsRecent",
     "hudChrome.bags.rightClickDestroy",
     "hudChrome.cameraPrompt.changeLater",
     "hudChrome.cameraPrompt.classicDesc",
@@ -1386,6 +1419,9 @@ export const pending: Record<string, readonly string[]> = {
   "tr_TR": [
     "guide.family.reptile.desc",
     "guide.family.reptile.name",
+    "hudChrome.bags.dragDestroyHint",
+    "hudChrome.bags.dragEquipHint",
+    "hudChrome.bags.reorderNeedsRecent",
     "hudChrome.bags.rightClickDestroy",
     "hudChrome.cameraPrompt.changeLater",
     "hudChrome.cameraPrompt.classicDesc",
@@ -1509,6 +1545,9 @@ export const pending: Record<string, readonly string[]> = {
   "sv_SE": [
     "guide.family.reptile.desc",
     "guide.family.reptile.name",
+    "hudChrome.bags.dragDestroyHint",
+    "hudChrome.bags.dragEquipHint",
+    "hudChrome.bags.reorderNeedsRecent",
     "hudChrome.bags.rightClickDestroy",
     "hudChrome.cameraPrompt.changeLater",
     "hudChrome.cameraPrompt.classicDesc",
@@ -1632,6 +1671,9 @@ export const pending: Record<string, readonly string[]> = {
   "vi_VN": [
     "guide.family.reptile.desc",
     "guide.family.reptile.name",
+    "hudChrome.bags.dragDestroyHint",
+    "hudChrome.bags.dragEquipHint",
+    "hudChrome.bags.reorderNeedsRecent",
     "hudChrome.bags.rightClickDestroy",
     "hudChrome.cameraPrompt.changeLater",
     "hudChrome.cameraPrompt.classicDesc",
@@ -1755,6 +1797,9 @@ export const pending: Record<string, readonly string[]> = {
   "da_DK": [
     "guide.family.reptile.desc",
     "guide.family.reptile.name",
+    "hudChrome.bags.dragDestroyHint",
+    "hudChrome.bags.dragEquipHint",
+    "hudChrome.bags.reorderNeedsRecent",
     "hudChrome.bags.rightClickDestroy",
     "hudChrome.cameraPrompt.changeLater",
     "hudChrome.cameraPrompt.classicDesc",
