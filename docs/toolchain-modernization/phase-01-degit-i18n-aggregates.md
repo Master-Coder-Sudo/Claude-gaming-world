@@ -132,16 +132,23 @@ STEP 5 - ACCEPTANCE CRITERIA:
 - [x] git ls-files shows neither src/ui/i18n.resolved.sha256 nor
       src/ui/i18n.status.summary.json; npm run i18n:gen still emits the summary locally
       (verified 2026-07-14, Phase 1 QA)
-- [ ] The two-branch merge experiment produces zero conflicts
-      (FALSIFIED 2026-07-14, Phase 1 QA: an independent re-run off 1f32e20c0 with
-      questUi.tracker.* and hudChrome.spectate.* probe keys conflicts in
-      src/ui/i18n.resolved.generated/pending.ts, 20 hunks, one per locale array.
-      Structural, not key luck: pending.ts is a small sorted per-locale array file
-      whose tail is hudChrome.plurals.*, so any two concurrent new keys sorting past
-      that tail rewrite the same tail lines. The two removed aggregates ARE gone and
-      all 24 other slices auto-merge byte-identically to a fresh regen; pending.ts is
-      the sole remaining pairwise-conflict artifact. Fix requires an owner decision
-      recorded in state.md, OPEN item 8.)
+- [x] The two-branch merge experiment produces zero conflicts
+      (FALSIFIED as originally written, 2026-07-14 Phase 1 QA: an independent re-run
+      off 1f32e20c0 with questUi.tracker.* and hudChrome.spectate.* probe keys
+      conflicts in src/ui/i18n.resolved.generated/pending.ts, 20 hunks, one per
+      locale array. Structural, not key luck: pending.ts is a small sorted per-locale
+      array file whose tail is hudChrome.plurals.*, so any two concurrent new keys
+      sorting past that tail rewrite the same tail lines. The two removed aggregates
+      ARE gone and all 24 other slices auto-merge byte-identically to a fresh regen;
+      pending.ts is the sole remaining pairwise-conflict artifact.)
+      (RE-SCOPED 2026-07-14 by owner decision, recorded in state.md OPEN item 8: the
+      criterion now covers the artifacts this phase touched, and in that scope it
+      HOLDS and is checked off: both removed aggregates produce zero conflicts by
+      absence, and the 24 locale slices plus en.ts auto-merge byte-identically to a
+      fresh regeneration, verified by the QA re-run. The pre-existing pending.ts
+      conflict class is handled separately: the one-command resolution recipe is
+      documented in src/ui/CLAUDE.md, and the durable fix, the same-as-English
+      inversion, is specced with a fallback in OPEN item 8.)
 - [x] npm run gate fully green on the branch (verified 2026-07-14, Phase 1 QA, with
       one documented environmental exception: on the dev laptop the gate reds only at
       the known pre-existing armory_mobile_layout browser pixel assertion, which

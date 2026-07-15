@@ -4,8 +4,8 @@
 
 | Phase | Status | Started | Completed |
 |---|---|---|---|
-| Phase 1: Degit i18n aggregates | implemented, draft PR #1931 open (stays draft pending state.md OPEN item 8; merge owner-scheduled) | 2026-07-14 | |
-| Phase 1 QA | complete: FAIL on criterion 2 only (pending.ts, surfaced as state.md OPEN item 8); 2 SHOULD-FIX fixed | 2026-07-14 | 2026-07-14 |
+| Phase 1: Degit i18n aggregates | implemented; PR #1931 READY for review (merge owner-scheduled at a release cut) | 2026-07-14 | |
+| Phase 1 QA | complete: PASS-WITH-FOLLOWUPS (criterion 2 re-scoped by the owner's OPEN item 8 decision; pending.ts durable fix specced as a follow-up); 2 SHOULD-FIX fixed | 2026-07-14 | 2026-07-14 |
 | Phase 2: Flat TranslationKey + baseUrl | not started | | |
 | Phase 2 QA | not started | | |
 | Phase 3: CI parallel checks + FFmpeg | not started | | |
@@ -115,6 +115,13 @@ tests added, dead code removed, deferrals.
   11 candidates rejected by the 3-lens adversarial panel. Tests added: none (no code behavior changed). Dead code removed: none.
   Live evidence recorded: PR #1931 green run 29367611824; freshness-red probe
   PR #1932 run 29367801113, closed unmerged.
+  Resolution (same day): the owner decided state.md OPEN item 8. Criterion 2
+  re-scoped to the phase's artifacts (holds and checked off), the residual
+  pending.ts recipe documented in src/ui/CLAUDE.md, and the durable
+  same-as-English-inversion fix specced in OPEN item 8 with a spike checklist
+  and a measured fallback. Final verdict PASS-WITH-FOLLOWUPS; PR #1931 marked
+  ready for review. Follow-up work item: the OPEN item 8 spike + implementation
+  (may ride Phase 2, must not block it).
 - Phase 2 QA:
 - Phase 3 QA:
 - Phase 4 QA:

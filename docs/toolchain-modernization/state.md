@@ -2,13 +2,14 @@
 
 ## Current phase
 
-Phase 1 (Degit the i18n aggregate artifacts): IMPLEMENTED 2026-07-14, draft PR #1931
-open against release/v0.26.0. Phase 1 QA ran 2026-07-14: verdict FAIL on acceptance
-criterion 2 only (the two-branch merge experiment conflicts in the pre-existing
-src/ui/i18n.resolved.generated/pending.ts; see the Phase 1 QA notes below and OPEN
-item 8); every other criterion verified and all SHOULD-FIX findings fixed. The PR
-stays DRAFT until the owner decides OPEN item 8; the merge stays owner-scheduled at a
-release cut (OPEN item 3).
+Phase 1 (Degit the i18n aggregate artifacts): IMPLEMENTED 2026-07-14, PR #1931 against
+release/v0.26.0 marked READY FOR REVIEW 2026-07-14. Phase 1 QA ran 2026-07-14: initial
+verdict FAIL on acceptance criterion 2 only (the two-branch merge experiment conflicts
+in the pre-existing src/ui/i18n.resolved.generated/pending.ts); the owner decided OPEN
+item 8 the same day (criterion 2 re-scoped to the phase's artifacts, durable
+same-as-English-inversion fix specced as a follow-up), updating the verdict to
+PASS-WITH-FOLLOWUPS. Every other criterion verified, all SHOULD-FIX findings fixed.
+The merge stays owner-scheduled at a release cut (OPEN item 3).
 
 ## Phase 1 execution notes (2026-07-14, for later phases)
 
@@ -44,6 +45,9 @@ release cut (OPEN item 3).
 ## Phase 1 QA notes (2026-07-14)
 
 - Verdict: FAIL on acceptance criterion 2 only; the phase's own deliverables are sound.
+  (Updated later on 2026-07-14: the owner decided OPEN item 8, re-scoping criterion 2
+  to the phase's artifacts and speccing the durable fix as a follow-up; final verdict
+  PASS-WITH-FOLLOWUPS, PR #1931 marked ready for review.)
   Counts: 1 BLOCKING found (surfaced as OPEN item 8, not fixable in phase scope),
   2 SHOULD-FIX found and fixed, 2 NICE-TO-HAVE confirmed and deferred, 11 candidate
   findings rejected by a 3-lens adversarial verification panel (one rejected item,
@@ -238,20 +242,36 @@ Workstream C (Phases 3, 4 touch set):
    and recorded in brainstorm.md (7 vs 8 files, timing, leaf counts).
 7. The i18n:gen output is deterministic; running it twice must leave a clean tree. Any
    phase that sees a dirty tree after a second regen has found a real bug: stop and report.
-8. pending.ts conflict class (Phase 1 QA BLOCKING, 2026-07-14, owner decision needed):
-   make concurrent new-key PRs merge clean in src/ui/i18n.resolved.generated/pending.ts
-   (and its src/admin twin). Candidates: (a) full-universe anchoring: emit a per-key
-   table over ALL catalog keys (empty list = fully translated) so inserts are always
-   interior, exactly why the big slices merge clean; guaranteed fix, but pending.ts is
-   imported eagerly by src/ui/i18n.ts, so this adds an estimated 25 to 35 KB gzip to
-   the client bundle (estimate only, measure before choosing) unless the runtime import
-   is restructured; (b) degit pending.ts like the status registry and re-derive it via
-   i18n:gen; breaks fresh-clone tsc and editors until a regen runs, the exact breakage
-   committed slices exist to prevent; (c) accept the residual conflict and re-scope
-   criterion 2 to the aggregates the phase removed; the resolution recipe is already
-   'rerun npm run i18n:gen after the merge and commit' and the freshness gate catches a
-   forgotten regen, but note that right after a release locale-fill (pending arrays
-   empty) EVERY concurrent new-key pair conflicts, so mid-cycle pain returns. QA
-   recommendation: (c) immediately (document the recipe where contributors see it,
-   e.g. src/ui/CLAUDE.md's merge-conflict rule), with (a) as the durable fix if
-   mid-cycle conflicts prove frequent; (b) is not recommended.
+8. pending.ts conflict class (Phase 1 QA BLOCKING, 2026-07-14): DECIDED 2026-07-14 by
+   the owner (in-session direction). Original candidates for the record: (a)
+   full-universe anchoring: emit a per-key table over ALL catalog keys so inserts are
+   always interior; guaranteed fix but adds an estimated 25 to 35 KB gzip to the
+   eagerly-imported client bundle; (b) degit pending.ts and re-derive via i18n:gen;
+   REJECTED (breaks fresh-clone tsc and editors, the exact breakage committed slices
+   exist to prevent); (c) accept the residual conflict and re-scope criterion 2 to the
+   aggregates the phase removed, with the one-command recipe documented.
+   THE DECISION, two parts:
+   - Immediately (done in Phase 1): (c). Criterion 2 re-scoped (dated note in
+     phase-01-degit-i18n-aggregates.md), the residual conflict and its recipe (take
+     either side, npm run i18n:gen, git add) documented in src/ui/CLAUDE.md; the
+     review-pr skill already treats pending.ts conflicts as mechanical regen churn.
+   - Durable fix, a follow-up PR (may ride Phase 2's generator work, both touch
+     scripts/i18n_build.mjs, but must not block it): option (d), the SAME-AS-ENGLISH
+     INVERSION. Invert what is committed: drop the per-locale pending arrays (which
+     every new key appends to) and instead commit the inverse per-locale
+     sameAsEnglish lists: keys a translator DELIBERATELY provided with a value
+     byte-identical to English ('OK', 'Boss'). That list is tiny, changes only during
+     maintainer locale fills (single actor, release time), and new English-only keys
+     never touch it, so concurrent new-key PRs cannot conflict on it. The runtime
+     derives pending instead of importing it: key k is pending for locale L iff
+     resolved[L][k] === resolved.en[k] AND k is not in sameAsEnglish[L]; derive
+     lazily for the active locale or once at init, preserve the PENDING_TOTAL===0
+     fast path and the t() release hard-fail semantics unchanged.
+   - Spike checklist before implementing (d), fall back to (a) with a MEASURED
+     bundle cost if any item snags: dialect-aware provided semantics must mirror
+     scripts/i18n_scan.mjs providedByLang so build/runtime pending stays in lockstep
+     with the registry (pinned by tests/i18n_status_registry.test.ts); en_CA
+     near-English overlay and en_XA pseudo-locale handling; the exported pending
+     surface for src/ui/i18n.ts and src/admin/i18n.ts (shape change vs accessor);
+     determinism under the perturbed-env tests; measured bundle delta (expected near
+     zero); and re-run the two-branch merge experiment as the acceptance proof.

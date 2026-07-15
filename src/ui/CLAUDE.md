@@ -201,8 +201,12 @@ The locale data is split; touch the right file (full model + locked-terms glossa
 **Generated-artifact merge conflicts** (any `i18n.resolved.generated/` slice) are **never
 hand-resolved**: take either side, run `npm run i18n:gen`, and `git add` the result. The
 committed slices are line-item (sorted, one item per line, no counts, hashes, or timestamps),
-so concurrent key-adding PRs auto-merge byte-perfectly; the global aggregates
-(`i18n.status.summary.json`, `i18n.resolved.sha256`) are no longer committed. The output is
+so the full-universe locale slices auto-merge byte-perfectly; the global aggregates
+(`i18n.status.summary.json`, `i18n.resolved.sha256`) are no longer committed. One slice can
+still conflict: `pending.ts` is a small sorted per-locale list, so two concurrent new-key PRs
+often insert at the same tail line. That conflict is expected, resolves with the exact recipe
+above (take either side, regen, add), and a durable fix is specced in the toolchain packet
+(docs/toolchain-modernization/state.md, OPEN item 8). The output is
 deterministic, so a second `i18n:gen` must leave the tree clean (your proof; CI's freshness
 step checks the same). A rising `pending` count after merging a `release/**` branch is
 expected and fine at PR tier.
