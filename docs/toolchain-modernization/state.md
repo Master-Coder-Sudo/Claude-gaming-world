@@ -2,14 +2,17 @@
 
 ## Current phase
 
-Phase 1 (Degit the i18n aggregate artifacts): IMPLEMENTED 2026-07-14, PR #1931 against
-release/v0.26.0 marked READY FOR REVIEW 2026-07-14. Phase 1 QA ran 2026-07-14: initial
-verdict FAIL on acceptance criterion 2 only (the two-branch merge experiment conflicts
-in the pre-existing src/ui/i18n.resolved.generated/pending.ts); the owner decided OPEN
-item 8 the same day (criterion 2 re-scoped to the phase's artifacts, durable
-same-as-English-inversion fix specced as a follow-up), updating the verdict to
-PASS-WITH-FOLLOWUPS. Every other criterion verified, all SHOULD-FIX findings fixed.
-The merge stays owner-scheduled at a release cut (OPEN item 3).
+Phase 1 (Degit the i18n aggregate artifacts): MERGED into release/v0.26.0 on
+2026-07-14 (PR #1931, merge 0313a58f6). QA verdict PASS-WITH-FOLLOWUPS (initial FAIL
+on criterion 2 was resolved the same day by the owner's OPEN item 8 decision:
+criterion re-scoped to the phase's artifacts, durable same-as-English-inversion fix
+specced as a follow-up). The release-gate arm of the three i18n steps ran live and
+green on the merge push (run 29379864925), closing that deferral; the run's overall
+red is the pre-existing mid-cycle release-tier state (empty-pending plus release
+version surfaces), identical pre-merge. The packet directory is now ON the release
+base: fresh worktrees no longer need the bootstrap copy. Next: Phase 2
+(phase-02-flat-translationkey-baseurl.md) off the latest release/**, carrying the
+OPEN item 8 spike as its non-blocking rider.
 
 ## Phase 1 execution notes (2026-07-14, for later phases)
 

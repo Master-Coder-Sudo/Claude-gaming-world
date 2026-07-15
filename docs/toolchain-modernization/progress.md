@@ -4,7 +4,7 @@
 
 | Phase | Status | Started | Completed |
 |---|---|---|---|
-| Phase 1: Degit i18n aggregates | implemented; PR #1931 READY for review (merge owner-scheduled at a release cut) | 2026-07-14 | |
+| Phase 1: Degit i18n aggregates | MERGED into release/v0.26.0 (PR #1931, merge 0313a58f6) | 2026-07-14 | 2026-07-14 |
 | Phase 1 QA | complete: PASS-WITH-FOLLOWUPS (criterion 2 re-scoped by the owner's OPEN item 8 decision; pending.ts durable fix specced as a follow-up); 2 SHOULD-FIX fixed | 2026-07-14 | 2026-07-14 |
 | Phase 2: Flat TranslationKey + baseUrl | not started | | |
 | Phase 2 QA | not started | | |
@@ -122,6 +122,11 @@ tests added, dead code removed, deferrals.
   and a measured fallback. Final verdict PASS-WITH-FOLLOWUPS; PR #1931 marked
   ready for review. Follow-up work item: the OPEN item 8 spike + implementation
   (may ride Phase 2, must not block it).
+  Merged 2026-07-14 (0313a58f6). The release-gate-arm deferral closed on the
+  merge push: run 29379864925 ran all three i18n steps live on the release arm
+  green (generate, slimmed freshness diff, coverage summary). The run's overall
+  failure is the pre-existing mid-cycle release-tier red (empty-pending check
+  plus release version surfaces), identical to the pre-Phase-1 runs.
 - Phase 2 QA:
 - Phase 3 QA:
 - Phase 4 QA:
