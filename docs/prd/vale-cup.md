@@ -179,7 +179,8 @@ Tests
   (2026-07-15): vale_cup_match.test.ts (queue/nations/roles/kickoff/goal/
   golden goal/desertion), vale_cup_bots.test.ts (showcase, backfill,
   practice staging), vale_cup_meta.test.ts (betting, kit swap round-trip,
-  restore/persistence safety, determinism), with the shared staging helpers
+  restore/persistence safety, determinism, parallel private practice, guild
+  banners and the guild leaderboard), with the shared staging helpers
   in vale_cup_util.ts, vale_cup_ball.test.ts
   (physics determinism: friction, bounce reflection, dribble nudge, goal plane;
   rng draw accounting via Rng.setObserver, professions test precedent),
