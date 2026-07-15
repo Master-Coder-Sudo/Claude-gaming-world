@@ -116,6 +116,41 @@ const SPECIES_ASSET_URL: Record<Species, string> = {
   bird: '/models/creatures/songbird_critter.glb',
 };
 
+// Some Tripo-generated critter GLBs are authored with their nose-to-tail axis
+// along world X instead of this system's Z-forward convention (the merged-
+// primitive fallback body in buildSpeciesGeo is elongated along Z, and the
+// per-frame heading rotation below assumes that). Confirmed against the
+// shipped assets (`npx gltf-transform inspect`): squirrel_critter.glb's
+// horizontal footprint is ~1.00 x ~0.43 (X x Z, a 2.3:1 mismatch), while
+// rabbit_critter.glb (~0.76 x ~0.92) and songbird_critter.glb (~0.60 x ~1.00)
+// already run Z-long. A >15% margin only flips the genuinely mismatched case.
+const FORWARD_AXIS_MISMATCH_MARGIN = 1.15;
+
+/**
+ * Extra yaw (radians) to bake into a loaded creature GLB so its long
+ * horizontal axis lines up with local +Z before the per-frame heading
+ * rotation is applied. Pure and Object3D-free so it is unit-testable
+ * against the real asset bounding boxes without a GLB fixture (#1862).
+ */
+export function creatureForwardCorrectionYaw(extentX: number, extentZ: number): number {
+  return extentX > extentZ * FORWARD_AXIS_MISMATCH_MARGIN ? Math.PI / 2 : 0;
+}
+
+/**
+ * Orient a loaded creature GLB instance to this module's Z-forward
+ * convention (see creatureForwardCorrectionYaw) and re-seat its base at
+ * y=0, the same Box3 re-seat delve_props.ts/mailbox.ts use for standalone
+ * props: the GLB's own origin is not guaranteed to sit at the model's feet
+ * (#1862, "critters ... clip trough the ground").
+ */
+function seatAndOrientCreatureInstance(inst: THREE.Object3D): void {
+  const size = new THREE.Vector3();
+  new THREE.Box3().setFromObject(inst).getSize(size);
+  inst.rotation.y = creatureForwardCorrectionYaw(size.x, size.z);
+  const seated = new THREE.Box3().setFromObject(inst);
+  inst.position.y -= seated.min.y;
+}
+
 const loadedSpeciesGltf = new Map<Species, THREE.Group>();
 
 if (typeof window !== 'undefined') {
@@ -177,14 +212,11 @@ export function buildCritters(seed: number): CritterField {
   const buildInstance = (species: Species): THREE.Object3D => {
     const loaded = loadedSpeciesGltf.get(species);
     if (loaded) {
-      // Unlike delve_props/mailbox, this is not Box3-normalized: it assumes each
-      // species GLB is authored at world scale with feet at the origin (baseY
-      // below is tuned for that). A re-export at a different scale or origin
-      // will silently sink or oversize the critter.
       const inst = loaded.clone(true);
       inst.traverse((child) => {
         if (child instanceof THREE.Mesh) child.castShadow = GFX.standardMaterials;
       });
+      seatAndOrientCreatureInstance(inst);
       return inst;
     }
     const mesh = new THREE.Mesh(geos[species], mats[species]);

@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { buildCritters, causewayPopScale } from '../src/render/critters';
+import {
+  buildCritters,
+  causewayPopScale,
+  creatureForwardCorrectionYaw,
+} from '../src/render/critters';
 
 // The Eastbrook Vale / Mirefen Marsh boundary runs along the causeway at z=180.
 // Ambient critters thin out across this band (see critters.ts), so the active
@@ -46,5 +50,34 @@ describe('critter causeway population taper', () => {
     expect(group.visible).toBe(false);
     update(0, 0, 0.1);
     expect(group.visible).toBe(true);
+  });
+});
+
+// #1862: "bird and squirrel move sideways" turned out to be a real forward-axis
+// mismatch on squirrel_critter.glb (nose-to-tail authored along X, not this
+// system's Z-forward convention). Measured via `npx gltf-transform inspect` on
+// the shipped assets; pinned here as regression cases so a re-export can't
+// silently reintroduce it.
+describe('critter forward-axis correction (#1862)', () => {
+  it('leaves an already Z-forward model alone (rabbit_critter.glb: x=0.76, z=0.92)', () => {
+    expect(creatureForwardCorrectionYaw(0.76244, 0.92139)).toBe(0);
+  });
+
+  it('leaves an already Z-forward model alone (songbird_critter.glb: x=0.60, z=1.00)', () => {
+    expect(creatureForwardCorrectionYaw(0.60426, 0.99947)).toBe(0);
+  });
+
+  it('rotates a model whose long axis is X (squirrel_critter.glb: x=1.00, z=0.43)', () => {
+    expect(creatureForwardCorrectionYaw(0.99992, 0.4297)).toBeCloseTo(Math.PI / 2, 6);
+  });
+
+  it('is a no-op for a square (or near-square) footprint', () => {
+    expect(creatureForwardCorrectionYaw(1, 1)).toBe(0);
+    expect(creatureForwardCorrectionYaw(1, 1.1)).toBe(0);
+  });
+
+  it('only trips past the 15% margin, not at exact equality with it', () => {
+    expect(creatureForwardCorrectionYaw(1.15, 1)).toBe(0);
+    expect(creatureForwardCorrectionYaw(1.1501, 1)).toBeCloseTo(Math.PI / 2, 6);
   });
 });
