@@ -360,7 +360,8 @@ describe('UI visibility: only the local player sees its own echoes', () => {
     ];
 
     const row = sim.partyInfo?.members.find((member) => member.pid === ally.id);
-    expect(row?.auras?.[0]).toEqual({ id: 'renew', kind: 'hot' });
+    // This line's party rows also carry the remaining seconds (party_frame_info.ts).
+    expect(row?.auras?.[0]).toEqual({ id: 'renew', kind: 'hot', remaining: 12 });
   });
 
   it('auras_view drops a foreign temporal_echo but renders an own one and other auras', () => {

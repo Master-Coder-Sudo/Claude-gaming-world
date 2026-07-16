@@ -11,7 +11,9 @@ import { createMob } from '../src/sim/entity';
 import { Sim } from '../src/sim/sim';
 import type { Entity, SimEvent } from '../src/sim/types';
 
-// dealDamage's full signature including the Phase 2 `aoe` flag (last arg).
+// dealDamage's full signature including the Phase 2 `aoe` flag (last arg). This
+// port's signature carries `abilityId` (the stable content id for talent-proc
+// filters) between `alreadyFinal` and `aoe`.
 type DealDamage = (
   source: Entity | null,
   target: Entity,
@@ -25,6 +27,7 @@ type DealDamage = (
   direct?: boolean,
   attackAnimationStarted?: boolean,
   alreadyFinal?: boolean,
+  abilityId?: string | null,
   aoe?: boolean,
 ) => void;
 
@@ -180,6 +183,7 @@ describe('Temporal Echo: the Arcane-damage conversion', () => {
       true,
       false,
       false,
+      'arcane_explosion',
       true,
     );
     expect(ally.hp - hp0).toBe(15); // round(100 * 0.15)
