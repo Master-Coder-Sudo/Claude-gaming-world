@@ -432,6 +432,15 @@ describe('no consolidated tunable literal is duplicated at a call site', () => {
   const reportsSrc = read('server/reports.ts');
   const dailySrc = read('server/daily_rewards.ts');
 
+  // Slice a function BODY: from its declaration to the next top-level export,
+  // so a neighbor's match can never satisfy a body that lost its own.
+  const bodyOf = (source: string, decl: string): string => {
+    const start = source.indexOf(decl);
+    expect(start, `${decl} not found`).toBeGreaterThan(-1);
+    const next = source.indexOf('\nexport ', start + decl.length);
+    return next === -1 ? source.slice(start) : source.slice(start, next);
+  };
+
   it('the WS maxPayload references WS_MAX_PAYLOAD_BYTES, defined once', () => {
     expect(mainSrc).toContain('maxPayload: WS_MAX_PAYLOAD_BYTES');
     expect(mainSrc).not.toContain('maxPayload: 16 * 1024');
@@ -499,14 +508,7 @@ describe('no consolidated tunable literal is duplicated at a call site', () => {
     // Dropping runWithStatementTimeout at ONE call site silently reverts that
     // read to the 15s session default while its own suite stays green (the
     // suites answer BEGIN/SET LOCAL and forward the real query through the same
-    // spy), so pin each function BODY to the wrapper. Slices run to the next
-    // export so a neighbor's wrapper cannot satisfy a body that lost its own.
-    const bodyOf = (source: string, decl: string): string => {
-      const start = source.indexOf(decl);
-      expect(start, `${decl} not found`).toBeGreaterThan(-1);
-      const next = source.indexOf('\nexport ', start + decl.length);
-      return next === -1 ? source.slice(start) : source.slice(start, next);
-    };
+    // spy), so pin each function BODY to the wrapper via the shared bodyOf.
     for (const decl of [
       'export async function topArenaRatings',
       'export async function topLifetimeXp',
@@ -577,15 +579,41 @@ describe('no consolidated tunable literal is duplicated at a call site', () => {
     // db.ts listCharacters is the login-path character-select read: it deliberately
     // stays on the 15s default so it fails fast during a database brownout rather than
     // pinning a client for up to the heavy allowance. It must NEVER gain the wrapper.
-    const bodyOf = (source: string, decl: string): string => {
-      const start = source.indexOf(decl);
-      expect(start, `${decl} not found`).toBeGreaterThan(-1);
-      const next = source.indexOf('\nexport ', start + decl.length);
-      return next === -1 ? source.slice(start) : source.slice(start, next);
-    };
     expect(bodyOf(dbSrc, 'export async function listCharacters')).not.toContain(
       'runWithStatementTimeout',
     );
+  });
+
+  it('topLifetimeXp predicates and orders on the bare indexed lifetime-XP expression', () => {
+    // The two lifetime-XP expression indexes are built on the bare
+    // ((state->>'lifetimeXp')::bigint); a COALESCE-wrapped WHERE or an
+    // alias-based ORDER BY cannot match them, which silently reverts every 30s
+    // leaderboard cache refresh to a full characters scan plus sort. dbSrc is
+    // RAW source text, so the pins below match the unevaluated
+    // ${LIFETIME_XP_EXPR} token exactly as it sits inside the template literal.
+    expect(dbSrc).toContain(`const LIFETIME_XP_EXPR = "((state->>'lifetimeXp')::bigint)";`);
+    const body = bodyOf(dbSrc, 'export async function topLifetimeXp');
+    // One WHERE filter and one ORDER BY per arm (realm and global): two each,
+    // so a reversion of a single arm reddens this too.
+    expect(count(body, '${LIFETIME_XP_EXPR} >')).toBe(2);
+    expect(count(body, '${LIFETIME_XP_EXPR} DESC')).toBe(2);
+    // The old shapes must not return. COALESCE stays legal ONLY as the
+    // SELECT-list output value (followed by ' AS'), never as the filter.
+    expect(body).not.toContain(`COALESCE((state->>'lifetimeXp')::bigint, 0) >`);
+    expect(body).not.toContain('ORDER BY lifetime_xp DESC');
+    // NULLS LAST would re-break index usability (a DESC index defaults to
+    // NULLS FIRST). Scoped to this body: listCharacterNamesForSitemap keeps
+    // its own NULLS LAST deliberately.
+    expect(body).not.toContain('NULLS LAST');
+    // Tie the index DDL to the same constant so query and index cannot drift:
+    // the SCHEMA region spanning both CREATE INDEX statements carries the
+    // token once per index.
+    const idxStart = dbSrc.indexOf('CREATE INDEX IF NOT EXISTS characters_lifetime_xp');
+    expect(idxStart).toBeGreaterThan(-1);
+    const globalStart = dbSrc.indexOf('CREATE INDEX IF NOT EXISTS characters_lifetime_xp_global');
+    expect(globalStart).toBeGreaterThan(idxStart);
+    const idxRegion = dbSrc.slice(idxStart, dbSrc.indexOf(';', globalStart) + 1);
+    expect(count(idxRegion, '${LIFETIME_XP_EXPR} DESC')).toBe(2);
   });
 
   it('the heavy-statement exemption interpolates the named constant and validates the integer', () => {

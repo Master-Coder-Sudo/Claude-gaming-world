@@ -11,7 +11,7 @@ vi.mock('../server/db', async (importOriginal) => {
 vi.mock('../server/realm', () => ({ REALM: 'test-realm' }));
 
 import { PgDailyRewardDb } from '../server/daily_rewards_db';
-import { ELIGIBLE_ACCOUNT_SQL } from '../server/db';
+import { ELIGIBLE_ACCOUNT_SQL, SCHEMA } from '../server/db';
 
 describe('Daily Rewards ban query enforcement', () => {
   beforeEach(() => {
@@ -27,9 +27,47 @@ describe('Daily Rewards ban query enforcement', () => {
       reason: 'shared IP abuse',
       expiresAt: '2026-07-16T03:00:00.000Z',
     });
-    expect(mocks.query.mock.calls[0][0]).toContain('daily_reward_bans');
-    expect(mocks.query.mock.calls[0][0]).toContain('expires_at > now()');
-    expect(mocks.query.mock.calls[0][0]).toContain('daily_reward_ip_bans');
+    const sql = String(mocks.query.mock.calls[0][0]);
+    expect(sql).toContain('daily_reward_bans');
+    expect(sql).toContain('expires_at > now()');
+    expect(sql).toContain('daily_reward_ip_bans');
+    // The eligibility read runs on every status, spin, and point-recorder call:
+    // the OR-free arm split is what keeps it off a nested-loop re-probed
+    // subquery once the first IP ban row lands. Both IP probes are their own
+    // UNION ALL arms behind the priority pick; an OR joined back into either
+    // arm reintroduces the re-probe.
+    expect(sql).not.toContain('OR EXISTS');
+    expect(sql).toContain('ib.ip_address = a.last_login_ip');
+    expect(sql).toContain('ib.ip_address = ps.ip_address');
+    expect(sql.split('UNION ALL').length - 1).toBe(2);
+    expect(sql).toContain('ORDER BY priority');
+  });
+
+  it('keeps the exclusion view as OR-free UNION arms', () => {
+    // The daily_reward_excluded_accounts view gates every daily-rewards read
+    // and write call site in this module; an OR reintroduced into a join arm
+    // regresses them all at the first IP ban row. Assert on the imported
+    // (evaluated) SCHEMA constant, never on raw db.ts source text: the raw
+    // source carries an unrelated UNION ALL outside the SCHEMA literal that a
+    // source-text count would wrongly include. Strip SQL line comments first
+    // so the counts measure statement structure, not prose.
+    const schema = SCHEMA.replace(/--[^\n]*/g, ' ').replace(/\s+/g, ' ');
+    expect(schema).toContain(
+      'SELECT account_id, reason FROM daily_reward_bans WHERE expires_at IS NULL OR expires_at > now()',
+    );
+    expect(schema).toContain(
+      'SELECT a.id AS account_id, ib.reason FROM accounts a JOIN daily_reward_ip_bans ib ON ib.ip_address = a.last_login_ip',
+    );
+    expect(schema).toContain(
+      'SELECT ps.account_id, ib.reason FROM play_sessions ps JOIN daily_reward_ip_bans ib ON ib.ip_address = ps.ip_address',
+    );
+    // Three arms joined by plain UNION (the dedup is load-bearing: one account
+    // with many sessions from a banned IP collapses to one row). UNION ALL
+    // would also satisfy a bare keyword count, so pin its absence explicitly:
+    // nothing else in the SCHEMA legitimately uses it.
+    expect(schema.match(/\bUNION\b/g)).toHaveLength(2);
+    expect(schema).not.toContain('UNION ALL');
+    expect(schema).not.toContain('OR EXISTS');
   });
 
   it('filters banned accounts from current leaderboard reads and pending payouts', async () => {
