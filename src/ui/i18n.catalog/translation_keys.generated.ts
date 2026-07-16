@@ -989,6 +989,8 @@ export type TranslationKeyFlat =
   | 'entities.abilities.cold_blood.name'
   | 'entities.abilities.cold_snap.description'
   | 'entities.abilities.cold_snap.name'
+  | 'entities.abilities.collective_reversal.description'
+  | 'entities.abilities.collective_reversal.name'
   | 'entities.abilities.combustion.description'
   | 'entities.abilities.combustion.name'
   | 'entities.abilities.concussive_shot.description'

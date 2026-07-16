@@ -1932,14 +1932,7 @@ export function runEffects(
         // Optional persistent annular trap (Ring of Frost): hand the whole cast to
         // the ring module, which owns placement, arming, and the catch pulses.
         if (eff.ring) {
-          spawnRingOfFrost(
-            ctx,
-            p,
-            center,
-            { ...eff, ring: eff.ring },
-            ability.name,
-            ability.id,
-          );
+          spawnRingOfFrost(ctx, p, center, { ...eff, ring: eff.ring }, ability.name, ability.id);
           break;
         }
         if (p.castAim) {

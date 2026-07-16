@@ -17,7 +17,7 @@ describe('Chronomancy clock audio', () => {
     expect(statSync(clip).size).toBeLessThan(100_000);
     expect(catalog).toContain("{ key: 'temporal_clock', custom: true }");
     expect(manifest).toContain('"temporal_clock"');
-    expect(manifest).toContain('"url": "/audio/sfx/temporal_clock.mp3"');
+    expect(manifest).toContain('"url": "/audio/sfx/temporal_clock.mp3?v=');
     expect(audio).not.toContain('temporalClock(');
   });
 

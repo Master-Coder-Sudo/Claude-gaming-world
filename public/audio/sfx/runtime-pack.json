@@ -1,8 +1,8 @@
 {
   "format": "woc-sfx-runtime-pack",
   "version": 1,
-  "bundleId": "fe534c8b892d397623b8507a8a8905b959bea13ad5af631f18bda22439958c5a",
-  "catalogHash": "5868b2591d61f6a71a3eb56807d09269a0b83da0f9ca899663b2768af16da3b2",
+  "bundleId": "f6297de5feaa9296e12afec3d9cc3970449fac3b477fee3f71cddef94c1cc98f",
+  "catalogHash": "af1227c68d952eae3f1de916f90039170c72696210ddedc2a6b22753952c30cb",
   "clips": {
     "amb_birds": {
       "variants": [
@@ -1589,6 +1589,18 @@
           "url": "/audio/sfx/spell_nova.mp3?v=16d81ec97cba",
           "bytes": 22612,
           "sha256": "16d81ec97cba352e3ccbf48f643e207e90be3ff295ea8b6639803f1cd7b43f3b"
+        }
+      ],
+      "gain": 1,
+      "playbackRate": 1
+    },
+    "temporal_clock": {
+      "variants": [
+        {
+          "id": "main",
+          "url": "/audio/sfx/temporal_clock.mp3?v=407837944d11",
+          "bytes": 33453,
+          "sha256": "407837944d113cb81673d40bd02a314dd1abf9d389f2e31df817313e5858fd51"
         }
       ],
       "gain": 1,

@@ -1136,8 +1136,16 @@ export const GUIDE_CLASSES: GuideClassInfo[] = [
         "name": "Temporal Reversal"
       },
       {
+        "id": "collective_reversal",
+        "name": "Collective Reversal"
+      },
+      {
         "id": "temporal_rewind",
         "name": "Rewind"
+      },
+      {
+        "id": "temporal_hourglass",
+        "name": "Hourglass of Suspension"
       },
       {
         "id": "temporal_acceleration",
