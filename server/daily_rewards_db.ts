@@ -284,12 +284,18 @@ export class PgDailyRewardDb implements DailyRewardDb {
   }
 
   async ensureDay(day: string, prizePoolUsd: number, wocUsdPrice: number | null): Promise<void> {
+    // The conflict update is fenced on the unfinalized day: once finalizeDay has
+    // stamped finalized_at, the announced prize pool is frozen at its
+    // finalize-time value, so a straggler event whose timestamp still maps to
+    // the finalized day (the seconds-wide window at rollover, or a restarted
+    // process with a cold seed gate) can no longer drift it.
     await pool.query(
       `INSERT INTO daily_reward_days (day, realm, prize_pool_usd, woc_usd_price)
        VALUES ($1, $2, $3, $4)
        ON CONFLICT (day, realm) DO UPDATE
           SET prize_pool_usd = EXCLUDED.prize_pool_usd,
-              woc_usd_price = COALESCE(EXCLUDED.woc_usd_price, daily_reward_days.woc_usd_price)`,
+              woc_usd_price = COALESCE(EXCLUDED.woc_usd_price, daily_reward_days.woc_usd_price)
+          WHERE daily_reward_days.finalized_at IS NULL`,
       [day, REALM, prizePoolUsd, wocUsdPrice],
     );
   }
@@ -613,17 +619,28 @@ export class PgDailyRewardDb implements DailyRewardDb {
         await client.query('ROLLBACK');
         return false;
       }
-      await client.query(
-        `INSERT INTO daily_reward_scores (day, realm, account_id, points)
-         VALUES ($1, $2, $3, $4)
-         ON CONFLICT (day, realm, account_id) DO UPDATE
-            SET points = daily_reward_scores.points + EXCLUDED.points,
-                updated_at = CASE
-                  WHEN EXCLUDED.points > 0 THEN now()
-                  ELSE daily_reward_scores.updated_at
-                END`,
-        [day, REALM, accountId, Math.max(0, Math.floor(points))],
-      );
+      const clamped = Math.max(0, Math.floor(points));
+      // Zero-point events (recordOnlineMinute's per-minute markers) keep their
+      // event-ledger row above (it is the online-minutes counter and the
+      // idempotency gate) but skip the score UPSERT entirely: nothing reads a
+      // zero score row (every ranked read filters points > 0 and scoreForAccount
+      // defaults to 0), and the skip removes one heap-tuple rewrite per online
+      // player per minute. The CASE below stays as a second lock on the same
+      // fairness invariant (a zero-point write, should one ever reach the
+      // UPSERT again, must not churn the ASC tie-break).
+      if (clamped > 0) {
+        await client.query(
+          `INSERT INTO daily_reward_scores (day, realm, account_id, points)
+           VALUES ($1, $2, $3, $4)
+           ON CONFLICT (day, realm, account_id) DO UPDATE
+              SET points = daily_reward_scores.points + EXCLUDED.points,
+                  updated_at = CASE
+                    WHEN EXCLUDED.points > 0 THEN now()
+                    ELSE daily_reward_scores.updated_at
+                  END`,
+          [day, REALM, accountId, clamped],
+        );
+      }
       await client.query('COMMIT');
       return true;
     } catch (err) {

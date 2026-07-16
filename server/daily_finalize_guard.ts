@@ -15,6 +15,10 @@
 // the db or realm layers, so a Vitest drives it directly and the caller supplies
 // the realm. The bound is only a runaway backstop; in practice at most a handful
 // of (day, realm) pairs are ever live.
+//
+// One-way also means ops surgery is invisible to a running process: nothing ever
+// re-reads a recorded key, so hand-clearing finalized_at (or deleting the day
+// row) to force a re-finalize takes effect only after a process restart.
 
 const MAX_ENTRIES = 64;
 

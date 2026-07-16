@@ -124,7 +124,7 @@ describe('Daily Rewards finalize read and score writes', () => {
       .mockResolvedValue({ rows: [] }); // COMMIT
     mocks.connect.mockResolvedValue({ query, release: vi.fn() });
 
-    await new PgDailyRewardDb().addPoints('2026-07-11', 9, 'online', 0, 'online:2026-07-11T12:00');
+    await new PgDailyRewardDb().addPoints('2026-07-11', 9, 'task', 10, 'task:1');
 
     const scoreUpsert = query.mock.calls.find(([sql]) =>
       String(sql).includes('INSERT INTO daily_reward_scores'),
@@ -134,5 +134,47 @@ describe('Daily Rewards finalize read and score writes', () => {
     expect(scoreUpsert?.[0]).toContain('WHEN EXCLUDED.points > 0 THEN now()');
     expect(scoreUpsert?.[0]).toContain('ELSE daily_reward_scores.updated_at');
     expect(scoreUpsert?.[0]).not.toMatch(/updated_at = now\(\)/);
+  });
+
+  it('skips the score write entirely for zero-point events', async () => {
+    const query = vi
+      .fn()
+      .mockResolvedValueOnce({ rows: [] }) // BEGIN
+      .mockResolvedValueOnce({ rows: [], rowCount: 1 }) // event insert proceeds
+      .mockResolvedValue({ rows: [] }); // COMMIT
+    mocks.connect.mockResolvedValue({ query, release: vi.fn() });
+
+    const recorded = await new PgDailyRewardDb().addPoints(
+      '2026-07-11',
+      9,
+      'online',
+      0,
+      'online:2026-07-11T12:00',
+    );
+
+    // The event row still lands (it is the online-minutes ledger and the
+    // idempotency gate), but no daily_reward_scores statement is issued at all:
+    // nothing reads a zero score row (every ranked read filters points > 0 and
+    // scoreForAccount defaults to 0), so the skip removes one score-row write
+    // per online player per minute.
+    expect(recorded).toBe(true);
+    const statements = query.mock.calls.map(([sql]) => String(sql));
+    expect(statements.some((sql) => sql.includes('daily_reward_events'))).toBe(true);
+    expect(statements.some((sql) => sql.includes('daily_reward_scores'))).toBe(false);
+    expect(statements).toContain('COMMIT');
+  });
+
+  it('stops rewriting the prize pool once the day is finalized', async () => {
+    mocks.query.mockResolvedValue({ rows: [], rowCount: 1 });
+
+    await new PgDailyRewardDb().ensureDay('2026-07-11', 150, 0.5);
+
+    const sql = String(mocks.query.mock.calls[0][0]);
+    // The conflict update is fenced on the unfinalized day: after finalizeDay
+    // stamps finalized_at, a straggler previous-day event can no longer drift
+    // the announced prize pool away from its finalize-time value.
+    expect(sql).toContain('ON CONFLICT (day, realm) DO UPDATE');
+    expect(sql).toContain('WHERE daily_reward_days.finalized_at IS NULL');
+    expect(mocks.query.mock.calls[0][1]).toEqual(['2026-07-11', 'test-realm', 150, 0.5]);
   });
 });

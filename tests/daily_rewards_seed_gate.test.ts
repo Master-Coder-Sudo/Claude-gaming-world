@@ -118,6 +118,43 @@ describe('daily rewards seed gate', () => {
     expect(dailyRewardSeedGateSizeForTests()).toBe(2);
   });
 
+  it('gates two realms for the same day independently', async () => {
+    const calls: Record<string, number> = { Claudemoon: 0, Emberfall: 0 };
+    const seedFor = (realm: 'Claudemoon' | 'Emberfall') => () => {
+      calls[realm]++;
+      return Promise.resolve();
+    };
+    await runSeedOnce(buildSeedKey('2026-07-01', 'Claudemoon', CONFIG), seedFor('Claudemoon'));
+    await runSeedOnce(buildSeedKey('2026-07-01', 'Emberfall', CONFIG), seedFor('Emberfall'));
+    await runSeedOnce(buildSeedKey('2026-07-01', 'Claudemoon', CONFIG), seedFor('Claudemoon'));
+    await runSeedOnce(buildSeedKey('2026-07-01', 'Emberfall', CONFIG), seedFor('Emberfall'));
+    expect(calls).toEqual({ Claudemoon: 1, Emberfall: 1 });
+    expect(dailyRewardSeedGateSizeForTests()).toBe(2);
+  });
+
+  it('bounds the memo and evicts the oldest key first', async () => {
+    for (let i = 0; i < 300; i++) {
+      await runSeedOnce(`k${i}`, () => Promise.resolve());
+    }
+    // The memo never grows past its bound.
+    expect(dailyRewardSeedGateSizeForTests()).toBe(256);
+    // The OLDEST key was evicted, so re-requesting it re-runs its (idempotent)
+    // write; the newest key is still held and skips. Deleting the eviction
+    // block in markSeeded turns the size pin red; evicting newest-first turns
+    // the re-run pins red.
+    let reseeds = 0;
+    await runSeedOnce('k0', () => {
+      reseeds++;
+      return Promise.resolve();
+    });
+    expect(reseeds).toBe(1);
+    await runSeedOnce('k299', () => {
+      reseeds++;
+      return Promise.resolve();
+    });
+    expect(reseeds).toBe(1);
+  });
+
   it('dedupes concurrent callers for the same key onto one in-flight write', async () => {
     let calls = 0;
     let release!: () => void;

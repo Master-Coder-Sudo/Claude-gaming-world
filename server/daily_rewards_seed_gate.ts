@@ -28,6 +28,11 @@ import type { DailyRewardTaskSeed } from './daily_rewards_db';
 // Pure and DB-free: the caller passes the seed thunk; this module holds no SQL.
 // The bound is a runaway backstop (in practice only the current and previous day
 // times a realm are ever live); eviction just costs one extra idempotent write.
+//
+// Once a key is marked, out-of-band deletion or mutation of the seeded rows is
+// not re-healed until a restart or a genuine config change mints a new key
+// (before this gate, every event re-issued the writes and incidentally
+// self-healed hand-edited tables).
 
 const MAX_ENTRIES = 256;
 

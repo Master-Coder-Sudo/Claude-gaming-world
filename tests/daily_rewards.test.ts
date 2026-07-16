@@ -39,6 +39,7 @@ import {
   rewardDayForDate,
 } from '../server/daily_rewards';
 import { resetDailyRewardSeedGateForTests } from '../server/daily_rewards_seed_gate';
+import { REALM } from '../server/realm';
 import { buildDailyRewardsView } from '../src/ui/daily_rewards_view';
 
 class FakeDailyRewardDb implements DailyRewardDb {
@@ -63,9 +64,15 @@ class FakeDailyRewardDb implements DailyRewardDb {
   // When > 0, the next seedTasks call throws (and decrements), simulating the
   // seed transaction rolling back so the seed-gate retry path can be exercised.
   failSeedTasksTimes = 0;
+  // Same hook for the ensureDay arm of the gated pair.
+  failEnsureDayTimes = 0;
 
   async ensureDay(): Promise<void> {
     this.ensureDayCalls++;
+    if (this.failEnsureDayTimes > 0) {
+      this.failEnsureDayTimes--;
+      throw new Error('ensureDay upsert failed');
+    }
   }
   async banForAccount(): Promise<{ reason: string; expiresAt: string | null } | null> {
     return this.banReason === null
@@ -189,11 +196,14 @@ class FakeDailyRewardDb implements DailyRewardDb {
   }
   async finalizeDay(day: string): Promise<void> {
     this.finalizeDayCalls++;
-    this.finalizedDays.add(day);
+    // The real finalizeDay stamps the module-realm row, so the fake keys its
+    // finalized set by (day, realm) the same way dayFinalized reads it: a
+    // service that passed the wrong realm to dayFinalized would miss here.
+    this.finalizedDays.add(JSON.stringify([day, REALM]));
   }
-  async dayFinalized(day: string, _realm: string): Promise<boolean> {
+  async dayFinalized(day: string, realm: string): Promise<boolean> {
     this.dayFinalizedCalls++;
-    return this.finalizedDays.has(day);
+    return this.finalizedDays.has(JSON.stringify([day, realm]));
   }
   async pendingPayouts(): Promise<DailyRewardInternalPayoutRow[]> {
     return [];
@@ -1330,8 +1340,10 @@ describe('daily rewards', () => {
       const service = new DailyRewardService(db);
       const now = new Date('2026-07-02T12:00:00.000Z');
       const previous = addRewardDays(rewardDayForDate(now, 1260), -1);
-      // Already finalized in the DB but not yet in the in-process guard.
-      db.finalizedDays.add(previous);
+      // Already finalized in the DB but not yet in the in-process guard. The
+      // composite key must use the service's own realm: dayFinalized only hits
+      // when the service passes REALM through, pinning the realm plumbing.
+      db.finalizedDays.add(JSON.stringify([previous, REALM]));
       await service.finalizePreviousDay(now);
       expect(db.ensureDayCalls).toBe(0);
       expect(db.finalizeDayCalls).toBe(0);
@@ -1442,6 +1454,22 @@ describe('daily rewards', () => {
       expect(db.seedTasksCalls).toBe(2);
     });
 
+    it('reseeds when only the WOC price changes for the same day', async () => {
+      const db = new FakeDailyRewardDb();
+      const service = new DailyRewardService(db);
+      await service.ensureActiveDay('2026-06-30');
+      expect(db.ensureDayCalls).toBe(1);
+      // Change ONLY wocUsdPrice (a config field ensureDay persists): the same
+      // day must reseed. This pins the SERVICE passing the price through to the
+      // gate key; an ensureSeeded that stripped it (the unit key tests cannot
+      // see that seam) would silently skip persisting a genuine price change.
+      resetDailyRewardPriceCacheForTests();
+      stubRewardConfig({ wocUsdPrice: 0.75 });
+      await service.ensureActiveDay('2026-06-30');
+      expect(db.ensureDayCalls).toBe(2);
+      expect(db.seedTasksCalls).toBe(2);
+    });
+
     it('retries the seed on the next call when the seed transaction fails', async () => {
       const db = new FakeDailyRewardDb();
       db.failSeedTasksTimes = 1;
@@ -1454,6 +1482,21 @@ describe('daily rewards', () => {
       // a transient seed failure never strands the day with unwritten tasks.
       await service.ensureActiveDay('2026-06-30');
       expect(db.seedTasksCalls).toBe(2);
+      expect(db.tasks.length).toBeGreaterThan(0);
+    });
+
+    it('retries the seed when the day upsert fails, not just the task write', async () => {
+      const db = new FakeDailyRewardDb();
+      db.failEnsureDayTimes = 1;
+      const service = new DailyRewardService(db);
+      await expect(service.ensureActiveDay('2026-06-30')).rejects.toThrow(
+        'ensureDay upsert failed',
+      );
+      expect(db.tasks).toEqual([]);
+      // The ensureDay arm of the gated pair fails the same way the seedTasks arm
+      // does: the key is never cached, and the next call re-issues both writes.
+      await service.ensureActiveDay('2026-06-30');
+      expect(db.ensureDayCalls).toBe(2);
       expect(db.tasks.length).toBeGreaterThan(0);
     });
   });
