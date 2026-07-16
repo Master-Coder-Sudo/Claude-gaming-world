@@ -49,6 +49,22 @@ describe('Daily Rewards ban query enforcement', () => {
     expect(mocks.query.mock.calls[1][0]).toContain('a.id = p.account_id');
   });
 
+  it('filters banned accounts from the board-cache snapshot read', async () => {
+    mocks.query.mockResolvedValue({ rows: [] });
+
+    await new PgDailyRewardDb().leaderboardSnapshot('2026-07-11');
+
+    const sql = String(mocks.query.mock.calls[0][0]);
+    expect(sql).toContain('NOT EXISTS');
+    expect(sql).toContain('daily_reward_excluded_accounts');
+    expect(sql).toContain(ELIGIBLE_ACCOUNT_SQL);
+    expect(sql).toContain('points > 0');
+    // The whole eligible positive-scorer population, no LIMIT: the cache
+    // derives the board total from the snapshot's row count.
+    expect(sql).not.toContain('LIMIT');
+    expect(mocks.query.mock.calls[0][1]).toEqual(['2026-07-11', 'test-realm']);
+  });
+
   it('filters banned accounts while selecting end-of-day winners', async () => {
     const query = vi
       .fn()

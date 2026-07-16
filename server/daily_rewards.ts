@@ -10,6 +10,7 @@ import type {
   DailyRewardStatus,
 } from '../src/world_api';
 import { hasFinalized, recordFinalized } from './daily_finalize_guard';
+import { DAILY_REWARD_BOARD_TTL_MS, DailyRewardBoardCache } from './daily_rewards_board_cache';
 import {
   type DailyRewardDb,
   type DailyRewardInternalPayoutRow,
@@ -593,6 +594,14 @@ function currentTaskMultiplier(
 export class DailyRewardService {
   constructor(private readonly db: DailyRewardDb = new PgDailyRewardDb()) {}
 
+  // One ranked snapshot per TTL window serves the four board reads status()
+  // assembles; every board-changing write below busts it (see recordPoints
+  // and spin), and main.ts busts it from the moderation hook.
+  private readonly boardCache = new DailyRewardBoardCache(
+    (day) => this.db.leaderboardSnapshot(day),
+    { ttlMs: DAILY_REWARD_BOARD_TTL_MS },
+  );
+
   private async eligibility(
     accountId: number,
     config: DailyRewardRuntimeConfig,
@@ -641,18 +650,20 @@ export class DailyRewardService {
     const { day, config } = await dailyRewardClock();
     await this.ensureSeeded(day, config);
     const eligibility = await this.eligibility(accountId, config);
+    // The four ranked reads come from the board cache (one snapshot per TTL
+    // window); the per-account reads stay live on the db.
     const [score, rank, spin, tasks, leaders, leaderboardTotal, onlineMinutes] = await Promise.all([
       this.db.scoreForAccount(day, accountId),
-      this.db.rankForAccount(day, accountId),
+      this.boardCache.rankForAccount(day, accountId),
       this.db.spinForAccount(day, accountId),
       this.db.tasksForAccount(day, accountId),
-      this.db.leaderboard(day, accountId, 10),
-      this.db.leaderboardTotal(day),
+      this.boardCache.leaderboard(day, 10),
+      this.boardCache.leaderboardTotal(day),
       this.db.onlineMinutesForAccount(day, accountId),
     ]);
     const leaderboardRows = [...leaders];
     if (rank !== null && rank > 10) {
-      const viewerRow = await this.db.leaderboardRowForAccount(day, accountId);
+      const viewerRow = await this.boardCache.leaderboardRowForAccount(day, accountId);
       if (viewerRow) leaderboardRows.push(viewerRow);
     }
     return {
@@ -682,6 +693,8 @@ export class DailyRewardService {
     };
   }
 
+  // Deliberately a live db read, never the board cache: both the player and
+  // ops arms page beyond the cached top slice and tolerate no cache-page drift.
   async leaderboardPage(
     day: string,
     page: number,
@@ -712,18 +725,55 @@ export class DailyRewardService {
     const outcome = pickSpinOutcome();
     const recorded = await this.db.recordSpin(day, accountId, outcome.key, outcome.points);
     if (!recorded) return { error: 'daily spin already claimed', status: 409 };
-    await this.db.addPoints(day, accountId, 'spin', outcome.points, 'spin', {
+    // Defensive bust: spins live in daily_reward_spins, which no ranked read
+    // consumes (spinForAccount stays a live per-account read), and the
+    // recordPoints call below busts for the score change, so this fires only
+    // to guarantee the internal status read can never serve a pre-spin
+    // snapshot even if a spin outcome were ever configured to zero points.
+    // Both busts land before the status read below, and the cache refuses to
+    // hand a post-bust reader a pre-bust in-flight refresh (see cached_read),
+    // so the returned rank and leaderboard reflect the just-recorded points.
+    this.boardCache.bust();
+    await this.recordPoints(day, accountId, 'spin', outcome.points, 'spin', {
       outcome: outcome.key,
     });
     const status = await this.status(accountId);
     return { ...status, awardedPoints: outcome.points, outcomeKey: outcome.key };
   }
 
+  // The one point-event write path: every recorder funnels through here so
+  // the board cache is busted exactly when the ranked board could have
+  // changed. The two guards: a duplicate event (recorded false) wrote
+  // nothing, and a zero-point event (recordOnlineMinute's per-minute marker)
+  // never changes the ranked board (every ranked read filters points > 0).
+  private async recordPoints(
+    day: string,
+    accountId: number,
+    kind: string,
+    points: number,
+    idempotencyKey: string,
+    meta?: Record<string, unknown>,
+  ): Promise<boolean> {
+    const recorded = await this.db.addPoints(day, accountId, kind, points, idempotencyKey, meta);
+    if (recorded && points > 0) this.boardCache.bust();
+    return recorded;
+  }
+
+  /** Drop the in-process board snapshot so the next ranked read refreshes. */
+  bustBoardCache(): void {
+    this.boardCache.bust();
+  }
+
+  /** Board-cache refresh telemetry for the metrics surface (unwired for now). */
+  boardCacheStats(): { refreshes: number; lastRefreshMs: number | null } {
+    return this.boardCache.stats();
+  }
+
   async recordOnlineMinute(accountId: number, activeAt: Date = new Date()): Promise<void> {
     const { day, config } = await dailyRewardClock(activeAt);
     await this.ensureSeeded(day, config);
     const minute = activeAt.toISOString().slice(0, 16);
-    await this.db.addPoints(day, accountId, 'online', 0, `online:${minute}`, {
+    await this.recordPoints(day, accountId, 'online', 0, `online:${minute}`, {
       minute,
     });
   }
@@ -753,7 +803,7 @@ export class DailyRewardService {
         questId,
       );
       const awarded = repeatQuestPoints(points, priorCompletions);
-      const recorded = await this.db.addPoints(
+      const recorded = await this.recordPoints(
         day,
         accountId,
         'task',
@@ -806,7 +856,7 @@ export class DailyRewardService {
         : numberConfig(taskConfig, 'lossBasePoints', 10);
       const { points, multiplier } = onlineMultiplierPoints(basePoints, taskConfig, onlineMinutes);
       if (points <= 0) continue;
-      const recorded = await this.db.addPoints(
+      const recorded = await this.recordPoints(
         day,
         accountId,
         'task',
@@ -848,7 +898,7 @@ export class DailyRewardService {
     for (const task of tasks) {
       const clearPoints = delveClearPoints(task, delveId, tierId, onlineMinutes);
       if (!clearPoints || clearPoints.points <= 0) continue;
-      const recorded = await this.db.addPoints(
+      const recorded = await this.recordPoints(
         day,
         accountId,
         'task',
@@ -894,7 +944,7 @@ export class DailyRewardService {
     for (const task of tasks) {
       const chestPoints = delveChestOpenPoints(task, chestTier, bountiful, onlineMinutes);
       if (!chestPoints || chestPoints.points <= 0) continue;
-      const recorded = await this.db.addPoints(
+      const recorded = await this.recordPoints(
         day,
         accountId,
         'task',
@@ -968,7 +1018,7 @@ export class DailyRewardService {
       if (points <= 0) continue;
       const outcomeKey =
         result.practice === true ? 'practice_win' : reducedMatch ? 'bot_win' : 'win';
-      const recorded = await this.db.addPoints(
+      const recorded = await this.recordPoints(
         day,
         accountId,
         'task',
@@ -1224,6 +1274,13 @@ function internalAuthorized(req: http.IncomingMessage): boolean {
 }
 
 export const dailyRewardService = new DailyRewardService();
+
+// main.ts wires this into bustBoardCaches: the board cache is instance-scoped
+// on the module singleton above, so a bust exported from the cache module
+// itself would hold no handle to the live instance.
+export function bustDailyRewardBoardCache(): void {
+  dailyRewardService.bustBoardCache();
+}
 
 export async function handleDailyRewardApi(
   req: http.IncomingMessage,

@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type {
   DailyRewardDb,
@@ -60,6 +62,8 @@ class FakeDailyRewardDb implements DailyRewardDb {
   seedTasksCalls = 0;
   finalizeDayCalls = 0;
   dayFinalizedCalls = 0;
+  scoreForAccountCalls = 0;
+  leaderboardSnapshotCalls = 0;
   finalizedDays = new Set<string>();
   // When > 0, the next seedTasks call throws (and decrements), simulating the
   // seed transaction rolling back so the seed-gate retry path can be exercised.
@@ -102,6 +106,7 @@ class FakeDailyRewardDb implements DailyRewardDb {
     }));
   }
   async scoreForAccount(): Promise<number> {
+    this.scoreForAccountCalls++;
     return this.score;
   }
   async tasksForType(_day: string, type: string): Promise<DailyRewardTaskRow[]> {
@@ -147,6 +152,14 @@ class FakeDailyRewardDb implements DailyRewardDb {
   }
   async leaderboardTotal(): Promise<number> {
     return this.score > 0 ? 1 : 0;
+  }
+  // When set, leaderboardSnapshot serves this list instead of the one-account
+  // derivation, letting a test exercise the rank > 10 viewer-row branch.
+  snapshotRows: DailyRewardScoreRow[] | null = null;
+  async leaderboardSnapshot(_day: string): Promise<DailyRewardScoreRow[]> {
+    this.leaderboardSnapshotCalls++;
+    if (this.snapshotRows !== null) return this.snapshotRows;
+    return this.score > 0 ? [{ accountId: 1, username: 'alice', points: this.score, rank: 1 }] : [];
   }
   async leaderboardPage(): Promise<{
     rows: DailyRewardScoreRow[];
@@ -1498,6 +1511,143 @@ describe('daily rewards', () => {
       await service.ensureActiveDay('2026-06-30');
       expect(db.ensureDayCalls).toBe(2);
       expect(db.tasks.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('board cache and busts', () => {
+    // Passive expiry is deliberately NOT a bust trigger: a timed daily-reward
+    // ban lapsing via expires_at flips eligibility inside the excluded view
+    // (a read-side change with no write anywhere to hook), so it is accepted
+    // as TTL-bounded staleness, the same tradeoff as cross-process writes.
+    // The pins below are therefore complete over WRITES only.
+
+    it('serves repeated status reads from one board snapshot while per-account reads stay live', async () => {
+      const db = new FakeDailyRewardDb();
+      const service = new DailyRewardService(db);
+      await service.status(1);
+      expect(db.leaderboardSnapshotCalls).toBe(1);
+      await service.status(1);
+      // The second status inside the TTL window reuses the snapshot...
+      expect(db.leaderboardSnapshotCalls).toBe(1);
+      // ...while the per-account reads ran again (they are never cached).
+      expect(db.scoreForAccountCalls).toBe(2);
+    });
+
+    it('does not bust the board for a zero-point online-minute event', async () => {
+      const db = new FakeDailyRewardDb();
+      const service = new DailyRewardService(db);
+      await service.status(1);
+      await service.recordOnlineMinute(1);
+      await service.status(1);
+      // A zero-point event never changes the ranked board (every ranked read
+      // filters points > 0): dropping the points > 0 guard reds here.
+      expect(db.leaderboardSnapshotCalls).toBe(1);
+    });
+
+    it('does not bust the board when a duplicate event records nothing', async () => {
+      const db = new FakeDailyRewardDb();
+      const service = new DailyRewardService(db);
+      await service.status(1);
+      expect(db.leaderboardSnapshotCalls).toBe(1);
+      const first = await service.recordQuestCompletion(1, 101, 'wolf_hunt');
+      expect(first).toBe(10);
+      await service.status(1);
+      expect(db.leaderboardSnapshotCalls).toBe(2);
+      // Identical inputs dedupe in addPoints (recorded false): no new event
+      // row landed, so nothing on the board changed.
+      const second = await service.recordQuestCompletion(1, 101, 'wolf_hunt');
+      expect(second).toBe(0);
+      await service.status(1);
+      // 2, not 3: dropping the recorded === true guard reds here.
+      expect(db.leaderboardSnapshotCalls).toBe(2);
+    });
+
+    it('busts the board when a gameplay recorder lands new points', async () => {
+      const db = new FakeDailyRewardDb();
+      const service = new DailyRewardService(db);
+      const before = await service.status(1);
+      expect(before.rank).toBeNull();
+      expect(db.leaderboardSnapshotCalls).toBe(1);
+      await service.recordQuestCompletion(1, 101, 'wolf_hunt');
+      const after = await service.status(1);
+      // The recorder busted the snapshot, so the next status refetched and the
+      // new points are visible immediately, never TTL-delayed.
+      expect(db.leaderboardSnapshotCalls).toBe(2);
+      expect(after.rank).toBe(1);
+      expect(after.leaderboardTotal).toBe(1);
+    });
+
+    it('serves the rank > 10 viewer row from the same snapshot, never a second query', async () => {
+      const db = new FakeDailyRewardDb();
+      const service = new DailyRewardService(db);
+      // Ten scorers ahead of alice: her rank is 11, so status() takes the
+      // conditional viewer-row branch beyond the top-10 slice.
+      const ahead = Array.from({ length: 10 }, (_, i) => ({
+        accountId: 101 + i,
+        username: `scorer${i + 1}`,
+        points: 1_000 - i,
+        rank: i + 1,
+      }));
+      db.snapshotRows = [...ahead, { accountId: 1, username: 'alice', points: 5, rank: 11 }];
+      const status = await service.status(1);
+      // The viewer row must be a derivation of the ONE snapshot. The fake's
+      // live leaderboardRowForAccount derives from its one-account score (0
+      // here), so reverting the branch to this.db.leaderboardRowForAccount
+      // loses the row and reds the length pin below.
+      expect(db.leaderboardSnapshotCalls).toBe(1);
+      expect(status.rank).toBe(11);
+      expect(status.leaderboardTotal).toBe(11);
+      expect(status.leaderboard).toHaveLength(11);
+      const viewer = status.leaderboard[10];
+      expect(viewer).toEqual({ rank: 11, name: 'alice', points: 5, me: true });
+    });
+
+    it('routes every point write through the one busting wrapper', () => {
+      // Source pin: exactly ONE this.db.addPoints call site exists in the
+      // service, inside recordPoints. A recorder reverting to a direct
+      // this.db.addPoints call would skip the bust and leave its event class
+      // TTL-stale on the board; this catches all seven current recorder
+      // sites and any future one without per-site tests.
+      const src = readFileSync(resolve(__dirname, '../server/daily_rewards.ts'), 'utf8');
+      expect(src.match(/this\.db\.addPoints\(/g) ?? []).toHaveLength(1);
+      const start = src.indexOf('private async recordPoints(');
+      expect(start).toBeGreaterThan(-1);
+      const body = src.slice(start, src.indexOf('\n  }', start));
+      expect(body).toContain('this.db.addPoints(');
+    });
+
+    it('busts the board when a spin is recorded even if its point event dedupes', async () => {
+      const db = new FakeDailyRewardDb();
+      const service = new DailyRewardService(db);
+      await service.status(1);
+      expect(db.leaderboardSnapshotCalls).toBe(1);
+      // Pre-plant the spin's idempotency key so addPoints records nothing:
+      // the only bust left on the spin path is the recordSpin one.
+      db.events.push({ accountId: 1, kind: 'spin', points: 0, key: 'spin', meta: {} });
+      const result = await service.spin(1);
+      expect('error' in result).toBe(false);
+      // The internal status refetched: dropping the recordSpin bust reds here.
+      expect(db.leaderboardSnapshotCalls).toBe(2);
+    });
+
+    it('returns post-spin board state from the spin call itself', async () => {
+      const db = new FakeDailyRewardDb();
+      const service = new DailyRewardService(db);
+      // Cache a rank-null, empty-board snapshot first.
+      const before = await service.status(1);
+      expect(before.rank).toBeNull();
+      vi.spyOn(Math, 'random').mockReturnValueOnce(0); // outcome s20, 20 points
+      const result = await service.spin(1);
+      expect('error' in result).toBe(false);
+      if ('error' in result) return;
+      // Both busts land before the internal status read, so the spin response
+      // reflects the just-recorded points; a bust moved after (or racing) the
+      // internal status would serve the stale rank-null board here.
+      expect(result.rank).toBe(1);
+      expect(result.leaderboard).toEqual([
+        expect.objectContaining({ rank: 1, name: 'alice', points: 20, me: true }),
+      ]);
+      expect(result.leaderboardTotal).toBe(1);
     });
   });
 });

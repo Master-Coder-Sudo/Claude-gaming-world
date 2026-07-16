@@ -66,6 +66,7 @@ const h = vi.hoisted(() => {
     leaderboard: vi.fn(async () => [] as unknown[]),
     leaderboardRowForAccount: vi.fn(async () => null),
     leaderboardTotal: vi.fn(async () => 0),
+    leaderboardSnapshot: vi.fn(async () => [] as unknown[]),
     leaderboardPage: vi.fn(async (_day: string, page: number, pageSize: number) => ({
       rows: [] as unknown[],
       page,
@@ -112,6 +113,7 @@ vi.mock('../../server/daily_rewards_db', async (importOriginal) => {
     leaderboard = h.db.leaderboard;
     leaderboardRowForAccount = h.db.leaderboardRowForAccount;
     leaderboardTotal = h.db.leaderboardTotal;
+    leaderboardSnapshot = h.db.leaderboardSnapshot;
     leaderboardPage = h.db.leaderboardPage;
     spinForAccount = h.db.spinForAccount;
     recordSpin = h.db.recordSpin;
@@ -151,6 +153,7 @@ vi.mock('../../server/woc_balance', async (importOriginal) => {
 
 import { resetDailyFinalizeGuardForTests } from '../../server/daily_finalize_guard';
 import {
+  bustDailyRewardBoardCache,
   DailyRewardService,
   dailyRewardService,
   resetDailyRewardDbForTests,
@@ -357,6 +360,9 @@ beforeEach(() => {
   // ensureDay/seedTasks pair (the ensureDayThrows case would never reach its throw).
   resetDailyRewardSeedGateForTests();
   resetDailyFinalizeGuardForTests();
+  // The routes drive the module-load singleton, whose instance board cache
+  // would otherwise leak a board snapshot across tests.
+  bustDailyRewardBoardCache();
   // Default: the gate secret and the config URL are unset, so the config falls back
   // (no fetch) and the ops gate fails closed unless a test opts in.
   delete process.env[OPS_SECRET_ENV];

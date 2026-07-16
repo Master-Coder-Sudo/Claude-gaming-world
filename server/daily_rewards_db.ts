@@ -3,14 +3,22 @@ import { REALM } from './realm';
 
 // Every ranked read below embeds ELIGIBLE_ACCOUNT_SQL: banned and suspended
 // accounts are delisted from the daily board (and stop inflating other
-// players' ranks) the same way as every other public board. All five ranked
+// players' ranks) the same way as every other public board. All the ranked
 // reads share the predicate so the page, the total, and the self rank always
-// agree on one population. These reads run per request (no board cache), so
-// the SQL exclusion alone delists immediately; there is nothing to bust.
-// The payout path embeds it too: finalizeDay selects winners from the same
-// population the board displays, and pendingPayouts rechecks eligibility at
-// pay time so a ban or suspension landing after finalization still blocks
-// the transfer.
+// agree on one population. PgDailyRewardDb itself stays uncached; the caching
+// seam is daily_rewards_board_cache.ts, which serves four of these reads
+// (the leaderboard top slice, leaderboardTotal, rankForAccount, and
+// leaderboardRowForAccount) from one TTL-cached ranked snapshot
+// (leaderboardSnapshot below), busted in-process on every board-changing
+// write and by the moderation hook, so in-process delisting stays immediate
+// while cross-process staleness is bounded by the cache TTL (the same
+// tradeoff the other public boards made in main.ts). finalizeDay,
+// pendingPayouts, and leaderboardPage stay always-live SQL: payout
+// correctness and the ops page tolerate no staleness.
+// The payout path embeds the predicate too: finalizeDay selects winners from
+// the same population the board displays, and pendingPayouts rechecks
+// eligibility at pay time so a ban or suspension landing after finalization
+// still blocks the transfer.
 
 export interface DailyRewardTaskRow {
   taskId: string;
@@ -126,6 +134,7 @@ export interface DailyRewardDb {
     pageSize: number,
   ): Promise<DailyRewardLeaderboardPageRow>;
   leaderboardTotal(day: string): Promise<number>;
+  leaderboardSnapshot(day: string): Promise<DailyRewardScoreRow[]>;
   spinForAccount(day: string, accountId: number): Promise<DailyRewardSpinRow | null>;
   recordSpin(day: string, accountId: number, outcomeKey: string, points: number): Promise<boolean>;
   addPoints(
@@ -529,6 +538,25 @@ export class PgDailyRewardDb implements DailyRewardDb {
       [day, REALM],
     );
     return Number(res.rows[0]?.total ?? 0);
+  }
+
+  // The one query a board-cache refresh runs: the FULL ranked list for the
+  // day, exactly the leaderboard() population and ordering with no LIMIT.
+  // Bounded by the day's positive scorers, so there is no artificial cap to
+  // desync the cached total from the cached rows.
+  async leaderboardSnapshot(day: string): Promise<DailyRewardScoreRow[]> {
+    const res = await pool.query(
+      `SELECT s.account_id, a.username, s.points,
+              row_number() OVER (ORDER BY s.points DESC, s.updated_at ASC, s.account_id ASC) AS rank
+         FROM daily_reward_scores s
+         JOIN accounts a ON a.id = s.account_id
+        WHERE s.day = $1 AND s.realm = $2 AND s.points > 0
+          AND ${ELIGIBLE_ACCOUNT_SQL}
+          AND NOT EXISTS (SELECT 1 FROM daily_reward_excluded_accounts b WHERE b.account_id = s.account_id)
+        ORDER BY s.points DESC, s.updated_at ASC, s.account_id ASC`,
+      [day, REALM],
+    );
+    return res.rows.map(scoreRow);
   }
 
   async leaderboardPage(
