@@ -19,7 +19,7 @@
 // exempt: it ranks GitHub identities with no game-account linkage.
 process.env.DATABASE_URL ||= 'postgres://test:test@127.0.0.1:5433/wocc_board_moderation';
 
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import type { PoolClient, QueryResult } from 'pg';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -178,7 +178,7 @@ describe('every ranked board query embeds the fragment', () => {
     await expect(lifetimeXpRankForCharacter(42)).resolves.toEqual({ rank: 6, total: 10 });
   });
 
-  it('daily rewards: all five ranked reads agree on one population', async () => {
+  it('daily rewards: every ranked read agrees on one population', async () => {
     const db = new PgDailyRewardDb();
     const day = '2026-07-08';
     for (const read of [
@@ -186,6 +186,9 @@ describe('every ranked board query embeds the fragment', () => {
       () => db.leaderboardRowForAccount(day, 1),
       () => db.leaderboardTotal(day),
       () => db.rankForAccount(day, 1),
+      // The board-cache refresh read serves four of the reads above from one
+      // snapshot, so it must gate on the same population.
+      () => db.leaderboardSnapshot(day),
     ]) {
       const sql = await capturedSql(read);
       expect(sql).toHaveLength(1);
@@ -294,14 +297,36 @@ describe('main.ts wiring', () => {
     const start = src.indexOf('function bustBoardCaches');
     expect(start).toBeGreaterThan(-1);
     const body = src.slice(start, src.indexOf('}', start));
-    // Players realm + global, guilds realm + global, and the deeds board:
-    // every cached scope. Arena is served uncached and the daily-rewards
-    // board reads per request, so neither appears here by design.
+    // Players realm + global, guilds realm + global, the deeds board, and the
+    // daily-rewards board (instance-scoped on its service singleton, busted
+    // through the exported bust): every cached scope. Arena is served
+    // uncached by design, so it never appears here.
     expect(body).toContain('leaderboardCache.realm = null');
     expect(body).toContain('leaderboardCache.global = null');
     expect(body).toContain('guildLeaderboardCache.realm = null');
     expect(body).toContain('guildLeaderboardCache.global = null');
     expect(body).toContain('deedsBoardCache = null');
+    expect(body).toContain('bustDailyRewardBoardCache()');
+  });
+
+  it('registers exactly one moderation hook (the composite bust covers every board)', () => {
+    // A second setOnAccountModerated call would silently REPLACE the first
+    // (last write wins), detaching whichever busts the earlier hook carried.
+    // Scanned across the whole server tree, not just main.ts, so a stray
+    // registration from any other production module reddens here too (the
+    // declaring module is exempt: its hits are the declaration itself).
+    const serverDir = resolve(__dirname, '../../server');
+    const walk = (dir: string): string[] =>
+      readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+        if (entry.isDirectory()) return walk(resolve(dir, entry.name));
+        return entry.name.endsWith('.ts') ? [resolve(dir, entry.name)] : [];
+      });
+    const callers = walk(serverDir).flatMap((file) => {
+      if (file.endsWith('moderation_db.ts')) return [];
+      const count = readFileSync(file, 'utf8').split('setOnAccountModerated(').length - 1;
+      return count > 0 ? [{ file: file.slice(serverDir.length + 1), count }] : [];
+    });
+    expect(callers).toEqual([{ file: 'main.ts', count: 1 }]);
   });
 
   it('bumps the board epoch so an in-flight refresh cannot reinstall a pre-ban snapshot', () => {
