@@ -213,7 +213,7 @@ describe('chat channel tabs — pure model', () => {
       expect(sentLineChannel('')).toBeNull();
     });
 
-    it('never maps the host-ambiguous bare /g (say offline, guild online)', () => {
+    it('never maps the host-ambiguous bare /g (general offline, guild online)', () => {
       // composeChatLine only ever emits /general for the general channel, and /g is
       // routed differently offline vs online, so it must not move the sticky channel.
       expect(sentLineChannel('/g hi')).toBeNull();
@@ -332,6 +332,21 @@ describe('chat channel tabs — pure model', () => {
         expect(sentLineTargetForHost('/r sure', { online })).toBe(WHISPER_TAB);
         expect(sentLineTargetForHost('hello', { online })).toBe('say');
         expect(sentLineTargetForHost('/w Bob hi', { online })).toBeNull();
+      }
+    });
+
+    it('round-trips every send-capable channel prefix on both hosts', () => {
+      // Closure pin: a line composed with any channel's send prefix must resolve
+      // back to that same channel, so the sticky follows the player into ANY
+      // channel (yell included) and a future channel addition stays sticky-correct
+      // by construction.
+      for (const online of [true, false]) {
+        for (const channel of CHAT_TAB_CHANNELS) {
+          const line = channelSendPrefix(channel) + 'hello there';
+          expect(sentLineTargetForHost(line, { online }), `${channel} online=${online}`).toBe(
+            channel,
+          );
+        }
       }
     });
   });

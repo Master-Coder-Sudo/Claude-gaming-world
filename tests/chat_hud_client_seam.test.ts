@@ -91,4 +91,18 @@ describe('Hud to ClientWorld chat seam', () => {
     expect(hud.composeChatSend('on my way')).toBe('/gu on my way');
     expect(state.inputTintTarget()).toBe('guild');
   });
+
+  it('threads the host flag through: a bare /g send offline sticks to General', () => {
+    // The other arm of the host-aware resolution, exercised through the same
+    // Hud delegation: offline the sim routes bare /g to General, so the sticky
+    // follows it there (a controller that ignored the flag would fail here).
+    vi.stubGlobal('WebSocket', { OPEN: 1 });
+    const hud = Object.create(Hud.prototype) as InstanceType<typeof Hud>;
+    const controller = new ChatWindowController({} as ChatWindowControllerDeps);
+    (hud as unknown as { chatWindow: ChatWindowController }).chatWindow = controller;
+    const state = controller as unknown as { stickyTarget: string };
+
+    hud.noteSentChannel('/g anyone around', false);
+    expect(state.stickyTarget).toBe('general');
+  });
 });

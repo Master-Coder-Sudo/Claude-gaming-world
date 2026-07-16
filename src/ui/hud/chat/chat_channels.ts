@@ -168,8 +168,8 @@ export function composeWhisperReply(typed: string): string {
 // there. Plain text (no leading slash) went to `say`. An explicit slash command
 // maps by its leading token; only the standing channels below are recognized, so
 // whisper / reply (`/w`, `/r`), emotes (`/me`, `/dance`), rolls (`/roll`),
-// channel membership (`/join`, `/leave`), the ambiguous bare `/g` (say offline,
-// guild online), and any unknown command return null and leave the sticky
+// channel membership (`/join`, `/leave`), the ambiguous bare `/g` (general
+// offline, guild online), and any unknown command return null and leave the sticky
 // channel unchanged. A `!` community command (`!lfg`, `!events`) is a transient
 // command like a roll, and it is host-dependent anyway (the server relay gate
 // consumes it online; offline it would land in say), so it also returns null.
