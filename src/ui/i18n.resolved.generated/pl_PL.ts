@@ -366,6 +366,7 @@ export const pl_PL: EnTranslations = {
       "spinButton": "Zakręć",
       "tasks": "Zadania",
       "taskMultiplier": "mnożnik x{multiplier}",
+      "oneVsOneExcluded": "Mecze 1 na 1 nie przyznają punktów codziennych nagród.",
       "pointsGained": "Zdobyto {points} pkt. codziennych nagród.",
       "showChestButton": "Pokaż skrzynię",
       "hideChestButton": "Ukryj skrzynię",

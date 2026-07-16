@@ -325,6 +325,7 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'hudChrome.dailyRewards.spinButton': '轉動',
   'hudChrome.dailyRewards.tasks': '任務',
   'hudChrome.dailyRewards.taskMultiplier': '{multiplier}倍倍率',
+  'hudChrome.dailyRewards.oneVsOneExcluded': '1對1比賽不會獲得每日獎勵點數。',
   'hudChrome.dailyRewards.pointsGained': '已獲得 {points} 每日獎勵點數。',
   'hudChrome.dailyRewards.showChestButton': '顯示寶箱',
   'hudChrome.dailyRewards.hideChestButton': '隱藏寶箱',

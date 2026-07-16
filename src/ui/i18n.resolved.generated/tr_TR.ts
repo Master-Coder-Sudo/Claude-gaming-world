@@ -366,6 +366,7 @@ export const tr_TR: EnTranslations = {
       "spinButton": "Çevir",
       "tasks": "Görevler",
       "taskMultiplier": "x{multiplier} çarpan",
+      "oneVsOneExcluded": "1'e 1 maçlar günlük ödül puanı kazandırmaz.",
       "pointsGained": "{points} günlük ödül puanı kazanıldı.",
       "showChestButton": "Sandığı Göster",
       "hideChestButton": "Sandığı Gizle",

@@ -1196,6 +1196,7 @@ export const vi_VN: Partial<Record<TranslationKey, string>> = {
   'hudChrome.dailyRewards.hideChestConfirmTitle': 'Ẩn Rương Phần Thưởng Hằng Ngày?',
   'hudChrome.dailyRewards.pointsGained': 'Nhận được {points} điểm phần thưởng hằng ngày.',
   'hudChrome.dailyRewards.taskMultiplier': 'hệ số x{multiplier}',
+  'hudChrome.dailyRewards.oneVsOneExcluded': 'Trận đấu 1v1 không trao điểm phần thưởng hằng ngày.',
   'hudChrome.dailyRewards.totalPlayer': '{count} người chơi hôm nay',
   'hudChrome.dailyRewards.totalPlayers': '{count} người chơi hôm nay',
   'hudChrome.death.resurrectAtCorpse': 'Hồi Sinh Tại Xác Chết',

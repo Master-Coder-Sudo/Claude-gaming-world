@@ -2953,6 +2953,7 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
   'hudChrome.dailyRewards.spinResult': '+{points} bodů',
   'hudChrome.dailyRewards.spinTitle': 'Denní zatočení',
   'hudChrome.dailyRewards.taskMultiplier': 'násobitel x{multiplier}',
+  'hudChrome.dailyRewards.oneVsOneExcluded': 'Zápasy 1 proti 1 neudělují body denních odměn.',
   'hudChrome.dailyRewards.tasks': 'Úkoly',
   'hudChrome.dailyRewards.title': 'Denní odměny',
   'hudChrome.dailyRewards.totalPlayer': '{count} hráč dnes',

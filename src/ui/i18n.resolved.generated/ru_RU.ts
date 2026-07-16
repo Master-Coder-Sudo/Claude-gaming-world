@@ -366,6 +366,7 @@ export const ru_RU: EnTranslations = {
       "spinButton": "Крутить",
       "tasks": "Задания",
       "taskMultiplier": "Множитель x{multiplier}",
+      "oneVsOneExcluded": "Матчи 1 на 1 не приносят очки ежедневных наград.",
       "pointsGained": "Получено {points} очков ежедневных наград.",
       "showChestButton": "Показать сундук",
       "hideChestButton": "Скрыть сундук",

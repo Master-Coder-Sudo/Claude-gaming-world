@@ -333,6 +333,7 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.dailyRewards.spinButton': 'Крутить',
   'hudChrome.dailyRewards.tasks': 'Задания',
   'hudChrome.dailyRewards.taskMultiplier': 'Множитель x{multiplier}',
+  'hudChrome.dailyRewards.oneVsOneExcluded': 'Матчи 1 на 1 не приносят очки ежедневных наград.',
   'hudChrome.dailyRewards.pointsGained': 'Получено {points} очков ежедневных наград.',
   'hudChrome.dailyRewards.showChestButton': 'Показать сундук',
   'hudChrome.dailyRewards.hideChestButton': 'Скрыть сундук',

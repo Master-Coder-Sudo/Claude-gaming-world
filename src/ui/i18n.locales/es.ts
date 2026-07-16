@@ -1176,6 +1176,8 @@ export const es: Partial<Record<TranslationKey, string>> = {
   'hudChrome.dailyRewards.hideChestConfirmTitle': '¿Ocultar el cofre de recompensas diarias?',
   'hudChrome.dailyRewards.pointsGained': '{points} puntos de recompensas diarias obtenidos.',
   'hudChrome.dailyRewards.taskMultiplier': 'Multiplicador x{multiplier}',
+  'hudChrome.dailyRewards.oneVsOneExcluded':
+    'Las partidas 1 contra 1 no otorgan puntos de recompensas diarias.',
   'hudChrome.dailyRewards.totalPlayer': '{count} jugador hoy',
   'hudChrome.dailyRewards.totalPlayers': '{count} jugadores hoy',
   'hudChrome.death.resurrectAtCorpse': 'Resucitar en el cadáver',

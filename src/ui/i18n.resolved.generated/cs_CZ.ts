@@ -366,6 +366,7 @@ export const cs_CZ: EnTranslations = {
       "spinButton": "Zatočit",
       "tasks": "Úkoly",
       "taskMultiplier": "násobitel x{multiplier}",
+      "oneVsOneExcluded": "Zápasy 1 proti 1 neudělují body denních odměn.",
       "pointsGained": "Získáno {points} bodů denních odměn.",
       "showChestButton": "Zobrazit truhlu",
       "hideChestButton": "Skrýt truhlu",

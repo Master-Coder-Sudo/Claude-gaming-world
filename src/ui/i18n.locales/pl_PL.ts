@@ -1143,6 +1143,8 @@ export const pl_PL: Partial<Record<TranslationKey, string>> = {
   'hudChrome.dailyRewards.hideChestConfirmTitle': 'Ukryć skrzynię codziennych nagród?',
   'hudChrome.dailyRewards.pointsGained': 'Zdobyto {points} pkt. codziennych nagród.',
   'hudChrome.dailyRewards.taskMultiplier': 'mnożnik x{multiplier}',
+  'hudChrome.dailyRewards.oneVsOneExcluded':
+    'Mecze 1 na 1 nie przyznają punktów codziennych nagród.',
   'hudChrome.dailyRewards.totalPlayer': '{count} gracz dzisiaj',
   'hudChrome.dailyRewards.totalPlayers': '{count} graczy dzisiaj',
   'hudChrome.death.resurrectAtCorpse': 'Odrodź się przy zwłokach',

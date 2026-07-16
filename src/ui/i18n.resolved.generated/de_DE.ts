@@ -366,6 +366,7 @@ export const de_DE: EnTranslations = {
       "spinButton": "Drehen",
       "tasks": "Aufgaben",
       "taskMultiplier": "x{multiplier}-Multiplikator",
+      "oneVsOneExcluded": "1-gegen-1-Matches gewähren keine Punkte für tägliche Belohnungen.",
       "pointsGained": "{points} Punkte für tägliche Belohnungen erhalten.",
       "showChestButton": "Truhe anzeigen",
       "hideChestButton": "Truhe ausblenden",

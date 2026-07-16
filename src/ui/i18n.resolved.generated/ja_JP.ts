@@ -366,6 +366,7 @@ export const ja_JP: EnTranslations = {
       "spinButton": "スピン",
       "tasks": "タスク",
       "taskMultiplier": "{multiplier}倍倍率",
+      "oneVsOneExcluded": "1対1の試合ではデイリー報酬ポイントを獲得できません。",
       "pointsGained": "{points} デイリー報酬ポイントを獲得しました。",
       "showChestButton": "宝箱を表示",
       "hideChestButton": "宝箱を隠す",
