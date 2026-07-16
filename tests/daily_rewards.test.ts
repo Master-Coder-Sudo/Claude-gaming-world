@@ -141,15 +141,6 @@ class FakeDailyRewardDb implements DailyRewardDb {
         event.meta.questId === questId,
     ).length;
   }
-  async rankForAccount(): Promise<number | null> {
-    return this.score > 0 ? 1 : null;
-  }
-  async leaderboard(): Promise<DailyRewardScoreRow[]> {
-    return this.score > 0 ? [{ accountId: 1, username: 'alice', points: this.score, rank: 1 }] : [];
-  }
-  async leaderboardRowForAccount(): Promise<DailyRewardScoreRow | null> {
-    return this.score > 0 ? { accountId: 1, username: 'alice', points: this.score, rank: 1 } : null;
-  }
   async leaderboardTotal(): Promise<number> {
     return this.score > 0 ? 1 : 0;
   }
@@ -168,7 +159,8 @@ class FakeDailyRewardDb implements DailyRewardDb {
     pageCount: number;
     total: number;
   }> {
-    const rows = await this.leaderboard();
+    const rows: DailyRewardScoreRow[] =
+      this.score > 0 ? [{ accountId: 1, username: 'alice', points: this.score, rank: 1 }] : [];
     return {
       rows,
       page: 0,
@@ -1592,10 +1584,11 @@ describe('daily rewards', () => {
       }));
       db.snapshotRows = [...ahead, { accountId: 1, username: 'alice', points: 5, rank: 11 }];
       const status = await service.status(1);
-      // The viewer row must be a derivation of the ONE snapshot. The fake's
-      // live leaderboardRowForAccount derives from its one-account score (0
-      // here), so reverting the branch to this.db.leaderboardRowForAccount
-      // loses the row and reds the length pin below.
+      // The viewer row must be a derivation of the ONE snapshot. The direct
+      // per-status ranked reads were deleted from DailyRewardDb outright, so
+      // reverting the service to this.db.leaderboardRowForAccount no longer
+      // even compiles; the snapshot-call and length pins below guard the
+      // derivation itself.
       expect(db.leaderboardSnapshotCalls).toBe(1);
       expect(status.rank).toBe(11);
       expect(status.leaderboardTotal).toBe(11);
@@ -1616,6 +1609,42 @@ describe('daily rewards', () => {
       expect(start).toBeGreaterThan(-1);
       const body = src.slice(start, src.indexOf('\n  }', start));
       expect(body).toContain('this.db.addPoints(');
+    });
+
+    it('constructs the board cache with the shared 30s TTL constant', () => {
+      // Source pin: the service must pass DAILY_REWARD_BOARD_TTL_MS itself.
+      // The constructor defaults to the same constant, so every behavioral
+      // suite stays green under a divergent literal here (bust-driven tests
+      // ignore TTL; reuse tests pass under any longer one), yet the 30s
+      // ceiling is the cross-process delisting bound the bust doctrine
+      // leans on. Wrap-tolerant: the argument may sit on either line.
+      const src = readFileSync(resolve(__dirname, '../server/daily_rewards.ts'), 'utf8');
+      const start = src.indexOf('new DailyRewardBoardCache(');
+      expect(start).toBeGreaterThan(-1);
+      const construction = src.slice(start, src.indexOf(');', start));
+      expect(construction).toMatch(/ttlMs:\s*DAILY_REWARD_BOARD_TTL_MS/);
+    });
+
+    it('scopes the cache per service instance, never at module level', async () => {
+      // Two services over two fakes: each must refresh its OWN snapshot and
+      // serve its own board. A regression to a module-scoped cache would
+      // serve db1's board to service2 (and skip db2's refresh entirely);
+      // this pins the isolation directly instead of leaning on in-file test
+      // order and wall-clock TTL luck.
+      const db1 = new FakeDailyRewardDb();
+      const db2 = new FakeDailyRewardDb();
+      db1.score = 40;
+      db2.score = 0;
+      const service1 = new DailyRewardService(db1);
+      const service2 = new DailyRewardService(db2);
+      const status1 = await service1.status(1);
+      const status2 = await service2.status(1);
+      expect(db1.leaderboardSnapshotCalls).toBe(1);
+      expect(db2.leaderboardSnapshotCalls).toBe(1);
+      expect(status1.rank).toBe(1);
+      expect(status2.rank).toBeNull();
+      expect(status1.leaderboard).toHaveLength(1);
+      expect(status2.leaderboard).toHaveLength(0);
     });
 
     it('busts the board when a spin is recorded even if its point event dedupes', async () => {

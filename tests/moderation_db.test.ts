@@ -725,7 +725,10 @@ describe('moderation bust hook wiring', () => {
       .mockResolvedValueOnce(queryResult([], 1)) // DELETE removes the ban row
       .mockResolvedValue(queryResult([]));
     connect.mockResolvedValue(client as unknown as PoolClient);
-    const hook = vi.fn();
+    const statementsAtHook: string[][] = [];
+    const hook = vi.fn(() => {
+      statementsAtHook.push(statements(client));
+    });
     setOnAccountModerated(hook);
 
     await setDailyRewardsBan({
@@ -736,13 +739,21 @@ describe('moderation bust hook wiring', () => {
     });
 
     expect(hook).toHaveBeenCalledTimes(1);
+    // The lift shares the ban epilogue today; pin the ordering anyway so a
+    // future split of the arms cannot silently fire pre-commit.
+    expect(statementsAtHook[0]).toContain('COMMIT');
   });
 
   it('fires once for a daily-rewards IP ban and once for its lift', async () => {
-    const hook = vi.fn();
+    const statementsAtHook: string[][] = [];
+    let activeClient!: ReturnType<typeof clientStub>;
+    const hook = vi.fn(() => {
+      statementsAtHook.push(statements(activeClient));
+    });
     setOnAccountModerated(hook);
 
     const banClient = clientStub();
+    activeClient = banClient;
     connect.mockResolvedValueOnce(banClient as unknown as PoolClient);
     await setDailyRewardsIpBan({
       accountId: 2,
@@ -752,14 +763,18 @@ describe('moderation bust hook wiring', () => {
       reason: 'multi-account abuse',
     });
     // Asserted after EACH arm, so a never-firing arm and a double-firing arm
-    // both redden instead of masking each other in a running total.
+    // both redden instead of masking each other in a running total. The IP
+    // arm carries its own epilogue copy, so it gets its own COMMIT-ordering
+    // pin too instead of leaning on the ban arm's.
     expect(hook).toHaveBeenCalledTimes(1);
+    expect(statementsAtHook[0]).toContain('COMMIT');
 
     const unbanClient = clientStub();
     unbanClient.query
       .mockResolvedValueOnce(queryResult([])) // BEGIN
       .mockResolvedValueOnce(queryResult([], 1)) // DELETE removes the IP ban row
       .mockResolvedValue(queryResult([]));
+    activeClient = unbanClient;
     connect.mockResolvedValueOnce(unbanClient as unknown as PoolClient);
     await setDailyRewardsIpBan({
       accountId: 2,
@@ -769,6 +784,7 @@ describe('moderation bust hook wiring', () => {
       reason: 'appeal accepted',
     });
     expect(hook).toHaveBeenCalledTimes(2);
+    expect(statementsAtHook[1]).toContain('COMMIT');
   });
 
   it('does not fire when the ban transaction fails', async () => {

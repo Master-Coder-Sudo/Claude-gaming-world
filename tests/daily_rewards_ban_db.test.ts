@@ -36,7 +36,7 @@ describe('Daily Rewards ban query enforcement', () => {
     mocks.query.mockResolvedValue({ rows: [] });
     const db = new PgDailyRewardDb();
 
-    await db.leaderboard('2026-07-11', 1, 10);
+    await db.leaderboardTotal('2026-07-11');
     await db.pendingPayouts(20);
 
     expect(mocks.query.mock.calls[0][0]).toContain('NOT EXISTS');
@@ -57,12 +57,36 @@ describe('Daily Rewards ban query enforcement', () => {
     const sql = String(mocks.query.mock.calls[0][0]);
     expect(sql).toContain('NOT EXISTS');
     expect(sql).toContain('daily_reward_excluded_accounts');
+    // ELIGIBLE_ACCOUNT_SQL's full literal is pinned in
+    // tests/server/leaderboard_moderation.test.ts; the constant-based
+    // assertions here anchor to that pin, so never delete it as redundant.
     expect(sql).toContain(ELIGIBLE_ACCOUNT_SQL);
     expect(sql).toContain('points > 0');
     // The whole eligible positive-scorer population, no LIMIT: the cache
     // derives the board total from the snapshot's row count.
     expect(sql).not.toContain('LIMIT');
     expect(mocks.query.mock.calls[0][1]).toEqual(['2026-07-11', 'test-realm']);
+  });
+
+  it('orders the snapshot exactly like the live page read, tiebreaks included', async () => {
+    // Rank parity depends on identical ordering: the cached board's ranks
+    // come from the snapshot's row_number() while the ops page ranks live,
+    // so a dropped or flipped updated_at tiebreak on either side silently
+    // desyncs cached ranks from the page. Pin BOTH occurrences (the window
+    // function and the outer ORDER BY) on both reads to one literal.
+    mocks.query.mockResolvedValue({ rows: [] });
+    const ORDERING = 's.points DESC, s.updated_at ASC, s.account_id ASC';
+    const occurrences = (text: string) => text.split(ORDERING).length - 1;
+
+    const db = new PgDailyRewardDb();
+    await db.leaderboardSnapshot('2026-07-11');
+    const snapshotSql = String(mocks.query.mock.calls[0][0]);
+    expect(occurrences(snapshotSql)).toBe(2);
+
+    await db.leaderboardPage('2026-07-11', 0, 10);
+    // leaderboardPage issues the total read then the page read.
+    const pageSql = String(mocks.query.mock.calls[2][0]);
+    expect(occurrences(pageSql)).toBe(2);
   });
 
   it('filters banned accounts while selecting end-of-day winners', async () => {

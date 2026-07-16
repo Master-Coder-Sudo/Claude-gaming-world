@@ -16,6 +16,7 @@ import {
   type DailyRewardInternalPayoutRow,
   type DailyRewardPayoutActor,
   type DailyRewardPayoutAttemptRow,
+  type DailyRewardScoreRow,
   type DailyRewardTaskSeed,
   PgDailyRewardDb,
 } from './daily_rewards_db';
@@ -437,7 +438,7 @@ function pickSpinOutcome(seed = Math.random()): (typeof SPIN_OUTCOMES)[number] {
 }
 
 function leaderboardView(
-  rows: Awaited<ReturnType<DailyRewardDb['leaderboard']>>,
+  rows: DailyRewardScoreRow[],
   accountId: number | null,
 ): DailyRewardLeaderboardEntry[] {
   return rows.map((row) => ({
@@ -744,8 +745,10 @@ export class DailyRewardService {
   // The one point-event write path: every recorder funnels through here so
   // the board cache is busted exactly when the ranked board could have
   // changed. The two guards: a duplicate event (recorded false) wrote
-  // nothing, and a zero-point event (recordOnlineMinute's per-minute marker)
-  // never changes the ranked board (every ranked read filters points > 0).
+  // nothing, and a non-positive event (recordOnlineMinute's zero-point
+  // per-minute marker) never changes the ranked board (every ranked read
+  // filters points > 0). If a negative-point clawback is ever added it could
+  // lower a still-ranked row, so widen the guard to points !== 0 with it.
   private async recordPoints(
     day: string,
     accountId: number,

@@ -33,6 +33,18 @@ describe('Daily Rewards launcher throttle wiring', () => {
     expect(launcherBody).not.toContain('60_000');
     expect(launcherBody).not.toContain('300_000');
     expect(hudSource).toContain("from './daily_rewards_launcher_core'");
+    // The launcher-side stamp is what makes the closed-idle poll actually
+    // slow: without it the core predicate compares against a stamp only
+    // onStatus refreshes, and an idle-closed client fetches every slowHud
+    // tick, silently reverting the whole cadence win.
+    expect(launcherBody).toContain('this.lastDailyRewardsLauncherRefreshAt = now');
+    // The CONSUME side of the seq guard: both settle arms must drop a
+    // response from a superseded fetch, or a slower in-flight launcher fetch
+    // overwrites (then-arm) or glow-clears (catch-arm) a fresher
+    // window-pushed status.
+    const seqGuards =
+      launcherBody.match(/if \(seq !== this\.dailyRewardsLauncherSeq\) return;/g) ?? [];
+    expect(seqGuards).toHaveLength(2);
   });
 
   it('forces a launcher refresh from the window close path', () => {

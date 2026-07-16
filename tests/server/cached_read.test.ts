@@ -15,12 +15,10 @@ import { createCachedRead } from '../../server/cached_read';
 // case needs it.
 function deferred<T>() {
   let resolve: (value: T) => void = () => {};
-  let reject: (err: unknown) => void = () => {};
-  const promise = new Promise<T>((res, rej) => {
+  const promise = new Promise<T>((res) => {
     resolve = res;
-    reject = rej;
   });
-  return { promise, resolve, reject };
+  return { promise, resolve };
 }
 
 describe('createCachedRead: single-flight collapse', () => {

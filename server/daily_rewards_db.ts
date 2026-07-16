@@ -6,13 +6,16 @@ import { REALM } from './realm';
 // players' ranks) the same way as every other public board. All the ranked
 // reads share the predicate so the page, the total, and the self rank always
 // agree on one population. PgDailyRewardDb itself stays uncached; the caching
-// seam is daily_rewards_board_cache.ts, which serves four of these reads
-// (the leaderboard top slice, leaderboardTotal, rankForAccount, and
-// leaderboardRowForAccount) from one TTL-cached ranked snapshot
-// (leaderboardSnapshot below), busted in-process on every board-changing
-// write and by the moderation hook, so in-process delisting stays immediate
-// while cross-process staleness is bounded by the cache TTL (the same
-// tradeoff the other public boards made in main.ts). finalizeDay,
+// seam is daily_rewards_board_cache.ts, which derives all four board reads a
+// player status assembles (the leaderboard top slice, the board total, the
+// viewer's rank, and the beyond-top-10 viewer row) from one TTL-cached
+// ranked snapshot (leaderboardSnapshot below), busted in-process on every
+// board-changing write and by the moderation hook, so in-process delisting
+// stays immediate while cross-process staleness is bounded by the cache TTL
+// (the same tradeoff the other public boards made in main.ts). The per-read
+// ranked SQL those derivations replaced is deliberately DELETED, not
+// retained: a revert to direct per-status db reads must reintroduce the
+// queries consciously instead of quietly rebinding to leftovers. finalizeDay,
 // pendingPayouts, and leaderboardPage stay always-live SQL: payout
 // correctness and the ops page tolerate no staleness.
 // The payout path embeds the predicate too: finalizeDay selects winners from
@@ -125,9 +128,6 @@ export interface DailyRewardDb {
     taskId: string,
     questId: string,
   ): Promise<number>;
-  rankForAccount(day: string, accountId: number): Promise<number | null>;
-  leaderboard(day: string, accountId: number, limit: number): Promise<DailyRewardScoreRow[]>;
-  leaderboardRowForAccount(day: string, accountId: number): Promise<DailyRewardScoreRow | null>;
   leaderboardPage(
     day: string,
     page: number,
@@ -466,65 +466,6 @@ export class PgDailyRewardDb implements DailyRewardDb {
     return Number(res.rows[0]?.completions ?? 0);
   }
 
-  async rankForAccount(day: string, accountId: number): Promise<number | null> {
-    const res = await pool.query(
-      `WITH ranked AS (
-         SELECT account_id,
-                row_number() OVER (ORDER BY points DESC, updated_at ASC, account_id ASC) AS rank
-           FROM daily_reward_scores s
-          WHERE day = $1 AND realm = $2 AND points > 0
-            AND EXISTS (SELECT 1 FROM accounts a
-                         WHERE a.id = s.account_id AND ${ELIGIBLE_ACCOUNT_SQL})
-            AND NOT EXISTS (
-              SELECT 1 FROM daily_reward_excluded_accounts b WHERE b.account_id = s.account_id
-            )
-       )
-       SELECT rank FROM ranked WHERE account_id = $3`,
-      [day, REALM, accountId],
-    );
-    return res.rows[0] ? Number(res.rows[0].rank) : null;
-  }
-
-  async leaderboard(
-    day: string,
-    _accountId: number,
-    limit: number,
-  ): Promise<DailyRewardScoreRow[]> {
-    const res = await pool.query(
-      `SELECT s.account_id, a.username, s.points,
-              row_number() OVER (ORDER BY s.points DESC, s.updated_at ASC, s.account_id ASC) AS rank
-         FROM daily_reward_scores s
-         JOIN accounts a ON a.id = s.account_id
-        WHERE s.day = $1 AND s.realm = $2 AND s.points > 0
-          AND ${ELIGIBLE_ACCOUNT_SQL}
-          AND NOT EXISTS (SELECT 1 FROM daily_reward_excluded_accounts b WHERE b.account_id = s.account_id)
-        ORDER BY s.points DESC, s.updated_at ASC, s.account_id ASC
-        LIMIT $3`,
-      [day, REALM, Math.max(1, Math.min(100, limit))],
-    );
-    return res.rows.map(scoreRow);
-  }
-
-  async leaderboardRowForAccount(
-    day: string,
-    accountId: number,
-  ): Promise<DailyRewardScoreRow | null> {
-    const res = await pool.query(
-      `WITH ranked AS (
-         SELECT s.account_id, a.username, s.points,
-                row_number() OVER (ORDER BY s.points DESC, s.updated_at ASC, s.account_id ASC) AS rank
-           FROM daily_reward_scores s
-           JOIN accounts a ON a.id = s.account_id
-          WHERE s.day = $1 AND s.realm = $2 AND s.points > 0
-            AND ${ELIGIBLE_ACCOUNT_SQL}
-            AND NOT EXISTS (SELECT 1 FROM daily_reward_excluded_accounts b WHERE b.account_id = s.account_id)
-       )
-       SELECT account_id, username, points, rank FROM ranked WHERE account_id = $3`,
-      [day, REALM, accountId],
-    );
-    return res.rows[0] ? scoreRow(res.rows[0]) : null;
-  }
-
   async leaderboardTotal(day: string): Promise<number> {
     const res = await pool.query(
       `SELECT COUNT(*) AS total
@@ -541,9 +482,14 @@ export class PgDailyRewardDb implements DailyRewardDb {
   }
 
   // The one query a board-cache refresh runs: the FULL ranked list for the
-  // day, exactly the leaderboard() population and ordering with no LIMIT.
+  // day, exactly the leaderboardPage() population and ordering with no LIMIT.
   // Bounded by the day's positive scorers, so there is no artificial cap to
-  // desync the cached total from the cached rows.
+  // desync the cached total from the cached rows. It runs on the plain pool
+  // (the default statement-timeout tier) DELIBERATELY, not the 60s
+  // runWithStatementTimeout heavy allowance the whole-realm JSONB board
+  // aggregates use: this read is day-scoped and index-served, and a runaway
+  // refresh should fail fast into stale-serve rather than pin a pooled
+  // client for a minute per retry.
   async leaderboardSnapshot(day: string): Promise<DailyRewardScoreRow[]> {
     const res = await pool.query(
       `SELECT s.account_id, a.username, s.points,

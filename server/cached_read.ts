@@ -20,6 +20,10 @@
 // Wall-clock time is correct here: this is server-only code, never used by the
 // deterministic sim. Production callers omit opts.now (Date.now); tests inject
 // a fake clock.
+//
+// Logging contract: a failed refresh's thrown error is logged RAW by the
+// stale-serve warning below, so refresh closures must never embed secret or
+// player-private material in error messages.
 
 export interface CachedReadOptions {
   ttlMs: number;

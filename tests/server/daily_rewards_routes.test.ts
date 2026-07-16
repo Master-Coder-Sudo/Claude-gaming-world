@@ -62,9 +62,6 @@ const h = vi.hoisted(() => {
     tasksForType: vi.fn(async () => [] as unknown[]),
     scoreForAccount: vi.fn(async () => 0),
     onlineMinutesForAccount: vi.fn(async () => 0),
-    rankForAccount: vi.fn(async () => null),
-    leaderboard: vi.fn(async () => [] as unknown[]),
-    leaderboardRowForAccount: vi.fn(async () => null),
     leaderboardTotal: vi.fn(async () => 0),
     leaderboardSnapshot: vi.fn(async () => [] as unknown[]),
     leaderboardPage: vi.fn(async (_day: string, page: number, pageSize: number) => ({
@@ -109,9 +106,6 @@ vi.mock('../../server/daily_rewards_db', async (importOriginal) => {
     tasksForType = h.db.tasksForType;
     scoreForAccount = h.db.scoreForAccount;
     onlineMinutesForAccount = h.db.onlineMinutesForAccount;
-    rankForAccount = h.db.rankForAccount;
-    leaderboard = h.db.leaderboard;
-    leaderboardRowForAccount = h.db.leaderboardRowForAccount;
     leaderboardTotal = h.db.leaderboardTotal;
     leaderboardSnapshot = h.db.leaderboardSnapshot;
     leaderboardPage = h.db.leaderboardPage;
@@ -501,6 +495,24 @@ describe('player routes: thin-handler dispatch', () => {
     // The handler dispatched into the service (which touched the mocked db).
     expect(h.db.ensureDay).toHaveBeenCalled();
     expect(r.reached).toBe(true);
+  });
+
+  it('delivers the exported bust to the live module singleton, not a detached cache', async () => {
+    // Behavioral pin on the moderation-bust delivery link: main.ts's
+    // bustBoardCaches calls bustDailyRewardBoardCache(), which must reach
+    // the INSTANCE cache of the module-load dailyRewardService singleton
+    // (the one these routes drive). A regression to a module-level cache in
+    // the board-cache module, or a bust aimed at a second service instance,
+    // keeps the source-text pin green and fails only here.
+    await runRoute('GET', '/api/daily-rewards', { headers: { authorization: BEARER } });
+    await runRoute('GET', '/api/daily-rewards', { headers: { authorization: BEARER } });
+    // Fresh within the TTL: both requests share one snapshot refresh.
+    expect(h.db.leaderboardSnapshot).toHaveBeenCalledTimes(1);
+    bustDailyRewardBoardCache();
+    const r = await runRoute('GET', '/api/daily-rewards', { headers: { authorization: BEARER } });
+    expect(r.status).toBe(200);
+    // The exported bust emptied the singleton's cache: the next read refreshed.
+    expect(h.db.leaderboardSnapshot).toHaveBeenCalledTimes(2);
   });
 
   it('GET leaderboard answers 200 with the page payload and decodes page/pageSize leniently', async () => {

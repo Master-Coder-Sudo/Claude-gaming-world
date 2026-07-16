@@ -9,12 +9,13 @@
 // and main.ts wires the moderation hook to bust it too, so in-process
 // delisting/relisting and fresh ranks are immediate here; peer realm
 // processes converge within one TTL, the same tradeoff the other public
-// board caches made in main.ts. Two read-side flips have no write anywhere
+// board caches made in main.ts. The read-side flips have no write anywhere
 // to hook and are accepted as TTL-bounded staleness by the same tradeoff
-// (never chase either with a timer or a poll): a timed daily-reward ban
-// expiring (the expires_at predicate inside the excluded-accounts view), and
-// an account's first login or play session from an already-banned IP joining
-// the view's IP arm.
+// (never chase them with a timer or a poll): a timed daily-reward ban
+// expiring (the expires_at predicate inside the excluded-accounts view), an
+// account's first login or play session from an already-banned IP joining
+// the view's IP arm, and the symmetric leave (its last_login_ip moving off
+// a banned IP relists it only after TTL).
 //
 // cached_read has no day concept, so the day-mismatch-as-miss logic lives
 // here: the snapshot carries the day it was fetched for, and a reader for
@@ -64,7 +65,11 @@ export class DailyRewardBoardCache {
     );
   }
 
-  /** Successful refreshes since boot and the last refresh duration. */
+  /**
+   * Successful cache refreshes since boot and the last refresh duration.
+   * The rare rollover-straddle direct reads in snapshotFor below bypass the
+   * cache and are NOT counted here.
+   */
   stats(): { refreshes: number; lastRefreshMs: number | null } {
     return { refreshes: this.refreshes, lastRefreshMs: this.lastRefreshMs };
   }
@@ -72,6 +77,10 @@ export class DailyRewardBoardCache {
   private async snapshotFor(day: string): Promise<BoardSnapshot> {
     // A cached snapshot for another day is a miss, never served across the
     // rollover: bust it so the read below refreshes for the requested day.
+    // The bust is deliberately direction-blind (an old-day straggler evicts
+    // the new day's snapshot too); every caller computes its day fresh from
+    // the reward clock, so the mixed-day window is the request latency
+    // around the rollover instant and not worth a day comparison rule.
     const cached = this.cache.peek();
     if (cached !== null && cached.day !== day) this.cache.bust();
     this.targetDay = day;
@@ -80,7 +89,9 @@ export class DailyRewardBoardCache {
     // We shared a flight aimed at another day (concurrent readers straddling
     // the rollover): leave that day's snapshot installed for its own readers
     // and serve this reader a direct, uncached read of its day instead of
-    // ping-ponging the cache between the two days.
+    // ping-ponging the cache between the two days. The direct read skips
+    // single-flight and the stats() counters, both bounded by the same
+    // rollover-instant window as the bust above.
     return { day, rows: await this.fetchSnapshot(day) };
   }
 

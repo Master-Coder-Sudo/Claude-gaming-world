@@ -182,12 +182,10 @@ describe('every ranked board query embeds the fragment', () => {
     const db = new PgDailyRewardDb();
     const day = '2026-07-08';
     for (const read of [
-      () => db.leaderboard(day, 1, 10),
-      () => db.leaderboardRowForAccount(day, 1),
       () => db.leaderboardTotal(day),
-      () => db.rankForAccount(day, 1),
-      // The board-cache refresh read serves four of the reads above from one
-      // snapshot, so it must gate on the same population.
+      // The board-cache refresh read: every board read a player status
+      // assembles derives from this one snapshot, so it must gate on the
+      // same population as the live total and page reads.
       () => db.leaderboardSnapshot(day),
     ]) {
       const sql = await capturedSql(read);
