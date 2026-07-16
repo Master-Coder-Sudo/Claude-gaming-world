@@ -10,6 +10,7 @@ import fs from 'node:fs';
 import puppeteer from 'puppeteer-core';
 
 import { BROWSER_PATH as EDGE } from './browser_path.mjs';
+import { enterOfflineGame } from './enter_offline_game.mjs';
 
 const URL = process.env.GAME_URL ?? 'http://localhost:5173';
 const OUT = process.env.OUT_DIR ?? 'docs/screenshots/crafting-caster-gear';
@@ -27,30 +28,21 @@ page.on('pageerror', (e) => console.log('PAGEERROR:', e.message));
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
 await page.goto(URL, { waitUntil: 'networkidle0', timeout: 120000 });
-const jsClick = (sel) =>
-  page.evaluate((s) => {
-    const el = document.querySelector(s);
-    if (!el) throw new Error(`missing ${s}`);
-    el.click();
-  }, sel);
-await wait(400);
-await jsClick('#btn-offline');
-await wait(300);
-await page.type('#char-name', 'Wardweaver');
-await jsClick('#offline-select .mini-class[data-class="priest"]');
-await jsClick('#btn-start-offline');
-await page.waitForFunction(() => window.__game?.sim?.player, { timeout: 90000 });
-await wait(2000);
+// Shared entry flow: picks the class, enters the world, and dismisses the intro
+// cinematic, the new-adventurer tutorial, and the camera-mode-choice prompt so
+// every capture below is clean gameplay only (repo house rule).
+await enterOfflineGame(page, { charClass: 'priest', charName: 'Wardweaver', settleMs: 2000 });
 
-// Dismiss the new-adventurer tutorial overlay and the camera-choice prompt.
-await page.evaluate(() => {
-  const btn = [...document.querySelectorAll('button')].find((b) =>
-    /skip tutorial/i.test(b.textContent || ''),
-  );
-  btn?.click();
-  document.querySelector('.camera-prompt-confirm')?.click();
+const overlayState = await page.evaluate(() => {
+  const visible = (el) => !!el && getComputedStyle(el).display !== 'none';
+  return {
+    introLogo: visible(document.getElementById('intro-logo')),
+    tutorial: visible(document.querySelector('button.tut-skip')),
+    cameraPrompt: visible(document.querySelector('.camera-prompt-backdrop')),
+    uiHidden: document.getElementById('ui')?.style.display === 'none',
+  };
 });
-await wait(400);
+console.log('overlay state after entry (all should be false):', JSON.stringify(overlayState));
 
 const NEW_ITEMS = [
   ['eastbrook_ritual_vestments', 'Eastbrook Ritual Vestments'],
@@ -132,6 +124,36 @@ async function hoverItem(name, shot) {
   });
   return true;
 }
+
+// Craft item(s) exist, so the crafting window itself is part of the visual proof:
+// grant reagents and open it before the tooltip/paperdoll capture below.
+await page.evaluate(() => {
+  const sim = window.__game?.sim;
+  const ids = ['bone_fragments', 'linen_scrap', 'spider_leg'];
+  for (const id of ids) {
+    try {
+      sim?.addItem(id, 10);
+    } catch {}
+  }
+});
+await page.evaluate(() => window.__game?.hud?.toggleCrafting?.());
+await wait(900);
+const craftingOpen = await page.evaluate(() => {
+  const el = document.querySelector('#crafting-window');
+  return !!el && getComputedStyle(el).display !== 'none';
+});
+console.log('crafting window open:', craftingOpen);
+if (craftingOpen) {
+  await page.screenshot({
+    path: `${OUT}/after-crafting-window.png`,
+    clip: await page.evaluate(() => {
+      const b = document.querySelector('#crafting-window').getBoundingClientRect();
+      return { x: b.x, y: b.y, width: b.width, height: b.height };
+    }),
+  });
+}
+await page.evaluate(() => window.__game?.hud?.toggleCrafting?.());
+await wait(300);
 
 for (const [id, name] of NEW_ITEMS) {
   const slug = id.replace(/_/g, '-');
