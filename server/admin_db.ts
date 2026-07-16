@@ -5,7 +5,13 @@ import {
   mapClientPerfSummaryRows,
   PERF_SUMMARY_LIMITS,
 } from './client_perf_summary_shape';
-import { DB_HEAVY_STATEMENT_TIMEOUT_MS, pool, runWithStatementTimeout } from './db';
+import {
+  DB_HEAVY_STATEMENT_TIMEOUT_MS,
+  loadWorldState,
+  pool,
+  runWithStatementTimeout,
+  saveWorldState,
+} from './db';
 import { REALM } from './realm';
 
 // Read-side queries for the admin dashboard. All inputs are parameterized;
@@ -36,7 +42,10 @@ export async function overviewCounts(): Promise<OverviewCounts> {
   // request-driven through the admin overview cache (server/admin_overview_cache.ts),
   // which bounds how often the admin Overview poll can re-run it: run it on the
   // raised allowance so a growing play_sessions table cannot trip the default
-  // statement timeout.
+  // statement timeout. peak_online_all_time is GREATEST of the retained sample
+  // window's live max and the folded world_state peak (foldOnlinePeak below), so
+  // a peak inside the retained window stays honest before the next fold and a
+  // pruned-away peak is never lost.
   const res = await runWithStatementTimeout(DB_HEAVY_STATEMENT_TIMEOUT_MS, (query) =>
     query(
       `
@@ -64,8 +73,12 @@ export async function overviewCounts(): Promise<OverviewCounts> {
       ), 0)::bigint AS avg_playtime_seconds,
       COALESCE((SELECT max(online_players) FROM admin_online_samples
         WHERE realm = $1 AND sampled_at > now() - interval '1 day'), 0)::int AS peak_online_today,
-      COALESCE((SELECT max(online_players) FROM admin_online_samples
-        WHERE realm = $1), 0)::int AS peak_online_all_time,
+      GREATEST(
+        COALESCE((SELECT max(online_players) FROM admin_online_samples
+          WHERE realm = $1), 0),
+        COALESCE((SELECT (data->>'peak')::int FROM world_state
+          WHERE key = '${ONLINE_PEAK_WORLD_STATE_PREFIX}' || $1), 0)
+      )::int AS peak_online_all_time,
       (SELECT count(*) FROM site_presence_sessions
         WHERE last_seen_at > now() - interval '2 minutes')::int AS site_users_now
   `,
@@ -287,6 +300,116 @@ export async function onlineHistory(rangeInput: string): Promise<OnlineHistory> 
       peakSiteUsers: Number(r.peak_site_users),
     })),
   };
+}
+
+// Metrics retention primitives. One advisory-locked process runs the retention
+// sweep for the whole database: it folds each realm's all-time online peak into
+// world_state first, then deletes expired rows in bounded batches. The fold is
+// what makes pruning lossless for the admin Overview's all-time peak.
+
+// world_state key prefix for the folded per-realm all-time online peak.
+// Single-sourced across foldOnlinePeak and the overviewCounts reader SQL (a
+// drifting copy on either side would silently orphan the stored peak); it is a
+// compile-time constant interpolated into SQL text, never user input.
+export const ONLINE_PEAK_WORLD_STATE_PREFIX = 'admin_online_peak:';
+
+// Every realm with samples in this database, not just this process's REALM: the
+// retention sweep runs in one advisory-locked process on behalf of the whole
+// database, so it iterates every realm returned here. Index-assisted: realm
+// leads admin_online_samples_realm_sampled.
+export async function distinctOnlineSampleRealms(): Promise<string[]> {
+  const res = await pool.query('SELECT DISTINCT realm FROM admin_online_samples');
+  return res.rows.map((r) => String(r.realm));
+}
+
+// Fold the realm's live all-time online peak into world_state so pruning old
+// samples never loses it. GREATEST semantics: the stored value only ever rises,
+// and a fold that would not raise it writes nothing, so a no-op fold does not
+// churn world_state daily. Errors intentionally propagate: the fold is the
+// lossless-prune precondition, so a failed fold must make the sweep skip this
+// realm's prune for the run.
+export async function foldOnlinePeak(realm: string): Promise<void> {
+  // Rides the realm-leading admin_online_samples_realm_sampled index.
+  const res = await pool.query(
+    'SELECT max(online_players)::int AS peak FROM admin_online_samples WHERE realm = $1',
+    [realm],
+  );
+  const live = res.rows[0]?.peak;
+  if (typeof live !== 'number' || !Number.isFinite(live)) return; // no samples: nothing to fold
+  const key = ONLINE_PEAK_WORLD_STATE_PREFIX + realm;
+  const stored = await loadWorldState<{ peak?: unknown }>(key);
+  const storedPeak =
+    typeof stored?.peak === 'number' && Number.isFinite(stored.peak) ? stored.peak : 0;
+  if (live <= storedPeak) return;
+  await saveWorldState(key, { peak: live });
+}
+
+// One bounded delete batch of expired admin_online_samples rows for one realm.
+// The table's only non-PK index leads on realm (admin_online_samples_realm_sampled),
+// so BOTH predicate arms are load-bearing: dropping the realm arm turns the
+// subquery into a sequential scan, and dropping the sampled_at bound would
+// delete every sample for the realm regardless of age. retentionDays <= 0 means
+// keep forever. Returns the deleted row count so the sweep can loop to a short
+// batch.
+export async function pruneOnlineSamplesBatch(
+  realm: string,
+  retentionDays: number,
+  batchSize: number,
+): Promise<number> {
+  if (!Number.isFinite(retentionDays) || retentionDays <= 0) return 0;
+  const res = await pool.query(
+    `DELETE FROM admin_online_samples
+      WHERE id IN (
+        SELECT id FROM admin_online_samples
+         WHERE realm = $1 AND sampled_at < now() - ($2 || ' days')::interval
+         ORDER BY sampled_at
+         LIMIT $3)`,
+    [realm, String(Math.floor(retentionDays)), Math.max(1, Math.floor(batchSize))],
+  );
+  return res.rowCount ?? 0;
+}
+
+// One bounded delete batch of expired admin_site_presence_samples rows (the
+// table is database-wide, no realm column); the sampled_at predicate rides
+// admin_site_presence_samples_sampled. retentionDays <= 0 means keep forever.
+export async function pruneSitePresenceSamplesBatch(
+  retentionDays: number,
+  batchSize: number,
+): Promise<number> {
+  if (!Number.isFinite(retentionDays) || retentionDays <= 0) return 0;
+  const res = await pool.query(
+    `DELETE FROM admin_site_presence_samples
+      WHERE id IN (
+        SELECT id FROM admin_site_presence_samples
+         WHERE sampled_at < now() - ($1 || ' days')::interval
+         ORDER BY sampled_at
+         LIMIT $2)`,
+    [String(Math.floor(retentionDays)), Math.max(1, Math.floor(batchSize))],
+  );
+  return res.rowCount ?? 0;
+}
+
+// One bounded delete batch of stale site_presence_sessions rows. The table's
+// PRIMARY KEY is visitor_id (there is no id column), so the batch subquery
+// selects visitor_id; the last_seen_at predicate rides
+// site_presence_sessions_last_seen. Shares one retention value with
+// pruneSitePresenceSamplesBatch in production, hence the parallel signature.
+// retentionDays <= 0 means keep forever.
+export async function pruneSitePresenceSessionsBatch(
+  retentionDays: number,
+  batchSize: number,
+): Promise<number> {
+  if (!Number.isFinite(retentionDays) || retentionDays <= 0) return 0;
+  const res = await pool.query(
+    `DELETE FROM site_presence_sessions
+      WHERE visitor_id IN (
+        SELECT visitor_id FROM site_presence_sessions
+         WHERE last_seen_at < now() - ($1 || ' days')::interval
+         ORDER BY last_seen_at
+         LIMIT $2)`,
+    [String(Math.floor(retentionDays)), Math.max(1, Math.floor(batchSize))],
+  );
+  return res.rowCount ?? 0;
 }
 
 // PerfAggregate and PerfBucket live in the pure shape module next to the row
