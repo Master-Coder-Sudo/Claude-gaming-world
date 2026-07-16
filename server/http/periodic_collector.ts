@@ -33,7 +33,8 @@ export class PeriodicCollector<T> {
    *   a failure is swallowed after this so it never propagates into the timer.
    * @param onCoalesce optional sink invoked each time a refresh() call joins an
    *   already in-flight query (defaults to a no-op); a throwing sink is reported
-   *   via onError so it never breaks refresh()'s never-throws contract.
+   *   via onError under its own label (the sink error rides along as cause) so
+   *   it never breaks refresh()'s never-throws contract.
    */
   constructor(
     private readonly query: () => Promise<T>,
@@ -67,9 +68,10 @@ export class PeriodicCollector<T> {
       try {
         this.onCoalesce();
       } catch (err) {
-        // Same philosophy as a failed query: report via onError, never throw into the
-        // caller or the timer.
-        this.onError(err);
+        // Report via onError like a failed query, never throw into the caller or
+        // the timer. Wrapped under its own label so the default sink's "refresh
+        // failed" prefix cannot mislabel a sink bug as a query failure in triage.
+        this.onError(new Error('onCoalesce sink threw', { cause: err }));
       }
       return this.inFlight;
     }

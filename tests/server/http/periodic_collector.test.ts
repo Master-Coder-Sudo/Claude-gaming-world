@@ -66,6 +66,22 @@ describe('PeriodicCollector', () => {
     expect(collector.coalescedCount).toBe(1);
   });
 
+  it('counts every extra joiner of one in-flight query', async () => {
+    let resolve!: (value: number) => void;
+    const query = vi.fn(() => new Promise<number>((done) => (resolve = done)));
+    const collector = new PeriodicCollector(query, 60_000);
+
+    const first = collector.refresh();
+    const second = collector.refresh();
+    const third = collector.refresh();
+    expect(query).toHaveBeenCalledTimes(1);
+    expect(collector.coalescedCount).toBe(2);
+
+    resolve(11);
+    await expect(Promise.all([first, second, third])).resolves.toEqual([11, 11, 11]);
+    expect(collector.coalescedCount).toBe(2);
+  });
+
   it('never counts clean sequential refreshes as coalesced', async () => {
     const onCoalesce = vi.fn();
     const query = vi.fn(async () => 1);
@@ -91,10 +107,12 @@ describe('PeriodicCollector', () => {
     const second = collector.refresh();
     expect(onCoalesce).toHaveBeenCalledTimes(1);
     expect(collector.coalescedCount).toBe(1);
-    // The sink's throw is routed to onError, like any other collector failure,
-    // and it is the SINK's error that arrives there, not some other failure.
+    // The sink's throw is routed to onError under its own label, carrying the
+    // sink's error as the cause, so triage cannot mistake it for a failed query.
     expect(onError).toHaveBeenCalledTimes(1);
-    expect(onError).toHaveBeenCalledWith(expect.objectContaining({ message: 'sink boom' }));
+    const reported = onError.mock.calls[0][0] as Error;
+    expect(reported.message).toBe('onCoalesce sink threw');
+    expect((reported.cause as Error).message).toBe('sink boom');
 
     resolve(3);
     await expect(Promise.all([first, second])).resolves.toEqual([3, 3]);
