@@ -261,6 +261,12 @@ export class PgDailyRewardDb implements DailyRewardDb {
   async banForAccount(
     accountId: number,
   ): Promise<{ reason: string; expiresAt: string | null } | null> {
+    // OR-free arms, mirroring the daily_reward_excluded_accounts view: the
+    // last-login and play-session IP probes are separate UNION ALL arms so each
+    // rides its own index path (an OR in the join forces a nested loop with a
+    // re-probed subquery on every eligibility check). LIMIT 1 makes the read
+    // dedup-insensitive, so UNION ALL skips the dedup sort, and ORDER BY
+    // priority keeps the account ban (with its real expiry) ahead of IP bans.
     const res = await pool.query(
       `SELECT reason, expires_at
          FROM (
@@ -273,12 +279,13 @@ export class PgDailyRewardDb implements DailyRewardDb {
              FROM accounts a
              JOIN daily_reward_ip_bans ib
                ON ib.ip_address = a.last_login_ip
-               OR EXISTS (
-                 SELECT 1
-                   FROM play_sessions ps
-                  WHERE ps.account_id = a.id AND ps.ip_address = ib.ip_address
-               )
             WHERE a.id = $1
+           UNION ALL
+           SELECT ib.reason, NULL::timestamptz AS expires_at, 1 AS priority
+             FROM play_sessions ps
+             JOIN daily_reward_ip_bans ib
+               ON ib.ip_address = ps.ip_address
+            WHERE ps.account_id = $1
          ) restrictions
         ORDER BY priority
         LIMIT 1`,

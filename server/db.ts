@@ -759,6 +759,10 @@ CREATE TABLE IF NOT EXISTS daily_reward_ip_bans (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+-- Exclusion arms stay OR-free so each rides its own index path (an OR inside a
+-- join arm forces a nested loop with a re-probed subquery); any new exclusion
+-- source joins as another UNION arm, never as an OR in an existing arm. The ban
+-- arm's expiry predicate is what un-bans an expired timed ban.
 CREATE OR REPLACE VIEW daily_reward_excluded_accounts AS
 SELECT account_id, reason FROM daily_reward_bans
  WHERE expires_at IS NULL OR expires_at > now()
@@ -767,10 +771,11 @@ SELECT a.id AS account_id, ib.reason
   FROM accounts a
   JOIN daily_reward_ip_bans ib
     ON ib.ip_address = a.last_login_ip
-    OR EXISTS (
-      SELECT 1 FROM play_sessions ps
-       WHERE ps.account_id = a.id AND ps.ip_address = ib.ip_address
-    );
+UNION
+SELECT ps.account_id, ib.reason
+  FROM play_sessions ps
+  JOIN daily_reward_ip_bans ib
+    ON ib.ip_address = ps.ip_address;
 CREATE TABLE IF NOT EXISTS daily_reward_events (
   id BIGSERIAL PRIMARY KEY,
   day TEXT NOT NULL,
