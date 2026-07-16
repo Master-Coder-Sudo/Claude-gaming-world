@@ -62,7 +62,9 @@ await page
   .waitForFunction(
     () => {
       const fade = document.querySelector('#intro-fade, .intro-fade, .logo-fade');
-      return !fade || getComputedStyle(fade).display === 'none' || getComputedStyle(fade).opacity === '0';
+      return (
+        !fade || getComputedStyle(fade).display === 'none' || getComputedStyle(fade).opacity === '0'
+      );
     },
     { timeout: 8000 },
   )
@@ -156,7 +158,10 @@ if (found) {
   const bossId = await page.evaluate(() => {
     const w = window.__game.world;
     for (const e of w.entities.values()) {
-      if (e.templateId === 'sister_nhalia_drowned_canticle' || e.mobId === 'sister_nhalia_drowned_canticle') {
+      if (
+        e.templateId === 'sister_nhalia_drowned_canticle' ||
+        e.mobId === 'sister_nhalia_drowned_canticle'
+      ) {
         return e.id;
       }
     }

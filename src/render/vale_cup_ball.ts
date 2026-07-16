@@ -354,7 +354,8 @@ function glowTexture(): THREE.CanvasTexture {
   const size = 64;
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = size;
-  const g = canvas.getContext('2d')!;
+  const g = canvas.getContext('2d');
+  if (!g) return new THREE.CanvasTexture(canvas);
   const grd = g.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
   grd.addColorStop(0, 'rgba(255,255,255,1)');
   grd.addColorStop(0.4, 'rgba(255,244,214,0.55)');
