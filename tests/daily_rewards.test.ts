@@ -27,7 +27,9 @@ vi.mock('../server/woc_balance', () => ({
   cachedWocBalance: vi.fn(async () => balanceMock.value),
 }));
 
+import { resetDailyFinalizeGuardForTests } from '../server/daily_finalize_guard';
 import {
+  addRewardDays,
   type DailyRewardRuntimeConfig,
   DailyRewardService,
   dailyRewardEligibility,
@@ -36,6 +38,7 @@ import {
   resetDailyRewardPriceCacheForTests,
   rewardDayForDate,
 } from '../server/daily_rewards';
+import { resetDailyRewardSeedGateForTests } from '../server/daily_rewards_seed_gate';
 import { buildDailyRewardsView } from '../src/ui/daily_rewards_view';
 
 class FakeDailyRewardDb implements DailyRewardDb {
@@ -50,12 +53,27 @@ class FakeDailyRewardDb implements DailyRewardDb {
     key: string;
     meta: Record<string, unknown>;
   }[] = [];
+  ensureDayCalls = 0;
+  seedTasksCalls = 0;
+  finalizeDayCalls = 0;
+  dayFinalizedCalls = 0;
+  finalizedDays = new Set<string>();
+  // When > 0, the next seedTasks call throws (and decrements), simulating the
+  // seed transaction rolling back so the seed-gate retry path can be exercised.
+  failSeedTasksTimes = 0;
 
-  async ensureDay(): Promise<void> {}
+  async ensureDay(): Promise<void> {
+    this.ensureDayCalls++;
+  }
   async banForAccount(): Promise<{ reason: string } | null> {
     return this.banReason === null ? null : { reason: this.banReason };
   }
   async seedTasks(_day: string, tasks: DailyRewardTaskSeed[]): Promise<void> {
+    this.seedTasksCalls++;
+    if (this.failSeedTasksTimes > 0) {
+      this.failSeedTasksTimes--;
+      throw new Error('seedTasks transaction rolled back');
+    }
     this.tasks = tasks;
   }
   async tasksForAccount(_day: string, accountId: number): Promise<DailyRewardTaskRow[]> {
@@ -165,7 +183,14 @@ class FakeDailyRewardDb implements DailyRewardDb {
   async recentPayouts(): Promise<DailyRewardPayoutRow[]> {
     return [];
   }
-  async finalizeDay(): Promise<void> {}
+  async finalizeDay(day: string): Promise<void> {
+    this.finalizeDayCalls++;
+    this.finalizedDays.add(day);
+  }
+  async dayFinalized(day: string, _realm: string): Promise<boolean> {
+    this.dayFinalizedCalls++;
+    return this.finalizedDays.has(day);
+  }
   async pendingPayouts(): Promise<DailyRewardInternalPayoutRow[]> {
     return [];
   }
@@ -253,6 +278,11 @@ describe('daily rewards', () => {
     delete process.env.WOC_DAILY_REWARD_SERVICE_URL;
     delete process.env.WOC_DAILY_REWARD_SERVICE_SECRET;
     resetDailyRewardPriceCacheForTests();
+    // Both memos live at module scope, so without a per-test reset the several
+    // blocks that ensureActiveDay the SAME day/config would collide on one gate
+    // key and silently stop calling db.ensureDay/db.seedTasks on a fresh FakeDb.
+    resetDailyRewardSeedGateForTests();
+    resetDailyFinalizeGuardForTests();
     stubRewardConfig();
     walletMock.row = {
       account_id: 1,
@@ -1169,5 +1199,160 @@ describe('daily rewards', () => {
       },
     });
     expect(view).toMatchObject({ kind: 'ready', locked: true, lockReason: 'under_minimum' });
+  });
+
+  describe('ensure/seed gating', () => {
+    it('finalizes the previous day once, then the guard short-circuits repeat polls', async () => {
+      const db = new FakeDailyRewardDb();
+      const service = new DailyRewardService(db);
+      const now = new Date('2026-07-02T12:00:00.000Z');
+      await service.finalizePreviousDay(now);
+      await service.finalizePreviousDay(now);
+      // The finalize guard skips the second poll entirely: finalizeDay runs once,
+      // and the ensure/seed pair (also protected by the seed gate) runs once.
+      // Removing the guard's short-circuit makes finalizeDay run twice.
+      expect(db.finalizeDayCalls).toBe(1);
+      expect(db.ensureDayCalls).toBe(1);
+      expect(db.seedTasksCalls).toBe(1);
+      // The in-process guard also avoids the primary-key read on the warm poll:
+      // only the first poll issues dayFinalized. Deleting the hasFinalized()
+      // short-circuit (keeping the DB check) makes this two.
+      expect(db.dayFinalizedCalls).toBe(1);
+      // finalizeDay running exactly once is the winner-set freeze (the ranked
+      // winner scan is computed once); ensureDay running exactly once is the
+      // prize-pool freeze (prize_pool_usd is written once, not re-flipped per poll).
+    });
+
+    it('records the guard from a DB hit without re-running ensure or finalize', async () => {
+      const db = new FakeDailyRewardDb();
+      const service = new DailyRewardService(db);
+      const now = new Date('2026-07-02T12:00:00.000Z');
+      const previous = addRewardDays(rewardDayForDate(now, 1260), -1);
+      // Already finalized in the DB but not yet in the in-process guard.
+      db.finalizedDays.add(previous);
+      await service.finalizePreviousDay(now);
+      expect(db.ensureDayCalls).toBe(0);
+      expect(db.finalizeDayCalls).toBe(0);
+      // The first poll issued exactly one PK read to learn the day was finalized.
+      expect(db.dayFinalizedCalls).toBe(1);
+      // The guard is warm now, so a second poll does not even issue the PK read.
+      await service.finalizePreviousDay(now);
+      expect(db.ensureDayCalls).toBe(0);
+      expect(db.finalizeDayCalls).toBe(0);
+      expect(db.dayFinalizedCalls).toBe(1);
+    });
+
+    it('does not re-fetch the previous-day config on repeated finalize polls', async () => {
+      const db = new FakeDailyRewardDb();
+      const service = new DailyRewardService(db);
+      const daysFetched: string[] = [];
+      vi.mocked(fetch).mockImplementation(async (input: RequestInfo | URL) => {
+        daysFetched.push(new URL(String(input)).searchParams.get('day') ?? '');
+        return new Response(JSON.stringify(rewardConfig()), { status: 200 });
+      });
+      const now = new Date('2026-07-02T12:00:00.000Z');
+      const previous = addRewardDays(rewardDayForDate(now, 1260), -1);
+      await service.finalizePreviousDay(now);
+      await service.finalizePreviousDay(now);
+      await service.finalizePreviousDay(now);
+      // Only the first poll fetched the previous day's config; once finalized, the
+      // guard keeps later polls from re-running ensureActiveDay and re-flipping the
+      // single-slot config cache to the previous day.
+      expect(daysFetched.filter((day) => day === previous)).toHaveLength(1);
+    });
+
+    it('seeds once across many recordOnlineMinute calls for the same day', async () => {
+      const db = new FakeDailyRewardDb();
+      const service = new DailyRewardService(db);
+      const base = new Date('2026-07-01T12:00:00.000Z').getTime();
+      for (let i = 0; i < 5; i++) {
+        await service.recordOnlineMinute(1, new Date(base + i * 60_000));
+      }
+      // Five online-minute recorders for one day issue the ensure/seed pair once,
+      // not five times. Removing the seed-gate consult makes this five.
+      expect(db.ensureDayCalls).toBe(1);
+      expect(db.seedTasksCalls).toBe(1);
+    });
+
+    it('shares one seed gate across status and the gameplay recorders', async () => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date('2026-07-01T12:00:00.000Z'));
+      try {
+        const db = new FakeDailyRewardDb();
+        const service = new DailyRewardService(db);
+        await service.status(1);
+        await service.recordQuestCompletion(1, null, 'quest_completion');
+        await service.recordArenaResult(1, {
+          won: true,
+          format: '2v2',
+          ratingBefore: 1500,
+          ratingAfter: 1520,
+        });
+        await service.recordValeCupResult(1, {
+          won: true,
+          bracket: 1,
+          matchId: 42,
+          completedAt: new Date('2026-07-01T12:01:00.000Z'),
+        });
+        // status plus three gameplay recorders for one day share one seed gate.
+        expect(db.ensureDayCalls).toBe(1);
+        expect(db.seedTasksCalls).toBe(1);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('reseeds when the config tasks change for the same day', async () => {
+      const db = new FakeDailyRewardDb();
+      const service = new DailyRewardService(db);
+      await service.ensureActiveDay('2026-06-30');
+      expect(db.seedTasksCalls).toBe(1);
+      // A genuine config change (new tasks) must force a reseed for the same day.
+      resetDailyRewardPriceCacheForTests();
+      stubRewardConfig({
+        tasks: [
+          {
+            id: 'quest_push',
+            type: 'quest_completion',
+            title: 'Quest push',
+            description: 'Complete quests.',
+            points: 25,
+            sortOrder: 1,
+          },
+        ],
+      });
+      await service.ensureActiveDay('2026-06-30');
+      expect(db.seedTasksCalls).toBe(2);
+    });
+
+    it('reseeds when only the prize pool changes for the same day', async () => {
+      const db = new FakeDailyRewardDb();
+      const service = new DailyRewardService(db);
+      await service.ensureActiveDay('2026-06-30');
+      expect(db.ensureDayCalls).toBe(1);
+      // Change ONLY prizePoolUsd (a config field ensureDay persists): the same day
+      // must reseed so the new prize pool is written, proving the gate key covers
+      // the day-config fields, not just the tasks signature.
+      resetDailyRewardPriceCacheForTests();
+      stubRewardConfig({ prizePoolUsd: 500 });
+      await service.ensureActiveDay('2026-06-30');
+      expect(db.ensureDayCalls).toBe(2);
+      expect(db.seedTasksCalls).toBe(2);
+    });
+
+    it('retries the seed on the next call when the seed transaction fails', async () => {
+      const db = new FakeDailyRewardDb();
+      db.failSeedTasksTimes = 1;
+      const service = new DailyRewardService(db);
+      await expect(service.ensureActiveDay('2026-06-30')).rejects.toThrow(
+        'seedTasks transaction rolled back',
+      );
+      expect(db.tasks).toEqual([]);
+      // The gate did not cache the failure: the next call re-issues the write, so
+      // a transient seed failure never strands the day with unwritten tasks.
+      await service.ensureActiveDay('2026-06-30');
+      expect(db.seedTasksCalls).toBe(2);
+      expect(db.tasks.length).toBeGreaterThan(0);
+    });
   });
 });

@@ -79,6 +79,7 @@ const h = vi.hoisted(() => {
     questTaskCompletionCount: vi.fn(async () => 0),
     recentPayouts: vi.fn(async (_limit: number) => state.recentPayouts),
     finalizeDay: vi.fn(async () => {}),
+    dayFinalized: vi.fn(async () => false),
     pendingPayouts: vi.fn(async (_limit: number) => state.pendingPayouts),
     unannouncedWinnerDays: vi.fn(async () => [] as unknown[]),
     markWinnersAnnounced: vi.fn(async () => true),
@@ -118,6 +119,7 @@ vi.mock('../../server/daily_rewards_db', async (importOriginal) => {
     questTaskCompletionCount = h.db.questTaskCompletionCount;
     recentPayouts = h.db.recentPayouts;
     finalizeDay = h.db.finalizeDay;
+    dayFinalized = h.db.dayFinalized;
     pendingPayouts = h.db.pendingPayouts;
     unannouncedWinnerDays = h.db.unannouncedWinnerDays;
     markWinnersAnnounced = h.db.markWinnersAnnounced;
@@ -147,6 +149,7 @@ vi.mock('../../server/woc_balance', async (importOriginal) => {
   return { ...actual, cachedWocBalance: h.balance.cachedWocBalance };
 });
 
+import { resetDailyFinalizeGuardForTests } from '../../server/daily_finalize_guard';
 import {
   DailyRewardService,
   dailyRewardService,
@@ -155,6 +158,7 @@ import {
   routes,
   setDailyRewardDbForTests,
 } from '../../server/daily_rewards';
+import { resetDailyRewardSeedGateForTests } from '../../server/daily_rewards_seed_gate';
 import { compose } from '../../server/http/compose';
 import { withErrors } from '../../server/http/middleware/with_errors';
 import type { Method, Middleware } from '../../server/http/types';
@@ -348,6 +352,11 @@ beforeEach(() => {
   h.state.balance = null;
   resetDailyRewardDbForTests();
   resetDailyRewardPriceCacheForTests();
+  // Both memos live at module scope, so without a per-test reset an earlier test
+  // that seeds a (day, realm, config) key would let a later test skip the gated
+  // ensureDay/seedTasks pair (the ensureDayThrows case would never reach its throw).
+  resetDailyRewardSeedGateForTests();
+  resetDailyFinalizeGuardForTests();
   // Default: the gate secret and the config URL are unset, so the config falls back
   // (no fetch) and the ops gate fails closed unless a test opts in.
   delete process.env[OPS_SECRET_ENV];

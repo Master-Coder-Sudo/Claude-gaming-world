@@ -84,3 +84,50 @@ describe('Daily Rewards ban query enforcement', () => {
     expect(transactionQuery.mock.calls[1][0]).toContain('WHERE NOT EXISTS');
   });
 });
+
+describe('Daily Rewards finalize read and score writes', () => {
+  beforeEach(() => {
+    mocks.query.mockReset();
+    mocks.connect.mockReset();
+  });
+
+  it('reads the finalized flag using the realm argument, not the module realm', async () => {
+    mocks.query.mockResolvedValue({ rows: [{ ok: 1 }], rowCount: 1 });
+
+    const finalized = await new PgDailyRewardDb().dayFinalized('2026-07-01', 'other-realm');
+
+    expect(finalized).toBe(true);
+    expect(mocks.query.mock.calls[0][0]).toContain('finalized_at IS NOT NULL');
+    // The bound params come from the arguments, never the mocked module REALM
+    // ('test-realm'), so the guard's realm and the query's realm cannot diverge.
+    expect(mocks.query.mock.calls[0][1]).toEqual(['2026-07-01', 'other-realm']);
+  });
+
+  it('reports a day with no finalized row as not finalized', async () => {
+    mocks.query.mockResolvedValue({ rows: [], rowCount: 0 });
+    await expect(new PgDailyRewardDb().dayFinalized('2026-07-01', 'test-realm')).resolves.toBe(
+      false,
+    );
+  });
+
+  it('refreshes the score updated_at only when the incoming points are nonzero', async () => {
+    const query = vi
+      .fn()
+      .mockResolvedValueOnce({ rows: [] }) // BEGIN
+      .mockResolvedValueOnce({ rows: [], rowCount: 1 }) // event insert proceeds
+      .mockResolvedValueOnce({ rows: [] }) // score UPSERT
+      .mockResolvedValue({ rows: [] }); // COMMIT
+    mocks.connect.mockResolvedValue({ query, release: vi.fn() });
+
+    await new PgDailyRewardDb().addPoints('2026-07-11', 9, 'online', 0, 'online:2026-07-11T12:00');
+
+    const scoreUpsert = query.mock.calls.find(([sql]) =>
+      String(sql).includes('INSERT INTO daily_reward_scores'),
+    );
+    // The bump is conditioned on positive points and preserves the prior
+    // timestamp otherwise; it is never an unconditional updated_at = now().
+    expect(scoreUpsert?.[0]).toContain('WHEN EXCLUDED.points > 0 THEN now()');
+    expect(scoreUpsert?.[0]).toContain('ELSE daily_reward_scores.updated_at');
+    expect(scoreUpsert?.[0]).not.toMatch(/updated_at = now\(\)/);
+  });
+});
