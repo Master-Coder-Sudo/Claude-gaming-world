@@ -303,6 +303,42 @@ describe('admin api auth', () => {
     });
   });
 
+  it('serves fresh counts to a later cold request instead of a stale snapshot', async () => {
+    vi.mocked(accountForToken).mockResolvedValue(7);
+    vi.mocked(isAdminAccount).mockResolvedValue(true);
+    // A different stub body than the other overview test: without the
+    // beforeEach cache reset, whichever overview test runs second would be
+    // served the FIRST test's cached counts and fail here, so the reset is
+    // load-bearing, not prophylactic.
+    vi.mocked(overviewCounts).mockResolvedValue({
+      accounts: 77,
+      characters: 88,
+      accountsToday: 9,
+      accountsWeek: 10,
+      accountsMonth: 11,
+      sessionsToday: 12,
+      activeAccountsToday: 13,
+      activeAccountsWeek: 15,
+      activeAccountsMonth: 16,
+      returningAccountsToday: 17,
+      avgPlaytimeSeconds: 1800,
+      peakOnlineToday: 18,
+      peakOnlineAllTime: 19,
+      siteUsersNow: 21,
+    });
+    const res = fakeRes();
+
+    await handleAdminApi(fakeReq({ token: VALID_TOKEN }), res, fakeGame);
+
+    expect(res.statusCode).toBe(200);
+    expect(overviewCounts).toHaveBeenCalledTimes(1);
+    expect(res.body).toEqual({
+      success: true,
+      error: null,
+      data: expect.objectContaining({ accounts: 77, siteUsersNow: 21 }),
+    });
+  });
+
   it('serves persistent online history with cleaned range parameters', async () => {
     vi.mocked(accountForToken).mockResolvedValue(7);
     vi.mocked(isAdminAccount).mockResolvedValue(true);

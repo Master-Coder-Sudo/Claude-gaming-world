@@ -231,6 +231,27 @@ describe('admin overview cache arm parity', () => {
     });
   });
 
+  it('route-first order shares the same singleton: a warm legacy request re-uses the refresh', async () => {
+    const routed = await runRouteOverview();
+    expect(calls).toBe(1);
+    expect(routed.status).toBe(200);
+
+    // The legacy arm arrives second, inside the TTL: still one refresh, and
+    // its OWN live stats merged over the shared snapshot.
+    const legacy = await runLegacyOverview();
+    expect(calls).toBe(1);
+    expect(legacy.status).toBe(200);
+    expect(legacy.body).toEqual({
+      success: true,
+      error: null,
+      data: expect.objectContaining({
+        accounts: 101,
+        peakOnlineToday: 40,
+        server: expect.objectContaining({ online: 40, peakOnline: 500 }),
+      }),
+    });
+  });
+
   it('the TTL is live through the arms: a request past the TTL re-queries', async () => {
     // Same-file literal pin so the clock advance below cannot degrade into a
     // constant-self-comparison if the module's TTL drifts.

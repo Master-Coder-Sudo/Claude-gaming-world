@@ -18,6 +18,7 @@ process.env.DATABASE_URL ||= 'postgres://test:test@127.0.0.1:5433/wocc_client_pe
 import type { PoolClient, QueryResult } from 'pg';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { clientPerfSummary } from '../../server/admin_db';
+import type { ClientPerfSummaryRow } from '../../server/client_perf_summary_shape';
 import { ensureSchema, pool } from '../../server/db';
 
 // ---------------------------------------------------------------------------
@@ -108,7 +109,9 @@ describe('clientPerfSummary SQL shape (mocked pool)', () => {
   });
 
   it('maps canned GROUPING SETS rows through the ranks into the response arrays', async () => {
-    const base = {
+    // Typed with the shape module's row contract so this canned fixture cannot
+    // silently drift from what the mapper documents itself as consuming.
+    const base: ClientPerfSummaryRow = {
       graphics_preset: null,
       gl_renderer_bucket: null,
       browser_family: null,
@@ -156,6 +159,8 @@ describe('clientPerfSummary SQL shape (mocked pool)', () => {
     );
     const out = await clientPerfSummary(12);
     expect(out.hours).toBe(12);
+    // generatedAt is stamped fresh per call; a frozen or empty stamp is a bug.
+    expect(Number.isNaN(Date.parse(out.generatedAt))).toBe(false);
     expect(out.totals.sampleCount).toBe(12);
     expect(out.byPreset.map((b) => b.key)).toEqual(['high']);
     expect(out.byGpu.map((b) => b.key)).toEqual(['adreno', 'mali']);
@@ -272,21 +277,27 @@ interface SeedRow {
   ers: number;
 }
 
-// Includes the '' preset (every grouped column defaults to '') and a non-ASCII
-// zone name: the volume tie-break (key ASC) then runs under the database
-// collation on BOTH sides, so a JS re-sort anywhere in the new path diverges.
+// Includes '' keys on two dimensions (every grouped column defaults to '') and
+// a non-ASCII zone name: the volume tie-break (key ASC) then runs under the
+// database collation on BOTH sides, so a JS re-sort anywhere in the new path
+// diverges. Every dimension exceeds its list cap (presets 22 and browsers/oses
+// 21 vs 20, gpus 62 vs 50, zones 35 vs 30), so ALL the per-set cap arms get a
+// live boundary in the differential, not just the gpu and zone ones.
 const PRESETS = ['', 'high', 'medium', 'low'];
-const BROWSERS = ['Chrome', 'Firefox', 'Safari'];
+for (let i = 0; i < 18; i++) PRESETS.push(`sqlperf-preset-${String(i + 1).padStart(2, '0')}`);
+const BROWSERS = ['', 'Chrome', 'Firefox', 'Safari'];
+for (let i = 0; i < 17; i++) BROWSERS.push(`sqlperf-browser-${String(i + 1).padStart(2, '0')}`);
 const OSES = ['Windows', 'macOS', 'Linux'];
+for (let i = 0; i < 18; i++) OSES.push(`sqlperf-os-${String(i + 1).padStart(2, '0')}`);
 const ZONES: string[] = [];
 for (let i = 0; i < 34; i++) ZONES.push(`sqlperf-zone-${String(i + 1).padStart(2, '0')}`);
 ZONES.push('sqlperf-zöne-Öland');
 
-// 59 gpu buckets with two rows each, then one low-volume bucket whose p95 is the
-// worst in the fixture: more gpu buckets (60) than the byGpu cap (50) and more
-// zones (35) than the byScenario cap (30), so both caps have a real boundary,
-// and the low-volume bucket only reaches worstGpuBuckets through the worst
-// ordering. Distinct frame_p95_ms values everywhere keep the worst ordering
+// 59 gpu buckets with two rows each, one low-volume bucket whose p95 is the
+// worst in the fixture (it reaches worstGpuBuckets only through the worst
+// ordering), and a deliberate bucket-level p95 TIE pair (identical p95, three
+// rows vs one) exercising the worst ordering's sample_count DESC tie-break
+// live. Frame p95 values are otherwise distinct so the worst ordering stays
 // fully determined (full ties were nondeterministic in the old code too).
 const SEED_ROWS: SeedRow[] = [];
 for (let b = 0; b < 59; b++) {
@@ -317,6 +328,36 @@ SEED_ROWS.push({
   ctx: 2,
   rs: 0.5,
   ers: 0.4,
+});
+// The tie pair: every row in both buckets carries p95 998, so both buckets
+// aggregate to exactly 998 and only sample_count DESC (3 rows vs 1) decides
+// their worst order; 998 sits just under the low-volume bucket's 999, keeping
+// the tie observable near the top of worstGpuBuckets.
+for (let k = 0; k < 3; k++) {
+  SEED_ROWS.push({
+    preset: PRESETS[SEED_ROWS.length % PRESETS.length],
+    gpu: 'sqlperf-gpu-tie-heavy',
+    browser: BROWSERS[SEED_ROWS.length % BROWSERS.length],
+    os: OSES[SEED_ROWS.length % OSES.length],
+    zone: ZONES[SEED_ROWS.length % ZONES.length],
+    fps: 20 + k,
+    p95: 998,
+    ctx: 0,
+    rs: 0.6,
+    ers: 0.5,
+  });
+}
+SEED_ROWS.push({
+  preset: PRESETS[SEED_ROWS.length % PRESETS.length],
+  gpu: 'sqlperf-gpu-tie-light',
+  browser: BROWSERS[SEED_ROWS.length % BROWSERS.length],
+  os: OSES[SEED_ROWS.length % OSES.length],
+  zone: ZONES[SEED_ROWS.length % ZONES.length],
+  fps: 19,
+  p95: 998,
+  ctx: 1,
+  rs: 0.6,
+  ers: 0.5,
 });
 
 async function cleanupRows(): Promise<void> {
@@ -377,13 +418,28 @@ describe.skipIf(!PG_ON)(
       expect(fresh.worstGpuBuckets).toEqual(spec.worstGpuBuckets);
     });
 
-    it('caps byGpu at 50 yet surfaces the low-volume worst-p95 bucket via the worst ordering', async () => {
+    it('caps every list at its limit, surfaces the low-volume worst-p95 bucket, and breaks the p95 tie by volume', async () => {
       const fresh = await clientPerfSummary(24);
       expect(fresh.totals.sampleCount).toBeGreaterThanOrEqual(SEED_ROWS.length);
       expect(fresh.byGpu).toHaveLength(50);
       expect(fresh.byGpu.map((b) => b.key)).not.toContain('sqlperf-gpu-lowvol');
-      expect(fresh.worstGpuBuckets.map((b) => b.key)).toContain('sqlperf-gpu-lowvol');
       expect(fresh.byScenario).toHaveLength(30);
+      // The seeded presets/browsers/oses exceed 20 distinct keys each, so these
+      // three cap arms are exercised at a live boundary, not just by text pins.
+      expect(fresh.byPreset).toHaveLength(20);
+      expect(fresh.byBrowser).toHaveLength(20);
+      expect(fresh.byOs).toHaveLength(20);
+      // Worst ordering: the 999 bucket leads the 998 tie pair, and within the
+      // tie the three-row bucket precedes the one-row bucket (sample_count DESC).
+      const worstKeys = fresh.worstGpuBuckets.map((b) => b.key);
+      const lowvolIdx = worstKeys.indexOf('sqlperf-gpu-lowvol');
+      const heavyIdx = worstKeys.indexOf('sqlperf-gpu-tie-heavy');
+      const lightIdx = worstKeys.indexOf('sqlperf-gpu-tie-light');
+      expect(lowvolIdx).toBeGreaterThan(-1);
+      expect(heavyIdx).toBeGreaterThan(-1);
+      expect(lightIdx).toBeGreaterThan(-1);
+      expect(lowvolIdx).toBeLessThan(heavyIdx);
+      expect(heavyIdx).toBeLessThan(lightIdx);
     });
   },
 );
