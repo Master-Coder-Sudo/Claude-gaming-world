@@ -12,10 +12,10 @@ import {
   listModerationActions,
   listSharedIps,
   onlineHistory,
-  overviewCounts,
   registrationsByDay,
   sessionsByDay,
 } from './admin_db';
+import { readOverviewCounts } from './admin_overview_cache';
 import {
   type AdminPermission,
   ASSIGNABLE_ADMIN_ROLES,
@@ -829,7 +829,7 @@ export async function handleAdminApi(
     }
 
     if (path === '/admin/api/overview') {
-      const counts = await overviewCounts();
+      const counts = await readOverviewCounts();
       const serverStats = game.adminStats();
       return ok(res, {
         ...counts,
@@ -1170,7 +1170,10 @@ function makeRealAdminDb() {
     listModerationActions,
     listSharedIps,
     onlineHistory,
-    overviewCounts,
+    // Cache-backed (the shared admin overview memo; both dispatch arms read it):
+    // a setAdminDbForTests override still replaces this member outright, which
+    // bypasses the cache and keeps existing fakes exact.
+    overviewCounts: readOverviewCounts,
     registrationsByDay,
     sessionsByDay,
     listBugReports,

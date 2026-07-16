@@ -98,6 +98,7 @@ import {
   overviewCounts,
   type PerfRawRow,
 } from '../server/admin_db';
+import { resetOverviewCacheForTests } from '../server/admin_overview_cache';
 import { hashPassword, verifyPassword } from '../server/auth';
 import type { CalibrationHistogram, SuspiciousPlayer } from '../server/bot_detector/contract';
 import {
@@ -220,6 +221,10 @@ const fakeGame = fakeGameState as typeof fakeGameState & Parameters<typeof handl
 
 beforeEach(() => {
   vi.clearAllMocks();
+  // The overview branch reads through the shared TTL memo (admin_overview_cache),
+  // whose refresh IS the mocked overviewCounts here; start every test cold so one
+  // test's cached value never leaks into the next.
+  resetOverviewCacheForTests();
   fakeGame.isIpBlocked.mockReturnValue(false);
   fakeGame.liveSharedIps.mockReturnValue([]);
   fakeGame.suspiciousPlayers.mockReturnValue([]);
@@ -283,6 +288,10 @@ describe('admin api auth', () => {
     await handleAdminApi(fakeReq({ token: VALID_TOKEN }), res, fakeGame);
 
     expect(res.statusCode).toBe(200);
+    // Exactly one DB read per cold request: the beforeEach cache reset makes
+    // this test's stub the refresh, so a stale cross-test snapshot (or a
+    // double refresh) shows up here as a count drift.
+    expect(overviewCounts).toHaveBeenCalledTimes(1);
     expect(res.body).toEqual({
       success: true,
       error: null,
