@@ -2304,6 +2304,9 @@ export const pt_BR: EnTranslations = {
       "already_linked": "Sua conta já tem uma conta Steam vinculada.",
       "account_taken": "Essa conta Steam já está vinculada a outra conta.",
       "upstream": "O Steam não respondeu. Tente novamente em instantes."
+    },
+    "welcome": {
+      "invalid_input": "Invalid input."
     }
   },
   "guide": {
@@ -4999,6 +5002,29 @@ export const pt_BR: EnTranslations = {
     "heading": "O mundo está temporariamente indisponível.",
     "body": "Estamos reiniciando o serviço do jogo e esperamos que Claudemoon volte em breve. Esta página continuará verificando automaticamente.",
     "status": "Voltamos em breve"
+  },
+  "welcome": {
+    "back": "Welcome back, {name}",
+    "level": "Level {level}",
+    "lastPlayed": "Last played {when}",
+    "continue": "Enter World",
+    "continueHint": "Enter to continue, Esc to skip",
+    "continueHintTouch": "Tap to continue",
+    "discord": {
+      "title": "The community lives on Discord",
+      "sub": "Patch previews, events, dev chat, and 2 bonus bank slots for linking.",
+      "join": "Join our Discord"
+    },
+    "chest": {
+      "ready": "Daily chest ready"
+    },
+    "armory": {
+      "cta": "Enter and browse the Armory"
+    },
+    "news": {
+      "new": "New",
+      "viewAll": "View all updates on GitHub"
+    }
   },
   "hud": {
     "core": {

@@ -2304,6 +2304,9 @@ export const sv_SE: EnTranslations = {
       "already_linked": "Ditt konto har redan ett länkat Steam-konto.",
       "account_taken": "Det Steam-kontot är redan länkat till ett annat konto.",
       "upstream": "Steam svarade inte. Försök igen om en stund."
+    },
+    "welcome": {
+      "invalid_input": "Invalid input."
     }
   },
   "guide": {
@@ -4999,6 +5002,29 @@ export const sv_SE: EnTranslations = {
     "heading": "Världen är tillfälligt otillgänglig.",
     "body": "Vi startar om speltjänsten och förväntar oss att Claudemoon är tillbaka inom kort. Den här sidan fortsätter att kontrollera automatiskt.",
     "status": "Tillbaka snart"
+  },
+  "welcome": {
+    "back": "Welcome back, {name}",
+    "level": "Level {level}",
+    "lastPlayed": "Last played {when}",
+    "continue": "Enter World",
+    "continueHint": "Enter to continue, Esc to skip",
+    "continueHintTouch": "Tap to continue",
+    "discord": {
+      "title": "The community lives on Discord",
+      "sub": "Patch previews, events, dev chat, and 2 bonus bank slots for linking.",
+      "join": "Join our Discord"
+    },
+    "chest": {
+      "ready": "Daily chest ready"
+    },
+    "armory": {
+      "cta": "Enter and browse the Armory"
+    },
+    "news": {
+      "new": "New",
+      "viewAll": "View all updates on GitHub"
+    }
   },
   "hud": {
     "core": {

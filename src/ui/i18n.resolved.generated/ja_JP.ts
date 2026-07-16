@@ -2304,6 +2304,9 @@ export const ja_JP: EnTranslations = {
       "already_linked": "このアカウントには既にSteamアカウントが連携されています。",
       "account_taken": "そのSteamアカウントは既に別のアカウントに連携されています。",
       "upstream": "Steamから応答がありません。しばらくしてからもう一度お試しください。"
+    },
+    "welcome": {
+      "invalid_input": "入力が無効です。"
     }
   },
   "guide": {
@@ -4999,6 +5002,29 @@ export const ja_JP: EnTranslations = {
     "heading": "ワールドは一時的に利用できません。",
     "body": "ゲームサービスを再起動しています。Claudemoonはまもなく戻る予定です。このページは自動的に確認を続けます。",
     "status": "まもなく復帰"
+  },
+  "welcome": {
+    "back": "おかえりなさい、{name}さん",
+    "level": "レベル {level}",
+    "lastPlayed": "最終プレイ：{when}",
+    "continue": "ワールドに入る",
+    "continueHint": "Enterで続行、Escでスキップ",
+    "continueHintTouch": "タップして続行",
+    "discord": {
+      "title": "コミュニティはDiscordで活動しています",
+      "sub": "パッチプレビュー、イベント、開発者チャット、連携でボーナス銀行スロット2枠。",
+      "join": "Discordに参加する"
+    },
+    "chest": {
+      "ready": "デイリーチェストの準備ができました"
+    },
+    "armory": {
+      "cta": "武器庫を見に行く"
+    },
+    "news": {
+      "new": "New",
+      "viewAll": "GitHubですべての更新を見る"
+    }
   },
   "hud": {
     "core": {

@@ -201,6 +201,7 @@ const UI_PURE_CORES = [
   'src/ui/hud/loot/corpse_harvest_view.ts',
   'src/ui/town_focus_view.ts',
   'src/ui/pet_action_icons.ts',
+  'src/ui/welcome_screen_view.ts',
   'src/game/ui_effects_profile.ts',
   'src/game/ui_tier_knobs.ts',
 ].map((rel) => join(repoRoot, rel));

@@ -7563,4 +7563,18 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'guide.social.slashBody':
     'Несколько повседневных команд стоит запомнить: /w Имя отправляет шёпот, а /r отвечает на последний полученный, /invite приглашает кого-то в вашу группу, /follow пристраивает вас следом за другом, /roll бросает кости на виду у группы, /who показывает, кто в сети, а /afk отмечает вас отошедшим. Введите /help в игре, чтобы увидеть полный список.',
   'guide.social.slashHeading': 'Удобные команды с косой чертой',
+  'apiError.welcome.invalid_input': 'Неверные входные данные.',
+  'welcome.back': 'С возвращением, {name}',
+  'welcome.level': 'Уровень {level}',
+  'welcome.lastPlayed': 'Последняя игра: {when}',
+  'welcome.continue': 'Войти в мир',
+  'welcome.continueHint': 'Enter, чтобы продолжить, Esc, чтобы пропустить',
+  'welcome.continueHintTouch': 'Нажмите, чтобы продолжить',
+  'welcome.discord.title': 'Сообщество живёт в Discord',
+  'welcome.discord.sub':
+    'Превью патчей, события, чат разработчиков и 2 бонусных банковских слота за привязку.',
+  'welcome.discord.join': 'Присоединиться к Discord',
+  'welcome.chest.ready': 'Ежедневный сундук готов',
+  'welcome.armory.cta': 'Открыть и просмотреть Арсенал',
+  'welcome.news.viewAll': 'Смотреть все обновления на GitHub',
 };

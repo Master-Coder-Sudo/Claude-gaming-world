@@ -7425,4 +7425,18 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'guide.social.slashBody':
     '日々使う便利なコマンドをいくつか覚えておくとよいでしょう。/w 名前 でウィスパーを送り、/r で最後に受け取ったウィスパーに返信します。/invite で誰かをパーティに誘い、/follow で仲間の後ろについて歩き、/roll でグループの全員に見えるサイコロを振り、/who でオンラインの相手を確認し、/afk で離席中を示します。全一覧はゲーム内で /help と打てば見られます。',
   'guide.social.slashHeading': '便利なスラッシュコマンド',
+  'apiError.welcome.invalid_input': '入力が無効です。',
+  'welcome.back': 'おかえりなさい、{name}さん',
+  'welcome.level': 'レベル {level}',
+  'welcome.lastPlayed': '最終プレイ：{when}',
+  'welcome.continue': 'ワールドに入る',
+  'welcome.continueHint': 'Enterで続行、Escでスキップ',
+  'welcome.continueHintTouch': 'タップして続行',
+  'welcome.discord.title': 'コミュニティはDiscordで活動しています',
+  'welcome.discord.sub':
+    'パッチプレビュー、イベント、開発者チャット、連携でボーナス銀行スロット2枠。',
+  'welcome.discord.join': 'Discordに参加する',
+  'welcome.chest.ready': 'デイリーチェストの準備ができました',
+  'welcome.armory.cta': '武器庫を見に行く',
+  'welcome.news.viewAll': 'GitHubですべての更新を見る',
 };

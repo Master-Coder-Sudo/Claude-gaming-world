@@ -7064,4 +7064,17 @@ export const zh_CN: Partial<Record<TranslationKey, string>> = {
   'guide.social.slashBody':
     '有几条日常命令值得记住：/w 名字 发送密语，/r 回复你最近收到的一条，/invite 邀请某人加入你的小队，/follow 跟随一位好友的脚步，/roll 为全队掷骰，/who 显示谁在线，/afk 将你标记为离开。在游戏中输入 /help 可查看完整列表。',
   'guide.social.slashHeading': '实用的斜杠命令',
+  'apiError.welcome.invalid_input': '输入无效。',
+  'welcome.back': '欢迎回来，{name}',
+  'welcome.level': '等级 {level}',
+  'welcome.lastPlayed': '上次游玩：{when}',
+  'welcome.continue': '进入世界',
+  'welcome.continueHint': '按 Enter 继续，按 Esc 跳过',
+  'welcome.continueHintTouch': '点击继续',
+  'welcome.discord.title': '社区活跃在 Discord',
+  'welcome.discord.sub': '版本预告、活动、开发者聊天，绑定还可获得 2 个额外银行格。',
+  'welcome.discord.join': '加入我们的 Discord',
+  'welcome.chest.ready': '每日宝箱已就绪',
+  'welcome.armory.cta': '进入并浏览军械库',
+  'welcome.news.viewAll': '在 GitHub 上查看全部更新',
 };

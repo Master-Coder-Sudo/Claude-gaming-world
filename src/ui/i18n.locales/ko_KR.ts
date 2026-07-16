@@ -7411,4 +7411,17 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'guide.social.slashBody':
     '몇 가지 자주 쓰는 명령어는 외워 둘 만합니다. /w 이름은 귓속말을 보내고, /r은 마지막으로 받은 귓속말에 답하며, /invite는 상대를 파티로 초대하고, /follow는 친구 뒤를 따라 걷게 하며, /roll은 파티가 함께 볼 주사위를 굴리고, /who는 접속 중인 사람을 보여주며, /afk는 자리 비움으로 표시합니다. 전체 목록은 게임에서 /help를 입력해 확인하세요.',
   'guide.social.slashHeading': '유용한 슬래시 명령어',
+  'apiError.welcome.invalid_input': '입력이 올바르지 않습니다.',
+  'welcome.back': '다시 오신 것을 환영합니다, {name}',
+  'welcome.level': '레벨 {level}',
+  'welcome.lastPlayed': '마지막 플레이: {when}',
+  'welcome.continue': '월드 입장',
+  'welcome.continueHint': 'Enter로 계속, Esc로 건너뛰기',
+  'welcome.continueHintTouch': '탭하여 계속',
+  'welcome.discord.title': '커뮤니티는 Discord에서 활동합니다',
+  'welcome.discord.sub': '패치 미리보기, 이벤트, 개발자 채팅, 연동 시 보너스 은행 슬롯 2개.',
+  'welcome.discord.join': 'Discord에 참여하기',
+  'welcome.chest.ready': '일일 상자 준비 완료',
+  'welcome.armory.cta': '무기고 둘러보기',
+  'welcome.news.viewAll': 'GitHub에서 모든 업데이트 보기',
 };

@@ -7065,4 +7065,17 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'guide.social.slashBody':
     '有幾個日常指令值得記住：/w 名稱 可發送密語，/r 則回覆你最近收到的一則，/invite 邀請某人加入你的隊伍，/follow 跟隨在朋友身後，/roll 為隊伍擲骰讓大家看見，/who 顯示誰在線上，而 /afk 則標示你暫時離開。在遊戲中輸入 /help 可查看完整清單。',
   'guide.social.slashHeading': '實用的斜線指令',
+  'apiError.welcome.invalid_input': '輸入無效。',
+  'welcome.back': '歡迎回來，{name}',
+  'welcome.level': '等級 {level}',
+  'welcome.lastPlayed': '上次遊玩：{when}',
+  'welcome.continue': '進入世界',
+  'welcome.continueHint': '按 Enter 繼續，按 Esc 跳過',
+  'welcome.continueHintTouch': '點擊繼續',
+  'welcome.discord.title': '社群活躍在 Discord',
+  'welcome.discord.sub': '版本預告、活動、開發者聊天，綁定還可獲得 2 個額外銀行格。',
+  'welcome.discord.join': '加入我們的 Discord',
+  'welcome.chest.ready': '每日寶箱已就緒',
+  'welcome.armory.cta': '進入並瀏覽軍械庫',
+  'welcome.news.viewAll': '在 GitHub 上查看全部更新',
 };
