@@ -241,6 +241,8 @@ import {
   HOTBAR_ACTION_MIME,
   type HotbarAction,
   handleMobileAttackTap,
+  loadAttackSlotAction,
+  loadoutKnownAbilityIds,
   parseHotbarAction,
   placeAbilityOnSlot,
   placeItemOnSlot,
@@ -3247,7 +3249,7 @@ export class Hud {
     saveLoadout: (name, bar, alloc) => this.sim.saveLoadout(name, bar, alloc),
     switchLoadout: (i) => this.sim.switchLoadout(i),
     deleteLoadout: (i) => this.sim.deleteLoadout(i),
-    applyLoadoutBar: (bar) => this.applyLoadoutBar(bar),
+    applyLoadoutBar: (bar, alloc) => this.applyLoadoutBar(bar, alloc),
     buildDropdown: (options, current, onChange, placeholder, a11y) =>
       this.buildDropdown(options, current, onChange, placeholder, a11y),
     inputDialog: (opts) => this.inputDialog(opts),
@@ -7596,12 +7598,16 @@ export class Hud {
         if (swing && src) {
           this.combat(swing, src.pos.x, src.pos.y, src.pos.z, 0.5, { cooldown: 0.08 });
         }
+        // The miss/dodge/resist/parry "avoid" cues are interface feedback (they report
+        // an outcome, not a world impact), so the Interface & Feedback Sounds toggle
+        // silences them. The early return stays either way, so a muted avoid never
+        // falls through to an impact sound.
         if (ev.kind === 'miss' || ev.kind === 'dodge' || ev.kind === 'resist') {
-          this.combat('combat_dodge', tp.x, tp.y, tp.z, 0.5);
+          if (audio.feedbackEnabled) this.combat('combat_dodge', tp.x, tp.y, tp.z, 0.5);
           return;
         }
         if (ev.kind === 'parry') {
-          this.combat('combat_parry', tp.x, tp.y, tp.z, 0.6);
+          if (audio.feedbackEnabled) this.combat('combat_parry', tp.x, tp.y, tp.z, 0.6);
           return;
         }
         if (src?.kind === 'mob') this.playAttackerSfx(src);
@@ -10858,19 +10864,29 @@ export class Hud {
   }
 
   // Restore a saved loadout's action bar into the per-class slot map (reuses the
-  // existing hotbar persistence; only places ids that resolve to real abilities).
-  // A SavedLoadout's bar is ability ids only (currentBar strips item shortcuts
-  // before saving, see the talentsWindow deps below), so this must not replace
-  // the WHOLE bar wholesale: that would also silently clear any potion/food/drink
-  // shortcut the player had placed, since the loadout never recorded it either
-  // way (#1889). applyLoadoutBarActions keeps an existing item slot wherever the
-  // loadout leaves that slot blank.
-  private applyLoadoutBar(bar: (string | null)[]): void {
+  // existing hotbar persistence; only places ids the TARGET build's own allocation
+  // actually grants). A SavedLoadout's bar is ability ids only (currentBar strips
+  // item shortcuts before saving, see the talentsWindow deps below), so this must
+  // not replace the WHOLE bar wholesale: that would also silently clear any
+  // potion/food/drink shortcut the player had placed, since the loadout never
+  // recorded it either way (#1889). applyLoadoutBarActions keeps an existing item
+  // slot wherever the loadout leaves that slot blank.
+  //
+  // The ability predicate is resolved from `alloc` (the loadout's own talent
+  // allocation), not `!!ABILITIES[id]`: two builds on one class can grant disjoint
+  // ability sets (e.g. a shaman's Enhancement vs. Restoration loadout), and
+  // checking global existence let a stale/foreign-spec id survive a switch and
+  // scramble the bar. Resolving from `alloc` also sidesteps switchLoadout's server
+  // round trip, which has not necessarily landed in `this.sim.known` yet when this
+  // runs (see the talentsWindow dropdown handler, which calls switchLoadout and
+  // applyLoadoutBar back to back).
+  private applyLoadoutBar(bar: (string | null)[], alloc: TalentAllocation): void {
+    const known = loadoutKnownAbilityIds(this.sim.cfg.playerClass, alloc, this.sim.player.level);
     this.hotbarActions = applyLoadoutBarActions(
       this.hotbarActions,
       bar,
       Hud.BAR_ABILITY_SLOTS,
-      (id) => !!ABILITIES[id],
+      (id) => known.has(id),
     );
     this.saveSlotMap();
   }
