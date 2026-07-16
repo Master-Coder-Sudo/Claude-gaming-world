@@ -2524,21 +2524,21 @@ export const SFX_CLIPS =
     ]
   },
   "temporal_clock": {
-    "url": "/audio/sfx/temporal_clock.mp3?v=407837944d11",
+    "url": "/audio/sfx/temporal_clock.mp3?v=01240b109c87",
     "loop": false,
     "category": "other",
     "preload": "lazy",
     "spatial": true,
     "gain": 1,
     "playbackRate": 1,
-    "bytes": 33453,
-    "hash": "407837944d11",
+    "bytes": 49571,
+    "hash": "01240b109c87",
     "variants": [
       {
         "id": "main",
-        "url": "/audio/sfx/temporal_clock.mp3?v=407837944d11",
-        "bytes": 33453,
-        "sha256": "407837944d113cb81673d40bd02a314dd1abf9d389f2e31df817313e5858fd51"
+        "url": "/audio/sfx/temporal_clock.mp3?v=01240b109c87",
+        "bytes": 49571,
+        "sha256": "01240b109c87a07bca05e2bf7eae23ea597bef270b4110bcf3d9338d56824100"
       }
     ]
   },
