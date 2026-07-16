@@ -138,6 +138,7 @@ export interface DailyRewardDb {
   ): Promise<boolean>;
   recentPayouts(limit: number): Promise<DailyRewardPayoutRow[]>;
   finalizeDay(day: string, prizePoolUsd: number, splits: readonly number[]): Promise<void>;
+  dayFinalized(day: string, realm: string): Promise<boolean>;
   pendingPayouts(limit: number, day?: string): Promise<DailyRewardInternalPayoutRow[]>;
   unannouncedWinnerDays(limit: number): Promise<DailyRewardWinnerAnnouncement[]>;
   markWinnersAnnounced(day: string): Promise<boolean>;
@@ -265,6 +266,21 @@ export class PgDailyRewardDb implements DailyRewardDb {
               woc_usd_price = COALESCE(EXCLUDED.woc_usd_price, daily_reward_days.woc_usd_price)`,
       [day, REALM, prizePoolUsd, wocUsdPrice],
     );
+  }
+
+  // A cheap primary-key read of the finalized flag, used by the finalize guard to
+  // skip re-running the whole finalize path once a day is done. It takes the
+  // realm as an argument (rather than the module REALM) so the guard's realm and
+  // this query's realm can never silently diverge.
+  async dayFinalized(day: string, realm: string): Promise<boolean> {
+    const result = await pool.query(
+      `SELECT 1
+         FROM daily_reward_days
+        WHERE day = $1 AND realm = $2 AND finalized_at IS NOT NULL
+        LIMIT 1`,
+      [day, realm],
+    );
+    return (result.rowCount ?? 0) > 0;
   }
 
   async seedTasks(day: string, tasks: DailyRewardTaskSeed[]): Promise<void> {
@@ -576,7 +592,10 @@ export class PgDailyRewardDb implements DailyRewardDb {
          VALUES ($1, $2, $3, $4)
          ON CONFLICT (day, realm, account_id) DO UPDATE
             SET points = daily_reward_scores.points + EXCLUDED.points,
-                updated_at = now()`,
+                updated_at = CASE
+                  WHEN EXCLUDED.points > 0 THEN now()
+                  ELSE daily_reward_scores.updated_at
+                END`,
         [day, REALM, accountId, Math.max(0, Math.floor(points))],
       );
       await client.query('COMMIT');

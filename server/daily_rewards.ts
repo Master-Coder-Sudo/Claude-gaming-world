@@ -9,6 +9,7 @@ import type {
   DailyRewardSpinResult,
   DailyRewardStatus,
 } from '../src/world_api';
+import { hasFinalized, recordFinalized } from './daily_finalize_guard';
 import {
   type DailyRewardDb,
   type DailyRewardInternalPayoutRow,
@@ -17,6 +18,7 @@ import {
   type DailyRewardTaskSeed,
   PgDailyRewardDb,
 } from './daily_rewards_db';
+import { buildSeedKey, runSeedOnce } from './daily_rewards_seed_gate';
 import { accountAndScopeForToken, moderationStatusForAccount, walletForAccount } from './db';
 import { ctxAccountId } from './http/context';
 import { type BearerActiveGuardDb, createActiveGuard } from './http/middleware/bearer_active_guard';
@@ -27,6 +29,7 @@ import {
 } from './http/middleware/require_internal_secret';
 import type { Ctx, RouteDef } from './http/types';
 import { json, readBody } from './http_util';
+import { REALM } from './realm';
 import { cachedWocBalance } from './woc_balance';
 
 const DEFAULT_MIN_USD = 20;
@@ -600,17 +603,27 @@ export class DailyRewardService {
     return (await dailyRewardClock()).config.activeSeconds;
   }
 
+  // The single seed path every method funnels through. The seed gate runs the
+  // ensureDay + seedTasks write pair at most once per (day, realm, config) key,
+  // so status, spin, recordOnlineMinute, the five gameplay recorders, and the
+  // finalize path (via ensureActiveDay) all share one gate per day instead of
+  // each re-issuing the pair on every call.
+  private async ensureSeeded(day: string, config: DailyRewardRuntimeConfig): Promise<void> {
+    await runSeedOnce(buildSeedKey(day, REALM, config), async () => {
+      await this.db.ensureDay(day, config.prizePoolUsd, config.wocUsdPrice);
+      await this.db.seedTasks(day, config.tasks);
+    });
+  }
+
   async ensureActiveDay(day = utcRewardDay()): Promise<DailyRewardRuntimeConfig> {
     const config = await dailyRewardRuntimeConfig(day);
-    await this.db.ensureDay(day, config.prizePoolUsd, config.wocUsdPrice);
-    await this.db.seedTasks(day, config.tasks);
+    await this.ensureSeeded(day, config);
     return config;
   }
 
   async status(accountId: number): Promise<DailyRewardStatus> {
     const { day, config } = await dailyRewardClock();
-    await this.db.ensureDay(day, config.prizePoolUsd, config.wocUsdPrice);
-    await this.db.seedTasks(day, config.tasks);
+    await this.ensureSeeded(day, config);
     const eligibility = await this.eligibility(accountId, config);
     const [score, rank, spin, tasks, leaders, leaderboardTotal, onlineMinutes] = await Promise.all([
       this.db.scoreForAccount(day, accountId),
@@ -674,8 +687,7 @@ export class DailyRewardService {
     accountId: number,
   ): Promise<DailyRewardSpinResult | { error: string; status: number }> {
     const { day, config } = await dailyRewardClock();
-    await this.db.ensureDay(day, config.prizePoolUsd, config.wocUsdPrice);
-    await this.db.seedTasks(day, config.tasks);
+    await this.ensureSeeded(day, config);
     const eligibility = await this.eligibility(accountId, config);
     if (!eligibility.eligible)
       return { error: 'daily rewards are locked for this wallet', status: 403 };
@@ -693,8 +705,7 @@ export class DailyRewardService {
 
   async recordOnlineMinute(accountId: number, activeAt: Date = new Date()): Promise<void> {
     const { day, config } = await dailyRewardClock(activeAt);
-    await this.db.ensureDay(day, config.prizePoolUsd, config.wocUsdPrice);
-    await this.db.seedTasks(day, config.tasks);
+    await this.ensureSeeded(day, config);
     const minute = activeAt.toISOString().slice(0, 16);
     await this.db.addPoints(day, accountId, 'online', 0, `online:${minute}`, {
       minute,
@@ -709,8 +720,7 @@ export class DailyRewardService {
   ): Promise<number> {
     if (!questId) return 0;
     const { day, config } = await dailyRewardClock(completedAt);
-    await this.db.ensureDay(day, config.prizePoolUsd, config.wocUsdPrice);
-    await this.db.seedTasks(day, config.tasks);
+    await this.ensureSeeded(day, config);
     const eligibility = await this.eligibility(accountId, config);
     if (!eligibility.eligible) return 0;
     const tasks = await this.db.tasksForType(day, 'quest_completion');
@@ -766,8 +776,7 @@ export class DailyRewardService {
     if (result.format === 'yumi3' || result.format === 'yumi5') return 0;
     const completedAt = result.completedAt ?? new Date();
     const { day, config } = await dailyRewardClock(completedAt);
-    await this.db.ensureDay(day, config.prizePoolUsd, config.wocUsdPrice);
-    await this.db.seedTasks(day, config.tasks);
+    await this.ensureSeeded(day, config);
     const eligibility = await this.eligibility(accountId, config);
     if (!eligibility.eligible) return 0;
     const tasks = await this.db.tasksForType(day, 'arena_result');
@@ -813,8 +822,7 @@ export class DailyRewardService {
   ): Promise<number> {
     if (!DELVES[delveId]) return 0;
     const { day, config } = await dailyRewardClock(completedAt);
-    await this.db.ensureDay(day, config.prizePoolUsd, config.wocUsdPrice);
-    await this.db.seedTasks(day, config.tasks);
+    await this.ensureSeeded(day, config);
     const eligibility = await this.eligibility(accountId, config);
     if (!eligibility.eligible) return 0;
     const tasks = await this.db.tasksForType(day, 'delve_clear');
@@ -860,8 +868,7 @@ export class DailyRewardService {
   ): Promise<number> {
     if (!DELVES[delveId]) return 0;
     const { day, config } = await dailyRewardClock(openedAt);
-    await this.db.ensureDay(day, config.prizePoolUsd, config.wocUsdPrice);
-    await this.db.seedTasks(day, config.tasks);
+    await this.ensureSeeded(day, config);
     const eligibility = await this.eligibility(accountId, config);
     if (!eligibility.eligible) return 0;
     const tasks = await this.db.tasksForType(day, 'delve_clear');
@@ -922,8 +929,7 @@ export class DailyRewardService {
     const completedAtIso = completedAt.toISOString();
     const completionId = result.completionId?.trim() || null;
     const { day, config } = await dailyRewardClock(completedAt);
-    await this.db.ensureDay(day, config.prizePoolUsd, config.wocUsdPrice);
-    await this.db.seedTasks(day, config.tasks);
+    await this.ensureSeeded(day, config);
     const eligibility = await this.eligibility(accountId, config);
     if (!eligibility.eligible) return 0;
     const tasks = await this.db.tasksForType(day, 'vale_cup_result');
@@ -1015,8 +1021,19 @@ export class DailyRewardService {
   async finalizePreviousDay(now = new Date()): Promise<void> {
     const { day } = await dailyRewardClock(now);
     const previous = addRewardDays(day, -1);
+    // Skip the whole finalize path once the previous day is done. Finalization is
+    // one-way, so the in-process guard short-circuits the hot internal poll after
+    // the first finalize, and on a guard miss a single primary-key read confirms
+    // the flag (recording the guard) before we ever re-run ensureActiveDay or
+    // finalizeDay.
+    if (hasFinalized(previous, REALM)) return;
+    if (await this.db.dayFinalized(previous, REALM)) {
+      recordFinalized(previous, REALM);
+      return;
+    }
     const config = await this.ensureActiveDay(previous);
     await this.db.finalizeDay(previous, config.prizePoolUsd, DAILY_REWARD_SPLITS);
+    recordFinalized(previous, REALM);
   }
 
   async pendingPayouts(limit = 20, day?: string): Promise<unknown> {
