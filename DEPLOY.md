@@ -393,7 +393,9 @@ For off-box safety, sync the directory to S3 occasionally:
   worth noticing rather than a routine boot.
 - **Env hygiene: no empty numeric placeholders.** A SET-BUT-EMPTY numeric env
   line (`CHAT_LOG_RETENTION_DAYS=`, `PORT=`, `MAX_WS_PER_IP_HARD=`,
-  `PERF_REPORT_RETENTION_DAYS=`) now means the DEFAULT, not `0`. Before the
+  `PERF_REPORT_RETENTION_DAYS=`, `DAILY_REWARD_EVENTS_RETENTION_DAYS=`,
+  `ONLINE_SAMPLES_RETENTION_DAYS=`, `SITE_PRESENCE_RETENTION_DAYS=`) now means
+  the DEFAULT, not `0`. Before the
   validated config loader, `CHAT_LOG_RETENTION_DAYS=` resolved to `0` (keep chat
   logs forever); the same line now resolves to the 90-day default and pruning
   turns ON. Audit deployed env files for empty placeholder lines: delete the
@@ -416,6 +418,14 @@ For off-box safety, sync the directory to S3 occasionally:
     honestly); an explicit `0` disables the cap entirely. The default is a guard rail,
     not a capacity estimate: what a realm can actually carry depends on the host, so
     measure yours and set the number you measured.
+  - `DAILY_REWARD_EVENTS_RETENTION_DAYS=`, `ONLINE_SAMPLES_RETENTION_DAYS=`, and
+    `SITE_PRESENCE_RETENTION_DAYS=` (empty) follow the `CHAT_LOG_RETENTION_DAYS`
+    contract exactly: an empty line means the default, and an explicit `0` is
+    keep-forever.
+  - `RETENTION_SWEEP_UTC_HOUR=` and `RETENTION_SWEEP_MAX_ROWS_PER_RUN=` are NOT
+    keep-forever-shaped: their raw value is trimmed, so an empty or whitespace line
+    also reads as the DEFAULT, but an explicit `0` is a live value: a 00:00 UTC
+    sweep hour, or a zero-row budget that disables the nightly sweep.
 - Logs: `sudo docker compose -f /opt/eastbrook/docker-compose.yml logs -f game`.
 - If the instance ever feels tight, stop, change instance type,
   start. Everything lives in Docker plus one EBS volume, so nothing

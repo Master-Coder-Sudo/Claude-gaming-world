@@ -40,7 +40,15 @@ import {
   verifyLoginTwoFactor,
 } from './account';
 import { configureAdminRuntime, handleAdminApi } from './admin';
-import { currentSitePresenceUsers, recordSitePresenceSample } from './admin_db';
+import {
+  currentSitePresenceUsers,
+  distinctOnlineSampleRealms,
+  foldOnlinePeak,
+  pruneOnlineSamplesBatch,
+  pruneSitePresenceSamplesBatch,
+  pruneSitePresenceSessionsBatch,
+  recordSitePresenceSample,
+} from './admin_db';
 import { permissionsForRoles } from './admin_permissions';
 import { loadAntibotConfig } from './antibot_config_db';
 import {
@@ -73,10 +81,13 @@ import {
   handleClaudiumStripeWebhook,
 } from './claudium';
 import {
+  addRewardDays,
   bustDailyRewardBoardCache,
+  currentDailyRewardDay,
   handleDailyRewardApi,
   handleDailyRewardInternalApi,
 } from './daily_rewards';
+import { pruneDailyRewardEventsBatch } from './daily_rewards_db';
 import {
   accountAndScopeForToken,
   accountById,
@@ -109,8 +120,8 @@ import {
   moderationStatusForAccount,
   pool,
   primarySlugForAccount,
-  pruneChatLogs,
-  pruneClientPerfReports,
+  pruneChatLogsBatch,
+  pruneClientPerfReportsBatch,
   reclaimDeactivatedName,
   referralCountForAccount,
   releaseAllCharacterLeases,
@@ -253,6 +264,7 @@ import { createPgRateLimitStore } from './ratelimit_db';
 import { isPublicCorsPath, publicOriginFromRequest, REALM, REALM_DIRECTORY } from './realm';
 import { resolveReportTarget } from './report_target';
 import { BUG_REPORT_MAX_BODY_BYTES, configureReportsRuntime } from './reports';
+import { createRetentionSweep, RETENTION_SWEEP_BATCH_SIZE } from './retention_sweep';
 import { resolveSfxOverlayFile } from './sfx_overlay';
 import { handleSitePresenceHeartbeat } from './site_presence';
 import { adminRolesForAccount } from './staff_db';
@@ -369,8 +381,8 @@ const WS_MAX_PAYLOAD_BYTES = 16 * 1024;
 // up (~1 minute total at 30 attempts x 2s).
 const DB_BOOT_MAX_ATTEMPTS = 30; // attempts (count)
 const DB_BOOT_RETRY_MS = 2_000;
-// Low-frequency background prune (OAuth grants/states, chat logs, perf reports)
-// runs once a day.
+// Low-frequency background prune (OAuth grants/states, pending logins) runs once
+// a day; the retention-table prunes run in the nightly retention sweep instead.
 const DAILY_PRUNE_INTERVAL_MS = 24 * 3600 * 1000;
 
 // The live GameServer, constructed on FIRST TOUCH via liveGame() (the
@@ -2607,14 +2619,6 @@ export async function startServer(): Promise<http.Server> {
   }
   const orphans = await closeOrphanSessions();
   if (orphans > 0) console.log(`closed ${orphans} orphaned play session(s) from a previous run`);
-  const pruned = await pruneChatLogs(config.chatLogRetentionDays);
-  if (pruned > 0)
-    console.log(`pruned ${pruned} chat log row(s) older than ${config.chatLogRetentionDays} days`);
-  const prunedPerfReports = await pruneClientPerfReports(config.perfReportRetentionDays);
-  if (prunedPerfReports > 0)
-    console.log(
-      `pruned ${prunedPerfReports} client perf report row(s) older than ${config.perfReportRetentionDays} days`,
-    );
   await pruneApplePendingLogins(pool);
   await game.loadMarket();
   await game.loadMail();
@@ -2625,12 +2629,6 @@ export async function startServer(): Promise<http.Server> {
     .then((count) => recordSitePresenceSample(count))
     .catch((err) => console.error('site presence sample failed:', err));
   setInterval(() => {
-    void pruneChatLogs(config.chatLogRetentionDays).catch((err) =>
-      console.error('chat log prune failed:', err),
-    );
-    void pruneClientPerfReports(config.perfReportRetentionDays).catch((err) =>
-      console.error('perf report prune failed:', err),
-    );
     void pruneExpiredOAuthGrants(pool).catch((err) =>
       console.error('oauth grant prune failed:', err),
     );
@@ -2772,6 +2770,54 @@ export async function startServer(): Promise<http.Server> {
     console.log(`  WS:   /ws, then first message {t:"auth",token,character}`);
   });
 
+  // Off-peak batched retention. The sweep self-clocks once per UTC day behind a
+  // database advisory lock, so with several processes exactly one sweeps; each
+  // primitive below is one bounded DELETE batch and the sweep drives iteration.
+  const retentionSweep = createRetentionSweep({
+    connect: () => pool.connect(),
+    utcHour: config.retentionSweepUtcHour,
+    maxRowsPerRun: config.retentionSweepMaxRowsPerRun,
+    batchSize: RETENTION_SWEEP_BATCH_SIZE,
+    tables: [
+      { name: 'chat_logs', pruneBatch: (n) => pruneChatLogsBatch(config.chatLogRetentionDays, n) },
+      {
+        name: 'client_perf_reports',
+        pruneBatch: (n) => pruneClientPerfReportsBatch(config.perfReportRetentionDays, n),
+      },
+      {
+        name: 'daily_reward_events',
+        pruneBatch: async (n) => {
+          if (config.dailyRewardEventsRetentionDays <= 0) return 0;
+          // The reward day rolls at a configured UTC offset, not midnight, so the
+          // cutoff must come from the reward clock, never plain date arithmetic.
+          const today = await currentDailyRewardDay(new Date());
+          const cutoff = addRewardDays(today, -Math.floor(config.dailyRewardEventsRetentionDays));
+          return pruneDailyRewardEventsBatch(cutoff, n);
+        },
+      },
+      {
+        name: 'admin_site_presence_samples',
+        pruneBatch: (n) => pruneSitePresenceSamplesBatch(config.sitePresenceRetentionDays, n),
+      },
+      {
+        name: 'site_presence_sessions',
+        pruneBatch: (n) => pruneSitePresenceSessionsBatch(config.sitePresenceRetentionDays, n),
+      },
+    ],
+    // The fold precondition makes sample pruning lossless; skip the whole group
+    // when retention is off so quiet configs write nothing to world_state.
+    onlineSamples:
+      config.onlineSamplesRetentionDays > 0
+        ? {
+            listRealms: () => distinctOnlineSampleRealms(),
+            foldPeak: (realm) => foldOnlinePeak(realm),
+            pruneBatch: (realm, n) =>
+              pruneOnlineSamplesBatch(realm, config.onlineSamplesRetentionDays, n),
+          }
+        : undefined,
+  });
+  retentionSweep.start();
+
   const shutdown = async () => {
     // Flip readiness to draining FIRST so /readyz answers 503 and a load balancer
     // sheds new traffic before we stop the loop and persist (in-flight requests and
@@ -2782,6 +2828,9 @@ export async function startServer(): Promise<http.Server> {
     // close below (their intervals are unref()'d, but an in-flight tick could still
     // fire before pool.end()).
     await businessMetrics.stop();
+    // Same rationale for the retention sweep: an in-flight prune batch must not
+    // race the pool close below.
+    await retentionSweep.stop();
     game.stop();
     await game.saveAll('shutdown');
     await game.saveMarket();
