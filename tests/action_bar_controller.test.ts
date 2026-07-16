@@ -314,11 +314,12 @@ describe('ActionBarController attack slot', () => {
 
     harness.state.auras = ['form_bear'];
     harness.controller.syncActiveForm();
-    expect(harness.controller.actionForSlot(0)).not.toEqual({ type: 'ability', id: 'mangle' });
+    expect(harness.controller.actionForSlot(0)).toBeNull();
 
     harness.controller.replaceAttackAction({ type: 'ability', id: 'claw' });
     harness.controller.saveAttackAction();
     expect(harness.controller.actionForSlot(0)).toEqual({ type: 'ability', id: 'claw' });
+    expect(harness.storage.getItem('woc_hotbar_druid_ActionbarTester_bear:s0')).not.toBeNull();
 
     harness.state.auras = [];
     harness.controller.syncActiveForm();

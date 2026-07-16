@@ -3551,7 +3551,7 @@ export const ABILITIES: Record<string, AbilityDef> = {
     requiresTarget: false,
     requiresForm: 'cat',
     effects: [{ type: 'selfBuff', kind: 'buff_ap', value: 40, duration: 6 }],
-    description: 'Increases attack power by 40 for 6 sec. Wolf Form only.',
+    description: 'Increases attack power by $b for $t sec. Wolf Form only.',
   },
   rip: {
     id: 'rip',
