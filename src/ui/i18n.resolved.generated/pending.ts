@@ -9,159 +9,25 @@
 // Reproducibility is checked by tests/i18n_resolved_equivalence.test.ts.
 
 export const pending: Record<string, readonly string[]> = {
-  "es": [
-    "entities.letters.heroic_marks_reward.body",
-    "entities.letters.heroic_marks_reward.sender",
-    "entities.letters.heroic_marks_reward.subject",
-    "guide.dungeonsPage.resetBody",
-    "guide.dungeonsPage.resetTitle",
-    "guide.gear.itemLevelBody",
-    "guide.professions.craftHowBody"
-  ],
-  "es_ES": [
-    "entities.letters.heroic_marks_reward.body",
-    "entities.letters.heroic_marks_reward.sender",
-    "entities.letters.heroic_marks_reward.subject",
-    "guide.dungeonsPage.resetBody",
-    "guide.dungeonsPage.resetTitle",
-    "guide.gear.itemLevelBody",
-    "guide.professions.craftHowBody"
-  ],
-  "fr_FR": [
-    "entities.letters.heroic_marks_reward.body",
-    "entities.letters.heroic_marks_reward.sender",
-    "entities.letters.heroic_marks_reward.subject",
-    "guide.dungeonsPage.resetBody",
-    "guide.dungeonsPage.resetTitle",
-    "guide.gear.itemLevelBody",
-    "guide.gear.qualityBody",
-    "guide.gear.qualityCommon",
-    "guide.professions.craftHowBody",
-    "guide.professions.craftHowTitle",
-    "guide.professions.focusBody",
-    "guide.professions.focusTitle"
-  ],
-  "fr_CA": [
-    "entities.letters.heroic_marks_reward.body",
-    "entities.letters.heroic_marks_reward.sender",
-    "entities.letters.heroic_marks_reward.subject",
-    "guide.dungeonsPage.resetBody",
-    "guide.dungeonsPage.resetTitle",
-    "guide.gear.itemLevelBody",
-    "guide.gear.qualityBody",
-    "guide.gear.qualityCommon",
-    "guide.professions.craftHowBody",
-    "guide.professions.craftHowTitle",
-    "guide.professions.focusBody",
-    "guide.professions.focusTitle"
-  ],
+  "es": [],
+  "es_ES": [],
+  "fr_FR": [],
+  "fr_CA": [],
   "en_CA": [],
-  "it_IT": [
-    "entities.letters.heroic_marks_reward.body",
-    "entities.letters.heroic_marks_reward.sender",
-    "entities.letters.heroic_marks_reward.subject",
-    "guide.dungeonsPage.resetBody",
-    "guide.dungeonsPage.resetTitle",
-    "guide.gear.itemLevelBody",
-    "guide.gear.qualityBody",
-    "guide.gear.qualityCommon",
-    "guide.professions.craftHowBody"
-  ],
-  "de_DE": [
-    "entities.letters.heroic_marks_reward.body",
-    "entities.letters.heroic_marks_reward.sender",
-    "entities.letters.heroic_marks_reward.subject",
-    "guide.dungeonsPage.resetBody",
-    "guide.dungeonsPage.resetTitle",
-    "guide.gear.itemLevelBody",
-    "guide.professions.craftHowBody"
-  ],
+  "it_IT": [],
+  "de_DE": [],
   "zh_CN": [],
   "zh_TW": [],
   "ko_KR": [],
   "ja_JP": [],
-  "pt_BR": [
-    "entities.letters.heroic_marks_reward.body",
-    "entities.letters.heroic_marks_reward.sender",
-    "entities.letters.heroic_marks_reward.subject",
-    "guide.dungeonsPage.resetBody",
-    "guide.dungeonsPage.resetTitle",
-    "guide.gear.itemLevelBody",
-    "guide.professions.craftHowBody"
-  ],
+  "pt_BR": [],
   "ru_RU": [],
-  "cs_CZ": [
-    "entities.letters.heroic_marks_reward.body",
-    "entities.letters.heroic_marks_reward.sender",
-    "entities.letters.heroic_marks_reward.subject",
-    "guide.dungeonsPage.resetBody",
-    "guide.dungeonsPage.resetTitle",
-    "guide.gear.itemLevelBody",
-    "guide.professions.craftHowBody"
-  ],
-  "nl_NL": [
-    "entities.letters.heroic_marks_reward.body",
-    "entities.letters.heroic_marks_reward.sender",
-    "entities.letters.heroic_marks_reward.subject",
-    "guide.dungeonsPage.resetBody",
-    "guide.dungeonsPage.resetTitle",
-    "guide.gear.itemLevelBody",
-    "guide.gear.qualityBody",
-    "guide.professions.craftHowBody"
-  ],
-  "pl_PL": [
-    "entities.letters.heroic_marks_reward.body",
-    "entities.letters.heroic_marks_reward.sender",
-    "entities.letters.heroic_marks_reward.subject",
-    "guide.dungeonsPage.resetBody",
-    "guide.dungeonsPage.resetTitle",
-    "guide.gear.itemLevelBody",
-    "guide.professions.craftHowBody"
-  ],
-  "id_ID": [
-    "entities.letters.heroic_marks_reward.body",
-    "entities.letters.heroic_marks_reward.sender",
-    "entities.letters.heroic_marks_reward.subject",
-    "guide.dungeonsPage.resetBody",
-    "guide.dungeonsPage.resetTitle",
-    "guide.gear.itemLevelBody",
-    "guide.professions.craftHowBody"
-  ],
-  "tr_TR": [
-    "entities.letters.heroic_marks_reward.body",
-    "entities.letters.heroic_marks_reward.sender",
-    "entities.letters.heroic_marks_reward.subject",
-    "guide.dungeonsPage.resetBody",
-    "guide.dungeonsPage.resetTitle",
-    "guide.gear.itemLevelBody",
-    "guide.professions.craftHowBody",
-    "guide.professions.craftHowTitle"
-  ],
-  "sv_SE": [
-    "entities.letters.heroic_marks_reward.body",
-    "entities.letters.heroic_marks_reward.sender",
-    "entities.letters.heroic_marks_reward.subject",
-    "guide.dungeonsPage.resetBody",
-    "guide.dungeonsPage.resetTitle",
-    "guide.gear.itemLevelBody",
-    "guide.professions.craftHowBody"
-  ],
-  "vi_VN": [
-    "entities.letters.heroic_marks_reward.body",
-    "entities.letters.heroic_marks_reward.sender",
-    "entities.letters.heroic_marks_reward.subject",
-    "guide.dungeonsPage.resetBody",
-    "guide.dungeonsPage.resetTitle",
-    "guide.gear.itemLevelBody",
-    "guide.professions.craftHowBody"
-  ],
-  "da_DK": [
-    "entities.letters.heroic_marks_reward.body",
-    "entities.letters.heroic_marks_reward.sender",
-    "entities.letters.heroic_marks_reward.subject",
-    "guide.dungeonsPage.resetBody",
-    "guide.dungeonsPage.resetTitle",
-    "guide.gear.itemLevelBody",
-    "guide.professions.craftHowBody"
-  ]
+  "cs_CZ": [],
+  "nl_NL": [],
+  "pl_PL": [],
+  "id_ID": [],
+  "tr_TR": [],
+  "sv_SE": [],
+  "vi_VN": [],
+  "da_DK": []
 };
