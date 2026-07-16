@@ -210,7 +210,9 @@ export class TalentsWindow {
     const selectedIndex = view.specs.findIndex((entry) => entry.selected);
     view.specs.forEach((entry, index) => {
       const spec = entry.spec;
-      const info = SPEC_CARD_INFO[spec.id];
+      // Keyed by class first: spec ids collide across classes (paladin/priest
+      // "holy", shaman/druid "restoration"), so a bare spec-id lookup is wrong.
+      const info = SPEC_CARD_INFO[spec.class]?.[spec.id];
       const specName = tTalent({ kind: 'talentSpec', spec, field: 'name' });
       const specDescription = tTalent({ kind: 'talentSpec', spec, field: 'description' });
       const masteryName = tTalent({ kind: 'talentMastery', spec, field: 'name' });
