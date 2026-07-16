@@ -3571,6 +3571,8 @@ export async function pruneChatLogsBatch(
   batchSize: number,
 ): Promise<number> {
   if (!Number.isFinite(retentionDays) || retentionDays <= 0) return 0;
+  // A fractional value must clamp to at least one day, never floor to '0 days'.
+  const days = Math.max(1, Math.floor(retentionDays));
   const res = await pool.query(
     `DELETE FROM chat_logs
       WHERE id IN (
@@ -3578,7 +3580,7 @@ export async function pruneChatLogsBatch(
          WHERE created_at < now() - ($1 || ' days')::interval
          ORDER BY created_at
          LIMIT $2)`,
-    [String(Math.floor(retentionDays)), Math.max(1, Math.floor(batchSize))],
+    [String(days), Math.max(1, Math.floor(batchSize))],
   );
   return res.rowCount ?? 0;
 }

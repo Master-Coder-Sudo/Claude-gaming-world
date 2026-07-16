@@ -90,6 +90,20 @@ describe('metrics retention prune batches', () => {
     expect(params).toEqual(['30', 200]);
   });
 
+  it('clamps fractional retention days up to one full day on all three prunes', async () => {
+    // 0.5 passes each keep-forever guard, but an unclamped floor would build
+    // interval '0 days' and delete every row older than now on an operator typo.
+    mocks.query.mockResolvedValue({ rows: [], rowCount: 0 });
+
+    await pruneOnlineSamplesBatch('r1', 0.5, 100);
+    await pruneSitePresenceSamplesBatch(0.5, 100);
+    await pruneSitePresenceSessionsBatch(0.5, 100);
+
+    expect(mocks.query.mock.calls[0][1]).toEqual(['r1', '1', 100]);
+    expect(mocks.query.mock.calls[1][1]).toEqual(['1', 100]);
+    expect(mocks.query.mock.calls[2][1]).toEqual(['1', 100]);
+  });
+
   it('treats a non-positive retention as keep-forever on all three prunes', async () => {
     // 0 (and any negative) means retention is disabled: the guard must return
     // without issuing any statement at all.
@@ -204,9 +218,15 @@ describe('overviewCounts all-time peak', () => {
     expect(String(sql)).toContain('GREATEST');
     // Both operands: the live retained-window max keeps an in-window peak
     // honest before the next fold, the world_state arm keeps a pruned-away
-    // peak from being lost.
-    expect(String(sql)).toContain('max(online_players)');
+    // peak from being lost. The live max must sit INSIDE the GREATEST call:
+    // a bare toContain('max(online_players)') is satisfied by the
+    // peak_online_today subquery, so a mutation dropping the live arm from
+    // GREATEST would survive it.
+    expect(String(sql)).toMatch(/GREATEST\(\s*COALESCE\(\(SELECT max\(online_players\)/);
     expect(String(sql)).toContain('FROM world_state');
+    // A corrupted or tampered stored peak must degrade to 0 inside the SQL,
+    // never abort the whole overview read: pin the regex guard on the cast.
+    expect(String(sql)).toContain("~ '^[0-9]+$'");
     // Pin the LITERAL key prefix, never the imported const, so the reader SQL
     // cannot drift silently with the constant.
     expect(String(sql)).toContain("'admin_online_peak:' || $1");

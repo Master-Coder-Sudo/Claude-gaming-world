@@ -426,6 +426,22 @@ For off-box safety, sync the directory to S3 occasionally:
     keep-forever-shaped: their raw value is trimmed, so an empty or whitespace line
     also reads as the DEFAULT, but an explicit `0` is a live value: a 00:00 UTC
     sweep hour, or a zero-row budget that disables the nightly sweep.
+- **Nightly retention sweep.** The batched retention prunes run once per UTC day
+  at `RETENTION_SWEEP_UTC_HOUR` (default 05:00 UTC) behind a database advisory
+  lock, so with several processes on one database exactly one of them sweeps.
+  Deletes run as small back-to-back batches under a per-table row budget
+  (`RETENTION_SWEEP_MAX_ROWS_PER_RUN`), so raising the budget for a catch-up
+  should be done deliberately, in a quiet window. The last-swept day is recorded
+  in the database, so a restart or deploy later the same day does not re-run the
+  sweep at peak. One timing caveat: the sweep fires on the first poll (about a
+  minute after listen) whenever the process boots past the sweep hour on a day
+  whose sweep has not yet recorded itself, so the first deploy of this feature,
+  or any deploy landing before that day's sweep has run, performs the catch-up
+  at deploy time rather than at the off-peak hour. Deploy off-peak, or set
+  `RETENTION_SWEEP_MAX_ROWS_PER_RUN=0` for the deploy and restore it afterward.
+  After a rollback to an older binary, the admin overview's
+  all-time online peak can read lower until you roll forward again: the folded
+  value is preserved, the older reader just does not consult it.
 - Logs: `sudo docker compose -f /opt/eastbrook/docker-compose.yml logs -f game`.
 - If the instance ever feels tight, stop, change instance type,
   start. Everything lives in Docker plus one EBS volume, so nothing

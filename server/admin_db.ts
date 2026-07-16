@@ -45,7 +45,9 @@ export async function overviewCounts(): Promise<OverviewCounts> {
   // statement timeout. peak_online_all_time is GREATEST of the retained sample
   // window's live max and the folded world_state peak (foldOnlinePeak below), so
   // a peak inside the retained window stays honest before the next fold and a
-  // pruned-away peak is never lost.
+  // pruned-away peak is never lost. Only foldOnlinePeak writes the peak key, but
+  // a tampered or corrupted stored value must degrade to 0 under the guarded
+  // cast, never take down the whole overview read.
   const res = await runWithStatementTimeout(DB_HEAVY_STATEMENT_TIMEOUT_MS, (query) =>
     query(
       `
@@ -76,7 +78,8 @@ export async function overviewCounts(): Promise<OverviewCounts> {
       GREATEST(
         COALESCE((SELECT max(online_players) FROM admin_online_samples
           WHERE realm = $1), 0),
-        COALESCE((SELECT (data->>'peak')::int FROM world_state
+        COALESCE((SELECT CASE WHEN data->>'peak' ~ '^[0-9]+$'
+            THEN (data->>'peak')::int ELSE 0 END FROM world_state
           WHERE key = '${ONLINE_PEAK_WORLD_STATE_PREFIX}' || $1), 0)
       )::int AS peak_online_all_time,
       (SELECT count(*) FROM site_presence_sessions
@@ -315,8 +318,10 @@ export const ONLINE_PEAK_WORLD_STATE_PREFIX = 'admin_online_peak:';
 
 // Every realm with samples in this database, not just this process's REALM: the
 // retention sweep runs in one advisory-locked process on behalf of the whole
-// database, so it iterates every realm returned here. Index-assisted: realm
-// leads admin_online_samples_realm_sampled.
+// database, so it iterates every realm returned here. This is a FULL index-only
+// scan over admin_online_samples_realm_sampled (Postgres has no skip scan), so
+// it costs O(retained rows), not O(realms): fine exactly once per nightly run,
+// never on a hot path.
 export async function distinctOnlineSampleRealms(): Promise<string[]> {
   const res = await pool.query('SELECT DISTINCT realm FROM admin_online_samples');
   return res.rows.map((r) => String(r.realm));
@@ -357,6 +362,8 @@ export async function pruneOnlineSamplesBatch(
   batchSize: number,
 ): Promise<number> {
   if (!Number.isFinite(retentionDays) || retentionDays <= 0) return 0;
+  // A fractional value must clamp to at least one day, never floor to '0 days'.
+  const days = Math.max(1, Math.floor(retentionDays));
   const res = await pool.query(
     `DELETE FROM admin_online_samples
       WHERE id IN (
@@ -364,7 +371,7 @@ export async function pruneOnlineSamplesBatch(
          WHERE realm = $1 AND sampled_at < now() - ($2 || ' days')::interval
          ORDER BY sampled_at
          LIMIT $3)`,
-    [realm, String(Math.floor(retentionDays)), Math.max(1, Math.floor(batchSize))],
+    [realm, String(days), Math.max(1, Math.floor(batchSize))],
   );
   return res.rowCount ?? 0;
 }
@@ -377,6 +384,8 @@ export async function pruneSitePresenceSamplesBatch(
   batchSize: number,
 ): Promise<number> {
   if (!Number.isFinite(retentionDays) || retentionDays <= 0) return 0;
+  // A fractional value must clamp to at least one day, never floor to '0 days'.
+  const days = Math.max(1, Math.floor(retentionDays));
   const res = await pool.query(
     `DELETE FROM admin_site_presence_samples
       WHERE id IN (
@@ -384,7 +393,7 @@ export async function pruneSitePresenceSamplesBatch(
          WHERE sampled_at < now() - ($1 || ' days')::interval
          ORDER BY sampled_at
          LIMIT $2)`,
-    [String(Math.floor(retentionDays)), Math.max(1, Math.floor(batchSize))],
+    [String(days), Math.max(1, Math.floor(batchSize))],
   );
   return res.rowCount ?? 0;
 }
@@ -400,6 +409,8 @@ export async function pruneSitePresenceSessionsBatch(
   batchSize: number,
 ): Promise<number> {
   if (!Number.isFinite(retentionDays) || retentionDays <= 0) return 0;
+  // A fractional value must clamp to at least one day, never floor to '0 days'.
+  const days = Math.max(1, Math.floor(retentionDays));
   const res = await pool.query(
     `DELETE FROM site_presence_sessions
       WHERE visitor_id IN (
@@ -407,7 +418,7 @@ export async function pruneSitePresenceSessionsBatch(
          WHERE last_seen_at < now() - ($1 || ' days')::interval
          ORDER BY last_seen_at
          LIMIT $2)`,
-    [String(Math.floor(retentionDays)), Math.max(1, Math.floor(batchSize))],
+    [String(days), Math.max(1, Math.floor(batchSize))],
   );
   return res.rowCount ?? 0;
 }

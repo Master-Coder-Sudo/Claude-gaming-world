@@ -371,6 +371,41 @@ export async function currentDailyRewardDay(now = new Date()): Promise<string> {
   return (await dailyRewardClock(now)).day;
 }
 
+// Single-slot memo for dailyRewardEventsCutoffDay, keyed on (UTC day, clamped
+// retention). currentDailyRewardDay resolves runtime config for both the
+// provisional UTC day and the reward day, and runtimeConfigCache is a SINGLE
+// slot keyed by day: at the sweep hour the two days always differ, so the slot
+// thrashes and every uncached call costs up to two round trips to the payout
+// service, multiplied across the batches of a catch-up run. The key uses the
+// plain UTC day, never the reward day: resolving the reward day is exactly the
+// work being avoided.
+let cutoffMemo: { utcDay: string; days: number; cutoff: string } | null = null;
+
+export function resetDailyRewardEventsCutoffMemoForTests(): void {
+  cutoffMemo = null;
+}
+
+// The retention cutoff for the daily_reward_events ledger, as a reward-clock day
+// string, or null when retention is off (0 or negative = keep forever). Fractional
+// values clamp to at least one day: 0.5 must never floor to a cutoff of "today",
+// which would delete the entire ledger before today. The cutoff must come from the
+// reward clock (the day boundary sits at a configured UTC offset, not midnight),
+// which is why this lives here and not in the sweep wiring.
+export async function dailyRewardEventsCutoffDay(
+  retentionDays: number,
+  now = new Date(),
+): Promise<string | null> {
+  if (!Number.isFinite(retentionDays) || retentionDays <= 0) return null;
+  const days = Math.max(1, Math.floor(retentionDays));
+  const utcDay = utcRewardDay(now);
+  if (cutoffMemo && cutoffMemo.utcDay === utcDay && cutoffMemo.days === days) {
+    return cutoffMemo.cutoff;
+  }
+  const cutoff = addRewardDays(await currentDailyRewardDay(now), -days);
+  cutoffMemo = { utcDay, days, cutoff };
+  return cutoff;
+}
+
 async function prizePoolSol(config: DailyRewardRuntimeConfig): Promise<number | null> {
   if (config.prizePoolSol !== null) return config.prizePoolSol;
   if (config.solUsdPrice === null) return null;

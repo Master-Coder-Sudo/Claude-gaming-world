@@ -81,9 +81,8 @@ import {
   handleClaudiumStripeWebhook,
 } from './claudium';
 import {
-  addRewardDays,
   bustDailyRewardBoardCache,
-  currentDailyRewardDay,
+  dailyRewardEventsCutoffDay,
   handleDailyRewardApi,
   handleDailyRewardInternalApi,
 } from './daily_rewards';
@@ -117,6 +116,7 @@ import {
   listCharacters,
   listCompanionTokens,
   loadAccountCosmetics,
+  loadWorldState,
   moderationStatusForAccount,
   pool,
   primarySlugForAccount,
@@ -129,6 +129,7 @@ import {
   renameCharacter,
   revokeCompanionToken,
   saveToken,
+  saveWorldState,
   scopeAllowsMutation,
   searchCharacters,
   setAccountEmail,
@@ -2778,6 +2779,16 @@ export async function startServer(): Promise<http.Server> {
     utcHour: config.retentionSweepUtcHour,
     maxRowsPerRun: config.retentionSweepMaxRowsPerRun,
     batchSize: RETENTION_SWEEP_BATCH_SIZE,
+    // The persisted marker keeps a mid-day deploy or restart from re-running the
+    // sweep at peak: it is consulted under the advisory lock and written only
+    // after a completed sweep.
+    loadLastSweepDay: async () => {
+      const stored = await loadWorldState<{ day?: unknown }>('retention_sweep:last_run');
+      return typeof stored?.day === 'string' ? stored.day : null;
+    },
+    saveLastSweepDay: async (day) => {
+      await saveWorldState('retention_sweep:last_run', { day });
+    },
     tables: [
       { name: 'chat_logs', pruneBatch: (n) => pruneChatLogsBatch(config.chatLogRetentionDays, n) },
       {
@@ -2787,11 +2798,10 @@ export async function startServer(): Promise<http.Server> {
       {
         name: 'daily_reward_events',
         pruneBatch: async (n) => {
-          if (config.dailyRewardEventsRetentionDays <= 0) return 0;
           // The reward day rolls at a configured UTC offset, not midnight, so the
-          // cutoff must come from the reward clock, never plain date arithmetic.
-          const today = await currentDailyRewardDay(new Date());
-          const cutoff = addRewardDays(today, -Math.floor(config.dailyRewardEventsRetentionDays));
+          // cutoff comes from the reward clock (null means retention is off).
+          const cutoff = await dailyRewardEventsCutoffDay(config.dailyRewardEventsRetentionDays);
+          if (cutoff === null) return 0;
           return pruneDailyRewardEventsBatch(cutoff, n);
         },
       },

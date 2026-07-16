@@ -85,6 +85,17 @@ describe('retention prune batches', () => {
     expect(params).toEqual(['1', 100]);
   });
 
+  it('chat-log prune normalizes fractional retention days up to one full day', async () => {
+    dbMock.query.mockResolvedValueOnce({ rows: [], rowCount: 0 });
+
+    await pruneChatLogsBatch(0.5, 100);
+
+    // 0.5 passes the keep-forever guard, but an unclamped floor would build interval
+    // '0 days' and delete every chat log older than now on an operator typo.
+    const [, params] = dbMock.query.mock.calls[0];
+    expect(params).toEqual(['1', 100]);
+  });
+
   it('retention of zero or below keeps rows forever without touching the database', async () => {
     // 0 is the documented keep-forever switch (the safe side); a negative value gets
     // the same treatment, and neither may issue any query at all.

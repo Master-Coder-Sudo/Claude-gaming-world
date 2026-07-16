@@ -10,9 +10,21 @@
 // Exactly one process sweeps per UTC day. The run takes a session-scoped
 // pg_try_advisory_lock before touching any table, and a process that loses the
 // try-lock marks its own day as done, because the peer holding the lock IS
-// today's sweep. db.ts owns the sibling schema advisory key 0x57_4f_43_01 for
-// boot DDL serialization; that constant is module-private and cannot be
-// imported, so this comment is the cross-reference that keeps the keys distinct.
+// today's sweep. The once-per-day memory is process-local (lastFiredUtcDay)
+// plus, when the optional loadLastSweepDay/saveLastSweepDay deps are wired, a
+// persisted marker consulted under the lock; without the marker a process
+// restart after the target hour re-runs one bounded, idempotent sweep at
+// whatever time the deploy lands. db.ts owns the sibling schema advisory key
+// 0x57_4f_43_01 for boot DDL serialization; that constant is module-private
+// and cannot be imported, so this comment is the cross-reference that keeps
+// the keys distinct.
+//
+// Observability contract: every process emits exactly one run-end line per
+// UTC day through onInfo (the pruned-N summary, 0 rows included, the
+// peer-holds-lock line, or the marker-already-ran line), plus any budget-cap
+// lines. This sweep is the only bound on the history tables' growth, so a
+// silent day IS the signal that something is wedged (a stuck lock, a dead
+// peer, a zero-budget misconfiguration), never a quiet night.
 //
 // The advisory lock/unlock pair is the only raw SQL in this module. Every DELETE
 // arrives through the injected RetentionTable / RetentionOnlineSamples
@@ -84,7 +96,10 @@ export interface RetentionOnlineSamples {
 
 export interface RetentionSweepLockClient {
   query(text: string, values?: unknown[]): Promise<{ rows: Array<Record<string, unknown>> }>;
-  release(): void;
+  // pg's PoolClient.release(err?) satisfies this structurally: a truthy
+  // argument destroys the connection instead of returning it to the pool,
+  // which is how a possibly poisoned lock holder is kept out of the pool.
+  release(destroy?: boolean): void;
 }
 
 export interface RetentionSweepDeps {
@@ -98,6 +113,14 @@ export interface RetentionSweepDeps {
   pollIntervalMs?: number; // default RETENTION_SWEEP_POLL_MS
   onError?(scope: string, err: unknown): void; // default console.error
   onInfo?(message: string): void; // default console.log
+  // Optional persisted once-per-day marker, consulted only after this process
+  // wins the advisory lock. Without it the day marker is process memory only,
+  // so every restart after the target hour re-runs one bounded sweep at deploy
+  // time; with it, a lock winner that finds today already marked skips. Both
+  // calls are best-effort because the sweep is idempotent: a read failure
+  // proceeds as if unmarked and a write failure costs at most one re-sweep.
+  loadLastSweepDay?(): Promise<string | null>;
+  saveLastSweepDay?(day: string): Promise<void>;
 }
 
 export interface RetentionSweep {
@@ -130,24 +153,35 @@ export function createRetentionSweep(deps: RetentionSweepDeps): RetentionSweep {
   ): Promise<number> {
     let rowsThisRun = rowsAlreadyUsed;
     let lastBatchRows = batchSize;
-    while (
+    const verdict = () =>
       retentionBatchVerdict({
         rowsThisRun,
         maxRowsPerRun: deps.maxRowsPerRun,
         lastBatchRows,
         batchSize,
-      }) === 'continue'
-    ) {
+      });
+    while (verdict() === 'continue') {
       try {
         lastBatchRows = await prune(batchSize);
       } catch (err) {
         // Stop only THIS loop for the run. Nothing partial was committed beyond
         // whole batches, so the next scheduled run re-attempts the same oldest
-        // rows and forward progress is preserved.
+        // rows and forward progress is preserved. The state is untouched by the
+        // failed batch, so the verdict below still reads 'continue' and an
+        // error stop is never mistaken for a budget stop.
         onError(scope, err);
         break;
       }
       rowsThisRun += lastBatchRows;
+    }
+    // A capped run must be visible: without this line a table that hit the
+    // budget with expired rows still waiting is indistinguishable from a
+    // caught-up one, and a stalled retention window on personal-data tables is
+    // a privacy signal, not a cosmetic detail.
+    if (verdict() === 'stop-budget') {
+      onInfo(
+        `retention sweep: ${scope} hit the ${deps.maxRowsPerRun} row budget with expired rows remaining`,
+      );
     }
     return rowsThisRun - rowsAlreadyUsed;
   }
@@ -175,6 +209,15 @@ export function createRetentionSweep(deps: RetentionSweepDeps): RetentionSweep {
         lastBatchRows: batchSize,
         batchSize,
       });
+      if (verdict === 'stop-budget') {
+        // This realm never folded, so no prune loop exists to announce the cap
+        // for it; the group check speaks instead. A capped run must be visible
+        // because a stalled retention window on personal-data tables is a
+        // privacy signal.
+        onInfo(
+          `retention sweep: online-samples:${realm} hit the ${deps.maxRowsPerRun} row budget with expired rows remaining`,
+        );
+      }
       if (verdict !== 'continue') break;
       try {
         // The fold is the precondition that makes pruning this realm safe, so it
@@ -215,6 +258,14 @@ export function createRetentionSweep(deps: RetentionSweepDeps): RetentionSweep {
       onError('connect', err);
       return;
     }
+    // Poisoned-lock hazard: a client whose lock or unlock query failed may
+    // still hold (or be in an unknown state around) the session advisory lock,
+    // and a pooled connection can live for hours. While that connection sits
+    // in the pool the lock stays taken, so every future sweep loses the
+    // try-lock and retention silently stops until the connection dies. Those
+    // two arms therefore destroy the connection instead of pooling it: ending
+    // the backend session drops its locks.
+    let destroyClient = false;
     try {
       let acquired = false;
       try {
@@ -224,19 +275,63 @@ export function createRetentionSweep(deps: RetentionSweepDeps): RetentionSweep {
         acquired = result.rows[0]?.acquired === true;
       } catch (err) {
         // Same reasoning as a connect failure: the day is not consumed, the next
-        // poll retries.
+        // poll retries. The lock state on this connection is unknown, so it is
+        // destroyed, never pooled.
         onError('lock', err);
+        destroyClient = true;
         return;
       }
       // Either way the day is now settled for this process: the lock exists so
       // exactly ONE process sweeps per UTC day, and losing the try-lock means
       // today's sweep is owned by a peer, not deferred.
       lastFiredUtcDay = utcDayOf(now);
-      if (!acquired) return;
+      if (!acquired) {
+        // The miss consumed the day just above, so this fires at most once per
+        // process per UTC day, and it keeps the run-end contract (see the
+        // module header): without it a wedged peer, or an advisory lock leaked
+        // on a pooled connection, reads exactly like a healthy night.
+        onInfo("retention sweep: a peer holds today's sweep lock");
+        return;
+      }
       try {
+        // The persisted marker (when wired) survives restarts: without it a
+        // process that boots after the target hour re-runs a full budgeted
+        // sweep at whatever time the deploy lands. Consulted under the lock so
+        // the read cannot race a peer's in-progress sweep and marker write.
+        if (deps.loadLastSweepDay) {
+          let persistedDay: string | null = null;
+          try {
+            persistedDay = await deps.loadLastSweepDay();
+          } catch (err) {
+            // A read failure must not stop retention: the sweep is idempotent,
+            // so proceed as if no marker exists (worst case one bounded
+            // re-sweep).
+            onError('last-run-read', err);
+          }
+          // A peer, or an earlier life of this process, already swept today.
+          // Returning here still travels through the finally blocks below, so
+          // the lock is released and the client goes back to the pool. The
+          // line keeps the run-end contract: a skipped day must still speak.
+          if (persistedDay === utcDayOf(now)) {
+            onInfo("retention sweep: today's sweep already ran (persisted marker)");
+            return;
+          }
+        }
         const totalRows = await sweep();
-        // Quiet nights stay quiet: only a run that actually deleted rows logs.
-        if (totalRows > 0) onInfo(`retention sweep pruned ${totalRows} rows`);
+        // Unconditional, 0 rows included: this is the run-end line of the
+        // one-line-per-process-per-day contract (see the module header). A
+        // dead sweep must be distinguishable from a caught-up one, because
+        // this sweep is the only bound on the history tables' growth.
+        onInfo(`retention sweep pruned ${totalRows} rows`);
+        if (deps.saveLastSweepDay) {
+          try {
+            await deps.saveLastSweepDay(utcDayOf(now));
+          } catch (err) {
+            // Best-effort: a lost write costs at most one bounded re-sweep on
+            // the next restart, so the run still counts as complete.
+            onError('last-run-write', err);
+          }
+        }
       } finally {
         // Session advisory locks belong to one backend connection, so the unlock
         // must ride the SAME client that locked; releasing first could hand the
@@ -244,11 +339,14 @@ export function createRetentionSweep(deps: RetentionSweepDeps): RetentionSweep {
         try {
           await client.query('SELECT pg_advisory_unlock($1)', [RETENTION_SWEEP_ADVISORY_LOCK_KEY]);
         } catch (err) {
+          // The lock may still be held on this connection; destroy it (see the
+          // poisoned-lock note above).
           onError('unlock', err);
+          destroyClient = true;
         }
       }
     } finally {
-      client.release();
+      client.release(destroyClient || undefined);
     }
   }
 

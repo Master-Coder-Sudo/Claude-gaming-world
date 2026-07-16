@@ -255,6 +255,9 @@ describe('loadConfig', () => {
       expect(loadConfig({ ...MIN_ENV, [key]: '   ' })[field]).toBe(0);
       // An explicit 0 is preserved: the keep-forever contract stays reachable.
       expect(loadConfig({ ...MIN_ENV, [key]: '0' })[field]).toBe(0);
+      // Garbage ('abc' reads as NaN) falls back to the default, numberOr's
+      // fail-safe direction: a NaN must never reach the cutoff computation.
+      expect(loadConfig({ ...MIN_ENV, [key]: 'abc' })[field]).toBe(dflt);
     }
   });
 
@@ -308,6 +311,15 @@ describe('loadConfig', () => {
       loadConfig({ ...MIN_ENV, RETENTION_SWEEP_MAX_ROWS_PER_RUN: ' 0 ' })
         .retentionSweepMaxRowsPerRun,
     ).toBe(0);
+    // A negative value is a finite number, so numberOr passes it through as -5.
+    // The safety lives where it is unit-tested, the sweep's budget verdict: the
+    // budget reads as already spent before the first batch (0 >= -5 is
+    // stop-budget), so a negative budget issues zero batches, exactly like 0
+    // (tests/retention_sweep.test.ts).
+    expect(
+      loadConfig({ ...MIN_ENV, RETENTION_SWEEP_MAX_ROWS_PER_RUN: '-5' })
+        .retentionSweepMaxRowsPerRun,
+    ).toBe(-5);
   });
 
   it('returns a frozen Config whose fields cannot be mutated', () => {

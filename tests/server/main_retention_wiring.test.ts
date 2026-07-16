@@ -49,6 +49,54 @@ describe('retention sweep wiring in server/main.ts', () => {
     expect(count(MAIN, 'pruneClientPerfReports(')).toBe(0);
   });
 
+  it('wires every sweep table and online-samples hook exactly once', () => {
+    // One call site each, inside the sweep deps closures: deleting a deps entry
+    // silently disables that table's retention with everything else green.
+    for (const call of [
+      'pruneDailyRewardEventsBatch(',
+      'pruneOnlineSamplesBatch(',
+      'pruneSitePresenceSamplesBatch(',
+      'pruneSitePresenceSessionsBatch(',
+      'foldOnlinePeak(',
+      'distinctOnlineSampleRealms(',
+      'dailyRewardEventsCutoffDay(',
+    ]) {
+      expect(count(MAIN, call)).toBe(1);
+    }
+  });
+
+  it('derives the daily_reward_events cutoff from the reward clock, behind the keep-forever guard', () => {
+    // The clock-derived cutoff and the keep-forever guard are load-bearing and
+    // live only here. The derivation itself (sign, clamp) is unit-tested in
+    // tests/daily_rewards_cutoff.test.ts; this pin proves main.ts actually
+    // calls it and honors the null (keep forever) contract.
+    expect(MAIN).toContain(
+      'const cutoff = await dailyRewardEventsCutoffDay(config.dailyRewardEventsRetentionDays);',
+    );
+    expect(MAIN).toContain('if (cutoff === null) return 0;');
+  });
+
+  it('threads each sweep knob from config, never a hardcoded literal', () => {
+    // Hardcoding any of these orphans its env key: the knob would keep passing
+    // the config tests while the sweep silently ignores it.
+    expect(MAIN).toContain('utcHour: config.retentionSweepUtcHour');
+    expect(MAIN).toContain('maxRowsPerRun: config.retentionSweepMaxRowsPerRun');
+    expect(MAIN).toContain('batchSize: RETENTION_SWEEP_BATCH_SIZE');
+  });
+
+  it('gates the whole online-samples group on retention being enabled', () => {
+    // Retention off must skip the group INCLUDING the folds, so quiet configs
+    // write nothing to world_state.
+    expect(MAIN).toContain('config.onlineSamplesRetentionDays > 0');
+  });
+
+  it('persists the last-swept day under one world_state key on both sides', () => {
+    // The marker key must match on load and save: a drifted key reads null on
+    // every boot and re-runs the sweep after every mid-day restart.
+    expect(MAIN).toContain("loadWorldState<{ day?: unknown }>('retention_sweep:last_run')");
+    expect(MAIN).toContain("saveWorldState('retention_sweep:last_run', { day })");
+  });
+
   it('stops the sweep during shutdown, after the collectors and before the pool close', () => {
     // An in-flight prune batch must never race pool.end(). The needle for the
     // pool close is the await-call form: the bare token also appears in shutdown
@@ -61,8 +109,15 @@ describe('retention sweep wiring in server/main.ts', () => {
   });
 
   it('keeps the five OAuth and pending-login prunes on the daily interval', () => {
-    // Scope guard: only the two retention prunes moved to the sweep; the cheap
-    // token/state prunes stay on DAILY_PRUNE_INTERVAL_MS.
+    // Scope guard: only the retention prunes moved to the sweep; the cheap
+    // token/state prunes stay on DAILY_PRUNE_INTERVAL_MS. Assert inside the
+    // interval callback's slice: a presence-anywhere pin would still pass if
+    // one of these drifted out of the interval but stayed in the file.
+    const end = MAIN.indexOf(', DAILY_PRUNE_INTERVAL_MS).unref()');
+    expect(end).toBeGreaterThan(-1);
+    const start = MAIN.lastIndexOf('setInterval', end);
+    expect(start).toBeGreaterThan(-1);
+    const interval = MAIN.slice(start, end);
     for (const call of [
       'pruneExpiredOAuthGrants(',
       'pruneDiscordOAuthStates(',
@@ -70,7 +125,7 @@ describe('retention sweep wiring in server/main.ts', () => {
       'pruneApplePendingLogins(',
       'pruneGitHubOAuthStates(',
     ]) {
-      expect(count(MAIN, call)).toBeGreaterThanOrEqual(1);
+      expect(interval).toContain(call);
     }
   });
 });
