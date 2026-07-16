@@ -10,7 +10,7 @@ vi.mock('../server/db', async (importOriginal) => {
 });
 vi.mock('../server/realm', () => ({ REALM: 'test-realm' }));
 
-import { PgDailyRewardDb } from '../server/daily_rewards_db';
+import { PgDailyRewardDb, pruneDailyRewardEventsBatch } from '../server/daily_rewards_db';
 import { ELIGIBLE_ACCOUNT_SQL, SCHEMA } from '../server/db';
 
 describe('Daily Rewards ban query enforcement', () => {
@@ -254,5 +254,69 @@ describe('Daily Rewards finalize read and score writes', () => {
     expect(sql).toContain('ON CONFLICT (day, realm) DO UPDATE');
     expect(sql).toContain('WHERE daily_reward_days.finalized_at IS NULL');
     expect(mocks.query.mock.calls[0][1]).toEqual(['2026-07-11', 'test-realm', 150, 0.5]);
+  });
+});
+
+describe('pruneDailyRewardEventsBatch', () => {
+  beforeEach(() => {
+    mocks.query.mockReset();
+    mocks.connect.mockReset();
+  });
+
+  it('prunes with a bounded id-batch DELETE ordered onto the oldest days', async () => {
+    mocks.query.mockResolvedValue({ rows: [], rowCount: 0 });
+
+    await pruneDailyRewardEventsBatch('2025-06-11', 250);
+
+    const sql = String(mocks.query.mock.calls[0][0]);
+    expect(sql).toContain('DELETE FROM daily_reward_events');
+    // day leads the UNIQUE (day, realm, account_id, idempotency_key) index,
+    // so the cutoff predicate is index-served with no new DDL.
+    expect(sql).toContain('day < $1');
+    // The id-subquery LIMIT bounds each call to one batch, oldest days first.
+    expect(sql).toContain('id IN');
+    expect(sql).toContain('LIMIT $2');
+    expect(sql).toContain('ORDER BY day');
+  });
+
+  it('passes the cutoff day and batch size through as the bind params', async () => {
+    mocks.query.mockResolvedValue({ rows: [], rowCount: 0 });
+    await pruneDailyRewardEventsBatch('2025-06-11', 250);
+    // The cutoff is caller-computed reward-clock day text; this module never
+    // derives or reshapes it.
+    expect(mocks.query.mock.calls[0][1]).toEqual(['2025-06-11', 250]);
+  });
+
+  it('deletes nothing for a malformed cutoff day', async () => {
+    // day is TEXT and compares lexicographically, so a stray non-day string
+    // could match every row; the guard must return before any query is issued.
+    for (const cutoff of ['2025-6-1', '', 'zzzz', 'not-a-day']) {
+      await expect(pruneDailyRewardEventsBatch(cutoff, 250)).resolves.toBe(0);
+    }
+    expect(mocks.query).not.toHaveBeenCalled();
+  });
+
+  it('floors a non-positive batch size to one row', async () => {
+    // LIMIT 0 would turn the sweep into a silent no-op that never advances.
+    mocks.query.mockResolvedValue({ rows: [], rowCount: 0 });
+    await pruneDailyRewardEventsBatch('2025-06-11', 0);
+    expect(mocks.query.mock.calls[0][1]).toEqual(['2025-06-11', 1]);
+  });
+
+  it('never touches the score or spin tables', async () => {
+    // Scores and spins are never pruned, so a payout winner stays
+    // reconstructible after the raw events age out.
+    mocks.query.mockResolvedValue({ rows: [], rowCount: 0 });
+    await pruneDailyRewardEventsBatch('2025-06-11', 250);
+    const sql = String(mocks.query.mock.calls[0][0]);
+    expect(sql).not.toContain('daily_reward_scores');
+    expect(sql).not.toContain('daily_reward_spins');
+  });
+
+  it('resolves to the deleted-row count', async () => {
+    // The sweep iterates until a batch comes back short; the count is its
+    // only progress signal.
+    mocks.query.mockResolvedValue({ rows: [], rowCount: 37 });
+    await expect(pruneDailyRewardEventsBatch('2025-06-11', 250)).resolves.toBe(37);
   });
 });

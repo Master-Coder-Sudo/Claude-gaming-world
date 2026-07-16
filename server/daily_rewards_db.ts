@@ -1170,3 +1170,43 @@ export class PgDailyRewardDb implements DailyRewardDb {
     }
   }
 }
+
+const REWARD_DAY_SHAPE = /^\d{4}-\d{2}-\d{2}$/;
+
+// One bounded prune batch against the daily_reward_events audit ledger.
+// daily_reward_events.day is the REWARD-CLOCK day (its boundary sits at a
+// configured UTC offset, 21:00 UTC by default), NOT a plain UTC calendar
+// date, so this module never computes cutoffs: a naive now()-minus-N-days
+// here would cut at the wrong boundary, and calling the reward clock from
+// this file would invert the import direction (daily_rewards.ts imports from
+// this module; the reverse would cycle). The caller computes the cutoff via
+// currentDailyRewardDay + addRewardDays and passes a plain day string in.
+// Prunes ONLY the raw event ledger: daily_reward_scores and
+// daily_reward_spins are never touched, so a payout winner stays
+// reconstructible after events age out. One bounded batch per call; the
+// retention sweep drives iteration. day leads the UNIQUE
+// (day, realm, account_id, idempotency_key) index, so the day < $1 subquery
+// is index-served with no new DDL, and ORDER BY day keeps each batch on the
+// oldest days; every deleted row also maintains the partial
+// daily_reward_events_account_day_created_id index, which the modest batch
+// size already assumes. Deliberately a standalone export, not a DailyRewardDb
+// method: the interface would force every test fake to stub it, and the
+// sweep is not a service-seam consumer.
+export async function pruneDailyRewardEventsBatch(
+  cutoffDay: string,
+  batchSize: number,
+): Promise<number> {
+  // A malformed cutoff must not delete anything: day is TEXT and compares
+  // lexicographically, so a stray non-day string could match every row.
+  if (!REWARD_DAY_SHAPE.test(cutoffDay)) return 0;
+  const res = await pool.query(
+    `DELETE FROM daily_reward_events
+      WHERE id IN (
+        SELECT id FROM daily_reward_events
+         WHERE day < $1
+         ORDER BY day
+         LIMIT $2)`,
+    [cutoffDay, Math.max(1, Math.floor(batchSize))],
+  );
+  return res.rowCount ?? 0;
+}
