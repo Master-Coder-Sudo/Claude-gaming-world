@@ -157,6 +157,7 @@ import { type CardinalId, compassView } from './compass';
 import { formatMinimapCoords } from './coords';
 import { buildCraftingView } from './crafting_view';
 import { renderCraftingWindow } from './crafting_window';
+import { shouldRefreshDailyRewardsLauncher } from './daily_rewards_launcher_core';
 import { DailyRewardsWindow } from './daily_rewards_window';
 import {
   deedBroadcastLine,
@@ -3618,7 +3619,16 @@ export class Hud {
     root: () => $('#daily-rewards-window'),
     world: () => this.sim,
     closeOthers: () => this.closeOtherWindows('#daily-rewards-window'),
-    onStatus: (status) => this.applyDailyRewardsLauncherStatus(status),
+    // A status delivered by the window's render or spin is as fresh as a launcher
+    // fetch: invalidate any in-flight launcher fetch (seq bump) so a slower older
+    // response cannot overwrite it, and stamp the throttle so the next slowHud
+    // tick does not redundantly re-fetch.
+    onStatus: (status) => {
+      this.dailyRewardsLauncherSeq++;
+      this.lastDailyRewardsLauncherRefreshAt = performance.now();
+      this.applyDailyRewardsLauncherStatus(status);
+    },
+    onClose: () => this.refreshDailyRewardsLauncher(true),
     onWalletConnect: () => {
       window.dispatchEvent(new CustomEvent('woc:wallet-verify'));
     },
@@ -6267,7 +6277,10 @@ export class Hud {
     this.applyDailyRewardsChestButtonVisibility();
     if (!this.showDailyRewardsChestButton()) return;
     const now = performance.now();
-    if (!force && now - this.lastDailyRewardsLauncherRefreshAt < 60_000) return;
+    // Slow closed-window poll; the why and the arithmetic live in the core.
+    if (!shouldRefreshDailyRewardsLauncher(force, now, this.lastDailyRewardsLauncherRefreshAt)) {
+      return;
+    }
     this.lastDailyRewardsLauncherRefreshAt = now;
     const seq = ++this.dailyRewardsLauncherSeq;
     void this.sim
@@ -10756,7 +10769,10 @@ export class Hud {
   toggleDailyRewards(): void {
     if (!this.dailyRewardsEnabled()) return;
     this.dailyRewardsWindow.toggle();
-    this.refreshDailyRewardsLauncher(true);
+    // Close refreshes via onClose; force only the open direction here. The open
+    // force stays as the fallback for tabs that render without a status fetch
+    // (the store tab), where no onStatus push would arrive.
+    if (this.dailyRewardsWindow.isOpen) this.refreshDailyRewardsLauncher(true);
   }
 
   openWocStore(): void {
