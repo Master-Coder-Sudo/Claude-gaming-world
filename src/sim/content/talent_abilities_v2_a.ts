@@ -417,8 +417,22 @@ export const TALENT_ABILITIES_V2_A = {
     range: 0,
     school: 'nature',
     requiresTarget: false,
-    effects: [{ type: 'aoeAllyHaste', mult: 1.3, duration: 15, radius: 30 }],
+    // Full haste (attack, cast, and channel) to the group/raid, with the shared
+    // exhaustion so it can never be chained with Temporal Acceleration (combat/
+    // haste_burst.ts). Owner directive 2026-07-13: convert the shared effect to
+    // full haste so caster/healer allies benefit, not only melee.
+    effects: [
+      {
+        type: 'aoeAllyHaste',
+        mult: 1.3,
+        duration: 15,
+        radius: 30,
+        spell: true,
+        exhaust: true,
+        groupOnly: true,
+      },
+    ],
     description:
-      'Whips allies within 30 yd into a frenzy, increasing attack speed by 30% for 15 sec. (Shaman talent)',
+      'Whips your group or raid into a frenzy, increasing attack, casting, and channeling speed by 30% for 15 sec. Allies recently affected by Storm Chorus or Temporal Acceleration are too exhausted to benefit. (Shaman talent)',
   },
 } satisfies Record<string, AbilityDef>;

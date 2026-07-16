@@ -6957,7 +6957,7 @@ export const en_CA: EnTranslations = {
       },
       "bloodlust": {
         "name": "Storm Chorus",
-        "description": "Whips allies within 30 yd into a frenzy, increasing attack speed by 30% for 15 sec. (Shaman talent)"
+        "description": "Whips your group or raid into a frenzy, increasing attack, casting, and channeling speed by 30% for 15 sec. Allies recently affected by Storm Chorus or Temporal Acceleration are too exhausted to benefit. (Shaman talent)"
       },
       "chain_lightning": {
         "name": "Skybranch",
