@@ -6092,6 +6092,21 @@ function scaleBuffValue(kind: AuraKind, value: number, mul: number): number {
   return INTEGRAL_BUFF_KINDS.has(kind) ? Math.round(scaled) : scaled;
 }
 
+// The buff kinds whose value is a flat MAGNITUDE and so scales with an
+// ability/global damage-power mod in scaleEffect. Every other selfBuff/buffTarget
+// kind passes through untouched (see the selfBuff/buffTarget arm below).
+const SCALABLE_BUFF_KINDS: ReadonlySet<AuraKind> = new Set([
+  'buff_ap',
+  'buff_armor',
+  'buff_int',
+  'buff_agi',
+  'buff_spi',
+  'buff_sta',
+  'buff_allstats',
+  'buff_spellpower',
+  'thorns',
+]);
+
 function scaleEffect(
   eff: AbilityEffect,
   dmgMult: number,
@@ -6188,27 +6203,19 @@ function scaleEffect(
       };
     case 'absorb':
       return { ...eff, amount: Math.round(eff.amount * healMult * absorbMult + flat) };
-    // A buff value below 1 is a RATE (haste/spell-damage/crit fraction, e.g. 0.2), not a
-    // magnitude: scaling it by a global damage mult and rounding would floor it to 0 (this
-    // silently zeroed Aether Surge's haste for an Arcane mage). Only integer magnitudes
-    // (armor, attack power, thorns damage) scale; rates pass through untouched. Intentional
-    // buff scaling still rides the per-ability buffPct in applyTalentMods.
+    // Only the buff kinds whose value is a flat MAGNITUDE (armor, attack power, a flat
+    // primary stat, spell power, thorns damage) scale with a damage-power mod. Every
+    // other selfBuff/buffTarget kind is a rate, multiplier, percent, or a locked
+    // caster-form value and passes through untouched: scaling a 1.2 haste or 1.4 speed
+    // multiplier and rounding corrupts it (1.2 -> 1 = zero haste, 1.4 -> 1 = no speed),
+    // and a sub-1 rate (a 0.2 crit fraction) floors to 0 (this silently zeroed Aether
+    // Surge's haste for an Arcane mage). Gate on the KIND, never a value heuristic.
+    // Intentional buff scaling still rides the per-ability buffPct in applyTalentMods.
+    case 'buffTarget':
     case 'selfBuff':
-      // MULTIPLIER-shaped buff values (haste 1.2 = +20% swing speed, fiesta
-      // scale/jump, mortal_wound's 0.5 heal cut) must never take damage
-      // scaling: rounding a multiplier destroys it (round(1.2 * 1.1) = 1 =
-      // zero haste; round(0.5 * 1.1) = 1 = ALL healing suppressed). Only
-      // additive buff values (AP, armor, spellpower) scale.
-      if (
-        eff.kind === 'buff_haste' ||
-        eff.kind === 'buff_spellhaste' ||
-        eff.kind === 'buff_scale' ||
-        eff.kind === 'buff_jump' ||
-        eff.kind === 'mortal_wound'
-      ) {
-        return eff;
-      }
-      return { ...eff, value: Math.round(eff.value * dmgMult + flat) };
+      return SCALABLE_BUFF_KINDS.has(eff.kind)
+        ? { ...eff, value: Math.round(eff.value * dmgMult + flat) }
+        : eff;
     case 'lifeTap':
       return { ...eff, mana: Math.round(eff.mana * dmgMult + flat) };
     case 'gainResource':

@@ -125,7 +125,7 @@ describe('frost kit content defs', () => {
   it('pins Flurry: three bolts, 1.5s cast, 10s cooldown, frost-gated', () => {
     const def = ABILITIES.flurry;
     expect(def).toBeDefined();
-    expect(def.name).toBe('Flurry');
+    expect(def.name).toBe('Winterlash');
     expect(def.learnLevel).toBe(8);
     expect(def.specs).toEqual(['frost']);
     expect(def.castTime).toBe(1.5);
@@ -339,10 +339,10 @@ describe("Flurry and Winter's Chill", () => {
     const { sim, p } = makeSim();
     const mob = spawnTarget(sim, p);
     sim.drainEvents();
-    const events = castAndResolve(sim, p, 'flurry', 'Flurry');
+    const events = castAndResolve(sim, p, 'flurry', 'Winterlash');
     // The cast took time (it appeared as a castStart, not an instant resolve).
     expect(events.some((e) => e.type === 'castStart' && e.ability === 'flurry')).toBe(true);
-    const hits = damageEvents(events, 'Flurry');
+    const hits = damageEvents(events, 'Winterlash');
     expect(hits).toHaveLength(3);
     const chill = mob.auras.find((a) => a.kind === 'winters_chill');
     expect(chill).toBeDefined();
@@ -363,10 +363,10 @@ describe("Flurry and Winter's Chill", () => {
     expect(p.auras.some((a) => a.kind === 'brain_freeze')).toBe(false);
     expect(p.cooldowns.has('flurry')).toBe(false);
     const events: SimEvent[] = [...sim.drainEvents()];
-    for (let i = 0; i < 60 && damageEvents(events, 'Flurry').length < 3; i++) {
+    for (let i = 0; i < 60 && damageEvents(events, 'Winterlash').length < 3; i++) {
       events.push(...sim.tick());
     }
-    expect(damageEvents(events, 'Flurry')).toHaveLength(3);
+    expect(damageEvents(events, 'Winterlash')).toHaveLength(3);
     expect(mob.auras.find((a) => a.kind === 'winters_chill')?.charges).toBe(WINTERS_CHILL_CHARGES);
   });
 
@@ -376,14 +376,14 @@ describe("Flurry and Winter's Chill", () => {
       const { sim, p } = makeSim({ seed });
       spawnTarget(sim, p);
       sim.drainEvents();
-      return damageEvents(castAndResolve(sim, p, 'flurry', 'Flurry'), 'Flurry');
+      return damageEvents(castAndResolve(sim, p, 'flurry', 'Winterlash'), 'Winterlash');
     })();
     const bfHits = (() => {
       const { sim, p } = makeSim({ seed });
       spawnTarget(sim, p);
       pushAura(p, { id: 'brain_freeze', name: 'Brain Freeze', kind: 'brain_freeze' });
       sim.drainEvents();
-      return damageEvents(castAndResolve(sim, p, 'flurry', 'Flurry'), 'Flurry');
+      return damageEvents(castAndResolve(sim, p, 'flurry', 'Winterlash'), 'Winterlash');
     })();
     expect(hardHits).toHaveLength(3);
     expect(bfHits).toHaveLength(3);
@@ -415,10 +415,10 @@ describe("Flurry and Winter's Chill", () => {
     expect(p.castingAbility).toBeNull();
     expect(p.auras.some((a) => a.kind === 'brain_freeze')).toBe(false);
     const events: SimEvent[] = [];
-    for (let i = 0; i < 60 && damageEvents(events, 'Flurry').length < 3; i++) {
+    for (let i = 0; i < 60 && damageEvents(events, 'Winterlash').length < 3; i++) {
       events.push(...sim.tick());
     }
-    expect(damageEvents(events, 'Flurry')).toHaveLength(3);
+    expect(damageEvents(events, 'Winterlash')).toHaveLength(3);
     expect(mob.auras.find((a) => a.kind === 'winters_chill')?.charges).toBe(WINTERS_CHILL_CHARGES);
     const remaining = p.cooldowns.get('flurry');
     expect(remaining).toBeDefined();
@@ -440,12 +440,12 @@ describe("Flurry and Winter's Chill", () => {
     const { sim, p } = makeSim();
     const mob = spawnTarget(sim, p);
     sim.drainEvents();
-    castAndResolve(sim, p, 'flurry', 'Flurry');
+    castAndResolve(sim, p, 'flurry', 'Winterlash');
     expect(mob.auras.find((a) => a.kind === 'winters_chill')?.charges).toBe(WINTERS_CHILL_CHARGES);
     // A second Flurry against the chilled target re-plants to full, not less.
     for (let i = 0; i < 20 * 10 + 1; i++) sim.tick(); // wait out the cooldown
     sim.drainEvents();
-    castAndResolve(sim, p, 'flurry', 'Flurry');
+    castAndResolve(sim, p, 'flurry', 'Winterlash');
     const chill = mob.auras.find((a) => a.kind === 'winters_chill');
     expect(chill).toBeDefined();
     expect(chill?.charges).toBe(WINTERS_CHILL_CHARGES);
