@@ -235,7 +235,10 @@ ALTER TABLE characters ADD COLUMN IF NOT EXISTS realm TEXT NOT NULL DEFAULT '${R
 ALTER TABLE characters ADD COLUMN IF NOT EXISTS last_login TIMESTAMPTZ;
 -- Max-Level XP Overflow leaderboard: indexed lifetime-XP sort key. The first
 -- index serves the realm-scoped in-game panel; the second serves the global
--- (cross-realm) home-page board.
+-- (cross-realm) home-page board. Both are expression indexes on the bare
+-- LIFETIME_XP_EXPR: a reader (topLifetimeXp) must predicate and order on that
+-- exact bare expression; a COALESCE wrapper or an alias sort key cannot match
+-- the index and falls back to a full scan plus sort.
 CREATE INDEX IF NOT EXISTS characters_lifetime_xp
   ON characters (realm, ${LIFETIME_XP_EXPR} DESC);
 CREATE INDEX IF NOT EXISTS characters_lifetime_xp_global
@@ -2866,8 +2869,9 @@ export async function topArenaRatings(
 
 // ---------------------------------------------------------------------------
 // Lifetime-XP leaderboard (Max-Level XP Overflow). Ranks characters by the
-// `lifetimeXp` stored in their state JSONB. Realm-scoped (FR-4.3) and backed by
-// the `characters_lifetime_xp` index. Read through the server-side cache in
+// `lifetimeXp` stored in their state JSONB. The realm-scoped read (FR-4.3) is
+// backed by the `characters_lifetime_xp` index and the global read by
+// `characters_lifetime_xp_global`. Read through the server-side cache in
 // main.ts, never run per request under load.
 // ---------------------------------------------------------------------------
 
@@ -2884,8 +2888,10 @@ export interface LifetimeXpLeaderRow {
 }
 
 // `global: true` ranks across every realm (for the home-page board); otherwise
-// it is scoped to this process's realm (the in-game panel). Both paths sort on
-// the indexed lifetime-XP expression and are read through the main.ts cache.
+// it is scoped to this process's realm (the in-game panel). Both paths filter
+// and order on the bare LIFETIME_XP_EXPR so the expression indexes serve them
+// (the SELECT-list COALESCE is output-only, never a filter or sort key), and
+// both are read through the main.ts cache.
 export async function topLifetimeXp(
   limit = 100,
   opts: { global?: boolean } = {},
@@ -2902,10 +2908,10 @@ export async function topLifetimeXp(
                 state->>'activeTitle' AS active_title
            FROM characters
           WHERE state IS NOT NULL
-            AND COALESCE((state->>'lifetimeXp')::bigint, 0) > 0
+            AND ${LIFETIME_XP_EXPR} > 0
             AND EXISTS (SELECT 1 FROM accounts a
                          WHERE a.id = characters.account_id AND ${ELIGIBLE_ACCOUNT_SQL})
-          ORDER BY lifetime_xp DESC, level DESC, name ASC
+          ORDER BY ${LIFETIME_XP_EXPR} DESC, level DESC, name ASC
           LIMIT $1`,
           [cap],
         )
@@ -2916,10 +2922,10 @@ export async function topLifetimeXp(
                 state->>'activeTitle' AS active_title
            FROM characters
           WHERE realm = $1 AND state IS NOT NULL
-            AND COALESCE((state->>'lifetimeXp')::bigint, 0) > 0
+            AND ${LIFETIME_XP_EXPR} > 0
             AND EXISTS (SELECT 1 FROM accounts a
                          WHERE a.id = characters.account_id AND ${ELIGIBLE_ACCOUNT_SQL})
-          ORDER BY lifetime_xp DESC, level DESC, name ASC
+          ORDER BY ${LIFETIME_XP_EXPR} DESC, level DESC, name ASC
           LIMIT $2`,
           [REALM, cap],
         ),
