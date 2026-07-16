@@ -351,6 +351,7 @@ export const fr_CA: EnTranslations = {
       "remainingLessThanMinute": "<1min",
       "remainingMinutes": "{minutes}min",
       "remainingHoursMinutes": "{hours}h {minutes}min",
+      "remainingDaysHours": "{days}d {hours}h",
       "score": "Score",
       "walletValue": "Valeur du portefeuille (WOC)",
       "usd": "{amount} USD",
@@ -389,7 +390,8 @@ export const fr_CA: EnTranslations = {
         "no_wallet": "Connectez un portefeuille contenant au moins 20 USD en WOC.",
         "under_minimum": "Le portefeuille est en dessous du minimum de 20 USD en WOC.",
         "price_unavailable": "Le cours du WOC est indisponible, les récompenses sont temporairement verrouillées.",
-        "banned": "Vous êtes exclu des Récompenses quotidiennes. Motif : {reason}"
+        "banned": "Vous êtes exclu des Récompenses quotidiennes. Motif : {reason}",
+        "bannedUntil": "You are banned from Daily Rewards for another {remaining}. Access returns {until}. Reason: {reason}"
       }
     },
     "wocStore": {
@@ -614,6 +616,7 @@ export const fr_CA: EnTranslations = {
       "balanceLabel": "Solde",
       "balanceUnit": "{amount} Claudium",
       "solBalance": "SOL : {amount}",
+      "usdcBalance": "USDC: {amount}",
       "wocBalance": "WOC : {amount}",
       "unavailable": "La boutique de Claudium est indisponible pour le moment. Votre solde et vos achats ne sont pas affectés. Veuillez revenir dans quelques instants.",
       "disclosure": "Le Claudium est une monnaie virtuelle à sens unique : achetez-en avec de l’argent et dépensez-le en objets cosmétiques. Il ne peut être ni remboursé, ni transféré, ni converti en argent.",
@@ -621,6 +624,7 @@ export const fr_CA: EnTranslations = {
       "railLabel": "Mode de paiement",
       "railStripe": "Carte",
       "railSol": "SOL",
+      "railUsdc": "USDC",
       "railWoc": "WOC",
       "railWocDiscount": "20 % de réduction",
       "railWocUnavailable": "Les prix en WOC sont indisponibles pour le moment.",

@@ -351,6 +351,7 @@ export const nl_NL: EnTranslations = {
       "remainingLessThanMinute": "<1 min",
       "remainingMinutes": "{minutes} min",
       "remainingHoursMinutes": "{hours} u {minutes} min",
+      "remainingDaysHours": "{days}d {hours}h",
       "score": "Score",
       "walletValue": "Portemonneewaarde (WOC)",
       "usd": "{amount} USD",
@@ -389,7 +390,8 @@ export const nl_NL: EnTranslations = {
         "no_wallet": "Verbind een portemonnee met minstens $20 USD aan WOC.",
         "under_minimum": "Portemonnee ligt onder het WOC-minimum van $20 USD.",
         "price_unavailable": "WOC-prijs is niet beschikbaar, beloningen zijn tijdelijk vergrendeld.",
-        "banned": "Je bent uitgesloten van dagelijkse beloningen. Reden: {reason}"
+        "banned": "Je bent uitgesloten van dagelijkse beloningen. Reden: {reason}",
+        "bannedUntil": "You are banned from Daily Rewards for another {remaining}. Access returns {until}. Reason: {reason}"
       }
     },
     "wocStore": {
@@ -614,6 +616,7 @@ export const nl_NL: EnTranslations = {
       "balanceLabel": "Saldo",
       "balanceUnit": "{amount} Claudium",
       "solBalance": "SOL: {amount}",
+      "usdcBalance": "USDC: {amount}",
       "wocBalance": "WOC: {amount}",
       "unavailable": "De Claudium-winkel is momenteel niet beschikbaar. Je saldo en aankopen zijn niet aangetast. Probeer het binnenkort opnieuw.",
       "disclosure": "Claudium is een virtuele valuta die maar één kant op gaat: koop het met geld en besteed het aan cosmetica. Het kan niet worden ingewisseld, overgedragen of uitbetaald.",
@@ -621,6 +624,7 @@ export const nl_NL: EnTranslations = {
       "railLabel": "Betaalmethode",
       "railStripe": "Kaart",
       "railSol": "SOL",
+      "railUsdc": "USDC",
       "railWoc": "WOC",
       "railWocDiscount": "20% korting",
       "railWocUnavailable": "WOC-prijzen zijn momenteel niet beschikbaar.",

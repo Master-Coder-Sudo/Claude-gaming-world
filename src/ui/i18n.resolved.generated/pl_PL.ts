@@ -351,6 +351,7 @@ export const pl_PL: EnTranslations = {
       "remainingLessThanMinute": "<1 min",
       "remainingMinutes": "{minutes} min",
       "remainingHoursMinutes": "{hours} godz. {minutes} min",
+      "remainingDaysHours": "{days}d {hours}h",
       "score": "Wynik",
       "walletValue": "Wartość portfela (WOC)",
       "usd": "{amount} USD",
@@ -389,7 +390,8 @@ export const pl_PL: EnTranslations = {
         "no_wallet": "Podłącz portfel z co najmniej 20 USD w WOC.",
         "under_minimum": "Portfel jest poniżej minimum 20 USD w WOC.",
         "price_unavailable": "Cena WOC jest niedostępna, nagrody są tymczasowo zablokowane.",
-        "banned": "Masz zakaz udziału w codziennych nagrodach. Powód: {reason}"
+        "banned": "Masz zakaz udziału w codziennych nagrodach. Powód: {reason}",
+        "bannedUntil": "You are banned from Daily Rewards for another {remaining}. Access returns {until}. Reason: {reason}"
       }
     },
     "wocStore": {
@@ -614,6 +616,7 @@ export const pl_PL: EnTranslations = {
       "balanceLabel": "Saldo",
       "balanceUnit": "{amount} Klaudium",
       "solBalance": "SOL: {amount}",
+      "usdcBalance": "USDC: {amount}",
       "wocBalance": "WOC: {amount}",
       "unavailable": "Sklep Claudium jest obecnie niedostępny. Nie ma to wpływu na Twoje saldo i zakupy; sprawdź ponownie wkrótce.",
       "disclosure": "Claudium to jednokierunkowa miękka waluta: kup ją za pieniądze i wydawaj na kosmetyki. Nie można go wymienić, przenieść ani wypłacić.",
@@ -621,6 +624,7 @@ export const pl_PL: EnTranslations = {
       "railLabel": "Metoda płatności",
       "railStripe": "Karta",
       "railSol": "SOL",
+      "railUsdc": "USDC",
       "railWoc": "WOC",
       "railWocDiscount": "20% zniżki",
       "railWocUnavailable": "Ceny WOC są obecnie niedostępne.",
