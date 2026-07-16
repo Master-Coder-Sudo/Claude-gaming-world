@@ -1,13 +1,12 @@
-import type { QueryResult } from 'pg';
 import { normalizeAccountFlair, type StreamerLinks } from '../src/sim/account_flair';
+import {
+  type ClientPerfSummaryBuckets,
+  cleanHours,
+  mapClientPerfSummaryRows,
+  PERF_SUMMARY_LIMITS,
+} from './client_perf_summary_shape';
 import { DB_HEAVY_STATEMENT_TIMEOUT_MS, pool, runWithStatementTimeout } from './db';
 import { REALM } from './realm';
-
-// The bound query runWithStatementTimeout hands its callback: one client, one
-// transaction, the raised statement timeout in force. Threading it into a private
-// read helper lets that helper run under the raised allowance without opening its
-// own transaction.
-type BoundQuery = (text: string, values?: unknown[]) => Promise<QueryResult>;
 
 // Read-side queries for the admin dashboard. All inputs are parameterized;
 // sort columns are whitelisted before they reach SQL.
@@ -31,7 +30,8 @@ export interface OverviewCounts {
 
 export async function overviewCounts(): Promise<OverviewCounts> {
   // A big multi-subquery aggregate over accounts / characters / play_sessions,
-  // driven on an interval by the business-metrics PeriodicCollector: run it on the
+  // request-driven through the admin overview cache (server/admin_overview_cache.ts),
+  // which bounds how often the admin Overview poll can re-run it: run it on the
   // raised allowance so a growing play_sessions table cannot trip the default
   // statement timeout.
   const res = await runWithStatementTimeout(DB_HEAVY_STATEMENT_TIMEOUT_MS, (query) =>
@@ -286,30 +286,14 @@ export async function onlineHistory(rangeInput: string): Promise<OnlineHistory> 
   };
 }
 
-export interface PerfAggregate {
-  sampleCount: number;
-  medianFps: number;
-  p95FrameMs: number;
-  p99FrameMs: number;
-  contextLossCount: number;
-  avgRenderScale: number;
-  avgEffectiveRenderScale: number;
-}
+// PerfAggregate and PerfBucket live in the pure shape module next to the row
+// mapper that produces them (client_perf_summary_shape.ts); re-exported so this
+// module keeps its read-model surface.
+export type { PerfAggregate, PerfBucket } from './client_perf_summary_shape';
 
-export interface PerfBucket extends PerfAggregate {
-  key: string;
-}
-
-export interface PerfSummary {
+export interface PerfSummary extends ClientPerfSummaryBuckets {
   hours: number;
   generatedAt: string;
-  totals: PerfAggregate;
-  byPreset: PerfBucket[];
-  byGpu: PerfBucket[];
-  byBrowser: PerfBucket[];
-  byOs: PerfBucket[];
-  byScenario: PerfBucket[];
-  worstGpuBuckets: PerfBucket[];
 }
 
 export interface PerfRawRow {
@@ -354,10 +338,6 @@ export interface PerfRawRow {
   rawSummary: unknown;
 }
 
-function cleanHours(hours: number): number {
-  return Number.isFinite(hours) ? Math.min(168, Math.max(1, Math.floor(hours))) : 24;
-}
-
 function cleanPerfLimit(limit: number): number {
   return Number.isFinite(limit) ? Math.min(1000, Math.max(1, Math.floor(limit))) : 100;
 }
@@ -368,92 +348,66 @@ function cleanBeforeId(id: number | undefined): number | null {
   return n > 0 ? n : null;
 }
 
-function perfAggregateFromRow(r: Record<string, unknown>): PerfAggregate {
-  return {
-    sampleCount: Number(r.sample_count ?? 0),
-    medianFps: Number(r.median_fps ?? 0),
-    p95FrameMs: Number(r.p95_frame_ms ?? 0),
-    p99FrameMs: Number(r.p99_frame_ms ?? 0),
-    contextLossCount: Number(r.context_loss_count ?? 0),
-    avgRenderScale: Number(r.avg_render_scale ?? 0),
-    avgEffectiveRenderScale: Number(r.avg_effective_render_scale ?? 0),
-  };
-}
-
-async function perfAggregate(query: BoundQuery, hours: number): Promise<PerfAggregate> {
-  const res = await query(
-    `SELECT
-       count(*)::int AS sample_count,
-       COALESCE(percentile_cont(0.5) WITHIN GROUP (ORDER BY fps_avg), 0)::real AS median_fps,
-       COALESCE(percentile_cont(0.95) WITHIN GROUP (ORDER BY frame_p95_ms), 0)::real AS p95_frame_ms,
-       COALESCE(percentile_cont(0.99) WITHIN GROUP (ORDER BY frame_p95_ms), 0)::real AS p99_frame_ms,
-       COALESCE(sum(context_lost_count), 0)::int AS context_loss_count,
-       COALESCE(avg(render_scale), 0)::real AS avg_render_scale,
-       COALESCE(avg(effective_render_scale), 0)::real AS avg_effective_render_scale
-     FROM client_perf_reports
-     WHERE created_at > now() - ($1 || ' hours')::interval`,
-    [String(hours)],
-  );
-  return perfAggregateFromRow(res.rows[0] ?? {});
-}
-
-async function perfBuckets(
-  query: BoundQuery,
-  column: string,
-  hours: number,
-  limit: number,
-  worstFirst = false,
-): Promise<PerfBucket[]> {
-  const order = worstFirst ? 'p95_frame_ms DESC, sample_count DESC' : 'sample_count DESC, key ASC';
-  const res = await query(
-    `SELECT
-       ${column} AS key,
-       count(*)::int AS sample_count,
-       COALESCE(percentile_cont(0.5) WITHIN GROUP (ORDER BY fps_avg), 0)::real AS median_fps,
-       COALESCE(percentile_cont(0.95) WITHIN GROUP (ORDER BY frame_p95_ms), 0)::real AS p95_frame_ms,
-       COALESCE(percentile_cont(0.99) WITHIN GROUP (ORDER BY frame_p95_ms), 0)::real AS p99_frame_ms,
-       COALESCE(sum(context_lost_count), 0)::int AS context_loss_count,
-       COALESCE(avg(render_scale), 0)::real AS avg_render_scale,
-       COALESCE(avg(effective_render_scale), 0)::real AS avg_effective_render_scale
-     FROM client_perf_reports
-     WHERE created_at > now() - ($1 || ' hours')::interval
-     GROUP BY ${column}
-     ORDER BY ${order}
-     LIMIT $2`,
-    [String(hours), limit],
-  );
-  return res.rows.map((r) => ({ key: String(r.key ?? ''), ...perfAggregateFromRow(r) }));
-}
-
 export async function clientPerfSummary(hoursInput = 24): Promise<PerfSummary> {
   const hours = cleanHours(hoursInput);
-  // Seven aggregate scans over client_perf_reports on an admin-triggered read; run
-  // them in ONE raised-timeout transaction (threading the bound query through the
-  // helpers) so a large table cannot trip the default statement timeout on any of
-  // them and the whole read holds a single pooled client instead of seven.
-  const [totals, byPreset, byGpu, byBrowser, byOs, byScenario, worstGpuBuckets] =
-    await runWithStatementTimeout(DB_HEAVY_STATEMENT_TIMEOUT_MS, (query) =>
-      Promise.all([
-        perfAggregate(query, hours),
-        perfBuckets(query, 'graphics_preset', hours, 20),
-        perfBuckets(query, 'gl_renderer_bucket', hours, 50),
-        perfBuckets(query, 'browser_family', hours, 20),
-        perfBuckets(query, 'os_family', hours, 20),
-        perfBuckets(query, 'zone_or_scenario', hours, 30),
-        perfBuckets(query, 'gl_renderer_bucket', hours, 20, true),
-      ]),
-    );
-  return {
-    hours,
-    generatedAt: new Date().toISOString(),
-    totals,
-    byPreset,
-    byGpu,
-    byBrowser,
-    byOs,
-    byScenario,
-    worstGpuBuckets,
-  };
+  // ONE raised-timeout statement (GROUPING SETS over client_perf_reports) replaces
+  // the former seven serialized reads: the () set is the totals row and each
+  // single-column set is one bucket list. Postgres computes BOTH orderings as
+  // window ranks per grouping set (volume: sample_count DESC with the key ASC
+  // tie-break under database collation; worst: p95 DESC, sample_count DESC) and
+  // the outer filter caps each set at its list limit, so only rows the response
+  // can show cross to Node. p99_frame_ms stays percentile_cont(0.99) over
+  // frame_p95_ms, a long-standing quirk preserved deliberately. The pure shape
+  // module (client_perf_summary_shape.ts) rebuilds the response from the flat rows.
+  const res = await runWithStatementTimeout(DB_HEAVY_STATEMENT_TIMEOUT_MS, (query) =>
+    query(
+      `WITH agg AS (
+         SELECT
+           graphics_preset,
+           gl_renderer_bucket,
+           browser_family,
+           os_family,
+           zone_or_scenario,
+           GROUPING(graphics_preset) AS g_preset,
+           GROUPING(gl_renderer_bucket) AS g_gpu,
+           GROUPING(browser_family) AS g_browser,
+           GROUPING(os_family) AS g_os,
+           GROUPING(zone_or_scenario) AS g_scenario,
+           count(*)::int AS sample_count,
+           COALESCE(percentile_cont(0.5) WITHIN GROUP (ORDER BY fps_avg), 0)::real AS median_fps,
+           COALESCE(percentile_cont(0.95) WITHIN GROUP (ORDER BY frame_p95_ms), 0)::real AS p95_frame_ms,
+           COALESCE(percentile_cont(0.99) WITHIN GROUP (ORDER BY frame_p95_ms), 0)::real AS p99_frame_ms,
+           COALESCE(sum(context_lost_count), 0)::int AS context_loss_count,
+           COALESCE(avg(render_scale), 0)::real AS avg_render_scale,
+           COALESCE(avg(effective_render_scale), 0)::real AS avg_effective_render_scale
+         FROM client_perf_reports
+         WHERE created_at > now() - ($1 || ' hours')::interval
+         GROUP BY GROUPING SETS ((), (graphics_preset), (gl_renderer_bucket), (browser_family), (os_family), (zone_or_scenario))
+       ),
+       ranked AS (
+         SELECT
+           agg.*,
+           (row_number() OVER (
+             PARTITION BY g_preset, g_gpu, g_browser, g_os, g_scenario
+             ORDER BY sample_count DESC, COALESCE(graphics_preset, gl_renderer_bucket, browser_family, os_family, zone_or_scenario) ASC
+           ))::int AS vol_rank,
+           (row_number() OVER (
+             PARTITION BY g_preset, g_gpu, g_browser, g_os, g_scenario
+             ORDER BY p95_frame_ms DESC, sample_count DESC
+           ))::int AS worst_rank
+         FROM agg
+       )
+       SELECT * FROM ranked
+       WHERE (g_preset + g_gpu + g_browser + g_os + g_scenario = 5)
+          OR (g_preset = 0 AND vol_rank <= ${PERF_SUMMARY_LIMITS.byPreset})
+          OR (g_gpu = 0 AND (vol_rank <= ${PERF_SUMMARY_LIMITS.byGpu} OR worst_rank <= ${PERF_SUMMARY_LIMITS.worstGpu}))
+          OR (g_browser = 0 AND vol_rank <= ${PERF_SUMMARY_LIMITS.byBrowser})
+          OR (g_os = 0 AND vol_rank <= ${PERF_SUMMARY_LIMITS.byOs})
+          OR (g_scenario = 0 AND vol_rank <= ${PERF_SUMMARY_LIMITS.byScenario})`,
+      [String(hours)],
+    ),
+  );
+  return { hours, generatedAt: new Date().toISOString(), ...mapClientPerfSummaryRows(res.rows) };
 }
 
 export async function clientPerfRaw(

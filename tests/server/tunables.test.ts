@@ -537,8 +537,8 @@ describe('no consolidated tunable literal is duplicated at a call site', () => {
     ).toContain('runWithStatementTimeout(DB_HEAVY_STATEMENT_TIMEOUT_MS');
     // The on-demand admin reads carry the wrapper in the body that owns their
     // heaviest scan: sessionsByDay and accountDetail wrap directly; clientPerfSummary
-    // threads the bound query into its private perf helpers from ONE wrapper call, so
-    // the wrapper lives in its own body. pruneChatLogs (db.ts) wraps its delete.
+    // runs its whole roll-up as ONE GROUPING SETS statement inside its own wrapper
+    // call. pruneChatLogs (db.ts) wraps its delete.
     for (const decl of [
       'export async function sessionsByDay',
       'export async function clientPerfSummary',
@@ -548,12 +548,14 @@ describe('no consolidated tunable literal is duplicated at a call site', () => {
         'runWithStatementTimeout(DB_HEAVY_STATEMENT_TIMEOUT_MS',
       );
     }
-    // clientPerfSummary inherits the allowance ONLY if it hands the bound query to
-    // both perf helpers; pin the threading so a helper cannot silently drop back to a
-    // pool.query outside the raised transaction without reddening this.
+    // clientPerfSummary collapsed its seven serialized reads into one GROUPING SETS
+    // statement issued through the bound query; pin the collapsed shape so the
+    // roll-up cannot silently split back out or drop to a bare pool read outside
+    // the raised transaction without reddening this.
     const perfSummaryBody = bodyOf(adminSrc, 'export async function clientPerfSummary');
-    expect(perfSummaryBody).toContain('perfAggregate(query,');
-    expect(perfSummaryBody).toContain('perfBuckets(query,');
+    expect(perfSummaryBody).toContain('runWithStatementTimeout(DB_HEAVY_STATEMENT_TIMEOUT_MS');
+    expect(perfSummaryBody).toContain('GROUPING SETS');
+    expect(perfSummaryBody).not.toContain('pool.query');
     // accountDetail wraps ONLY the account row whose correlated play_sessions sum
     // grows without bound; its four LIMIT-capped companion reads stay on the default.
     // Slice from the wrapper to the next pool.query and require the playtime
