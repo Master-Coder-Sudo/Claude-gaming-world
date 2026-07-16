@@ -173,6 +173,10 @@ describe('mapClientPerfSummaryRows ordering', () => {
     expect(out.worstGpuBuckets.slice(1).map((b) => b.key)).toEqual(
       Array.from({ length: 19 }, (_, i) => `gpu-${pad(i + 1)}`),
     );
+    // Same bucket, two lists: equal by value but never the same object, so an
+    // in-process mutation of one list can never bleed into the other.
+    expect(out.byGpu[0]).toEqual(out.worstGpuBuckets[1]);
+    expect(out.byGpu[0]).not.toBe(out.worstGpuBuckets[1]);
   });
 });
 

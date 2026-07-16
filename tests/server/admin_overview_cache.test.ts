@@ -69,6 +69,9 @@ describe('admin overview cache', () => {
     const body = await readOverviewCounts();
     expect(calls).toBe(1);
     expect(body).toEqual(COUNTS);
+    // The one snapshot object is shared by every reader in the TTL window; the
+    // memo freezes it so a consumer cannot poison the shared counts.
+    expect(Object.isFrozen(body)).toBe(true);
   });
 
   it('a warm hit inside the TTL serves the snapshot without re-querying', async () => {
