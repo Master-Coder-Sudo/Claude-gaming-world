@@ -4058,8 +4058,6 @@ export const vi_VN: Partial<Record<TranslationKey, string>> = {
   'guide.gear.fishingTitle': 'Câu Cá',
   'guide.gear.intro':
     'Trang bị là đồ mà nhân vật của bạn mặc và những vật phẩm bạn mang theo. Trang bị tốt hơn là cách ổn định nhất để mạnh lên, và bạn nhặt được phần lớn chúng chỉ bằng cách chơi.',
-  'guide.gear.itemLevelBody':
-    'Nếu bạn muốn một cách nhanh để so hai món đồ, hãy bật Hiện Cấp Vật Phẩm trong tùy chọn. Trang bị giành được ngoài thế giới, từ kẻ địch và nhiệm vụ, khi đó sẽ hiện một cấp vật phẩm, một con số duy nhất cho biết đại khái món đó mạnh cỡ nào dựa trên nơi nó đến, nên bạn có thể nhìn thoáng qua là biết món nâng cấp nào nặng ký hơn, kể cả khi khác ô trang bị. Những món không có nguồn như vậy, như hàng cơ bản trơn của người bán và trang bị khởi đầu, không hiện cấp vật phẩm, nên một con số vắng mặt là chuyện thường, không phải lỗi.',
   'guide.gear.qualityBody':
     'Mỗi vật phẩm đều có một độ chất lượng, và tên của nó được tô màu tương ứng để bạn đọc được giá trị của nó trong nháy mắt. Từ phổ biến nhất đến quý giá nhất:',
   'guide.gear.qualityCommon': 'Phổ Thông',
@@ -7027,7 +7025,7 @@ export const vi_VN: Partial<Record<TranslationKey, string>> = {
   'guide.bestiary.flavor.sethrael_palecoil':
     'Một con rắn trắng nhợt như xương lượn lờ nơi thềm sâu của Hồ Lung Linh, kẻ canh giữ lặng lẽ vùng nước mà nó đã chiếm làm của riêng. Những ai bơi chung hồ với nó hiếm khi ngoi lên lại.',
   'guide.combat.metersBody':
-    'Tò mò xem một trận đấu diễn ra thế nào? Nhấn Z để mở bảng thống kê tổ đội, ghi lại sát thương, hồi máu và đe dọa của cả nhóm, theo từng trận một.',
+    'Tò mò xem một trận đấu diễn ra thế nào? Nhấn Shift+H để mở bảng thống kê tổ đội, ghi lại sát thương, hồi máu và đe dọa của cả nhóm, theo từng trận một.',
   'guide.combat.queueBody':
     'Bạn không cần canh chính xác từng khung hình để nhấn phím. Hãy nhấn kỹ năng kế tiếp trong những khoảnh khắc cuối của lượt niệm hiện tại và nó sẽ được xếp hàng, kích hoạt ngay khi lượt niệm hoàn tất, nên lối chơi thuần thục trôi chảy không hở nhịp. Một cú nhấn quá sớm chỉ đơn giản bị từ chối, nên không có gì lãng phí. Một số đòn cận chiến cũng hoạt động y như vậy, phát ra theo nhát vung vũ khí kế tiếp của bạn.',
   'guide.combat.queueTitle': 'Nước đi kế tiếp của bạn đã sẵn sàng',
@@ -7083,7 +7081,7 @@ export const vi_VN: Partial<Record<TranslationKey, string>> = {
     'Một giới hạn hằng ngày cho những phần thưởng lặp lại lớn nhất. Mỗi hầm ngục Anh Hùng trả một lần dọn sạch mỗi ngày, raid theo dõi thường và Anh Hùng riêng biệt, và việc nhặt đồ từ một trùm thế giới bắt đầu khóa lượt của bạn. Một lượt chạy năm người đã dọn xong vẫn mở cho chính tổ đội của nó; cánh cửa raid đã khóa không mở lại cho tới lần đặt lại.',
   'guide.glossary.lockoutTerm': 'Khóa Lượt',
   'guide.glossary.metersDef':
-    'Cửa sổ bảng điểm tổ đội cho trận đấu hiện tại: sát thương gây ra, hồi máu đã làm, và ai đang giữ nhiều đe dọa nhất, lưu theo từng trận. Mở nó bằng phím gán của nó (mặc định là Z).',
+    'Cửa sổ bảng điểm tổ đội cho trận đấu hiện tại: sát thương gây ra, hồi máu đã làm, và ai đang giữ nhiều đe dọa nhất, lưu theo từng trận. Mở nó bằng phím gán của nó (mặc định là Shift+H).',
   'guide.glossary.metersTerm': 'Bảng Sát Thương',
   'guide.glossary.petBarDef':
     'Hàng lệnh mà thú cưng của Thợ Săn hoặc Thuật Sĩ Hắc Ám thêm vào: Tấn Công, Dừng, Khiêu Khích, Phòng Thủ, và Hung Hăng, mặc định gán vào Ctrl cộng 1 tới 5.',
@@ -7114,8 +7112,6 @@ export const vi_VN: Partial<Record<TranslationKey, string>> = {
   'guide.models.formTravel': 'Fleet Form',
   'guide.models.groupForms': 'Hình Dạng Druid',
   'guide.nav.sidebarLabel': 'Chủ đề hướng dẫn',
-  'guide.professions.craftHowBody':
-    'Mở cửa sổ Chế Tác (phím mặc định T) để xem mọi công thức bạn biết, mỗi công thức cần gì, và bạn đang có sẵn những gì; khi đủ nguyên liệu, một cú bấm là xong việc. Các công thức thông thường có thể chế tác ở bất cứ đâu trên thế giới. Một số ít công thức dụng cụ cao cấp thì lại yêu cầu bạn đứng tại trạm chế tác ở Highwatch.',
   'guide.professions.craftHowTitle': 'Cửa sổ chế tác',
   'guide.professions.focusBody':
     'Mỗi thị trấn trung tâm đều có một bảng Trọng Tâm Thị Trấn dành cho những người thu hoạch ghé qua: đứng trong thị trấn, mở nó từ cạnh bản đồ nhỏ, và nhắm một khoản nhỏ điểm trọng tâm vào những loại thành phần bạn quan tâm. Bạn dồn càng nhiều trọng tâm vào một thành phần, nó ra càng tinh và càng dồi dào từ mỗi cái xác về sau; phân bổ của bạn đi theo nhân vật dù họ rong ruổi đến đâu, và bạn có thể sắp xếp lại nó, miễn phí, trong bất kỳ lần ghé thị trấn nào sau này.',

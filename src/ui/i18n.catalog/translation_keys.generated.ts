@@ -2937,6 +2937,8 @@ export type TranslationKeyFlat =
   | 'guide.dungeonsPage.raidBody'
   | 'guide.dungeonsPage.raidName'
   | 'guide.dungeonsPage.raidSize'
+  | 'guide.dungeonsPage.resetBody'
+  | 'guide.dungeonsPage.resetTitle'
   | 'guide.dungeonsPage.sanctumBody'
   | 'guide.dungeonsPage.sanctumName'
   | 'guide.dungeonsPage.soloLead'

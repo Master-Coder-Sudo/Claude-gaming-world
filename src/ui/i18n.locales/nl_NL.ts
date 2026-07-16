@@ -4036,10 +4036,6 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'guide.gear.fishingTitle': 'Vissen',
   'guide.gear.intro':
     'Uitrusting is de wapenrusting die je personage draagt en de voorwerpen die je meedraagt. Betere uitrusting is de gestaagste manier om sterker te worden, en het meeste pik je vanzelf op door te spelen.',
-  'guide.gear.itemLevelBody':
-    "Wil je een snelle manier om twee stukken te vergelijken, zet dan Itemniveau Tonen aan in de opties. Uitrusting die je in de wereld bemachtigt, van vijanden en quests, toont dan een itemniveau, een enkel getal voor hoe krachtig het ongeveer is op basis van waar het vandaan komt, zodat je in één oogopslag ziet welke upgrade meer gewicht in de schaal legt, zelfs tussen verschillende slots. Stukken zonder zo'n bron, zoals eenvoudige verkoperswaar en beginuitrusting, tonen geen itemniveau, dus een ontbrekend getal is normaal, geen fout.",
-  'guide.gear.qualityBody':
-    'Elk voorwerp heeft een kwaliteit, en zijn naam is gekleurd om die te tonen, zodat je zijn waarde in één oogopslag kunt aflezen. Van meest gewoon tot meest gewild:',
   'guide.gear.qualityCommon': 'Gewoon',
   'guide.gear.qualityEpic': 'Episch',
   'guide.gear.qualityLegendary': 'Legendarisch',
@@ -7098,7 +7094,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'guide.bestiary.flavor.sethrael_palecoil':
     'Een bleke slang, wit als bot, die over de diepe rand van De Glinstermeer glijdt, stille wachter van het water dat zij heeft opgeëist. Zwemmers die het meer met haar delen, komen zelden weer boven.',
   'guide.combat.metersBody':
-    'Benieuwd hoe een gevecht verliep? Druk op Z om de groepsmeters te openen, die schade, genezing en dreiging voor je groep bijhouden, gevecht na gevecht.',
+    'Benieuwd hoe een gevecht verliep? Druk op Shift+H om de groepsmeters te openen, die schade, genezing en dreiging voor je groep bijhouden, gevecht na gevecht.',
   'guide.combat.queueBody':
     'Je hoeft je toetsdrukken niet exact op het frame te timen. Druk je volgende vaardigheid in de laatste ogenblikken van de lopende cast en hij wordt in de wachtrij gezet, om af te vuren zodra de cast klaar is, zodat geoefend spel zonder gaten verloopt. Een druk die te vroeg komt, wordt simpelweg geweigerd, zodat er niets verloren gaat. Sommige melee-aanvallen werken op dezelfde manier en rijden mee op je volgende wapenzwaai.',
   'guide.combat.queueTitle': 'Je volgende zet staat al geladen',
@@ -7154,7 +7150,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
     'Een dagelijkse limiet op de grootste herhaalbare beloningen. Elke heroïsche kerker keert één clear per dag uit, de raid houdt gewoon en heroïsch apart bij, en het plunderen van een wereldbaas start de jouwe. Een uitgespeelde run voor vijf spelers blijft open voor de eigen groep; de vergrendelde raiddeur gaat pas open bij de reset.',
   'guide.glossary.lockoutTerm': 'Daglockout',
   'guide.glossary.metersDef':
-    'Het scorebordvenster van de groep voor het huidige gevecht: aangerichte schade, verrichte genezing en wie de meeste dreiging vasthoudt, per gevecht bijgehouden. Open het met de toetsbinding (standaard Z).',
+    'Het scorebordvenster van de groep voor het huidige gevecht: aangerichte schade, verrichte genezing en wie de meeste dreiging vasthoudt, per gevecht bijgehouden. Open het met de toetsbinding (standaard Shift+H).',
   'guide.glossary.metersTerm': 'Schademeters',
   'guide.glossary.petBarDef':
     'De commandorij die een huisdier van een jager of heksenmeester toevoegt: Aanvallen, Stoppen, Provoceren, Defensief en Agressief, standaard gebonden aan Ctrl plus 1 tot en met 5.',
@@ -7185,8 +7181,6 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'guide.models.formTravel': 'Fleetgedaante',
   'guide.models.groupForms': 'Druïdengedaanten',
   'guide.nav.sidebarLabel': 'Gidsonderwerpen',
-  'guide.professions.craftHowBody':
-    'Open het vervaardigingsvenster (standaardtoets T) om elk recept te zien dat je kent, wat elk nodig heeft en wat je bij de hand hebt; als de materialen er zijn, doet één klik het werk. Gewone recepten kun je overal in de wereld vervaardigen. Een handjevol geavanceerde gereedschapsrecepten vraagt je in plaats daarvan om bij de ambachtshub in Highwatch te staan.',
   'guide.professions.craftHowTitle': 'Het vervaardigingsvenster',
   'guide.professions.focusBody':
     'Elke hoofdplaats heeft een Stadsfocus-paneel voor oogsters op bezoek: sta in de stad, open het naast de minimap, en richt een klein budget aan focuspunten op de componenttypen die je belangrijk vindt. Hoe meer focus je aan een component geeft, hoe fijner en rijker het van elk later lijk komt; je toewijzing volgt je personage waar het ook zwerft, en je kunt haar gratis herzien bij elk later bezoek aan de stad.',

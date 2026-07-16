@@ -5725,11 +5725,6 @@ export const it_IT: Partial<Record<TranslationKey, string>> = {
   'guide.gear.fishingTitle': 'Pesca',
   'guide.gear.intro':
     "L'equipaggiamento è ciò che il tuo personaggio indossa e gli oggetti che porta con sé. Un equipaggiamento migliore è il modo più costante per diventare più forte, e ne raccogli gran parte semplicemente giocando.",
-  'guide.gear.itemLevelBody':
-    "Se vuoi un modo rapido per confrontare due pezzi, attiva Mostra livello oggetto nelle opzioni. L'equipaggiamento conquistato nel mondo, da nemici e missioni, mostra allora un livello oggetto, un singolo numero che indica all'incirca quanto è potente in base alla sua provenienza, così puoi capire a colpo d'occhio quale miglioramento conta di più, anche tra slot diversi. I pezzi privi di tale origine, come le basi comuni dei venditori e l'equipaggiamento iniziale, non mostrano alcun livello oggetto, perciò un numero mancante è normale, non un difetto.",
-  'guide.gear.qualityBody':
-    "Ogni oggetto ha una qualità, e il suo nome è colorato di conseguenza così puoi leggerne il valore a colpo d'occhio. Dal più comune al più pregiato:",
-  'guide.gear.qualityCommon': 'Comune',
   'guide.gear.qualityEpic': 'Epico',
   'guide.gear.qualityLegendary': 'Leggendario',
   'guide.gear.qualityNote':
@@ -7129,7 +7124,7 @@ export const it_IT: Partial<Record<TranslationKey, string>> = {
   'guide.bestiary.flavor.sethrael_palecoil':
     "Un serpente pallido come l'osso che scivola lungo la piattaforma profonda del Glimmermere, guardiano silenzioso delle acque che ha reclamato. Chi nuota nel lago in sua compagnia di rado torna a galla.",
   'guide.combat.metersBody':
-    "Curioso di sapere com'è andato uno scontro? Premi Z per aprire i misuratori del gruppo, che tengono il conto di danno, cure e minaccia della tua squadra, scontro per scontro.",
+    "Curioso di sapere com'è andato uno scontro? Premi Shift+H per aprire i misuratori del gruppo, che tengono il conto di danno, cure e minaccia della tua squadra, scontro per scontro.",
   'guide.combat.queueBody':
     "Non devi cronometrare le pressioni al singolo istante. Premi la prossima abilità negli attimi finali del lancio in corso e viene messa in coda, scattando nell'istante in cui il lancio si completa, così il gioco esperto scorre senza pause. Una pressione troppo anticipata viene semplicemente rifiutata, quindi nulla va sprecato. Alcuni colpi in mischia funzionano allo stesso modo, partendo con il tuo prossimo fendente.",
   'guide.combat.queueTitle': 'La tua prossima mossa è già pronta',
@@ -7185,7 +7180,7 @@ export const it_IT: Partial<Record<TranslationKey, string>> = {
     "Un limite giornaliero sulle ricompense ripetibili più grandi. Ogni dungeon eroico paga una conquista al giorno, l'incursione conta normale ed eroica separatamente, e saccheggiare un boss del mondo fa scattare il tuo. Una spedizione a cinque giocatori già completata resta aperta al suo stesso gruppo; la porta bloccata dell'incursione non si riapre fino al ripristino.",
   'guide.glossary.lockoutTerm': 'Blocco',
   'guide.glossary.metersDef':
-    'La finestra tabellone del gruppo per lo scontro in corso: danno inflitto, cure prestate e chi regge più minaccia, tenuti scontro per scontro. Aprila con la sua scorciatoia (Z di default).',
+    'La finestra tabellone del gruppo per lo scontro in corso: danno inflitto, cure prestate e chi regge più minaccia, tenuti scontro per scontro. Aprila con la sua scorciatoia (Shift+H di default).',
   'guide.glossary.metersTerm': 'Misuratori di danno',
   'guide.glossary.petBarDef':
     'La fila di comandi che aggiunge un famiglio del cacciatore o dello stregone: Attacca, Ferma, Provoca, Difensivo e Aggressivo, associati a Ctrl più 1-5 di default.',
@@ -7216,8 +7211,6 @@ export const it_IT: Partial<Record<TranslationKey, string>> = {
   'guide.models.formTravel': 'Forma di Fleet',
   'guide.models.groupForms': 'Forme del Druido',
   'guide.nav.sidebarLabel': 'Argomenti della guida',
-  'guide.professions.craftHowBody':
-    'Apri la finestra di Creazione (tasto predefinito T) per vedere ogni ricetta che conosci, cosa richiede ciascuna e cosa hai a disposizione; quando i materiali ci sono, un clic fa il lavoro. Le ricette comuni si possono creare ovunque nel mondo. Una manciata di ricette avanzate per attrezzi ti chiede invece di trovarti alla postazione artigiana di Highwatch.',
   'guide.professions.craftHowTitle': 'La finestra di creazione',
   'guide.professions.focusBody':
     'Ogni città principale tiene un pannello Focus Cittadino per i raccoglitori di passaggio: fermati in città, aprilo da accanto alla minimappa e indirizza un piccolo budget di punti focus verso i tipi di componente che ti interessano. Più focus dai a un componente, più fine e ricco esce da ogni cadavere successivo; la tua ripartizione segue il personaggio ovunque vada, e puoi rielaborarla, gratis, a ogni successiva visita in città.',
