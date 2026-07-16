@@ -9,6 +9,10 @@
 // The single-flight, stale-serve, and bust semantics come from the cached_read
 // primitive (server/cached_read.ts, pinned by tests/server/cached_read.test.ts);
 // this module only wires it to the overview query at a fixed TTL.
+//
+// cached_read's stale-serve warning logs the refresh error RAW, so the refresh
+// must never embed secrets or player-private material in what it throws (the
+// real overviewCounts throws only driver errors from one parameterized query).
 
 import { type OverviewCounts, overviewCounts } from './admin_db';
 import { type CachedRead, createCachedRead } from './cached_read';
@@ -28,7 +32,12 @@ let cache: CachedRead<OverviewCounts> | null = null;
 
 /** The cached overview counts: at most one overviewCounts refresh per TTL window. */
 export function readOverviewCounts(): Promise<OverviewCounts> {
-  cache ??= createCachedRead(() => queryFn(), { ttlMs: ADMIN_OVERVIEW_TTL_MS, now: nowFn });
+  // One snapshot object is served by reference to every reader in a TTL
+  // window; freeze it so no consumer can poison the shared counts.
+  cache ??= createCachedRead(async () => Object.freeze(await queryFn()), {
+    ttlMs: ADMIN_OVERVIEW_TTL_MS,
+    now: nowFn,
+  });
   return cache.read();
 }
 

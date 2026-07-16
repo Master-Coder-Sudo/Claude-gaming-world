@@ -32,15 +32,16 @@ export interface ClientPerfSummaryBuckets {
 
 // Per-array caps. The SQL interpolates these same numbers into its per-set rank
 // filter (the defensive cap on what crosses to Node) and the mapper slices with
-// them, so the two sides can never drift apart.
-export const PERF_SUMMARY_LIMITS = {
+// them, so the two sides can never drift apart. Frozen because the numbers are
+// interpolated into SQL text: runtime mutation must be structurally impossible.
+export const PERF_SUMMARY_LIMITS = Object.freeze({
   byPreset: 20,
   byGpu: 50,
   byBrowser: 20,
   byOs: 20,
   byScenario: 30,
   worstGpu: 20,
-} as const;
+} as const);
 
 // Clamp an admin-supplied hours window to whole hours in [1, 168]; a non-finite
 // input falls back to the 24h default. Shared by clientPerfSummary and clientPerfRaw.
@@ -51,8 +52,10 @@ export function cleanHours(hours: number): number {
 // One flat row of the GROUPING SETS result, as the reading contract the mapper
 // relies on. The g_* fields are GROUPING() bits: 1 means the column is rolled up
 // in this row's grouping set, 0 means the row is grouped by that column. Exactly
-// one bit is 0 on a bucket row; all five are 1 on the totals row.
-export interface ClientPerfSummaryRow {
+// one bit is 0 on a bucket row; all five are 1 on the totals row. The shape and
+// SQL suites type their fixture rows with this contract, so it stays
+// compile-checked against what the tests feed the mapper.
+export type ClientPerfSummaryRow = {
   graphics_preset: string | null;
   gl_renderer_bucket: string | null;
   browser_family: string | null;
@@ -72,7 +75,7 @@ export interface ClientPerfSummaryRow {
   context_loss_count: number;
   avg_render_scale: number;
   avg_effective_render_scale: number;
-}
+};
 
 // The one canonical snake_case-to-camelCase aggregate mapping (formerly private
 // to admin_db). An absent field folds to 0, which also makes an empty record
@@ -149,7 +152,9 @@ export function mapClientPerfSummaryRows(
     [...list]
       .sort((a, b) => a[rank] - b[rank])
       .slice(0, limit)
-      .map((e) => e.bucket);
+      // Fresh object per list: a gpu bucket appears in BOTH byGpu and
+      // worstGpuBuckets, and a shared reference would couple later mutations.
+      .map((e) => ({ ...e.bucket }));
   return {
     // An empty window still yields the () row (a grand aggregate over zero input
     // rows produces one row), so this fallback only guards a statement that

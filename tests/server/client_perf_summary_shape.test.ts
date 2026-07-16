@@ -7,17 +7,30 @@
 
 import { describe, expect, it } from 'vitest';
 import {
+  type ClientPerfSummaryRow,
   cleanHours,
   mapClientPerfSummaryRows,
   PERF_SUMMARY_LIMITS,
   perfAggregateFromRow,
 } from '../../server/client_perf_summary_shape';
 
-type Row = Record<string, unknown>;
+// Fixture rows are typed with the module's documented row contract, so
+// ClientPerfSummaryRow stays compile-checked against what the tests feed in.
+type Row = ClientPerfSummaryRow;
+type AggColumns = Pick<
+  Row,
+  | 'sample_count'
+  | 'median_fps'
+  | 'p95_frame_ms'
+  | 'p99_frame_ms'
+  | 'context_loss_count'
+  | 'avg_render_scale'
+  | 'avg_effective_render_scale'
+>;
 
 // Distinct recognizable aggregate values per seed so a cross-wired mapping
 // (wrong row landing in the wrong slot) cannot produce a passing comparison.
-function agg(seed: number): Row {
+function agg(seed: number): AggColumns {
   return {
     sample_count: seed,
     median_fps: seed + 0.5,

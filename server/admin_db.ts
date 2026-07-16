@@ -11,6 +11,9 @@ import { REALM } from './realm';
 // Read-side queries for the admin dashboard. All inputs are parameterized;
 // sort columns are whitelisted before they reach SQL.
 
+// Served to the admin Overview through the demand-driven 60s memo
+// (server/admin_overview_cache.ts): every field, including siteUsersNow's
+// "now", is as of the last memo refresh, up to ADMIN_OVERVIEW_TTL_MS stale.
 export interface OverviewCounts {
   accounts: number;
   characters: number;
