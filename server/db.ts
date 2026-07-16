@@ -98,10 +98,10 @@ export const DB_STATEMENT_TIMEOUT_MS = 15_000;
 
 // The raised per-transaction allowance for the known heavy reads (the cached
 // leaderboard / board / metrics aggregates and the final character save, plus the
-// on-demand admin reads: the sessions-by-day chart, the client perf summary, the
-// account-detail playtime aggregate, and the chat-log prune), applied via
-// runWithStatementTimeout. Bounded so even an exempted scan that goes runaway still
-// dies rather than pinning a pooled client indefinitely.
+// on-demand admin reads: the sessions-by-day chart, the client perf summary, and
+// the account-detail playtime aggregate), applied via runWithStatementTimeout.
+// Bounded so even an exempted scan that goes runaway still dies rather than
+// pinning a pooled client indefinitely.
 export const DB_HEAVY_STATEMENT_TIMEOUT_MS = 60_000;
 
 // Client-side backstop timeout per connection. query_timeout is enforced in the
@@ -3268,14 +3268,24 @@ export async function insertClientPerfReport(row: ClientPerfReportInsert): Promi
 }
 
 // Keeps production telemetry bounded. PERF_REPORT_RETENTION_DAYS=0 disables
-// pruning for a short manual capture window.
-export async function pruneClientPerfReports(retentionDays: number): Promise<number> {
+// pruning for a short manual capture window. One bounded batch per call: the
+// caller (the retention sweep) drives iteration, so each DELETE is a short
+// autocommit statement on the default statement timeout, riding
+// client_perf_reports_created via the oldest-first ORDER BY.
+export async function pruneClientPerfReportsBatch(
+  retentionDays: number,
+  batchSize: number,
+): Promise<number> {
   if (!Number.isFinite(retentionDays) || retentionDays <= 0) return 0;
   const days = Math.max(1, Math.floor(retentionDays));
   const res = await pool.query(
     `DELETE FROM client_perf_reports
-      WHERE created_at < now() - ($1 || ' days')::interval`,
-    [String(days)],
+      WHERE id IN (
+        SELECT id FROM client_perf_reports
+         WHERE created_at < now() - ($1 || ' days')::interval
+         ORDER BY created_at
+         LIMIT $2)`,
+    [String(days), Math.max(1, Math.floor(batchSize))],
   );
   return res.rowCount ?? 0;
 }
@@ -3552,13 +3562,23 @@ export async function insertChatLogs(rows: ChatLogRow[]): Promise<void> {
   );
 }
 
-// Keeps the table bounded; CHAT_LOG_RETENTION_DAYS=0 disables pruning.
-export async function pruneChatLogs(retentionDays: number): Promise<number> {
+// Keeps the table bounded; CHAT_LOG_RETENTION_DAYS=0 disables pruning. One bounded
+// batch per call: the caller (the retention sweep) drives iteration, so each DELETE
+// is a short autocommit statement on the DEFAULT statement timeout. Batching is what
+// makes the default allowance safe here; do not re-wrap this in the heavy allowance.
+export async function pruneChatLogsBatch(
+  retentionDays: number,
+  batchSize: number,
+): Promise<number> {
   if (!Number.isFinite(retentionDays) || retentionDays <= 0) return 0;
-  const res = await runWithStatementTimeout(DB_HEAVY_STATEMENT_TIMEOUT_MS, (query) =>
-    query(`DELETE FROM chat_logs WHERE created_at < now() - ($1 || ' days')::interval`, [
-      String(Math.floor(retentionDays)),
-    ]),
+  const res = await pool.query(
+    `DELETE FROM chat_logs
+      WHERE id IN (
+        SELECT id FROM chat_logs
+         WHERE created_at < now() - ($1 || ' days')::interval
+         ORDER BY created_at
+         LIMIT $2)`,
+    [String(Math.floor(retentionDays)), Math.max(1, Math.floor(batchSize))],
   );
   return res.rowCount ?? 0;
 }

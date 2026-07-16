@@ -534,7 +534,8 @@ describe('no consolidated tunable literal is duplicated at a call site', () => {
     // The on-demand admin reads carry the wrapper in the body that owns their
     // heaviest scan: sessionsByDay and accountDetail wrap directly; clientPerfSummary
     // runs its whole roll-up as ONE GROUPING SETS statement inside its own wrapper
-    // call. pruneChatLogs (db.ts) wraps its delete.
+    // call. The batched retention prunes (db.ts) stay on the default allowance;
+    // batching is what makes the default safe for them (pinned below).
     for (const decl of [
       'export async function sessionsByDay',
       'export async function clientPerfSummary',
@@ -570,8 +571,15 @@ describe('no consolidated tunable literal is duplicated at a call site', () => {
     expect(wrappedRead).toContain('playtime_seconds');
     expect(wrappedRead).toContain('FROM accounts');
     expect(wrappedRead).toContain('WHERE id = $1');
-    expect(bodyOf(dbSrc, 'export async function pruneChatLogs')).toContain(
-      'runWithStatementTimeout(DB_HEAVY_STATEMENT_TIMEOUT_MS',
+    // The retention prunes are deliberately NOT heavy call sites anymore: each call
+    // is one bounded DELETE batch on the default allowance, and the sweep drives
+    // iteration. Batching is what makes the default safe; re-wrapping would be a
+    // regression to the timed-out-forever one-shot DELETE.
+    expect(bodyOf(dbSrc, 'export async function pruneChatLogsBatch')).not.toContain(
+      'runWithStatementTimeout',
+    );
+    expect(bodyOf(dbSrc, 'export async function pruneClientPerfReportsBatch')).not.toContain(
+      'runWithStatementTimeout',
     );
   });
 
