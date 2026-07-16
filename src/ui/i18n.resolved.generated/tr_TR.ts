@@ -21,150 +21,150 @@ export const tr_TR: EnTranslations = {
     "rpPvp": "RP-PvP"
   },
   "devCommand": {
-    "dialogLabel": "Developer Command Center",
-    "kicker": "Development tools",
-    "title": "Command Center",
-    "subtitle": "Authoritative test controls for the active world.",
-    "closeAria": "Close developer commands",
-    "categoryNavAria": "Developer command categories",
+    "dialogLabel": "Geliştirici Komuta Merkezi",
+    "kicker": "Geliştirme araçları",
+    "title": "Komuta Merkezi",
+    "subtitle": "Etkin dünya için yetkili test denetimleri.",
+    "closeAria": "Geliştirici komutlarını kapat",
+    "categoryNavAria": "Geliştirici komutu kategorileri",
     "categories": {
-      "player": "Player",
-      "spawns": "Spawns",
-      "inventory": "Inventory",
-      "progress": "Progress",
-      "travel": "Travel",
-      "scenarios": "Scenarios"
+      "player": "Oyuncu",
+      "spawns": "Oluşturulanlar",
+      "inventory": "Envanter",
+      "progress": "İlerleme",
+      "travel": "Seyahat",
+      "scenarios": "Senaryolar"
     },
-    "filterLabel": "Filter commands",
-    "filterPlaceholder": "Search this category",
-    "noMatches": "No matching commands.",
-    "serverRequirement": "Server cheats still require ALLOW_DEV_COMMANDS=1.",
-    "invalidValues": "Choose valid values before running this command.",
-    "sent": "Sent: {command}",
-    "run": "Run",
+    "filterLabel": "Komutları filtrele",
+    "filterPlaceholder": "Bu kategoride ara",
+    "noMatches": "Eşleşen komut yok.",
+    "serverRequirement": "Sunucu hileleri için yine de ALLOW_DEV_COMMANDS=1 gerekir.",
+    "invalidValues": "Bu komutu çalıştırmadan önce geçerli değerler seç.",
+    "sent": "Gönderildi: {command}",
+    "run": "Çalıştır",
     "fields": {
-      "level": "Level",
-      "mob": "Mob",
-      "count": "Count",
-      "item": "Item",
-      "gold": "Gold",
-      "quest": "Quest",
-      "profession": "Profession",
-      "amount": "Amount",
+      "level": "Seviye",
+      "mob": "Yaratık",
+      "count": "Sayı",
+      "item": "Öğe",
+      "gold": "Altın",
+      "quest": "Görev",
+      "profession": "Meslek",
+      "amount": "Miktar",
       "x": "X",
       "z": "Z",
-      "dungeon": "Dungeon",
-      "difficulty": "Difficulty",
-      "name": "Name"
+      "dungeon": "Zindan",
+      "difficulty": "Zorluk",
+      "name": "Ad"
     },
     "difficulty": {
       "normal": "Normal",
-      "heroic": "Heroic"
+      "heroic": "Kahramanca"
     },
     "actions": {
       "heal": {
-        "label": "Restore health",
-        "description": "Fill the health pool."
+        "label": "Canı yenile",
+        "description": "Can havuzunu tamamen doldur."
       },
       "resource": {
-        "label": "Restore resource",
-        "description": "Fill mana, rage, or energy."
+        "label": "Kaynağı yenile",
+        "description": "Mana, öfke veya enerjiyi doldur."
       },
       "cooldowns": {
-        "label": "Clear cooldowns",
-        "description": "Reset ability, GCD, and potion timers."
+        "label": "Bekleme sürelerini temizle",
+        "description": "Yetenek, GCD ve iksir sayaçlarını sıfırla."
       },
       "god": {
-        "label": "Toggle god mode",
-        "description": "Toggle invulnerability and boosted damage."
+        "label": "Tanrı modunu aç veya kapat",
+        "description": "Dokunulmazlığı ve artırılmış hasarı aç veya kapat."
       },
       "revive": {
-        "label": "Revive",
-        "description": "Revive through the normal resurrection path."
+        "label": "Diril",
+        "description": "Normal dirilme sürecini kullanarak diril."
       },
       "kill": {
-        "label": "Kill player",
-        "description": "Test death, ghost, and corpse flows."
+        "label": "Oyuncuyu öldür",
+        "description": "Ölüm, hayalet ve ceset durumlarını sına."
       },
       "combatreset": {
-        "label": "Reset combat",
-        "description": "Clear combat state and hostile threat."
+        "label": "Savaşı sıfırla",
+        "description": "Savaş durumunu ve düşman tehdit değerini temizle."
       },
       "level": {
-        "label": "Set level",
-        "description": "Set the current character level."
+        "label": "Seviyeyi ayarla",
+        "description": "Mevcut karakter seviyesini ayarla."
       },
       "spawn": {
-        "label": "Spawn mob",
-        "description": "Create a concrete mob near the player."
+        "label": "Yaratık oluştur",
+        "description": "Oyuncunun yakınında belirli bir yaratık oluştur."
       },
       "killtarget": {
-        "label": "Kill target",
-        "description": "Kill the selected living mob."
+        "label": "Hedefi öldür",
+        "description": "Seçili canlı yaratığı öldür."
       },
       "despawntarget": {
-        "label": "Despawn target",
-        "description": "Remove a selected mob created by this tool."
+        "label": "Hedefi kaldır",
+        "description": "Bu araçla oluşturulan seçili yaratığı kaldır."
       },
       "despawnall": {
-        "label": "Clear my spawns",
-        "description": "Remove every mob spawned by this developer."
+        "label": "Oluşturduklarımı temizle",
+        "description": "Bu geliştiricinin oluşturduğu tüm yaratıkları kaldır."
       },
       "give": {
-        "label": "Give item",
-        "description": "Add an item to the player inventory."
+        "label": "Öğe ver",
+        "description": "Oyuncu envanterine bir öğe ekle."
       },
       "gold": {
-        "label": "Add gold",
-        "description": "Add gold to the current purse."
+        "label": "Altın ekle",
+        "description": "Mevcut keseye altın ekle."
       },
       "quest": {
-        "label": "Complete quest",
-        "description": "Complete a specific quest by id."
+        "label": "Görevi tamamla",
+        "description": "Kimliğine göre belirli bir görevi tamamla."
       },
       "quests": {
-        "label": "Complete active quests",
-        "description": "Complete every quest in the current log."
+        "label": "Etkin görevleri tamamla",
+        "description": "Mevcut görev günlüğündeki tüm görevleri tamamla."
       },
       "attune": {
-        "label": "Unlock attunements",
-        "description": "Mark all attunement requirements complete."
+        "label": "Uyumlanmaları aç",
+        "description": "Tüm uyumlanma gereksinimlerini tamamlanmış olarak işaretle."
       },
       "gather": {
-        "label": "Grant gathering skill",
-        "description": "Increase a gathering profession."
+        "label": "Toplama becerisi ver",
+        "description": "Bir toplama mesleğini geliştir."
       },
       "teleport": {
-        "label": "Teleport",
-        "description": "Move to exact world coordinates."
+        "label": "Işınlan",
+        "description": "Kesin dünya koordinatlarına git."
       },
       "dungeon": {
-        "label": "Enter dungeon",
-        "description": "Enter a dungeon with dev gate bypass."
+        "label": "Zindana gir",
+        "description": "Geliştirici erişim kontrolünü atlayarak bir zindana gir."
       },
       "raid": {
-        "label": "Enter raid",
-        "description": "Enter the Nythraxis arena directly."
+        "label": "Akına gir",
+        "description": "Doğrudan Nythraxis arenasına gir."
       },
       "raidreset": {
-        "label": "Reset raid lockout",
-        "description": "Clear the current raid lockouts."
+        "label": "Akın kilidini sıfırla",
+        "description": "Mevcut akın kilitlerini temizle."
       },
       "bot": {
-        "label": "Spawn social bot",
-        "description": "Create a whisperable stationary player."
+        "label": "Sosyal bot oluştur",
+        "description": "Fısıltı gönderilebilen sabit bir oyuncu oluştur."
       },
       "lfgqueue": {
-        "label": "Seed finder queue",
-        "description": "Create a Dungeon Finder queue scenario."
+        "label": "Bulucu kuyruğunu doldur",
+        "description": "Bir Zindan Bulucu kuyruğu senaryosu oluştur."
       },
       "lfgraid": {
-        "label": "Seed raid finder",
-        "description": "Create a raid finder scenario."
+        "label": "Akın bulucuyu doldur",
+        "description": "Bir akın bulucu senaryosu oluştur."
       },
       "lfgboard": {
-        "label": "Seed listing board",
-        "description": "Create a premade listing scenario."
+        "label": "İlan panosunu doldur",
+        "description": "Hazır bir grup ilanı senaryosu oluştur."
       }
     }
   },
@@ -351,7 +351,7 @@ export const tr_TR: EnTranslations = {
       "remainingLessThanMinute": "<1dk",
       "remainingMinutes": "{minutes}dk",
       "remainingHoursMinutes": "{hours}sa {minutes}dk",
-      "remainingDaysHours": "{days}d {hours}h",
+      "remainingDaysHours": "{days} gün {hours} saat",
       "score": "Skor",
       "walletValue": "Cüzdan Değeri (WOC)",
       "usd": "{amount} USD",
@@ -391,7 +391,7 @@ export const tr_TR: EnTranslations = {
         "under_minimum": "Cüzdan, 20 USD değerindeki WOC alt sınırının altında.",
         "price_unavailable": "WOC fiyatı alınamıyor, ödüller geçici olarak kilitli.",
         "banned": "Günlük Ödüllerden yasaklandın. Gerekçe: {reason}",
-        "bannedUntil": "You are banned from Daily Rewards for another {remaining}. Access returns {until}. Reason: {reason}"
+        "bannedUntil": "Günlük Ödüller'e erişim yasağın {remaining} daha sürecek. Erişim {until} tarihinde geri açılır. Gerekçe: {reason}"
       }
     },
     "wocStore": {
@@ -996,7 +996,7 @@ export const tr_TR: EnTranslations = {
       "interfaceModeTouch": "Dokunmatik",
       "interfaceModeNote": "Otomatik, cihazınıza göre masaüstü veya dokunmatik denetimleri seçer. Klavye ve fareyi zorlamak için Masaüstü'nü seçin (klavyeli bir tablette kullanışlıdır) ya da ekran üzeri denetimler için Dokunmatik'i seçin.",
       "footstepSounds": "Ayak Sesleri",
-      "interfaceSounds": "Interface and Feedback Sounds",
+      "interfaceSounds": "Arayüz ve Geri Bildirim Sesleri",
       "clickFeedback": "Tıklama İşareti",
       "lockCursorOnRotate": "Döndürürken İmleci Kilitle",
       "keybindHelpLockCursorOnRotate": "Kamerayı döndürmek için sürüklerken fare imlecini pencerenin içinde tutar, böylece ekran kenarına ulaşamaz veya başka bir monitöre geçemez. Serbest imleç tercih ediyorsanız kapatın.",
@@ -1620,31 +1620,31 @@ export const tr_TR: EnTranslations = {
       "lock": "Oyuncu çerçevesini kilitle"
     },
     "partyFrames": {
-      "section": "Party and Raid Frames",
-      "unlock": "Move party and raid frames",
-      "lock": "Lock party and raid frames",
-      "style": "Frame Style",
-      "styleAutomatic": "Automatic",
-      "styleClassic": "Classic Party Frames",
-      "styleRaid": "Raid Frames",
-      "scale": "Frame Scale",
-      "width": "Frame Width",
-      "height": "Frame Height",
-      "spacing": "Frame Spacing",
-      "columns": "Raid Columns",
-      "healthText": "Health Text",
-      "healthNone": "None",
-      "healthPercent": "Percent",
-      "healthCurrent": "Current",
-      "healthCurrentMax": "Current / Max",
-      "sort": "Sort Players",
-      "sortGroup": "Group",
-      "sortRole": "Role",
-      "sortName": "Name",
-      "showResource": "Show Mana, Rage, and Energy",
-      "showAbsorbs": "Show Absorb Shields",
-      "showAuras": "Show Buffs and Debuffs",
-      "showSelf": "Show Your Frame"
+      "section": "Grup ve Akın Çerçeveleri",
+      "unlock": "Grup ve akın çerçevelerini taşı",
+      "lock": "Grup ve akın çerçevelerini kilitle",
+      "style": "Çerçeve Stili",
+      "styleAutomatic": "Otomatik",
+      "styleClassic": "Klasik Grup Çerçeveleri",
+      "styleRaid": "Akın Çerçeveleri",
+      "scale": "Çerçeve Ölçeği",
+      "width": "Çerçeve Genişliği",
+      "height": "Çerçeve Yüksekliği",
+      "spacing": "Çerçeve Aralığı",
+      "columns": "Akın Sütunları",
+      "healthText": "Can Metni",
+      "healthNone": "Yok",
+      "healthPercent": "Yüzde",
+      "healthCurrent": "Mevcut",
+      "healthCurrentMax": "Mevcut / Azami",
+      "sort": "Oyuncuları Sırala",
+      "sortGroup": "Grup",
+      "sortRole": "Rol",
+      "sortName": "Ad",
+      "showResource": "Mana, Öfke ve Enerjiyi Göster",
+      "showAbsorbs": "Soğurma Kalkanlarını Göster",
+      "showAuras": "Güçlendirmeleri ve Zayıflatmaları Göster",
+      "showSelf": "Kendi Çerçeveni Göster"
     },
     "frameReset": {
       "label": "Çerçeve Konumlarını Sıfırla"
@@ -2307,7 +2307,7 @@ export const tr_TR: EnTranslations = {
       "upstream": "Steam yanıt vermedi. Birazdan tekrar dene."
     },
     "welcome": {
-      "invalid_input": "Invalid input."
+      "invalid_input": "Geçersiz girdi."
     }
   },
   "guide": {
@@ -5005,26 +5005,26 @@ export const tr_TR: EnTranslations = {
     "status": "Birazdan döneriz"
   },
   "welcome": {
-    "back": "Welcome back, {name}",
-    "level": "Level {level}",
-    "lastPlayed": "Last played {when}",
-    "continue": "Enter World",
-    "continueHint": "Enter to continue, Esc to skip",
-    "continueHintTouch": "Tap to continue",
+    "back": "Tekrar hoş geldin, {name}",
+    "level": "Seviye {level}",
+    "lastPlayed": "Son oynama tarihi: {when}",
+    "continue": "Dünyaya Gir",
+    "continueHint": "Devam etmek için Enter'a, atlamak için Esc'ye bas",
+    "continueHintTouch": "Devam etmek için dokun",
     "discord": {
-      "title": "The community lives on Discord",
-      "sub": "Patch previews, events, dev chat, and 2 bonus bank slots for linking.",
-      "join": "Join our Discord"
+      "title": "Topluluk Discord'da yaşıyor",
+      "sub": "Yama ön izlemeleri, etkinlikler, geliştirici sohbeti ve Discord hesabını bağlayınca 2 bonus banka yuvası.",
+      "join": "Discord topluluğumuza katıl"
     },
     "chest": {
-      "ready": "Daily chest ready"
+      "ready": "Günlük sandık hazır"
     },
     "armory": {
-      "cta": "Enter and browse the Armory"
+      "cta": "Dünyaya gir ve Cephaneliğe göz at"
     },
     "news": {
-      "new": "New",
-      "viewAll": "View all updates on GitHub"
+      "new": "Yeni",
+      "viewAll": "GitHub'daki tüm güncellemeleri görüntüle"
     }
   },
   "hud": {
@@ -6848,22 +6848,22 @@ export const tr_TR: EnTranslations = {
         "name": "Doğudere Yün Pantolonu"
       },
       "eastbrook_ritual_vestments": {
-        "name": "Eastbrook Ritual Vestments"
+        "name": "Doğudere Ayin Cübbesi"
       },
       "eastbrook_druids_hide": {
-        "name": "Eastbrook Druid's Hide"
+        "name": "Doğudere Druidinin Postu"
       },
       "eastbrook_warded_leggings": {
-        "name": "Eastbrook Warded Leggings"
+        "name": "Doğudere Koruma Tozlukları"
       },
       "wardweave_cowl": {
-        "name": "Wardweave Cowl"
+        "name": "Koruma Dokumalı Başlık"
       },
       "duskhide_wraps": {
-        "name": "Duskhide Wraps"
+        "name": "Alacakaranlık Postu Sargıları"
       },
       "sootscale_mantle": {
-        "name": "Sootscale Mantle"
+        "name": "İs Pulu Pelerini"
       },
       "gravecaller_blade": {
         "name": "Mezarçağıran'ın Geniş Kılıcı"
