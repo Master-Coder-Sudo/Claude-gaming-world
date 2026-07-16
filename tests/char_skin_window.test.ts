@@ -1,105 +1,127 @@
-import { describe, expect, it } from 'vitest';
-import { EVENT_SKIN_TIERS, MECH_CHROMAS } from '../src/sim/content/skins';
-import {
-  defaultChoiceSelection,
-  mechChromaName,
-  randomSkinEventLandingAngle,
-  skinChoiceAvailable,
-  skinEventChoices,
-  skinEventPreviewKey,
-  skinRankName,
-  skinTierKey,
-} from '../src/ui/char_skin_window';
+// @vitest-environment jsdom
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-// Minimal stub satisfying just the fields the pure (DOM-free) helpers under
-// test read; the DOM-touching paint*() functions are exercised indirectly by
-// tests/skin_event.test.ts (sim side) and the pre-existing hud.ts behavior.
-function makeHost(overrides: Partial<{ mode: 'class' | 'mech'; playerClass: string }> = {}) {
+vi.mock('../src/render/characters/assets', () => ({
+  preloadMechAssets: vi.fn(() => Promise.resolve()),
+}));
+
+import { MECH_CHROMAS } from '../src/sim/content/skins';
+import { type CharSkinPainterHost, paintCharSkinPicker } from '../src/ui/char_skin_window';
+
+function makeHost(overrides?: {
+  playerClass?: string;
+  skin?: number;
+  skinCatalog?: 'class' | 'mech';
+  mechChromaIds?: string[];
+}): CharSkinPainterHost & {
+  changeSkinCalls: [number, 'class' | 'mech'][];
+  unequipCalls: string[];
+  renderBagsCalls: number;
+  renderCharIfOpenCalls: number;
+} {
+  const changeSkinCalls: [number, 'class' | 'mech'][] = [];
+  const unequipCalls: string[] = [];
+  let renderBagsCalls = 0;
+  let renderCharIfOpenCalls = 0;
   return {
-    sim: { cfg: { playerClass: overrides.playerClass ?? 'mage' } },
-    skinEventMode: overrides.mode ?? 'class',
-    skinEventTiers: EVENT_SKIN_TIERS,
-  } as unknown as Parameters<typeof skinEventChoices>[0];
+    sim: {
+      cfg: { playerClass: (overrides?.playerClass ?? 'mage') as never },
+      player: {
+        skin: overrides?.skin ?? 0,
+        skinCatalog: overrides?.skinCatalog ?? 'class',
+        level: 10,
+      },
+      accountCosmetics: { mechChromaIds: overrides?.mechChromaIds ?? [] },
+      changeSkin(skin: number, catalog: 'class' | 'mech') {
+        changeSkinCalls.push([skin, catalog]);
+      },
+      unequipMechChroma(id: string) {
+        unequipCalls.push(id);
+      },
+    },
+    mechAssetsPromise: null,
+    mountCharPreview: vi.fn(),
+    attachTooltip: vi.fn(),
+    renderBags: () => {
+      renderBagsCalls++;
+    },
+    renderCharIfOpen: () => {
+      renderCharIfOpenCalls++;
+    },
+    get changeSkinCalls() {
+      return changeSkinCalls;
+    },
+    get unequipCalls() {
+      return unequipCalls;
+    },
+    get renderBagsCalls() {
+      return renderBagsCalls;
+    },
+    get renderCharIfOpenCalls() {
+      return renderCharIfOpenCalls;
+    },
+  } as unknown as CharSkinPainterHost & {
+    changeSkinCalls: [number, 'class' | 'mech'][];
+    unequipCalls: string[];
+    renderBagsCalls: number;
+    renderCharIfOpenCalls: number;
+  };
 }
 
-describe('char_skin_window (extracted from hud.ts)', () => {
-  it('names each skin rank via its itemUi.quality.* key', () => {
-    expect(skinRankName('uncommon')).toBeTruthy();
-    expect(skinRankName('rare')).toBeTruthy();
-    expect(skinRankName('epic')).toBeTruthy();
-    expect(skinRankName('uncommon')).not.toBe(skinRankName('epic'));
+describe('char_skin_window: paintCharSkinPicker (extracted from hud.ts)', () => {
+  beforeEach(() => {
+    document.body.innerHTML =
+      '<div id="char-skin-row"></div>' +
+      '<div id="char-window" style="display:block"></div>' +
+      '<div id="char-model-preview"></div>';
   });
 
-  it('names a known mech chroma and falls back to the raw id for an unknown one', () => {
-    expect(mechChromaName('amber_crimson')).toBeTruthy();
-    expect(mechChromaName('amber_crimson')).not.toBe('amber_crimson');
-    expect(mechChromaName('not_a_real_chroma')).toBe('not_a_real_chroma');
+  it('does nothing when the row is missing from the DOM', () => {
+    document.body.innerHTML = '';
+    expect(() => paintCharSkinPicker(makeHost())).not.toThrow();
   });
 
-  it('builds a stable rank:skin choice key', () => {
-    expect(skinTierKey({ rank: 'rare', skin: 2 })).toBe('rare:2');
+  it('renders one swatch per class skin and marks the current one selected', () => {
+    const host = makeHost({ skin: 1 });
+    paintCharSkinPicker(host);
+    const row = document.getElementById('char-skin-row') as HTMLElement;
+    const swatches = row.querySelectorAll<HTMLButtonElement>('.skin-swatch');
+    // mage has 4 class skins (src/sim/content/skins.ts SKIN_COUNTS.mage).
+    expect(swatches).toHaveLength(4);
+    expect(swatches[1].classList.contains('sel')).toBe(true);
+    expect(swatches[0].classList.contains('sel')).toBe(false);
   });
 
-  it('lands the roll wheel inside the arc reserved for the rolled rank', () => {
-    for (let i = 0; i < 50; i++) {
-      expect(randomSkinEventLandingAngle('uncommon')).toBeGreaterThanOrEqual(-15 - 75);
-      expect(randomSkinEventLandingAngle('uncommon')).toBeLessThanOrEqual(-15 + 75);
-      expect(randomSkinEventLandingAngle('epic')).toBeGreaterThanOrEqual(-247.5 - 14);
-      expect(randomSkinEventLandingAngle('epic')).toBeLessThanOrEqual(-247.5 + 14);
-    }
+  it('clicking a class swatch commits the skin and re-mounts the preview', () => {
+    const host = makeHost({ skin: 0 });
+    paintCharSkinPicker(host);
+    const row = document.getElementById('char-skin-row') as HTMLElement;
+    const swatches = row.querySelectorAll<HTMLButtonElement>('.skin-swatch');
+    swatches[2].click();
+    expect(host.changeSkinCalls).toEqual([[2, 'class']]);
+    expect(swatches[2].classList.contains('sel')).toBe(true);
+    expect(host.mountCharPreview).toHaveBeenCalled();
   });
 
-  it('lists the class-mode choices from skinEventTiers, keyed rank:skin', () => {
-    const host = makeHost({ mode: 'class' });
-    const choices = skinEventChoices(host);
-    expect(choices).toEqual(
-      EVENT_SKIN_TIERS.map((tier) => ({
-        rank: tier.rank,
-        index: tier.skin,
-        key: `${tier.rank}:${tier.skin}`,
-      })),
-    );
+  it('adds the mech catalog and an unequip control once a chroma is unlocked', () => {
+    const chromaId = MECH_CHROMAS[0].id;
+    const host = makeHost({ skinCatalog: 'mech', skin: 0, mechChromaIds: [chromaId] });
+    paintCharSkinPicker(host);
+    const row = document.getElementById('char-skin-row') as HTMLElement;
+    // 4 class swatches + at least 1 mech swatch.
+    expect(row.querySelectorAll('.skin-swatch').length).toBeGreaterThan(4);
+    const unequip = row.querySelector<HTMLButtonElement>('.skin-unequip-btn');
+    expect(unequip).not.toBeNull();
+    unequip?.click();
+    expect(host.unequipCalls).toEqual([chromaId]);
+    expect(host.renderBagsCalls).toBe(1);
+    expect(host.renderCharIfOpenCalls).toBe(1);
   });
 
-  it('lists every mech chroma in mech mode, keyed mech:<index>', () => {
-    const host = makeHost({ mode: 'mech' });
-    const choices = skinEventChoices(host);
-    expect(choices).toHaveLength(MECH_CHROMAS.length);
-    expect(choices[0]).toEqual({
-      rank: MECH_CHROMAS[0].rank,
-      index: 0,
-      key: 'mech:0',
-      id: MECH_CHROMAS[0].id,
-    });
-  });
-
-  it('resolves the preview key from the overlay mode', () => {
-    expect(skinEventPreviewKey(makeHost({ mode: 'class', playerClass: 'rogue' }))).toBe(
-      'player_rogue',
-    );
-    expect(skinEventPreviewKey(makeHost({ mode: 'mech' }))).toBe('player_mech');
-  });
-
-  it('a mech choice is always available regardless of index', () => {
-    expect(skinChoiceAvailable(makeHost({ mode: 'mech' }), 999)).toBe(true);
-  });
-
-  it('defaults the selection to the highest-order choice the rolled rank unlocks', () => {
-    // class mode: rare unlocks uncommon (skin 1) and rare (skin 2), not epic (skin 3).
-    const host = makeHost({ mode: 'class' });
-    expect(defaultChoiceSelection(host, 'rare')).toEqual({ index: 2, key: 'rare:2' });
-    // uncommon only unlocks the uncommon tier.
-    expect(defaultChoiceSelection(host, 'uncommon')).toEqual({ index: 1, key: 'uncommon:1' });
-    // epic unlocks everything, including the top tier.
-    expect(defaultChoiceSelection(host, 'epic')).toEqual({ index: 3, key: 'epic:3' });
-  });
-
-  it('returns null when the rolled rank unlocks nothing available', () => {
-    const host = {
-      sim: { cfg: { playerClass: 'mage' } },
-      skinEventMode: 'class' as const,
-      skinEventTiers: [],
-    } as unknown as Parameters<typeof defaultChoiceSelection>[0];
-    expect(defaultChoiceSelection(host, 'uncommon')).toBeNull();
+  it('omits the unequip control when the equipped chroma is not in the unlocked set', () => {
+    const host = makeHost({ skinCatalog: 'mech', skin: 0, mechChromaIds: [] });
+    paintCharSkinPicker(host);
+    const row = document.getElementById('char-skin-row') as HTMLElement;
+    expect(row.querySelector('.skin-unequip-btn')).toBeNull();
   });
 });
