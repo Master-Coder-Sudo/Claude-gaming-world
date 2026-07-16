@@ -529,12 +529,6 @@ describe('no consolidated tunable literal is duplicated at a call site', () => {
     expect(bodyOf(read('server/deeds_db.ts'), 'export async function deedRarityCounts')).toContain(
       'runWithStatementTimeout(DB_HEAVY_STATEMENT_TIMEOUT_MS',
     );
-    expect(
-      bodyOf(
-        read('server/client_perf_metrics_db.ts'),
-        'export async function clientPerfMetricRows',
-      ),
-    ).toContain('runWithStatementTimeout(DB_HEAVY_STATEMENT_TIMEOUT_MS');
     // The on-demand admin reads carry the wrapper in the body that owns their
     // heaviest scan: sessionsByDay and accountDetail wrap directly; clientPerfSummary
     // runs its whole roll-up as ONE GROUPING SETS statement inside its own wrapper

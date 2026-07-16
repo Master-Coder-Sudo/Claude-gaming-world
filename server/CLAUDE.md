@@ -62,7 +62,7 @@ logic module pairs with a `<domain>_db.ts` that owns its SQL).
 | `github.ts` (+ `github_oauth`/`github_db`/`github_contributors`) | GitHub contributor linking for the developer badge + merged-PR tally |
 | `oauth.ts`/`oauth_db.ts`, `character_sheet.ts`, `profile_page.ts`, `avatar.ts` | read-only companion API: OAuth code+PKCE and device grants (scope `character:read`), pure sheet normalizer, public SEO profile pages + generated avatars |
 | `maps.ts`/`maps_db.ts`/`maps_routes.ts`, `user_assets*.ts` | map editor: custom-map persistence with fork lineage / hardened player GLB uploads (both mirror the `SocialService`/`SocialDb` split) |
-| `tick_profiler.ts` / `tick_rate_meter.ts` / `client_perf_metrics_db.ts` | debugging the 50 ms budget: rolling per-phase loop timings, achieved wall-clock tick rate (the two can disagree, see the meter header), capped client-perf aggregates behind `/metrics` |
+| `tick_profiler.ts` / `tick_rate_meter.ts` | debugging the 50 ms budget: rolling per-phase loop timings, achieved wall-clock tick rate (the two can disagree, see the meter header) |
 | `mob_scan_tick_stats.ts` | folds the sim's per-tick mob-scan visit counters (`Sim.mobScanCounters`, observer-only) into the `PERF_TICK_LOG` heartbeat tokens (`aggroVisits=`/`threatVisits=`) and the admin tick-capture accumulators; `game.ts` keeps only the holder and the apply call |
 | `perf_report.ts` / `provider_usage.ts` | rate-limited client perf-report ingestion / process-local provider and usage telemetry for the admin dashboard |
 

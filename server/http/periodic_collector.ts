@@ -1,6 +1,5 @@
-// A tiny periodic-cache primitive shared by the app-aggregate /metrics collectors
-// (business aggregates in server/http/business_metrics.ts, client-perf aggregates
-// in server/http/client_perf_metrics.ts). Both follow the same contract: run one
+// A tiny periodic-cache primitive for the app-aggregate /metrics collectors
+// (business aggregates in server/http/business_metrics.ts). The contract: run one
 // bounded aggregate query on a fixed interval, cache the result, and let the
 // prom-client gauges publish the CACHED snapshot at scrape time. The DB is never
 // touched per scrape, so a scrape storm can never turn into a query storm.
