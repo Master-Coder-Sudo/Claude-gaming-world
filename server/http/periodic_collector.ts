@@ -25,18 +25,23 @@ export class PeriodicCollector<T> {
   private snapshot: T | null = null;
   private timer: ReturnType<typeof setInterval> | null = null;
   private inFlight: Promise<T | null> | null = null;
+  private coalesced = 0;
 
   /**
    * @param query the bounded aggregate to run; its result becomes the new snapshot.
    * @param intervalMs how often to refresh, chosen by each collector.
    * @param onError optional sink for a refresh failure (defaults to console.error);
    *   a failure is swallowed after this so it never propagates into the timer.
+   * @param onCoalesce optional sink invoked each time a refresh() call joins an
+   *   already in-flight query (defaults to a no-op); a throwing sink is reported
+   *   via onError so it never breaks refresh()'s never-throws contract.
    */
   constructor(
     private readonly query: () => Promise<T>,
     private readonly intervalMs: number,
     private readonly onError: (err: unknown) => void = (err) =>
       console.error('metrics collector refresh failed:', err),
+    private readonly onCoalesce: () => void = () => {},
   ) {}
 
   /** The latest cached snapshot, or null before the first successful refresh. */
@@ -45,12 +50,30 @@ export class PeriodicCollector<T> {
   }
 
   /**
+   * How many refresh() calls joined an already in-flight query instead of starting a
+   * new one. Monotonic; clean sequential refreshes never increment it.
+   */
+  get coalescedCount(): number {
+    return this.coalesced;
+  }
+
+  /**
    * Run the query once and cache the result. Never throws: a failed query is
    * reported via onError and leaves the previous snapshot in place. Returns the
    * snapshot after the attempt (unchanged on failure) so a test can await it.
    */
   async refresh(): Promise<T | null> {
-    if (this.inFlight) return this.inFlight;
+    if (this.inFlight) {
+      this.coalesced++;
+      try {
+        this.onCoalesce();
+      } catch (err) {
+        // Same philosophy as a failed query: report via onError, never throw into the
+        // caller or the timer.
+        this.onError(err);
+      }
+      return this.inFlight;
+    }
     const run = (async () => {
       try {
         this.snapshot = await this.query();

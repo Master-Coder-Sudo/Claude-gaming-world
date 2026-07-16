@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import {
   BUSINESS_METRICS_REFRESH_MS,
   registerBusinessMetrics,
+  WOC_METRICS_REFRESH_COALESCED_TOTAL,
   WOC_PLAYER_ACCOUNTS_CREATED,
   WOC_PLAYER_CHARACTERS_CREATED,
   WOC_PLAYER_DAILY_ACTIVE_ACCOUNTS,
@@ -124,9 +125,30 @@ describe('registerBusinessMetrics', () => {
     expect(labelValues('segment')).toEqual(new Set(['new', 'returning', 'all', 'level_20']));
     expect(labelValues('level')).toEqual(new Set(['2', '5']));
     expect(labelValues('day')).toEqual(new Set(['1', '7', '30']));
+    expect(labelValues('collector')).toEqual(new Set(['business']));
     for (const forbidden of ['account_id', 'character_id', 'player', 'name', 'ip']) {
       expect(labelValues(forbidden).size).toBe(0);
     }
+  });
+
+  it('counts coalesced refreshes on a fixed-label counter that always renders', async () => {
+    const registry = new Registry();
+    let resolve!: (value: PlayerBusinessSnapshot) => void;
+    const query = vi.fn(() => new Promise<PlayerBusinessSnapshot>((done) => (resolve = done)));
+    const collector = registerBusinessMetrics(registry, query);
+
+    // The series renders at 0 before any refresh has ever coalesced.
+    const before = await registry.metrics();
+    expect(sample(before, WOC_METRICS_REFRESH_COALESCED_TOTAL, 'collector="business"')).toBe('0');
+
+    const first = collector.refresh();
+    const second = collector.refresh();
+    resolve(snapshot());
+    await Promise.all([first, second]);
+
+    const text = await registry.metrics();
+    expect(WOC_METRICS_REFRESH_COALESCED_TOTAL).toBe('woc_metrics_refresh_coalesced_total');
+    expect(sample(text, WOC_METRICS_REFRESH_COALESCED_TOTAL, 'collector="business"')).toBe('1');
   });
 
   it('publishes no labeled samples before the first successful refresh', async () => {

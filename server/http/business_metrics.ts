@@ -2,7 +2,7 @@
 // lifecycle facts through playerBusinessSnapshot(); Prometheus scrapes never
 // query Postgres, and the fixed period/segment/day labels bound cardinality.
 
-import { Gauge, type Registry } from 'prom-client';
+import { Counter, Gauge, type Registry } from 'prom-client';
 import { pool } from '../db';
 import {
   type PlayerBusinessDay,
@@ -21,6 +21,7 @@ export const WOC_PLAYER_DAILY_PLAYTIME_SECONDS = 'woc_player_daily_playtime_seco
 export const WOC_PLAYER_FIRST_SESSION_MEDIAN_SECONDS = 'woc_player_first_session_median_seconds';
 export const WOC_PLAYER_FIRST_SESSION_LEVEL_RATE = 'woc_player_first_session_level_rate';
 export const WOC_PLAYER_RETENTION_RATE = 'woc_player_retention_rate';
+export const WOC_METRICS_REFRESH_COALESCED_TOTAL = 'woc_metrics_refresh_coalesced_total';
 
 /** Business data changes slowly; one bounded database sample every 15 minutes is enough. */
 export const BUSINESS_METRICS_REFRESH_MS = 15 * 60_000;
@@ -49,7 +50,21 @@ export function registerBusinessMetrics(
   query: () => Promise<PlayerBusinessSnapshot> = () => playerBusinessSnapshot(pool, REALM),
   intervalMs: number = BUSINESS_METRICS_REFRESH_MS,
 ): BusinessMetricsCollector {
-  const collector = new PeriodicCollector(query, intervalMs);
+  // A Counter rather than a Gauge with collect(): counters only support inc(), so the
+  // count cannot be backfilled from the collector's live getter at scrape time. The
+  // onCoalesce sink increments it as each coalesce happens instead.
+  const coalesced = new Counter({
+    name: WOC_METRICS_REFRESH_COALESCED_TOTAL,
+    help: 'Refresh calls that joined an already in-flight collector query.',
+    labelNames: ['collector'],
+    registers: [registry],
+  });
+  const coalescedLabels = { collector: 'business' };
+  // Touch the fixed label at registration so the series always renders, starting at 0.
+  coalesced.inc(coalescedLabels, 0);
+  const collector = new PeriodicCollector(query, intervalMs, undefined, () =>
+    coalesced.inc(coalescedLabels),
+  );
 
   new Gauge({
     name: WOC_PLAYER_ACCOUNTS_CREATED,
