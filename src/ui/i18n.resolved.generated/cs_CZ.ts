@@ -4368,6 +4368,24 @@ export const cs_CZ: EnTranslations = {
     "balance": "Hrdinské značky: {count}",
     "buyAria": "Koupit {item} za {marks} hrdinských značek"
   },
+  "cardDuel": {
+    "title": "Card Duel",
+    "close": "Close",
+    "join": "Join Queue",
+    "joinAria": "Join the Card Duel queue",
+    "leave": "Leave Queue",
+    "leaveAria": "Leave the Card Duel queue",
+    "forfeit": "Forfeit",
+    "forfeitAria": "Forfeit the Card Duel",
+    "queued": "Waiting for an opponent...",
+    "unavailable": "Card Duel requires another player online.",
+    "vsOpponent": "vs {name}",
+    "round": "Round score: {mine} - {theirs}",
+    "counts": "Deck: {deck} · Discard: {discard}",
+    "playCardAria": "Play the {value} card",
+    "waitingOnOpponent": "Waiting on your opponent's card...",
+    "yourTurn": "Play a card"
+  },
   "delveUi": {
     "board": {
       "title": "Tabule výprav",
@@ -8687,6 +8705,11 @@ export const cs_CZ: EnTranslations = {
         "name": "Pokladník Fernando",
         "title": "Pozlacená truhlice",
         "greeting": "Vítej v Pozlacené truhlici. Tvé zboží odpočívá v bezpečí za našimi zámky."
+      },
+      "card_master": {
+        "name": "Card Master",
+        "title": "Dealer of Chance",
+        "greeting": "Care for a Card Duel? Best of three, winner takes the bragging rights."
       },
       "bursar_petra_vell": {
         "name": "Pokladní Petra Vell",

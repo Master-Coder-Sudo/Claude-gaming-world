@@ -4368,6 +4368,24 @@ export const nl_NL: EnTranslations = {
     "balance": "Heroïsche Merken: {count}",
     "buyAria": "Koop {item} voor {marks} Heroïsche Merken"
   },
+  "cardDuel": {
+    "title": "Card Duel",
+    "close": "Close",
+    "join": "Join Queue",
+    "joinAria": "Join the Card Duel queue",
+    "leave": "Leave Queue",
+    "leaveAria": "Leave the Card Duel queue",
+    "forfeit": "Forfeit",
+    "forfeitAria": "Forfeit the Card Duel",
+    "queued": "Waiting for an opponent...",
+    "unavailable": "Card Duel requires another player online.",
+    "vsOpponent": "vs {name}",
+    "round": "Round score: {mine} - {theirs}",
+    "counts": "Deck: {deck} · Discard: {discard}",
+    "playCardAria": "Play the {value} card",
+    "waitingOnOpponent": "Waiting on your opponent's card...",
+    "yourTurn": "Play a card"
+  },
   "delveUi": {
     "board": {
       "title": "Delvebord",
@@ -8687,6 +8705,11 @@ export const nl_NL: EnTranslations = {
         "name": "Thesaurier Fernando",
         "title": "De Vergulde Geldkist",
         "greeting": "Welkom bij de Vergulde Geldkist. Je goederen rusten veilig achter onze sloten."
+      },
+      "card_master": {
+        "name": "Card Master",
+        "title": "Dealer of Chance",
+        "greeting": "Care for a Card Duel? Best of three, winner takes the bragging rights."
       },
       "bursar_petra_vell": {
         "name": "Thesaurier Petra Vell",

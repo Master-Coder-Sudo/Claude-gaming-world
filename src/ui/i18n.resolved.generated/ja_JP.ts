@@ -4368,6 +4368,24 @@ export const ja_JP: EnTranslations = {
     "balance": "英雄の証: {count}",
     "buyAria": "英雄の証{marks}個で{item}を購入"
   },
+  "cardDuel": {
+    "title": "カードデュエル",
+    "close": "閉じる",
+    "join": "キューに参加",
+    "joinAria": "カードデュエルのキューに参加する",
+    "leave": "キューを離れる",
+    "leaveAria": "カードデュエルのキューを離れる",
+    "forfeit": "棄権",
+    "forfeitAria": "カードデュエルを棄権する",
+    "queued": "対戦相手を待っています……",
+    "unavailable": "カードデュエルには、オンラインの対戦相手がもう一人必要です。",
+    "vsOpponent": "対 {name}",
+    "round": "ラウンドスコア：{mine} - {theirs}",
+    "counts": "山札：{deck} ・ 捨て札：{discard}",
+    "playCardAria": "{value}のカードを出す",
+    "waitingOnOpponent": "相手のカードを待っています……",
+    "yourTurn": "カードを出してください"
+  },
   "delveUi": {
     "board": {
       "title": "デルヴボード",
@@ -8687,6 +8705,11 @@ export const ja_JP: EnTranslations = {
         "name": "出納官フェルナンド",
         "title": "金張りの金庫",
         "greeting": "金張りの金庫へようこそ。あなたの品々は我々の錠の内で安全に保管されます。"
+      },
+      "card_master": {
+        "name": "カードマスター",
+        "title": "運命の胴元",
+        "greeting": "カードデュエルはいかが？三本勝負、勝者には自慢の種が手に入る。"
       },
       "bursar_petra_vell": {
         "name": "出納官ペトラ・ヴェル",

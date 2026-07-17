@@ -4368,6 +4368,24 @@ export const tr_TR: EnTranslations = {
     "balance": "Kahramanca Nişanlar: {count}",
     "buyAria": "{item} ürününü {marks} Kahramanca Nişan karşılığında satın al"
   },
+  "cardDuel": {
+    "title": "Card Duel",
+    "close": "Close",
+    "join": "Join Queue",
+    "joinAria": "Join the Card Duel queue",
+    "leave": "Leave Queue",
+    "leaveAria": "Leave the Card Duel queue",
+    "forfeit": "Forfeit",
+    "forfeitAria": "Forfeit the Card Duel",
+    "queued": "Waiting for an opponent...",
+    "unavailable": "Card Duel requires another player online.",
+    "vsOpponent": "vs {name}",
+    "round": "Round score: {mine} - {theirs}",
+    "counts": "Deck: {deck} · Discard: {discard}",
+    "playCardAria": "Play the {value} card",
+    "waitingOnOpponent": "Waiting on your opponent's card...",
+    "yourTurn": "Play a card"
+  },
   "delveUi": {
     "board": {
       "title": "Mağara Panosu",
@@ -8687,6 +8705,11 @@ export const tr_TR: EnTranslations = {
         "name": "Veznedar Fernando",
         "title": "Yaldızlı Kasa",
         "greeting": "Yaldızlı Kasa'ya hoş geldin. Malların kilitlerimizin ardında güvenle durur."
+      },
+      "card_master": {
+        "name": "Card Master",
+        "title": "Dealer of Chance",
+        "greeting": "Care for a Card Duel? Best of three, winner takes the bragging rights."
       },
       "bursar_petra_vell": {
         "name": "Veznedar Petra Vell",

@@ -4368,6 +4368,24 @@ export const vi_VN: EnTranslations = {
     "balance": "Dấu Ấn Anh Hùng: {count}",
     "buyAria": "Mua {item} với giá {marks} Dấu Ấn Anh Hùng"
   },
+  "cardDuel": {
+    "title": "Card Duel",
+    "close": "Close",
+    "join": "Join Queue",
+    "joinAria": "Join the Card Duel queue",
+    "leave": "Leave Queue",
+    "leaveAria": "Leave the Card Duel queue",
+    "forfeit": "Forfeit",
+    "forfeitAria": "Forfeit the Card Duel",
+    "queued": "Waiting for an opponent...",
+    "unavailable": "Card Duel requires another player online.",
+    "vsOpponent": "vs {name}",
+    "round": "Round score: {mine} - {theirs}",
+    "counts": "Deck: {deck} · Discard: {discard}",
+    "playCardAria": "Play the {value} card",
+    "waitingOnOpponent": "Waiting on your opponent's card...",
+    "yourTurn": "Play a card"
+  },
   "delveUi": {
     "board": {
       "title": "Bảng Hang Sâu",
@@ -8687,6 +8705,11 @@ export const vi_VN: EnTranslations = {
         "name": "Thủ Quỹ Fernando",
         "title": "Két Sắt Mạ Vàng",
         "greeting": "Chào mừng đến với Két Sắt Mạ Vàng. Hàng hóa của ngươi nằm yên an toàn sau những ổ khóa của chúng tôi."
+      },
+      "card_master": {
+        "name": "Card Master",
+        "title": "Dealer of Chance",
+        "greeting": "Care for a Card Duel? Best of three, winner takes the bragging rights."
       },
       "bursar_petra_vell": {
         "name": "Thủ Quỹ Petra Vell",

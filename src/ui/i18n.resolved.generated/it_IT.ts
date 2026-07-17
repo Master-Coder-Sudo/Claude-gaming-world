@@ -4368,6 +4368,24 @@ export const it_IT: EnTranslations = {
     "balance": "Marchi Eroici: {count}",
     "buyAria": "Compra {item} per {marks} Marchi Eroici"
   },
+  "cardDuel": {
+    "title": "Card Duel",
+    "close": "Close",
+    "join": "Join Queue",
+    "joinAria": "Join the Card Duel queue",
+    "leave": "Leave Queue",
+    "leaveAria": "Leave the Card Duel queue",
+    "forfeit": "Forfeit",
+    "forfeitAria": "Forfeit the Card Duel",
+    "queued": "Waiting for an opponent...",
+    "unavailable": "Card Duel requires another player online.",
+    "vsOpponent": "vs {name}",
+    "round": "Round score: {mine} - {theirs}",
+    "counts": "Deck: {deck} · Discard: {discard}",
+    "playCardAria": "Play the {value} card",
+    "waitingOnOpponent": "Waiting on your opponent's card...",
+    "yourTurn": "Play a card"
+  },
   "delveUi": {
     "board": {
       "title": "Tabellone delle Incursioni",
@@ -8687,6 +8705,11 @@ export const it_IT: EnTranslations = {
         "name": "Economo Fernando",
         "title": "Il Forziere Dorato",
         "greeting": "Ti diamo il benvenuto al Forziere Dorato. I tuoi beni riposano al sicuro dietro le nostre serrature."
+      },
+      "card_master": {
+        "name": "Card Master",
+        "title": "Dealer of Chance",
+        "greeting": "Care for a Card Duel? Best of three, winner takes the bragging rights."
       },
       "bursar_petra_vell": {
         "name": "Economa Petra Vell",

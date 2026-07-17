@@ -4368,6 +4368,24 @@ export const da_DK: EnTranslations = {
     "balance": "Heroiske Mærker: {count}",
     "buyAria": "Køb {item} for {marks} Heroiske Mærker"
   },
+  "cardDuel": {
+    "title": "Card Duel",
+    "close": "Close",
+    "join": "Join Queue",
+    "joinAria": "Join the Card Duel queue",
+    "leave": "Leave Queue",
+    "leaveAria": "Leave the Card Duel queue",
+    "forfeit": "Forfeit",
+    "forfeitAria": "Forfeit the Card Duel",
+    "queued": "Waiting for an opponent...",
+    "unavailable": "Card Duel requires another player online.",
+    "vsOpponent": "vs {name}",
+    "round": "Round score: {mine} - {theirs}",
+    "counts": "Deck: {deck} · Discard: {discard}",
+    "playCardAria": "Play the {value} card",
+    "waitingOnOpponent": "Waiting on your opponent's card...",
+    "yourTurn": "Play a card"
+  },
   "delveUi": {
     "board": {
       "title": "Delve-Tavle",
@@ -8687,6 +8705,11 @@ export const da_DK: EnTranslations = {
         "name": "Skatmester Fernando",
         "title": "Det Forgyldte Pengeskrin",
         "greeting": "Velkommen til Det Forgyldte Pengeskrin. Dine varer hviler trygt bag vores låse."
+      },
+      "card_master": {
+        "name": "Card Master",
+        "title": "Dealer of Chance",
+        "greeting": "Care for a Card Duel? Best of three, winner takes the bragging rights."
       },
       "bursar_petra_vell": {
         "name": "Skatmester Petra Vell",

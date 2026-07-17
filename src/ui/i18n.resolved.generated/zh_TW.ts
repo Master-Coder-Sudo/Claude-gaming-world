@@ -4368,6 +4368,24 @@ export const zh_TW: EnTranslations = {
     "balance": "英雄徽記: {count}",
     "buyAria": "用{marks}枚英雄徽記購買{item}"
   },
+  "cardDuel": {
+    "title": "紙牌對決",
+    "close": "關閉",
+    "join": "加入隊列",
+    "joinAria": "加入紙牌對決隊列",
+    "leave": "離開隊列",
+    "leaveAria": "離開紙牌對決隊列",
+    "forfeit": "認輸",
+    "forfeitAria": "認輸退出紙牌對決",
+    "queued": "正在等待對手……",
+    "unavailable": "紙牌對決需要另一名玩家在線。",
+    "vsOpponent": "對戰 {name}",
+    "round": "局分：{mine} - {theirs}",
+    "counts": "牌堆：{deck} · 棄牌堆：{discard}",
+    "playCardAria": "打出 {value} 號牌",
+    "waitingOnOpponent": "正在等待對手出牌……",
+    "yourTurn": "出一張牌"
+  },
   "delveUi": {
     "board": {
       "title": "秘探看板",
@@ -8687,6 +8705,11 @@ export const zh_TW: EnTranslations = {
         "name": "司庫費爾南多",
         "title": "鍍金保險箱",
         "greeting": "歡迎來到鍍金保險箱。你的財物在我們的鎖後安然無恙。"
+      },
+      "card_master": {
+        "name": "牌局大師",
+        "title": "運氣經銷人",
+        "greeting": "來一局紙牌對決？三局兩勝，贏家贏得吹噓的資本。"
       },
       "bursar_petra_vell": {
         "name": "司庫佩特拉·維爾",
