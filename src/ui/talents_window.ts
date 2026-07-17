@@ -65,13 +65,6 @@ export interface TalentsWindowDeps extends PainterHostPresentation {
   deleteLoadout(index: number): void;
   applyLoadoutBar(bar: (string | null)[], alloc: TalentAllocation): void;
   // Shared HUD chrome components.
-  buildDropdown(
-    options: { value: string; label: string }[],
-    current: string,
-    onChange: (value: string) => void,
-    placeholder: string,
-    a11y: { ariaLabel?: string; labelledBy?: string },
-  ): HTMLElement;
   inputDialog(opts: {
     title: string;
     label?: string;
@@ -120,6 +113,9 @@ function specIconHtml(ref: TalentSpecIconRef): string {
 export class TalentsWindow {
   private tab: 'spec' | 'rows' = 'spec';
   private returnFocus: HTMLElement | null = null;
+  // The document-level dismiss handler while the loadout menu is open (cleared
+  // on close, and on repaint because a re-render wipes the menu's DOM).
+  private dismissLoadoutMenu: ((e: Event) => void) | null = null;
 
   constructor(private readonly deps: TalentsWindowDeps) {
     window.addEventListener('resize', () => {
@@ -148,6 +144,8 @@ export class TalentsWindow {
   render(): void {
     const root = this.deps.root();
     if (root.style.display !== 'block') return;
+    // A repaint wipes the loadout menu's DOM; drop its document listener too.
+    this.closeLoadoutMenu(root);
     markDialogRoot(root, { label: t('game.talents.title') });
     const cls = this.deps.playerClass();
     const close =
@@ -384,28 +382,54 @@ export class TalentsWindow {
     }, AUTHORITATIVE_REFRESH_MS);
   }
 
-  private footerHtml(view: TalentsView): string {
+  // The WoW-style loadout bar (ported from the tree-flip lineage the PR 1757
+  // revert dropped): ONE compact dropdown button, bottom-left. The menu opens
+  // upward with the saved builds, save/new, import/export, and reset. Every
+  // action rides the same authoritative IWorld paths the old two-card footer
+  // used; nothing stages locally.
+  private footerHtml(_view: TalentsView): string {
+    const activeIndex = this.deps.activeLoadout();
+    const active = activeIndex >= 0 ? this.deps.loadouts()[activeIndex] : null;
+    const label = active ? active.name : t('hudChrome.talentRows.defaultLoadout');
     return (
       `<div class="tal-foot">` +
-      `<section class="tal-build-card tal-build-current" aria-label="${esc(t('game.talents.currentBuild'))}">` +
-      `<div class="tal-build-head"><span>${t('game.talents.currentBuild')}</span><span class="tal-loadslot"></span></div>` +
-      `<div class="tal-build-actions">` +
-      `<button class="btn tal-primary" data-act="save"${view.valid ? '' : ' disabled'}>${t('game.talents.saveBuild')}</button>` +
-      `<button class="btn tal-secondary" data-act="export">${t('game.talents.export')}</button>` +
-      `<button class="btn tal-secondary" data-act="del"${this.deps.activeLoadout() >= 0 ? '' : ' disabled'}>${t('game.talents.deleteBuild')}</button>` +
-      `<button class="btn tal-secondary" data-act="clear"${view.pickedCount > 0 ? '' : ' disabled'}>${t('game.talents.clear')}</button>` +
-      `</div></section>` +
-      `<section class="tal-build-card tal-build-create" aria-label="${esc(t('game.talents.createBuild'))}">` +
-      `<div class="tal-build-head"><span>${t('game.talents.createBuild')}</span></div>` +
-      `<div class="tal-build-actions">` +
-      `<button class="btn tal-primary" data-act="new"${view.valid ? '' : ' disabled'}>${t('game.talents.newBuild')}</button>` +
-      `<button class="btn tal-secondary" data-act="import">${t('game.talents.import')}</button>` +
-      `</div></section></div>`
+      `<button type="button" class="tal-loadout-btn" data-act="loadout-menu"` +
+      ` aria-haspopup="menu" aria-expanded="false">` +
+      `<span class="tal-loadout-name">${esc(label)}</span>` +
+      `<span class="tal-loadout-caret" aria-hidden="true"></span>` +
+      `</button>` +
+      `</div>`
     );
   }
 
   private wireFooter(root: HTMLElement, view: TalentsView): void {
+    const btn = root.querySelector<HTMLButtonElement>('[data-act="loadout-menu"]');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      if (root.querySelector('.tal-loadout-menu')) {
+        this.closeLoadoutMenu(root);
+        return;
+      }
+      this.openLoadoutMenu(root, btn, view);
+    });
+  }
+
+  private closeLoadoutMenu(root: HTMLElement): void {
+    root.querySelector('.tal-loadout-menu')?.remove();
+    root.querySelector('[data-act="loadout-menu"]')?.setAttribute('aria-expanded', 'false');
+    if (this.dismissLoadoutMenu) {
+      document.removeEventListener('pointerdown', this.dismissLoadoutMenu, true);
+      this.dismissLoadoutMenu = null;
+    }
+  }
+
+  // Build the upward loadout menu: the saved builds (pick + delete), then
+  // save-current / new / import / export / reset.
+  private openLoadoutMenu(root: HTMLElement, btn: HTMLButtonElement, view: TalentsView): void {
     const cls = this.deps.playerClass();
+    const loadouts = this.deps.loadouts();
+    const activeIndex = this.deps.activeLoadout();
+
     const saveCurrent = (name: string): void => {
       const clean = name.trim();
       if (!clean) return;
@@ -428,103 +452,159 @@ export class TalentsWindow {
       });
     };
 
-    root.querySelector('[data-act="save"]')?.addEventListener('click', () => {
-      if (!view.valid) {
-        this.deps.showError(t('game.talents.buildInvalid'));
-        return;
-      }
-      const activeIndex = this.deps.activeLoadout();
-      const active = activeIndex >= 0 ? this.deps.loadouts()[activeIndex] : null;
-      if (active) saveCurrent(active.name);
-      else promptNewBuild();
-    });
-    root.querySelector('[data-act="new"]')?.addEventListener('click', () => {
-      if (!view.valid) {
-        this.deps.showError(t('game.talents.buildInvalid'));
-        return;
-      }
-      promptNewBuild();
-    });
-    root.querySelector('[data-act="clear"]')?.addEventListener('click', () => {
-      this.deps.respec();
-      this.refreshFromAuthority();
-    });
+    const menu = document.createElement('div');
+    menu.className = 'tal-loadout-menu';
+    menu.setAttribute('role', 'menu');
+    menu.setAttribute('aria-label', t('game.talents.loadouts'));
 
-    const slot = root.querySelector('.tal-loadslot');
-    if (slot) {
-      const loadouts = this.deps.loadouts();
-      const activeIndex = this.deps.activeLoadout();
-      const options = loadouts.length
-        ? loadouts.map((loadout, index) => ({ value: String(index), label: loadout.name }))
-        : [{ value: '-1', label: t('game.talents.noBuilds') }];
-      const current = activeIndex >= 0 ? String(activeIndex) : loadouts.length ? '' : '-1';
-      slot.replaceWith(
-        this.deps.buildDropdown(
-          options,
-          current,
-          (value) => {
-            const index = Number.parseInt(value, 10);
-            const loadout = this.deps.loadouts()[index];
-            if (!loadout) return;
-            this.deps.switchLoadout(index);
-            this.deps.applyLoadoutBar(loadout.bar, loadout.alloc);
+    const item = (
+      label: string,
+      opts: { disabled?: boolean; cls?: string; onPick?: () => void },
+    ): HTMLButtonElement => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = `tal-lo-item${opts.cls ? ` ${opts.cls}` : ''}`;
+      button.setAttribute('role', 'menuitem');
+      button.textContent = label;
+      if (opts.disabled) button.disabled = true;
+      if (opts.onPick) button.addEventListener('click', opts.onPick);
+      return button;
+    };
+
+    // Saved builds: pick applies (server re-validated), the X deletes.
+    if (loadouts.length === 0) {
+      const none = document.createElement('div');
+      none.className = 'tal-lo-empty';
+      none.textContent = t('game.talents.noBuilds');
+      menu.appendChild(none);
+    }
+    loadouts.forEach((loadout, index) => {
+      const row = document.createElement('div');
+      row.className = `tal-lo-row${index === activeIndex ? ' active' : ''}`;
+      const pick = item(loadout.name, {
+        cls: 'tal-lo-pick',
+        onPick: () => {
+          this.closeLoadoutMenu(root);
+          this.deps.switchLoadout(index);
+          this.deps.applyLoadoutBar(loadout.bar, loadout.alloc);
+          this.refreshFromAuthority();
+        },
+      });
+      const del = document.createElement('button');
+      del.type = 'button';
+      del.className = 'tal-lo-del';
+      del.setAttribute('aria-label', `${t('game.talents.deleteBuild')}: ${loadout.name}`);
+      del.innerHTML = svgIcon('close');
+      del.addEventListener('click', (event) => {
+        event.stopPropagation();
+        this.closeLoadoutMenu(root);
+        this.deps.confirmDialog(
+          t('game.talents.deleteBuildTitle'),
+          t('game.talents.deleteBuildBody', { name: loadout.name }),
+          t('game.talents.deleteBuildConfirm'),
+          t('game.talents.cancel'),
+          () => {
+            this.deps.deleteLoadout(index);
             this.refreshFromAuthority();
           },
-          t('game.talents.loadouts'),
-          { ariaLabel: t('game.talents.loadouts') },
-        ),
-      );
-    }
+        );
+      });
+      row.append(pick, del);
+      menu.appendChild(row);
+    });
 
-    root.querySelector('[data-act="del"]')?.addEventListener('click', () => {
-      const activeIndex = this.deps.activeLoadout();
-      const active = activeIndex >= 0 ? this.deps.loadouts()[activeIndex] : null;
-      if (!active) {
-        this.deps.showError(t('game.talents.selectBuildFirst'));
-        return;
+    const sep = document.createElement('div');
+    sep.className = 'tal-lo-sep';
+    menu.appendChild(sep);
+
+    const active = activeIndex >= 0 ? loadouts[activeIndex] : null;
+    menu.appendChild(
+      item(t('game.talents.saveBuild'), {
+        disabled: !view.valid,
+        onPick: () => {
+          this.closeLoadoutMenu(root);
+          if (active) saveCurrent(active.name);
+          else promptNewBuild();
+        },
+      }),
+    );
+    menu.appendChild(
+      item(t('game.talents.newBuild'), {
+        cls: 'tal-lo-new',
+        disabled: !view.valid,
+        onPick: () => {
+          this.closeLoadoutMenu(root);
+          promptNewBuild();
+        },
+      }),
+    );
+    menu.appendChild(
+      item(t('game.talents.import'), {
+        onPick: () => {
+          this.closeLoadoutMenu(root);
+          this.deps.inputDialog({
+            title: t('game.talents.import'),
+            label: t('game.talents.importPrompt'),
+            placeholder: 'eyJ2Ijox...',
+            multiline: true,
+            okText: t('game.talents.import'),
+            onOk: (value) => {
+              const result = importBuild(value.trim());
+              if (!result.ok || result.cls !== cls) {
+                this.deps.showError(t('game.talents.invalidBuild'));
+                return;
+              }
+              this.deps.applyTalents(result.alloc);
+              this.refreshFromAuthority();
+            },
+          });
+        },
+      }),
+    );
+    menu.appendChild(
+      item(t('game.talents.export'), {
+        onPick: () => {
+          this.closeLoadoutMenu(root);
+          this.deps.inputDialog({
+            title: t('game.talents.export'),
+            label: t('game.talents.exportTitle'),
+            value: exportBuild(cls, active?.alloc ?? this.deps.currentAllocation()),
+            multiline: true,
+            readOnly: true,
+            copy: true,
+            cancelText: t('game.talents.close'),
+          });
+        },
+      }),
+    );
+    menu.appendChild(
+      item(t('game.talents.clear'), {
+        disabled: view.pickedCount === 0,
+        onPick: () => {
+          this.closeLoadoutMenu(root);
+          this.deps.respec();
+          this.refreshFromAuthority();
+        },
+      }),
+    );
+
+    btn.parentElement?.appendChild(menu);
+    btn.setAttribute('aria-expanded', 'true');
+    (menu.querySelector('.tal-lo-item, .tal-lo-pick') as HTMLElement | null)?.focus();
+    menu.addEventListener('keydown', (event) => {
+      if ((event as KeyboardEvent).key === 'Escape') {
+        event.stopPropagation();
+        this.closeLoadoutMenu(root);
+        btn.focus();
       }
-      this.deps.confirmDialog(
-        t('game.talents.deleteBuildTitle'),
-        t('game.talents.deleteBuildBody', { name: active.name }),
-        t('game.talents.deleteBuildConfirm'),
-        t('game.talents.cancel'),
-        () => {
-          this.deps.deleteLoadout(activeIndex);
-          this.refreshFromAuthority();
-        },
-      );
     });
-    root.querySelector('[data-act="export"]')?.addEventListener('click', () => {
-      const activeIndex = this.deps.activeLoadout();
-      const active = activeIndex >= 0 ? this.deps.loadouts()[activeIndex] : null;
-      this.deps.inputDialog({
-        title: t('game.talents.export'),
-        label: t('game.talents.exportTitle'),
-        value: exportBuild(cls, active?.alloc ?? this.deps.currentAllocation()),
-        multiline: true,
-        readOnly: true,
-        copy: true,
-        cancelText: t('game.talents.close'),
-      });
-    });
-    root.querySelector('[data-act="import"]')?.addEventListener('click', () => {
-      this.deps.inputDialog({
-        title: t('game.talents.import'),
-        label: t('game.talents.importPrompt'),
-        placeholder: 'eyJ2Ijox...',
-        multiline: true,
-        okText: t('game.talents.import'),
-        onOk: (value) => {
-          const result = importBuild(value.trim());
-          if (!result.ok || result.cls !== cls) {
-            this.deps.showError(t('game.talents.invalidBuild'));
-            return;
-          }
-          this.deps.applyTalents(result.alloc);
-          this.refreshFromAuthority();
-        },
-      });
-    });
+    // Dismiss on any pointer press outside the menu/button (capture phase so a
+    // click that also opens something else still closes this menu first).
+    this.dismissLoadoutMenu = (event: Event) => {
+      const target = event.target as Node;
+      if (!menu.contains(target) && !btn.contains(target)) this.closeLoadoutMenu(root);
+    };
+    document.addEventListener('pointerdown', this.dismissLoadoutMenu, true);
   }
 
   private fitBodyToWindow(root: HTMLElement, body: HTMLElement): void {

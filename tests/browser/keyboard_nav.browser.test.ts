@@ -184,7 +184,6 @@ describe('keyboard-nav: Talents V2 authoritative choices', () => {
         activeLoadout: () => -1,
         loadouts: () => [],
         currentBar: () => [],
-        buildDropdown: () => document.createElement('div'),
         commitSpec: (specId: string) => commits.push(specId),
         selectRow: (level: TalentRowLevel, optionId: string | null) => {
           rowSelections.push([level, optionId]);

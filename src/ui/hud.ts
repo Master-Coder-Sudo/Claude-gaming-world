@@ -3348,8 +3348,6 @@ export class Hud {
     switchLoadout: (i) => this.sim.switchLoadout(i),
     deleteLoadout: (i) => this.sim.deleteLoadout(i),
     applyLoadoutBar: (bar, alloc) => this.applyLoadoutBar(bar, alloc),
-    buildDropdown: (options, current, onChange, placeholder, a11y) =>
-      this.buildDropdown(options, current, onChange, placeholder, a11y),
     inputDialog: (opts) => this.inputDialog(opts),
     confirmDialog: (title, body, okText, cancelText, onOk) =>
       this.confirmDialog(title, body, okText, cancelText, onOk),
