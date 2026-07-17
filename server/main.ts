@@ -472,11 +472,27 @@ async function refreshLeaderboard(scope: 'realm' | 'global'): Promise<Leaderboar
   return entries;
 }
 
+// Single-flight per scope, keyed on boardEpoch so a moderation bust (which bumps
+// boardEpoch) drops any in-flight pre-ban refresh: a post-bust reader no longer
+// joins that flight and receives its pre-ban snapshot, it starts a fresh delisting
+// read. Both read paths (the inline getter and the warm loop) share these, so a
+// warm tick landing on an inline read cannot run the query twice.
+const refreshLeaderboardShared: Record<'realm' | 'global', () => Promise<LeaderboardEntry[]>> = {
+  realm: singleFlight(
+    () => refreshLeaderboard('realm'),
+    () => boardEpoch,
+  ),
+  global: singleFlight(
+    () => refreshLeaderboard('global'),
+    () => boardEpoch,
+  ),
+};
+
 async function getLeaderboard(scope: 'realm' | 'global'): Promise<LeaderboardEntry[]> {
   const cached = leaderboardCache[scope];
   if (cached && Date.now() - cached.at < LEADERBOARD_TTL_MS) return cached.entries;
   try {
-    return await refreshLeaderboard(scope);
+    return await refreshLeaderboardShared[scope]();
   } catch (err) {
     console.error(`leaderboard refresh failed (${scope}):`, err);
     return cached?.entries ?? [];
@@ -512,11 +528,25 @@ async function refreshGuildLeaderboard(
   return entries;
 }
 
+const refreshGuildLeaderboardShared: Record<
+  'realm' | 'global',
+  () => Promise<GuildLeaderboardEntry[]>
+> = {
+  realm: singleFlight(
+    () => refreshGuildLeaderboard('realm'),
+    () => boardEpoch,
+  ),
+  global: singleFlight(
+    () => refreshGuildLeaderboard('global'),
+    () => boardEpoch,
+  ),
+};
+
 async function getGuildLeaderboard(scope: 'realm' | 'global'): Promise<GuildLeaderboardEntry[]> {
   const cached = guildLeaderboardCache[scope];
   if (cached && Date.now() - cached.at < LEADERBOARD_TTL_MS) return cached.entries;
   try {
-    return await refreshGuildLeaderboard(scope);
+    return await refreshGuildLeaderboardShared[scope]();
   } catch (err) {
     console.error(`guild leaderboard refresh failed (${scope}):`, err);
     return cached?.entries ?? [];
@@ -653,22 +683,56 @@ let deedsRarityCache: {
   payload: import('../src/world_api').DeedsRarity;
 } | null = null;
 
+// Single-flight the rarity refresh so a login-page storm on a cold or just-expired
+// cache runs the two full-table aggregate scans (deedRarityCounts) once, not once
+// per caller. publicRarityPayload strips hidden deeds at refresh time, before the
+// cache install, so the anonymous endpoint never enumerates a hidden deed.
+// deedsRarityCache is deliberately NOT wired into bustBoardCaches (rarity is not
+// moderation-visible in the delisting sense); if it is ever added there, the same
+// boardEpoch capture-before-install guard the leaderboard refreshes carry must be
+// added in that same change.
+const refreshDeedsRarityShared = singleFlight(
+  async (): Promise<import('../src/world_api').DeedsRarity> => {
+    const payload = publicRarityPayload(await deedRarityCounts());
+    deedsRarityCache = { at: Date.now(), payload };
+    return payload;
+  },
+);
+
 async function getDeedsRarity(): Promise<import('../src/world_api').DeedsRarity> {
   if (deedsRarityCache && Date.now() - deedsRarityCache.at < DEEDS_RARITY_TTL_MS) {
     return deedsRarityCache.payload;
   }
   try {
-    // publicRarityPayload strips hidden deeds at refresh time: this cache
-    // feeds an anonymous endpoint, and a hidden deed's existence must not be
-    // enumerable the moment somebody earns it.
-    const payload = publicRarityPayload(await deedRarityCounts());
-    deedsRarityCache = { at: Date.now(), payload };
-    return payload;
+    return await refreshDeedsRarityShared();
   } catch (err) {
     console.error('deeds rarity refresh failed:', err);
     return deedsRarityCache?.payload ?? { totalEligible: 0, earned: {} };
   }
 }
+
+// Test-only handle for the board-read single-flight suite. Not used in production:
+// it exposes the module-private board getters, their shared flights, the bust
+// hook, and a cache reset so a unit test can exercise the real single-flight
+// (concurrency, rejection-not-cached, stale-serve, and the bust-mid-flight
+// joiner-eviction) without driving through the runtime injection seams (which
+// would replace the function under test with a fake).
+export const boardReadTestSeam = {
+  getDeedsRarity,
+  getLeaderboard,
+  getGuildLeaderboard,
+  refreshDeedsRarityShared,
+  refreshLeaderboardShared,
+  refreshGuildLeaderboardShared,
+  bustBoardCaches,
+  reset(): void {
+    leaderboardCache.realm = null;
+    leaderboardCache.global = null;
+    guildLeaderboardCache.realm = null;
+    guildLeaderboardCache.global = null;
+    deedsRarityCache = null;
+  },
+};
 
 // ---------------------------------------------------------------------------
 // News & Updates: GitHub Releases proxy (read-only, public).
@@ -2694,18 +2758,18 @@ export async function startServer(): Promise<http.Server> {
   // keep both leaderboard caches warm so the first viewer never waits on the
   // query and it never recomputes per request (PR-3)
   const warmLeaderboards = () => {
-    void refreshLeaderboard('realm').catch((err) =>
-      console.error('leaderboard refresh failed (realm):', err),
-    );
-    void refreshLeaderboard('global').catch((err) =>
-      console.error('leaderboard refresh failed (global):', err),
-    );
-    void refreshGuildLeaderboard('realm').catch((err) =>
-      console.error('guild leaderboard refresh failed (realm):', err),
-    );
-    void refreshGuildLeaderboard('global').catch((err) =>
-      console.error('guild leaderboard refresh failed (global):', err),
-    );
+    void refreshLeaderboardShared
+      .realm()
+      .catch((err) => console.error('leaderboard refresh failed (realm):', err));
+    void refreshLeaderboardShared
+      .global()
+      .catch((err) => console.error('leaderboard refresh failed (global):', err));
+    void refreshGuildLeaderboardShared
+      .realm()
+      .catch((err) => console.error('guild leaderboard refresh failed (realm):', err));
+    void refreshGuildLeaderboardShared
+      .global()
+      .catch((err) => console.error('guild leaderboard refresh failed (global):', err));
     // Demand-gated: the Renown board is a full-table roll-up, so keep it warm
     // only while it is actually being viewed (a request within
     // DEEDS_BOARD_DEMAND_TTL_MS). An idle board pays nothing here; a cold or stale
