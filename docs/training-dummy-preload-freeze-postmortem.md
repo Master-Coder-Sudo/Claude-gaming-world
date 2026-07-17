@@ -57,11 +57,14 @@ became a view candidate, the asset was never registered as preloaded and it
 threw synchronously inside the render path with no surrounding try/catch.
 
 The renderer's per-frame view-creation budget is priority-ordered
-(`viewCandidatePriority` in `renderer.ts`): hostile mobs within 35 yards go
-first, and `training_dummy` is non-hostile (`aggroRadius: 0`), so it only
-gets processed once the budget works through the ~21 hostile ogres nearby
-first. That's why the freeze took a moment to appear and why initial
-reproduction attempts felt timing-sensitive. Once the renderer did reach it,
+(`viewCandidatePriority` in `src/render/renderer.ts`): hostile mobs within
+35 yards go first. The dummy is hostile despite being passive (the sim
+deliberately keeps it attackable so it registers on damage meters;
+`aggroRadius: 0` only disables aggro), but at about 54 yards out it sorts
+into the beyond-35-yards bucket by distance, so the budget spends its first
+frames on the ogres nearer the teleport point before reaching it. That's
+why the freeze took a moment to appear and why initial reproduction
+attempts felt timing-sensitive. Once the renderer did reach it,
 the throw repeated every frame forever (the entity never gets marked as
 having a created view, so it re-enters the candidate list every subsequent
 frame), permanently stalling that frame's paint.
