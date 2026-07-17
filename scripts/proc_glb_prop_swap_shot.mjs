@@ -238,16 +238,13 @@ if (found) {
     [-14, 10],
     [12, -6],
   ];
-  let rootWallShot = false;
   for (const [dx, dz] of rootWallSpots) {
     await teleportAndFace(found.px + dx, found.pz + dz, found.px, found.pz);
     // Not a scriptable visual identity check from here (procedural fallback and
     // GLB read identically to a screenshot diff); capture each candidate spot
     // once so a human can pick the frame that actually shows the root wall.
     await shot(`marsh_root_wall_candidate_${dx}_${dz}`);
-    rootWallShot = true;
   }
-  if (!rootWallShot) console.log('marsh root_wall: no candidate spots captured');
 }
 
 await page.close();

@@ -84,6 +84,9 @@ const gltfByUrl = new Map<string, GLTF>();
 const preparedByItem = new Map<string, THREE.Group>();
 const proceduralByItem = new Map<string, THREE.Group>();
 
+/** Test-only window into the preload asset set (mirrors delve_props.ts). */
+export const questObjectPreloadInternalsForTest = { questObjectUrl: QUEST_OBJECT_URLS };
+
 if (typeof window !== 'undefined') {
   const urls = [...new Set(Object.values(QUEST_OBJECT_URLS))];
   for (const url of urls) {
