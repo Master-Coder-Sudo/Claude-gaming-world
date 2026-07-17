@@ -149,7 +149,14 @@ logic module pairs with a `<domain>_db.ts` that owns its SQL).
   pinned by `ALL_DELTA_KEYS` + `TERSE_TO_IWORLD` in `tests/snapshots.test.ts` (W0a),
   which owns the list and guards the `selfWireJson` (encode) to `applySnapshot`
   (decode) round-trip. A new heavy self field lands in `selfWireJson` (here) and
-  `applySnapshot` (`online.ts`) in one commit, and is added to that registry.
+  `applySnapshot` (`online.ts`) in one commit, and is added to that registry. A value
+  already serialized once realm-wide (the Vale Cup shared fragment on `vcupb`, built
+  and stringified a single time per broadcast pass by the realm-readout memo) rides
+  via `maybeRaw(...)` instead of `maybe(...)`, so the per-session diff reuses the one
+  memoized string rather than re-stringifying it for every viewer. The `vcup` and
+  `vcupb` keys are asserted directly in the round-trip test rather than mapped in
+  `TERSE_TO_IWORLD` (they merge back into one `cupInfo` on decode), the same way `tal`
+  fans out to several members and is asserted directly.
 
 - The PHYSICAL `game.ts` restructure (facet-ordered dispatch, per-facet command
   modules, a facet-aligned encoder) is workstream #4; until it lands, add new

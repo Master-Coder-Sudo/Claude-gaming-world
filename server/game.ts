@@ -71,7 +71,12 @@ import {
   type VcNationId,
 } from '../src/sim/types';
 import { isAtSowfield } from '../src/sim/vale_cup_layout';
-import { type BankBonusSource, type CommandName, isOverheadEmoteId } from '../src/world_api';
+import {
+  type BankBonusSource,
+  type CommandName,
+  isOverheadEmoteId,
+  type VcViewerReadout,
+} from '../src/world_api';
 import { recordOnlineSample } from './admin_db';
 import { offensiveName } from './auth';
 import { recordBankOp } from './bank_ledger';
@@ -160,6 +165,7 @@ import {
 import { consumeMsgToken, createMsgRateBucket, type MsgRateBucketState } from './msg_rate_limit';
 import { nextRaidResetMs } from './raid_reset';
 import { REALM, REALM_PUBLIC_ORIGIN, REALM_RESET_TIME_ZONE } from './realm';
+import { createRealmReadoutMemo, realmReadoutJson, realmReadoutObject } from './realm_readout_memo';
 import { createSerialWriter } from './serial_writer';
 import type { Presence, PresenceStatus, SocialActor, SocialTransport } from './social';
 import { SocialService } from './social';
@@ -663,8 +669,6 @@ export interface ClientSession {
   lastSent: Record<string, string>;
   // arena readout is reconciled at UI cadence instead of snapshot cadence
   lastArenaWireTick: number;
-  // Vale Cup readout, same idea at its own cadence (VC_WIRE_HZ)
-  lastVcupWireTick: number;
   // Dungeon Finder readout, same idea at its own cadence (DF_WIRE_HZ)
   lastDfWireTick: number;
   // set when a command or sim event that can change a heavy self field (bags,
@@ -1136,6 +1140,10 @@ export class GameServer {
     aggroTargets: ReturnType<typeof partyFrameAggroTargets>;
     incomingHeals: ReturnType<typeof partyFrameIncomingHeals>;
   } | null = null;
+  // Realm-wide Vale Cup readout, built and stringified once per broadcast pass and
+  // shared across every viewer (keyed on sim.tickCount inside selfWireJson), the
+  // same once-per-tick memo shape as wireCache / partyFrameGlobalsCache.
+  private readonly realmReadout = createRealmReadoutMemo();
   private lastWireSweepTick = 0;
   private interval: NodeJS.Timeout | null = null;
   private holderTierInterval: NodeJS.Timeout | null = null;
@@ -1407,7 +1415,6 @@ export class GameServer {
 
     moderator.lastSent = {};
     moderator.lastArenaWireTick = -ARENA_WIRE_INTERVAL_TICKS;
-    moderator.lastVcupWireTick = -VC_WIRE_INTERVAL_TICKS;
     moderator.lastDfWireTick = -DF_WIRE_INTERVAL_TICKS;
     moderator.sentEnts.clear();
     this.send(moderator, { t: 'spectate', name: target.name });
@@ -1432,7 +1439,6 @@ export class GameServer {
     moderator.spectating = null;
     moderator.lastSent = {};
     moderator.lastArenaWireTick = -ARENA_WIRE_INTERVAL_TICKS;
-    moderator.lastVcupWireTick = -VC_WIRE_INTERVAL_TICKS;
     moderator.lastDfWireTick = -DF_WIRE_INTERVAL_TICKS;
     moderator.sentEnts.clear();
     this.send(moderator, { t: 'spectate', name: null });
@@ -2571,7 +2577,6 @@ export class GameServer {
       lastInputAt: this.sim.time,
       lastSent: {},
       lastArenaWireTick: -ARENA_WIRE_INTERVAL_TICKS,
-      lastVcupWireTick: -VC_WIRE_INTERVAL_TICKS,
       lastDfWireTick: -DF_WIRE_INTERVAL_TICKS,
       selfHeavyDirty: true,
       lastWireRev: -1,
@@ -5104,6 +5109,19 @@ export class GameServer {
         extra += `,"${key}":${s}`;
       }
     };
+    // Like `maybe`, but for a value already serialized once (the realm-wide Vale
+    // Cup fragment is JSON.stringify'd a single time per broadcast pass by the
+    // realm-readout memo): skip the per-session re-stringify and only diff the
+    // pre-serialized string against what this session last received. This goes one
+    // step past the `dfb` precedent below, which still stringifies its shared board
+    // once per session via plain `maybe(...)`; here one memoized string is reused
+    // realm-wide.
+    const maybeRaw = (key: string, serialized: string): void => {
+      if (sent[key] !== serialized) {
+        sent[key] = serialized;
+        extra += `,"${key}":${serialized}`;
+      }
+    };
     // Dynamic / latency-sensitive fields: diffed every tick. These change from
     // outside this session's own commands/events, party member HP from another
     // player taking damage, cooldowns counting down, an incoming trade/duel,
@@ -5153,13 +5171,58 @@ export class GameServer {
       session.lastArenaWireTick = this.sim.tickCount;
       maybe('arena', this.sim.arenaInfoFor(anchorSession.pid));
     }
-    // Vale Cup readout at its own UI cadence (VC_WIRE_HZ): CupInfo carries
-    // whole-second clocks and queue sizes, so re-evaluating every tick would
-    // re-serialize the rosters 20 times per wire-visible change. Instant
-    // queue/match transitions ride the pid-scoped vcup* events instead.
-    if (this.sim.tickCount - session.lastVcupWireTick >= VC_WIRE_INTERVAL_TICKS) {
-      session.lastVcupWireTick = this.sim.tickCount;
-      maybe('vcup', this.sim.cupInfoFor(anchorSession.pid));
+    // Vale Cup readout at its own UI cadence (VC_WIRE_HZ), realm-tick-aligned so
+    // the shared bundle is built once per aligned pass rather than on each
+    // session's own offset gate. The per-viewer remainder (standing, queue slot,
+    // my match/spectate view, my bets, my guild line) rides `vcup`; the realm-wide
+    // fragment (queue sizes, the live strip, the winners and guild boards, who is
+    // practicing) rides `vcupb`, serialized ONCE per broadcast pass by the
+    // realm-readout memo and reused across every viewer. A fresh join or a
+    // spectate enter/exit clears lastSent, so the `sent['vcup'] === undefined` arm
+    // re-ships both keys immediately (the old per-session negative-init did this;
+    // a bare tick-aligned gate alone would not, so keep this arm).
+    if (this.sim.tickCount % VC_WIRE_INTERVAL_TICKS === 0 || sent['vcup'] === undefined) {
+      const shared = realmReadoutObject(this.realmReadout, this.sim.tickCount, () =>
+        this.sim.cupSharedInfoFor(),
+      );
+      const full = this.sim.cupInfoFor(anchorSession.pid, shared);
+      if (full) {
+        // liveHidden: this viewer is off in a private practice instance, so the
+        // Sowfield live strip carried in the shared fragment must be suppressed for
+        // them. Derived from the two values we already hold (the raw shared live is
+        // non-null but this viewer's effective live is null), so VcMatchInfo need
+        // not carry a practice flag; the client reapplies it on recompose and never
+        // surfaces liveHidden on CupInfo. The raw strip still rides vcupb to every
+        // viewer (it is public match state, no PII), so a practicer receives the
+        // bytes but this per-viewer flag keeps their client from ever rendering it.
+        const liveHidden = shared.live !== null && full.live === null;
+        // Typed as VcViewerReadout so a future CupInfo per-viewer field addition
+        // fails compile here rather than silently dropping from the wire remainder.
+        const viewerReadout: VcViewerReadout = {
+          standing: full.standing,
+          queued: full.queued,
+          bracket: full.bracket,
+          nation: full.nation,
+          role: full.role,
+          position: full.position,
+          deserterFor: full.deserterFor,
+          match: full.match,
+          spectate: full.spectate,
+          betRecord: full.betRecord,
+          myGuild: full.myGuild,
+          guildStanding: full.guildStanding,
+          liveHidden,
+        };
+        maybe('vcup', viewerReadout);
+        maybeRaw(
+          'vcupb',
+          realmReadoutJson(this.realmReadout, this.sim.tickCount, () =>
+            this.sim.cupSharedInfoFor(),
+          ),
+        );
+      } else {
+        maybe('vcup', null);
+      }
     }
     // Dungeon Finder at its own UI cadence (DF_WIRE_HZ): the personal `df`
     // blob carries whole-second clocks (queue wait, proposal countdown), so

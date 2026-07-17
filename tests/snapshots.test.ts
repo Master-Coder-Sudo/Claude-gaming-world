@@ -105,6 +105,8 @@ function bareClient(pid: number): ClientWorld {
   c.ownPlayerClass = 'warrior';
   c.spectating = null;
   c.cupInfo = null;
+  c.lastVcupRemainder = null;
+  c.lastVcupShared = null;
   c.sportRole = null;
   c.moveInput = {};
   c.inventory = [];
@@ -552,7 +554,8 @@ describe('delta snapshots', () => {
     const snap = lastSnap(fc.sent);
     expect(snap).not.toBeNull();
     // a fresh session has an empty lastSent, so EVERY maybe() delta key rides the
-    // first snapshot (even the null-valued ones like party/trade/bank); all 44 of them
+    // first snapshot (even the null-valued ones like party/trade/bank); every
+    // key in ALL_DELTA_KEYS
     for (const key of ALL_DELTA_KEYS) {
       expect(snap.self, `self.${key} missing from first snapshot`).toHaveProperty(key);
     }
@@ -2572,9 +2575,12 @@ describe('lockpick view rebuilds from events on the online client', () => {
 // while the prior decoded value is preserved.
 // ---------------------------------------------------------------------------
 
-// The pinned set of the 47 `maybe(...)` delta keys, sorted. Cross-checked below
-// against the live `maybe(...)` calls scraped from server/game.ts source, so a
-// 48th unregistered delta key reddens this gate.
+// The pinned set of the 48 delta keys, sorted. Cross-checked below against the
+// live `maybe(...)` (and `maybeRaw(...)`) calls scraped from server/game.ts
+// source, so a 49th unregistered delta key reddens this gate. All but one ride
+// via `maybe(...)`; `vcupb` is written with `maybeRaw(...)` (the realm-wide Vale
+// Cup fragment, already serialized once realm-wide and shared across viewers),
+// not plain `maybe(...)`.
 const ALL_DELTA_KEYS = [
   'arena',
   'atitle',
@@ -2622,6 +2628,7 @@ const ALL_DELTA_KEYS = [
   'tfocus',
   'trade',
   'vcup',
+  'vcupb',
   'weapon',
 ] as const;
 
@@ -2632,6 +2639,9 @@ const ALL_DELTA_KEYS = [
 // carries the always-present self scalars (res/mres/rtype/lxp/rxp/prk) plus every
 // delta key whose IWorld name differs from its terse key (stats/weapon/delveDaily
 // keep their name; tal fans out to several members and is asserted directly).
+// vcup/vcupb are likewise excluded and asserted directly in the round-trip test:
+// they merge into one `cupInfo` (per-viewer remainder on vcup, realm-wide fragment
+// on vcupb), so neither key alone equals the full CupInfo target.
 const TERSE_TO_IWORLD: Record<string, string> = {
   arena: 'arenaInfo',
   atitle: 'activeTitle',
@@ -2675,7 +2685,6 @@ const TERSE_TO_IWORLD: Record<string, string> = {
   rxp: 'restedXp',
   sport: 'sportRole',
   tfocus: 'townFocus',
-  vcup: 'cupInfo',
 };
 
 // Year ~2223 in epoch ms. Beats selfWireJson's `until > Date.now()` lockout
@@ -3008,6 +3017,15 @@ describe('full self-state snapshot delta fixture', () => {
       { name: 'PvP', alloc: { spec: 'arms', ranks: {}, choices: {} }, bar: [] },
     ]);
     expect(client.activeLoadout).toBe(0);
+
+    // vcup + vcupb -> cupInfo (merged from both fragments; neither key alone
+    // equals the full CupInfo, so both are excluded from TERSE_TO_IWORLD and
+    // asserted directly here, the same way tal is above). The reassembled client
+    // mirror must deep-equal exactly what the server computes for this viewer.
+    expect(client.cupInfo).toEqual(server.sim.cupInfoFor(leader.pid));
+    expect(client.cupInfo?.role).toBe('keeper'); // per-viewer field, arrived on vcup
+    expect(Object.keys(client.cupInfo?.queueSizes ?? {}).sort()).toEqual(['1', '2', '3', '4', '5']); // realm-wide field, arrived on vcupb
+    expect(client.cupInfo?.live).toBeNull(); // no live match in the fixture
   });
 
   it('omits all delta keys on a no-op re-broadcast and preserves the prior mirror', () => {
@@ -3084,21 +3102,23 @@ describe('gather node cooldown wire round trip (ncd)', () => {
 });
 
 describe('delta-key contract pins (anti-drift)', () => {
-  it('ALL_DELTA_KEYS contains exactly 47 unique keys in sorted order', () => {
-    expect(ALL_DELTA_KEYS).toHaveLength(47);
-    expect(new Set(ALL_DELTA_KEYS).size).toBe(47);
+  it('ALL_DELTA_KEYS contains exactly 48 unique keys in sorted order', () => {
+    expect(ALL_DELTA_KEYS).toHaveLength(48);
+    expect(new Set(ALL_DELTA_KEYS).size).toBe(48);
     expect([...ALL_DELTA_KEYS]).toEqual([...ALL_DELTA_KEYS].sort());
   });
 
   it('ALL_DELTA_KEYS equals the maybe(...) keys scraped from server/game.ts (multi-line lockouts incl.)', () => {
     const src = readFileSync(resolve(process.cwd(), 'server/game.ts'), 'utf8');
     // tolerate whitespace/newline between `(` and the quote so the multi-line
-    // maybe('lockouts', ...) call (game.ts ~2166-2169) is captured, not undercounted
-    const re = /\bmaybe\(\s*['"](\w+)['"]/g;
+    // maybe('lockouts', ...) call (game.ts ~2166-2169) is captured, not undercounted;
+    // the optional `(?:Raw)?` also captures the maybeRaw('vcupb', ...) realm-wide call
+    const re = /\bmaybe(?:Raw)?\(\s*['"](\w+)['"]/g;
     const scraped = new Set<string>();
     for (let m = re.exec(src); m !== null; m = re.exec(src)) scraped.add(m[1]);
     expect(scraped.has('lockouts')).toBe(true); // the multi-line call IS captured
-    expect(scraped.size).toBe(47);
+    expect(scraped.has('vcupb')).toBe(true); // the maybeRaw call IS captured by the widened regex
+    expect(scraped.size).toBe(48);
     expect([...scraped].sort()).toEqual([...ALL_DELTA_KEYS].sort());
   });
 

@@ -171,22 +171,81 @@ describe('vale cup: online integration (GameServer)', () => {
     expect(eventsOf(fc, 'vcupUnqueued')).toHaveLength(1);
   });
 
+  it('derives liveHidden per viewer: a practicing player is shipped liveHidden, a participant is not', () => {
+    // A real Sowfield match runs (two participants) while a third player is off in
+    // a private practice instance. The server derives the per-viewer suppression
+    // flag `liveHidden = shared.live !== null && full.live === null`; this pins that
+    // derivation end to end on the real wire (the pure-sim class-d test exercises
+    // cupInfoFor directly, and the client test injects liveHidden manually, so
+    // neither covers the server derivation): an inverted or always-false derivation
+    // would flip both assertions below.
+    const fcA = fakeWs();
+    const sa = joinServer(server, fcA, 40, 'Champ');
+    const fcB = fakeWs();
+    const sb = joinServer(server, fcB, 41, 'Rival');
+    const fcP = fakeWs();
+    const sp = joinServer(server, fcP, 42, 'Practicer');
+    teleport(server.sim, sa.pid, 0, -40);
+    teleport(server.sim, sb.pid, 4, -40);
+    teleport(server.sim, sp.pid, 8, -40);
+    // Form a real Sowfield match (it exists as soon as the match forms, well
+    // before kickoff, which is all `shared.live` and the liveHidden derivation
+    // need) and put the third player in a private practice instance in parallel.
+    server.sim.vcupQueueJoin(1, 'vale', 'allrounder', false, sa.pid);
+    server.sim.vcupQueueJoin(1, 'mirefen', 'allrounder', false, sb.pid);
+    server.sim.vcupPracticeStart(2, sp.pid);
+    advance(server); // one tick forms the queued match
+    expect(server.sim.vcup.match).toBeTruthy();
+    expect(server.sim.vcup.practices.length).toBe(1);
+
+    for (let i = 0; i < 12; i++) advance(server);
+
+    // participant: not in a practice, so their client shows the live strip
+    const aFrames = snapsWithSelfKey(fcA, 'vcup');
+    const aShared = snapsWithSelfKey(fcA, 'vcupb');
+    expect(aFrames.length).toBeGreaterThan(0);
+    expect(aShared.length).toBeGreaterThan(0);
+    const aVcup = aFrames[aFrames.length - 1].self.vcup;
+    const aLive = aShared[aShared.length - 1].self.vcupb.live;
+    expect(aVcup.liveHidden).toBe(false);
+    expect(aLive).not.toBeNull();
+
+    // practicer: server-derived liveHidden TRUE, while the SAME raw strip still
+    // rides their vcupb (suppression is per-viewer, never baked into the shared string)
+    const pFrames = snapsWithSelfKey(fcP, 'vcup');
+    const pShared = snapsWithSelfKey(fcP, 'vcupb');
+    expect(pFrames.length).toBeGreaterThan(0);
+    expect(pShared.length).toBeGreaterThan(0);
+    const pVcup = pFrames[pFrames.length - 1].self.vcup;
+    const pLive = pShared[pShared.length - 1].self.vcupb.live;
+    expect(pVcup.liveHidden).toBe(true);
+    expect(pLive).not.toBeNull();
+    // both viewers received a byte-identical realm-wide strip
+    expect(pLive).toEqual(aLive);
+  });
+
   it('ships the vcup self key within 10 ticks of a queue change, JSON-clean', () => {
     const fc = fakeWs();
     const session = joinServer(server, fc, 2, 'Delta');
     teleport(server.sim, session.pid, 0, -40);
 
-    // baseline: the first snapshot carries the full CupInfo readout
+    // baseline: the first snapshot carries the readout, split across the
+    // per-viewer `vcup` key and the realm-wide `vcupb` key (both ship on a fresh
+    // join). The per-viewer remainder rides `vcup`; the realm-wide fields (queue
+    // sizes, the winners board) ride `vcupb`.
     advance(server);
     const first = lastSnap(fc);
     expect(first.self.vcup).toBeTruthy();
     expect(first.self.vcup.queued).toBe(false);
     expect(first.self.vcup.standing).toEqual({ wins: 0, losses: 0, draws: 0 });
-    expect(Object.keys(first.self.vcup.queueSizes).sort()).toEqual(['1', '2', '3', '4', '5']);
-    expect(Array.isArray(first.self.vcup.board)).toBe(true);
+    expect(first.self.vcupb).toBeTruthy();
+    expect(Object.keys(first.self.vcupb.queueSizes).sort()).toEqual(['1', '2', '3', '4', '5']);
+    expect(Array.isArray(first.self.vcupb.board)).toBe(true);
     expect(() => JSON.stringify(first.self.vcup)).not.toThrow();
+    expect(() => JSON.stringify(first.self.vcupb)).not.toThrow();
 
-    // a queue join surfaces on the throttled key within VC_WIRE_HZ (10 ticks)
+    // a queue join surfaces on the throttled keys within VC_WIRE_HZ (10 ticks):
+    // the per-viewer slot on `vcup`, the realm-wide queue count on `vcupb`
     cmd(server, session, { cmd: 'vcup_queue', bracket: 3, nation: 'copperdig', role: 'sweeper' });
     const before = fc.sent.length;
     for (let i = 0; i < 10; i++) advance(server);
@@ -198,12 +257,50 @@ describe('vale cup: online integration (GameServer)', () => {
     expect(info.nation).toBe('copperdig');
     expect(info.role).toBe('sweeper');
     expect(info.position).toBe(1);
-    expect(info.queueSizes['3']).toBe(1);
+    const sharedUpdates = snapsWithSelfKey(fc, 'vcupb', before);
+    expect(sharedUpdates.length).toBeGreaterThan(0);
+    expect(sharedUpdates[sharedUpdates.length - 1].self.vcupb.queueSizes['3']).toBe(1);
 
-    // ... and an unchanged readout is delta-elided, not re-sent every eval
+    // ... and an unchanged readout is delta-elided, not re-sent every eval:
+    // NEITHER the per-viewer key NOR the realm-wide key re-ships on an idle window
     const idle = fc.sent.length;
     for (let i = 0; i < 20; i++) advance(server);
     expect(snapsWithSelfKey(fc, 'vcup', idle)).toHaveLength(0);
+    expect(snapsWithSelfKey(fc, 'vcupb', idle)).toHaveLength(0);
+  });
+
+  it('builds the shared Vale Cup readout once per broadcast pass regardless of session count', () => {
+    // The realm-wide `vcupb` fragment is built and stringified a single time per
+    // aligned broadcast pass by the realm-readout memo, then reused by every
+    // viewer. Two sessions in one pass must trigger exactly ONE build and ONE
+    // stringify, not one per session: that is the whole point of the shared memo.
+    // The gate opens when sim.tickCount % VC_WIRE_INTERVAL_TICKS === 0
+    // (VC_WIRE_HZ = 2 at DT = 1/20, so every 10 ticks).
+    const VC_WIRE_INTERVAL_TICKS = 10;
+    const fcA = fakeWs();
+    const fcB = fakeWs();
+    const sa = joinServer(server, fcA, 40, 'ShareOne');
+    const sb = joinServer(server, fcB, 41, 'ShareTwo');
+    teleport(server.sim, sa.pid, 0, -40);
+    teleport(server.sim, sb.pid, 4, -40);
+
+    // advance well past both sessions' fresh-join ships so lastSent for `vcup`
+    // and `vcupb` is settled and the gate opens only on aligned ticks
+    for (let i = 0; i < 30; i++) advance(server);
+
+    const memo = (server as any).realmReadout;
+    // step up to just before the next aligned tick (the memo is untouched on
+    // non-aligned ticks once both sessions have settled)
+    while (server.sim.tickCount % VC_WIRE_INTERVAL_TICKS !== VC_WIRE_INTERVAL_TICKS - 1)
+      advance(server);
+    const buildsBefore = memo.objectBuilds;
+    const stringifiesBefore = memo.stringifies;
+
+    // one advance crosses exactly one aligned broadcast pass, shared by both sessions
+    advance(server);
+    expect(server.sim.tickCount % VC_WIRE_INTERVAL_TICKS).toBe(0);
+    expect(memo.objectBuilds).toBe(buildsBefore + 1);
+    expect(memo.stringifies).toBe(stringifiesBefore + 1);
   });
 
   it('runs a rated 1v1: sport kit flips on, the far ball streams at full rate, desertion persists the loss before the save, and restore sends an explicit sport null', async () => {
@@ -253,13 +350,15 @@ describe('vale cup: online integration (GameServer)', () => {
     const ball = match.ball;
     expect(ball).toBeTruthy();
 
-    // the match readout reaches the players over the throttled vcup key
-    // (within one 10-tick eval window of the kickoff)
+    // the match readout reaches the players over the throttled keys (within one
+    // 10-tick eval window of the kickoff): the per-viewer match view on `vcup`,
+    // the realm-wide live strip on `vcupb`
     for (let i = 0; i < 10; i++) advance(server);
     const matchInfo = snapsWithSelfKey(fcB, 'vcup').pop()?.self.vcup;
     expect(matchInfo?.match?.ballId).toBe(ball.entityId);
     expect(matchInfo?.match?.phase).toBe('active');
-    expect(matchInfo?.live?.bracket).toBe(1);
+    const sharedInfo = snapsWithSelfKey(fcB, 'vcupb').pop()?.self.vcupb;
+    expect(sharedInfo?.live?.bracket).toBe(1);
 
     // one settle pass so the watcher has first sight of the spawned ball
     advance(server);
@@ -337,10 +436,12 @@ describe('vale cup: online integration (GameServer)', () => {
     const sportUpdates = snapsWithSelfKey(fcB, 'sport', restoreAt);
     expect(sportUpdates.length).toBeGreaterThan(0);
     expect(sportUpdates[sportUpdates.length - 1].self.sport).toBeNull();
-    // and the match block clears from the readout
+    // and the match block clears from the readout: `match` off the per-viewer
+    // `vcup`, the realm-wide live strip off `vcupb`
     const cleared = snapsWithSelfKey(fcB, 'vcup', restoreAt).pop()?.self.vcup;
     expect(cleared?.match).toBeNull();
-    expect(cleared?.live).toBeNull();
+    const clearedShared = snapsWithSelfKey(fcB, 'vcupb', restoreAt).pop()?.self.vcupb;
+    expect(clearedShared?.live).toBeNull();
     rewardSpy.mockRestore();
   });
 
