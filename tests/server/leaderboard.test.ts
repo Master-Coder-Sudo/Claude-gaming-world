@@ -921,6 +921,24 @@ describe('arena leaderboard handler (anonymous DB read is rate-limited)', () => 
     await arena(ctx);
     expect(captured(ctx.res).status).toBe(200);
   });
+
+  it('does not spend a cached getter call on a rate-limited request', async () => {
+    // Mirrors the public sheet handler's "before any DB read" ordering: the limiter
+    // must short-circuit BEFORE the cached read, so a 429 never reaches the getter.
+    // The fake runtime absorbs the read silently, so a status-only assertion cannot
+    // prove the ordering; a spy getter with not.toHaveBeenCalled can.
+    resetPublicReadRateLimits();
+    const getArena = vi.fn(async () => [] as ArenaLeaderRow[]);
+    configureLeaderboardRuntime(fakeRuntime({ getArenaLeaderboard: getArena }));
+    // Exhaust the per-IP bucket externally so the very next handler call is a 429.
+    for (let i = 0; i < PUBLIC_READ_MAX_PER_MINUTE + 1; i++) {
+      publicReadRateLimited(makeReq({ method: 'GET', url: '/api/arena/leaderboard' }));
+    }
+    const ctx = fakeCtx({ method: 'GET', url: '/api/arena/leaderboard' });
+    await handlerFor('/api/arena/leaderboard')(ctx);
+    expect(captured(ctx.res)).toEqual({ status: 429, body: { error: 'rate limited' } });
+    expect(getArena).not.toHaveBeenCalled();
+  });
 });
 
 describe('project-stats handler (anonymous DB read is rate-limited)', () => {
@@ -947,6 +965,24 @@ describe('project-stats handler (anonymous DB read is rate-limited)', () => {
     const ctx = fakeCtx({ method: 'GET', url: '/api/project-stats' });
     await projectStats(ctx);
     expect(captured(ctx.res).status).toBe(200);
+  });
+
+  it('does not spend a cached getter call on a rate-limited request', async () => {
+    // Mirrors the public sheet handler's "before any DB read" ordering: the limiter
+    // must short-circuit BEFORE the cached read, so a 429 never reaches the getter.
+    // The fake runtime absorbs the read silently, so a status-only assertion cannot
+    // prove the ordering; a spy getter with not.toHaveBeenCalled can.
+    resetPublicReadRateLimits();
+    const getCount = vi.fn(async () => 0);
+    configureLeaderboardRuntime(fakeRuntime({ getAccountsCreatedCount: getCount }));
+    // Exhaust the per-IP bucket externally so the very next handler call is a 429.
+    for (let i = 0; i < PUBLIC_READ_MAX_PER_MINUTE + 1; i++) {
+      publicReadRateLimited(makeReq({ method: 'GET', url: '/api/project-stats' }));
+    }
+    const ctx = fakeCtx({ method: 'GET', url: '/api/project-stats' });
+    await handlerFor('/api/project-stats')(ctx);
+    expect(captured(ctx.res)).toEqual({ status: 429, body: { error: 'rate limited' } });
+    expect(getCount).not.toHaveBeenCalled();
   });
 });
 
