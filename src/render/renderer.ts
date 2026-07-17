@@ -49,6 +49,7 @@ import {
   createCharacterVisual,
   setWeaponVfxViewportHeight,
 } from './characters';
+import { logAssetMissOnce } from './characters/asset_miss_log';
 import {
   mechAssetsReady,
   preloadMechAssets,
@@ -160,6 +161,12 @@ const VIEW_CREATE_BUDGET_HIGH = 8;
 const VIEW_CREATE_SLOW_FRAME_MS = 33;
 const VIEW_CREATE_HITCH_FRAME_MS = 50;
 const VIEW_CREATE_BACKOFF_SECONDS = 0.75;
+// Cooldown before re-attempting a view whose assets failed to build (the
+// fail-soft path, issue #2079). Without it a permanently failing entity
+// consumes a view-creation budget slot every frame; under the hitch backoff
+// the budget is 1, so a first-sorted failing entity would starve every other
+// pending view.
+const VIEW_CREATE_FAIL_RETRY_MS = 2000;
 const VIEW_PREWARM_RANGE_SQ = ENTITY_VIEW_CREATE_RANGE_SQ;
 const VIEW_PREWARM_MAX_MS = 12000;
 // Shader linking is the whole point of the prewarm: if it doesn't finish, the
@@ -758,6 +765,9 @@ export class Renderer {
   camera: THREE.PerspectiveCamera;
   webgl: THREE.WebGLRenderer;
   views = new Map<number, EntityView>();
+  // entity id -> performance.now() timestamp before which a failed view build
+  // (assets unavailable, the fail-soft path) is not retried; cleared on success
+  private viewCreateRetryAt = new Map<number, number>();
   // view groups that own a budgeted point light: exempt from the hidden-view
   // matrix gate (see the gate pass in sync and the note at registration)
   private lightOwnerGroups = new WeakSet<THREE.Object3D>();
@@ -2148,6 +2158,10 @@ export class Renderer {
     for (const candidate of this.viewCandidates) {
       if (created >= max || performance.now() >= deadlineMs) break;
       if (this.views.has(candidate.e.id)) continue;
+      // a recent failed build (assets unavailable) sits out its cooldown so it
+      // cannot burn a budget slot every frame
+      const retryAt = this.viewCreateRetryAt.get(candidate.e.id);
+      if (retryAt !== undefined && performance.now() < retryAt) continue;
       this.createView(candidate.e);
       this.sampleCreatedViewType(createdViewTypes, candidate.e);
       created++;
@@ -2337,8 +2351,11 @@ export class Renderer {
       if (!template) return;
       for (let i = 0; i < copies; i++) {
         const entity = this.prewarmEntity('mob', template.id, template.color, template.scale);
-        builtModels.add(visualKeyFor(entity));
         const visual = createCharacterVisual(entity);
+        // assets unavailable: skip the seed, leave the model unmarked so the
+        // dedup pass below can retry it
+        if (!visual) continue;
+        builtModels.add(visualKeyFor(entity));
         const poolKey = this.visualPoolKeyFor(entity);
         if (poolKey) this.storePooledVisual(poolKey, visual);
         visual.root.visible = true;
@@ -2384,8 +2401,10 @@ export class Renderer {
       const entity = this.prewarmEntity('npc', npc.id, npc.color, 1);
       const modelKey = visualKeyFor(entity);
       if (builtModels.has(modelKey)) continue;
-      builtModels.add(modelKey);
       const visual = createCharacterVisual(entity);
+      // assets unavailable: skip the seed, leave the model unmarked
+      if (!visual) continue;
+      builtModels.add(modelKey);
       const poolKey = this.visualPoolKeyFor(entity);
       if (poolKey) this.storePooledVisual(poolKey, visual);
       visual.root.visible = true;
@@ -2414,6 +2433,8 @@ export class Renderer {
         const color = CLASSES[cls]?.color ?? 0xffffff;
         const entity = this.prewarmEntity('player', cls, color, 1, skin, -11_000 - idx);
         const visual = createCharacterVisual(entity);
+        // assets unavailable: skip the seed
+        if (!visual) continue;
         visual.root.visible = true;
         place(visual.root);
       }
@@ -3445,13 +3466,17 @@ export class Renderer {
       const visualKey = visualKeyFor(e);
       if (visualKey === 'player_mech' && !mechAssetsReady()) {
         void preloadMechAssets().catch((err) =>
-          console.error('Failed to preload live mech cosmetic:', err),
+          logAssetMissOnce('preload:player_mech', 'Failed to preload live mech cosmetic:', err),
         );
         return;
       }
       if (visualKey === 'mob_training_dummy' && !trainingDummyAssetsReady()) {
         void preloadTrainingDummyAssets().catch((err) =>
-          console.error('Failed to preload the Training Dummy:', err),
+          logAssetMissOnce(
+            'preload:mob_training_dummy',
+            'Failed to preload the Training Dummy:',
+            err,
+          ),
         );
         return;
       }
@@ -3466,6 +3491,13 @@ export class Renderer {
         // ever recycled, so every mob past that count churned. Key is per-template, so
         // the pool stays bounded by the peak simultaneous count.
         visual = createCharacterVisual(e);
+        // assets unavailable: skip, the entity stays a view candidate but sits
+        // out the retry cooldown so it cannot starve the per-frame budget
+        if (!visual) {
+          this.viewCreateRetryAt.set(e.id, performance.now() + VIEW_CREATE_FAIL_RETRY_MS);
+          return;
+        }
+        this.viewCreateRetryAt.delete(e.id);
       }
       // entity scale is applied to the whole group below, so it can update live
       // (Fiesta size buffs) and also scale lazily-built form visuals for free.
@@ -3722,11 +3754,13 @@ export class Renderer {
     if (nextKey === v.visualKey) return;
     if (nextKey === 'player_mech' && !mechAssetsReady()) {
       void preloadMechAssets().catch((err) =>
-        console.error('Failed to preload live mech cosmetic:', err),
+        logAssetMissOnce('preload:player_mech', 'Failed to preload live mech cosmetic:', err),
       );
       return;
     }
+    // assets unavailable: keep the old visual, the key mismatch retries next frame
     const next = createCharacterVisual(e);
+    if (!next) return;
     next.setShadow(v.shadowOn);
     next.setFar(v.isFar);
     next.root.visible = v.visual.root.visible;
@@ -4573,21 +4607,35 @@ export class Renderer {
         groundHeight(e.pos.x, e.pos.z, this.sim.cfg.seed) < wl - 0.8;
 
       // lazy form visuals, swapped by visibility like the old sheep/bear rigs
+      // a null build (assets unavailable) leaves the field unset, so the
+      // form's visibility branch retries it next frame
       if (polyed && !v.sheepVisual) {
-        v.sheepVisual = createCharacterVisual(e, 'form_sheep');
-        v.group.add(v.sheepVisual.root); // group.scale already carries e.scale
+        const built = createCharacterVisual(e, 'form_sheep');
+        if (built) {
+          v.sheepVisual = built;
+          v.group.add(built.root); // group.scale already carries e.scale
+        }
       }
       if (bear && !v.bearVisual) {
-        v.bearVisual = createCharacterVisual(e, 'form_bear');
-        v.group.add(v.bearVisual.root);
+        const built = createCharacterVisual(e, 'form_bear');
+        if (built) {
+          v.bearVisual = built;
+          v.group.add(built.root);
+        }
       }
       if (cat && !v.catVisual) {
-        v.catVisual = createCharacterVisual(e, 'form_cat');
-        v.group.add(v.catVisual.root);
+        const built = createCharacterVisual(e, 'form_cat');
+        if (built) {
+          v.catVisual = built;
+          v.group.add(built.root);
+        }
       }
       if (travel && !v.travelVisual) {
-        v.travelVisual = createCharacterVisual(e, 'form_travel');
-        v.group.add(v.travelVisual.root);
+        const built = createCharacterVisual(e, 'form_travel');
+        if (built) {
+          v.travelVisual = built;
+          v.group.add(built.root);
+        }
       }
       if (v.sheepVisual) v.sheepVisual.root.visible = polyed;
       if (v.bearVisual) v.bearVisual.root.visible = bear;
