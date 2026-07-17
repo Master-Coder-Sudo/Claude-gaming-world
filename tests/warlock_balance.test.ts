@@ -61,11 +61,16 @@ describe('warlock low-level sustained damage tuning', () => {
   });
 
   it('keeps mastery tuning and the active damage-amplification row canonical', () => {
-    // Masteries were made impactful across all specs (spec identity pass): affliction
-    // amplifies its damage-over-time effects, destruction doubles spell crit damage.
+    // Masteries were made impactful across all specs (spec identity pass):
+    // affliction amplifies its damage-over-time effects; destruction became
+    // the scoped Ruinbolt/Gloom Bolt amp in the balance pass (maintainer
+    // sheet), replacing the spell-crit-damage multiplier.
     expect(spec('affliction').mastery.effect.global?.dotDmgPct).toBe(0.2);
-    expect(spec('destruction').mastery.effect.global?.critDmgSpellPct).toBe(0.5);
-    expect(spec('destruction').mastery.effect.stats?.crit).toBe(0.02);
+    expect(spec('destruction').mastery.effect.global?.critDmgSpellPct).toBeUndefined();
+    expect(spec('destruction').mastery.effect.ability).toEqual([
+      { ability: 'chaos_bolt', dmgPct: 0.2 },
+      { ability: 'shadow_bolt', dmgPct: 0.2 },
+    ]);
 
     expect(abilityEffects('wlk_r14_amplify_curse')).toEqual([
       { ability: 'shadow_bolt', dmgPctVsDotted: 0.2 },

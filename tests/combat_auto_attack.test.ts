@@ -224,16 +224,6 @@ describe('auto_attack meleeSwing: landed talent procs resolve before retaliation
       expected: 4.5,
     },
     {
-      name: 'Venom Dividend resource gain',
-      cls: 'rogue' as const,
-      row: { 14: 'rog_r14_deadly_brew' },
-      prepare: (player: AnyEntity) => {
-        player.resource = 0;
-      },
-      read: (player: AnyEntity) => player.resource,
-      expected: 5,
-    },
-    {
       name: 'Imbued Tempo cooldown refund',
       cls: 'shaman' as const,
       row: { 14: 'sha_r14_weapon_fury' },
@@ -275,6 +265,43 @@ describe('auto_attack meleeSwing: landed talent procs resolve before retaliation
     expect(active.valueAtRetaliation).toBe(testCase.expected);
     expect(active.draws).toEqual(baseline.draws);
     expect(active.draws).toHaveLength(3);
+  });
+
+  it('Venom Dividend rolls its chance before thorns and pays only on success', () => {
+    // Balance pass: the flat 5-per-swing became the Combat Potency shape (20%
+    // chance for 15 energy), so the proc now draws exactly one rng roll per
+    // poisoned swing; the roll resolves before the thorns retaliation.
+    const run = (active: boolean) => {
+      const { sim, p } = makeSim('rogue', 20, 26014);
+      if (active) {
+        expect(sim.applyTalents({ spec: null, rows: { 14: 'rog_r14_deadly_brew' } })).toBe(true);
+      }
+      const mob = spawnDummy(sim, p, 1);
+      addImbue(p);
+      addThorns(mob, 1);
+      p.mainhandItemId = null;
+      p.resource = 0;
+      let valueAtRetaliation: unknown;
+      const dealDamage = sim.ctx.dealDamage;
+      sim.ctx.dealDamage = ((source: Entity | null, target: Entity, ...args: unknown[]) => {
+        if (source?.id === mob.id && target.id === p.id && args[3] === 'Punishing Thorns') {
+          valueAtRetaliation = p.resource;
+        }
+        return (dealDamage as (...callArgs: unknown[]) => unknown)(source, target, ...args);
+      }) as typeof sim.ctx.dealDamage;
+      const draws: number[] = [];
+      sim.rng.setObserver((value: number) => draws.push(value));
+      const connected = meleeSwing(sim.ctx, p, mob, 0, null, { cannotBeDodged: true });
+      sim.rng.setObserver(null);
+      expect(connected).toBe(true);
+      return { draws, valueAtRetaliation, resource: p.resource };
+    };
+
+    const baseline = run(false);
+    const active = run(true);
+    expect(active.draws).toHaveLength(baseline.draws.length + 1); // the chance roll
+    expect(active.valueAtRetaliation).toBe(active.resource); // resolved before thorns
+    expect([0, 15]).toContain(active.resource); // pays 15 or nothing, never 5
   });
 });
 
