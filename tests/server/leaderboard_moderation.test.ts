@@ -295,14 +295,17 @@ describe('main.ts wiring', () => {
     const start = src.indexOf('function bustBoardCaches');
     expect(start).toBeGreaterThan(-1);
     const body = src.slice(start, src.indexOf('}', start));
-    // Players realm + global, guilds realm + global, the deeds board, and the
-    // daily-rewards board (instance-scoped on its service singleton, busted
-    // through the exported bust): every cached scope. Arena is served
-    // uncached by design, so it never appears here.
+    // Players realm + global, guilds realm + global, BOTH arena formats, the deeds
+    // board, and the daily-rewards board (instance-scoped on its service singleton,
+    // busted through the exported bust): every cached, moderation-visible scope. The
+    // arena ladder is character-faced, so it is busted here now (it used to be served
+    // uncached, with nothing to bust).
     expect(body).toContain('leaderboardCache.realm = null');
     expect(body).toContain('leaderboardCache.global = null');
     expect(body).toContain('guildLeaderboardCache.realm = null');
     expect(body).toContain('guildLeaderboardCache.global = null');
+    expect(body).toContain("arenaLeaderboardCache['1v1'] = null");
+    expect(body).toContain("arenaLeaderboardCache['2v2'] = null");
     expect(body).toContain('deedsBoardCache = null');
     expect(body).toContain('bustDailyRewardBoardCache()');
   });
@@ -330,9 +333,10 @@ describe('main.ts wiring', () => {
   it('bumps the board epoch so an in-flight refresh cannot reinstall a pre-ban snapshot', () => {
     // The lost-bust race: a ban landing WHILE a board refresh is in flight would
     // be overwritten by that refresh's pre-ban snapshot for up to one TTL cycle.
-    // bustBoardCaches bumps a monotonic epoch, and each of the three player-derived
-    // refreshes captures the epoch before its first await and installs its result
-    // only if the epoch is unchanged, so the stale snapshot is declined.
+    // bustBoardCaches bumps a monotonic epoch, and each of the four player-derived
+    // refreshes (player, guild, deeds board, and now the arena ladder) captures the
+    // epoch before its first await and installs its result only if the epoch is
+    // unchanged, so the stale snapshot is declined.
     const src = readFileSync(resolve(__dirname, '../../server/main.ts'), 'utf8');
     // Strip `//` line comments (keeping `://` protocol slashes) before every guard
     // substring check below. Without this, a mutation that neutralizes a guard by
@@ -344,7 +348,12 @@ describe('main.ts wiring', () => {
     expect(bustStart).toBeGreaterThan(-1);
     const bustBody = stripComments(src.slice(bustStart, src.indexOf('}', bustStart)));
     expect(bustBody).toContain('boardEpoch++');
-    for (const fn of ['refreshLeaderboard', 'refreshGuildLeaderboard', 'refreshDeedsBoard']) {
+    for (const fn of [
+      'refreshLeaderboard',
+      'refreshGuildLeaderboard',
+      'refreshDeedsBoard',
+      'refreshArena',
+    ]) {
       const start = src.indexOf(`async function ${fn}(`);
       expect(start, `${fn} not found`).toBeGreaterThan(-1);
       // The function body runs to its column-0 closing brace (every inner brace is
@@ -357,5 +366,27 @@ describe('main.ts wiring', () => {
         'if (boardEpoch === epoch)',
       );
     }
+  });
+
+  it('the legacy arena and project-stats arms funnel into the shared getters and rate-limit', () => {
+    // Acceptance-criterion 1's legacy-arm half: the legacy main.ts branches reach the
+    // SAME cache getters the migrated RouteDef handlers use (so both arms share one
+    // cache), no longer inline the raw db reads, and carry the public-read limiter.
+    const src = readFileSync(resolve(__dirname, '../../server/main.ts'), 'utf8');
+    const stripComments = (s: string): string => s.replace(/(^|[^:])\/\/.*$/gm, '$1');
+
+    const arenaStart = src.indexOf("=== '/api/arena/leaderboard'");
+    expect(arenaStart).toBeGreaterThan(-1);
+    const arenaArm = stripComments(src.slice(arenaStart, src.indexOf('\n    }', arenaStart)));
+    expect(arenaArm).toContain('getArenaLeaderboard(format)');
+    expect(arenaArm).toContain('publicReadRateLimited(req)');
+    expect(arenaArm).not.toContain('topArenaRatings(');
+
+    const statsStart = src.indexOf("=== '/api/project-stats'");
+    expect(statsStart).toBeGreaterThan(-1);
+    const statsArm = stripComments(src.slice(statsStart, src.indexOf('\n    }', statsStart)));
+    expect(statsArm).toContain('getAccountsCreatedCount()');
+    expect(statsArm).toContain('publicReadRateLimited(req)');
+    expect(statsArm).not.toContain('getAccountsCount(');
   });
 });

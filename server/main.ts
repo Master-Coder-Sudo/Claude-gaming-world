@@ -814,16 +814,22 @@ export const boardReadTestSeam = {
   getDeedsRarity,
   getLeaderboard,
   getGuildLeaderboard,
+  getArenaLeaderboard,
+  getAccountsCreatedCount,
   refreshDeedsRarityShared,
   refreshLeaderboardShared,
   refreshGuildLeaderboardShared,
+  refreshArenaShared,
   bustBoardCaches,
   reset(): void {
     leaderboardCache.realm = null;
     leaderboardCache.global = null;
     guildLeaderboardCache.realm = null;
     guildLeaderboardCache.global = null;
+    arenaLeaderboardCache['1v1'] = null;
+    arenaLeaderboardCache['2v2'] = null;
     deedsRarityCache = null;
+    accountsCreatedCache.bust();
   },
 };
 

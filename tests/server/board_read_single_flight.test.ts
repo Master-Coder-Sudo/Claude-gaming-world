@@ -1,10 +1,13 @@
-// Board-read single-flight: the three TTL-cached board reads (deed rarity, the
-// lifetime-XP leaderboard, the guild leaderboard) each share ONE underlying db
-// read across N concurrent cold/expired callers, a rejected refresh is never
-// cached (the next call re-reads fresh), a refresh error stale-serves the
-// last-good value, and a moderation bust landing mid-flight evicts any in-flight
-// pre-ban joiner (the epoch-keyed leaderboard flights) instead of handing it the
-// pre-ban snapshot.
+// Board-read single-flight: the TTL-cached board reads (deed rarity, the
+// lifetime-XP leaderboard, the guild leaderboard, the arena ladder, and the
+// project-stats accounts-created count) each share ONE underlying db read across N
+// concurrent cold/expired callers, a rejected refresh is never cached (the next
+// call re-reads fresh), a refresh error stale-serves the last-good value, and a
+// moderation bust landing mid-flight evicts any in-flight pre-ban joiner (the
+// epoch-keyed leaderboard and arena flights) instead of handing it the pre-ban
+// snapshot. The arena ladder is per FORMAT (each of '1v1' / '2v2' its own slot and
+// flight); the project-stats count is single-key and moderation-INVARIANT, so it is
+// NOT bust-wired and a cold-cache db error degrades it to 0.
 //
 // These drive the REAL module-private getters through boardReadTestSeam (exported
 // by server/main.ts) with only the three underlying db reads mocked, so every
@@ -38,6 +41,8 @@ import { afterEach, beforeEach, describe, expect, it, type Mock, vi } from 'vite
 const dbMocks = vi.hoisted(() => ({
   topLifetimeXp: vi.fn(),
   topGuilds: vi.fn(),
+  topArenaRatings: vi.fn(),
+  getAccountsCount: vi.fn(),
   deedRarityCounts: vi.fn(),
 }));
 
@@ -50,14 +55,17 @@ vi.mock('../../server/db', async (importOriginal) => ({
   ...(await importOriginal<typeof import('../../server/db')>()),
   topLifetimeXp: dbMocks.topLifetimeXp,
   topGuilds: dbMocks.topGuilds,
+  topArenaRatings: dbMocks.topArenaRatings,
+  getAccountsCount: dbMocks.getAccountsCount,
 }));
 vi.mock('../../server/deeds_db', async (importOriginal) => ({
   ...(await importOriginal<typeof import('../../server/deeds_db')>()),
   deedRarityCounts: dbMocks.deedRarityCounts,
 }));
 
-import type { GuildLeaderRow, LifetimeXpLeaderRow } from '../../server/db';
+import type { ArenaLeaderRow, GuildLeaderRow, LifetimeXpLeaderRow } from '../../server/db';
 import type { DeedRarityAggregate } from '../../server/deeds_db';
+import { ARENA_LEADERBOARD_LIMIT } from '../../server/leaderboard';
 import { boardReadTestSeam } from '../../server/main';
 
 const seam = boardReadTestSeam;
@@ -109,6 +117,10 @@ function guildRows(tag: string): GuildLeaderRow[] {
   ];
 }
 
+function arenaRows(tag: string): ArenaLeaderRow[] {
+  return [{ name: `${tag}-champ`, class: 'mage', level: 60, rating: 1800, wins: 20, losses: 5 }];
+}
+
 function rarityAggregate(): DeedRarityAggregate {
   return { totalEligible: 100, earned: { [LISTABLE_DEED_ID]: 40 } };
 }
@@ -116,6 +128,8 @@ function rarityAggregate(): DeedRarityAggregate {
 beforeEach(() => {
   dbMocks.topLifetimeXp.mockReset();
   dbMocks.topGuilds.mockReset();
+  dbMocks.topArenaRatings.mockReset();
+  dbMocks.getAccountsCount.mockReset();
   dbMocks.deedRarityCounts.mockReset();
   // Null the leaderboard/guild/rarity caches between cases (the flights clear
   // their own in-flight slots on settle, and every case below settles all its
@@ -185,6 +199,32 @@ describe('concurrency: N cold callers share one underlying read', () => {
     expect(entries).toHaveLength(1);
     expect(entries[0].name).toBe('global-guild');
     expect(entries[0].realm).toBe('test-realm');
+  });
+
+  it('getArenaLeaderboard(1v1): concurrent cold callers cost one topArenaRatings read', async () => {
+    const leaders = await sharesOneFlight(dbMocks.topArenaRatings, arenaRows('1v1'), () =>
+      seam.getArenaLeaderboard('1v1'),
+    );
+    expect(leaders).toHaveLength(1);
+    expect(leaders[0].name).toBe('1v1-champ');
+    // the read is issued for the top ARENA_LEADERBOARD_LIMIT rows of this format
+    expect(dbMocks.topArenaRatings).toHaveBeenCalledWith(ARENA_LEADERBOARD_LIMIT, '1v1');
+  });
+
+  it('getArenaLeaderboard(2v2): concurrent cold callers cost one topArenaRatings read', async () => {
+    const leaders = await sharesOneFlight(dbMocks.topArenaRatings, arenaRows('2v2'), () =>
+      seam.getArenaLeaderboard('2v2'),
+    );
+    expect(leaders).toHaveLength(1);
+    expect(leaders[0].name).toBe('2v2-champ');
+    expect(dbMocks.topArenaRatings).toHaveBeenCalledWith(ARENA_LEADERBOARD_LIMIT, '2v2');
+  });
+
+  it('getAccountsCreatedCount: concurrent cold callers cost one getAccountsCount read', async () => {
+    const count = await sharesOneFlight(dbMocks.getAccountsCount, 4242, () =>
+      seam.getAccountsCreatedCount(),
+    );
+    expect(count).toBe(4242);
   });
 });
 
@@ -266,6 +306,21 @@ describe('a rejected refresh is not cached: the next call re-reads fresh', () =>
     expect(third).toHaveLength(1);
     expect(third[0].name).toBe('recovered-guild');
   });
+
+  it('getArenaLeaderboard(1v1): rejection serves [], then re-reads', async () => {
+    dbMocks.topArenaRatings
+      .mockImplementationOnce(() => Promise.reject(new Error('db down')))
+      .mockResolvedValueOnce(arenaRows('recovered'));
+    const first = seam.getArenaLeaderboard('1v1');
+    const second = seam.getArenaLeaderboard('1v1');
+    expect(dbMocks.topArenaRatings).toHaveBeenCalledTimes(1);
+    await expect(first).resolves.toEqual([]);
+    await expect(second).resolves.toEqual([]);
+    const third = await seam.getArenaLeaderboard('1v1');
+    expect(dbMocks.topArenaRatings).toHaveBeenCalledTimes(2);
+    expect(third).toHaveLength(1);
+    expect(third[0].name).toBe('recovered-champ');
+  });
 });
 
 // (C) STALE-SERVE ON ERROR: seed a fresh cache, expire it (advance the clock past
@@ -343,6 +398,26 @@ describe('stale-serve on error: a refresh failure serves the last-good cache', (
     expect(served).toBe(good);
     expect(served).not.toEqual([]);
   });
+
+  it('getArenaLeaderboard(1v1): serves the previous leaders, not []', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date('2026-07-11T12:00:00.000Z'));
+    dbMocks.topArenaRatings.mockResolvedValueOnce(arenaRows('seed'));
+    const good = await seam.getArenaLeaderboard('1v1');
+    expect(good).toHaveLength(1);
+    // Past LEADERBOARD_TTL_MS (30 s): the next read refreshes, and it fails.
+    vi.setSystemTime(new Date('2026-07-11T12:00:31.000Z'));
+    dbMocks.topArenaRatings.mockRejectedValueOnce(new Error('db down'));
+    const served = await seam.getArenaLeaderboard('1v1');
+    expect(dbMocks.topArenaRatings).toHaveBeenCalledTimes(2);
+    expect(served).toBe(good);
+    expect(served).not.toEqual([]);
+  });
+  // The project-stats count's warm-then-fail stale-serve is createCachedRead's own
+  // contract, pinned with an injected clock in tests/server/cached_read.test.ts
+  // (this cache captures Date.now at construction, so vi.useFakeTimers cannot expire
+  // it here the way it can the inline-Date.now board caches). The wrapper only adds
+  // the cold-cache degrade-to-0 fallback, pinned in (E3) below.
 });
 
 // (D) BOTH LEADERBOARD READ PATHS SHARE ONE FLIGHT.
@@ -408,15 +483,35 @@ describe('server/main.ts wiring: both leaderboard read paths share one flight', 
     expect(ggBody).toContain('refreshGuildLeaderboardShared[scope]()');
   });
 
-  it('every leaderboard flight is constructed with the boardEpoch getter (rarity is not)', () => {
-    // The whole hard-stop value is that each of the four leaderboard flights is
-    // keyed on boardEpoch, so a moderation bust evicts an in-flight joiner. Pin the
-    // epoch getter on each construction: dropping it from any flight compiles and
-    // passes every behavioral test that does not exercise THAT flight, so this
-    // structural pin plus the per-flight eviction cases below together close the gap.
-    // The closing paren is intentionally omitted: biome formats each flight
-    // multi-line with a trailing comma (`() => boardEpoch,`), so the collapsed text
-    // is `...boardEpoch,)`; matching up to `boardEpoch` pins the epoch getter without
+  it('no bare refreshArena call survives outside the def and the two flight wraps', () => {
+    // refreshArena resolves to EXACTLY three `refreshArena(` sites: the
+    // `async function refreshArena(` definition and the two per-format
+    // `() => refreshArena('1v1'|'2v2')` singleFlight wraps. The `refreshArenaShared`
+    // accessor does not match `refreshArena(` (the `Shared` token sits between the
+    // name and the paren), and every read goes through that accessor, so anything
+    // beyond these three would be a raw bypass that skips the epoch-keyed flight.
+    expect(codeOnly.match(/\brefreshArena\(/g)).toHaveLength(3);
+    expect(src).toContain('async function refreshArena(');
+    expect(compactSrc).toContain("()=>refreshArena('1v1')");
+    expect(compactSrc).toContain("()=>refreshArena('2v2')");
+  });
+
+  it('getArenaLeaderboard reads through the shared per-format flights', () => {
+    const gaStart = src.indexOf('async function getArenaLeaderboard(');
+    expect(gaStart).toBeGreaterThan(-1);
+    const gaBody = src.slice(gaStart, src.indexOf('\n}\n', gaStart)).replace(/\s+/g, '');
+    expect(gaBody).toContain('refreshArenaShared[format]()');
+  });
+
+  it('every leaderboard and arena flight is constructed with the boardEpoch getter (rarity + count are not)', () => {
+    // The whole hard-stop value is that each epoch-keyed flight is keyed on
+    // boardEpoch, so a moderation bust evicts an in-flight joiner. Pin the epoch
+    // getter on each construction: dropping it from any flight compiles and passes
+    // every behavioral test that does not exercise THAT flight, so this structural
+    // pin plus the per-flight eviction cases below together close the gap. The
+    // closing paren is intentionally omitted: biome formats each flight multi-line
+    // with a trailing comma (`() => boardEpoch,`), so the collapsed text is
+    // `...boardEpoch,)`; matching up to `boardEpoch` pins the epoch getter without
     // depending on that punctuation.
     expect(compactSrc).toContain("singleFlight(()=>refreshLeaderboard('realm'),()=>boardEpoch");
     expect(compactSrc).toContain("singleFlight(()=>refreshLeaderboard('global'),()=>boardEpoch");
@@ -426,9 +521,12 @@ describe('server/main.ts wiring: both leaderboard read paths share one flight', 
     expect(compactSrc).toContain(
       "singleFlight(()=>refreshGuildLeaderboard('global'),()=>boardEpoch",
     );
-    // Exactly four epoch-keyed flights: the rarity flight (not bust-wired) must NOT
-    // gain the getter, and no leaderboard flight may lose it.
-    expect(compactSrc.match(/\(\)=>boardEpoch/g)).toHaveLength(4);
+    expect(compactSrc).toContain("singleFlight(()=>refreshArena('1v1'),()=>boardEpoch");
+    expect(compactSrc).toContain("singleFlight(()=>refreshArena('2v2'),()=>boardEpoch");
+    // Exactly six epoch-keyed flights (player + guild, realm + global; arena 1v1 +
+    // 2v2): the rarity and project-stats caches (not bust-wired) must NOT gain the
+    // getter, and no board flight may lose it.
+    expect(compactSrc.match(/\(\)=>boardEpoch/g)).toHaveLength(6);
   });
 
   it('a warm tick landing during an in-flight inline read runs the query once', async () => {
@@ -518,6 +616,53 @@ describe('a moderation bust mid-flight evicts the in-flight joiner (epoch-keyed)
       seam.getGuildLeaderboard('global'),
     );
   });
+
+  it('arena ladder (1v1): post-bust caller re-reads, pre-ban snapshot never installs', async () => {
+    await assertBustEvictsJoiner(dbMocks.topArenaRatings, arenaRows, () =>
+      seam.getArenaLeaderboard('1v1'),
+    );
+  });
+
+  it('arena ladder (2v2): post-bust caller re-reads, pre-ban snapshot never installs', async () => {
+    await assertBustEvictsJoiner(dbMocks.topArenaRatings, arenaRows, () =>
+      seam.getArenaLeaderboard('2v2'),
+    );
+  });
+});
+
+// (E2) PER-FORMAT ISOLATION: the arena cache is keyed by format, so filling one
+// format's slot never serves another, and each format reads independently.
+describe('the arena ladder is cached per format', () => {
+  it('filling one format never serves another; each format reads its own slot', async () => {
+    dbMocks.topArenaRatings
+      .mockResolvedValueOnce(arenaRows('1v1'))
+      .mockResolvedValueOnce(arenaRows('2v2'));
+    const oneVone = await seam.getArenaLeaderboard('1v1');
+    expect(oneVone[0].name).toBe('1v1-champ');
+    expect(dbMocks.topArenaRatings).toHaveBeenCalledTimes(1);
+    // 2v2 is a cold miss on its OWN slot, so it triggers its own read; a warm 1v1
+    // cache never serves 2v2.
+    const twoVtwo = await seam.getArenaLeaderboard('2v2');
+    expect(twoVtwo[0].name).toBe('2v2-champ');
+    expect(dbMocks.topArenaRatings).toHaveBeenCalledTimes(2);
+    expect(dbMocks.topArenaRatings).toHaveBeenNthCalledWith(1, ARENA_LEADERBOARD_LIMIT, '1v1');
+    expect(dbMocks.topArenaRatings).toHaveBeenNthCalledWith(2, ARENA_LEADERBOARD_LIMIT, '2v2');
+    // A second 1v1 read is a warm hit: no third underlying read, and the 1v1 slot
+    // still holds the 1v1 leaders (the 2v2 fill did not overwrite it).
+    const oneVoneAgain = await seam.getArenaLeaderboard('1v1');
+    expect(dbMocks.topArenaRatings).toHaveBeenCalledTimes(2);
+    expect(oneVoneAgain[0].name).toBe('1v1-champ');
+  });
+});
+
+// (E3) COLD-CACHE DEGRADATION: the project-stats count is single-key and, before
+// its first success, a db error degrades to 0 rather than throwing (so the endpoint
+// stays 200 where an unguarded read 500'd).
+describe('the project-stats count degrades to 0 on a cold-cache db error', () => {
+  it('a cold-cache getAccountsCount error serves 0, not a throw', async () => {
+    dbMocks.getAccountsCount.mockRejectedValueOnce(new Error('db down'));
+    await expect(seam.getAccountsCreatedCount()).resolves.toBe(0);
+  });
 });
 
 // (F) HIDDEN-DEED STRIP AT REFRESH TIME: publicRarityPayload strips a hidden deed
@@ -553,10 +698,30 @@ describe('hidden deeds are stripped at refresh time, before the cache install', 
 
 // (H) TTL-UNCHANGED SOURCE PIN: the board-read TTLs are the byte-identical literals
 // the caching change must not touch.
-describe('the board-read TTLs are unchanged', () => {
+describe('the board-read TTLs and the arena depth', () => {
   const src = readFileSync(new URL('../../server/main.ts', import.meta.url), 'utf8');
   it('pins DEEDS_RARITY_TTL_MS and LEADERBOARD_TTL_MS to their exact literals', () => {
     expect(src).toContain('DEEDS_RARITY_TTL_MS = 5 * 60_000');
     expect(src).toContain('LEADERBOARD_TTL_MS = 30_000');
+  });
+
+  it('pins the project-stats 60s TTL and the arena ladder reuse of LEADERBOARD_TTL_MS', () => {
+    // The project-stats count carries its own 60s TTL (the D11 marketing-counter
+    // exception), built into the cache with the named constant, never a bare literal.
+    expect(src).toContain('PROJECT_STATS_TTL_MS = 60_000');
+    expect(src.replace(/\s+/g, '')).toContain('ttlMs:PROJECT_STATS_TTL_MS');
+    // The arena ladder reuses the 30s board TTL (no separate arena TTL constant),
+    // so its freshness window can never silently drift from the other boards.
+    const gaStart = src.indexOf('async function getArenaLeaderboard(');
+    expect(gaStart).toBeGreaterThan(-1);
+    const gaBody = src.slice(gaStart, src.indexOf('\n}\n', gaStart));
+    expect(gaBody).toContain('LEADERBOARD_TTL_MS');
+  });
+
+  it('pins the arena ladder depth to the single ARENA_LEADERBOARD_LIMIT source (20)', () => {
+    // The ladder depth lives once in server/leaderboard.ts and readArenaLeaderboard
+    // is the only caller of the underlying read, so main.ts carries no second 20.
+    expect(ARENA_LEADERBOARD_LIMIT).toBe(20);
+    expect(src).not.toContain('topArenaRatings(20');
   });
 });
