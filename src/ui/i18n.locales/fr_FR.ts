@@ -794,16 +794,6 @@ export const fr_FR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.vcup.walkUp': 'Approchez-vous du Pré de la Truie pour regarder depuis les tribunes.',
   'hudChrome.archetypeTitle.label': 'Titre',
   'hudChrome.archetypeTitle.none': 'Aucun',
-  'hudChrome.archetypeTitle.armorcrafting': 'Armurier',
-  'hudChrome.archetypeTitle.weaponcrafting': "Forgeron d'armes",
-  'hudChrome.archetypeTitle.jewelcrafting': 'Joaillier',
-  'hudChrome.archetypeTitle.alchemy': 'Alchimiste',
-  'hudChrome.archetypeTitle.engineering': 'Ingénieur',
-  'hudChrome.archetypeTitle.cooking': 'Cuisinier',
-  'hudChrome.archetypeTitle.inscription': 'Scribe',
-  'hudChrome.archetypeTitle.enchanting': 'Enchanteur',
-  'hudChrome.archetypeTitle.tailoring': 'Tailleur',
-  'hudChrome.archetypeTitle.leatherworking': 'Tanneur',
   'entities.itemSets.crownforged.bonus4':
     "Vos coups critiques d'arme lacèrent la cible avec Éclat d'os, lui infligeant 8 points de dégâts de saignement toutes les 2 s pendant 12 s. Se cumule jusqu'à 3 fois.",
   'entities.itemSets.deathlord.bonus4':
@@ -6785,7 +6775,7 @@ export const fr_FR: Partial<Record<TranslationKey, string>> = {
     "Augmente la vitesse d'attaque et d'incantation de 15%.",
   'entities.itemSets.necromancers.name': 'Parure de Mournweave',
   'entities.itemSets.necromancers.bonus2':
-    'Vous ne pouvez pas être projeté en arrière (100% de résistance à la projection).',
+    'Augmente la puissance des sorts de 20. Les dégâts subis ne retardent plus vos incantations (100% de résistance au retard des sorts).',
   'entities.itemSets.necromancers.bonus3': "Augmente l'intelligence de 10 et l'endurance de 10.",
   'entities.itemSets.nighttalon.name': 'Peau de Direfang',
   'entities.itemSets.nighttalon.bonus2': "Augmente la puissance d'attaque de 40.",
@@ -6793,12 +6783,12 @@ export const fr_FR: Partial<Record<TranslationKey, string>> = {
     "Augmente l'agilité de 15, les chances de critique de 2% et la vitesse d'attaque et d'incantation de 15%.",
   'entities.itemSets.soulflame.name': "Tenue d'apparat Wraithfire",
   'entities.itemSets.soulflame.bonus2':
-    'Vous ne pouvez pas être projeté en arrière (100% de résistance à la projection).',
+    'Augmente la puissance des sorts de 20. Les dégâts subis ne retardent plus vos incantations (100% de résistance au retard des sorts).',
   'entities.itemSets.soulflame.bonus3':
     "Augmente l'intelligence de 15, l'esprit de 15 et la vitesse d'attaque et d'incantation de 15%.",
   'entities.itemSets.stormcallers.name': 'Vêtements de Galecall',
   'entities.itemSets.stormcallers.bonus2':
-    'Vous ne pouvez pas être projeté en arrière (100% de résistance à la projection).',
+    'Augmente la puissance des sorts de 20. Les dégâts subis ne retardent plus vos incantations (100% de résistance au retard des sorts).',
   'entities.itemSets.stormcallers.bonus3':
     "Augmente l'intelligence de 15, l'esprit de 15 et la vitesse d'attaque et d'incantation de 15%.",
   'entities.itemSets.vale_arcanist.name': "Tenue de l'arcaniste du Val",
@@ -7220,15 +7210,7 @@ export const fr_FR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.options.mobileCameraJoystick': 'Manette de caméra',
   'hudChrome.options.mobileLeftHanded': 'Disposition pour gaucher',
   'entities.quests.q_archetype_acceptance.title': 'Un métier qui vous appartient',
-  'entities.quests.q_archetype_acceptance.text':
-    "Chaque artisan d'Eastbrook finit par choisir un métier qui lui est propre. Prouvez-vous avec un seul acte, {playerName}, et déclarez votre chemin.",
-  'entities.quests.q_archetype_acceptance.completion': 'Votre chemin est choisi ; marchez bien.',
-  'entities.quests.q_archetype_acceptance.objectives.0.label': 'Loup des forêts tué',
   'entities.quests.q_prof_make_amends.title': 'Faire amende honorable',
-  'entities.quests.q_prof_make_amends.text':
-    "Pour réserver un métier à un autre, un artisan doit d'abord réparer le chemin non parcouru, {playerName}.",
-  'entities.quests.q_prof_make_amends.completion':
-    "Modifications apportées ; un nouveau chemin s'ouvre à vous.",
   'entities.quests.q_prof_make_amends.objectives.0.label': 'Loup des forêts tué',
   'entities.npcs.bursar_aldous_crane.greeting':
     'Chaque caisse, chaque coffret et chaque babiole est en sécurité au Coffre doré.',
@@ -7506,11 +7488,6 @@ export const fr_FR: Partial<Record<TranslationKey, string>> = {
   'entities.items.arcane_essence.name': 'Essence arcanique',
   'entities.items.arcane_shard.name': 'Éclat arcanique',
   'entities.items.chunk_of_ore.name': 'Morceau de minerai',
-  'entities.quests.q_prof_intro.completion':
-    'Vous voyez ? Du minerai dans votre sac et des cals aux mains. Continuez à miner, à couper du bois et à cueillir des plantes sur les routes. De retour en ville, pensez au tableau des Priorités de la ville près du marché et à l’établi d’artisanat juste à côté. Tout cela peut vous offrir un gagne-pain honorable, si le cœur vous en dit.',
-  'entities.quests.q_prof_intro.objectives.0.label': 'Morceau de minerai',
-  'entities.quests.q_prof_intro.text':
-    'À Eastbrook, tout le monde exerce un métier en plus de manier l’épée, {playerName}. Des filons de minerai sont dispersés autour de la ville, alors prenez une pioche et rapportez-moi 5 morceaux. Extrayez-les vous-même, attention, je saurai faire la différence.',
   'entities.quests.q_prof_intro.title': 'Un métier pour chaque main',
   'hudChrome.auth.appleChoiceExpired':
     'Cette connexion avec Apple a expiré. Veuillez vous reconnecter avec Apple.',

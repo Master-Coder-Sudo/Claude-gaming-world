@@ -416,6 +416,18 @@ export const vi_VN: EnTranslations = {
       "armoryEyebrow": "Mùa 1",
       "armoryTitle": "Kho Vũ Khí",
       "armoryBody": "Ngoại hình vũ khí giới hạn từ Kho Vũ Khí Mùa 1. Dùng chung toàn tài khoản, hoàn toàn mang tính thẩm mỹ và hiển thị với mọi người xung quanh bạn.",
+      "wallet": {
+        "title": "Solana wallet",
+        "unlinked": "Connect a wallet app, then sign once to link its public address to your WoC account. We never receive your recovery phrase or private key.",
+        "connectedUnlinked": "The wallet app is connected to this browser, but its public address is not linked to your WoC account yet.",
+        "linkedDisconnected": "Your public address is linked. Reconnect that wallet app when you want to pay with SOL or WOC.",
+        "linkedConnected": "Your linked wallet app is connected and ready for SOL or WOC purchases.",
+        "mismatched": "A different wallet is connected. Verify it to replace the linked address, or reconnect the linked wallet.",
+        "connect": "Connect wallet",
+        "verify": "Verify and link",
+        "reconnect": "Reconnect wallet",
+        "manage": "Manage wallet"
+      },
       "collectionLine": "Bộ sưu tập {collection}",
       "collections": {
         "guildmark": "Nhãn hiệu bang hội",
@@ -2014,17 +2026,31 @@ export const vi_VN: EnTranslations = {
     "archetypeTitle": {
       "label": "Danh hiệu",
       "none": "Không có",
-      "hobbyLabel": "Sở Thích",
-      "armorcrafting": "Thợ Giáp",
-      "weaponcrafting": "Thợ Rèn Vũ Khí",
-      "jewelcrafting": "Thợ Kim Hoàn",
-      "alchemy": "Nhà Giả Kim",
-      "engineering": "Kỹ Sư",
-      "cooking": "Đầu Bếp",
-      "inscription": "Thợ Khắc Chữ",
-      "enchanting": "Thợ Phù Phép",
-      "tailoring": "Thợ May",
-      "leatherworking": "Thợ Da"
+      "hobbyLabel": "Sở Thích"
+    },
+    "archetypePair": {
+      "engineering+alchemy": "Bombardier",
+      "alchemy+cooking": "Apothecary",
+      "cooking+leatherworking": "Trapper",
+      "leatherworking+tailoring": "Outfitter",
+      "tailoring+inscription": "Mageweaver",
+      "inscription+enchanting": "Arcanist",
+      "enchanting+jewelcrafting": "Gembinder",
+      "jewelcrafting+weaponcrafting": "Bladewright",
+      "weaponcrafting+armorcrafting": "Smith",
+      "armorcrafting+engineering": "Cogsmith"
+    },
+    "craftName": {
+      "armorcrafting": "Armorcrafting",
+      "weaponcrafting": "Weaponcrafting",
+      "jewelcrafting": "Jewelcrafting",
+      "alchemy": "Alchemy",
+      "engineering": "Engineering",
+      "cooking": "Cooking",
+      "inscription": "Inscription",
+      "enchanting": "Enchanting",
+      "tailoring": "Tailoring",
+      "leatherworking": "Leatherworking"
     },
     "crafting": {
       "title": "Chế tạo",
@@ -2038,6 +2064,42 @@ export const vi_VN: EnTranslations = {
       "insufficientMaterials": "Bạn không có tài liệu cho việc đó.",
       "unknownRecipe": "Công thức đó không tồn tại.",
       "comboRequirementUnmet": "Bạn chưa có cả hai nghề chế tạo cần thiết ở bậc yêu cầu cho công thức đó.",
+      "comboRequires": "Attunement: {craftA} + {craftB}, tier {tier}.",
+      "comboMet": "Ready.",
+      "comboSyncing": "Checking realm attunement.",
+      "comboNotAttuned": "Choose an archetype pair first.",
+      "comboWrongPair": "Activate this exact pair to craft it.",
+      "comboTierUnmet": "Raise both major crafts to the required tier.",
+      "professionChoice": "Profession choice",
+      "noProfessionChoice": "No valid profession choice is currently available.",
+      "pairOptionLabel": "{pair} ({craftA} + {craftB})",
+      "attunementPreview": "Result: {title} title; {majorA} and {majorB} become uncapped majors; {hobby} becomes the rare-capped hobby; all other skill knowledge is retained but capped at common while dormant.",
+      "hobbyPreview": "Result: {hobby} becomes the rare-capped hobby. Both majors and all retained skill values stay unchanged.",
+      "identity": {
+        "title": "Crafting Identity",
+        "syncing": "Waiting for your crafting identity from the realm.",
+        "unattuned": "No archetype pair is active. Your knowledge is retained, but combo recipes require an attuned pair.",
+        "titleLabel": "Title",
+        "majorsLabel": "Majors",
+        "hobbyLabel": "Hobby",
+        "historyLabel": "History",
+        "history": "{pairs} pairs discovered, {returns} returns completed",
+        "roleMajor": "Major",
+        "roleHobby": "Hobby",
+        "roleDormant": "Dormant knowledge",
+        "roleUnattuned": "Unattuned",
+        "ceilingUnlimited": "No empowerment cap",
+        "ceilingRare": "Rare cap",
+        "ceilingCommon": "Common cap",
+        "skillAria": "{craft}, skill {skill}, tier {tier}, {role}, {ceiling}",
+        "colCraft": "Craft",
+        "colSkill": "Skill",
+        "colRole": "Role",
+        "colCap": "Cap",
+        "tutorial": "First tier: reach skill {skill} in a craft. Successful recipes raise that craft without erasing knowledge elsewhere.",
+        "nearTier": "{craft} is {points} skill from its next tier.",
+        "dormantKnowledge": "{craft} knowledge is retained but dormant until its pair or hobby is active."
+      },
       "notAtHub": "Bạn phải ở trung tâm chế tác, đạt cấp yêu cầu, mới chế tạo được thứ đó.",
       "throttled": "Bạn đang chế tạo quá nhanh. Hãy chờ một lát rồi thử lại.",
       "recipeNotLearned": "Bạn chưa học công thức đó."
@@ -2307,6 +2369,9 @@ export const vi_VN: EnTranslations = {
       "already_linked": "Tài khoản của bạn đã liên kết với một tài khoản Steam.",
       "account_taken": "Tài khoản Steam đó đã được liên kết với một tài khoản khác.",
       "upstream": "Steam không phản hồi. Hãy thử lại sau giây lát."
+    },
+    "wallet": {
+      "handoff_invalid": "That wallet authorization expired or could not be verified. Try again."
     },
     "welcome": {
       "invalid_input": "Dữ liệu nhập không hợp lệ."
@@ -4027,6 +4092,9 @@ export const vi_VN: EnTranslations = {
     "balancePreviewTitle": "Xem trước số dư $WOC của ví đã kết nối",
     "balancePreviewAria": "Xem trước số dư ví đã kết nối: {balance}. Liên kết ví để xác minh huy hiệu chủ sở hữu.",
     "balanceAmount": "{amount} $WOC",
+    "bagConnect": "Link wallet",
+    "bagLink": "Verify wallet",
+    "bagReconnect": "Reconnect wallet",
     "connected": "Đã kết nối: {address}",
     "connectedWithBalance": "Đã kết nối: {balance} - {address}",
     "connectedLinked": "Đã xác minh: {address}",
@@ -4041,12 +4109,37 @@ export const vi_VN: EnTranslations = {
     "helpLinkedDisconnected": "Đặc quyền chủ sở hữu đang hoạt động. Kết nối ứng dụng khi bạn cần ký hoặc chi tiêu.",
     "helpLinkedDisconnectedWithBalance": "Đặc quyền chủ sở hữu đang hoạt động. Kết nối ứng dụng khi bạn cần ký hoặc chi tiêu.",
     "extensionHelp": "Để thấy ví ở đây, hãy giữ một tiện ích ví trình duyệt như Solflare Wallet đang hoạt động.",
+    "mobileAppHelp": "Choose Phantom or Solflare. Your wallet app will ask for approval. Keep this game open and return to it when finished.",
+    "standaloneAppHelp": "Wallet connections are not available in the Home Screen app yet. Open World of ClaudeCraft in Safari or Chrome to use Phantom or Solflare.",
+    "openAppTitle": "Continue in {wallet}",
+    "openAppHelp": "Open {wallet} to review this request. Keep this game tab open while the wallet app is active.",
+    "openAppButton": "Open {wallet}",
+    "manualReturnBrowserHelp": "After approval, return to this game tab. If iOS opens another browser, close it and return to the original browser manually.",
+    "manualReturnStandaloneHelp": "After approval, return to World of ClaudeCraft from your Home Screen. If iOS opens a browser, close it and reopen the Home Screen app manually.",
+    "preparingAppButton": "Preparing {wallet}...",
+    "walletAppUnavailable": "{wallet} could not be prepared. Close this window and try again.",
     "flowConnect": "Chọn một ví. Quá trình xác minh sẽ tiếp tục tự động.",
     "flowSign": "Ký vào thông điệp xác minh trong ứng dụng ví của bạn. Không cần giao dịch hay SOL.",
     "flowVerify": "Đang xác minh quyền sở hữu ví...",
     "linkFailed": "Xác minh ví thất bại.",
     "verifyFailed": "Xác minh ví thất bại.",
     "unlinkFailed": "Không thể hủy liên kết ví.",
+    "browser": {
+      "eyebrow": "Desktop wallet authorization",
+      "title": "Connect a Solana Wallet",
+      "linkBody": "Choose a wallet extension in this browser. You will sign a verification message, then return to the desktop app.",
+      "paymentBody": "Choose the wallet linked to your account and approve the transaction in this browser.",
+      "extensionHelp": "No compatible wallet extension was found. Install or unlock Phantom, Solflare, or another Solana browser wallet, then retry.",
+      "safety": "World of ClaudeCraft never asks for your recovery phrase or private key.",
+      "continueWith": "Continue with {wallet}",
+      "reviewTitle": "Review in your wallet",
+      "reviewBody": "Follow the prompt from {wallet}. Keep this browser page open.",
+      "completeTitle": "Wallet authorization complete",
+      "completeBody": "You can return to the World of ClaudeCraft desktop app.",
+      "returnButton": "Return to desktop app",
+      "failed": "Wallet authorization failed or expired. Return to the desktop app and try again.",
+      "retry": "Retry"
+    },
     "holder": "Chủ sở hữu $WOC",
     "holderTierTitle": "Chủ sở hữu $WOC bậc {tier}",
     "holderTiers": {
@@ -8770,11 +8863,11 @@ export const vi_VN: EnTranslations = {
     "quests": {
       "q_prof_intro": {
         "title": "Nghề Cho Mọi Đôi Tay",
-        "text": "Mọi người ở Đông Khê đều làm một nghề bên cạnh việc cầm kiếm, {playerName}. Các mạch quặng nằm rải rác quanh thị trấn, nên hãy vung cuốc và mang về cho ta 5 khối. Tự tay khai thác nhé, ta sẽ biết nếu không phải vậy.",
-        "completion": "Thấy chưa? Quặng trong túi, chai sạn trên tay. Cứ tiếp tục khai khoáng, đốn gỗ và hái thảo dược dọc đường. Khi về thị trấn, nhớ ghé bảng Trọng Tâm Thị Trấn cạnh chợ và bàn chế tác gần đó. Nếu muốn, mọi việc ấy đều có thể thành một nghề kiếm sống đàng hoàng.",
+        "text": "Every soul in Eastbrook works a trade besides the sword, {playerName}. There are ore veins in the rocks around the Copper Dig, southwest of town. Go swing a pick and work 5 of them yourself, mind; I'll know the difference.",
+        "completion": "See? Ore gathered and callus on your hands. Keep at the mining, logging, and herb-picking as you travel the roads, and when you're back in town, mind the Town Focus board by the market and the crafting bench nearby. There's a fair trade waiting in all of it, if you want it.",
         "objectives": {
           "0": {
-            "label": "Khối Quặng"
+            "label": "Ore vein harvested"
           }
         }
       },
@@ -9562,21 +9655,31 @@ export const vi_VN: EnTranslations = {
       },
       "q_archetype_acceptance": {
         "title": "Một nghề để gọi riêng của bạn",
-        "text": "Mỗi nghệ nhân của Eastbrook cuối cùng đều định cư trên một nghề thủ công riêng của họ. Hãy chứng tỏ bản thân bằng một hành động duy nhất, {playerName}, và tuyên bố con đường của bạn.",
-        "completion": "Con đường của bạn đã được chọn; đi bộ tốt.",
+        "text": "Skill is knowledge, {playerName}, but attunement is a promise. Choose two neighboring crafts whose methods you will carry as your majors, then bring me ore worked from the Vale with your own hands.",
+        "completion": "The promise holds. These two crafts are now your majors, and the knowledge opposite them becomes your hobby.",
+        "objectives": {
+          "0": {
+            "label": "Ore vein harvested"
+          }
+        }
+      },
+      "q_prof_make_amends": {
+        "title": "Sửa đổi",
+        "text": "You have carried that pair before, {playerName}. Returning is no fresh vow. Help keep the Vale road clear, and the work will remind your hands what they once knew.",
+        "completion": "The old rhythm returns. Your former pair is active once more.",
         "objectives": {
           "0": {
             "label": "Sói rừng bị giết"
           }
         }
       },
-      "q_prof_make_amends": {
-        "title": "Sửa đổi",
-        "text": "Để dành một nghề cho một nghề khác, trước tiên một nghệ nhân phải sửa đổi con đường đã không đi, {playerName}.",
-        "completion": "Đã thực hiện sửa đổi; một con đường mới đang mở ra cho bạn.",
+      "q_prof_hobby_switch": {
+        "title": "A Different Pastime",
+        "text": "Majors demand a vow. A hobby only asks where your curiosity wanders, {playerName}. Gather a few herbs and decide which craft opposite your majors you want to pursue.",
+        "completion": "A lighter choice, but a useful one. Follow that curiosity as far as rare work will take it.",
         "objectives": {
           "0": {
-            "label": "Sói rừng bị giết"
+            "label": "Herb patch harvested"
           }
         }
       },
@@ -9845,7 +9948,7 @@ export const vi_VN: EnTranslations = {
       },
       "necromancers": {
         "name": "Y Phục Mournweave",
-        "bonus2": "Bạn không thể bị đẩy lùi (kháng đẩy lùi 100%).",
+        "bonus2": "Tăng sức mạnh phép thuật thêm 20. Sát thương phải chịu không còn làm chậm việc thi triển phép của bạn (kháng trì hoãn thi triển 100%).",
         "bonus3": "Tăng trí tuệ thêm 10 và thể lực thêm 10.",
         "bonus4": "Các phép của bạn có 10% cơ hội ban Tâm Trí Thông Suốt, khiến phép kế tiếp của bạn được thi triển miễn phí."
       },
@@ -9857,13 +9960,13 @@ export const vi_VN: EnTranslations = {
       },
       "soulflame": {
         "name": "Lễ Phục Wraithfire",
-        "bonus2": "Bạn không thể bị đẩy lùi (kháng đẩy lùi 100%).",
+        "bonus2": "Tăng sức mạnh phép thuật thêm 20. Sát thương phải chịu không còn làm chậm việc thi triển phép của bạn (kháng trì hoãn thi triển 100%).",
         "bonus3": "Tăng trí tuệ thêm 15, tinh thần thêm 15 và tốc độ tấn công cùng thi triển thêm 15%.",
         "bonus4": "Các phép của bạn có 10% cơ hội ban Hồn Hỏa, tăng sức mạnh phép thuật thêm 40 trong 10 giây."
       },
       "stormcallers": {
         "name": "Áo Lễ Galecall",
-        "bonus2": "Bạn không thể bị đẩy lùi (kháng đẩy lùi 100%).",
+        "bonus2": "Tăng sức mạnh phép thuật thêm 20. Sát thương phải chịu không còn làm chậm việc thi triển phép của bạn (kháng trì hoãn thi triển 100%).",
         "bonus3": "Tăng trí tuệ thêm 15, tinh thần thêm 15 và tốc độ tấn công cùng thi triển thêm 15%.",
         "bonus4": "Các phép của bạn có 10% cơ hội ban Hồn Hỏa, tăng sức mạnh phép thuật thêm 40 trong 10 giây."
       },

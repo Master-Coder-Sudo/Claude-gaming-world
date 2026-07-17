@@ -416,6 +416,18 @@ export const pt_BR: EnTranslations = {
       "armoryEyebrow": "Temporada 1",
       "armoryTitle": "O Arsenal",
       "armoryBody": "Visuais de arma em edição limitada do Arsenal da Temporada 1. Válidos para toda a conta, puramente cosméticos e visíveis a todos ao seu redor.",
+      "wallet": {
+        "title": "Solana wallet",
+        "unlinked": "Connect a wallet app, then sign once to link its public address to your WoC account. We never receive your recovery phrase or private key.",
+        "connectedUnlinked": "The wallet app is connected to this browser, but its public address is not linked to your WoC account yet.",
+        "linkedDisconnected": "Your public address is linked. Reconnect that wallet app when you want to pay with SOL or WOC.",
+        "linkedConnected": "Your linked wallet app is connected and ready for SOL or WOC purchases.",
+        "mismatched": "A different wallet is connected. Verify it to replace the linked address, or reconnect the linked wallet.",
+        "connect": "Connect wallet",
+        "verify": "Verify and link",
+        "reconnect": "Reconnect wallet",
+        "manage": "Manage wallet"
+      },
       "collectionLine": "Coleção {collection}",
       "collections": {
         "guildmark": "Marca da Guilda",
@@ -2014,17 +2026,31 @@ export const pt_BR: EnTranslations = {
     "archetypeTitle": {
       "label": "Título",
       "none": "Nenhum",
-      "hobbyLabel": "Passatempo",
-      "armorcrafting": "Armeiro",
-      "weaponcrafting": "Forjador de armas",
-      "jewelcrafting": "Joalheiro",
-      "alchemy": "Alquimista",
-      "engineering": "Engenheiro",
-      "cooking": "Cozinheiro",
-      "inscription": "Escriba",
-      "enchanting": "Encantador",
-      "tailoring": "Alfaiate",
-      "leatherworking": "Curtidor"
+      "hobbyLabel": "Passatempo"
+    },
+    "archetypePair": {
+      "engineering+alchemy": "Bombardier",
+      "alchemy+cooking": "Apothecary",
+      "cooking+leatherworking": "Trapper",
+      "leatherworking+tailoring": "Outfitter",
+      "tailoring+inscription": "Mageweaver",
+      "inscription+enchanting": "Arcanist",
+      "enchanting+jewelcrafting": "Gembinder",
+      "jewelcrafting+weaponcrafting": "Bladewright",
+      "weaponcrafting+armorcrafting": "Smith",
+      "armorcrafting+engineering": "Cogsmith"
+    },
+    "craftName": {
+      "armorcrafting": "Armorcrafting",
+      "weaponcrafting": "Weaponcrafting",
+      "jewelcrafting": "Jewelcrafting",
+      "alchemy": "Alchemy",
+      "engineering": "Engineering",
+      "cooking": "Cooking",
+      "inscription": "Inscription",
+      "enchanting": "Enchanting",
+      "tailoring": "Tailoring",
+      "leatherworking": "Leatherworking"
     },
     "crafting": {
       "title": "Artesanato",
@@ -2038,6 +2064,42 @@ export const pt_BR: EnTranslations = {
       "insufficientMaterials": "Você não tem os materiais para isso.",
       "unknownRecipe": "Essa receita não existe.",
       "comboRequirementUnmet": "Você não possui os dois ofícios exigidos no nível necessário para essa receita.",
+      "comboRequires": "Attunement: {craftA} + {craftB}, tier {tier}.",
+      "comboMet": "Ready.",
+      "comboSyncing": "Checking realm attunement.",
+      "comboNotAttuned": "Choose an archetype pair first.",
+      "comboWrongPair": "Activate this exact pair to craft it.",
+      "comboTierUnmet": "Raise both major crafts to the required tier.",
+      "professionChoice": "Profession choice",
+      "noProfessionChoice": "No valid profession choice is currently available.",
+      "pairOptionLabel": "{pair} ({craftA} + {craftB})",
+      "attunementPreview": "Result: {title} title; {majorA} and {majorB} become uncapped majors; {hobby} becomes the rare-capped hobby; all other skill knowledge is retained but capped at common while dormant.",
+      "hobbyPreview": "Result: {hobby} becomes the rare-capped hobby. Both majors and all retained skill values stay unchanged.",
+      "identity": {
+        "title": "Crafting Identity",
+        "syncing": "Waiting for your crafting identity from the realm.",
+        "unattuned": "No archetype pair is active. Your knowledge is retained, but combo recipes require an attuned pair.",
+        "titleLabel": "Title",
+        "majorsLabel": "Majors",
+        "hobbyLabel": "Hobby",
+        "historyLabel": "History",
+        "history": "{pairs} pairs discovered, {returns} returns completed",
+        "roleMajor": "Major",
+        "roleHobby": "Hobby",
+        "roleDormant": "Dormant knowledge",
+        "roleUnattuned": "Unattuned",
+        "ceilingUnlimited": "No empowerment cap",
+        "ceilingRare": "Rare cap",
+        "ceilingCommon": "Common cap",
+        "skillAria": "{craft}, skill {skill}, tier {tier}, {role}, {ceiling}",
+        "colCraft": "Craft",
+        "colSkill": "Skill",
+        "colRole": "Role",
+        "colCap": "Cap",
+        "tutorial": "First tier: reach skill {skill} in a craft. Successful recipes raise that craft without erasing knowledge elsewhere.",
+        "nearTier": "{craft} is {points} skill from its next tier.",
+        "dormantKnowledge": "{craft} knowledge is retained but dormant until its pair or hobby is active."
+      },
       "notAtHub": "Você precisa estar no posto de criação, no nível exigido, para criar isso.",
       "throttled": "Você está criando rápido demais. Espere um momento e tente de novo.",
       "recipeNotLearned": "Você ainda não aprendeu essa receita."
@@ -2307,6 +2369,9 @@ export const pt_BR: EnTranslations = {
       "already_linked": "Sua conta já tem uma conta Steam vinculada.",
       "account_taken": "Essa conta Steam já está vinculada a outra conta.",
       "upstream": "O Steam não respondeu. Tente novamente em instantes."
+    },
+    "wallet": {
+      "handoff_invalid": "That wallet authorization expired or could not be verified. Try again."
     },
     "welcome": {
       "invalid_input": "Entrada inválida."
@@ -4027,6 +4092,9 @@ export const pt_BR: EnTranslations = {
     "balancePreviewTitle": "Prévia do saldo $WOC da carteira conectada",
     "balancePreviewAria": "Prévia do saldo da carteira conectada: {balance}. Vincule a carteira para verificar o destaque de titular.",
     "balanceAmount": "{amount} $WOC",
+    "bagConnect": "Link wallet",
+    "bagLink": "Verify wallet",
+    "bagReconnect": "Reconnect wallet",
     "connected": "Conectada: {address}",
     "connectedWithBalance": "Conectada: {balance} - {address}",
     "connectedLinked": "Verificada: {address}",
@@ -4041,12 +4109,37 @@ export const pt_BR: EnTranslations = {
     "helpLinkedDisconnected": "As vantagens de titular estão ativas. Conecte o app quando precisar assinar ou gastar.",
     "helpLinkedDisconnectedWithBalance": "As vantagens de titular estão ativas. Conecte o app quando precisar assinar ou gastar.",
     "extensionHelp": "Para ver uma carteira aqui, mantenha ativa uma extensão de carteira do navegador, como a Solflare Wallet.",
+    "mobileAppHelp": "Choose Phantom or Solflare. Your wallet app will ask for approval. Keep this game open and return to it when finished.",
+    "standaloneAppHelp": "Wallet connections are not available in the Home Screen app yet. Open World of ClaudeCraft in Safari or Chrome to use Phantom or Solflare.",
+    "openAppTitle": "Continue in {wallet}",
+    "openAppHelp": "Open {wallet} to review this request. Keep this game tab open while the wallet app is active.",
+    "openAppButton": "Open {wallet}",
+    "manualReturnBrowserHelp": "After approval, return to this game tab. If iOS opens another browser, close it and return to the original browser manually.",
+    "manualReturnStandaloneHelp": "After approval, return to World of ClaudeCraft from your Home Screen. If iOS opens a browser, close it and reopen the Home Screen app manually.",
+    "preparingAppButton": "Preparing {wallet}...",
+    "walletAppUnavailable": "{wallet} could not be prepared. Close this window and try again.",
     "flowConnect": "Escolha uma carteira. A verificação continua automaticamente.",
     "flowSign": "Assine a mensagem de verificação no app da carteira. Não exige transação nem SOL.",
     "flowVerify": "Verificando a propriedade da carteira...",
     "linkFailed": "Falha na verificação da carteira.",
     "verifyFailed": "Falha na verificação da carteira.",
     "unlinkFailed": "Não foi possível desvincular a carteira.",
+    "browser": {
+      "eyebrow": "Desktop wallet authorization",
+      "title": "Connect a Solana Wallet",
+      "linkBody": "Choose a wallet extension in this browser. You will sign a verification message, then return to the desktop app.",
+      "paymentBody": "Choose the wallet linked to your account and approve the transaction in this browser.",
+      "extensionHelp": "No compatible wallet extension was found. Install or unlock Phantom, Solflare, or another Solana browser wallet, then retry.",
+      "safety": "World of ClaudeCraft never asks for your recovery phrase or private key.",
+      "continueWith": "Continue with {wallet}",
+      "reviewTitle": "Review in your wallet",
+      "reviewBody": "Follow the prompt from {wallet}. Keep this browser page open.",
+      "completeTitle": "Wallet authorization complete",
+      "completeBody": "You can return to the World of ClaudeCraft desktop app.",
+      "returnButton": "Return to desktop app",
+      "failed": "Wallet authorization failed or expired. Return to the desktop app and try again.",
+      "retry": "Retry"
+    },
     "holder": "Titular de $WOC",
     "holderTierTitle": "Titular de $WOC de nível {tier}",
     "holderTiers": {
@@ -8770,11 +8863,11 @@ export const pt_BR: EnTranslations = {
     "quests": {
       "q_prof_intro": {
         "title": "Um ofício para cada mão",
-        "text": "Cada pessoa em Eastbrook exerce um ofício além da espada, {playerName}. Há veios de minério espalhados pela cidade, então pegue uma picareta e traga 5 pedaços para mim. Extraia você mesmo, viu? Eu vou saber a diferença.",
-        "completion": "Viu só? Minério na mochila e calos nas mãos. Continue minerando, cortando madeira e colhendo ervas enquanto percorre as estradas. Quando voltar à cidade, preste atenção no quadro do Foco da Cidade perto do mercado e na bancada de criação ali ao lado. Dá para ganhar a vida honestamente com tudo isso, se você quiser.",
+        "text": "Every soul in Eastbrook works a trade besides the sword, {playerName}. There are ore veins in the rocks around the Copper Dig, southwest of town. Go swing a pick and work 5 of them yourself, mind; I'll know the difference.",
+        "completion": "See? Ore gathered and callus on your hands. Keep at the mining, logging, and herb-picking as you travel the roads, and when you're back in town, mind the Town Focus board by the market and the crafting bench nearby. There's a fair trade waiting in all of it, if you want it.",
         "objectives": {
           "0": {
-            "label": "Pedaço de Minério"
+            "label": "Ore vein harvested"
           }
         }
       },
@@ -9562,21 +9655,31 @@ export const pt_BR: EnTranslations = {
       },
       "q_archetype_acceptance": {
         "title": "Um ofício para chamar de seu",
-        "text": "Cada artesão de Eastbrook eventualmente escolhe um ofício para chamar de seu. Prove seu valor com uma única ação, {playerName}, e declare seu caminho.",
-        "completion": "Seu caminho está escolhido; ande bem.",
+        "text": "Skill is knowledge, {playerName}, but attunement is a promise. Choose two neighboring crafts whose methods you will carry as your majors, then bring me ore worked from the Vale with your own hands.",
+        "completion": "The promise holds. These two crafts are now your majors, and the knowledge opposite them becomes your hobby.",
+        "objectives": {
+          "0": {
+            "label": "Ore vein harvested"
+          }
+        }
+      },
+      "q_prof_make_amends": {
+        "title": "Fazendo as pazes",
+        "text": "You have carried that pair before, {playerName}. Returning is no fresh vow. Help keep the Vale road clear, and the work will remind your hands what they once knew.",
+        "completion": "The old rhythm returns. Your former pair is active once more.",
         "objectives": {
           "0": {
             "label": "Lobo da Floresta morto"
           }
         }
       },
-      "q_prof_make_amends": {
-        "title": "Fazendo as pazes",
-        "text": "Para separar um ofício para outro, um artesão deve primeiro reparar o caminho não percorrido, {playerName}.",
-        "completion": "Reparações feitas; um novo caminho está aberto para você.",
+      "q_prof_hobby_switch": {
+        "title": "A Different Pastime",
+        "text": "Majors demand a vow. A hobby only asks where your curiosity wanders, {playerName}. Gather a few herbs and decide which craft opposite your majors you want to pursue.",
+        "completion": "A lighter choice, but a useful one. Follow that curiosity as far as rare work will take it.",
         "objectives": {
           "0": {
-            "label": "Lobo da Floresta morto"
+            "label": "Herb patch harvested"
           }
         }
       },
@@ -9845,7 +9948,7 @@ export const pt_BR: EnTranslations = {
       },
       "necromancers": {
         "name": "Vestes Mournweave",
-        "bonus2": "Você não pode ser repelido (100% de resistência a repulsão).",
+        "bonus2": "Aumenta o poder mágico em 20. Dano recebido não atrasa mais suas conjurações (100% de resistência a atraso de conjuração).",
         "bonus3": "Aumenta o intelecto em 10 e o vigor em 10.",
         "bonus4": "Suas magias têm 10% de chance de conceder Conjuração Clara, tornando sua próxima magia gratuita."
       },
@@ -9857,13 +9960,13 @@ export const pt_BR: EnTranslations = {
       },
       "soulflame": {
         "name": "Vestes Wraithfire",
-        "bonus2": "Você não pode ser repelido (100% de resistência a repulsão).",
+        "bonus2": "Aumenta o poder mágico em 20. Dano recebido não atrasa mais suas conjurações (100% de resistência a atraso de conjuração).",
         "bonus3": "Aumenta o intelecto em 15, o espírito em 15 e a velocidade de ataque e de lançamento em 15%.",
         "bonus4": "Suas magias têm 10% de chance de conceder Chama da Alma, aumentando o poder mágico em 40 por 10 s."
       },
       "stormcallers": {
         "name": "Vestes Galecall",
-        "bonus2": "Você não pode ser repelido (100% de resistência a repulsão).",
+        "bonus2": "Aumenta o poder mágico em 20. Dano recebido não atrasa mais suas conjurações (100% de resistência a atraso de conjuração).",
         "bonus3": "Aumenta o intelecto em 15, o espírito em 15 e a velocidade de ataque e de lançamento em 15%.",
         "bonus4": "Suas magias têm 10% de chance de conceder Chama da Alma, aumentando o poder mágico em 40 por 10 s."
       },

@@ -416,6 +416,18 @@ export const da_DK: EnTranslations = {
       "armoryEyebrow": "Sæson 1",
       "armoryTitle": "Våbenhuset",
       "armoryBody": "Begrænsede våbenskins fra sæson 1-våbenhuset. De gælder for hele kontoen, er rent kosmetiske og vises for alle omkring dig.",
+      "wallet": {
+        "title": "Solana wallet",
+        "unlinked": "Connect a wallet app, then sign once to link its public address to your WoC account. We never receive your recovery phrase or private key.",
+        "connectedUnlinked": "The wallet app is connected to this browser, but its public address is not linked to your WoC account yet.",
+        "linkedDisconnected": "Your public address is linked. Reconnect that wallet app when you want to pay with SOL or WOC.",
+        "linkedConnected": "Your linked wallet app is connected and ready for SOL or WOC purchases.",
+        "mismatched": "A different wallet is connected. Verify it to replace the linked address, or reconnect the linked wallet.",
+        "connect": "Connect wallet",
+        "verify": "Verify and link",
+        "reconnect": "Reconnect wallet",
+        "manage": "Manage wallet"
+      },
       "collectionLine": "{collection}-samlingen",
       "collections": {
         "guildmark": "Laugsmærke",
@@ -2014,17 +2026,31 @@ export const da_DK: EnTranslations = {
     "archetypeTitle": {
       "label": "Titel",
       "none": "Ingen",
-      "hobbyLabel": "Fritid",
-      "armorcrafting": "Rustningssmed",
-      "weaponcrafting": "Våbensmed",
-      "jewelcrafting": "Juveler",
-      "alchemy": "Alkymist",
-      "engineering": "Ingeniør",
-      "cooking": "Kok",
-      "inscription": "Skriver",
-      "enchanting": "Fortryller",
-      "tailoring": "Skrædder",
-      "leatherworking": "Garver"
+      "hobbyLabel": "Fritid"
+    },
+    "archetypePair": {
+      "engineering+alchemy": "Bombardier",
+      "alchemy+cooking": "Apothecary",
+      "cooking+leatherworking": "Trapper",
+      "leatherworking+tailoring": "Outfitter",
+      "tailoring+inscription": "Mageweaver",
+      "inscription+enchanting": "Arcanist",
+      "enchanting+jewelcrafting": "Gembinder",
+      "jewelcrafting+weaponcrafting": "Bladewright",
+      "weaponcrafting+armorcrafting": "Smith",
+      "armorcrafting+engineering": "Cogsmith"
+    },
+    "craftName": {
+      "armorcrafting": "Armorcrafting",
+      "weaponcrafting": "Weaponcrafting",
+      "jewelcrafting": "Jewelcrafting",
+      "alchemy": "Alchemy",
+      "engineering": "Engineering",
+      "cooking": "Cooking",
+      "inscription": "Inscription",
+      "enchanting": "Enchanting",
+      "tailoring": "Tailoring",
+      "leatherworking": "Leatherworking"
     },
     "crafting": {
       "title": "Håndværk",
@@ -2038,6 +2064,42 @@ export const da_DK: EnTranslations = {
       "insufficientMaterials": "Det har du ikke materialerne til.",
       "unknownRecipe": "Den opskrift findes ikke.",
       "comboRequirementUnmet": "Du har ikke begge de krævede håndværk på det krævede niveau til den opskrift.",
+      "comboRequires": "Attunement: {craftA} + {craftB}, tier {tier}.",
+      "comboMet": "Ready.",
+      "comboSyncing": "Checking realm attunement.",
+      "comboNotAttuned": "Choose an archetype pair first.",
+      "comboWrongPair": "Activate this exact pair to craft it.",
+      "comboTierUnmet": "Raise both major crafts to the required tier.",
+      "professionChoice": "Profession choice",
+      "noProfessionChoice": "No valid profession choice is currently available.",
+      "pairOptionLabel": "{pair} ({craftA} + {craftB})",
+      "attunementPreview": "Result: {title} title; {majorA} and {majorB} become uncapped majors; {hobby} becomes the rare-capped hobby; all other skill knowledge is retained but capped at common while dormant.",
+      "hobbyPreview": "Result: {hobby} becomes the rare-capped hobby. Both majors and all retained skill values stay unchanged.",
+      "identity": {
+        "title": "Crafting Identity",
+        "syncing": "Waiting for your crafting identity from the realm.",
+        "unattuned": "No archetype pair is active. Your knowledge is retained, but combo recipes require an attuned pair.",
+        "titleLabel": "Title",
+        "majorsLabel": "Majors",
+        "hobbyLabel": "Hobby",
+        "historyLabel": "History",
+        "history": "{pairs} pairs discovered, {returns} returns completed",
+        "roleMajor": "Major",
+        "roleHobby": "Hobby",
+        "roleDormant": "Dormant knowledge",
+        "roleUnattuned": "Unattuned",
+        "ceilingUnlimited": "No empowerment cap",
+        "ceilingRare": "Rare cap",
+        "ceilingCommon": "Common cap",
+        "skillAria": "{craft}, skill {skill}, tier {tier}, {role}, {ceiling}",
+        "colCraft": "Craft",
+        "colSkill": "Skill",
+        "colRole": "Role",
+        "colCap": "Cap",
+        "tutorial": "First tier: reach skill {skill} in a craft. Successful recipes raise that craft without erasing knowledge elsewhere.",
+        "nearTier": "{craft} is {points} skill from its next tier.",
+        "dormantKnowledge": "{craft} knowledge is retained but dormant until its pair or hobby is active."
+      },
       "notAtHub": "Du skal være ved håndværksstationen og på det krævede niveau for at lave det.",
       "throttled": "Du laver ting for hurtigt. Vent et øjeblik, og prøv igen.",
       "recipeNotLearned": "Du har ikke lært den opskrift endnu."
@@ -2307,6 +2369,9 @@ export const da_DK: EnTranslations = {
       "already_linked": "Din konto har allerede en tilknyttet Steam-konto.",
       "account_taken": "Den Steam-konto er allerede knyttet til en anden konto.",
       "upstream": "Steam svarede ikke. Prøv igen om et øjeblik."
+    },
+    "wallet": {
+      "handoff_invalid": "That wallet authorization expired or could not be verified. Try again."
     },
     "welcome": {
       "invalid_input": "Ugyldig indtastning."
@@ -4027,6 +4092,9 @@ export const da_DK: EnTranslations = {
     "balancePreviewTitle": "Forhåndsvisning af forbundet pungs $WOC-saldo",
     "balancePreviewAria": "Forhåndsvisning af forbundet pungs saldo: {balance}. Tilknyt pungen for at verificere ejer-pynt.",
     "balanceAmount": "{amount} $WOC",
+    "bagConnect": "Link wallet",
+    "bagLink": "Verify wallet",
+    "bagReconnect": "Reconnect wallet",
     "connected": "Forbundet: {address}",
     "connectedWithBalance": "Forbundet: {balance} - {address}",
     "connectedLinked": "Verificeret: {address}",
@@ -4041,12 +4109,37 @@ export const da_DK: EnTranslations = {
     "helpLinkedDisconnected": "Ejerfordele er aktive. Forbind appen, når du har brug for at underskrive eller bruge midler.",
     "helpLinkedDisconnectedWithBalance": "Ejerfordele er aktive. Forbind appen, når du har brug for at underskrive eller bruge midler.",
     "extensionHelp": "For at se en pung her skal du holde en browser-pungudvidelse som Solflare Wallet aktiv.",
+    "mobileAppHelp": "Choose Phantom or Solflare. Your wallet app will ask for approval. Keep this game open and return to it when finished.",
+    "standaloneAppHelp": "Wallet connections are not available in the Home Screen app yet. Open World of ClaudeCraft in Safari or Chrome to use Phantom or Solflare.",
+    "openAppTitle": "Continue in {wallet}",
+    "openAppHelp": "Open {wallet} to review this request. Keep this game tab open while the wallet app is active.",
+    "openAppButton": "Open {wallet}",
+    "manualReturnBrowserHelp": "After approval, return to this game tab. If iOS opens another browser, close it and return to the original browser manually.",
+    "manualReturnStandaloneHelp": "After approval, return to World of ClaudeCraft from your Home Screen. If iOS opens a browser, close it and reopen the Home Screen app manually.",
+    "preparingAppButton": "Preparing {wallet}...",
+    "walletAppUnavailable": "{wallet} could not be prepared. Close this window and try again.",
     "flowConnect": "Vælg en pung. Verificeringen fortsætter automatisk.",
     "flowSign": "Underskriv verificeringsbeskeden i din pung-app. Ingen transaktion eller SOL kræves.",
     "flowVerify": "Verificerer ejerskab af pung...",
     "linkFailed": "Verificering af pung mislykkedes.",
     "verifyFailed": "Verificering af pung mislykkedes.",
     "unlinkFailed": "Kunne ikke frakoble pungen.",
+    "browser": {
+      "eyebrow": "Desktop wallet authorization",
+      "title": "Connect a Solana Wallet",
+      "linkBody": "Choose a wallet extension in this browser. You will sign a verification message, then return to the desktop app.",
+      "paymentBody": "Choose the wallet linked to your account and approve the transaction in this browser.",
+      "extensionHelp": "No compatible wallet extension was found. Install or unlock Phantom, Solflare, or another Solana browser wallet, then retry.",
+      "safety": "World of ClaudeCraft never asks for your recovery phrase or private key.",
+      "continueWith": "Continue with {wallet}",
+      "reviewTitle": "Review in your wallet",
+      "reviewBody": "Follow the prompt from {wallet}. Keep this browser page open.",
+      "completeTitle": "Wallet authorization complete",
+      "completeBody": "You can return to the World of ClaudeCraft desktop app.",
+      "returnButton": "Return to desktop app",
+      "failed": "Wallet authorization failed or expired. Return to the desktop app and try again.",
+      "retry": "Retry"
+    },
     "holder": "$WOC-ejer",
     "holderTierTitle": "{tier} $WOC-ejer",
     "holderTiers": {
@@ -8770,11 +8863,11 @@ export const da_DK: EnTranslations = {
     "quests": {
       "q_prof_intro": {
         "title": "Et håndværk til hver hånd",
-        "text": "Alle i Østbæk har et håndværk ved siden af sværdet, {playerName}. Der ligger malmårer rundt om byen, så sving en hakke og bring mig 5 klumper. Bryd dem selv, vel at mærke; jeg kan kende forskel.",
-        "completion": "Kan du se? Malm i din taske og hård hud på dine hænder. Fortsæt med minedrift, skovhugst og urtesamling, mens du rejser ad vejene. Når du er tilbage i byen, så husk Byfokus-tavlen ved markedet og arbejdsbænken i nærheden. Der er et hæderligt levebrød i det alt sammen, hvis du ønsker det.",
+        "text": "Every soul in Eastbrook works a trade besides the sword, {playerName}. There are ore veins in the rocks around the Copper Dig, southwest of town. Go swing a pick and work 5 of them yourself, mind; I'll know the difference.",
+        "completion": "See? Ore gathered and callus on your hands. Keep at the mining, logging, and herb-picking as you travel the roads, and when you're back in town, mind the Town Focus board by the market and the crafting bench nearby. There's a fair trade waiting in all of it, if you want it.",
         "objectives": {
           "0": {
-            "label": "Malmklump"
+            "label": "Ore vein harvested"
           }
         }
       },
@@ -9562,21 +9655,31 @@ export const da_DK: EnTranslations = {
       },
       "q_archetype_acceptance": {
         "title": "Et håndværk at kalde dit eget",
-        "text": "Hver eneste håndværker fra Eastbrook sætter sig til sidst over på et håndværk, som de kalder deres eget. Bevis dig selv med en enkelt gerning, {playerName}, og erklær din vej.",
-        "completion": "Din vej er valgt; gå det godt.",
+        "text": "Skill is knowledge, {playerName}, but attunement is a promise. Choose two neighboring crafts whose methods you will carry as your majors, then bring me ore worked from the Vale with your own hands.",
+        "completion": "The promise holds. These two crafts are now your majors, and the knowledge opposite them becomes your hobby.",
+        "objectives": {
+          "0": {
+            "label": "Ore vein harvested"
+          }
+        }
+      },
+      "q_prof_make_amends": {
+        "title": "Gøre bod",
+        "text": "You have carried that pair before, {playerName}. Returning is no fresh vow. Help keep the Vale road clear, and the work will remind your hands what they once knew.",
+        "completion": "The old rhythm returns. Your former pair is active once more.",
         "objectives": {
           "0": {
             "label": "Skovulv dræbt"
           }
         }
       },
-      "q_prof_make_amends": {
-        "title": "Gøre bod",
-        "text": "For at afsætte et håndværk til et andet, skal en håndværker først råde bod på stien, der ikke er gået, {playerName}.",
-        "completion": "Foretagne ændringer; en ny vej er åben for dig.",
+      "q_prof_hobby_switch": {
+        "title": "A Different Pastime",
+        "text": "Majors demand a vow. A hobby only asks where your curiosity wanders, {playerName}. Gather a few herbs and decide which craft opposite your majors you want to pursue.",
+        "completion": "A lighter choice, but a useful one. Follow that curiosity as far as rare work will take it.",
         "objectives": {
           "0": {
-            "label": "Skovulv dræbt"
+            "label": "Herb patch harvested"
           }
         }
       },
@@ -9845,7 +9948,7 @@ export const da_DK: EnTranslations = {
       },
       "necromancers": {
         "name": "Mournweave klæder",
-        "bonus2": "Du kan ikke stødes tilbage (100% modstand mod tilbagestød).",
+        "bonus2": "Øger magikraft med 20. Skade, du tager, forsinker ikke længere dine besværgelser (100% modstand mod fordrøjelse af besværgelser).",
         "bonus3": "Øger intellekt med 10 og udholdenhed med 10.",
         "bonus4": "Dine besværgelser har 10% chance for at give Klartrylleri, som gør din næste besværgelse gratis."
       },
@@ -9857,13 +9960,13 @@ export const da_DK: EnTranslations = {
       },
       "soulflame": {
         "name": "Wraithfire regalier",
-        "bonus2": "Du kan ikke stødes tilbage (100% modstand mod tilbagestød).",
+        "bonus2": "Øger magikraft med 20. Skade, du tager, forsinker ikke længere dine besværgelser (100% modstand mod fordrøjelse af besværgelser).",
         "bonus3": "Øger intellekt med 15, ånd med 15 og angrebs- og magihastighed med 15%.",
         "bonus4": "Dine besværgelser har 10% chance for at give Sjælebrand og øge besværgelseskraft med 40 i 10 sek."
       },
       "stormcallers": {
         "name": "Galecall klæder",
-        "bonus2": "Du kan ikke stødes tilbage (100% modstand mod tilbagestød).",
+        "bonus2": "Øger magikraft med 20. Skade, du tager, forsinker ikke længere dine besværgelser (100% modstand mod fordrøjelse af besværgelser).",
         "bonus3": "Øger intellekt med 15, ånd med 15 og angrebs- og magihastighed med 15%.",
         "bonus4": "Dine besværgelser har 10% chance for at give Sjælebrand og øge besværgelseskraft med 40 i 10 sek."
       },

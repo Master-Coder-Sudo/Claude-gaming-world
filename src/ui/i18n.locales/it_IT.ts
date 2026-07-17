@@ -435,16 +435,6 @@ export const it_IT: Partial<Record<TranslationKey, string>> = {
   'hudChrome.vcup.walkUp': 'Avvicinati al Campo della Scrofa per guardare dagli spalti.',
   'hudChrome.archetypeTitle.label': 'Titolo',
   'hudChrome.archetypeTitle.none': 'Nessuno',
-  'hudChrome.archetypeTitle.armorcrafting': 'Armaiolo',
-  'hudChrome.archetypeTitle.weaponcrafting': "Fabbro d'armi",
-  'hudChrome.archetypeTitle.jewelcrafting': 'Gioielliere',
-  'hudChrome.archetypeTitle.alchemy': 'Alchimista',
-  'hudChrome.archetypeTitle.engineering': 'Ingegnere',
-  'hudChrome.archetypeTitle.cooking': 'Cuoco',
-  'hudChrome.archetypeTitle.inscription': 'Scriba',
-  'hudChrome.archetypeTitle.enchanting': 'Incantatore',
-  'hudChrome.archetypeTitle.tailoring': 'Sarto',
-  'hudChrome.archetypeTitle.leatherworking': 'Conciatore',
   'entities.itemSets.crownforged.bonus4':
     'I colpi critici della tua arma scheggiano il bersaglio con Scheggiaossa, facendolo sanguinare per 8 danni ogni 2 sec per 12 sec. Si accumula fino a 3 volte.',
   'entities.itemSets.deathlord.bonus4':
@@ -6371,7 +6361,7 @@ export const it_IT: Partial<Record<TranslationKey, string>> = {
   'entities.itemSets.greyjaw_stalker.bonus3': "Aumenta la velocità d'attacco e di lancio del 15%.",
   'entities.itemSets.necromancers.name': 'Vesti Mournweave',
   'entities.itemSets.necromancers.bonus2':
-    'Non puoi essere respinto (100% di resistenza alla respinta).',
+    'Aumenta il potere degli incantesimi di 20. I danni subiti non ritardano più i tuoi incantesimi (100% di resistenza al ritardo di lancio).',
   'entities.itemSets.necromancers.bonus3': "Aumenta l'intelletto di 10 e la tempra di 10.",
   'entities.itemSets.nighttalon.name': 'Tenuta di cuoio Direfang',
   'entities.itemSets.nighttalon.bonus2': "Aumenta la potenza d'attacco di 40.",
@@ -6379,12 +6369,12 @@ export const it_IT: Partial<Record<TranslationKey, string>> = {
     "Aumenta l'agilità di 15, la probabilità di critico del 2% e la velocità d'attacco e di lancio del 15%.",
   'entities.itemSets.soulflame.name': 'Paramenti Wraithfire',
   'entities.itemSets.soulflame.bonus2':
-    'Non puoi essere respinto (100% di resistenza alla respinta).',
+    'Aumenta il potere degli incantesimi di 20. I danni subiti non ritardano più i tuoi incantesimi (100% di resistenza al ritardo di lancio).',
   'entities.itemSets.soulflame.bonus3':
     "Aumenta l'intelletto di 15, lo spirito di 15 e la velocità d'attacco e di lancio del 15%.",
   'entities.itemSets.stormcallers.name': 'Vesti Galecall',
   'entities.itemSets.stormcallers.bonus2':
-    'Non puoi essere respinto (100% di resistenza alla respinta).',
+    'Aumenta il potere degli incantesimi di 20. I danni subiti non ritardano più i tuoi incantesimi (100% di resistenza al ritardo di lancio).',
   'entities.itemSets.stormcallers.bonus3':
     "Aumenta l'intelletto di 15, lo spirito di 15 e la velocità d'attacco e di lancio del 15%.",
   'entities.itemSets.vale_arcanist.name': "Tenuta dell'Arcanista della Valle",
@@ -6801,15 +6791,7 @@ export const it_IT: Partial<Record<TranslationKey, string>> = {
   'hudChrome.options.mobileCameraJoystick': 'Joystick della fotocamera',
   'hudChrome.options.mobileLeftHanded': 'Disposizione per mancini',
   'entities.quests.q_archetype_acceptance.title': 'Un mestiere da chiamare tuo',
-  'entities.quests.q_archetype_acceptance.text':
-    'Ogni artigiano di Eastbrook alla fine sceglie un mestiere da considerare proprio. Mettiti alla prova con una sola azione, {playerName}, e dichiara il tuo percorso.',
-  'entities.quests.q_archetype_acceptance.completion': 'Il tuo percorso è scelto; cammina bene.',
-  'entities.quests.q_archetype_acceptance.objectives.0.label': 'Lupo della Foresta ucciso',
   'entities.quests.q_prof_make_amends.title': 'Fare ammenda',
-  'entities.quests.q_prof_make_amends.text':
-    'Per mettere da parte un mestiere per un altro, un artigiano deve prima fare ammenda per il percorso non percorso, {playerName}.',
-  'entities.quests.q_prof_make_amends.completion':
-    'Modifiche apportate; una nuova strada è aperta per te.',
   'entities.quests.q_prof_make_amends.objectives.0.label': 'Lupo della Foresta ucciso',
   'entities.npcs.bursar_aldous_crane.name': 'Economo Aldous Crane',
   'entities.npcs.bursar_aldous_crane.title': 'Il Forziere Dorato',
@@ -7084,11 +7066,6 @@ export const it_IT: Partial<Record<TranslationKey, string>> = {
   'entities.items.arcane_essence.name': 'Essenza Arcana',
   'entities.items.arcane_shard.name': 'Frammento Arcano',
   'entities.items.chunk_of_ore.name': 'Pezzo di Minerale',
-  'entities.quests.q_prof_intro.completion':
-    'Vedi? Minerale nello zaino e calli sulle mani. Continua a estrarre minerali, tagliare legna e raccogliere erbe mentre percorri le strade. Quando torni in città, tieni d’occhio il tabellone delle Priorità della città vicino al mercato e il banco da lavoro lì accanto. C’è un mestiere onesto in tutto questo, se ti interessa.',
-  'entities.quests.q_prof_intro.objectives.0.label': 'Pezzo di Minerale',
-  'entities.quests.q_prof_intro.text':
-    'A Eastbrook ogni anima pratica un mestiere oltre all’arte della spada, {playerName}. Ci sono vene di minerale sparse intorno alla città, quindi impugna un piccone e portami 5 pezzi. Estraili tu, bada bene, saprò riconoscere la differenza.',
   'entities.quests.q_prof_intro.title': 'Un mestiere per ogni mano',
   'hudChrome.auth.appleChoiceExpired':
     'Questo accesso con Apple è scaduto. Accedi di nuovo con Apple.',

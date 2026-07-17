@@ -416,6 +416,18 @@ export const zh_TW: EnTranslations = {
       "armoryEyebrow": "第一賽季",
       "armoryTitle": "兵器庫",
       "armoryBody": "第一賽季兵器庫限定武器外觀。全帳號通用，純裝飾性，周圍所有玩家都能看到。",
+      "wallet": {
+        "title": "Solana 錢包",
+        "unlinked": "連接錢包應用程式，然後簽署一次，將其公開地址綁定到你的 WoC 帳號。我們絕不會取得你的復原短語或私鑰。",
+        "connectedUnlinked": "錢包應用程式已連接到此瀏覽器，但其公開地址尚未綁定到你的 WoC 帳號。",
+        "linkedDisconnected": "你的公開地址已綁定。需要使用 SOL 或 WOC 付款時，請重新連接該錢包應用程式。",
+        "linkedConnected": "已綁定的錢包應用程式已連接，可以使用 SOL 或 WOC 購買。",
+        "mismatched": "目前連接的是另一個錢包。驗證它即可取代已綁定的地址，或重新連接原先綁定的錢包。",
+        "connect": "連接錢包",
+        "verify": "驗證並綁定",
+        "reconnect": "重新連接錢包",
+        "manage": "管理錢包"
+      },
       "collectionLine": "{collection}系列",
       "collections": {
         "guildmark": "公會印記",
@@ -2014,17 +2026,31 @@ export const zh_TW: EnTranslations = {
     "archetypeTitle": {
       "label": "稱號",
       "none": "無",
-      "hobbyLabel": "愛好",
-      "armorcrafting": "鍛甲師",
-      "weaponcrafting": "武器匠",
-      "jewelcrafting": "珠寶匠",
-      "alchemy": "煉金師",
-      "engineering": "工程師",
-      "cooking": "廚師",
-      "inscription": "銘文師",
-      "enchanting": "附魔師",
+      "hobbyLabel": "愛好"
+    },
+    "archetypePair": {
+      "engineering+alchemy": "爆破師",
+      "alchemy+cooking": "藥劑師",
+      "cooking+leatherworking": "捕獸人",
+      "leatherworking+tailoring": "製裝師",
+      "tailoring+inscription": "織法師",
+      "inscription+enchanting": "秘法師",
+      "enchanting+jewelcrafting": "縛晶師",
+      "jewelcrafting+weaponcrafting": "鑄刃師",
+      "weaponcrafting+armorcrafting": "鐵匠",
+      "armorcrafting+engineering": "齒輪匠"
+    },
+    "craftName": {
+      "armorcrafting": "護甲鍛造",
+      "weaponcrafting": "武器鍛造",
+      "jewelcrafting": "珠寶設計",
+      "alchemy": "鍊金術",
+      "engineering": "工程學",
+      "cooking": "烹飪",
+      "inscription": "銘文學",
+      "enchanting": "附魔",
       "tailoring": "裁縫",
-      "leatherworking": "製皮師"
+      "leatherworking": "製皮"
     },
     "crafting": {
       "title": "製作",
@@ -2038,6 +2064,42 @@ export const zh_TW: EnTranslations = {
       "insufficientMaterials": "你沒有足夠的材料。",
       "unknownRecipe": "該配方不存在。",
       "comboRequirementUnmet": "你尚未達到該配方所需組合的兩項製造技能等級。",
+      "comboRequires": "調諧要求：{craftA} + {craftB}，階級 {tier}。",
+      "comboMet": "已就緒。",
+      "comboSyncing": "正在檢查伺服器調諧狀態。",
+      "comboNotAttuned": "請先選擇一個原型組合。",
+      "comboWrongPair": "啟用這個確切組合才能製作。",
+      "comboTierUnmet": "將兩項主修技藝提升到所需階級。",
+      "professionChoice": "專業選擇",
+      "noProfessionChoice": "目前沒有可用的專業選擇。",
+      "pairOptionLabel": "{pair} ({craftA} + {craftB})",
+      "attunementPreview": "結果：獲得{title}稱號；{majorA}和{majorB}成為無上限主修技藝；{hobby}成為上限為稀有品質的嗜好技藝；所有其他技能知識都會保留，但休眠時上限為普通品質。",
+      "hobbyPreview": "結果：{hobby}成為上限為稀有品質的嗜好技藝。兩項主修技藝和所有已保留的技能數值維持不變。",
+      "identity": {
+        "title": "製作身分",
+        "syncing": "正在等待伺服器傳送你的製作身分。",
+        "unattuned": "目前未啟用任何原型組合。你的知識會被保留，但組合配方需要先完成調諧。",
+        "titleLabel": "稱號",
+        "majorsLabel": "主修技藝",
+        "hobbyLabel": "嗜好",
+        "historyLabel": "歷史",
+        "history": "已發現 {pairs} 個組合，已完成 {returns} 次回歸",
+        "roleMajor": "主修",
+        "roleHobby": "嗜好",
+        "roleDormant": "休眠知識",
+        "roleUnattuned": "未調諧",
+        "ceilingUnlimited": "無強化上限",
+        "ceilingRare": "Rare cap",
+        "ceilingCommon": "普通品質上限",
+        "skillAria": "{craft}，技能 {skill}，階級 {tier}，{role}，{ceiling}",
+        "colCraft": "專業",
+        "colSkill": "技能",
+        "colRole": "定位",
+        "colCap": "上限",
+        "tutorial": "第一個階級：將一門技藝提升到技能 {skill}。成功完成配方會提升對應技藝，且不會抹去其他知識。",
+        "nearTier": "{craft}距離下一階級還差 {points} 點技能。",
+        "dormantKnowledge": "{craft}知識已保留，但在其組合或嗜好未啟用時處於休眠狀態。"
+      },
       "notAtHub": "必須達到所需等級並位於製作站，才能製作該物品。",
       "throttled": "你製作得太快了，請稍等片刻後再試。",
       "recipeNotLearned": "你還沒有學會這個配方。"
@@ -2307,6 +2369,9 @@ export const zh_TW: EnTranslations = {
       "already_linked": "你的帳號已連結一個 Steam 帳號。",
       "account_taken": "該 Steam 帳號已連結到另一個帳號。",
       "upstream": "Steam 未回應。請稍後重試。"
+    },
+    "wallet": {
+      "handoff_invalid": "錢包授權已過期或無法驗證。請再試一次。"
     },
     "welcome": {
       "invalid_input": "輸入無效。"
@@ -4027,6 +4092,9 @@ export const zh_TW: EnTranslations = {
     "balancePreviewTitle": "已連線錢包的 $WOC 餘額預覽",
     "balancePreviewAria": "已連線錢包餘額預覽：{balance}。綁定錢包即可驗證持有者標識。",
     "balanceAmount": "{amount} $WOC",
+    "bagConnect": "綁定錢包",
+    "bagLink": "驗證錢包",
+    "bagReconnect": "重新連接錢包",
     "connected": "已連線：{address}",
     "connectedWithBalance": "已連線：{balance} - {address}",
     "connectedLinked": "已驗證：{address}",
@@ -4041,12 +4109,37 @@ export const zh_TW: EnTranslations = {
     "helpLinkedDisconnected": "持有者特權已啟用。需要簽名或花費時請連接應用程式。",
     "helpLinkedDisconnectedWithBalance": "持有者特權已啟用。需要簽名或花費時請連接應用程式。",
     "extensionHelp": "若要在此處看到錢包，請保持 Solflare Wallet 等瀏覽器錢包擴充功能處於啟用狀態。",
+    "mobileAppHelp": "選擇 Phantom 或 Solflare。錢包應用程式會要求核准。請保持遊戲開啟，完成後返回遊戲。",
+    "standaloneAppHelp": "主畫面應用程式目前尚不支援連接錢包。若要使用 Phantom 或 Solflare，請在 Safari 或 Chrome 中開啟 World of ClaudeCraft。",
+    "openAppTitle": "在 {wallet} 中繼續",
+    "openAppHelp": "開啟 {wallet} 檢視此請求。錢包應用程式啟用時，請保持此遊戲分頁開啟。",
+    "openAppButton": "開啟 {wallet}",
+    "manualReturnBrowserHelp": "核准後請返回此遊戲分頁。如果 iOS 開啟了其他瀏覽器，請將其關閉並手動返回原本的瀏覽器。",
+    "manualReturnStandaloneHelp": "核准後請從主畫面返回 World of ClaudeCraft。如果 iOS 開啟了瀏覽器，請將其關閉並重新開啟主畫面 App。",
+    "preparingAppButton": "正在準備 {wallet}...",
+    "walletAppUnavailable": "無法準備 {wallet}。請關閉此視窗並重試。",
     "flowConnect": "選擇一個錢包。驗證會自動繼續。",
     "flowSign": "在錢包應用程式中簽署驗證訊息。無需交易或 SOL。",
     "flowVerify": "正在驗證錢包所有權...",
     "linkFailed": "錢包驗證失敗。",
     "verifyFailed": "錢包驗證失敗。",
     "unlinkFailed": "無法解除錢包綁定。",
+    "browser": {
+      "eyebrow": "桌面錢包授權",
+      "title": "連接 Solana 錢包",
+      "linkBody": "在此瀏覽器中選擇錢包擴充功能。簽署驗證訊息後返回桌面應用程式。",
+      "paymentBody": "選擇已連結至帳號的錢包，並在此瀏覽器中核准交易。",
+      "extensionHelp": "找不到相容的錢包擴充功能。請安裝或解鎖 Phantom、Solflare 或其他 Solana 瀏覽器錢包，然後再試一次。",
+      "safety": "World of ClaudeCraft 絕不會要求復原短語或私鑰。",
+      "continueWith": "使用 {wallet} 繼續",
+      "reviewTitle": "在錢包中檢視",
+      "reviewBody": "按照 {wallet} 的提示操作。請保持此瀏覽器頁面開啟。",
+      "completeTitle": "錢包授權完成",
+      "completeBody": "現在可以返回 World of ClaudeCraft 桌面應用程式。",
+      "returnButton": "返回桌面應用程式",
+      "failed": "錢包授權失敗或已過期。請返回桌面應用程式並再試一次。",
+      "retry": "再試一次"
+    },
     "holder": "$WOC 持有者",
     "holderTierTitle": "{tier} $WOC 持有者",
     "holderTiers": {
@@ -8770,11 +8863,11 @@ export const zh_TW: EnTranslations = {
     "quests": {
       "q_prof_intro": {
         "title": "人人都有一技之長",
-        "text": "伊斯特布魯克的每個人都有除了劍術之外的手藝，{playerName}。鎮子周圍散落著礦脈，去揮鎬採上5塊礦石帶給我。要親自採，別耍花招，我看得出來。",
-        "completion": "看到了吧？礦石進了包裡，手上也磨出了繭子。繼續在路上採礦、伐木、採藥，回到鎮上時，留意市場旁的城鎮專注面板和附近的製作台。只要你願意，靠這些都能正經謀生。",
+        "text": "東溪人人除了舞刀弄劍，還得有門手藝，{playerName}。鎮子西南的銅礦坑周圍岩石裡有礦脈。拿起礦鎬，親手開採5處；別想蒙我，我看得出差別。",
+        "completion": "看吧？礦石採到了，手上也磨出了繭。趕路時繼續採礦、伐木和採藥；回城後，別忘了市場旁的城鎮專注告示板和附近的製作台。只要你願意，這些手藝都能換來公道的生計。",
         "objectives": {
           "0": {
-            "label": "礦石塊"
+            "label": "已開採礦脈"
           }
         }
       },
@@ -9562,21 +9655,31 @@ export const zh_TW: EnTranslations = {
       },
       "q_archetype_acceptance": {
         "title": "屬於你自己的技藝",
-        "text": "東溪的每一位工匠最終都會選定一門屬於自己的技藝。用一件事證明自己吧，{playerName}，宣告你的道路。",
-        "completion": "你的道路已經選定；願你走得穩當。",
+        "text": "技藝是學識，{playerName}，而調諧是一份承諾。選擇兩門相鄰的技藝作為你的主修，再把你親手從谷地礦脈中採出的礦石帶給我。",
+        "completion": "承諾已經立下。這兩門技藝現為你的主修，與它們相對的技藝則成為你的嗜好。",
+        "objectives": {
+          "0": {
+            "label": "已開採礦脈"
+          }
+        }
+      },
+      "q_prof_make_amends": {
+        "title": "彌補",
+        "text": "你曾掌握過這組技藝，{playerName}。重拾舊途並非新的誓言。去幫忙清理谷地道路，讓勞作喚醒雙手曾經熟悉的節奏。",
+        "completion": "昔日的節奏回來了。你曾經的那組技藝再次生效。",
         "objectives": {
           "0": {
             "label": "擊敗森林之狼"
           }
         }
       },
-      "q_prof_make_amends": {
-        "title": "彌補",
-        "text": "若要放下一門技藝、轉投另一門，工匠必須先為放棄的道路做出彌補，{playerName}。",
-        "completion": "彌補已經完成；一條新的道路已向你敞開。",
+      "q_prof_hobby_switch": {
+        "title": "別樣消遣",
+        "text": "主修技藝需要誓言。嗜好只問你的好奇心將去往何處，{playerName}。採集一些草藥，然後決定要鑽研哪一門與主修技藝相對的手藝。",
+        "completion": "這是個輕鬆些卻很實用的選擇。追隨這份好奇心，直到稀有品質的作品所能抵達之處。",
         "objectives": {
           "0": {
-            "label": "擊敗森林之狼"
+            "label": "採集草藥叢"
           }
         }
       },
@@ -9845,7 +9948,7 @@ export const zh_TW: EnTranslations = {
       },
       "necromancers": {
         "name": "哀織法衣",
-        "bonus2": "你不會被擊退（擊退抗性 100%）。",
+        "bonus2": "法術強度提高 20 點。受到傷害不再延遲你的施法（施法延遲抗性 100%）。",
         "bonus3": "智力提高 10 點，耐力提高 10 點。",
         "bonus4": "你的法術有 10% 的機率觸發「清晰施法」，使你的下一個法術免費施放。"
       },
@@ -9857,13 +9960,13 @@ export const zh_TW: EnTranslations = {
       },
       "soulflame": {
         "name": "怨焰法衣",
-        "bonus2": "你不會被擊退（擊退抗性 100%）。",
+        "bonus2": "法術強度提高 20 點。受到傷害不再延遲你的施法（施法延遲抗性 100%）。",
         "bonus3": "智力提高 15 點，精神提高 15 點，攻擊速度和施法速度提高 15%。",
         "bonus4": "你的法術有 10% 的機率觸發「灼魂之焰」，使法術強度提高 40 點，持續 10 秒。"
       },
       "stormcallers": {
         "name": "喚風法衣",
-        "bonus2": "你不會被擊退（擊退抗性 100%）。",
+        "bonus2": "法術強度提高 20 點。受到傷害不再延遲你的施法（施法延遲抗性 100%）。",
         "bonus3": "智力提高 15 點，精神提高 15 點，攻擊速度和施法速度提高 15%。",
         "bonus4": "你的法術有 10% 的機率觸發「灼魂之焰」，使法術強度提高 40 點，持續 10 秒。"
       },
