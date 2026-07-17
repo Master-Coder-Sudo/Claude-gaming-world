@@ -12,6 +12,7 @@ import {
   rollLoot,
   submitLootRoll,
 } from '../src/sim/loot/loot_roll';
+import { Rng } from '../src/sim/rng';
 import type { PlayerMeta } from '../src/sim/sim';
 import { Sim } from '../src/sim/sim';
 import type { Entity, LootSlot, SimEvent } from '../src/sim/types';
@@ -103,11 +104,16 @@ describe('loot_roll: rollLoot producer (drop-rate determinism)', () => {
   // items instead of a spread. This must never happen: every item awarded by one
   // rollLoot call is unique.
   it('never awards the same item id twice from one kill (raid boss, cross-group dedup)', () => {
+    // Reuse one Sim/player and re-seed only the rng between draws (constructing a
+    // fresh Sim per iteration is what pushed this over the shared-runner default
+    // test timeout in CI). 60 independent draws is already far past the ~57%
+    // per-kill duplicate rate the unfixed table produced.
     const template = MOBS.nythraxis_scourge_of_thornpeak;
-    for (let seed = 0; seed < 200; seed++) {
-      const sim = makeSim(seed);
-      const pid = sim.addPlayer('warrior', 'Looter');
-      const meta = playerMeta(sim, pid);
+    const sim = makeSim(0);
+    const pid = sim.addPlayer('warrior', 'Looter');
+    const meta = playerMeta(sim, pid);
+    for (let seed = 0; seed < 60; seed++) {
+      sim.rng = new Rng(seed);
       const mob = createMob(-1, template, template.minLevel, { x: 0, y: 0, z: 0 });
       rollLoot(sim.ctx, mob, meta);
       const ids = (mob.loot?.items ?? []).map((s) => s.itemId);
