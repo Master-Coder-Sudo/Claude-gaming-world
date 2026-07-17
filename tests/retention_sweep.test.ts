@@ -111,6 +111,21 @@ describe('retentionBatchVerdict', () => {
     ).toBe('stop-budget');
   });
 
+  it('treats a negative budget like zero: stop-budget before any batch', () => {
+    // Config deliberately passes a negative RETENTION_SWEEP_MAX_ROWS_PER_RUN
+    // through unvalidated (tests/server/http/config.test.ts pins the -5
+    // pass-through and defers safety HERE): zero rows have always been pruned
+    // when a loop starts, and 0 >= -5 already reads stop-budget.
+    expect(
+      retentionBatchVerdict({
+        rowsThisRun: 0,
+        maxRowsPerRun: -5,
+        lastBatchRows: 1000,
+        batchSize: 1000,
+      }),
+    ).toBe('stop-budget');
+  });
+
   it('reads a short batch as caught up even when the budget is also spent', () => {
     // Precedence pin: the caller treats the two stops differently (caught-up
     // moves to the next realm, budget ends the whole group), so a table that
@@ -512,23 +527,25 @@ describe('createRetentionSweep', () => {
     await sweep.stop();
   });
 
-  it('names a realm the spent group budget skipped before its fold', async () => {
+  it('names every realm the spent group budget skipped before their folds', async () => {
     const now = new Date('2026-01-05T04:00:00Z');
     const onInfo = vi.fn();
-    const online = stubSamples({ r1: [10], r2: [10] });
+    const online = stubSamples({ r1: [10], r2: [10], r3: [10] });
     const sweep = createRetentionSweep(
       baseDeps({ onlineSamples: online.samples, maxRowsPerRun: 10, now: () => now, onInfo }),
     );
     sweep.start();
 
     await vi.advanceTimersByTimeAsync(1_000);
-    // r1's own prune loop announces its cap; r2 was never folded, so no prune
-    // loop exists for it and the group check must speak for it instead.
+    // r1's own prune loop announces its cap with evidence (it ran batches);
+    // r2 and r3 were never folded, so no prune loop exists for them and the
+    // group line must speak for BOTH, without claiming expired rows it never
+    // measured for either.
     expect(onInfo).toHaveBeenCalledWith(
       'retention sweep: online-samples:r1 hit the 10 row budget with expired rows remaining',
     );
     expect(onInfo).toHaveBeenCalledWith(
-      'retention sweep: online-samples:r2 hit the 10 row budget with expired rows remaining',
+      'retention sweep: the online-samples group hit the 10 row budget before r2, r3',
     );
     expect(online.folds).toEqual(['r1']);
     await sweep.stop();
@@ -561,14 +578,14 @@ describe('createRetentionSweep', () => {
     expect(online.prunes).toHaveLength(0);
     expect(stub.queries.some((q) => q.text.includes('pg_try_advisory_lock'))).toBe(true);
     // The nightly budget lines are deliberate noise under a zero budget: a
-    // zero budget IS a permanently stalled retention window, so each table and
-    // the first unfolded realm announce their cap, and the 0-row summary still
-    // fires (the run-end liveness line).
+    // zero budget IS a permanently stalled retention window, so each table
+    // announces its cap, the group names every unfolded realm, and the 0-row
+    // summary still fires (the run-end liveness line).
     expect(onInfo).toHaveBeenCalledWith(
       'retention sweep: t hit the 0 row budget with expired rows remaining',
     );
     expect(onInfo).toHaveBeenCalledWith(
-      'retention sweep: online-samples:r1 hit the 0 row budget with expired rows remaining',
+      'retention sweep: the online-samples group hit the 0 row budget before r1',
     );
     expect(onInfo).toHaveBeenCalledWith('retention sweep pruned 0 rows');
 
@@ -607,12 +624,14 @@ describe('createRetentionSweep', () => {
     };
     const good = stubTable('good', [4]);
     const onError = vi.fn();
+    const onInfo = vi.fn();
     const sweep = createRetentionSweep(
       baseDeps({
         connect: async () => stub.client,
         tables: [bad, good.table],
         now: () => now,
         onError,
+        onInfo,
       }),
     );
     sweep.start();
@@ -620,6 +639,13 @@ describe('createRetentionSweep', () => {
     await vi.advanceTimersByTimeAsync(1_000);
     expect(onError).toHaveBeenCalledWith('bad', boom);
     expect(good.calls).toHaveLength(1);
+    // An error stop is never mistaken for a budget stop: the failed table gets
+    // its onError line, not a budget-cap line (the post-loop verdict still
+    // reads 'continue' because the failed batch never touched the state).
+    const badBudgetLines = onInfo.mock.calls.filter(
+      ([m]) => String(m).includes('bad') && String(m).includes('budget'),
+    );
+    expect(badBudgetLines).toHaveLength(0);
     // The lock and unlock rode the same client object, in that order, and the
     // client went back to the pool exactly once.
     expect(stub.queries.map((q) => q.text)).toEqual([
@@ -641,6 +667,23 @@ describe('createRetentionSweep', () => {
     // The fold is the precondition that makes the prune safe, so it must come
     // first for the realm.
     expect(order).toEqual(['fold:r1', 'prune:r1']);
+    await sweep.stop();
+  });
+
+  it('sweeps the plain tables before the online-samples group', async () => {
+    const now = new Date('2026-01-05T04:00:00Z');
+    const order: string[] = [];
+    const t = stubTable('t', [0], order);
+    const online = stubSamples({ r1: [0] }, { order });
+    const sweep = createRetentionSweep(
+      baseDeps({ tables: [t.table], onlineSamples: online.samples, now: () => now }),
+    );
+    sweep.start();
+
+    await vi.advanceTimersByTimeAsync(1_000);
+    // The deps contract promises the tables array in order first, then the
+    // online-samples group.
+    expect(order).toEqual(['t', 'fold:r1', 'prune:r1']);
     await sweep.stop();
   });
 
@@ -714,11 +757,12 @@ describe('createRetentionSweep', () => {
 
   it('shares one budget across realms and stops later realms without folding them', async () => {
     const now = new Date('2026-01-05T04:00:00Z');
+    const onInfo = vi.fn();
     // Budget 15, batch size 10. r1 drains with one short batch of 5 rows;
     // r2 answers full batches forever; r3 exists to prove the group ends.
     const online = stubSamples({ r1: [5], r2: [10], r3: [10] });
     const sweep = createRetentionSweep(
-      baseDeps({ onlineSamples: online.samples, maxRowsPerRun: 15, now: () => now }),
+      baseDeps({ onlineSamples: online.samples, maxRowsPerRun: 15, now: () => now, onInfo }),
     );
     sweep.start();
 
@@ -729,6 +773,12 @@ describe('createRetentionSweep', () => {
     // because no prune would follow it.
     expect(online.folds).toEqual(['r1', 'r2']);
     expect(online.prunes.map((p) => p.realm)).toEqual(['r1', 'r2']);
+    // The group line names exactly the realms skipped FROM the exhaustion
+    // point, not the ones already processed: a slice-from-zero mutant would
+    // name r1 and r2 here.
+    expect(onInfo).toHaveBeenCalledWith(
+      'retention sweep: the online-samples group hit the 15 row budget before r3',
+    );
     await sweep.stop();
   });
 
@@ -879,6 +929,92 @@ describe('createRetentionSweep', () => {
     expect(settled).toBe(true);
     expect(stub.queries.some((q) => q.text.includes('pg_advisory_unlock'))).toBe(true);
     expect(stub.releaseCount).toBe(1);
+  });
+
+  it('stop() ends an in-flight run at the batch boundary instead of draining the budget', async () => {
+    const now = new Date('2026-01-05T04:00:00Z');
+    const stub = stubClient();
+    const onInfo = vi.fn();
+    const resolvers: Array<(rows: number) => void> = [];
+    const t: RetentionTable = {
+      name: 't',
+      pruneBatch: () =>
+        new Promise<number>((resolve) => {
+          resolvers.push(resolve);
+        }),
+    };
+    const sweep = createRetentionSweep(
+      baseDeps({ connect: async () => stub.client, tables: [t], now: () => now, onInfo }),
+    );
+    sweep.start();
+
+    // The run is blocked inside its first batch; the budget would allow
+    // thousands more batches after it.
+    await vi.advanceTimersByTimeAsync(1_000);
+    expect(resolvers).toHaveLength(1);
+
+    let settled = false;
+    const stopping = sweep.stop().then(() => {
+      settled = true;
+    });
+    await vi.advanceTimersByTimeAsync(0);
+    expect(settled).toBe(false);
+
+    // A FULL batch resolves: without the stopping flag the loop would issue a
+    // second batch, and shutdown would wait out the whole catch-up budget,
+    // long enough for a supervisor SIGKILL to preempt the character saves
+    // that follow this stop in main.ts's shutdown.
+    resolvers[0](10);
+    await stopping;
+    expect(settled).toBe(true);
+    expect(resolvers).toHaveLength(1);
+    // The interrupted run still closed cleanly: run-end line, unlock on the
+    // same client, pooled release.
+    expect(onInfo).toHaveBeenCalledWith('retention sweep pruned 10 rows');
+    expect(stub.queries.some((q) => q.text.includes('pg_advisory_unlock'))).toBe(true);
+    expect(stub.releaseCount).toBe(1);
+  });
+
+  it('reads a non-finite batch count as caught up instead of looping forever', async () => {
+    const now = new Date('2026-01-05T04:00:00Z');
+    const calls: number[] = [];
+    const t: RetentionTable = {
+      name: 't',
+      async pruneBatch(batchSize: number) {
+        calls.push(batchSize);
+        // NaN first, then a terminating short batch: unclamped code survives
+        // to a SECOND call here (and against a NaN-forever primitive would
+        // spin the microtask loop unboundedly), so one call is the pin.
+        return calls.length === 1 ? Number.NaN : 0;
+      },
+    };
+    const sweep = createRetentionSweep(baseDeps({ tables: [t], now: () => now }));
+    sweep.start();
+
+    await vi.advanceTimersByTimeAsync(1_000);
+    // NaN compares false on both verdict arms, so an unclamped read keeps the
+    // verdict at 'continue'; the clamp reads it as a short batch (caught up),
+    // the safe stop, and never issues a second batch.
+    expect(calls).toHaveLength(1);
+    await sweep.stop();
+  });
+
+  it('threads the configured hour to the gate: quiet at five, fires at six with utcHour 6', async () => {
+    let now = new Date('2026-01-05T05:00:00Z');
+    const connect = vi.fn(async () => stubClient().client);
+    const sweep = createRetentionSweep(baseDeps({ connect, utcHour: 6, now: () => now }));
+    sweep.start();
+
+    await vi.advanceTimersByTimeAsync(1_000);
+    // Every other shell test gates at utcHour 4 with probes at 02:00/04:00, so
+    // a hardcoded gate hour of 3 or 4 would pass them all; this second
+    // configured value pins that the poll threads deps.utcHour.
+    expect(connect).not.toHaveBeenCalled();
+
+    now = new Date('2026-01-05T06:00:00Z');
+    await vi.advanceTimersByTimeAsync(1_000);
+    expect(connect).toHaveBeenCalledTimes(1);
+    await sweep.stop();
   });
 
   it('skips the sweep when the persisted marker already names today, but still unlocks', async () => {

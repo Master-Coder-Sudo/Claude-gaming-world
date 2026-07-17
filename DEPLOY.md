@@ -441,7 +441,13 @@ For off-box safety, sync the directory to S3 occasionally:
   `RETENTION_SWEEP_MAX_ROWS_PER_RUN=0` for the deploy and restore it afterward.
   After a rollback to an older binary, the admin overview's
   all-time online peak can read lower until you roll forward again: the folded
-  value is preserved, the older reader just does not consult it.
+  value is preserved, the older reader just does not consult it. Rollback
+  caveat: binaries older than the sweep run one unbatched chat-log prune at
+  boot, before listen and with no error containment, so a large chat-log
+  backlog (budget-capped nights, or a stretch with the row budget set to 0)
+  can make that boot delete time out and the old binary fail to start. Before
+  rolling back to a pre-sweep binary, let the sweep catch up (or drain the
+  backlog manually in bounded batches) so the old boot prune has little to do.
 - Logs: `sudo docker compose -f /opt/eastbrook/docker-compose.yml logs -f game`.
 - If the instance ever feels tight, stop, change instance type,
   start. Everything lives in Docker plus one EBS volume, so nothing

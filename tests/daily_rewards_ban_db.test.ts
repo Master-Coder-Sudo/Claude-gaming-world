@@ -290,7 +290,10 @@ describe('pruneDailyRewardEventsBatch', () => {
   it('deletes nothing for a malformed cutoff day', async () => {
     // day is TEXT and compares lexicographically, so a stray non-day string
     // could match every row; the guard must return before any query is issued.
-    for (const cutoff of ['2025-6-1', '', 'zzzz', 'not-a-day']) {
+    // The prefixed and suffixed forms pin BOTH regex anchors: a suffixed
+    // string that slipped an unanchored guard would shift the lexicographic
+    // cutoff past the intended day.
+    for (const cutoff of ['2025-6-1', '', 'zzzz', 'not-a-day', '2025-06-11x', 'x2025-06-11']) {
       await expect(pruneDailyRewardEventsBatch(cutoff, 250)).resolves.toBe(0);
     }
     expect(mocks.query).not.toHaveBeenCalled();

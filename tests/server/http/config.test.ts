@@ -286,6 +286,11 @@ describe('loadConfig', () => {
     expect(loadConfig({ ...MIN_ENV, RETENTION_SWEEP_UTC_HOUR: '5.5' }).retentionSweepUtcHour).toBe(
       5,
     );
+    // Non-numeric garbage exercises numberOr's NaN arm (the cases above all
+    // route through the range check instead): fall back, never throw.
+    expect(loadConfig({ ...MIN_ENV, RETENTION_SWEEP_UTC_HOUR: 'abc' }).retentionSweepUtcHour).toBe(
+      5,
+    );
   });
 
   it('reads RETENTION_SWEEP_MAX_ROWS_PER_RUN trimmed, keeping an explicit 0 as a live zero budget', () => {
@@ -320,6 +325,11 @@ describe('loadConfig', () => {
       loadConfig({ ...MIN_ENV, RETENTION_SWEEP_MAX_ROWS_PER_RUN: '-5' })
         .retentionSweepMaxRowsPerRun,
     ).toBe(-5);
+    // Non-numeric garbage exercises numberOr's NaN arm: fall back, never throw.
+    expect(
+      loadConfig({ ...MIN_ENV, RETENTION_SWEEP_MAX_ROWS_PER_RUN: 'abc' })
+        .retentionSweepMaxRowsPerRun,
+    ).toBe(50000);
   });
 
   it('returns a frozen Config whose fields cannot be mutated', () => {

@@ -55,6 +55,11 @@ describe('retention prune batches', () => {
     expect(sql).toContain('id IN');
     expect(sql).toContain('ORDER BY created_at');
     expect(sql).toContain('LIMIT $2');
+    // The age bound must consume the BOUND days parameter: a hardcoded
+    // interval with the params array left intact would red only here (in
+    // production Postgres rejects a statement with an unused bind parameter,
+    // stalling the nightly prune).
+    expect(sql).toContain("($1 || ' days')::interval");
     expect(params).toEqual(['90', 500]);
   });
 
@@ -71,6 +76,9 @@ describe('retention prune batches', () => {
     expect(sql).toContain('id IN');
     expect(sql).toContain('ORDER BY created_at');
     expect(sql).toContain('LIMIT $2');
+    // The interval must consume the bound days parameter (see the chat-log
+    // case above for why).
+    expect(sql).toContain("($1 || ' days')::interval");
     expect(params).toEqual(['90', 500]);
   });
 
@@ -106,15 +114,16 @@ describe('retention prune batches', () => {
     expect(dbMock.query).not.toHaveBeenCalled();
   });
 
-  it('a zero batch size floors to LIMIT 1, never LIMIT 0', async () => {
-    dbMock.query.mockResolvedValueOnce({ rows: [], rowCount: 0 });
+  it('a zero batch size floors to LIMIT 1, never LIMIT 0, on both prunes', async () => {
+    dbMock.query.mockResolvedValue({ rows: [], rowCount: 0 });
 
     await pruneChatLogsBatch(90, 0);
+    await pruneClientPerfReportsBatch(14, 0);
 
     // A LIMIT 0 batch would delete nothing forever while looking healthy; the sweep
     // normalizes its tunable too, so this floor is defense in depth.
-    const [, params] = dbMock.query.mock.calls[0];
-    expect(params[1]).toBe(1);
+    expect(dbMock.query.mock.calls[0][1][1]).toBe(1);
+    expect(dbMock.query.mock.calls[1][1][1]).toBe(1);
   });
 
   it('both prunes run on the default statement timeout, never a SET LOCAL raise', async () => {

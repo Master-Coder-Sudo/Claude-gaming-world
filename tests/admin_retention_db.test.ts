@@ -57,6 +57,11 @@ describe('metrics retention prune batches', () => {
     expect(sql).toContain('id IN');
     expect(sql).toContain('ORDER BY sampled_at');
     expect(sql).toContain('LIMIT $3');
+    // The age bound must consume the BOUND days parameter: a hardcoded
+    // interval with the params array left intact would red only here (in
+    // production Postgres rejects a statement with an unused bind parameter,
+    // stalling the nightly prune).
+    expect(sql).toContain("($2 || ' days')::interval");
     expect(params).toEqual(['r1', '90', 500]);
   });
 
@@ -72,6 +77,9 @@ describe('metrics retention prune batches', () => {
     expect(sql).toContain('sampled_at <');
     expect(sql).toContain('id IN');
     expect(sql).toContain('LIMIT $2');
+    // The interval must consume the bound days parameter (see the online
+    // samples case above for why).
+    expect(sql).toContain("($1 || ' days')::interval");
     expect(params).toEqual(['30', 200]);
   });
 
@@ -87,6 +95,9 @@ describe('metrics retention prune batches', () => {
     expect(sql).toContain('last_seen_at <');
     expect(sql).toContain('visitor_id IN');
     expect(sql).toContain('LIMIT $2');
+    // The interval must consume the bound days parameter (see the online
+    // samples case above for why).
+    expect(sql).toContain("($1 || ' days')::interval");
     expect(params).toEqual(['30', 200]);
   });
 
@@ -102,6 +113,20 @@ describe('metrics retention prune batches', () => {
     expect(mocks.query.mock.calls[0][1]).toEqual(['r1', '1', 100]);
     expect(mocks.query.mock.calls[1][1]).toEqual(['1', 100]);
     expect(mocks.query.mock.calls[2][1]).toEqual(['1', 100]);
+  });
+
+  it('floors a zero batch size to LIMIT 1 on all three prunes, never LIMIT 0', async () => {
+    // Defense in depth below the sweep's own normalization: a LIMIT 0 delete
+    // would report zero rows forever and the caller could loop on it.
+    mocks.query.mockResolvedValue({ rows: [], rowCount: 0 });
+
+    await pruneOnlineSamplesBatch('r1', 90, 0);
+    await pruneSitePresenceSamplesBatch(30, 0);
+    await pruneSitePresenceSessionsBatch(30, 0);
+
+    expect(mocks.query.mock.calls[0][1]).toEqual(['r1', '90', 1]);
+    expect(mocks.query.mock.calls[1][1]).toEqual(['30', 1]);
+    expect(mocks.query.mock.calls[2][1]).toEqual(['30', 1]);
   });
 
   it('treats a non-positive retention as keep-forever on all three prunes', async () => {
@@ -174,6 +199,17 @@ describe('foldOnlinePeak', () => {
     expect(writes).toEqual([]);
   });
 
+  it('writes nothing when the live max equals the stored peak', async () => {
+    // The boundary arm of the no-churn guard: a stable peak is the steady
+    // state for every realm, so an off-by-one comparison (< for <=) would
+    // rewrite world_state for every realm every night.
+    const writes = primeFold(100, { peak: 100 });
+
+    await foldOnlinePeak('r1');
+
+    expect(writes).toEqual([]);
+  });
+
   it('writes nothing when the realm has no samples', async () => {
     // max() over zero rows yields a NULL peak: nothing to fold.
     const writes = primeFold(null, { peak: 100 });
@@ -225,8 +261,10 @@ describe('overviewCounts all-time peak', () => {
     expect(String(sql)).toMatch(/GREATEST\(\s*COALESCE\(\(SELECT max\(online_players\)/);
     expect(String(sql)).toContain('FROM world_state');
     // A corrupted or tampered stored peak must degrade to 0 inside the SQL,
-    // never abort the whole overview read: pin the regex guard on the cast.
-    expect(String(sql)).toContain("~ '^[0-9]+$'");
+    // never abort the whole overview read: pin the regex guard on the cast,
+    // INCLUDING the digit-count bound (a digits-only value wider than int4
+    // passes a bare digit match and the ::int cast then errors out the read).
+    expect(String(sql)).toContain("~ '^[0-9]{1,9}$'");
     // Pin the LITERAL key prefix, never the imported const, so the reader SQL
     // cannot drift silently with the constant.
     expect(String(sql)).toContain("'admin_online_peak:' || $1");
@@ -239,5 +277,8 @@ describe('overviewCounts all-time peak', () => {
     // The reader pin above uses the literal; this ties the fold-side constant
     // to the same text so fold and reader cannot drift apart.
     expect(ONLINE_PEAK_WORLD_STATE_PREFIX).toBe('admin_online_peak:');
+    // The constant is template-interpolated into the reader SQL, so its
+    // character set must stay inert inside a single-quoted SQL literal.
+    expect(ONLINE_PEAK_WORLD_STATE_PREFIX).toMatch(/^[a-z_:]+$/);
   });
 });

@@ -6,6 +6,7 @@
 import { afterAll, beforeEach, describe, expect, it } from 'vitest';
 import {
   dailyRewardEventsCutoffDay,
+  dailyRewardEventsCutoffFromAnchor,
   resetDailyRewardEventsCutoffMemoForTests,
   resetDailyRewardPriceCacheForTests,
 } from '../server/daily_rewards';
@@ -20,6 +21,10 @@ const REWARD_DAY = '2026-07-15';
 // is what makes the memo observable (a memo hit and a fresh derivation return
 // DIFFERENT cutoffs).
 const LATER = new Date('2026-07-16T22:00:00Z');
+// The NEXT UTC calendar day, before the 21:00 UTC day start: the reward day for
+// this instant is '2026-07-16', so a fresh 400-day derivation gives
+// '2025-06-11'. Exists to pin the utcDay dimension of the memo key.
+const NEXT_DAY = new Date('2026-07-17T12:00:00Z');
 
 const originalServiceUrl = process.env.WOC_DAILY_REWARD_SERVICE_URL;
 
@@ -82,6 +87,16 @@ describe('dailyRewardEventsCutoffDay', () => {
     expect(await dailyRewardEventsCutoffDay(400, LATER)).toBe('2025-06-11');
   });
 
+  it('misses the memo on the next UTC day with the same retention', async () => {
+    // The other dimension of the (utcDay, days) key: prime at 12:00Z, then call
+    // on the NEXT UTC day with the SAME 400 days. A memo that never expires
+    // across days would return the stale '2025-06-10' forever, silently
+    // freezing the retention cutoff for the life of the process (the ledger
+    // stops draining and the window grows a day per day of uptime).
+    expect(await dailyRewardEventsCutoffDay(400, NOW)).toBe('2025-06-10');
+    expect(await dailyRewardEventsCutoffDay(400, NEXT_DAY)).toBe('2025-06-11');
+  });
+
   it('misses the memo for a different retention on the same UTC day', async () => {
     // Prime the memo at 12:00Z with 400 days.
     expect(await dailyRewardEventsCutoffDay(400, NOW)).toBe('2025-06-10');
@@ -103,5 +118,21 @@ describe('dailyRewardEventsCutoffDay', () => {
       expect(cutoff).not.toBeNull();
       expect((cutoff as string) < REWARD_DAY).toBe(true);
     }
+  });
+});
+
+describe('dailyRewardEventsCutoffFromAnchor', () => {
+  it('fails closed on a malformed anchor day instead of inheriting the today fallback', () => {
+    // addRewardDays' fallback for an unparseable day is TODAY, which passes the
+    // prune's REWARD_DAY_SHAPE guard and would delete the entire ledger before
+    // today: a parse failure must read as keep-forever, never as a live cutoff.
+    for (const anchor of ['', 'not-a-day', '2026-7-1', '2026-07-15T00:00:00Z', 'x2026-07-15']) {
+      expect(dailyRewardEventsCutoffFromAnchor(anchor, 400)).toBeNull();
+    }
+  });
+
+  it('subtracts the clamped day count from a well-formed anchor', () => {
+    expect(dailyRewardEventsCutoffFromAnchor('2026-07-15', 400)).toBe('2025-06-10');
+    expect(dailyRewardEventsCutoffFromAnchor('2026-07-15', 1)).toBe('2026-07-14');
   });
 });

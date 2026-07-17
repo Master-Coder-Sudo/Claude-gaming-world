@@ -47,7 +47,9 @@ export async function overviewCounts(): Promise<OverviewCounts> {
   // a peak inside the retained window stays honest before the next fold and a
   // pruned-away peak is never lost. Only foldOnlinePeak writes the peak key, but
   // a tampered or corrupted stored value must degrade to 0 under the guarded
-  // cast, never take down the whole overview read.
+  // cast, never take down the whole overview read; the digit-count bound in the
+  // regex is part of that guard (a digits-only value wider than int4 would pass
+  // a bare digit match and the ::int cast would then error out the whole read).
   const res = await runWithStatementTimeout(DB_HEAVY_STATEMENT_TIMEOUT_MS, (query) =>
     query(
       `
@@ -78,7 +80,7 @@ export async function overviewCounts(): Promise<OverviewCounts> {
       GREATEST(
         COALESCE((SELECT max(online_players) FROM admin_online_samples
           WHERE realm = $1), 0),
-        COALESCE((SELECT CASE WHEN data->>'peak' ~ '^[0-9]+$'
+        COALESCE((SELECT CASE WHEN data->>'peak' ~ '^[0-9]{1,9}$'
             THEN (data->>'peak')::int ELSE 0 END FROM world_state
           WHERE key = '${ONLINE_PEAK_WORLD_STATE_PREFIX}' || $1), 0)
       )::int AS peak_online_all_time,
@@ -330,7 +332,10 @@ export async function distinctOnlineSampleRealms(): Promise<string[]> {
 // Fold the realm's live all-time online peak into world_state so pruning old
 // samples never loses it. GREATEST semantics: the stored value only ever rises,
 // and a fold that would not raise it writes nothing, so a no-op fold does not
-// churn world_state daily. Errors intentionally propagate: the fold is the
+// churn world_state daily. This is a read-compare-write, not an atomic SQL
+// upsert: it is regression-safe only because the advisory-locked sweep is the
+// SOLE caller; a second concurrent caller could overwrite a higher stored peak
+// with a stale read. Errors intentionally propagate: the fold is the
 // lossless-prune precondition, so a failed fold must make the sweep skip this
 // realm's prune for the run.
 export async function foldOnlinePeak(realm: string): Promise<void> {

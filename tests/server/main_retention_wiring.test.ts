@@ -21,12 +21,20 @@ describe('retention sweep wiring in server/main.ts', () => {
   it('runs no retention DELETE before the server is listening', () => {
     // No retention prune may ever block or precede boot again: the old one-shot
     // boot prunes held boot hostage to an unbounded DELETE on a large table.
+    // ALL six prune call-forms plus the fold are named: a prune MOVED (not
+    // copied) to a pre-listen one-shot keeps its exactly-once count and only
+    // this list catches it.
     const preListen = MAIN.slice(0, MAIN.indexOf('server.listen('));
     for (const call of [
       'pruneChatLogs(',
       'pruneClientPerfReports(',
       'pruneChatLogsBatch(',
       'pruneClientPerfReportsBatch(',
+      'pruneDailyRewardEventsBatch(',
+      'pruneOnlineSamplesBatch(',
+      'pruneSitePresenceSamplesBatch(',
+      'pruneSitePresenceSessionsBatch(',
+      'foldOnlinePeak(',
     ]) {
       expect(preListen).not.toContain(call);
     }
@@ -82,6 +90,18 @@ describe('retention sweep wiring in server/main.ts', () => {
     expect(MAIN).toContain('utcHour: config.retentionSweepUtcHour');
     expect(MAIN).toContain('maxRowsPerRun: config.retentionSweepMaxRowsPerRun');
     expect(MAIN).toContain('batchSize: RETENTION_SWEEP_BATCH_SIZE');
+  });
+
+  it('threads each retention-days knob into its own prune closure', () => {
+    // The unit suites call the primitives directly with correct arguments, so
+    // only these pins catch a closure that swaps arguments or threads the
+    // WRONG config key (a 1000-day retention passed as a batch size, or the
+    // online-samples days feeding a site-presence prune).
+    expect(MAIN).toContain('pruneChatLogsBatch(config.chatLogRetentionDays, n)');
+    expect(MAIN).toContain('pruneClientPerfReportsBatch(config.perfReportRetentionDays, n)');
+    expect(MAIN).toContain('pruneSitePresenceSamplesBatch(config.sitePresenceRetentionDays, n)');
+    expect(MAIN).toContain('pruneSitePresenceSessionsBatch(config.sitePresenceRetentionDays, n)');
+    expect(MAIN).toContain('pruneOnlineSamplesBatch(realm, config.onlineSamplesRetentionDays, n)');
   });
 
   it('gates the whole online-samples group on retention being enabled', () => {

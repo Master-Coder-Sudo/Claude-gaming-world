@@ -85,7 +85,9 @@ export function retentionBatchVerdict(state: RetentionBatchState): RetentionBatc
 
 export interface RetentionTable {
   name: string;
-  pruneBatch(batchSize: number): Promise<number>; // rows deleted by ONE batch
+  // Rows deleted by ONE batch. Must resolve to a FINITE count: the budget
+  // verdict compares it, and the shell reads a non-finite value as caught-up.
+  pruneBatch(batchSize: number): Promise<number>;
 }
 
 export interface RetentionOnlineSamples {
@@ -140,6 +142,12 @@ export function createRetentionSweep(deps: RetentionSweepDeps): RetentionSweep {
   let timer: ReturnType<typeof setInterval> | null = null;
   let inFlight: Promise<void> | null = null;
   let lastFiredUtcDay: string | null = null;
+  // Raised by stop(): every batch loop consults it, so an in-flight run ends at
+  // the next batch boundary instead of draining its whole budget. Shutdown must
+  // never wait behind a catch-up run long enough for the supervisor's kill
+  // grace to preempt the character saves that follow; the sweep loses nothing
+  // by stopping early (the next scheduled run re-attempts the same oldest rows).
+  let stopping = false;
 
   // One table's prune loop. Batch failures are contained here so a sibling table
   // still sweeps, and the rows already deleted still count toward the summary.
@@ -160,9 +168,13 @@ export function createRetentionSweep(deps: RetentionSweepDeps): RetentionSweep {
         lastBatchRows,
         batchSize,
       });
-    while (verdict() === 'continue') {
+    while (!stopping && verdict() === 'continue') {
       try {
-        lastBatchRows = await prune(batchSize);
+        const rows = await prune(batchSize);
+        // A non-finite batch count would make every verdict read 'continue'
+        // (NaN comparisons are false on both arms) and loop until the table
+        // drains or errors; read it as caught-up instead, the safe stop.
+        lastBatchRows = Number.isFinite(rows) ? rows : 0;
       } catch (err) {
         // Stop only THIS loop for the run. Nothing partial was committed beyond
         // whole batches, so the next scheduled run re-attempts the same oldest
@@ -200,7 +212,9 @@ export function createRetentionSweep(deps: RetentionSweepDeps): RetentionSweep {
       return 0;
     }
     let rowsThisRun = 0;
-    for (const realm of realms) {
+    for (let i = 0; i < realms.length; i++) {
+      if (stopping) break;
+      const realm = realms[i];
       // A spent budget stops the group before folding: the fold exists only to
       // make the prune safe, and no prune will follow it.
       const verdict = retentionBatchVerdict({
@@ -210,12 +224,13 @@ export function createRetentionSweep(deps: RetentionSweepDeps): RetentionSweep {
         batchSize,
       });
       if (verdict === 'stop-budget') {
-        // This realm never folded, so no prune loop exists to announce the cap
-        // for it; the group check speaks instead. A capped run must be visible
-        // because a stalled retention window on personal-data tables is a
-        // privacy signal.
+        // None of the remaining realms folded, so no prune loop exists to
+        // announce the cap for them; this group line speaks instead, naming
+        // every skipped realm without claiming expired rows it never measured.
+        // A capped run must be visible because a stalled retention window on
+        // personal-data tables is a privacy signal.
         onInfo(
-          `retention sweep: online-samples:${realm} hit the ${deps.maxRowsPerRun} row budget with expired rows remaining`,
+          `retention sweep: the online-samples group hit the ${deps.maxRowsPerRun} row budget before ${realms.slice(i).join(', ')}`,
         );
       }
       if (verdict !== 'continue') break;
@@ -240,9 +255,10 @@ export function createRetentionSweep(deps: RetentionSweepDeps): RetentionSweep {
   async function sweep(): Promise<number> {
     let totalRows = 0;
     for (const table of deps.tables) {
+      if (stopping) break;
       totalRows += await pruneWithBudget(table.name, (size) => table.pruneBatch(size), 0);
     }
-    if (deps.onlineSamples) {
+    if (deps.onlineSamples && !stopping) {
       totalRows += await sweepOnlineSamples(deps.onlineSamples);
     }
     return totalRows;
@@ -370,17 +386,24 @@ export function createRetentionSweep(deps: RetentionSweepDeps): RetentionSweep {
       // interval is unref()'d like the other boot intervals in main.ts, so it
       // never keeps the process alive on its own.
       if (timer) return;
+      stopping = false;
       timer = setInterval(poll, deps.pollIntervalMs ?? RETENTION_SWEEP_POLL_MS);
       timer.unref();
     },
     async stop(): Promise<void> {
+      // Raise the flag FIRST so an in-flight run ends at its next batch
+      // boundary; without it a catch-up run could hold shutdown past the
+      // supervisor's kill grace and the character saves behind this stop
+      // would be lost to SIGKILL. The run's unlock/release path still runs.
+      stopping = true;
       if (timer) {
         clearInterval(timer);
         timer = null;
       }
-      // Wait out any in-flight run so no prune query races pool.end() during
-      // shutdown, mirroring the async stop of the business-metrics collector.
-      // The run reports its own failures via onError; stop only waits.
+      // Wait out the (now batch-bounded) in-flight run so no prune query races
+      // pool.end() during shutdown, mirroring the async stop of the
+      // business-metrics collector. The run reports its own failures via
+      // onError; stop only waits.
       try {
         await inFlight;
       } catch {

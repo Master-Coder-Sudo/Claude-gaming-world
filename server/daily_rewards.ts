@@ -19,6 +19,7 @@ import {
   type DailyRewardScoreRow,
   type DailyRewardTaskSeed,
   PgDailyRewardDb,
+  REWARD_DAY_SHAPE,
 } from './daily_rewards_db';
 import { buildSeedKey, runSeedOnce } from './daily_rewards_seed_gate';
 import { accountAndScopeForToken, moderationStatusForAccount, walletForAccount } from './db';
@@ -385,6 +386,18 @@ export function resetDailyRewardEventsCutoffMemoForTests(): void {
   cutoffMemo = null;
 }
 
+// The pure cutoff derivation, split out so the fail-closed arm is directly
+// testable. FAIL CLOSED on a malformed anchor day: addRewardDays' fallback for
+// an unparseable day string is TODAY, which passes the prune's own
+// REWARD_DAY_SHAPE guard and would turn a parse failure into a cutoff that
+// deletes the entire ledger before today. currentDailyRewardDay cannot emit
+// such a value today (its days are toISOString-derived), so this is
+// defense-in-depth on an irreversible delete path, not a live-bug fix.
+export function dailyRewardEventsCutoffFromAnchor(anchorDay: string, days: number): string | null {
+  if (!REWARD_DAY_SHAPE.test(anchorDay)) return null;
+  return addRewardDays(anchorDay, -days);
+}
+
 // The retention cutoff for the daily_reward_events ledger, as a reward-clock day
 // string, or null when retention is off (0 or negative = keep forever). Fractional
 // values clamp to at least one day: 0.5 must never floor to a cutoff of "today",
@@ -401,7 +414,8 @@ export async function dailyRewardEventsCutoffDay(
   if (cutoffMemo && cutoffMemo.utcDay === utcDay && cutoffMemo.days === days) {
     return cutoffMemo.cutoff;
   }
-  const cutoff = addRewardDays(await currentDailyRewardDay(now), -days);
+  const cutoff = dailyRewardEventsCutoffFromAnchor(await currentDailyRewardDay(now), days);
+  if (cutoff === null) return null; // malformed anchor: keep the ledger, cache nothing
   cutoffMemo = { utcDay, days, cutoff };
   return cutoff;
 }

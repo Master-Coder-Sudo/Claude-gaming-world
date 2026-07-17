@@ -1171,7 +1171,10 @@ export class PgDailyRewardDb implements DailyRewardDb {
   }
 }
 
-const REWARD_DAY_SHAPE = /^\d{4}-\d{2}-\d{2}$/;
+// Shared with daily_rewards.ts's cutoff derivation (this is the legal import
+// direction): both the prune below and the cutoff helper fail closed on any
+// day string that is not a plain YYYY-MM-DD.
+export const REWARD_DAY_SHAPE = /^\d{4}-\d{2}-\d{2}$/;
 
 // One bounded prune batch against the daily_reward_events audit ledger.
 // daily_reward_events.day is the REWARD-CLOCK day (its boundary sits at a
@@ -1187,9 +1190,11 @@ const REWARD_DAY_SHAPE = /^\d{4}-\d{2}-\d{2}$/;
 // retention sweep drives iteration. day leads the UNIQUE
 // (day, realm, account_id, idempotency_key) index, so the day < $1 subquery
 // is index-served with no new DDL, and ORDER BY day keeps each batch on the
-// oldest days; every deleted row also maintains the partial
-// daily_reward_events_account_day_created_id index, which the modest batch
-// size already assumes. Deliberately a standalone export, not a DailyRewardDb
+// oldest days. A DELETE writes no index entries; the dead tuples' entries in
+// this table's three indexes (including the partial
+// daily_reward_events_account_day_created_id) are reclaimed later by
+// scan-time LP_DEAD hinting and autovacuum, a deferred cost the modest batch
+// size keeps small. Deliberately a standalone export, not a DailyRewardDb
 // method: the interface would force every test fake to stub it, and the
 // sweep is not a service-seam consumer.
 export async function pruneDailyRewardEventsBatch(
