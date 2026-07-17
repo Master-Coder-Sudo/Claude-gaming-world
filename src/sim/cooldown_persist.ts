@@ -25,6 +25,9 @@ export interface AbilityChargeState {
   maxCharges: number;
   recharge: number;
   rechargeLength: number;
+  /** Per-spent-charge parallel timers; absent on legacy saves (converted on
+   *  the first recharge tick from the sequential single timer). */
+  recharges?: number[];
 }
 
 /** Cooldown snapshot stored inside CharacterState (JSONB). All times are remaining
@@ -85,6 +88,9 @@ export function serializeCooldowns(
           maxCharges: state.maxCharges,
           recharge: state.recharge,
           rechargeLength: state.rechargeLength,
+          ...(state.recharges && state.recharges.length > 0
+            ? { recharges: [...state.recharges] }
+            : {}),
         };
       }
     }
@@ -153,6 +159,16 @@ export function applyCooldowns(
           maxCharges: state.maxCharges,
           recharge: Math.min(state.recharge, state.rechargeLength),
           rechargeLength: state.rechargeLength,
+          // Parallel per-charge timers survive the relog whole; a legacy save
+          // without them converts on the first recharge tick (combat/auras.ts).
+          ...(state.recharges
+            ? {
+                recharges: state.recharges
+                  .filter((t) => positive(t))
+                  .map((t) => Math.min(t, state.rechargeLength))
+                  .sort((a, b) => a - b),
+              }
+            : {}),
         };
         abilityCharges[id] = restored;
         if (restored.charges <= 0) cooldowns.set(id, restored.recharge);

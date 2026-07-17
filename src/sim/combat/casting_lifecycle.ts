@@ -1082,7 +1082,11 @@ function armAbilityCooldown(
   const state = chargeState(p, abilityId, bonusCharges, cooldown);
   if (state) {
     state.charges = Math.max(0, state.charges - 1);
-    if (state.charges < state.maxCharges && state.recharge <= 0) state.recharge = cooldown;
+    // Parallel per-charge recharge: every spend starts ITS OWN timer.
+    state.recharges ??= state.recharge > 0 ? [state.recharge] : [];
+    state.recharges.push(cooldown);
+    state.recharges.sort((a, b) => a - b);
+    state.recharge = state.recharges[0] ?? 0;
     if (state.charges <= 0) p.cooldowns.set(abilityId, state.recharge);
     else p.cooldowns.delete(abilityId);
     return;

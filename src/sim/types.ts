@@ -2511,8 +2511,16 @@ export interface Entity {
     {
       charges: number;
       maxCharges: number;
+      // The SOONEST running per-charge timer (a derived mirror of recharges[0]
+      // after sort; 0 when the pool is full). The wire and the empty-pool
+      // cooldown mirror read this, so the client surface is unchanged.
       recharge: number;
       rechargeLength: number;
+      // One running timer PER SPENT CHARGE (maintainer rule: each charge comes
+      // back its own cooldown after the moment IT was spent, in parallel, not
+      // queued behind its twin). Optional for old JSONB saves: absent means
+      // legacy sequential state, converted on the first recharge tick.
+      recharges?: number[];
     }
   >;
   id: number;

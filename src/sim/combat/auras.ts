@@ -137,19 +137,31 @@ export function updateTimers(p: Entity): void {
   if (p.abilityCharges) {
     for (const [abilityId, state] of Object.entries(p.abilityCharges)) {
       if (state.charges >= state.maxCharges) continue;
-      state.recharge -= temporalHourglassCooldownDelta(p, abilityId);
-      if (state.recharge > 0) {
-        if (state.charges <= 0) p.cooldowns.set(abilityId, state.recharge);
+      // Legacy sequential state (an old JSONB save without per-charge timers):
+      // convert once, staggering the missing charges the way the old model
+      // would have returned them, so a mid-recharge relog keeps its schedule.
+      if (!state.recharges) {
+        const missing = Math.max(1, state.maxCharges - state.charges);
+        state.recharges = Array.from(
+          { length: missing },
+          (_, i) => state.recharge + i * state.rechargeLength,
+        );
+      }
+      // Parallel per-charge recharge: every running timer ticks at once.
+      const delta = temporalHourglassCooldownDelta(p, abilityId);
+      state.recharges = state.recharges.map((t) => t - delta);
+      while (state.recharges.length > 0 && state.recharges[0] <= 0) {
+        state.recharges.shift();
+        state.charges = Math.min(state.maxCharges, state.charges + 1);
+      }
+      if (state.charges >= state.maxCharges || state.recharges.length === 0) {
+        state.recharges = [];
+        state.recharge = 0;
+        if (state.charges > 0) p.cooldowns.delete(abilityId);
         continue;
       }
-      state.charges = Math.min(state.maxCharges, state.charges + 1);
-      if (state.charges < state.maxCharges) {
-        state.recharge += state.rechargeLength;
-        if (state.charges <= 0) p.cooldowns.set(abilityId, state.recharge);
-      } else {
-        state.recharge = 0;
-        p.cooldowns.delete(abilityId);
-      }
+      state.recharge = state.recharges[0];
+      if (state.charges <= 0) p.cooldowns.set(abilityId, state.recharge);
     }
   }
 }

@@ -228,11 +228,12 @@ describe('Sim charge-pool persistence round-trip (anti-relog-refill)', () => {
       maxCharges: 2,
       recharge: 8,
       rechargeLength: 8,
+      recharges: [8],
     });
 
     const state = sim.serializeCharacter(p.id)!;
     expect(state.cooldowns?.abilityCharges).toEqual({
-      raging_gale: { charges: 1, maxCharges: 2, recharge: 8, rechargeLength: 8 },
+      raging_gale: { charges: 1, maxCharges: 2, recharge: 8, rechargeLength: 8, recharges: [8] },
     });
 
     const sim2 = emptyWorld();
@@ -245,6 +246,7 @@ describe('Sim charge-pool persistence round-trip (anti-relog-refill)', () => {
       maxCharges: 2,
       recharge: 8,
       rechargeLength: 8,
+      recharges: [8],
     });
     expect(e2.cooldowns.has('raging_gale')).toBe(false); // a use is stored: castable
   });
@@ -265,12 +267,12 @@ describe('Sim charge-pool persistence round-trip (anti-relog-refill)', () => {
     expect(e2.abilityCharges?.raging_gale?.charges).toBe(0);
     expect(e2.cooldowns.get('raging_gale')).toBe(8); // still blocked: no relog reset
 
-    // The recharge resumes: ~8s restores the first use, ~8s more the second.
-    for (let tick = 0; tick < 161; tick++) updateTimers(e2);
-    expect(e2.abilityCharges?.raging_gale?.charges).toBe(1);
-    expect(e2.cooldowns.has('raging_gale')).toBe(false);
+    // Parallel per-charge recharge: both uses were spent back to back, so BOTH
+    // timers run together and the whole pool is back after ~8s (each charge
+    // returns its own cooldown after the moment IT was spent).
     for (let tick = 0; tick < 161; tick++) updateTimers(e2);
     expect(e2.abilityCharges?.raging_gale?.charges).toBe(2);
+    expect(e2.cooldowns.has('raging_gale')).toBe(false);
     expect(e2.abilityCharges?.raging_gale?.recharge).toBe(0);
   });
 

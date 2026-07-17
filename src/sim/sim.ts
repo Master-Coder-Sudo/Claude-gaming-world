@@ -5052,6 +5052,11 @@ export class Sim {
     if (source.kind !== 'player' || target.kind !== 'player' || !this.isHostileTo(source, target)) {
       return duration;
     }
+    // Balance pass (maintainer): player stuns are exempt from PvP diminishing
+    // returns. They operate differently from fear: short flat durations behind
+    // real cooldowns, so the ladder only made banked stuns (Twin Gavels) feel
+    // broken. Fear, polymorph, root, and school lockouts keep their ladders.
+    if (isStunDrCategory(category)) return duration;
     const existing = target.ccDr.get(category);
     const stage = existing && existing.resetAt > this.time ? existing.stage : 0;
     const reset =
