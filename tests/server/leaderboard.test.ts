@@ -134,6 +134,8 @@ function fakeRuntime(overrides: Partial<LeaderboardRuntime> = {}): LeaderboardRu
     getDevLeaderboard: async () => [],
     getDeedsLeaderboard: async () => [],
     deedsSelfRank: async () => null,
+    getArenaLeaderboard: async () => [],
+    getAccountsCreatedCount: async () => 0,
     getReleases: async () => [],
     githubRepo: 'levy-street/world-of-claudecraft',
     releasesMaxLimit: 20,
@@ -769,11 +771,11 @@ describe('leaderboard handler (through the injected cache-fronted runtime)', () 
   });
 });
 
-describe('arena leaderboard handler (through the injected db reads)', () => {
-  it('decodes ?format and serves { format, leaders } from the db read', async () => {
-    setLeaderboardDbForTests({
-      topArenaRatings: async (_limit, format) => [arenaRow(`Champ-${format}`)],
-    });
+describe('arena leaderboard handler (through the injected cache-fronted runtime)', () => {
+  it('decodes ?format and serves { format, leaders } from the runtime getter', async () => {
+    configureLeaderboardRuntime(
+      fakeRuntime({ getArenaLeaderboard: async (format) => [arenaRow(`Champ-${format}`)] }),
+    );
     const ctx = fakeCtx({
       method: 'GET',
       url: '/api/arena/leaderboard',
@@ -788,15 +790,36 @@ describe('arena leaderboard handler (through the injected db reads)', () => {
   });
 });
 
-describe('project-stats handler (through the injected db reads)', () => {
-  it('serves accounts_created from the db, players_online from the runtime, and the realm', async () => {
-    configureLeaderboardRuntime(fakeRuntime({ playersOnline: () => 9 }));
-    setLeaderboardDbForTests({ getAccountsCount: async () => 123 });
+describe('project-stats handler (through the injected cache-fronted runtime)', () => {
+  it('serves accounts_created from the runtime count, players_online live, and the realm', async () => {
+    configureLeaderboardRuntime(
+      fakeRuntime({ playersOnline: () => 9, getAccountsCreatedCount: async () => 123 }),
+    );
     const ctx = fakeCtx({ method: 'GET', url: '/api/project-stats' });
     await handlerFor('/api/project-stats')(ctx);
     const { status, body } = captured(ctx.res);
     expect(status).toBe(200);
     expect(body).toEqual({ accounts_created: 123, players_online: 9, realm: REALM_NAME });
+  });
+});
+
+describe('search handler (funnels a non-empty query through the dbReads bundle)', () => {
+  it('serves the searchCharacters results capped at SEARCH_RESULT_LIMIT', async () => {
+    // Arena and project-stats moved onto the cache-fronted runtime; search / realms
+    // / sheet still read the db through the dbReads bundle, so this keeps that seam
+    // (setLeaderboardDbForTests) covered at the handler level with a fake read.
+    configureLeaderboardRuntime(fakeRuntime());
+    setLeaderboardDbForTests({
+      searchCharacters: async (prefix, limit) => [
+        { name: `Match-${prefix}-${limit}`, cls: 'mage', level: 60 },
+      ],
+    });
+    const ctx = fakeCtx({ method: 'GET', url: '/api/search', query: { q: 'ar' } });
+    await handlerFor('/api/search')(ctx);
+    const { status, body } = captured(ctx.res);
+    expect(status).toBe(200);
+    const b = body as { results: { name: string }[] };
+    expect(b.results.map((r) => r.name)).toEqual([`Match-ar-${SEARCH_RESULT_LIMIT}`]);
   });
 });
 

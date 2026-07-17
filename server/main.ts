@@ -72,6 +72,7 @@ import { configureAuthRuntime } from './auth_routes';
 import { computeBankBonus } from './bank_entitlements';
 import { bankLedgerIdle } from './bank_ledger';
 import { BUG_DESCRIPTION_MAX, BugReportRateLimitError, createBugReport } from './bug_report_db';
+import { createCachedRead } from './cached_read';
 import { characterSheet, SHEET_RECENT_DEEDS, type SheetRank } from './character_sheet';
 import { configureCharactersRuntime } from './characters';
 import {
@@ -88,6 +89,7 @@ import {
 } from './daily_rewards';
 import { pruneDailyRewardEventsBatch } from './daily_rewards_db';
 import {
+  type ArenaLeaderRow,
   accountAndScopeForToken,
   accountById,
   accountForToken,
@@ -215,7 +217,13 @@ import {
 import { configureInternalRuntime, handleInternalApi } from './internal';
 import { isConnectionRefused } from './ip_block';
 import { pruneExpiredBlockedIps } from './ip_block_db';
-import { buildDeedsBoard, configureLeaderboardRuntime, type ReleaseEntry } from './leaderboard';
+import {
+  buildDeedsBoard,
+  configureLeaderboardRuntime,
+  type ReleaseEntry,
+  readArenaLeaderboard,
+  readProjectStats,
+} from './leaderboard';
 import { MAX_MAP_SAVE_BYTES } from './maps';
 import {
   mapDeleteCore,
@@ -553,6 +561,56 @@ async function getGuildLeaderboard(scope: 'realm' | 'global'): Promise<GuildLead
   }
 }
 
+// Arena ladder cache. Per FORMAT ('1v1' | '2v2', the only two the public ladder
+// serves; the wider ArenaFormat union never reaches here, so an unrecognized
+// ?format value can never mint a third cache slot), same compute-once /
+// serve-from-memory shape as the player and guild boards above. Wired into
+// bustBoardCaches below because the ladder is character-faced and
+// moderation-visible: a ban delists immediately in-process while cross-process
+// peers converge within one TTL, the same tradeoff the other boards already make.
+// readArenaLeaderboard (server/leaderboard.ts) is the INNER read, so
+// ARENA_LEADERBOARD_LIMIT stays the one place the ladder depth is set.
+const arenaLeaderboardCache: Record<
+  '1v1' | '2v2',
+  { at: number; leaders: ArenaLeaderRow[] } | null
+> = {
+  '1v1': null,
+  '2v2': null,
+};
+
+async function refreshArena(format: '1v1' | '2v2'): Promise<ArenaLeaderRow[]> {
+  const epoch = boardEpoch;
+  const { leaders } = await readArenaLeaderboard({ topArenaRatings }, format);
+  // Skip the install if a moderation bust landed mid-refresh (see boardEpoch).
+  if (boardEpoch === epoch) arenaLeaderboardCache[format] = { at: Date.now(), leaders };
+  return leaders;
+}
+
+// Single-flight per format, keyed on boardEpoch exactly like the player/guild
+// refreshes, so a moderation bust (which bumps boardEpoch) drops any in-flight
+// pre-ban arena refresh instead of handing a post-bust reader its pre-ban snapshot.
+const refreshArenaShared: Record<'1v1' | '2v2', () => Promise<ArenaLeaderRow[]>> = {
+  '1v1': singleFlight(
+    () => refreshArena('1v1'),
+    () => boardEpoch,
+  ),
+  '2v2': singleFlight(
+    () => refreshArena('2v2'),
+    () => boardEpoch,
+  ),
+};
+
+async function getArenaLeaderboard(format: '1v1' | '2v2'): Promise<ArenaLeaderRow[]> {
+  const cached = arenaLeaderboardCache[format];
+  if (cached && Date.now() - cached.at < LEADERBOARD_TTL_MS) return cached.leaders;
+  try {
+    return await refreshArenaShared[format]();
+  } catch (err) {
+    console.error(`arena leaderboard refresh failed (${format}):`, err);
+    return cached?.leaders ?? [];
+  }
+}
+
 // Renown (deeds) board cache. Same compute-once/serve-from-memory shape as
 // the boards above, but ONE entry, not one per scope: the board is
 // account-level and accounts span realms, so it is GLOBAL-ONLY by design.
@@ -652,20 +710,24 @@ async function deedsSelfRank(accountId: number): Promise<DeedsLeaderboardSelf | 
 // kind, so a ban delists and an unban relists on the next read here. In the
 // process-per-realm fleet, PEER realm processes keep their own caches and
 // converge within one LEADERBOARD_TTL_MS (the boards' pre-existing staleness
-// ceiling); the SQL exclusion makes their next refresh correct. Arena is
-// served uncached by design, so it stays exact fleet-wide with nothing to
-// bust; the daily-rewards board is cached in-process behind
-// dailyRewardService's board cache (daily_rewards_board_cache.ts, same TTL
-// tradeoff), so it is busted below with the rest. Bumping
-// boardEpoch as well as nulling the caches closes the lost-bust race: a refresh
-// already in flight when this fires will decline to install its pre-ban snapshot
-// (see boardEpoch), so a ban cannot be masked for up to a TTL cycle.
+// ceiling); the SQL exclusion makes their next refresh correct. The arena ladder
+// is now cached per format (arenaLeaderboardCache), so it is busted here too: its
+// former fleet-wide exactness becomes in-process-immediate delisting plus
+// TTL-bounded peer convergence, the same tradeoff every other board already made.
+// The daily-rewards board is cached in-process behind dailyRewardService's board
+// cache (daily_rewards_board_cache.ts, same TTL tradeoff), so it is busted below
+// with the rest. Bumping boardEpoch as well as nulling the caches closes the
+// lost-bust race: a refresh already in flight when this fires will decline to
+// install its pre-ban snapshot (see boardEpoch), so a ban cannot be masked for up
+// to a TTL cycle.
 function bustBoardCaches(): void {
   boardEpoch++;
   leaderboardCache.realm = null;
   leaderboardCache.global = null;
   guildLeaderboardCache.realm = null;
   guildLeaderboardCache.global = null;
+  arenaLeaderboardCache['1v1'] = null;
+  arenaLeaderboardCache['2v2'] = null;
   deedsBoardCache = null;
   bustDailyRewardBoardCache();
 }
@@ -708,6 +770,37 @@ async function getDeedsRarity(): Promise<import('../src/world_api').DeedsRarity>
   } catch (err) {
     console.error('deeds rarity refresh failed:', err);
     return deedsRarityCache?.payload ?? { totalEligible: 0, earned: {} };
+  }
+}
+
+// Project-stats accounts-created counter cache. Unlike the player/guild/arena
+// boards, a COUNT(*) over accounts is moderation-INVARIANT (a ban or unban never
+// changes the row count, only eligibility), so it needs NO bust or epoch wiring,
+// the same call getDeedsRarity's cache makes above. It is a single-key read, so it
+// rides createCachedRead (server/cached_read.ts) directly rather than the per-scope
+// singleFlight the boards use. 60s TTL (the D11 exception): accounts-created is a
+// slow-moving marketing counter, not a moderation-sensitive ranked list, so a
+// minute of staleness is fine. Named to avoid colliding with db.ts's imported
+// getAccountsCount (mirrors getLeaderboard wrapping topLifetimeXp under a domain
+// name). readProjectStats (server/leaderboard.ts) is the INNER read; players_online
+// is a live per-request value the handler re-attaches, so the cache holds only the
+// count and the inner read gets a throwaway 0 for players_online that it discards.
+const PROJECT_STATS_TTL_MS = 60_000;
+const accountsCreatedCache = createCachedRead(
+  async () => (await readProjectStats({ getAccountsCount }, 0, REALM)).accounts_created,
+  { ttlMs: PROJECT_STATS_TTL_MS },
+);
+
+async function getAccountsCreatedCount(): Promise<number> {
+  try {
+    return await accountsCreatedCache.read();
+  } catch (err) {
+    // Only a never-warmed cache reaches here (createCachedRead stale-serves the
+    // last count on a later failure). Serve 0 rather than 500, the same
+    // degrade-not-throw contract getLeaderboard / getDeedsRarity already ship, so
+    // /api/project-stats stays 200 when the db is unreachable.
+    console.error('accounts-created count refresh failed:', err);
+    return 0;
   }
 }
 
@@ -1720,9 +1813,11 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
       return await handlePerfReport(req, res);
     }
     if (req.method === 'GET' && url === '/api/project-stats') {
-      const accountsCount = await getAccountsCount();
+      // Accounts-created COUNT served from the shared cache getter (the same 60s
+      // cache the migrated projectStatsHandler reads); players_online stays a live
+      // per-request read, so it is re-attached here rather than cached.
       return json(res, 200, {
-        accounts_created: accountsCount,
+        accounts_created: await getAccountsCreatedCount(),
         players_online: liveGame().clients.size,
         realm: REALM,
       });
@@ -1755,10 +1850,13 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
       return json(res, 200, liveGame().perfProfile());
     }
     if (req.method === 'GET' && url === '/api/arena/leaderboard') {
-      // public all-time Ashen Coliseum ladder (top rated characters)
+      // public all-time Ashen Coliseum ladder (top rated characters), served from
+      // the shared per-format cache getter (the same cache the migrated
+      // arenaLeaderboardHandler reads), so the ladder query runs at most once per
+      // TTL per format instead of once per request.
       const params = new URLSearchParams((req.url ?? '').split('?')[1] ?? '');
-      const format = params.get('format') === '2v2' ? '2v2' : '1v1';
-      return json(res, 200, { format, leaders: await topArenaRatings(20, format) });
+      const format: '1v1' | '2v2' = params.get('format') === '2v2' ? '2v2' : '1v1';
+      return json(res, 200, { format, leaders: await getArenaLeaderboard(format) });
     }
     if (req.method === 'GET' && url === '/api/leaderboard') {
       // lifetime-XP leaderboard (Max-Level XP Overflow), served from the
@@ -2303,10 +2401,11 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
 
 // Inject the main.ts runtime the ported public-read handlers (server/leaderboard.ts)
 // need but cannot import without a cycle: the live online count + dev perf profile
-// off the GameServer, the three cache-fronted readers (unchanged: the same TTL
-// caches the legacy arms use), the releases feed's repo + cap, and the two
-// request-shaped helpers. Done at module load, before any request, so the static
-// `routes` array registry.ts already spread in can serve.
+// off the GameServer, the cache-fronted board and stats readers (unchanged: the
+// same TTL caches the legacy arms use, arena and the project-stats count included),
+// the releases feed's repo + cap, and the two request-shaped helpers. Done at module
+// load, before any request, so the static `routes` array registry.ts already spread
+// in can serve.
 configureLeaderboardRuntime({
   playersOnline: () => liveGame().clients.size,
   playersCap: canonicalPlayersCap,
@@ -2316,6 +2415,8 @@ configureLeaderboardRuntime({
   getDevLeaderboard: () => topContributors(),
   getDeedsLeaderboard,
   deedsSelfRank,
+  getArenaLeaderboard,
+  getAccountsCreatedCount,
   getReleases,
   // A getter, not a value: configureLeaderboardRuntime runs at module load (before
   // startServer primes the config), but leaderboard.ts reads rt.githubRepo only at
