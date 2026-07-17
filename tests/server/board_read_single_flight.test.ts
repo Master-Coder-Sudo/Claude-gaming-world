@@ -628,6 +628,26 @@ describe('a moderation bust mid-flight evicts the in-flight joiner (epoch-keyed)
       seam.getArenaLeaderboard('2v2'),
     );
   });
+
+  it('a WARM arena cache is nulled by the bust: the next read re-queries, not a stale TTL serve', async () => {
+    // getArenaLeaderboard checks only TTL freshness on a cache HIT, never the epoch,
+    // so the WARM-cache null in bustBoardCaches is what makes an in-process ban
+    // delist immediately instead of after a full TTL. The joiner-eviction cases
+    // above start from a cold/in-flight cache; this one settles a warm cache first,
+    // so it is the behavioral backstop for the source-pinned null-out slots.
+    dbMocks.topArenaRatings
+      .mockResolvedValueOnce(arenaRows('preban'))
+      .mockResolvedValueOnce(arenaRows('postban'));
+    const warm = await seam.getArenaLeaderboard('1v1');
+    expect(warm[0].name).toBe('preban-champ');
+    expect(dbMocks.topArenaRatings).toHaveBeenCalledTimes(1);
+    seam.bustBoardCaches(); // nulls arenaLeaderboardCache['1v1'] (and bumps boardEpoch)
+    const after = await seam.getArenaLeaderboard('1v1');
+    // Without the null-out slot the warm, still-in-TTL cache would serve 'preban'
+    // with NO new read; the null forces a fresh delisting read.
+    expect(dbMocks.topArenaRatings).toHaveBeenCalledTimes(2);
+    expect(after[0].name).toBe('postban-champ');
+  });
 });
 
 // (E2) PER-FORMAT ISOLATION: the arena cache is keyed by format, so filling one

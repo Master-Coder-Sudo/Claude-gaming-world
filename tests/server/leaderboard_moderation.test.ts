@@ -294,7 +294,14 @@ describe('main.ts wiring', () => {
     expect(src).toContain('setOnAccountModerated(bustBoardCaches)');
     const start = src.indexOf('function bustBoardCaches');
     expect(start).toBeGreaterThan(-1);
-    const body = src.slice(start, src.indexOf('}', start));
+    // Strip `//` line comments before the substring checks (keeping `://` protocol
+    // slashes), exactly like the sibling "bumps the board epoch" pin below: without
+    // this, commenting out a null-out line leaves its substring alive in the comment
+    // and the pin stays falsely green (the comment-gameable trap). The behavioral
+    // backstop for the WARM-cache null is board_read_single_flight's
+    // "a WARM arena cache is nulled by the bust" case.
+    const stripComments = (s: string): string => s.replace(/(^|[^:])\/\/.*$/gm, '$1');
+    const body = stripComments(src.slice(start, src.indexOf('}', start)));
     // Players realm + global, guilds realm + global, BOTH arena formats, the deeds
     // board, and the daily-rewards board (instance-scoped on its service singleton,
     // busted through the exported bust): every cached, moderation-visible scope. The
