@@ -74,6 +74,31 @@ SELECT 1
 export const PLAYER_METRICS_INVALID_INDEX_DROP_SQL =
   'DROP INDEX CONCURRENTLY IF EXISTS play_sessions_account_started_id';
 
+// closeOrphanPlayerSessions scans WHERE ended_at IS NULL joined to characters
+// on character_id at every boot; open sessions are a tiny fraction of a large
+// table, so a partial index on the join key keeps the boot scan off the heap.
+// EXPLAIN against a copy-shaped schema (enable_seqscan off) confirms the
+// planner serves the orphan UPDATE's play_sessions side from this index: a
+// bitmap scan rides the partial predicate to pick out just the open rows,
+// then probes characters by primary key on the indexed join column. Built
+// concurrently for the same large-table reason as the composite above.
+export const PLAY_SESSIONS_OPEN_INDEX_SQL = `
+CREATE INDEX CONCURRENTLY IF NOT EXISTS play_sessions_open_character
+  ON play_sessions(character_id) WHERE ended_at IS NULL;
+`;
+
+// Same interrupted-build carcass repair as the composite index above: an
+// INVALID leftover must be dropped (CONCURRENTLY) before the create re-runs.
+export const PLAY_SESSIONS_OPEN_INVALID_INDEX_CHECK_SQL = `
+SELECT 1
+  FROM pg_index i
+ WHERE i.indexrelid = to_regclass('play_sessions_open_character')
+   AND NOT i.indisvalid
+`;
+
+export const PLAY_SESSIONS_OPEN_INVALID_INDEX_DROP_SQL =
+  'DROP INDEX CONCURRENTLY IF EXISTS play_sessions_open_character';
+
 /** Fixed first-day playtime buckets; a bounded label set, never per-player data. */
 export const FIRST_DAY_PLAYTIME_BUCKETS = [
   'lt_10m',

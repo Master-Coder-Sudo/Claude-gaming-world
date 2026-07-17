@@ -271,6 +271,10 @@ describe('overviewCounts all-time peak', () => {
     // Decisive not-a-bare-max form: the alias must be produced by the GREATEST
     // expression, not the old single-COALESCE subquery.
     expect(String(sql)).toMatch(/GREATEST\([\s\S]*?AS peak_online_all_time/);
+    // The average-playtime numerator must add the folded rollup: without the
+    // play_session_totals term the overview average silently shrinks as old
+    // sessions fold away.
+    expect(String(sql)).toContain('FROM play_session_totals');
   });
 
   it('keeps the exported prefix equal to the pinned literal', () => {

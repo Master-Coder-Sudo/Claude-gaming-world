@@ -11,7 +11,7 @@ vi.mock('../server/db', async (importOriginal) => {
 vi.mock('../server/realm', () => ({ REALM: 'test-realm' }));
 
 import { PgDailyRewardDb, pruneDailyRewardEventsBatch } from '../server/daily_rewards_db';
-import { ELIGIBLE_ACCOUNT_SQL, SCHEMA } from '../server/db';
+import { DAILY_REWARD_EXCLUDED_ACCOUNTS_VIEW_SQL, ELIGIBLE_ACCOUNT_SQL } from '../server/db';
 
 describe('Daily Rewards ban query enforcement', () => {
   beforeEach(() => {
@@ -33,13 +33,16 @@ describe('Daily Rewards ban query enforcement', () => {
     expect(sql).toContain('daily_reward_ip_bans');
     // The eligibility read runs on every status, spin, and point-recorder call:
     // the OR-free arm split is what keeps it off a nested-loop re-probed
-    // subquery once the first IP ban row lands. Both IP probes are their own
-    // UNION ALL arms behind the priority pick; an OR joined back into either
-    // arm reintroduces the re-probe.
+    // subquery once the first IP ban row lands. Every IP probe is its own
+    // UNION ALL arm behind the priority pick; an OR joined back into any
+    // arm reintroduces the re-probe. The association arm keeps an ip-banned
+    // account excluded after its raw sessions age out of retention.
     expect(sql).not.toContain('OR EXISTS');
     expect(sql).toContain('ib.ip_address = a.last_login_ip');
     expect(sql).toContain('ib.ip_address = ps.ip_address');
-    expect(sql.split('UNION ALL').length - 1).toBe(2);
+    expect(sql).toContain('ib.ip_address = assoc.ip_address');
+    expect(sql).toContain('account_ip_associations');
+    expect(sql.split('UNION ALL').length - 1).toBe(3);
     expect(sql).toContain('ORDER BY priority');
   });
 
@@ -47,27 +50,33 @@ describe('Daily Rewards ban query enforcement', () => {
     // The daily_reward_excluded_accounts view gates every daily-rewards read
     // and write call site in this module; an OR reintroduced into a join arm
     // regresses them all at the first IP ban row. Assert on the imported
-    // (evaluated) SCHEMA constant, never on raw db.ts source text: the raw
-    // source carries an unrelated UNION ALL outside the SCHEMA literal that a
+    // (evaluated) view constant, never on raw db.ts source text: the raw
+    // source carries unrelated UNION ALLs outside the view literal that a
     // source-text count would wrongly include. Strip SQL line comments first
     // so the counts measure statement structure, not prose.
-    const schema = SCHEMA.replace(/--[^\n]*/g, ' ').replace(/\s+/g, ' ');
-    expect(schema).toContain(
+    const view = DAILY_REWARD_EXCLUDED_ACCOUNTS_VIEW_SQL.replace(/--[^\n]*/g, ' ').replace(
+      /\s+/g,
+      ' ',
+    );
+    expect(view).toContain(
       'SELECT account_id, reason FROM daily_reward_bans WHERE expires_at IS NULL OR expires_at > now()',
     );
-    expect(schema).toContain(
+    expect(view).toContain(
       'SELECT a.id AS account_id, ib.reason FROM accounts a JOIN daily_reward_ip_bans ib ON ib.ip_address = a.last_login_ip',
     );
-    expect(schema).toContain(
+    expect(view).toContain(
       'SELECT ps.account_id, ib.reason FROM play_sessions ps JOIN daily_reward_ip_bans ib ON ib.ip_address = ps.ip_address',
     );
-    // Three arms joined by plain UNION (the dedup is load-bearing: one account
+    expect(view).toContain(
+      'SELECT assoc.account_id, ib.reason FROM account_ip_associations assoc JOIN daily_reward_ip_bans ib ON ib.ip_address = assoc.ip_address',
+    );
+    // Four arms joined by plain UNION (the dedup is load-bearing: one account
     // with many sessions from a banned IP collapses to one row). UNION ALL
     // would also satisfy a bare keyword count, so pin its absence explicitly:
-    // nothing else in the SCHEMA legitimately uses it.
-    expect(schema.match(/\bUNION\b/g)).toHaveLength(2);
-    expect(schema).not.toContain('UNION ALL');
-    expect(schema).not.toContain('OR EXISTS');
+    // nothing in the view legitimately uses it.
+    expect(view.match(/\bUNION\b/g)).toHaveLength(3);
+    expect(view).not.toContain('UNION ALL');
+    expect(view).not.toContain('OR EXISTS');
   });
 
   it('filters banned accounts from current leaderboard reads and pending payouts', async () => {

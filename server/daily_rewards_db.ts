@@ -257,18 +257,9 @@ function scoreRow(row: Record<string, unknown>): DailyRewardScoreRow {
   };
 }
 
-export class PgDailyRewardDb implements DailyRewardDb {
-  async banForAccount(
-    accountId: number,
-  ): Promise<{ reason: string; expiresAt: string | null } | null> {
-    // OR-free arms, mirroring the daily_reward_excluded_accounts view: the
-    // last-login and play-session IP probes are separate UNION ALL arms so each
-    // rides its own index path (an OR in the join forces a nested loop with a
-    // re-probed subquery on every eligibility check). LIMIT 1 makes the read
-    // dedup-insensitive, so UNION ALL skips the dedup sort, and ORDER BY
-    // priority keeps the account ban (with its real expiry) ahead of IP bans.
-    const res = await pool.query(
-      `SELECT reason, expires_at
+// banForAccount's query text, exported so an integration suite can execute the
+// real text against a scoped schema.
+export const DAILY_REWARD_BAN_FOR_ACCOUNT_SQL = `SELECT reason, expires_at
          FROM (
            SELECT reason, expires_at, 0 AS priority
              FROM daily_reward_bans
@@ -286,11 +277,30 @@ export class PgDailyRewardDb implements DailyRewardDb {
              JOIN daily_reward_ip_bans ib
                ON ib.ip_address = ps.ip_address
             WHERE ps.account_id = $1
+           UNION ALL
+           SELECT ib.reason, NULL::timestamptz AS expires_at, 1 AS priority
+             FROM account_ip_associations assoc
+             JOIN daily_reward_ip_bans ib
+               ON ib.ip_address = assoc.ip_address
+            WHERE assoc.account_id = $1
          ) restrictions
         ORDER BY priority
-        LIMIT 1`,
-      [accountId],
-    );
+        LIMIT 1`;
+
+export class PgDailyRewardDb implements DailyRewardDb {
+  async banForAccount(
+    accountId: number,
+  ): Promise<{ reason: string; expiresAt: string | null } | null> {
+    // OR-free arms, mirroring the daily_reward_excluded_accounts view: the
+    // last-login and play-session IP probes are separate UNION ALL arms so each
+    // rides its own index path (an OR in the join forces a nested loop with a
+    // re-probed subquery on every eligibility check). LIMIT 1 makes the read
+    // dedup-insensitive, so UNION ALL skips the dedup sort, and ORDER BY
+    // priority keeps the account ban (with its real expiry) ahead of IP bans.
+    // The association arm keeps an ip-banned account excluded after its raw
+    // sessions age out of retention; the probe is PK-served
+    // (account_ip_associations leads on account_id).
+    const res = await pool.query(DAILY_REWARD_BAN_FOR_ACCOUNT_SQL, [accountId]);
     return res.rows[0]
       ? {
           reason: String(res.rows[0].reason),

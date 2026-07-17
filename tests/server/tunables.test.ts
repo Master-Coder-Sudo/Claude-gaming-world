@@ -431,6 +431,7 @@ describe('no consolidated tunable literal is duplicated at a call site', () => {
   const dbSrc = read('server/db.ts');
   const reportsSrc = read('server/reports.ts');
   const dailySrc = read('server/daily_rewards.ts');
+  const retentionSrc = read('server/play_session_retention_db.ts');
 
   // Slice a function BODY: from its declaration to the next top-level export,
   // so a neighbor's match can never satisfy a body that lost its own.
@@ -583,6 +584,38 @@ describe('no consolidated tunable literal is duplicated at a call site', () => {
     );
   });
 
+  it('the play-session retention prunes stay batched on the default allowance', () => {
+    // A batch primitive must never regress to an unbatched one-shot DELETE on
+    // the heavy allowance: each call is ONE bounded batch (LIMIT $2) and the
+    // sweep drives iteration, which is what makes the default statement
+    // timeout safe here.
+    const foldBody = bodyOf(retentionSrc, 'export async function prunePlaySessionsBatch');
+    const agingBody = bodyOf(retentionSrc, 'export async function pruneAccountIpAssociationsBatch');
+    expect(foldBody).not.toContain('runWithStatementTimeout');
+    expect(agingBody).not.toContain('runWithStatementTimeout');
+    expect(foldBody).toContain('LIMIT $2');
+    expect(agingBody).toContain('LIMIT $2');
+    // The fold prunes on session age (started_at) and the aging prune on link
+    // age (last_seen_at); pin each body's cutoff predicate so the two can
+    // never swap.
+    expect(foldBody).toContain("started_at < now() - ($1 || ' days')::interval");
+    expect(agingBody).toContain("last_seen_at < now() - ($1 || ' days')::interval");
+  });
+
+  it('the retention floor stays strictly above the admin activity window', () => {
+    // The fold must never delete a session an admin activity chart still
+    // counts. Extract both literals from source so a widened admin window
+    // (server/admin.ts) that overtakes the floor reddens this pin.
+    const adminModuleSrc = read('server/admin.ts');
+    const windowMatch = adminModuleSrc.match(/const ACTIVITY_WINDOW_DAYS = (\d+);/);
+    const floorMatch = retentionSrc.match(
+      /export const PLAY_SESSION_RETENTION_FLOOR_DAYS = (\d+);/,
+    );
+    expect(windowMatch).not.toBeNull();
+    expect(floorMatch).not.toBeNull();
+    expect(Number(floorMatch?.[1])).toBeGreaterThan(Number(windowMatch?.[1]));
+  });
+
   it('the player character-select read stays on the default statement timeout', () => {
     // db.ts listCharacters is the login-path character-select read: it deliberately
     // stays on the 15s default so it fails fast during a database brownout rather than
@@ -590,6 +623,27 @@ describe('no consolidated tunable literal is duplicated at a call site', () => {
     expect(bodyOf(dbSrc, 'export async function listCharacters')).not.toContain(
       'runWithStatementTimeout',
     );
+  });
+
+  it('the character-select read joins the lifetime rollup so folds never shrink playtime', () => {
+    // The fold deletes old sessions after folding them into play_session_totals;
+    // without this join every player's character-select playtime and last-played
+    // would silently shrink after the first fold. Pin the exact rollup terms.
+    const body = bodyOf(dbSrc, 'export async function listCharacters');
+    expect(body).toContain('LEFT JOIN play_session_totals totals');
+    expect(body).toContain('ON totals.account_id = c.account_id AND totals.character_id = c.id');
+    expect(body).toContain('GREATEST(ps.last_played, totals.last_played)');
+    expect(body).toContain(
+      'COALESCE(ps.playtime_seconds, 0) + COALESCE(totals.playtime_seconds, 0)',
+    );
+  });
+
+  it('the account data export includes the retention rollups', () => {
+    // play_session_totals and account_ip_associations are stored personal data;
+    // a data export that omits them is unfaithful once raw sessions fold away.
+    const body = bodyOf(dbSrc, 'export async function exportAccountData');
+    expect(body).toContain('FROM play_session_totals');
+    expect(body).toContain('FROM account_ip_associations');
   });
 
   it('topLifetimeXp predicates and orders on the bare indexed lifetime-XP expression', () => {

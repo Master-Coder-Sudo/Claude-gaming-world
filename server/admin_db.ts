@@ -71,10 +71,12 @@ export async function overviewCounts(): Promise<OverviewCounts> {
         WHERE a.created_at <= now() - interval '1 day'
           AND ps.started_at <= now()
           AND COALESCE(ps.ended_at, now()) > now() - interval '1 day')::int AS returning_accounts_today,
-      COALESCE((
-        SELECT sum(EXTRACT(EPOCH FROM (COALESCE(ended_at, now()) - started_at))) / NULLIF((SELECT count(*) FROM accounts), 0)
-        FROM play_sessions
-      ), 0)::bigint AS avg_playtime_seconds,
+      -- The rollup term keeps the average stable as old sessions fold forward.
+      COALESCE(
+        ((SELECT COALESCE(sum(EXTRACT(EPOCH FROM (COALESCE(ended_at, now()) - started_at))), 0) FROM play_sessions)
+         + (SELECT COALESCE(sum(playtime_seconds), 0) FROM play_session_totals))
+        / NULLIF((SELECT count(*) FROM accounts), 0),
+      0)::bigint AS avg_playtime_seconds,
       COALESCE((SELECT max(online_players) FROM admin_online_samples
         WHERE realm = $1 AND sampled_at > now() - interval '1 day'), 0)::int AS peak_online_today,
       GREATEST(
@@ -851,8 +853,10 @@ export async function listAccounts(
               a.banned_at, a.suspended_until, a.is_ai, a.is_streamer,
               count(c.id)::int AS character_count,
               COALESCE(max(c.level), 0)::int AS max_level,
-              COALESCE((SELECT sum(EXTRACT(EPOCH FROM (COALESCE(s.ended_at, now()) - s.started_at)))
-                        FROM play_sessions s WHERE s.account_id = a.id), 0)::bigint AS playtime_seconds
+              (COALESCE((SELECT sum(EXTRACT(EPOCH FROM (COALESCE(s.ended_at, now()) - s.started_at)))
+                         FROM play_sessions s WHERE s.account_id = a.id), 0)
+               + COALESCE((SELECT sum(t.playtime_seconds)
+                           FROM play_session_totals t WHERE t.account_id = a.id), 0))::bigint AS playtime_seconds
        FROM accounts a
        LEFT JOIN characters c ON c.account_id = a.id
        WHERE a.username ILIKE $1
@@ -1234,8 +1238,10 @@ export async function accountDetail(accountId: number): Promise<AccountDetail | 
                 active_daily_rewards_ban.daily_rewards_banned_at,
                 active_daily_rewards_ban.daily_rewards_ban_expires_at,
                 last_login_ip,
-                COALESCE((SELECT sum(EXTRACT(EPOCH FROM (COALESCE(s.ended_at, now()) - s.started_at)))
-                          FROM play_sessions s WHERE s.account_id = accounts.id), 0)::bigint AS playtime_seconds
+                (COALESCE((SELECT sum(EXTRACT(EPOCH FROM (COALESCE(s.ended_at, now()) - s.started_at)))
+                           FROM play_sessions s WHERE s.account_id = accounts.id), 0)
+                 + COALESCE((SELECT sum(t.playtime_seconds)
+                             FROM play_session_totals t WHERE t.account_id = accounts.id), 0))::bigint AS playtime_seconds
          FROM accounts
          LEFT JOIN LATERAL (
            SELECT reason AS daily_rewards_ban_reason,
@@ -1274,6 +1280,11 @@ export async function accountDetail(accountId: number): Promise<AccountDetail | 
        LIMIT 50`,
       [accountId],
     ),
+    // The moderation view's own IP-ban lookback, deliberately OR-shaped
+    // (admin-triggered, bounded to one account, off the hot path). The
+    // association arm keeps an aged-out link visible: once retention folds an
+    // account's old play_sessions rows into account_ip_associations, only that
+    // arm still ties the account to its banned IP.
     pool.query(
       `SELECT ib.ip_address, ib.reason, ib.created_at
          FROM daily_reward_ip_bans ib
@@ -1281,6 +1292,10 @@ export async function accountDetail(accountId: number): Promise<AccountDetail | 
            OR EXISTS (
              SELECT 1 FROM play_sessions ps
               WHERE ps.account_id = $1 AND ps.ip_address = ib.ip_address
+           )
+           OR EXISTS (
+             SELECT 1 FROM account_ip_associations assoc
+              WHERE assoc.account_id = $1 AND assoc.ip_address = ib.ip_address
            )
         ORDER BY ib.created_at DESC`,
       [accountId],
