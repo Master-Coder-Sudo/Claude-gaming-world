@@ -2455,7 +2455,9 @@
     max-height: none;
     overflow: hidden;
   }
-  body.mobile-touch .profession-skill-row {
+  /* The LIST owns the tracks (rows subgrid into it, see components.css), so the
+     tighter mobile template lands on the list; the cap column wraps below. */
+  body.mobile-touch .profession-skill-list {
     grid-template-columns: minmax(82px, 1fr) 34px minmax(68px, auto);
   }
   body.mobile-touch .profession-skill-row > :last-child {
