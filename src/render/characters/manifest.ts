@@ -90,6 +90,12 @@ export interface VisualDef {
    *  flip the standalone weapon files carry). Node name as authored in the GLB;
    *  applied as a local-space rotation (radians) after the bind transform. */
   weaponFix?: { node: string; rotX?: number; rotY?: number; rotZ?: number }[];
+  /** Hold the idle clip's first frame instead of looping it. For a rig whose
+   *  "arms" are a rigid prop (a scarecrow's nailed-on crossbar), the standard
+   *  biped idle look-around gesture swings that prop through the head, which
+   *  reads as broken on a body that is never supposed to move. One-shot
+   *  gestures (attack/hit/cast/emote) are unaffected. */
+  staticIdle?: boolean;
 }
 
 /** The slice of a VisualDef that decides how held weapons attach (which bones, and
@@ -646,7 +652,14 @@ export const VISUALS: Record<string, VisualDef> = {
   },
   // Training dummy: the immortal practice target (zone3.ts training_dummy,
   // hpBase 999999, no drops). Custom Tripo humanoid auto-rigged onto the
-  // biped skeleton, KAYKIT_CLIP_PLAN vocabulary.
+  // biped skeleton, KAYKIT_CLIP_PLAN vocabulary. The dummy's "arms" are its
+  // rigid nailed-on crossbar, not a flexible limb: the retargeted Idle clip's
+  // biped look-around gesture swings that plank up through the head mid-loop
+  // (looks like a completely different, broken creature on a body that the
+  // sim never moves), so idle is pinned to its first frame; attack/hit/death
+  // still play normally. The dummy never casts or jumps (sim's dummy handling
+  // holds it stationary and ability-less), so those two clips are stripped
+  // from the shipped GLB rather than carried as dead weight.
   mob_training_dummy: {
     url: `${CREATURES}/training_dummy.glb`,
     height: 2.3,
@@ -657,9 +670,8 @@ export const VISUALS: Record<string, VisualDef> = {
       attack: ['Attack'],
       hit: ['Hit'],
       death: 'Death',
-      cast: 'Cast',
-      jump: 'Jump',
     },
+    staticIdle: true,
     tint: 'entity',
     tintStrength: 0.35,
   },
