@@ -63,7 +63,8 @@ export interface TalentsWindowDeps extends PainterHostPresentation {
   saveLoadout(name: string, bar: (string | null)[], alloc: TalentAllocation): void;
   switchLoadout(index: number): void;
   deleteLoadout(index: number): void;
-  applyLoadoutBar(bar: (string | null)[]): void;
+  applyLoadoutBar(bar: (string | null)[], alloc: TalentAllocation): void;
+  // Shared HUD chrome components.
   buildDropdown(
     options: { value: string; label: string }[],
     current: string,
@@ -466,7 +467,7 @@ export class TalentsWindow {
             const loadout = this.deps.loadouts()[index];
             if (!loadout) return;
             this.deps.switchLoadout(index);
-            this.deps.applyLoadoutBar(loadout.bar);
+            this.deps.applyLoadoutBar(loadout.bar, loadout.alloc);
             this.refreshFromAuthority();
           },
           t('game.talents.loadouts'),

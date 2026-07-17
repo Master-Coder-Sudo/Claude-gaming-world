@@ -1,15 +1,8 @@
 import type { AuraKind } from '../types';
 
-export function isFormAuraKind(kind: AuraKind): boolean {
-  return (
-    kind === 'form_bear' ||
-    kind === 'form_cat' ||
-    kind === 'form_travel' ||
-    kind === 'form_fireball' ||
-    kind === 'form_moonkin' ||
-    kind === 'form_shadow'
-  );
-}
+// One source of truth for the form kind set (types.ts FORM_AURA_KINDS, which
+// includes form_fireball); re-exported here for the combat-side call sites.
+export { isFormAuraKind } from '../types';
 
 export function isResourceShiftFormAuraKind(kind: AuraKind): boolean {
   return kind === 'form_bear' || kind === 'form_cat' || kind === 'form_travel';

@@ -47,6 +47,7 @@ import {
   dist2d,
   FACING_HOLD_DIST,
   FISHING_CAST_ID,
+  isFormAuraKind,
   MELEE_ARC,
   MELEE_RANGE,
   MIN_GCD,
@@ -70,7 +71,7 @@ import {
   hasScopedNextCastInstant,
   nextCastCheapMultiplier,
 } from './empower_next';
-import { isActionLockingFormAuraKind, isFormAuraKind, isResourceShiftFormAuraKind } from './forms';
+import { isActionLockingFormAuraKind, isResourceShiftFormAuraKind } from './forms';
 import {
   applyBrainFreezeOverride,
   brainFreezeBypassesCooldown,

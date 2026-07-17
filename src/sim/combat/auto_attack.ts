@@ -52,7 +52,7 @@ import { applyRageSpendCooldownRefund, spendResource } from './casting_lifecycle
 import { blindMissBonus, isDisarmed, isInStasis, isStunned } from './cc';
 import { consumeNextAttackCrit } from './empower_next';
 import { runWeaponProcs } from './equip_procs';
-import { baseSwingSpeed } from './form_swing';
+import { baseSwingSpeed, rangedAutoProfile } from './form_swing';
 import { isTravelFormAuraKind } from './forms';
 import { rangedShotProfile } from './ranged_shot';
 import { onCastCompleted, onMeleeSwing } from './talent_procs';
@@ -140,8 +140,10 @@ export function updatePlayerAutoAttack(ctx: SimContext, p: Entity, meta: PlayerM
   if (facingDiff > MELEE_ARC) return;
 
   // ranged auto-attack: hunters (auto shot, dead zone inside minRange) and
-  // casters (wand-style, no dead zone so they don't run into melee — #94)
-  const ranged = CLASSES[meta.cls].ranged;
+  // casters (wand-style, no dead zone so they don't run into melee, #94).
+  // Form-aware: a druid keeps the class wand only in caster or Moonwing Form;
+  // bear/cat/travel resolve to undefined here and fall through to melee.
+  const ranged = rangedAutoProfile(p, meta.cls);
   if (ranged && d <= ranged.maxRange && d >= (ranged.wand ? 0 : ranged.minRange)) {
     if (!ctx.hasLineOfSight(p, t)) return;
     ctx.breakGhostWolf(p);

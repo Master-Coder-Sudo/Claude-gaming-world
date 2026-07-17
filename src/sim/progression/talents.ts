@@ -56,7 +56,7 @@ import { recalcPlayerStats } from '../entity';
 import { despawnPersistentPet, petOf } from '../pet/pet_commands';
 import type { PlayerMeta } from '../sim';
 import type { SimContext } from '../sim_context';
-import type { Entity } from '../types';
+import { type Entity, isFormAuraKind } from '../types';
 
 function cleanRemovedProcState(
   ctx: SimContext,
@@ -178,11 +178,36 @@ function recomputeTalents(ctx: SimContext, meta: PlayerMeta): void {
   if (e) {
     cleanRemovedProcState(ctx, e, previousMods, meta.talentMods);
     normalizeAbilityCharges(e, meta, previousChargeCaps);
+    stripOrphanedFormAuras(ctx, meta, e);
   }
   // The heavy talent snapshot is wireRev-gated. Every live allocation change
   // reaches this one choke point, while character load uses the silent path in
   // Sim.addPlayer and therefore does not create learned events or a fake rev.
   meta.wireRev++;
+}
+
+// Cancel any active form/stance aura whose granting ability fell out of `meta.known`
+// (a respec, spec switch, or loadout swap), so the shapeshift's buff cannot outlive the
+// ability that grants it. Shapeshift/stance auras are toggled on by casting their
+// granting ability and never expire on their own (see the isFormKind toggle in
+// combat/effect_dispatch.ts), so without this a dropped ability (e.g. Balance's Moonkin
+// Form signature) leaves its buff (spell power, armor, threat mult, ...) folding into
+// recalcPlayerStats well into a different spec.
+function stripOrphanedFormAuras(ctx: SimContext, meta: PlayerMeta, e: Entity | undefined): void {
+  if (!e) return;
+  const knownIds = new Set(meta.known.map((k) => k.def.id));
+  let changed = false;
+  for (let i = e.auras.length - 1; i >= 0; i--) {
+    const a = e.auras[i];
+    if (isFormAuraKind(a.kind) && !knownIds.has(a.id)) {
+      e.auras.splice(i, 1);
+      ctx.emit({ type: 'aura', targetId: e.id, name: a.name, gained: false });
+      changed = true;
+    }
+  }
+  if (changed) {
+    recalcPlayerStats(e, meta.cls, meta.equipment, ctx.playerMods(meta), meta.equipmentInstance);
+  }
 }
 
 function talentLockReason(ctx: SimContext, p: Entity): string | null {

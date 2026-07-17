@@ -2155,14 +2155,7 @@ export function runEffects(
         if (isFormKind) {
           for (let i = p.auras.length - 1; i >= 0; i--) {
             const a = p.auras[i];
-            if (
-              (a.kind === 'form_bear' ||
-                a.kind === 'form_cat' ||
-                a.kind === 'form_travel' ||
-                a.kind === 'form_moonkin' ||
-                a.kind === 'form_shadow') &&
-              a.kind !== eff.kind
-            ) {
+            if (isFormAuraKind(a.kind) && a.kind !== eff.kind) {
               p.auras.splice(i, 1);
               ctx.emit({ type: 'aura', targetId: p.id, name: a.name, gained: false });
             }

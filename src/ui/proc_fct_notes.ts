@@ -1,6 +1,6 @@
 import type { AuraKind } from '../sim/types';
-import { isNextCastEmpowerKind } from './action_bar_view';
 import { auraDisplayNameFromSource } from './aura_display_name';
+import { isNextCastEmpowerKind } from './hud/action_bar/action_bar_view';
 import { type TranslationKey, t } from './i18n';
 
 const NEXT_CAST_CONSUME_LABEL_KEYS: Partial<Record<AuraKind, TranslationKey>> = {
