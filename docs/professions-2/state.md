@@ -4,9 +4,13 @@ The ONLY file every session must trust. Update it at the end of every phase.
 
 ## Current phase
 
-Phase 1 (Ring and identity foundations): complete (landed on the PR 2039
-head, 2026-07-17). Phase 1 QA: complete (2026-07-17, PASS, zero blocking;
-fixes and drift notes below). Next: Phase 2.
+Phase 1 (Ring and identity foundations) and its QA: complete
+(2026-07-17, PASS, zero blocking; fixes and drift notes below). Phase 2
+(Masterwork model): complete (2026-07-17, branch
+feature/professions-2-phase-02-masterwork; six reviewers, zero blocking;
+landed surfaces and drift notes below). Phase 2 QA: complete
+(2026-07-17, PASS, zero blocking; coverage pins, retirement cleanup, and
+QA drift notes below). Next: Phase 3 (phase-03-parity-bug-fixes.md).
 
 ## Locked design decisions
 
@@ -224,8 +228,93 @@ tables, i18n key namespaces, files created)
     docs/pr-screenshots/ (established earlier in the program), while root
     CLAUDE.md names docs/screenshots. Keep the program-local convention
     consistent within the packet; the maintainer may unify later.
-- Phase 2: (planned) masterwork SimEvent; instance.rolled.masterwork;
-  masterwork proc rng-draw pin.
+- Phase 2: (landed 2026-07-17, branch
+  feature/professions-2-phase-02-masterwork) SimEvent masterwork
+  { recipeId, itemId, crafter } (personal, pid = crafter, ids only),
+  mirrored event-driven into lastMasterwork on PlayerMeta (Sim) and
+  ClientWorld (session-only, no snapshot delta key, modeled on
+  lastCraftResult); IWorldProfessions.lastMasterwork (MasterworkView) and
+  CraftResultView.masterwork, parity pins updated; instance payload
+  fields rolled.masterwork and top-level enchant (the applied enchant id;
+  isEnchantedInstance in enchanting.ts is the single already-enchanted
+  predicate, and enchant stat merges are additive); CraftResult.quality
+  now reports the OUTPUT DEF quality; trivialAt removed from
+  ProfessionRecipeRecord and all content records. Files created:
+  src/sim/professions/masterwork.ts (pure leaf; masterworkProcChance
+  carries the named Phase 10 material-tier hook, a defaulted
+  materialTierBonus summand that Phase 10 wires with real material-tier
+  values at the crafting.ts call site),
+  tests/professions_masterwork.test.ts,
+  tests/masterwork_event_mirror.test.ts, and the professions_craft
+  parity scenario plus golden. Rng draw-order pins: the drawCounts pin
+  in tests/professions_masterwork.test.ts, the denial-draws-zero pins in
+  tests/professions_crafting.test.ts, and the professions_craft golden
+  draw digest.
+- Phase 2 drift notes (2026-07-17):
+  - The predicted golden-parity regen never triggered: tests/parity had
+    no craft scenario, so the roll retirement was invisible to the
+    goldens (the swap is also draw-parity-perfect: rollMaterialRarity
+    consumed exactly one draw and the proc draw consumes the same value
+    at the same stream position). The coverage gap is closed by the
+    professions_craft scenario; its regen added that one golden and
+    modified none.
+  - The archetype ceiling now binds craft outputs through the masterwork
+    gate, a deliberate re-expression of the Phase 1 ceiling invariant
+    under deterministic outputs: a dormant craft never procs, hobby and
+    pre-attunement (rare ceiling) cannot bump past rare, majors are
+    uncapped. Pinned in tests/archetype_ceiling.test.ts.
+  - Rollback caveat for the release runbook (mirror in the v0.27.0
+    release notes at tag time, alongside the Phase 1 attunement caveat):
+    rolled-back code reads bare rolled.stats as already-enchanted, so
+    masterwork copies are temporarily non-enchantable and
+    non-disenchantable under rollback; no data loss or corruption,
+    fully reversible on roll-forward. Second arm (Phase 2 QA,
+    migration-safety): Phase 2 crafts stop writing rolled.quality, and
+    the previous release's battlefield_xp reads only rolled.quality, so
+    under rollback EVERY new-format signed craft (masterwork or plain
+    rare-plus) grants no Battlefield Experience trickle; the signer
+    field survives on the row and the trickle resumes on roll-forward
+    via the def-quality fallback.
+  - Battlefield XP trickle, two maintainer questions surfaced and NOT
+    changed here: (a) a masterwork of a sub-rare def carries bonus stats
+    but does not trickle (the def-quality gate; masterwork is not
+    rare-tier attribution today); (b) pre-existing reach limit:
+    recipeForResultItem scans COMMON_RECIPES only and no common recipe
+    outputs a rare-plus def, so the new def-quality fallback arm is
+    future-proofing until content or the recipe gate catches up.
+  - Guide prose (the guide.ts crafting and archetype rows: skill "buys
+    quality", ceilings "advance to the rare quality tier") still reads
+    correctly against the masterwork ceiling but was authored for the
+    rolled-output model; rewording is deferred to Phase 6 (masterwork
+    surfacing) and Phase 15 (full rewrite) to avoid the i18n
+    semantic-regression pins mid-packet.
+  - Standing wire invariant (security review): equipped stats flow from
+    instance rolled.stats server-side, which is safe because no wire
+    command ingests a client-supplied ItemInstancePayload; any future
+    command that would must re-mint the instance server-side or
+    masterwork and enchant forgery becomes possible.
+- Phase 2 QA drift notes (2026-07-17):
+  - Deeds quality-mark delta (intended, silently absorbed by the
+    fallback): markItemDiscovered records the def quality for new
+    crafts (rolled.quality is gone), so a masterwork copy credits its
+    DEF quality toward discovery deeds, never the bumped tier,
+    consistent with the battlefield-trickle stance above. If masterwork
+    copies should count toward higher-quality discovery deeds, that is
+    a deliberate maintainer design change, not a fix.
+  - Online inspect never carries equippedInstances (the identity wire
+    has no instance payloads; offline builds them for the render
+    mirror), so another player's masterwork and enchant stats are
+    invisible to online inspection. Pre-existing for enchants; Phase 6
+    (masterwork surfacing) decides whether to extend the identity wire
+    or accept the limitation.
+  - Quality-roll retirement cleanup landed in QA: clampMaterialRarity
+    and its private ladder deleted from gathering.ts (zero consumers
+    after the craft-side clamp retirement); the professions CLAUDE.md
+    module map and ceiling invariant re-teach the deterministic
+    masterwork model.
+  - Mixed-fleet check: the previous release's HUD event if-chain
+    ignores unknown SimEvent types, so a new server's masterwork event
+    is harmless to an old client during a staged rollout.
 - Phase 3: (planned) hcb wire key (corpse claims); trade payload carriage.
 - Phase 4: (planned) node material tables; pristine vein event + deed mark.
 - Phase 5: (planned) professions window (.window id professions-window) +
