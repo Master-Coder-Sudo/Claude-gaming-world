@@ -6744,12 +6744,6 @@ export const vi_VN: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_archetype_acceptance.title': 'Một nghề để gọi riêng của bạn',
   'entities.quests.q_prof_make_amends.title': 'Sửa đổi',
   'entities.quests.q_prof_make_amends.objectives.0.label': 'Sói rừng bị giết',
-  'entities.quests.q_prof_hobby_switch.title': 'Một thú vui khác',
-  'entities.quests.q_prof_hobby_switch.text':
-    'Nghề chính đòi hỏi lời thề. Thú vui chỉ hỏi sự tò mò dẫn bạn đến đâu, {playerName}. Hãy thu thập vài cây thảo dược và chọn nghề đối diện với hai nghề chính mà bạn muốn theo đuổi.',
-  'entities.quests.q_prof_hobby_switch.completion':
-    'Một lựa chọn nhẹ nhàng hơn, nhưng hữu ích. Hãy theo sự tò mò ấy đến tận giới hạn của công việc phẩm chất hiếm.',
-  'entities.quests.q_prof_hobby_switch.objectives.0.label': 'Đã thu hoạch bãi thảo dược',
   'entities.npcs.bursar_aldous_crane.greeting':
     'Mọi thùng hàng, rương tiền, và món trang sức đều an toàn trong tay Két Sắt Mạ Vàng.',
   'entities.npcs.bursar_aldous_crane.name': 'Thủ Quỹ Aldous Crane',

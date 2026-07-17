@@ -2014,17 +2014,31 @@ export const zh_CN: EnTranslations = {
     "archetypeTitle": {
       "label": "称号",
       "none": "无",
-      "hobbyLabel": "爱好",
-      "armorcrafting": "锻甲师",
-      "weaponcrafting": "武器匠",
-      "jewelcrafting": "珠宝匠",
-      "alchemy": "炼金师",
-      "engineering": "工程师",
-      "cooking": "厨师",
-      "inscription": "铭文师",
-      "enchanting": "附魔师",
+      "hobbyLabel": "爱好"
+    },
+    "archetypePair": {
+      "engineering+alchemy": "爆破师",
+      "alchemy+cooking": "药剂师",
+      "cooking+leatherworking": "捕兽人",
+      "leatherworking+tailoring": "制装师",
+      "tailoring+inscription": "织法师",
+      "inscription+enchanting": "秘法师",
+      "enchanting+jewelcrafting": "缚晶师",
+      "jewelcrafting+weaponcrafting": "铸刃师",
+      "weaponcrafting+armorcrafting": "铁匠",
+      "armorcrafting+engineering": "齿轮匠"
+    },
+    "craftName": {
+      "armorcrafting": "护甲锻造",
+      "weaponcrafting": "武器锻造",
+      "jewelcrafting": "珠宝加工",
+      "alchemy": "炼金术",
+      "engineering": "工程学",
+      "cooking": "烹饪",
+      "inscription": "铭文",
+      "enchanting": "附魔",
       "tailoring": "裁缝",
-      "leatherworking": "制皮师"
+      "leatherworking": "制皮"
     },
     "crafting": {
       "title": "制作",
@@ -2046,6 +2060,7 @@ export const zh_CN: EnTranslations = {
       "comboTierUnmet": "将两项主修技艺提升到所需阶级。",
       "professionChoice": "专业选择",
       "noProfessionChoice": "当前没有可用的专业选择。",
+      "pairOptionLabel": "{pair} ({craftA} + {craftB})",
       "attunementPreview": "结果：获得{title}称号；{majorA}和{majorB}成为无上限主修技艺；{hobby}成为上限为稀有品质的爱好技艺；所有其他技能知识都会保留，但休眠时上限为普通品质。",
       "hobbyPreview": "结果：{hobby}成为上限为稀有品质的爱好技艺。两项主修技艺和所有已保留的技能数值保持不变。",
       "identity": {

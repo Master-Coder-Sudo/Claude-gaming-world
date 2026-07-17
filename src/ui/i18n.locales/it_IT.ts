@@ -6793,12 +6793,6 @@ export const it_IT: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_archetype_acceptance.title': 'Un mestiere da chiamare tuo',
   'entities.quests.q_prof_make_amends.title': 'Fare ammenda',
   'entities.quests.q_prof_make_amends.objectives.0.label': 'Lupo della Foresta ucciso',
-  'entities.quests.q_prof_hobby_switch.title': 'Un passatempo diverso',
-  'entities.quests.q_prof_hobby_switch.text':
-    'I mestieri principali esigono un voto. Un passatempo chiede solo dove vaga la tua curiosità, {playerName}. Raccogli alcune erbe e scegli quale mestiere opposto ai tuoi principali vuoi coltivare.',
-  'entities.quests.q_prof_hobby_switch.completion':
-    'Una scelta più leggera, ma utile. Segui quella curiosità fin dove il lavoro raro potrà portarti.',
-  'entities.quests.q_prof_hobby_switch.objectives.0.label': 'Zona di erbe raccolta',
   'entities.npcs.bursar_aldous_crane.name': 'Economo Aldous Crane',
   'entities.npcs.bursar_aldous_crane.title': 'Il Forziere Dorato',
   'entities.npcs.bursar_aldous_crane.greeting':

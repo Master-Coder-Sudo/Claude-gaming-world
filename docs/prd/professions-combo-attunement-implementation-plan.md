@@ -13,44 +13,49 @@ ceilings, perks, and switching costs still have open product decisions.
 
 ## Implementation status
 
-As of 2026-07-17, Phases 1 through 4 are implemented on
-`codex/profession-quest-objectives`:
+Phases 1 through 4 of this plan are implemented and delivered together as PR 2039
+(branch `codex/profession-quest-objectives`, based on `release/v0.27.0`). The pull
+request is the authoritative record of the change set, its review state, and its
+validation results; this document does not restate them.
 
-- Phase 1 adds authoritative craft and gather objectives and removes the onboarding
-  workaround.
-- Phase 2 makes exact-pair attunement, escalating returns, and hobby switching reachable
-  through validated repeatable quests, with one shared exact-pair combo rule.
-- Phase 3 adds atomic `cprof` replication and uses the shared combo result in online
-  crafting presentation and action gating.
-- Phase 4 adds the profession identity card, guidance, dormant-knowledge presentation, and
+- Phase 1: authoritative `craft` and `gather` objective arms on `QuestObjective`
+  (`src/sim/types.ts`), credited through `src/sim/quests/quest_credit.ts`, with the
+  onboarding quest-item workaround removed.
+- Phase 2: exact-pair attunement, escalating returns, and hobby switching reachable
+  through validated repeatable quests, all gated by the one shared exact-pair combo
+  rule, `comboEligibility` (`src/sim/professions/combo_eligibility.ts`), consumed by
+  the authoritative crafting resolver.
+- Phase 3: the atomic `cprof` self-snapshot delta (`server/game.ts`, mirrored by
+  `ClientWorld`) carrying craft skills and crafting identity as one value, with the
+  shared combo result driving online crafting presentation and action gating.
+- Phase 4: the profession identity card, guidance, dormant-knowledge presentation, and
   pre-acceptance attunement consequences.
 
-The implementation includes save normalization, persistence round trips, snapshot and API
-parity, localized quest and profession presentation, and an online GameServer plus
-ClientWorld combo-craft regression. Type checking, production build, focused feature tests,
-localization release checks, and the full parity matrix pass. Repository-wide validation
-also exposes unrelated Windows path and line-ending failures in deployment, SFX, and
-tooling tests; those are outside this plan and remain unchanged.
-Desktop and mobile PR screenshot capture remains a publication handoff task because this
-worktree has not been committed, pushed, or opened as a pull request.
+The persisted archetype record is extended additively with the explicit hobby craft and
+the `attunedPairs` pair history (`src/sim/professions/archetype.ts`); save normalization,
+persistence round trips, and the online combo-craft loop are covered by tests that ship
+in the same change.
 
-## Current behavior and ownership
+## Pre-change baseline
 
-- `src/sim/professions/crafting.ts` authoritatively resolves crafting, but its combo check
-  accepts any player whose two craft ceilings meet the recipe tier. It does not require the
+This section records the behavior this plan started from, kept as historical context.
+PR 2039 changed all of it; none of these statements describe the code at head.
+
+- `src/sim/professions/crafting.ts` authoritatively resolved crafting, but its combo check
+  accepted any player whose two craft ceilings met the recipe tier. It did not require the
   active adjacent pair to match the recipe.
-- `src/ui/crafting_view.ts` has a separate raw-skill combo calculation. The two calculations
-  can disagree.
-- `server/game.ts` does not snapshot craft skills or crafting identity. Consequently,
-  `ClientWorld` keeps its zero-skill and null-archetype placeholders for the whole session.
-- `src/sim/professions/archetype.ts` persists the active/title craft, paired major, switch
-  count, and amends progress. It derives the hobby and has no history of previously held
+- `src/ui/crafting_view.ts` had a separate raw-skill combo calculation. The two calculations
+  could disagree.
+- `server/game.ts` did not snapshot craft skills or crafting identity. Consequently,
+  `ClientWorld` kept its zero-skill and null-archetype placeholders for the whole session.
+- `src/sim/professions/archetype.ts` persisted the active/title craft, paired major, switch
+  count, and amends progress. It derived the hobby and had no history of previously held
   archetype pairs.
-- The acceptance and make-amends quests in `src/sim/content/zone1.ts` are retired
-  placeholders and have no completion effects.
-- `QuestObjective` supports only kill, collect, and interact. The profession onboarding
-  quest uses a gathering-specific quest-item grant instead of a real gather objective.
-- The crafting window shows reagents but not the combo pair and tier requirement.
+- The acceptance and make-amends quests in `src/sim/content/zone1.ts` were retired
+  placeholders and had no completion effects.
+- `QuestObjective` supported only kill, collect, and interact. The profession onboarding
+  quest used a gathering-specific quest-item grant instead of a real gather objective.
+- The crafting window showed reagents but not the combo pair and tier requirement.
 
 ## Desired behavior
 

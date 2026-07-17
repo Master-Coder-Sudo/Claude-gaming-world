@@ -6665,12 +6665,6 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_archetype_acceptance.title': 'Et håndværk at kalde dit eget',
   'entities.quests.q_prof_make_amends.title': 'Gøre bod',
   'entities.quests.q_prof_make_amends.objectives.0.label': 'Skovulv dræbt',
-  'entities.quests.q_prof_hobby_switch.title': 'En anden fritidsinteresse',
-  'entities.quests.q_prof_hobby_switch.text':
-    'Hovedfag kræver et løfte. En hobby spørger kun, hvor din nysgerrighed fører dig hen, {playerName}. Saml nogle urter, og vælg hvilket fag over for dine hovedfag du vil dyrke.',
-  'entities.quests.q_prof_hobby_switch.completion':
-    'Et lettere valg, men et nyttigt et. Følg din nysgerrighed så langt, som sjældent arbejde kan føre dig.',
-  'entities.quests.q_prof_hobby_switch.objectives.0.label': 'Urteområde høstet',
   'entities.npcs.bursar_aldous_crane.greeting':
     'Hver kasse, hvert skrin og hvert smykke er i sikkerhed hos Det Forgyldte Pengeskrin.',
   'entities.npcs.bursar_aldous_crane.name': 'Skatmester Aldous Crane',

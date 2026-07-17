@@ -6768,12 +6768,6 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_archetype_acceptance.title': 'Een ambacht dat u het uwe kunt noemen',
   'entities.quests.q_prof_make_amends.title': 'Het goedmaken',
   'entities.quests.q_prof_make_amends.objectives.0.label': 'Boswolf gedood',
-  'entities.quests.q_prof_hobby_switch.title': 'Een andere liefhebberij',
-  'entities.quests.q_prof_hobby_switch.text':
-    'Hoofdambachten vragen om een gelofte. Een hobby vraagt alleen waar je nieuwsgierigheid heen dwaalt, {playerName}. Verzamel wat kruiden en kies welk ambacht tegenover je hoofdambachten je wilt beoefenen.',
-  'entities.quests.q_prof_hobby_switch.completion':
-    'Een lichtere keuze, maar wel een nuttige. Volg die nieuwsgierigheid zo ver als zeldzaam werk je brengt.',
-  'entities.quests.q_prof_hobby_switch.objectives.0.label': 'Kruidenveld geoogst',
   'entities.npcs.bursar_aldous_crane.greeting':
     'Elke kist, koffer en snuisterij is veilig bij de Vergulde Geldkist.',
   'entities.npcs.bursar_aldous_crane.name': 'Thesaurier Aldous Crane',

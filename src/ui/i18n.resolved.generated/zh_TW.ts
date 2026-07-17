@@ -2014,17 +2014,31 @@ export const zh_TW: EnTranslations = {
     "archetypeTitle": {
       "label": "稱號",
       "none": "無",
-      "hobbyLabel": "愛好",
-      "armorcrafting": "鍛甲師",
-      "weaponcrafting": "武器匠",
-      "jewelcrafting": "珠寶匠",
-      "alchemy": "煉金師",
-      "engineering": "工程師",
-      "cooking": "廚師",
-      "inscription": "銘文師",
-      "enchanting": "附魔師",
+      "hobbyLabel": "愛好"
+    },
+    "archetypePair": {
+      "engineering+alchemy": "爆破師",
+      "alchemy+cooking": "藥劑師",
+      "cooking+leatherworking": "捕獸人",
+      "leatherworking+tailoring": "製裝師",
+      "tailoring+inscription": "織法師",
+      "inscription+enchanting": "秘法師",
+      "enchanting+jewelcrafting": "縛晶師",
+      "jewelcrafting+weaponcrafting": "鑄刃師",
+      "weaponcrafting+armorcrafting": "鐵匠",
+      "armorcrafting+engineering": "齒輪匠"
+    },
+    "craftName": {
+      "armorcrafting": "護甲鍛造",
+      "weaponcrafting": "武器鍛造",
+      "jewelcrafting": "珠寶設計",
+      "alchemy": "鍊金術",
+      "engineering": "工程學",
+      "cooking": "烹飪",
+      "inscription": "銘文學",
+      "enchanting": "附魔",
       "tailoring": "裁縫",
-      "leatherworking": "製皮師"
+      "leatherworking": "製皮"
     },
     "crafting": {
       "title": "製作",
@@ -2046,6 +2060,7 @@ export const zh_TW: EnTranslations = {
       "comboTierUnmet": "將兩項主修技藝提升到所需階級。",
       "professionChoice": "專業選擇",
       "noProfessionChoice": "目前沒有可用的專業選擇。",
+      "pairOptionLabel": "{pair} ({craftA} + {craftB})",
       "attunementPreview": "結果：獲得{title}稱號；{majorA}和{majorB}成為無上限主修技藝；{hobby}成為上限為稀有品質的嗜好技藝；所有其他技能知識都會保留，但休眠時上限為普通品質。",
       "hobbyPreview": "結果：{hobby}成為上限為稀有品質的嗜好技藝。兩項主修技藝和所有已保留的技能數值維持不變。",
       "identity": {

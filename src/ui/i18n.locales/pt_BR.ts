@@ -6767,12 +6767,6 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_archetype_acceptance.title': 'Um ofício para chamar de seu',
   'entities.quests.q_prof_make_amends.title': 'Fazendo as pazes',
   'entities.quests.q_prof_make_amends.objectives.0.label': 'Lobo da Floresta morto',
-  'entities.quests.q_prof_hobby_switch.title': 'Um passatempo diferente',
-  'entities.quests.q_prof_hobby_switch.text':
-    'Ofícios principais exigem um juramento. Um passatempo só pergunta para onde sua curiosidade segue, {playerName}. Colha algumas ervas e escolha qual ofício oposto aos seus principais você quer praticar.',
-  'entities.quests.q_prof_hobby_switch.completion':
-    'Uma escolha mais leve, mas útil. Siga essa curiosidade até onde o trabalho raro puder levar você.',
-  'entities.quests.q_prof_hobby_switch.objectives.0.label': 'Canteiro de ervas colhido',
   'entities.npcs.bursar_aldous_crane.greeting':
     'Cada caixote, cofre e bugiganga está a salvo com a Arca Dourada.',
   'entities.npcs.bursar_aldous_crane.name': 'Tesoureiro Aldous Crane',

@@ -6810,12 +6810,6 @@ export const es: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_archetype_acceptance.title': 'Un oficio que puedes llamar tuyo',
   'entities.quests.q_prof_make_amends.title': 'Hacer las paces',
   'entities.quests.q_prof_make_amends.objectives.0.label': 'Lobo del bosque matado',
-  'entities.quests.q_prof_hobby_switch.title': 'Un pasatiempo diferente',
-  'entities.quests.q_prof_hobby_switch.text':
-    'Los oficios principales exigen un juramento. Un pasatiempo solo pregunta adónde te lleva la curiosidad, {playerName}. Reúne algunas hierbas y decide qué oficio opuesto a tus especialidades quieres practicar.',
-  'entities.quests.q_prof_hobby_switch.completion':
-    'Una elección más ligera, pero útil. Sigue esa curiosidad hasta donde te lleve el trabajo de calidad rara.',
-  'entities.quests.q_prof_hobby_switch.objectives.0.label': 'Parcela de hierbas recolectada',
   'entities.npcs.bursar_aldous_crane.greeting':
     'Cada cajón, cofre y baratija está a salvo en el Arca Dorada.',
   'entities.npcs.bursar_aldous_crane.name': 'Tesorero Aldous Crane',

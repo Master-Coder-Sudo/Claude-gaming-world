@@ -2014,17 +2014,31 @@ export const ja_JP: EnTranslations = {
     "archetypeTitle": {
       "label": "称号",
       "none": "なし",
-      "hobbyLabel": "趣味",
-      "armorcrafting": "防具鍛冶師",
-      "weaponcrafting": "武器鍛冶師",
-      "jewelcrafting": "宝石職人",
-      "alchemy": "錬金術師",
-      "engineering": "工作師",
-      "cooking": "料理人",
-      "inscription": "銘文師",
-      "enchanting": "エンチャンター",
-      "tailoring": "仕立て屋",
-      "leatherworking": "皮革職人"
+      "hobbyLabel": "趣味"
+    },
+    "archetypePair": {
+      "engineering+alchemy": "爆破師",
+      "alchemy+cooking": "薬師",
+      "cooking+leatherworking": "罠師",
+      "leatherworking+tailoring": "装具師",
+      "tailoring+inscription": "魔織師",
+      "inscription+enchanting": "秘術師",
+      "enchanting+jewelcrafting": "宝石付与師",
+      "jewelcrafting+weaponcrafting": "刃鍛冶",
+      "weaponcrafting+armorcrafting": "鍛冶師",
+      "armorcrafting+engineering": "歯車鍛冶"
+    },
+    "craftName": {
+      "armorcrafting": "防具鍛冶",
+      "weaponcrafting": "武器鍛冶",
+      "jewelcrafting": "宝石細工",
+      "alchemy": "錬金術",
+      "engineering": "工作",
+      "cooking": "料理",
+      "inscription": "銘文",
+      "enchanting": "エンチャント",
+      "tailoring": "裁縫",
+      "leatherworking": "皮革加工"
     },
     "crafting": {
       "title": "製作",
@@ -2046,6 +2060,7 @@ export const ja_JP: EnTranslations = {
       "comboTierUnmet": "両方の主専攻を必要ティアまで上げてください。",
       "professionChoice": "職業の選択",
       "noProfessionChoice": "現在選択できる職業はありません。",
+      "pairOptionLabel": "{pair} ({craftA} + {craftB})",
       "attunementPreview": "結果：{title}の称号を獲得し、{majorA}と{majorB}が上限なしの主専攻になります。{hobby}はレア上限の趣味になります。他の技能知識はすべて保持されますが、休眠中はコモン上限です。",
       "hobbyPreview": "結果：{hobby}がレア上限の趣味になります。二つの主専攻と保持済みの技能値は変わりません。",
       "identity": {

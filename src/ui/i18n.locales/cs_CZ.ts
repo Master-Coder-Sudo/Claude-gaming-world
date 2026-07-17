@@ -5302,12 +5302,6 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
     'Jeden tvar v plese není žádný utopený člověk. Had barvy kosti klouže po hluboké římse, kde začínají schody, Sethrael, říkají jí opisy, Bledá spirála, vlastní strážná šelma měsíce. Dokud střeží tu vodu, nikdo se k bráně živý nedostane. Sestup na římsu a zabij ji, {playerName}. Vezmi její srdeční šupinu, abych věděl, že je hotovo.',
   'entities.quests.q_palecoil.title': 'Sethrael Bledá spirála',
   'entities.quests.q_prof_make_amends.objectives.0.label': 'Lesní vlk zabit',
-  'entities.quests.q_prof_hobby_switch.title': 'Jiná záliba',
-  'entities.quests.q_prof_hobby_switch.text':
-    'Hlavní řemesla vyžadují slib. Záliba se ptá jen na to, kam tě zavede zvědavost, {playerName}. Nasbírej několik bylin a rozhodni se, kterému řemeslu naproti tvým hlavním řemeslům se chceš věnovat.',
-  'entities.quests.q_prof_hobby_switch.completion':
-    'Lehčí volba, ale užitečná. Následuj svou zvědavost tak daleko, jak tě vzácná práce zavede.',
-  'entities.quests.q_prof_hobby_switch.objectives.0.label': 'Sklizeno bylinné naleziště',
   'entities.quests.q_prof_make_amends.title': 'Náprava',
   'entities.quests.q_prowler_pelts.completion': 'Dobré silné kožešiny. Hráz teď přežije nás oba.',
   'entities.quests.q_prowler_pelts.objectives.0.label': 'Kožešina slatinného plížence',

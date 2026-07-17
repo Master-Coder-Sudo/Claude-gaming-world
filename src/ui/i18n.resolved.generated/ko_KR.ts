@@ -2014,17 +2014,31 @@ export const ko_KR: EnTranslations = {
     "archetypeTitle": {
       "label": "칭호",
       "none": "없음",
-      "hobbyLabel": "취미",
-      "armorcrafting": "방어구 장인",
-      "weaponcrafting": "무기 장인",
-      "jewelcrafting": "보석 세공사",
-      "alchemy": "연금술사",
-      "engineering": "기술자",
-      "cooking": "요리사",
-      "inscription": "필경사",
-      "enchanting": "마법부여사",
-      "tailoring": "재단사",
-      "leatherworking": "가죽공예사"
+      "hobbyLabel": "취미"
+    },
+    "archetypePair": {
+      "engineering+alchemy": "폭격수",
+      "alchemy+cooking": "약제사",
+      "cooking+leatherworking": "덫사냥꾼",
+      "leatherworking+tailoring": "의복 장인",
+      "tailoring+inscription": "마법직조사",
+      "inscription+enchanting": "비전술사",
+      "enchanting+jewelcrafting": "보석결속사",
+      "jewelcrafting+weaponcrafting": "칼날장인",
+      "weaponcrafting+armorcrafting": "대장장이",
+      "armorcrafting+engineering": "톱니장인"
+    },
+    "craftName": {
+      "armorcrafting": "방어구 제작",
+      "weaponcrafting": "무기 제작",
+      "jewelcrafting": "보석세공",
+      "alchemy": "연금술",
+      "engineering": "기계공학",
+      "cooking": "요리",
+      "inscription": "각인",
+      "enchanting": "마법부여",
+      "tailoring": "재봉",
+      "leatherworking": "가죽세공"
     },
     "crafting": {
       "title": "제작",
@@ -2046,6 +2060,7 @@ export const ko_KR: EnTranslations = {
       "comboTierUnmet": "두 주 전공을 모두 필요한 티어까지 올리세요.",
       "professionChoice": "전문 기술 선택",
       "noProfessionChoice": "현재 선택할 수 있는 전문 기술이 없습니다.",
+      "pairOptionLabel": "{pair} ({craftA} + {craftB})",
       "attunementPreview": "결과: {title} 칭호를 얻고, {majorA}와 {majorB}가 상한 없는 주 전공이 됩니다. {hobby}는 희귀 상한의 취미가 됩니다. 다른 기술 지식은 모두 유지되지만 비활성 상태에서는 일반 상한이 적용됩니다.",
       "hobbyPreview": "결과: {hobby}가 희귀 상한의 취미가 됩니다. 두 주 전공과 유지된 모든 기술 수치는 그대로입니다.",
       "identity": {

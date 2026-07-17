@@ -2014,17 +2014,31 @@ export const fr_CA: EnTranslations = {
     "archetypeTitle": {
       "label": "Titre",
       "none": "Aucun",
-      "hobbyLabel": "Loisir",
-      "armorcrafting": "Armurier",
-      "weaponcrafting": "Forgeron d'armes",
-      "jewelcrafting": "Joaillier",
-      "alchemy": "Alchimiste",
-      "engineering": "Ingénieur",
-      "cooking": "Cuisinier",
-      "inscription": "Scribe",
-      "enchanting": "Enchanteur",
-      "tailoring": "Tailleur",
-      "leatherworking": "Tanneur"
+      "hobbyLabel": "Loisir"
+    },
+    "archetypePair": {
+      "engineering+alchemy": "Bombardier",
+      "alchemy+cooking": "Apothecary",
+      "cooking+leatherworking": "Trapper",
+      "leatherworking+tailoring": "Outfitter",
+      "tailoring+inscription": "Mageweaver",
+      "inscription+enchanting": "Arcanist",
+      "enchanting+jewelcrafting": "Gembinder",
+      "jewelcrafting+weaponcrafting": "Bladewright",
+      "weaponcrafting+armorcrafting": "Smith",
+      "armorcrafting+engineering": "Cogsmith"
+    },
+    "craftName": {
+      "armorcrafting": "Armorcrafting",
+      "weaponcrafting": "Weaponcrafting",
+      "jewelcrafting": "Jewelcrafting",
+      "alchemy": "Alchemy",
+      "engineering": "Engineering",
+      "cooking": "Cooking",
+      "inscription": "Inscription",
+      "enchanting": "Enchanting",
+      "tailoring": "Tailoring",
+      "leatherworking": "Leatherworking"
     },
     "crafting": {
       "title": "Artisanat",
@@ -2046,6 +2060,7 @@ export const fr_CA: EnTranslations = {
       "comboTierUnmet": "Raise both major crafts to the required tier.",
       "professionChoice": "Profession choice",
       "noProfessionChoice": "No valid profession choice is currently available.",
+      "pairOptionLabel": "{pair} ({craftA} + {craftB})",
       "attunementPreview": "Result: {title} title; {majorA} and {majorB} become uncapped majors; {hobby} becomes the rare-capped hobby; all other skill knowledge is retained but capped at common while dormant.",
       "hobbyPreview": "Result: {hobby} becomes the rare-capped hobby. Both majors and all retained skill values stay unchanged.",
       "identity": {
@@ -9612,12 +9627,12 @@ export const fr_CA: EnTranslations = {
         }
       },
       "q_prof_hobby_switch": {
-        "title": "Un autre passe-temps",
-        "text": "Les métiers majeurs exigent un serment. Un passe-temps demande seulement où vous mène votre curiosité, {playerName}. Récoltez quelques herbes et choisissez le métier opposé à vos majeures que vous souhaitez pratiquer.",
-        "completion": "Un choix plus léger, mais utile. Suivez cette curiosité aussi loin que le travail rare vous mènera.",
+        "title": "A Different Pastime",
+        "text": "Majors demand a vow. A hobby only asks where your curiosity wanders, {playerName}. Gather a few herbs and decide which craft opposite your majors you want to pursue.",
+        "completion": "A lighter choice, but a useful one. Follow that curiosity as far as rare work will take it.",
         "objectives": {
           "0": {
-            "label": "Carré d'herbes récolté"
+            "label": "Herb patch harvested"
           }
         }
       },

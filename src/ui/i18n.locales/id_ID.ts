@@ -6809,12 +6809,6 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_archetype_acceptance.title': 'Sebuah Kerajinan untuk Disebut Milik Anda',
   'entities.quests.q_prof_make_amends.title': 'Membuat Perubahan',
   'entities.quests.q_prof_make_amends.objectives.0.label': 'Serigala Hutan dibunuh',
-  'entities.quests.q_prof_hobby_switch.title': 'Kegemaran yang Berbeda',
-  'entities.quests.q_prof_hobby_switch.text':
-    'Keahlian utama menuntut sumpah. Hobi hanya bertanya ke mana rasa ingin tahumu mengembara, {playerName}. Kumpulkan beberapa herba dan tentukan keahlian di seberang keahlian utamamu yang ingin kamu tekuni.',
-  'entities.quests.q_prof_hobby_switch.completion':
-    'Pilihan yang lebih ringan, tetapi berguna. Ikuti rasa ingin tahu itu sejauh karya langka dapat membawamu.',
-  'entities.quests.q_prof_hobby_switch.objectives.0.label': 'Petak herba dipanen',
   'entities.npcs.bursar_aldous_crane.name': 'Bendahara Aldous Crane',
   'entities.npcs.bursar_aldous_crane.title': 'Brankas Bersepuh Emas',
   'entities.npcs.bursar_aldous_crane.greeting':

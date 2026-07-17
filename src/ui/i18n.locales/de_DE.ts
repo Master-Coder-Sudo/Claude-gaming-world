@@ -6826,12 +6826,6 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_archetype_acceptance.title': 'Ein Handwerk, das Sie Ihr Eigen nennen können',
   'entities.quests.q_prof_make_amends.title': 'Wiedergutmachung leisten',
   'entities.quests.q_prof_make_amends.objectives.0.label': 'Waldwolf getötet',
-  'entities.quests.q_prof_hobby_switch.title': 'Ein anderes Steckenpferd',
-  'entities.quests.q_prof_hobby_switch.text':
-    'Hauptberufe verlangen ein Gelübde. Ein Hobby fragt nur, wohin deine Neugier wandert, {playerName}. Sammle ein paar Kräuter und entscheide, welches Handwerk gegenüber deinen Hauptberufen du verfolgen möchtest.',
-  'entities.quests.q_prof_hobby_switch.completion':
-    'Eine leichtere Wahl, aber eine nützliche. Folge deiner Neugier, so weit seltene Arbeit dich trägt.',
-  'entities.quests.q_prof_hobby_switch.objectives.0.label': 'Kräuterstelle geerntet',
   'entities.npcs.bursar_aldous_crane.greeting':
     'Jede Kiste, jede Truhe und jedes Kleinod ist bei der Vergoldeten Schatulle sicher.',
   'entities.npcs.bursar_aldous_crane.name': 'Kämmerer Aldous Crane',

@@ -2014,17 +2014,31 @@ export const en_XA: EnTranslations = {
     "archetypeTitle": {
       "label": "[Ţíţļé]",
       "none": "[Ñóñé]",
-      "hobbyLabel": "[Ĥóƀƀý]",
-      "armorcrafting": "[Áŕɱóŕéŕ]",
-      "weaponcrafting": "[Ŵéáþóñšɱíţĥ]",
-      "jewelcrafting": "[Ĵéŵéļéŕ]",
-      "alchemy": "[Áļçĥéɱíšţ]",
-      "engineering": "[Ţíñķéŕéŕ]",
-      "cooking": "[Çĥéƒ]",
-      "inscription": "[Šçŕíƀé]",
-      "enchanting": "[Éñçĥáñţéŕ]",
-      "tailoring": "[Ţáíļóŕ]",
-      "leatherworking": "[Ļéáţĥéŕçŕáƒţéŕ]"
+      "hobbyLabel": "[Ĥóƀƀý]"
+    },
+    "archetypePair": {
+      "engineering+alchemy": "[Ɓóɱƀáŕðíéŕ]",
+      "alchemy+cooking": "[Áþóţĥéçáŕý]",
+      "cooking+leatherworking": "[Ţŕáþþéŕ]",
+      "leatherworking+tailoring": "[Óúţƒíţţéŕ]",
+      "tailoring+inscription": "[Ɱáĝéŵéáʋéŕ]",
+      "inscription+enchanting": "[Áŕçáñíšţ]",
+      "enchanting+jewelcrafting": "[Ĝéɱƀíñðéŕ]",
+      "jewelcrafting+weaponcrafting": "[Ɓļáðéŵŕíĝĥţ]",
+      "weaponcrafting+armorcrafting": "[Šɱíţĥ]",
+      "armorcrafting+engineering": "[Çóĝšɱíţĥ]"
+    },
+    "craftName": {
+      "armorcrafting": "[Áŕɱóŕçŕáƒţíñĝ]",
+      "weaponcrafting": "[Ŵéáþóñçŕáƒţíñĝ]",
+      "jewelcrafting": "[Ĵéŵéļçŕáƒţíñĝ]",
+      "alchemy": "[Áļçĥéɱý]",
+      "engineering": "[Éñĝíñééŕíñĝ]",
+      "cooking": "[Çóóķíñĝ]",
+      "inscription": "[Íñšçŕíþţíóñ]",
+      "enchanting": "[Éñçĥáñţíñĝ]",
+      "tailoring": "[Ţáíļóŕíñĝ]",
+      "leatherworking": "[Ļéáţĥéŕŵóŕķíñĝ]"
     },
     "crafting": {
       "title": "[Çŕáƒţíñĝ]",
@@ -2046,6 +2060,7 @@ export const en_XA: EnTranslations = {
       "comboTierUnmet": "[Ŕáíšé ƀóţĥ ɱáĵóŕ çŕáƒţš ţó ţĥé ŕéɋúíŕéð ţíéŕ.]",
       "professionChoice": "[Þŕóƒéššíóñ çĥóíçé]",
       "noProfessionChoice": "[Ñó ʋáļíð þŕóƒéššíóñ çĥóíçé íš çúŕŕéñţļý áʋáíļáƀļé.]",
+      "pairOptionLabel": "[{pair} ({craftA} + {craftB})]",
       "attunementPreview": "[Ŕéšúļţ: {title} ţíţļé; {majorA} áñð {majorB} ƀéçóɱé úñçáþþéð ɱáĵóŕš; {hobby} ƀéçóɱéš ţĥé ŕáŕé-çáþþéð ĥóƀƀý; áļļ óţĥéŕ šķíļļ ķñóŵļéðĝé íš ŕéţáíñéð ƀúţ çáþþéð áţ çóɱɱóñ ŵĥíļé ðóŕɱáñţ.]",
       "hobbyPreview": "[Ŕéšúļţ: {hobby} ƀéçóɱéš ţĥé ŕáŕé-çáþþéð ĥóƀƀý. Ɓóţĥ ɱáĵóŕš áñð áļļ ŕéţáíñéð šķíļļ ʋáļúéš šţáý úñçĥáñĝéð.]",
       "identity": {

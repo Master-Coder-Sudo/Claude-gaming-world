@@ -2014,17 +2014,31 @@ export const ru_RU: EnTranslations = {
     "archetypeTitle": {
       "label": "Титул",
       "none": "Нет",
-      "hobbyLabel": "Хобби",
-      "armorcrafting": "Бронник",
-      "weaponcrafting": "Оружейник",
-      "jewelcrafting": "Ювелир",
-      "alchemy": "Алхимик",
-      "engineering": "Механик",
-      "cooking": "Повар",
-      "inscription": "Писарь",
-      "enchanting": "Зачарователь",
-      "tailoring": "Портной",
-      "leatherworking": "Кожевник"
+      "hobbyLabel": "Хобби"
+    },
+    "archetypePair": {
+      "engineering+alchemy": "Бомбардир",
+      "alchemy+cooking": "Аптекарь",
+      "cooking+leatherworking": "Зверолов",
+      "leatherworking+tailoring": "Экипировщик",
+      "tailoring+inscription": "Чароткач",
+      "inscription+enchanting": "Чародей",
+      "enchanting+jewelcrafting": "Камневяз",
+      "jewelcrafting+weaponcrafting": "Клинкодел",
+      "weaponcrafting+armorcrafting": "Кузнец",
+      "armorcrafting+engineering": "Шестерёнщик"
+    },
+    "craftName": {
+      "armorcrafting": "Бронное дело",
+      "weaponcrafting": "Оружейное дело",
+      "jewelcrafting": "Ювелирное дело",
+      "alchemy": "Алхимия",
+      "engineering": "Инженерное дело",
+      "cooking": "Кулинария",
+      "inscription": "Начертание",
+      "enchanting": "Наложение чар",
+      "tailoring": "Портняжное дело",
+      "leatherworking": "Кожевничество"
     },
     "crafting": {
       "title": "Крафт",
@@ -2046,6 +2060,7 @@ export const ru_RU: EnTranslations = {
       "comboTierUnmet": "Повысьте оба главных ремесла до нужного ранга.",
       "professionChoice": "Выбор профессии",
       "noProfessionChoice": "Сейчас нет доступного выбора профессии.",
+      "pairOptionLabel": "{pair} ({craftA} + {craftB})",
       "attunementPreview": "Результат: титул «{title}»; {majorA} и {majorB} станут главными ремёслами без потолка; {hobby} станет увлечением с потолком редкого качества; все остальные навыки сохранятся, но в неактивном состоянии будут ограничены обычным качеством.",
       "hobbyPreview": "Результат: {hobby} станет увлечением с потолком редкого качества. Оба главных ремесла и все сохранённые значения навыков останутся без изменений.",
       "identity": {

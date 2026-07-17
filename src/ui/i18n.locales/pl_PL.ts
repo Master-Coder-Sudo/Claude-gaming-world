@@ -6722,12 +6722,6 @@ export const pl_PL: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_archetype_acceptance.title': 'Rzemiosło, które możesz nazwać własnym',
   'entities.quests.q_prof_make_amends.title': 'Zadośćuczynienie',
   'entities.quests.q_prof_make_amends.objectives.0.label': 'Leśny Wilk zabity',
-  'entities.quests.q_prof_hobby_switch.title': 'Inne zajęcie',
-  'entities.quests.q_prof_hobby_switch.text':
-    'Główne rzemiosła wymagają przysięgi. Hobby pyta tylko, dokąd prowadzi twoja ciekawość, {playerName}. Zbierz kilka ziół i zdecyduj, które rzemiosło przeciwne twoim głównym specjalizacjom chcesz rozwijać.',
-  'entities.quests.q_prof_hobby_switch.completion':
-    'Lżejszy wybór, ale pożyteczny. Podążaj za ciekawością tak daleko, jak zaprowadzi cię rzadka praca.',
-  'entities.quests.q_prof_hobby_switch.objectives.0.label': 'Zebrano stanowisko ziół',
   'entities.npcs.bursar_aldous_crane.greeting':
     'Każda skrzynia, kufer i błyskotka są bezpieczne w Złoconej Szkatule.',
   'entities.npcs.bursar_aldous_crane.name': 'Skarbnik Aldous Crane',

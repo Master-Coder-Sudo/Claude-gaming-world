@@ -6683,12 +6683,6 @@ export const sv_SE: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_archetype_acceptance.title': 'Ett hantverk att kalla ditt eget',
   'entities.quests.q_prof_make_amends.title': 'Att göra gott',
   'entities.quests.q_prof_make_amends.objectives.0.label': 'Skogsvarg dödad',
-  'entities.quests.q_prof_hobby_switch.title': 'Ett annat tidsfördriv',
-  'entities.quests.q_prof_hobby_switch.text':
-    'Huvudyrken kräver ett löfte. En hobby frågar bara vart din nyfikenhet leder dig, {playerName}. Samla några örter och välj vilket yrke mittemot dina huvudyrken du vill ägna dig åt.',
-  'entities.quests.q_prof_hobby_switch.completion':
-    'Ett lättare val, men ett användbart. Följ nyfikenheten så långt som sällsynt arbete kan ta dig.',
-  'entities.quests.q_prof_hobby_switch.objectives.0.label': 'Örtfält skördat',
   'entities.npcs.bursar_aldous_crane.greeting':
     'Varje låda, kista och krimskrams är i tryggt förvar hos Förgyllda kassakistan.',
   'entities.npcs.bursar_aldous_crane.name': 'Kamrer Aldous Crane',

@@ -2014,17 +2014,31 @@ export const cs_CZ: EnTranslations = {
     "archetypeTitle": {
       "label": "Titul",
       "none": "Žádný",
-      "hobbyLabel": "Koníček",
-      "armorcrafting": "Zbrojíř",
-      "weaponcrafting": "Kovář zbraní",
-      "jewelcrafting": "Klenotník",
-      "alchemy": "Alchymista",
-      "engineering": "Inženýr",
-      "cooking": "Kuchař",
-      "inscription": "Písař",
-      "enchanting": "Očarovatel",
-      "tailoring": "Krejčí",
-      "leatherworking": "Koželuh"
+      "hobbyLabel": "Koníček"
+    },
+    "archetypePair": {
+      "engineering+alchemy": "Bombardier",
+      "alchemy+cooking": "Apothecary",
+      "cooking+leatherworking": "Trapper",
+      "leatherworking+tailoring": "Outfitter",
+      "tailoring+inscription": "Mageweaver",
+      "inscription+enchanting": "Arcanist",
+      "enchanting+jewelcrafting": "Gembinder",
+      "jewelcrafting+weaponcrafting": "Bladewright",
+      "weaponcrafting+armorcrafting": "Smith",
+      "armorcrafting+engineering": "Cogsmith"
+    },
+    "craftName": {
+      "armorcrafting": "Armorcrafting",
+      "weaponcrafting": "Weaponcrafting",
+      "jewelcrafting": "Jewelcrafting",
+      "alchemy": "Alchemy",
+      "engineering": "Engineering",
+      "cooking": "Cooking",
+      "inscription": "Inscription",
+      "enchanting": "Enchanting",
+      "tailoring": "Tailoring",
+      "leatherworking": "Leatherworking"
     },
     "crafting": {
       "title": "Výroba",
@@ -2046,6 +2060,7 @@ export const cs_CZ: EnTranslations = {
       "comboTierUnmet": "Raise both major crafts to the required tier.",
       "professionChoice": "Profession choice",
       "noProfessionChoice": "No valid profession choice is currently available.",
+      "pairOptionLabel": "{pair} ({craftA} + {craftB})",
       "attunementPreview": "Result: {title} title; {majorA} and {majorB} become uncapped majors; {hobby} becomes the rare-capped hobby; all other skill knowledge is retained but capped at common while dormant.",
       "hobbyPreview": "Result: {hobby} becomes the rare-capped hobby. Both majors and all retained skill values stay unchanged.",
       "identity": {
@@ -9612,12 +9627,12 @@ export const cs_CZ: EnTranslations = {
         }
       },
       "q_prof_hobby_switch": {
-        "title": "Jiná záliba",
-        "text": "Hlavní řemesla vyžadují slib. Záliba se ptá jen na to, kam tě zavede zvědavost, {playerName}. Nasbírej několik bylin a rozhodni se, kterému řemeslu naproti tvým hlavním řemeslům se chceš věnovat.",
-        "completion": "Lehčí volba, ale užitečná. Následuj svou zvědavost tak daleko, jak tě vzácná práce zavede.",
+        "title": "A Different Pastime",
+        "text": "Majors demand a vow. A hobby only asks where your curiosity wanders, {playerName}. Gather a few herbs and decide which craft opposite your majors you want to pursue.",
+        "completion": "A lighter choice, but a useful one. Follow that curiosity as far as rare work will take it.",
         "objectives": {
           "0": {
-            "label": "Sklizeno bylinné naleziště"
+            "label": "Herb patch harvested"
           }
         }
       },

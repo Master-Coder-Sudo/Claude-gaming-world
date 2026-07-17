@@ -6723,12 +6723,6 @@ export const tr_TR: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_archetype_acceptance.title': 'Kendinize Ait Bir Zanaat',
   'entities.quests.q_prof_make_amends.title': 'Değişiklikler Yapmak',
   'entities.quests.q_prof_make_amends.objectives.0.label': 'Orman kurdu öldürüldü',
-  'entities.quests.q_prof_hobby_switch.title': 'Farklı Bir Uğraş',
-  'entities.quests.q_prof_hobby_switch.text':
-    'Ana zanaatlar yemin ister. Bir hobi ise yalnızca merakının nereye yöneldiğini sorar, {playerName}. Birkaç ot topla ve ana zanaatlarının karşısındaki hangi zanaatla uğraşmak istediğine karar ver.',
-  'entities.quests.q_prof_hobby_switch.completion':
-    'Daha hafif ama yararlı bir seçim. Bu merakı nadir işlerin götürebileceği yere kadar izle.',
-  'entities.quests.q_prof_hobby_switch.objectives.0.label': 'Ot bölgesi toplandı',
   'entities.npcs.bursar_aldous_crane.greeting':
     "Her sandık, her çekmece, her biblo Yaldızlı Kasa'da güvendedir.",
   'entities.npcs.bursar_aldous_crane.name': 'Veznedar Aldous Crane',

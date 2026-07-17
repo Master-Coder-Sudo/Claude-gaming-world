@@ -7212,12 +7212,6 @@ export const fr_FR: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_archetype_acceptance.title': 'Un métier qui vous appartient',
   'entities.quests.q_prof_make_amends.title': 'Faire amende honorable',
   'entities.quests.q_prof_make_amends.objectives.0.label': 'Loup des forêts tué',
-  'entities.quests.q_prof_hobby_switch.title': 'Un autre passe-temps',
-  'entities.quests.q_prof_hobby_switch.text':
-    'Les métiers majeurs exigent un serment. Un passe-temps demande seulement où vous mène votre curiosité, {playerName}. Récoltez quelques herbes et choisissez le métier opposé à vos majeures que vous souhaitez pratiquer.',
-  'entities.quests.q_prof_hobby_switch.completion':
-    'Un choix plus léger, mais utile. Suivez cette curiosité aussi loin que le travail rare vous mènera.',
-  'entities.quests.q_prof_hobby_switch.objectives.0.label': "Carré d'herbes récolté",
   'entities.npcs.bursar_aldous_crane.greeting':
     'Chaque caisse, chaque coffret et chaque babiole est en sécurité au Coffre doré.',
   'entities.npcs.bursar_aldous_crane.name': 'Trésorier Aldous Crane',

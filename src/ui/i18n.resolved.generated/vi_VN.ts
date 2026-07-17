@@ -2014,17 +2014,31 @@ export const vi_VN: EnTranslations = {
     "archetypeTitle": {
       "label": "Danh hiệu",
       "none": "Không có",
-      "hobbyLabel": "Sở Thích",
-      "armorcrafting": "Thợ Giáp",
-      "weaponcrafting": "Thợ Rèn Vũ Khí",
-      "jewelcrafting": "Thợ Kim Hoàn",
-      "alchemy": "Nhà Giả Kim",
-      "engineering": "Kỹ Sư",
-      "cooking": "Đầu Bếp",
-      "inscription": "Thợ Khắc Chữ",
-      "enchanting": "Thợ Phù Phép",
-      "tailoring": "Thợ May",
-      "leatherworking": "Thợ Da"
+      "hobbyLabel": "Sở Thích"
+    },
+    "archetypePair": {
+      "engineering+alchemy": "Bombardier",
+      "alchemy+cooking": "Apothecary",
+      "cooking+leatherworking": "Trapper",
+      "leatherworking+tailoring": "Outfitter",
+      "tailoring+inscription": "Mageweaver",
+      "inscription+enchanting": "Arcanist",
+      "enchanting+jewelcrafting": "Gembinder",
+      "jewelcrafting+weaponcrafting": "Bladewright",
+      "weaponcrafting+armorcrafting": "Smith",
+      "armorcrafting+engineering": "Cogsmith"
+    },
+    "craftName": {
+      "armorcrafting": "Armorcrafting",
+      "weaponcrafting": "Weaponcrafting",
+      "jewelcrafting": "Jewelcrafting",
+      "alchemy": "Alchemy",
+      "engineering": "Engineering",
+      "cooking": "Cooking",
+      "inscription": "Inscription",
+      "enchanting": "Enchanting",
+      "tailoring": "Tailoring",
+      "leatherworking": "Leatherworking"
     },
     "crafting": {
       "title": "Chế tạo",
@@ -2046,6 +2060,7 @@ export const vi_VN: EnTranslations = {
       "comboTierUnmet": "Raise both major crafts to the required tier.",
       "professionChoice": "Profession choice",
       "noProfessionChoice": "No valid profession choice is currently available.",
+      "pairOptionLabel": "{pair} ({craftA} + {craftB})",
       "attunementPreview": "Result: {title} title; {majorA} and {majorB} become uncapped majors; {hobby} becomes the rare-capped hobby; all other skill knowledge is retained but capped at common while dormant.",
       "hobbyPreview": "Result: {hobby} becomes the rare-capped hobby. Both majors and all retained skill values stay unchanged.",
       "identity": {
@@ -9612,12 +9627,12 @@ export const vi_VN: EnTranslations = {
         }
       },
       "q_prof_hobby_switch": {
-        "title": "Một thú vui khác",
-        "text": "Nghề chính đòi hỏi lời thề. Thú vui chỉ hỏi sự tò mò dẫn bạn đến đâu, {playerName}. Hãy thu thập vài cây thảo dược và chọn nghề đối diện với hai nghề chính mà bạn muốn theo đuổi.",
-        "completion": "Một lựa chọn nhẹ nhàng hơn, nhưng hữu ích. Hãy theo sự tò mò ấy đến tận giới hạn của công việc phẩm chất hiếm.",
+        "title": "A Different Pastime",
+        "text": "Majors demand a vow. A hobby only asks where your curiosity wanders, {playerName}. Gather a few herbs and decide which craft opposite your majors you want to pursue.",
+        "completion": "A lighter choice, but a useful one. Follow that curiosity as far as rare work will take it.",
         "objectives": {
           "0": {
-            "label": "Đã thu hoạch bãi thảo dược"
+            "label": "Herb patch harvested"
           }
         }
       },
