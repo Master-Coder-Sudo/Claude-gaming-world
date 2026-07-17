@@ -94,6 +94,26 @@ describe('loot_roll: rollLoot producer (drop-rate determinism)', () => {
     expect(rate).toBeGreaterThan(0.04);
     expect(rate).toBeLessThan(0.08);
   });
+
+  // Reproduces the raid-loot duplicate bug: Nythraxis has 4 independent rollGroups
+  // (2 helm slots, 2 shoulder slots) and several items (e.g. soulflame_mantle,
+  // crownforged_dreadhelm, nighttalon_crown/shoulderguards) appear in every one of
+  // them. With no cross-group duplicate guard, a single kill can hand out the same
+  // piece twice (or more), so a 9-person raid's 4 drops can collapse to 2-3 distinct
+  // items instead of a spread. This must never happen: every item awarded by one
+  // rollLoot call is unique.
+  it('never awards the same item id twice from one kill (raid boss, cross-group dedup)', () => {
+    const template = MOBS.nythraxis_scourge_of_thornpeak;
+    for (let seed = 0; seed < 200; seed++) {
+      const sim = makeSim(seed);
+      const pid = sim.addPlayer('warrior', 'Looter');
+      const meta = playerMeta(sim, pid);
+      const mob = createMob(-1, template, template.minLevel, { x: 0, y: 0, z: 0 });
+      rollLoot(sim.ctx, mob, meta);
+      const ids = (mob.loot?.items ?? []).map((s) => s.itemId);
+      expect(new Set(ids).size).toBe(ids.length);
+    }
+  });
 });
 
 describe('loot_roll: probability tables', () => {

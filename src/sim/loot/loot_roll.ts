@@ -130,6 +130,27 @@ function effectiveItemLootStrategy(ctx: SimContext, itemId: string, mob: Entity)
   return q === 'poor' || q === 'common' ? strategies.commonItems : strategies.premiumItems;
 }
 
+// Resolves a single exclusive rollGroup draw to its winning entry (or null on a
+// non-matching partition, or on a matching item already awarded elsewhere in this
+// same loot event). Pure partition math; the caller supplies the one rng draw so the
+// draw-order/parity contract (exactly one ctx.rng.next() per group) is unaffected by
+// this dedup check.
+function pickRollGroupWinner(
+  roll: number,
+  group: LootEntry[],
+  awardedItemIds: Set<string>,
+): LootEntry | null {
+  let cumulative = 0;
+  for (const g of group) {
+    cumulative += g.chance;
+    if (roll < cumulative) {
+      if (g.itemId && awardedItemIds.has(g.itemId)) return null;
+      return g;
+    }
+  }
+  return null;
+}
+
 function needsQuestDrop(ctx: SimContext, entry: LootEntry, meta: PlayerMeta): boolean {
   if (!entry.questId || !entry.itemId) return false;
   const qp = meta.questLog.get(entry.questId);
@@ -162,6 +183,12 @@ export function rollLoot(
   let copper = 0;
   const items: LootSlot[] = [];
   const rolledGroups = new Set<string>();
+  // Cross-group duplicate guard: several exclusive rollGroups on the same mob (e.g.
+  // Nythraxis's 4 helm/shoulder slots) can share item ids, and each group draws its
+  // own independent rng.next(). Without this, one kill could hand out the same piece
+  // twice (or more) instead of a spread across the raid; a repeated winner yields no
+  // item for that slot rather than a second copy.
+  const awardedItemIds = new Set<string>();
   // A heroic dungeon claim upgrades the mob's normal epic/rare drops to their
   // "Heroic" variant in place (content/heroic_variants.ts). Resolved once and
   // reused by the heroic-only append below. No rng is drawn here, so normal-run
@@ -187,13 +214,12 @@ export function rollLoot(
       rolledGroups.add(entry.rollGroup);
       const group = template.loot.filter((l) => l.rollGroup === entry.rollGroup);
       const roll = ctx.rng.next();
-      let cumulative = 0;
-      for (const g of group) {
-        cumulative += g.chance;
-        if (roll < cumulative) {
-          if (g.itemId) items.push({ itemId: heroicItem(g.itemId), count: 1 });
-          break;
-        }
+      const winner = pickRollGroupWinner(roll, group, awardedItemIds);
+      if (winner?.itemId) {
+        const resolvedId = heroicItem(winner.itemId);
+        items.push({ itemId: resolvedId, count: 1 });
+        awardedItemIds.add(winner.itemId);
+        awardedItemIds.add(resolvedId);
       }
       continue;
     }
@@ -244,13 +270,10 @@ export function rollLoot(
           rolledGroups.add(entry.rollGroup);
           const group = heroicEntries.filter((l) => l.rollGroup === entry.rollGroup);
           const roll = ctx.rng.next();
-          let cumulative = 0;
-          for (const g of group) {
-            cumulative += g.chance;
-            if (roll < cumulative) {
-              if (g.itemId) items.push({ itemId: g.itemId, count: 1 });
-              break;
-            }
+          const winner = pickRollGroupWinner(roll, group, awardedItemIds);
+          if (winner?.itemId) {
+            items.push({ itemId: winner.itemId, count: 1 });
+            awardedItemIds.add(winner.itemId);
           }
           continue;
         }

@@ -9030,7 +9030,7 @@
       "tick": 628,
       "time": 31.4,
       "nextId": 422,
-      "state": "3e61bc09",
+      "state": "8e21a363",
       "events": "fcce9ba4",
       "rng": {
         "draws": 3004,
@@ -9883,10 +9883,6 @@
               },
               {
                 "count": 1,
-                "itemId": "soulflame_mantle"
-              },
-              {
-                "count": 1,
                 "itemId": "soulflame_cowl"
               },
               {
@@ -10267,7 +10263,7 @@
       "tick": 630,
       "time": 31.5,
       "nextId": 422,
-      "state": "79f67e60",
+      "state": "342a8052",
       "events": "741638a5",
       "rng": {
         "draws": 3013,
@@ -10278,7 +10274,7 @@
       "tick": 640,
       "time": 32,
       "nextId": 422,
-      "state": "cec6f497",
+      "state": "8e3fa155",
       "events": "741638a5",
       "rng": {
         "draws": 3051,
@@ -10289,7 +10285,7 @@
       "tick": 650,
       "time": 32.5,
       "nextId": 422,
-      "state": "09f9ee8b",
+      "state": "d88534c9",
       "events": "741638a5",
       "rng": {
         "draws": 3107,
@@ -10300,7 +10296,7 @@
       "tick": 660,
       "time": 33,
       "nextId": 422,
-      "state": "5be93e44",
+      "state": "e39549de",
       "events": "741638a5",
       "rng": {
         "draws": 3150,
@@ -10311,7 +10307,7 @@
       "tick": 670,
       "time": 33.5,
       "nextId": 422,
-      "state": "7608d402",
+      "state": "3e64c308",
       "events": "741638a5",
       "rng": {
         "draws": 3191,
@@ -10322,7 +10318,7 @@
       "tick": 680,
       "time": 34,
       "nextId": 422,
-      "state": "59f2d719",
+      "state": "bf401c13",
       "events": "741638a5",
       "rng": {
         "draws": 3251,
@@ -10333,7 +10329,7 @@
       "tick": 688,
       "time": 34.4,
       "nextId": 422,
-      "state": "0e170122",
+      "state": "86efbb6c",
       "events": "db2b6c90",
       "rng": {
         "draws": 3293,
@@ -11180,10 +11176,6 @@
           "loot": {
             "copper": 107776,
             "items": [
-              {
-                "count": 1,
-                "itemId": "soulflame_mantle"
-              },
               {
                 "count": 1,
                 "itemId": "soulflame_mantle"
