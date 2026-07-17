@@ -239,6 +239,10 @@ import { handleOAuth, seedOAuthClients } from './oauth';
 import { pruneExpiredOAuthGrants } from './oauth_db';
 import { handlePerfReport } from './perf_report';
 import {
+  pruneAccountIpAssociationsBatch,
+  prunePlaySessionsBatch,
+} from './play_session_retention_db';
+import {
   captureReferral,
   cardUploadContentLengthTooLarge,
   handleCardRoutes,
@@ -2812,6 +2816,17 @@ export async function startServer(): Promise<http.Server> {
       {
         name: 'site_presence_sessions',
         pruneBatch: (n) => pruneSitePresenceSessionsBatch(config.sitePresenceRetentionDays, n),
+      },
+      // The play-session fold feeds account_ip_associations, so the feeder table
+      // is swept before the ager in the same run.
+      {
+        name: 'play_sessions',
+        pruneBatch: (n) => prunePlaySessionsBatch(pool, config.playSessionRetentionDays, n),
+      },
+      {
+        name: 'account_ip_associations',
+        pruneBatch: (n) =>
+          pruneAccountIpAssociationsBatch(pool, config.accountIpAssociationRetentionDays, n),
       },
     ],
     // The fold precondition makes sample pruning lossless; skip the whole group

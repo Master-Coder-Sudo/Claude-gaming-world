@@ -21,7 +21,7 @@ describe('retention sweep wiring in server/main.ts', () => {
   it('runs no retention DELETE before the server is listening', () => {
     // No retention prune may ever block or precede boot again: the old one-shot
     // boot prunes held boot hostage to an unbounded DELETE on a large table.
-    // ALL six prune call-forms plus the fold are named: a prune MOVED (not
+    // ALL eight prune call-forms plus the fold are named: a prune MOVED (not
     // copied) to a pre-listen one-shot keeps its exactly-once count and only
     // this list catches it.
     const preListen = MAIN.slice(0, MAIN.indexOf('server.listen('));
@@ -34,6 +34,8 @@ describe('retention sweep wiring in server/main.ts', () => {
       'pruneOnlineSamplesBatch(',
       'pruneSitePresenceSamplesBatch(',
       'pruneSitePresenceSessionsBatch(',
+      'prunePlaySessionsBatch(',
+      'pruneAccountIpAssociationsBatch(',
       'foldOnlinePeak(',
     ]) {
       expect(preListen).not.toContain(call);
@@ -65,6 +67,8 @@ describe('retention sweep wiring in server/main.ts', () => {
       'pruneOnlineSamplesBatch(',
       'pruneSitePresenceSamplesBatch(',
       'pruneSitePresenceSessionsBatch(',
+      'prunePlaySessionsBatch(',
+      'pruneAccountIpAssociationsBatch(',
       'foldOnlinePeak(',
       'distinctOnlineSampleRealms(',
       'dailyRewardEventsCutoffDay(',
@@ -102,6 +106,21 @@ describe('retention sweep wiring in server/main.ts', () => {
     expect(MAIN).toContain('pruneSitePresenceSamplesBatch(config.sitePresenceRetentionDays, n)');
     expect(MAIN).toContain('pruneSitePresenceSessionsBatch(config.sitePresenceRetentionDays, n)');
     expect(MAIN).toContain('pruneOnlineSamplesBatch(realm, config.onlineSamplesRetentionDays, n)');
+    expect(MAIN).toContain('prunePlaySessionsBatch(pool, config.playSessionRetentionDays, n)');
+    expect(MAIN).toContain(
+      'pruneAccountIpAssociationsBatch(pool, config.accountIpAssociationRetentionDays, n)',
+    );
+  });
+
+  it('sweeps the play-session fold before the association ager', () => {
+    // The fold WRITES account_ip_associations, so the feeder must precede the
+    // ager in the tables array (the sweep runs entries in array order): an
+    // anciently-dated link folded in tonight's run is then aged out in the
+    // same run instead of surviving an extra day.
+    expect(MAIN.indexOf("name: 'play_sessions'")).toBeGreaterThan(-1);
+    expect(MAIN.indexOf("name: 'play_sessions'")).toBeLessThan(
+      MAIN.indexOf("name: 'account_ip_associations'"),
+    );
   });
 
   it('gates the whole online-samples group on retention being enabled', () => {

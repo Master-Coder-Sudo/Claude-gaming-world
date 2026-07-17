@@ -101,12 +101,20 @@ export interface Config {
   readonly githubToken: string;
   readonly chatLogRetentionDays: number;
   readonly perfReportRetentionDays: number;
-  // The three retention keys below follow the chatLogRetentionDays contract: 0 =
+  // The five retention keys below follow the chatLogRetentionDays contract: 0 =
   // keep forever, and the read is deliberately UNTRIMMED, so a whitespace-only
   // value falls to 0, the SAFE side for a destructive delete (keep, never prune).
   readonly dailyRewardEventsRetentionDays: number;
   readonly onlineSamplesRetentionDays: number;
   readonly sitePresenceRetentionDays: number;
+  // Play sessions older than this fold into the lifetime rollups and are deleted;
+  // 0 keeps raw sessions forever. Positive values below the retention floor are
+  // raised to it by the prune (the floor guards the admin 30-day activity windows).
+  readonly playSessionRetentionDays: number;
+  // How long a folded account-to-IP association may persist without being seen
+  // again: the privacy bound on stored IP links and the ban-evasion lookback
+  // horizon. 0 keeps them forever.
+  readonly accountIpAssociationRetentionDays: number;
   // The two sweep knobs follow the maxPlayersPerRealm trimmed-read contract
   // instead, because for them a whitespace-derived 0 is fail-DANGEROUS: hour 0
   // moves the sweep to 00:00 UTC, next to the nightly 03:15 UTC pg_dump window
@@ -157,6 +165,8 @@ const DEFAULT_PERF_REPORT_RETENTION_DAYS = 14;
 const DEFAULT_DAILY_REWARD_EVENTS_RETENTION_DAYS = 400;
 const DEFAULT_ONLINE_SAMPLES_RETENTION_DAYS = 90;
 const DEFAULT_SITE_PRESENCE_RETENTION_DAYS = 90;
+const DEFAULT_PLAY_SESSION_RETENTION_DAYS = 180;
+const DEFAULT_ACCOUNT_IP_ASSOCIATION_RETENTION_DAYS = 730;
 // PROVISIONAL: two hours after the nightly 03:15 UTC pg_dump window, pending real
 // traffic-curve evidence of the quietest hour; revisit when that evidence lands.
 const DEFAULT_RETENTION_SWEEP_UTC_HOUR = 5;
@@ -326,6 +336,14 @@ export function loadConfig(env: NodeJS.ProcessEnv): Config {
     sitePresenceRetentionDays: numberOr(
       env.SITE_PRESENCE_RETENTION_DAYS,
       DEFAULT_SITE_PRESENCE_RETENTION_DAYS,
+    ),
+    playSessionRetentionDays: numberOr(
+      env.PLAY_SESSION_RETENTION_DAYS,
+      DEFAULT_PLAY_SESSION_RETENTION_DAYS,
+    ),
+    accountIpAssociationRetentionDays: numberOr(
+      env.ACCOUNT_IP_ASSOCIATION_RETENTION_DAYS,
+      DEFAULT_ACCOUNT_IP_ASSOCIATION_RETENTION_DAYS,
     ),
     // An hour outside 0..23 is garbage, not a preference; fall back like numberOr does.
     retentionSweepUtcHour:

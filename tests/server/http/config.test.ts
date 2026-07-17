@@ -39,6 +39,8 @@ describe('loadConfig', () => {
     expect(cfg.dailyRewardEventsRetentionDays).toBe(400);
     expect(cfg.onlineSamplesRetentionDays).toBe(90);
     expect(cfg.sitePresenceRetentionDays).toBe(90);
+    expect(cfg.playSessionRetentionDays).toBe(180);
+    expect(cfg.accountIpAssociationRetentionDays).toBe(730);
     expect(cfg.retentionSweepUtcHour).toBe(5);
     expect(cfg.retentionSweepMaxRowsPerRun).toBe(50000);
     expect(cfg.requireWebLogin).toBe(false);
@@ -234,7 +236,7 @@ describe('loadConfig', () => {
     expect(loadConfig({ ...MIN_ENV, MAX_PLAYERS_PER_REALM: ' 0 ' }).maxPlayersPerRealm).toBe(0);
   });
 
-  it('reads the three retention day keys on the chat-log contract: empty is the default, whitespace is keep-forever', () => {
+  it('reads the five retention day keys on the chat-log contract: empty is the default, whitespace is keep-forever', () => {
     const cases = [
       {
         key: 'DAILY_REWARD_EVENTS_RETENTION_DAYS',
@@ -243,6 +245,12 @@ describe('loadConfig', () => {
       },
       { key: 'ONLINE_SAMPLES_RETENTION_DAYS', field: 'onlineSamplesRetentionDays', dflt: 90 },
       { key: 'SITE_PRESENCE_RETENTION_DAYS', field: 'sitePresenceRetentionDays', dflt: 90 },
+      { key: 'PLAY_SESSION_RETENTION_DAYS', field: 'playSessionRetentionDays', dflt: 180 },
+      {
+        key: 'ACCOUNT_IP_ASSOCIATION_RETENTION_DAYS',
+        field: 'accountIpAssociationRetentionDays',
+        dflt: 730,
+      },
     ] as const;
     for (const { key, field, dflt } of cases) {
       // A set value overrides the default.
