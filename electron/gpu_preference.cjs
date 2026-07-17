@@ -1,4 +1,4 @@
-const { execFileSync: nodeExecFileSync } = require('node:child_process');
+const { execFileSync: nodeExecFileSync, spawn: nodeSpawn } = require('node:child_process');
 const nodePath = require('node:path');
 
 // Force the app onto the discrete (high-performance) GPU on hybrid systems, with ZERO
@@ -55,7 +55,7 @@ const nodePath = require('node:path');
 //     binary (one orphan entry per worktree, steering everything else launched from that
 //     shared binary); only the stable installed exe path is worth pinning.
 //
-//  3. Linux PRIME render-offload environment variables. On a Linux hybrid-graphics laptop
+//  3. Linux PRIME render-offload via a self-relaunch. On a Linux hybrid-graphics laptop
 //     (NVIDIA Optimus, AMD/Intel Mesa PRIME) there is no per-app OS-level preference to write
 //     (no registry equivalent) and force-high-performance-gpu is a no-op: the driver decides
 //     which adapter serves EGL/GLX at DYNAMIC-LINK time, before Chromium's own switch parsing
@@ -65,18 +65,28 @@ const nodePath = require('node:path');
 //     the NVIDIA proprietary driver), and for NVIDIA's proprietary PRIME render offload,
 //     __NV_PRIME_RENDER_OFFLOAD=1 plus __GLX_VENDOR_LIBRARY_NAME=nvidia (GLX) and
 //     __VK_LAYER_NV_optimus=NVIDIA_only (Vulkan, which Chromium's ANGLE backend can select).
-//     All four are set unconditionally: a single-GPU or non-hybrid machine, or a machine
-//     without the corresponding vendor library installed, simply never resolves those names
-//     and the variables sit inert (this mirrors the existing "append both switch spellings,
-//     harmless if unmatched" posture above). Electron's GPU process on Linux is a fresh
-//     fork+exec, not a fork of an already-initialized zygote sharing loaded GL libraries, so
-//     it re-resolves the vendor library from environ at spawn time; setting process.env here
-//     (before app.whenReady(), same call site as the other two levers) lands before that
-//     spawn and is effective the current launch. Applied on EVERY launch (packaged or not):
-//     unlike the Windows registry lever there is no persistent host state to avoid polluting,
-//     so the dev loop benefits too. A caller-supplied override in the parent environment
-//     (say, the player already launches via their own `prime-run`) is left untouched: we only
-//     set a variable that is not already present, never overwrite one the player configured.
+//     Mutating process.env for these at this call site (before app.whenReady(), same as the
+//     other two levers) does NOT work on Linux, unlike on Windows/macOS: Chromium's GPU
+//     process here is forked from an ALREADY-RUNNING zygote, and that zygote fork/exec'd off
+//     an environ snapshot the zygote took at ITS OWN exec, at the very first line of the
+//     Electron binary, before any of this script's JS ever ran. The zygote fork protocol
+//     passes argv and file descriptors, not the browser process's live environment, so a
+//     later process.env write in the main process is simply invisible to it (measured against
+//     real hybrid hardware: a variable set here changes nothing, while the identical variable
+//     set in the PARENT shell before the binary even starts changes GPU behavior immediately).
+//     The only lever early enough is to re-exec the whole process before Electron's own
+//     startup: relaunchForLinuxPrime spawns a fresh child (same binary, same argv) with the
+//     PRIME variables baked into ITS environ from birth, so the zygote it starts (and every
+//     GPU/renderer/utility process that zygote later forks) inherits them for real. The
+//     caller must invoke this and, if it returns true, exit immediately without creating any
+//     window or spawning the GPU process itself; a relaunch-marker env var guards against a
+//     relaunch loop. All four variables are set unconditionally in the child's env: a
+//     single-GPU or non-hybrid machine, or one missing the corresponding vendor library,
+//     simply never resolves those names and they sit inert (mirrors the "append both switch
+//     spellings, harmless if unmatched" posture above). A caller-supplied override already
+//     present in the parent environment (say, the player already launches via their own
+//     `prime-run`) is left untouched, and if every variable is already present the relaunch
+//     is skipped entirely (no infinite-relaunch risk even without the marker in that case).
 //
 // The arg-building, query parsing, and token merging are pure and dependency-injected so
 // tests exercise them without a real registry or a real Electron app.
@@ -184,14 +194,37 @@ function hasUnparseableValueType(regQueryStdout) {
 }
 
 // The Linux PRIME render-offload variables (see lever 3 above): Mesa's DRI_PRIME plus
-// NVIDIA's proprietary-driver GLX/Vulkan offload trio. Exported so a caller can log or pin
-// exactly which names this module sets.
+// NVIDIA's proprietary-driver offload set. Exported so a caller can log or pin exactly
+// which names this module sets.
+//
+// __GLX_VENDOR_LIBRARY_NAME alone is a decoy for this app: Chromium's GPU process creates
+// its context through EGL, not GLX, so the GLX var flips `glxinfo` to NVIDIA (making a fix
+// LOOK verified) while the unmasked WebGL renderer stays on the Intel iGPU. Verified on real
+// hybrid hardware (Intel Arrow Lake iGPU + NVIDIA RTX 5090 Laptop, proprietary driver 580,
+// Wayland session, Electron 43): only adding __EGL_VENDOR_LIBRARY_FILENAMES, pointed at the
+// NVIDIA GLVND EGL ICD json (the standard install path across glvnd-based distros), actually
+// moved the unmasked renderer to "ANGLE (NVIDIA Corporation, NVIDIA GeForce RTX 5090 Laptop
+// GPU ...)". The GLX/Vulkan vars are kept anyway (harmless if unmatched, and DRI_PRIME is
+// still the whole story for the Mesa-hybrid AMD/Intel case, which never touches EGL vendor
+// selection), but __EGL_VENDOR_LIBRARY_FILENAMES is the one that carries the NVIDIA
+// proprietary path documented above.
 const LINUX_PRIME_ENV = Object.freeze({
   DRI_PRIME: '1',
   __NV_PRIME_RENDER_OFFLOAD: '1',
   __GLX_VENDOR_LIBRARY_NAME: 'nvidia',
+  __EGL_VENDOR_LIBRARY_FILENAMES: '/usr/share/glvnd/egl_vendor.d/10_nvidia.json',
   __VK_LAYER_NV_optimus: 'NVIDIA_only',
 });
+
+// Same hardware test found the packaged app's GPU process crash-loops on a Wayland session
+// once PRIME offload is requested (exit_code=8704, "not compatible with Vulkan"), silently
+// falling back to software rendering, which is worse than the iGPU it started on. Chromium
+// picks its Ozone backend before any main-script JS runs (an appendSwitch call at this
+// call site, same as the PRIME env, measurably does nothing: verified against the same
+// hardware), so relaunchForLinuxPrime adds this as a real argv flag on the relaunched
+// process instead. Never added if the player's own argv already names an --ozone-platform
+// (their own explicit choice wins).
+const LINUX_OZONE_X11_ARG = '--ozone-platform=x11';
 
 /**
  * The env additions needed to request PRIME render offload, skipping any name the caller's
@@ -206,6 +239,67 @@ function buildLinuxPrimeEnv(existingEnv) {
     if (env[name] === undefined) additions[name] = value;
   }
   return additions;
+}
+
+// Guards relaunchForLinuxPrime against a relaunch loop: set on the child's env before
+// spawn, so a second call in that child (its argv/execPath resolve identically) sees the
+// marker and skips relaunching again. Without a real infinite loop risk even so, since
+// shouldRelaunchForLinuxPrime is also false once every variable is present, but the marker
+// is the cheap, explicit guard, checked first.
+const PRIME_RELAUNCH_MARKER = 'WOC_PRIME_RELAUNCHED';
+
+/**
+ * Whether this process should re-exec itself with the Linux PRIME env applied: not already a
+ * relaunched child (the marker), and at least one PRIME variable is actually missing (a
+ * player who already launches via their own `prime-run`, or a non-hybrid machine with no
+ * vendor library resolving the names anyway, still gets a no-op skip rather than a pointless
+ * relaunch).
+ */
+function shouldRelaunchForLinuxPrime(env) {
+  if (env?.[PRIME_RELAUNCH_MARKER] === '1') return false;
+  return Object.keys(buildLinuxPrimeEnv(env)).length > 0;
+}
+
+/**
+ * Re-exec the current process (same executable, same argv) with the Linux PRIME
+ * render-offload variables baked into the child's environment from birth. See lever 3 in the
+ * file header for why an in-process process.env mutation cannot work here: only an
+ * environment present before Electron's own startup (before the zygote's exec) ever reaches
+ * the GPU process. Detached + unref'd so the parent can exit without waiting on the child;
+ * stdio inherited so the player's console/log output is uninterrupted. Returns true when a
+ * relaunch was spawned, in which case the CALLER must exit immediately (app.exit()) without
+ * creating a window or doing any further Electron startup work in this process; returns false
+ * (nothing to do) on any other platform, when every variable is already present, or if the
+ * spawn itself fails.
+ */
+function relaunchForLinuxPrime(deps = {}) {
+  const platform = deps.platform ?? process.platform;
+  const env = deps.env ?? process.env;
+  const log = deps.log;
+
+  if (platform !== 'linux') return false;
+  if (!shouldRelaunchForLinuxPrime(env)) return false;
+
+  const spawnFn = deps.spawn ?? nodeSpawn;
+  const execPath = deps.execPath ?? process.execPath;
+  const baseArgv = deps.argv ?? process.argv.slice(1);
+  // A Wayland session's GPU process crash-loops once PRIME offload is requested unless
+  // Chromium is forced onto the X11 Ozone backend (see LINUX_OZONE_X11_ARG above); never
+  // added if the player's own argv already names an --ozone-platform.
+  const hasOzoneArg = baseArgv.some((a) => a.startsWith('--ozone-platform'));
+  const argv = hasOzoneArg ? baseArgv : [...baseArgv, LINUX_OZONE_X11_ARG];
+  const additions = buildLinuxPrimeEnv(env);
+  const childEnv = { ...env, ...additions, [PRIME_RELAUNCH_MARKER]: '1' };
+
+  try {
+    const child = spawnFn(execPath, argv, { env: childEnv, stdio: 'inherit', detached: true });
+    child.unref?.();
+    log?.info?.('[gpu] relaunching for Linux PRIME render offload', Object.keys(additions));
+    return true;
+  } catch (err) {
+    log?.warn?.('[gpu] could not relaunch for Linux PRIME render offload', err);
+    return false;
+  }
 }
 
 // Vendor ids as getGPUInfo reports them: NVIDIA 0x10de, AMD 0x1002, Intel 0x8086,
@@ -241,6 +335,10 @@ function summarizeGpuDevices(gpuDevices) {
  * write is logged and swallowed so the app always boots. MUST be called before app 'ready'
  * (so the switches are read) and before the first window (so the registry write beats the
  * GPU process on the current launch).
+ *
+ * Does NOT handle Linux: relaunchForLinuxPrime is a separate, earlier call the caller must
+ * make (and act on) before this function, since it requires a full process re-exec rather
+ * than an in-process env mutation (see lever 3 in the file header for why).
  */
 function forceHighPerformanceGpu(deps = {}) {
   const app = deps.app;
@@ -254,16 +352,6 @@ function forceHighPerformanceGpu(deps = {}) {
       app?.commandLine?.appendSwitch(name);
     } catch (err) {
       log?.warn?.('[gpu] could not append switch', name, err);
-    }
-  }
-
-  if (platform === 'linux') {
-    const additions = buildLinuxPrimeEnv(env);
-    for (const [name, value] of Object.entries(additions)) {
-      env[name] = value;
-    }
-    if (Object.keys(additions).length > 0) {
-      log?.info?.('[gpu] set Linux PRIME render-offload env vars', Object.keys(additions));
     }
   }
 
@@ -327,7 +415,10 @@ module.exports = {
   HIGH_PERFORMANCE_PREFERENCE,
   HIGH_PERF_GPU_SWITCHES,
   LINUX_PRIME_ENV,
+  LINUX_OZONE_X11_ARG,
   buildLinuxPrimeEnv,
+  shouldRelaunchForLinuxPrime,
+  relaunchForLinuxPrime,
   buildRegQueryArgs,
   buildRegWriteArgs,
   parseRegQueryData,

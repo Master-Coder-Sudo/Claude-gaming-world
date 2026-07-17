@@ -38,11 +38,29 @@ const { initLogging } = require('./logging.cjs');
 const { DEFAULT_SHELL_STRINGS, sanitizeShellStrings } = require('./shell_strings.cjs');
 const { attachRendererCrashRecovery, installProcessCrashGuards } = require('./crash_guard.cjs');
 const { initUpdater } = require('./updater.cjs');
-const { forceHighPerformanceGpu, summarizeGpuDevices } = require('./gpu_preference.cjs');
+const {
+  forceHighPerformanceGpu,
+  relaunchForLinuxPrime,
+  summarizeGpuDevices,
+} = require('./gpu_preference.cjs');
 const {
   buildWalletHandoffBrowserUrl,
   parseWalletHandoffDeepLink,
 } = require('./wallet_handoff.cjs');
+
+// On a Linux hybrid-graphics laptop, the PRIME render-offload env vars (DRI_PRIME,
+// __NV_PRIME_RENDER_OFFLOAD, etc; see electron/gpu_preference.cjs) only reach the GPU
+// process if they are present in THIS process's environment from birth: Electron's Linux
+// GPU process forks from a zygote that already exec'd (and snapshotted its environ) before
+// any of this script's lines run, so a later process.env write is invisible to it. This is
+// the earliest point re-exec can happen (before crash reporting, logging, or any window are
+// set up in this soon-to-exit process), and it must run before app 'ready'.
+if (relaunchForLinuxPrime({ app })) {
+  // process.exit (not app.exit, which only quits asynchronously) stops this script from
+  // executing any further statement below, so the rest of this soon-to-be-replaced
+  // process never sets up crash reporting, logging, or a window.
+  process.exit(0);
+}
 
 const APP_ORIGIN = 'app://worldofclaudecraft';
 // The Vite dev server URL is a DEV-ONLY seam (electron-dev.mjs sets it): its

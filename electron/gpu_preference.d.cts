@@ -6,10 +6,26 @@ export const USER_GPU_PREFERENCES_KEY: string;
 export const HIGH_PERFORMANCE_PREFERENCE: string;
 export const HIGH_PERF_GPU_SWITCHES: readonly string[];
 export const LINUX_PRIME_ENV: Readonly<Record<string, string>>;
+export const LINUX_OZONE_X11_ARG: string;
 
 export function buildLinuxPrimeEnv(
   existingEnv?: Record<string, string | undefined>,
 ): Record<string, string>;
+export function shouldRelaunchForLinuxPrime(env?: Record<string, string | undefined>): boolean;
+
+export interface RelaunchForLinuxPrimeDeps {
+  platform?: string;
+  env?: Record<string, string | undefined>;
+  spawn?: (command: string, args: string[], options?: unknown) => { unref?(): void };
+  execPath?: string;
+  argv?: string[];
+  log?: {
+    info?(...args: unknown[]): void;
+    warn?(...args: unknown[]): void;
+  };
+}
+export function relaunchForLinuxPrime(deps?: RelaunchForLinuxPrimeDeps): boolean;
+
 export function buildRegQueryArgs(exePath: string): string[];
 export function buildRegWriteArgs(exePath: string, data?: string): string[];
 export function parseRegQueryData(regQueryStdout: unknown): string;

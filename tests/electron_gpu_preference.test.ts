@@ -9,9 +9,12 @@ import {
   HIGH_PERF_GPU_SWITCHES,
   HIGH_PERFORMANCE_PREFERENCE,
   hasUnparseableValueType,
+  LINUX_OZONE_X11_ARG,
   LINUX_PRIME_ENV,
   mergeHighPerformancePreference,
   parseRegQueryData,
+  relaunchForLinuxPrime,
+  shouldRelaunchForLinuxPrime,
   summarizeGpuDevices,
   USER_GPU_PREFERENCES_KEY,
 } from '../electron/gpu_preference.cjs';
@@ -277,6 +280,7 @@ describe('buildLinuxPrimeEnv', () => {
     expect(additions).toEqual({
       DRI_PRIME: '1',
       __NV_PRIME_RENDER_OFFLOAD: '1',
+      __EGL_VENDOR_LIBRARY_FILENAMES: LINUX_PRIME_ENV.__EGL_VENDOR_LIBRARY_FILENAMES,
       __VK_LAYER_NV_optimus: 'NVIDIA_only',
     });
     expect(additions).not.toHaveProperty('__GLX_VENDOR_LIBRARY_NAME');
@@ -289,6 +293,122 @@ describe('buildLinuxPrimeEnv', () => {
   });
 });
 
+describe('shouldRelaunchForLinuxPrime', () => {
+  it('is true when at least one PRIME variable is missing', () => {
+    expect(shouldRelaunchForLinuxPrime({})).toBe(true);
+  });
+
+  it('is false once every PRIME variable is already present', () => {
+    expect(shouldRelaunchForLinuxPrime({ ...LINUX_PRIME_ENV })).toBe(false);
+  });
+
+  it('is false once the relaunch marker is set, even if variables are still missing', () => {
+    // Guards against a relaunch loop: a child whose spawn options somehow still lack a
+    // variable must not relaunch itself again.
+    expect(shouldRelaunchForLinuxPrime({ WOC_PRIME_RELAUNCHED: '1' })).toBe(false);
+  });
+});
+
+describe('relaunchForLinuxPrime', () => {
+  function fakeSpawn() {
+    const calls: Array<{ command: string; args: string[]; options: Record<string, unknown> }> = [];
+    const unref = vi.fn();
+    const spawn = vi.fn((command: string, args: string[], options?: unknown) => {
+      calls.push({ command, args, options: options as Record<string, unknown> });
+      return { unref };
+    });
+    return { spawn, calls, unref };
+  }
+
+  it('does nothing on a non-Linux platform', () => {
+    const { spawn } = fakeSpawn();
+    expect(relaunchForLinuxPrime({ platform: 'win32', spawn, env: {} })).toBe(false);
+    expect(spawn).not.toHaveBeenCalled();
+  });
+
+  it('does nothing when every PRIME variable is already present', () => {
+    const { spawn } = fakeSpawn();
+    const env = { ...LINUX_PRIME_ENV };
+    expect(relaunchForLinuxPrime({ platform: 'linux', spawn, env })).toBe(false);
+    expect(spawn).not.toHaveBeenCalled();
+  });
+
+  it('does nothing when the relaunch marker is already set (loop guard)', () => {
+    const { spawn } = fakeSpawn();
+    const env = { WOC_PRIME_RELAUNCHED: '1' };
+    expect(relaunchForLinuxPrime({ platform: 'linux', spawn, env })).toBe(false);
+    expect(spawn).not.toHaveBeenCalled();
+  });
+
+  it('re-execs the same binary and argv with the PRIME env baked in, and unrefs the child', () => {
+    const { spawn, calls, unref } = fakeSpawn();
+    const env = { UNRELATED: 'x' };
+    const result = relaunchForLinuxPrime({
+      platform: 'linux',
+      spawn,
+      env,
+      execPath: '/usr/bin/world-of-claudecraft',
+      argv: ['--some-flag'],
+      log: { info: vi.fn() },
+    });
+    expect(result).toBe(true);
+    expect(calls).toHaveLength(1);
+    expect(calls[0].command).toBe('/usr/bin/world-of-claudecraft');
+    expect(calls[0].args).toEqual(['--some-flag', LINUX_OZONE_X11_ARG]);
+    expect(calls[0].options).toMatchObject({ stdio: 'inherit', detached: true });
+    const childEnv = calls[0].options.env as Record<string, string>;
+    expect(childEnv).toMatchObject({
+      ...LINUX_PRIME_ENV,
+      UNRELATED: 'x',
+      WOC_PRIME_RELAUNCHED: '1',
+    });
+    expect(unref).toHaveBeenCalled();
+  });
+
+  it('never overrides a variable the caller already set in the child env', () => {
+    const { spawn, calls } = fakeSpawn();
+    const env = { __GLX_VENDOR_LIBRARY_NAME: 'mesa' };
+    relaunchForLinuxPrime({ platform: 'linux', spawn, env, execPath: 'x', argv: [] });
+    const childEnv = calls[0].options.env as Record<string, string>;
+    expect(childEnv.__GLX_VENDOR_LIBRARY_NAME).toBe('mesa');
+    expect(childEnv.DRI_PRIME).toBe('1');
+  });
+
+  it('appends --ozone-platform=x11 to the relaunch argv (Wayland GPU-process crash-loop guard)', () => {
+    const { spawn, calls } = fakeSpawn();
+    relaunchForLinuxPrime({
+      platform: 'linux',
+      spawn,
+      env: {},
+      execPath: 'x',
+      argv: ['--some-flag'],
+    });
+    expect(calls[0].args).toEqual(['--some-flag', LINUX_OZONE_X11_ARG]);
+  });
+
+  it('never overrides a player-supplied --ozone-platform argv flag', () => {
+    const { spawn, calls } = fakeSpawn();
+    relaunchForLinuxPrime({
+      platform: 'linux',
+      spawn,
+      env: {},
+      execPath: 'x',
+      argv: ['--ozone-platform=wayland'],
+    });
+    expect(calls[0].args).toEqual(['--ozone-platform=wayland']);
+  });
+
+  it('returns false and logs a warning when spawn itself throws', () => {
+    const spawn = vi.fn(() => {
+      throw new Error('spawn EACCES');
+    });
+    const warn = vi.fn();
+    const result = relaunchForLinuxPrime({ platform: 'linux', spawn, env: {}, log: { warn } });
+    expect(result).toBe(false);
+    expect(warn).toHaveBeenCalled();
+  });
+});
+
 describe('forceHighPerformanceGpu', () => {
   it('appends both switches on non-Windows and never touches the registry', () => {
     const { app, switches } = fakeApp();
@@ -298,29 +418,17 @@ describe('forceHighPerformanceGpu', () => {
     expect(execFileSync).not.toHaveBeenCalled();
   });
 
-  it('sets the Linux PRIME offload env vars (and never touches the registry)', () => {
+  it('appends the switches on Linux too, and never touches the registry (relaunch is a separate call)', () => {
+    // forceHighPerformanceGpu no longer touches process.env on Linux at all: an in-process
+    // mutation here never reaches the GPU process (see gpu_preference.cjs lever 3), so that
+    // job belongs entirely to relaunchForLinuxPrime, called earlier by main.cjs.
     const { app, switches } = fakeApp();
     const execFileSync = vi.fn();
     const env = {};
     forceHighPerformanceGpu({ app, platform: 'linux', execFileSync, env });
     expect(switches).toEqual(['force-high-performance-gpu', 'force_high_performance_gpu']);
-    expect(env).toEqual(LINUX_PRIME_ENV);
+    expect(env).toEqual({});
     expect(execFileSync).not.toHaveBeenCalled();
-  });
-
-  it('leaves a caller-configured Linux env var alone', () => {
-    const { app } = fakeApp();
-    const env: Record<string, string> = { __GLX_VENDOR_LIBRARY_NAME: 'mesa' };
-    forceHighPerformanceGpu({ app, platform: 'linux', execFileSync: vi.fn(), env });
-    expect(env.__GLX_VENDOR_LIBRARY_NAME).toBe('mesa');
-    expect(env.DRI_PRIME).toBe('1');
-  });
-
-  it('applies the Linux env vars on an UNPACKAGED run too (no persistent host state to protect)', () => {
-    const { app } = fakeApp({ isPackaged: false });
-    const env = {};
-    forceHighPerformanceGpu({ app, platform: 'linux', execFileSync: vi.fn(), env });
-    expect(env).toEqual(LINUX_PRIME_ENV);
   });
 
   it('appends the switches but skips the registry in an unpackaged (dev) run', () => {

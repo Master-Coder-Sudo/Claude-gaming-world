@@ -450,12 +450,43 @@ Rules that keep this working:
    On Linux, hybrid-graphics laptops (NVIDIA Optimus, AMD/Intel Mesa PRIME) have no
    per-app OS preference and the Chromium switch is a no-op (the GPU adapter is
    resolved by the driver's client library at dynamic-link time, before Chromium
-   parses its switches), so `gpu_preference.cjs` sets the standard PRIME
-   render-offload environment variables instead: `DRI_PRIME=1` (Mesa) and
-   `__NV_PRIME_RENDER_OFFLOAD=1` / `__GLX_VENDOR_LIBRARY_NAME=nvidia` /
-   `__VK_LAYER_NV_optimus=NVIDIA_only` (NVIDIA proprietary driver), applied on every
-   launch (packaged or dev) and never overriding a name the player's own environment
-   already set (e.g. their own `prime-run` wrapper).
+   parses its switches). Setting the PRIME render-offload environment variables
+   (`DRI_PRIME=1` for Mesa; `__NV_PRIME_RENDER_OFFLOAD=1` /
+   `__GLX_VENDOR_LIBRARY_NAME=nvidia` / `__EGL_VENDOR_LIBRARY_FILENAMES=<nvidia glvnd
+   EGL ICD json>` / `__VK_LAYER_NV_optimus=NVIDIA_only` for the NVIDIA proprietary
+   driver) in the running main process does NOT reach the GPU process either:
+   Electron's Linux GPU process forks from a zygote that already exec'd (and
+   snapshotted its environ) before any main-process JS runs, so a process.env write
+   there is invisible to it. Verified on real hybrid hardware: `__GLX_VENDOR_LIBRARY_NAME`
+   alone is a decoy for this app (Chromium's context is EGL, not GLX, so it flips
+   `glxinfo` while the unmasked WebGL renderer stays on the iGPU); the
+   `__EGL_VENDOR_LIBRARY_FILENAMES` variable is the one that actually moves the
+   renderer to the NVIDIA adapter. The same hardware also crash-loops the GPU
+   process on a Wayland session once PRIME offload is requested (falls back to
+   software rendering, worse than the iGPU), so Chromium must additionally be
+   forced onto the X11 Ozone backend, which (like the env vars) only works as a
+   real argv flag present before Electron's own startup, never an `appendSwitch`
+   call in the running process.
+   `main.cjs` instead calls `relaunchForLinuxPrime` as the very first thing it does
+   (before crash reporting, logging, or any window): on Linux, if any PRIME
+   variable is missing from the environment, it re-execs the app with them baked
+   into the new process's environment from birth plus `--ozone-platform=x11`
+   appended to argv (a marker env var prevents a relaunch loop; an explicit player
+   `--ozone-platform` choice is never overridden), and the original process exits
+   immediately. Applied on every launch (packaged or dev), and never overriding an
+   env name the player's own environment already set (e.g. their own `prime-run`
+   wrapper) -- if every variable is already present, no relaunch happens at all.
+   Verify with `ps -o pid,ppid,cmd -C world-of-claudecraft` (or the AppImage/binary
+   name) showing the relaunched PID's parent already exited, and `[gpu] relaunching
+   for Linux PRIME render offload` in `main.log`.
+   Known follow-ups, not yet addressed: the relaunch is unconditional rather than
+   gated on detecting a hybrid adapter first (Electron's `getGPUInfo` needs `app`
+   ready, which is after the point a relaunch must decide), so a non-hybrid Linux
+   machine still pays for one extra process spawn per launch (harmless today since
+   the vars sit inert on that hardware, but worth tightening); and the relaunch's
+   interaction with the second-instance deep-link path (`worldofclaudecraft://`
+   login handoff) has not been verified against a login link that arrives during
+   the brief relaunch window.
 3. Login both paths: email/password in-app, and Discord via the external browser +
    `worldofclaudecraft://desktop-login` deep link handoff (app focuses and enters
    the world; second-instance and cold-start deep links both work).
