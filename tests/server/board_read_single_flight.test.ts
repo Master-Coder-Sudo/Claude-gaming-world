@@ -545,6 +545,12 @@ describe('hidden deeds are stripped at refresh time, before the cache install', 
   });
 });
 
+// (G) DUAL-ARM: the legacy /api/leaderboard branch and the RouteDef arm both resolve
+// through the identical getLeaderboard / getGuildLeaderboard objects (injected once via
+// configureLeaderboardRuntime), so the single-flight wrapping covers both arms with no
+// per-arm read path to pin here. It is a pre-existing wiring property this change does
+// not alter; the shared-flight delegation the getters themselves carry is pinned in (D).
+
 // (H) TTL-UNCHANGED SOURCE PIN: the board-read TTLs are the byte-identical literals
 // the caching change must not touch.
 describe('the board-read TTLs are unchanged', () => {

@@ -334,16 +334,22 @@ describe('main.ts wiring', () => {
     // refreshes captures the epoch before its first await and installs its result
     // only if the epoch is unchanged, so the stale snapshot is declined.
     const src = readFileSync(resolve(__dirname, '../../server/main.ts'), 'utf8');
+    // Strip `//` line comments (keeping `://` protocol slashes) before every guard
+    // substring check below. Without this, a mutation that neutralizes a guard by
+    // commenting it out leaves the raw-source substring present in the comment and
+    // these pins go falsely green; the sibling board_read_single_flight wiring pins
+    // strip the same way.
+    const stripComments = (s: string): string => s.replace(/(^|[^:])\/\/.*$/gm, '$1');
     const bustStart = src.indexOf('function bustBoardCaches');
     expect(bustStart).toBeGreaterThan(-1);
-    const bustBody = src.slice(bustStart, src.indexOf('}', bustStart));
+    const bustBody = stripComments(src.slice(bustStart, src.indexOf('}', bustStart)));
     expect(bustBody).toContain('boardEpoch++');
     for (const fn of ['refreshLeaderboard', 'refreshGuildLeaderboard', 'refreshDeedsBoard']) {
       const start = src.indexOf(`async function ${fn}(`);
       expect(start, `${fn} not found`).toBeGreaterThan(-1);
       // The function body runs to its column-0 closing brace (every inner brace is
       // indented), so `\n}\n` after the signature bounds it.
-      const fnBody = src.slice(start, src.indexOf('\n}\n', start));
+      const fnBody = stripComments(src.slice(start, src.indexOf('\n}\n', start)));
       expect(fnBody, `${fn} must capture the epoch before its await`).toContain(
         'const epoch = boardEpoch;',
       );
