@@ -7319,8 +7319,15 @@ export class Sim {
     valeCupMod.vcupResolveDesertion(this.ctx, pid);
   }
 
-  cupInfoFor(pid: number): import('../world_api/vale_cup').CupInfo | null {
-    return valeCupMod.cupInfoFor(this.ctx, pid);
+  cupInfoFor(
+    pid: number,
+    shared?: import('../world_api/vale_cup').VcSharedCupInfo,
+  ): import('../world_api/vale_cup').CupInfo | null {
+    return valeCupMod.cupInfoFor(this.ctx, pid, shared);
+  }
+
+  cupSharedInfoFor(): import('../world_api/vale_cup').VcSharedCupInfo {
+    return valeCupMod.cupSharedInfoFor(this.ctx);
   }
 
   get cupInfo(): import('../world_api/vale_cup').CupInfo | null {
