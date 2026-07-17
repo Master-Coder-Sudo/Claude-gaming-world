@@ -167,6 +167,10 @@ describe('prunePlaySessionsBatch', () => {
     // last_seen_at folds the session END, the latest moment the account was
     // seen on that IP; folding started_at would shorten the aging bound.
     expect(sql).toContain('SELECT account_id, ip_address, MAX(ended_at)');
+    // last_played folds the session START, matching the character-select
+    // reader's live last_played = MAX(started_at); folding ended_at here would
+    // drift a folded character's last_played later than the live term.
+    expect(sql).toContain('MAX(started_at)');
     expect(sql).toContain('DELETE FROM play_sessions WHERE id IN (SELECT id FROM doomed)');
   });
 
