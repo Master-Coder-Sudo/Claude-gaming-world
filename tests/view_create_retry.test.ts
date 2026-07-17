@@ -32,4 +32,21 @@ describe('ViewCreateRetryGate', () => {
     gate.prune(2_100, new Set([7]));
     expect(gate.size).toBe(0);
   });
+
+  it('retains an unexpired entry for a still-present entity across a prune', () => {
+    // A prune that cleared everything would silently defeat the throttle.
+    const gate = new ViewCreateRetryGate(2_000);
+    gate.markFailed(7, 'view', 100);
+
+    gate.prune(500, new Set([7]));
+    expect(gate.size).toBe(1);
+    expect(gate.canAttempt(7, 'view', 500)).toBe(false);
+  });
+
+  it('keys per entity: one entity failing a slot never blocks another', () => {
+    const gate = new ViewCreateRetryGate(2_000);
+    gate.markFailed(7, 'view', 100);
+
+    expect(gate.canAttempt(8, 'view', 100)).toBe(true);
+  });
 });

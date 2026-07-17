@@ -3476,21 +3476,29 @@ export class Renderer {
       objectMesh = body;
     } else {
       const visualKey = visualKeyFor(e);
+      // The in-flight cooldown stops the deferring entity from burning a
+      // budget slot every frame, and clearing it when the fetch RESOLVES
+      // keeps pop-in at the next frame after readiness (only a rejected
+      // fetch waits out the full cooldown).
       if (visualKey === 'player_mech' && !mechAssetsReady()) {
-        void preloadMechAssets().catch((err) =>
-          logAssetMissOnce('preload:player_mech', 'Failed to preload live mech cosmetic:', err),
-        );
+        void preloadMechAssets()
+          .then(() => this.viewCreateRetry.markSucceeded(e.id, 'view'))
+          .catch((err) =>
+            logAssetMissOnce('preload:player_mech', 'Failed to preload live mech cosmetic:', err),
+          );
         this.viewCreateRetry.markFailed(e.id, 'view', performance.now());
         return;
       }
       if (visualKey === 'mob_training_dummy' && !trainingDummyAssetsReady()) {
-        void preloadTrainingDummyAssets().catch((err) =>
-          logAssetMissOnce(
-            'preload:mob_training_dummy',
-            'Failed to preload the Training Dummy:',
-            err,
-          ),
-        );
+        void preloadTrainingDummyAssets()
+          .then(() => this.viewCreateRetry.markSucceeded(e.id, 'view'))
+          .catch((err) =>
+            logAssetMissOnce(
+              'preload:mob_training_dummy',
+              'Failed to preload the Training Dummy:',
+              err,
+            ),
+          );
         this.viewCreateRetry.markFailed(e.id, 'view', performance.now());
         return;
       }
@@ -3769,9 +3777,13 @@ export class Renderer {
     const retrySlot = `base:${nextKey}`;
     if (!this.viewCreateRetry.canAttempt(e.id, retrySlot, performance.now())) return;
     if (nextKey === 'player_mech' && !mechAssetsReady()) {
-      void preloadMechAssets().catch((err) =>
-        logAssetMissOnce('preload:player_mech', 'Failed to preload live mech cosmetic:', err),
-      );
+      // in-flight cooldown; cleared on fetch resolution so the swap lands the
+      // next frame after readiness (see the createView gates)
+      void preloadMechAssets()
+        .then(() => this.viewCreateRetry.markSucceeded(e.id, retrySlot))
+        .catch((err) =>
+          logAssetMissOnce('preload:player_mech', 'Failed to preload live mech cosmetic:', err),
+        );
       this.viewCreateRetry.markFailed(e.id, retrySlot, performance.now());
       return;
     }
