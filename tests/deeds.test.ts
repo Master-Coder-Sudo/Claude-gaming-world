@@ -620,6 +620,100 @@ describe('retro on join', () => {
       [...b.players.get(pb)!.deedsEarned.keys()].sort(),
     );
   });
+
+  it('a done ground-pickup quest proves the sparkle and heals Something Shiny', () => {
+    // Every ground object is a quest item whose pickup is denied once its
+    // quest is done, so an all-quests-done veteran can never bump the counter
+    // again; the done proving quest is itself the evidence the pickup
+    // happened before the counter existed.
+    const sim = makeSim();
+    const state = veteranState();
+    state.questsDone = ['q_supplies'];
+    const pid = sim.addPlayer('warrior', 'Supplier', { state });
+    const meta = sim.players.get(pid)!;
+    expect(meta.deedsEarned.has('exp_something_shiny')).toBe(true);
+    // The heal grants the deed; the lifetime counter stays honest at zero.
+    expect(meta.deedStats.counters.groundObjectsLooted).toBe(0);
+    const evs = deedEvents(sim.tick());
+    const ev = evs.find((e) => e.deedId === 'exp_something_shiny');
+    expect(ev?.retro).toBe(true);
+    expect(ev?.pid).toBe(pid);
+
+    // Interact-objective chains and mob-drop collect chains prove nothing:
+    // those routes return before the counter bump, so they must not heal.
+    const sim2 = makeSim();
+    const s2 = veteranState();
+    s2.questsDone = ['q_nythraxis_graves', 'q_nythraxis_sealed_crypt', 'q_the_codfather'];
+    const pid2 = sim2.addPlayer('warrior', 'Interactor', { state: s2 });
+    expect(sim2.players.get(pid2)!.deedsEarned.has('exp_something_shiny')).toBe(false);
+  });
+
+  it('Giantslayer heals exactly where no mob can sit five levels up', () => {
+    // The heroic pin (level 22) is the highest creditable spawn in the game,
+    // so level 18 is the first permanently stranded level and 17 the last
+    // one where the live kill site can still fire.
+    const sim = makeSim();
+    const capped = sim.addPlayer('warrior', 'Capped', {
+      state: { ...veteranState(), level: 20 },
+    });
+    expect(sim.players.get(capped)!.deedsEarned.has('cmb_giantslayer')).toBe(true);
+    const edge = sim.addPlayer('warrior', 'Edge', { state: { ...veteranState(), level: 18 } });
+    expect(sim.players.get(edge)!.deedsEarned.has('cmb_giantslayer')).toBe(true);
+    const leveler = sim.addPlayer('warrior', 'Leveler', {
+      state: { ...veteranState(), level: 17 },
+    });
+    expect(sim.players.get(leveler)!.deedsEarned.has('cmb_giantslayer')).toBe(false);
+    // The heal is a retro grant: flagged on the event, delivered to the
+    // healed player only.
+    const evs = deedEvents(sim.tick());
+    const ev = evs.find((e) => e.deedId === 'cmb_giantslayer' && e.pid === capped);
+    expect(ev?.retro).toBe(true);
+  });
+
+  it('the heals unlock feat_book_complete in the same join for an otherwise complete book', () => {
+    // The motivating payoff: when the three healed deeds were the last holes
+    // in a veteran's book, the meta pass that runs right after the fallback
+    // arms must complete the feat on the SAME login, not one login later.
+    const healed = ['exp_something_shiny', 'cmb_giantslayer', 'prog_well_rested'];
+    const bookIds = (DEEDS.feat_book_complete.trigger as { deedIds: string[] }).deedIds;
+    const deeds: Record<string, string> = {};
+    for (const id of bookIds) {
+      if (!healed.includes(id)) deeds[id] = '2026-07-01';
+    }
+    const sim = makeSim();
+    const state: CharacterState = {
+      ...veteranState(),
+      level: MAX_LEVEL,
+      restedXp: 0,
+      questsDone: ['q_supplies'],
+      deeds,
+    };
+    const pid = sim.addPlayer('warrior', 'Completionist', { state });
+    const meta = sim.players.get(pid)!;
+    for (const id of healed) expect(meta.deedsEarned.has(id), id).toBe(true);
+    expect(meta.deedsEarned.has('feat_book_complete')).toBe(true);
+  });
+
+  it('Well Rested heals only at the cap where the pool is frozen', () => {
+    // Rested XP neither accrues nor drains at MAX_LEVEL, so a capped save
+    // with an empty pool is permanently stranded; below the cap the pool can
+    // still accrue and the deed must stay earned-by-play.
+    const sim = makeSim();
+    const dry = sim.addPlayer('warrior', 'CappedDry', {
+      state: { ...veteranState(), level: MAX_LEVEL, restedXp: 0 },
+    });
+    expect(sim.players.get(dry)!.deedsEarned.has('prog_well_rested')).toBe(true);
+    const leveling = sim.addPlayer('warrior', 'StillRests', {
+      state: { ...veteranState(), level: MAX_LEVEL - 1, restedXp: 0 },
+    });
+    expect(sim.players.get(leveling)!.deedsEarned.has('prog_well_rested')).toBe(false);
+    // A frozen nonzero pool retro-grants through the flag predicate already;
+    // the heal must not be the only path that covers it.
+    const banked = sim.addPlayer('warrior', 'Banked', {
+      state: { ...veteranState(), level: MAX_LEVEL, restedXp: 50 },
+    });
+    expect(sim.players.get(banked)!.deedsEarned.has('prog_well_rested')).toBe(true);
+  });
 });
 
 describe('milestone unification', () => {

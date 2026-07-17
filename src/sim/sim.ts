@@ -2221,13 +2221,14 @@ export class Sim {
     }
     // Book of Deeds retro-on-join, after the saved state is fully restored:
     // seed the discovery ledger from current holdings, apply the retro
-    // fallbacks a predicate cannot express, then evaluate every predicate
-    // against the loaded state (a pure function of that state and the
-    // catalog: no rng, so join order cannot fork the draw order). Counters
-    // start at zero, so counter deeds never retro-grant; the emitted events
-    // carry retro: true and drain with the next tick to this player only.
+    // fallbacks a predicate cannot express (proof inferences plus the
+    // stranded-deed heals), then evaluate every predicate against the loaded
+    // state (a pure function of that state and the catalog: no rng, so join
+    // order cannot fork the draw order). Counters start at zero, so counter
+    // deeds never retro-grant; the emitted events carry retro: true and
+    // drain with the next tick to this player only.
     deedsMod.seedItemDiscovery(this.ctx, meta);
-    deedsMod.retroFallbackGrants(this.ctx, meta);
+    deedsMod.retroFallbackGrants(this.ctx, meta, player);
     deedsMod.evaluateDeedsFor(this.ctx, meta, player, true);
     this.deedDirtyPids.delete(player.id);
     this.deedDirtyKeys.delete(player.id);
