@@ -542,8 +542,15 @@ async function leaderboardHandler(ctx: Ctx): Promise<void> {
 
 /** GET /api/arena/leaderboard: the public all-time Ashen Coliseum ladder,
  *  served from the per-format cache-fronted runtime (the same cache the legacy
- *  main.ts arm reads), so the ladder query runs at most once per TTL per format. */
+ *  main.ts arm reads), so the ladder query runs at most once per TTL per format.
+ *  Rate-limited in-handler with publicReadRateLimited (the same per-IP public-read
+ *  budget the search and sheet routes use); the 429 keeps the { error: 'rate
+ *  limited' } body shape. */
 async function arenaLeaderboardHandler(ctx: Ctx): Promise<void> {
+  if (!publicReadRateLimited(ctx.req).allowed) {
+    json(ctx.res, 429, { error: 'rate limited' });
+    return;
+  }
   const format = decodeArenaFormat(firstQueryValue(ctx.query.format));
   json(ctx.res, 200, { format, leaders: await useRuntime().getArenaLeaderboard(format) });
 }
@@ -560,8 +567,15 @@ async function releasesHandler(ctx: Ctx): Promise<void> {
 /** GET /api/project-stats: accounts created, players online, realm. The
  *  accounts-created COUNT is served from the cache-fronted runtime (the same 60s
  *  cache the legacy main.ts arm reads); players_online stays a live per-request
- *  read, so it is re-attached here rather than cached. */
+ *  read, so it is re-attached here rather than cached. Now an anonymous DB-fronted
+ *  read, it carries publicReadRateLimited in-handler (the same per-IP public-read
+ *  budget the search and sheet routes use); the 429 keeps the { error: 'rate
+ *  limited' } body shape. */
 async function projectStatsHandler(ctx: Ctx): Promise<void> {
+  if (!publicReadRateLimited(ctx.req).allowed) {
+    json(ctx.res, 429, { error: 'rate limited' });
+    return;
+  }
   const rt = useRuntime();
   json(ctx.res, 200, {
     accounts_created: await rt.getAccountsCreatedCount(),

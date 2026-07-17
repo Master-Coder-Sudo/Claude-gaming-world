@@ -895,6 +895,61 @@ describe('public sheet handler (rate-limited before any DB read)', () => {
   });
 });
 
+describe('arena leaderboard handler (anonymous DB read is rate-limited)', () => {
+  it('serves 200 under the per-IP public-read budget, then 429 { error } once exhausted, and resets', async () => {
+    resetPublicReadRateLimits();
+    configureLeaderboardRuntime(fakeRuntime());
+    const arena = handlerFor('/api/arena/leaderboard');
+    let firstStatus = 0;
+    let saw429 = false;
+    // Same 127.0.0.1 bucket makeReq shares; a tight loop past the budget exhausts it.
+    for (let i = 0; i < PUBLIC_READ_MAX_PER_MINUTE + 5; i++) {
+      const ctx = fakeCtx({ method: 'GET', url: '/api/arena/leaderboard' });
+      await arena(ctx);
+      const { status, body } = captured(ctx.res);
+      if (i === 0) firstStatus = status;
+      if (status === 429) {
+        saw429 = true;
+        expect(body).toEqual({ error: 'rate limited' });
+        break;
+      }
+    }
+    expect(firstStatus).toBe(200);
+    expect(saw429).toBe(true);
+    resetPublicReadRateLimits();
+    const ctx = fakeCtx({ method: 'GET', url: '/api/arena/leaderboard' });
+    await arena(ctx);
+    expect(captured(ctx.res).status).toBe(200);
+  });
+});
+
+describe('project-stats handler (anonymous DB read is rate-limited)', () => {
+  it('serves 200 under the per-IP public-read budget, then 429 { error } once exhausted, and resets', async () => {
+    resetPublicReadRateLimits();
+    configureLeaderboardRuntime(fakeRuntime());
+    const projectStats = handlerFor('/api/project-stats');
+    let firstStatus = 0;
+    let saw429 = false;
+    for (let i = 0; i < PUBLIC_READ_MAX_PER_MINUTE + 5; i++) {
+      const ctx = fakeCtx({ method: 'GET', url: '/api/project-stats' });
+      await projectStats(ctx);
+      const { status, body } = captured(ctx.res);
+      if (i === 0) firstStatus = status;
+      if (status === 429) {
+        saw429 = true;
+        expect(body).toEqual({ error: 'rate limited' });
+        break;
+      }
+    }
+    expect(firstStatus).toBe(200);
+    expect(saw429).toBe(true);
+    resetPublicReadRateLimits();
+    const ctx = fakeCtx({ method: 'GET', url: '/api/project-stats' });
+    await projectStats(ctx);
+    expect(captured(ctx.res).status).toBe(200);
+  });
+});
+
 // ---------------------------------------------------------------------------
 // The route table contract.
 // ---------------------------------------------------------------------------

@@ -1815,7 +1815,9 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
     if (req.method === 'GET' && url === '/api/project-stats') {
       // Accounts-created COUNT served from the shared cache getter (the same 60s
       // cache the migrated projectStatsHandler reads); players_online stays a live
-      // per-request read, so it is re-attached here rather than cached.
+      // per-request read, so it is re-attached here rather than cached. Rate-limited
+      // per IP like its migrated twin (same public-read budget, same 429 body).
+      if (!publicReadRateLimited(req).allowed) return json(res, 429, { error: 'rate limited' });
       return json(res, 200, {
         accounts_created: await getAccountsCreatedCount(),
         players_online: liveGame().clients.size,
@@ -1853,7 +1855,9 @@ async function handleApi(req: http.IncomingMessage, res: http.ServerResponse): P
       // public all-time Ashen Coliseum ladder (top rated characters), served from
       // the shared per-format cache getter (the same cache the migrated
       // arenaLeaderboardHandler reads), so the ladder query runs at most once per
-      // TTL per format instead of once per request.
+      // TTL per format instead of once per request. Rate-limited per IP like its
+      // migrated twin (same public-read budget, same 429 body).
+      if (!publicReadRateLimited(req).allowed) return json(res, 429, { error: 'rate limited' });
       const params = new URLSearchParams((req.url ?? '').split('?')[1] ?? '');
       const format: '1v1' | '2v2' = params.get('format') === '2v2' ? '2v2' : '1v1';
       return json(res, 200, { format, leaders: await getArenaLeaderboard(format) });
