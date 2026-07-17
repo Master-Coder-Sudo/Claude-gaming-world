@@ -41,18 +41,24 @@ keep working normally. That's why sound kept firing after the "freeze."
 `training_dummy` is a zone3 camp near the ogre war-camp
 (`{ mobId: 'training_dummy', center: { x: -40, z: 648 }, radius: 0, count: 1 }`,
 `src/sim/content/zone3.ts:1883`), about 54 yards from the teleport point.
-Its model, `models/creatures/training_dummy.glb`, is missing from (or racing
-against) the character-asset preload set built by `characterPreloadUrls()`
-(`src/render/characters/manifest.ts`). The renderer's per-frame
-view-creation budget is priority-ordered (`viewCandidatePriority` in
-`renderer.ts`): hostile mobs within 35 yards go first, and `training_dummy`
-is non-hostile (`aggroRadius: 0`), so it only gets processed once the budget
-works through the ~21 hostile ogres nearby first. When the renderer finally
-reaches it and calls `resolvedGltf()`, the model was never registered as
-preloaded, so it throws synchronously inside the render path with no
-surrounding try/catch, permanently stalling that frame's paint, every frame,
-forever (the entity never gets marked as having a created view, so it
-re-enters the candidate list every subsequent frame).
+Its model, `models/creatures/training_dummy.glb`, is deliberately marked
+`lazyPreload: true` in `src/render/characters/manifest.ts` (it appears in
+exactly one hub, so it was kept out of the eager boot sweep, the same
+pattern the Combat Mech uses). Unlike the mech, nothing ever wired up the
+matching "trigger the lazy load" call: `Renderer.createView` called
+`resolvedGltf()` directly with no gate, so the moment a training_dummy
+became a view candidate, the asset was never registered as preloaded and it
+threw synchronously inside the render path with no surrounding try/catch.
+
+The renderer's per-frame view-creation budget is priority-ordered
+(`viewCandidatePriority` in `renderer.ts`): hostile mobs within 35 yards go
+first, and `training_dummy` is non-hostile (`aggroRadius: 0`), so it only
+gets processed once the budget works through the ~21 hostile ogres nearby
+first. That's why the freeze took a moment to appear and why initial
+reproduction attempts felt timing-sensitive. Once the renderer did reach it,
+the throw repeated every frame forever (the entity never gets marked as
+having a created view, so it re-enters the candidate list every subsequent
+frame), permanently stalling that frame's paint.
 
 ### How we confirmed it was pre-existing, not a regression
 
@@ -73,12 +79,22 @@ present, reproduced the identical error and freeze. That confirms the bug is
 pre-existing in `release/v0.27.0` itself and entirely unrelated to the idle
 mob-voice trigger work; no idle-sfx code appears anywhere in the stack trace.
 
-### Fix (not yet implemented)
+### Fix
 
-Two independent things worth doing:
-1. Add `training_dummy` (and audit for any other creature camp with the same
-   gap) to whatever set `characterPreloadUrls()` actually preloads.
-2. Make `resolvedGltf` fail soft (log + skip that entity's view) instead of
-   throwing synchronously inside the per-frame render path. This is the more
-   robust fix: it would stop ANY future missing-preload entry from being able
-   to freeze rendering the same way, rather than only patching this one model.
+Adds `preloadTrainingDummyAssets()`/`trainingDummyAssetsReady()`
+(`src/render/characters/assets.ts`), mirroring
+`preloadMechAssets()`/`mechAssetsReady()` exactly, and gates
+`Renderer.createView` (`src/render/renderer.ts`) the same way the mech is
+already gated: trigger the load and defer that entity's view for a frame
+instead of throwing. `training_dummy` was confirmed to be one of exactly two
+`lazyPreload` visuals in the manifest (the mech is the other), so no other
+creature camp shares this gap today.
+
+### Follow-up not covered by this PR
+
+Making `resolvedGltf` fail soft (log + skip that entity's view) instead of
+throwing synchronously inside the per-frame render path would be a more
+defensive backstop: it would stop ANY future missing-preload entry, for any
+model added later without its own gate, from being able to freeze rendering
+the same way this one did. Worth filing as its own follow-up issue rather
+than folding into this fix.
