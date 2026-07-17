@@ -366,6 +366,7 @@ export const nl_NL: EnTranslations = {
       "spinButton": "Draaien",
       "tasks": "Taken",
       "taskMultiplier": "x{multiplier} vermenigvuldiger",
+      "oneVsOneExcluded": "1-tegen-1-wedstrijden leveren geen punten voor dagelijkse beloningen op.",
       "pointsGained": "{points} punten voor dagelijkse beloningen verdiend.",
       "showChestButton": "Kist tonen",
       "hideChestButton": "Kist verbergen",

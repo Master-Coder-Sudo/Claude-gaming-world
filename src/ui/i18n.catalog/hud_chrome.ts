@@ -86,6 +86,7 @@ export const hudChromeStrings = {
     spinButton: 'Spin',
     tasks: 'Tasks',
     taskMultiplier: 'x{multiplier} multiplier',
+    oneVsOneExcluded: '1v1 matches do not grant daily reward points.',
     pointsGained: '{points} daily rewards points gained.',
     showChestButton: 'Show Chest',
     hideChestButton: 'Hide Chest',

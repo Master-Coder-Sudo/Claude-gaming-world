@@ -1127,6 +1127,8 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'hudChrome.dailyRewards.hideChestConfirmTitle': 'Skjul kisten med daglige belønninger?',
   'hudChrome.dailyRewards.pointsGained': '{points} daglige belønningspoint optjent.',
   'hudChrome.dailyRewards.taskMultiplier': 'x{multiplier} multiplikator',
+  'hudChrome.dailyRewards.oneVsOneExcluded':
+    '1 mod 1-kampe giver ikke point til daglige belønninger.',
   'hudChrome.dailyRewards.totalPlayer': '{count} spiller i dag',
   'hudChrome.dailyRewards.totalPlayers': '{count} spillere i dag',
   'hudChrome.death.resurrectAtCorpse': 'Genopstå ved liget',

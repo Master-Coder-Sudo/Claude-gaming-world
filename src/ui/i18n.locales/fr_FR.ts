@@ -1542,6 +1542,8 @@ export const fr_FR: Partial<Record<TranslationKey, string>> = {
     'Masquer le coffre des récompenses quotidiennes ?',
   'hudChrome.dailyRewards.pointsGained': '{points} points de récompenses quotidiennes gagnés.',
   'hudChrome.dailyRewards.taskMultiplier': 'Multiplicateur x{multiplier}',
+  'hudChrome.dailyRewards.oneVsOneExcluded':
+    'Les matchs en 1 contre 1 ne rapportent pas de points de récompenses quotidiennes.',
   'hudChrome.dailyRewards.totalPlayer': "{count} joueur aujourd'hui",
   'hudChrome.dailyRewards.totalPlayers': "{count} joueurs aujourd'hui",
   'hudChrome.death.resurrectAtCorpse': 'Ressusciter près du cadavre',

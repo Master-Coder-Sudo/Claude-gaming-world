@@ -1155,6 +1155,8 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'hudChrome.dailyRewards.hideChestConfirmTitle': 'Kist met dagelijkse beloningen verbergen?',
   'hudChrome.dailyRewards.pointsGained': '{points} punten voor dagelijkse beloningen verdiend.',
   'hudChrome.dailyRewards.taskMultiplier': 'x{multiplier} vermenigvuldiger',
+  'hudChrome.dailyRewards.oneVsOneExcluded':
+    '1-tegen-1-wedstrijden leveren geen punten voor dagelijkse beloningen op.',
   'hudChrome.dailyRewards.totalPlayer': '{count} speler vandaag',
   'hudChrome.dailyRewards.totalPlayers': '{count} spelers vandaag',
   'hudChrome.death.resurrectAtCorpse': 'Herrijs bij je lijk',

@@ -366,6 +366,7 @@ export const vi_VN: EnTranslations = {
       "spinButton": "Quay",
       "tasks": "Nhiệm Vụ",
       "taskMultiplier": "hệ số x{multiplier}",
+      "oneVsOneExcluded": "Trận đấu 1v1 không trao điểm phần thưởng hằng ngày.",
       "pointsGained": "Nhận được {points} điểm phần thưởng hằng ngày.",
       "showChestButton": "Hiện rương",
       "hideChestButton": "Ẩn rương",

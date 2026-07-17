@@ -366,6 +366,7 @@ export const it_IT: EnTranslations = {
       "spinButton": "Gira",
       "tasks": "Incarichi",
       "taskMultiplier": "Moltiplicatore x{multiplier}",
+      "oneVsOneExcluded": "Le partite 1 contro 1 non assegnano punti per le ricompense giornaliere.",
       "pointsGained": "{points} punti ricompense giornaliere ottenuti.",
       "showChestButton": "Mostra forziere",
       "hideChestButton": "Nascondi forziere",

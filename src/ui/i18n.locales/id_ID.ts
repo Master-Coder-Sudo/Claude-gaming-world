@@ -1207,6 +1207,8 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'hudChrome.dailyRewards.hideChestConfirmTitle': 'Sembunyikan Peti Hadiah Harian?',
   'hudChrome.dailyRewards.pointsGained': '{points} poin hadiah harian diperoleh.',
   'hudChrome.dailyRewards.taskMultiplier': 'pengali x{multiplier}',
+  'hudChrome.dailyRewards.oneVsOneExcluded':
+    'Pertandingan 1 lawan 1 tidak memberikan poin hadiah harian.',
   'hudChrome.dailyRewards.totalPlayer': '{count} pemain hari ini',
   'hudChrome.dailyRewards.totalPlayers': '{count} pemain hari ini',
   'hudChrome.death.resurrectAtCorpse': 'Bangkit di Jasad',

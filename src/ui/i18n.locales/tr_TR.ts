@@ -1197,6 +1197,7 @@ export const tr_TR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.dailyRewards.hideChestConfirmTitle': 'Günlük Ödül Sandığı gizlensin mi?',
   'hudChrome.dailyRewards.pointsGained': '{points} günlük ödül puanı kazanıldı.',
   'hudChrome.dailyRewards.taskMultiplier': 'x{multiplier} çarpan',
+  'hudChrome.dailyRewards.oneVsOneExcluded': "1'e 1 maçlar günlük ödül puanı kazandırmaz.",
   'hudChrome.dailyRewards.totalPlayer': 'Bugün {count} oyuncu',
   'hudChrome.dailyRewards.totalPlayers': 'Bugün {count} oyuncu',
   'hudChrome.death.resurrectAtCorpse': 'Cesedinin Başında Diril',

@@ -366,6 +366,7 @@ export const id_ID: EnTranslations = {
       "spinButton": "Putar",
       "tasks": "Tugas",
       "taskMultiplier": "pengali x{multiplier}",
+      "oneVsOneExcluded": "Pertandingan 1 lawan 1 tidak memberikan poin hadiah harian.",
       "pointsGained": "{points} poin hadiah harian diperoleh.",
       "showChestButton": "Tampilkan Peti",
       "hideChestButton": "Sembunyikan Peti",

@@ -366,6 +366,7 @@ export const pt_BR: EnTranslations = {
       "spinButton": "Girar",
       "tasks": "Tarefas",
       "taskMultiplier": "Multiplicador x{multiplier}",
+      "oneVsOneExcluded": "Partidas 1 contra 1 não concedem pontos de recompensas diárias.",
       "pointsGained": "{points} pontos de recompensas diárias ganhos.",
       "showChestButton": "Mostrar Baú",
       "hideChestButton": "Ocultar Baú",

@@ -1178,6 +1178,8 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'hudChrome.dailyRewards.hideChestConfirmTitle': 'Truhe der täglichen Belohnungen ausblenden?',
   'hudChrome.dailyRewards.pointsGained': '{points} Punkte für tägliche Belohnungen erhalten.',
   'hudChrome.dailyRewards.taskMultiplier': 'x{multiplier}-Multiplikator',
+  'hudChrome.dailyRewards.oneVsOneExcluded':
+    '1-gegen-1-Matches gewähren keine Punkte für tägliche Belohnungen.',
   'hudChrome.dailyRewards.totalPlayer': '{count} Spieler heute',
   'hudChrome.dailyRewards.totalPlayers': '{count} Spieler heute',
   'hudChrome.death.resurrectAtCorpse': 'Am Leichnam wiederbeleben',

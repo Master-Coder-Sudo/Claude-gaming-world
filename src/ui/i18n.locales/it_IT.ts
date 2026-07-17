@@ -1177,6 +1177,8 @@ export const it_IT: Partial<Record<TranslationKey, string>> = {
     'Nascondere il forziere delle ricompense giornaliere?',
   'hudChrome.dailyRewards.pointsGained': '{points} punti ricompense giornaliere ottenuti.',
   'hudChrome.dailyRewards.taskMultiplier': 'Moltiplicatore x{multiplier}',
+  'hudChrome.dailyRewards.oneVsOneExcluded':
+    'Le partite 1 contro 1 non assegnano punti per le ricompense giornaliere.',
   'hudChrome.dailyRewards.totalPlayer': '{count} giocatore oggi',
   'hudChrome.dailyRewards.totalPlayers': '{count} giocatori oggi',
   'hudChrome.death.resurrectAtCorpse': 'Risorgi al cadavere',

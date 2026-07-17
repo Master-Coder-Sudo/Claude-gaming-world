@@ -1134,6 +1134,8 @@ export const sv_SE: Partial<Record<TranslationKey, string>> = {
   'hudChrome.dailyRewards.hideChestConfirmTitle': 'Dölj kistan för dagliga belöningar?',
   'hudChrome.dailyRewards.pointsGained': '{points} poäng för dagliga belöningar intjänade.',
   'hudChrome.dailyRewards.taskMultiplier': 'x{multiplier} multiplikator',
+  'hudChrome.dailyRewards.oneVsOneExcluded':
+    '1 mot 1-matcher ger inga poäng för dagliga belöningar.',
   'hudChrome.dailyRewards.totalPlayer': '{count} spelare i dag',
   'hudChrome.dailyRewards.totalPlayers': '{count} spelare i dag',
   'hudChrome.death.resurrectAtCorpse': 'Återuppstå vid liket',

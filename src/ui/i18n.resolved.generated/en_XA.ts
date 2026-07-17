@@ -366,6 +366,7 @@ export const en_XA: EnTranslations = {
       "spinButton": "[Šþíñ]",
       "tasks": "[Ţášķš]",
       "taskMultiplier": "[ẋ{multiplier} ɱúļţíþļíéŕ]",
+      "oneVsOneExcluded": "[1ʋ1 ɱáţçĥéš ðó ñóţ ĝŕáñţ ðáíļý ŕéŵáŕð þóíñţš.]",
       "pointsGained": "[{points} ðáíļý ŕéŵáŕðš þóíñţš ĝáíñéð.]",
       "showChestButton": "[Šĥóŵ Çĥéšţ]",
       "hideChestButton": "[Ĥíðé Çĥéšţ]",

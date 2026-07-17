@@ -366,6 +366,7 @@ export const zh_TW: EnTranslations = {
       "spinButton": "轉動",
       "tasks": "任務",
       "taskMultiplier": "{multiplier}倍倍率",
+      "oneVsOneExcluded": "1對1比賽不會獲得每日獎勵點數。",
       "pointsGained": "已獲得 {points} 每日獎勵點數。",
       "showChestButton": "顯示寶箱",
       "hideChestButton": "隱藏寶箱",

@@ -334,6 +334,7 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'hudChrome.dailyRewards.spinButton': 'スピン',
   'hudChrome.dailyRewards.tasks': 'タスク',
   'hudChrome.dailyRewards.taskMultiplier': '{multiplier}倍倍率',
+  'hudChrome.dailyRewards.oneVsOneExcluded': '1対1の試合ではデイリー報酬ポイントを獲得できません。',
   'hudChrome.dailyRewards.pointsGained': '{points} デイリー報酬ポイントを獲得しました。',
   'hudChrome.dailyRewards.showChestButton': '宝箱を表示',
   'hudChrome.dailyRewards.hideChestButton': '宝箱を隠す',

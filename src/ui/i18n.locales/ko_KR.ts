@@ -331,6 +331,8 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.dailyRewards.spinButton': '돌리기',
   'hudChrome.dailyRewards.tasks': '과제',
   'hudChrome.dailyRewards.taskMultiplier': '{multiplier}배 배율',
+  'hudChrome.dailyRewards.oneVsOneExcluded':
+    '1대1 경기에서는 일일 보상 포인트를 획득할 수 없습니다.',
   'hudChrome.dailyRewards.pointsGained': '{points} 일일 보상 포인트를 획득했습니다.',
   'hudChrome.dailyRewards.showChestButton': '보물상자 표시',
   'hudChrome.dailyRewards.hideChestButton': '보물상자 숨기기',

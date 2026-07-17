@@ -4574,6 +4574,7 @@ export type TranslationKeyFlat =
   | 'hudChrome.dailyRewards.loading'
   | 'hudChrome.dailyRewards.noHistory'
   | 'hudChrome.dailyRewards.noLeaders'
+  | 'hudChrome.dailyRewards.oneVsOneExcluded'
   | 'hudChrome.dailyRewards.pointsGained'
   | 'hudChrome.dailyRewards.prize'
   | 'hudChrome.dailyRewards.reason.banned'
