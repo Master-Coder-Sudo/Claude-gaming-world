@@ -158,6 +158,16 @@ describe('vcup self delta guard (absent keeps prior, null clears)', () => {
     expect(client.cupInfo).toBe(ref);
   });
 
+  it('safely no-ops when a lone vcup arrives before any vcupb (shared never seen)', () => {
+    const { client } = bareClient(1);
+    // A vcup remainder with no vcupb ever decoded: recomputeCupInfo must bail on the
+    // `shared === null` guard rather than throw on shared.queueSizes, leaving cupInfo
+    // null. The server ships both keys together on every gate-open and resync, so this
+    // is a can't-happen safe degradation; pin it so a dropped guard is caught.
+    expect(() => apply(client, selfRecord(1, { vcup: sampleRemainder() }))).not.toThrow();
+    expect(client.cupInfo).toBeNull();
+  });
+
   it('keeps the shared fragment when only vcup ships on a later tick, and vice versa', () => {
     const { client } = bareClient(1);
     apply(client, selfRecord(1, { vcup: sampleRemainder(), vcupb: sampleShared() }));

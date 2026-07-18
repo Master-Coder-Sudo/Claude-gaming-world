@@ -1133,6 +1133,13 @@ export class GameServer {
   // shared across every viewer (keyed on sim.tickCount inside selfWireJson), the
   // same once-per-tick memo shape as wireCache / partyFrameGlobalsCache.
   private readonly realmReadout = createRealmReadoutMemo();
+  // When the realm-wide Vale Cup readout is next due, tracked realm-global (not
+  // per session) so every viewer still gates together in one pass and the memo
+  // above builds once. `>=` against this, never `tickCount % interval`:
+  // broadcastSnapshots runs once per callback OUTSIDE the catch-up loop, so
+  // tickCount can stride past an interval multiple under load and a modulo gate
+  // would skip the aligned pass. Init a full interval back so the first pass is due.
+  private lastVcupWireTick = -VC_WIRE_INTERVAL_TICKS;
   private lastWireSweepTick = 0;
   private interval: NodeJS.Timeout | null = null;
   private holderTierInterval: NodeJS.Timeout | null = null;
@@ -4901,6 +4908,15 @@ export class GameServer {
   private broadcastSnapshots(): void {
     if (this.clients.size === 0) return;
     const tick = this.sim.tickCount;
+    // Vale Cup wire dueness, decided ONCE per broadcast pass and realm-global so the
+    // shared readout memo still builds a single time this pass, then threaded into
+    // every session's selfWireJson. `>=` a per-pass tracker, never a modulo of
+    // tickCount: this pass runs once per callback outside the catch-up loop, so
+    // tickCount can jump past a VC_WIRE_INTERVAL_TICKS multiple under load and a
+    // modulo gate would skip the aligned pass and stall the readout (the arena,
+    // Dungeon Finder, and wire-cache sibling gates all use `>=` for this reason).
+    const vcupDue = tick - this.lastVcupWireTick >= VC_WIRE_INTERVAL_TICKS;
+    if (vcupDue) this.lastVcupWireTick = tick;
     // tickHz rides the head at ~2 Hz, not on every snapshot: it is omitted while
     // the meter warms up (first ~1s, so a fresh server never shows a bogus
     // reading), and between-emissions the client holds the last value. A warmed
@@ -5013,7 +5029,13 @@ export class GameServer {
         }
         const selfStart = this.perfDetailActive ? process.hrtime.bigint() : 0n;
         if (this.perfDetailActive) this.bcastGridNs += selfStart - gridStart;
-        const selfJson = this.selfWireJson(session, anchorEntity, anchorMeta, anchorSession);
+        const selfJson = this.selfWireJson(
+          session,
+          anchorEntity,
+          anchorMeta,
+          anchorSession,
+          vcupDue,
+        );
         if (this.perfDetailActive) this.bcastSelfNs += process.hrtime.bigint() - selfStart;
         const keepJson = keep.length > 0 ? `,"keep":[${keep.join(',')}]` : '';
         const frostRings = activeFrostRings
@@ -5122,6 +5144,7 @@ export class GameServer {
     p: Entity,
     meta: PlayerMeta,
     anchorSession: ClientSession = session,
+    vcupDue = false,
   ): string {
     const self = wireEntity(p);
     Object.assign(self, {
@@ -5239,17 +5262,18 @@ export class GameServer {
       session.lastArenaWireTick = this.sim.tickCount;
       maybe('arena', this.sim.arenaInfoFor(anchorSession.pid));
     }
-    // Vale Cup readout at its own UI cadence (VC_WIRE_HZ), realm-tick-aligned so
-    // the shared bundle is built once per aligned pass rather than on each
-    // session's own offset gate. The per-viewer remainder (standing, queue slot,
-    // my match/spectate view, my bets, my guild line) rides `vcup`; the realm-wide
-    // fragment (queue sizes, the live strip, the winners and guild boards, who is
-    // practicing) rides `vcupb`, serialized ONCE per broadcast pass by the
-    // realm-readout memo and reused across every viewer. A fresh join or a
-    // spectate enter/exit clears lastSent, so the `sent['vcup'] === undefined` arm
-    // re-ships both keys immediately (the old per-session negative-init did this;
-    // a bare tick-aligned gate alone would not, so keep this arm).
-    if (this.sim.tickCount % VC_WIRE_INTERVAL_TICKS === 0 || sent['vcup'] === undefined) {
+    // Vale Cup readout at its own UI cadence (VC_WIRE_HZ). Dueness (`vcupDue`) is
+    // decided once per broadcast pass in broadcastSnapshots and realm-global, so the
+    // shared bundle is built once per due pass rather than on each session's own
+    // offset gate. The per-viewer remainder (standing, queue slot, my match/spectate
+    // view, my bets, my guild line) rides `vcup`; the realm-wide fragment (queue
+    // sizes, the live strip, the winners and guild boards, who is practicing) rides
+    // `vcupb`, serialized ONCE per broadcast pass by the realm-readout memo and
+    // reused across every viewer. A fresh join or a spectate enter/exit clears
+    // lastSent, so the `sent['vcup'] === undefined` arm re-ships both keys
+    // immediately even between due passes (the old per-session negative-init did
+    // this; the dueness gate alone would not, so keep this arm).
+    if (vcupDue || sent['vcup'] === undefined) {
       const shared = realmReadoutObject(this.realmReadout, this.sim.tickCount, () =>
         this.sim.cupSharedInfoFor(),
       );

@@ -46,7 +46,10 @@ describe('Vale Cup: cupSharedInfoFor extraction is byte-identical', () => {
   it('class (a) a match participant: passing the shared fragment is identical', () => {
     const { ctx, a } = stage();
     expect(cupInfoFor(ctx, a)).toEqual(cupInfoFor(ctx, a, cupSharedInfoFor(ctx)));
-    // A participant is not in a practice, so they DO see the Sowfield live strip.
+    // Positively pin the participant is on the MATCH branch (not some other path that
+    // also happens to leave live populated), and that they DO see the Sowfield live
+    // strip (they are not in a practice).
+    expect(cupInfoFor(ctx, a)!.match).not.toBeNull();
     expect(cupInfoFor(ctx, a)!.live).not.toBeNull();
   });
 
@@ -62,6 +65,10 @@ describe('Vale Cup: cupSharedInfoFor extraction is byte-identical', () => {
     const info = cupInfoFor(ctx, idle)!;
     expect(info.match).toBeNull();
     expect(info.spectate).toBeNull();
+    // A far idle viewer is not practicing, so the persistent Sowfield indicator (the
+    // live strip) still shows to them; pin it non-null so this guarantee is decisive
+    // on its own rather than only transitively via the participant class.
+    expect(info.live).not.toBeNull();
     expect(cupInfoFor(ctx, idle)).toEqual(cupInfoFor(ctx, idle, cupSharedInfoFor(ctx)));
   });
 

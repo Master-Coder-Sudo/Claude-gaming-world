@@ -3265,6 +3265,12 @@ describe('delta-key contract pins (anti-drift)', () => {
     // renown keeps the same name on both sides, so it must NEVER grow a rename
     // entry (one would imply a wire key the decoder does not read)
     expect('renown' in TERSE_TO_IWORLD).toBe(false);
+    // vcup/vcupb merge into one `cupInfo` on the client (hand-written in
+    // applySnapshot, not via this table), so neither may ever grow a rename entry.
+    // Both ARE in ALL_DELTA_KEYS, so a stale re-add of `vcup: 'cupInfo'` would slip
+    // past the sorted-membership and delta-key-or-scalar checks; pin it out here.
+    expect('vcup' in TERSE_TO_IWORLD).toBe(false);
+    expect('vcupb' in TERSE_TO_IWORLD).toBe(false);
     // sorted-membership pin: adding or renaming an entry must be a deliberate,
     // reviewable change landing in alphabetical order
     expect(Object.keys(TERSE_TO_IWORLD)).toEqual([...Object.keys(TERSE_TO_IWORLD)].sort());
