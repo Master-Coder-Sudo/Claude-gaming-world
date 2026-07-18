@@ -8454,10 +8454,10 @@
     font-size: 10.5px;
   }
   /* The search box and the type/subtype/rarity dropdowns are one control row: at 860px
-     wide, a full-width search box (or a two/three-column filter grid spanning the whole
-     window) reads oversized, so both are capped to a sensible max-width and sit side by
-     side, wrapping onto their own line only once the window narrows too much to fit them
-     (mobile, or the has-subtype three-menu case). */
+     wide, a full-width search box (or a filter row spanning the whole window) reads
+     oversized, so both are capped to a sensible max-width and sit side by side,
+     wrapping onto their own line only once the window narrows too much to fit them
+     (mobile, or a three-menu row once the subtype filter appears). */
   .mkt-controls {
     display: flex;
     flex-wrap: wrap;

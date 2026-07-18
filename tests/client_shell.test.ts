@@ -1741,8 +1741,7 @@ describe('client HTML shell', () => {
     expect(marketWindowTs).toContain('data-market-page="prev"');
     expect(marketWindowTs).toContain('data-market-page="next"');
     expect(marketWindowTs).toContain('itemUi.market.pageRange');
-    // biome-ignore lint/suspicious/noTemplateCurlyInString: asserting the source literally contains this template expression
-    expect(marketWindowTs).toContain("class=\"mkt-filters${hasSubtype ? ' has-subtype' : ''}\"");
+    expect(marketWindowTs).toContain('class="mkt-filters"');
     // biome-ignore lint/suspicious/noTemplateCurlyInString: asserting the source literally contains this template expression
     expect(marketWindowTs).toContain('data-market-filter-menu="${menu}"');
     expect(marketWindowTs).toMatch(/this\.renderMarketFilterMenu\(\s*'itemType'/);

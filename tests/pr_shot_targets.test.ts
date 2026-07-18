@@ -43,8 +43,16 @@ describe('classifyDiff', () => {
   });
 
   it('adds the mobile HUD when the visual change touches the mobile surface', () => {
-    const plan = classifyDiff(['src/styles/hud.mobile.css']);
+    // Use a mobile-visual path outside every target's `when` list (hud.mobile.css itself
+    // now maps to the market-window target, see below) so this stays a pure generic-fallback probe.
+    const plan = classifyDiff(['src/game/mobile_controls.ts']);
     expect(plan.generic).toEqual(['hud-desktop', 'hud-mobile']);
+  });
+
+  it('maps a hud.mobile.css change to the market-window target now that mobile market layout lives there', () => {
+    const plan = classifyDiff(['src/styles/hud.mobile.css']);
+    expect(plan.specific.map((t: { key: string }) => t.key)).toContain('market-window');
+    expect(plan.generic).toHaveLength(0);
   });
 
   it('does not treat an i18n text-table change as visual', () => {
@@ -94,9 +102,12 @@ describe('diffChangedPaths', () => {
   });
 
   it('a DELETED visual file still classifies as a visual change', () => {
+    // src/game/mobile_controls.ts is visual (VISUAL_PREFIXES) and mobile (isMobilePath)
+    // but maps to no specific window target's `when` list, so this stays a pure
+    // generic-fallback probe even after the market-window target grew a hud.mobile.css entry.
     const diff = section(
-      'a/src/styles/hud.mobile.css b/src/styles/hud.mobile.css',
-      'a/src/styles/hud.mobile.css',
+      'a/src/game/mobile_controls.ts b/src/game/mobile_controls.ts',
+      'a/src/game/mobile_controls.ts',
       '/dev/null',
     );
     const plan = classifyDiff(diffChangedPaths(diff));

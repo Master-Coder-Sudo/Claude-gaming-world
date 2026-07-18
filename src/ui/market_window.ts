@@ -767,7 +767,7 @@ export class MarketWindow {
     if (this.tab !== 'browse') return '';
     const hasSubtype = this.itemTypeFilter === 'armor' || this.itemTypeFilter === 'weapon';
     return (
-      `<div class="mkt-filters${hasSubtype ? ' has-subtype' : ''}" role="group" aria-label="${esc(t('itemUi.market.filters'))}">` +
+      `<div class="mkt-filters" role="group" aria-label="${esc(t('itemUi.market.filters'))}">` +
       this.renderMarketFilterMenu(
         'itemType',
         t('itemUi.market.filterType'),
