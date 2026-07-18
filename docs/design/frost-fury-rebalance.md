@@ -1,11 +1,25 @@
 # Frost Mage and Fury Warrior Rebalance
 
-Status: implementation plan. The quick corrections are incremental balance work. Full kit
-consolidation requires owner approval and PBE validation.
+Status: incremental implementation plan. A mandatory transition to five abilities is on hold.
+Broad class redesign still requires owner approval and PBE validation.
 
 This document applies `docs/design/class-design-rules.md` to Cryomancy Mage and Bloodrush
-Warrior. It separates immediate balance corrections from the later kit consolidation so each
-power source can be measured and reviewed independently.
+Warrior. It reduces excess damage, redundant mechanics, and mobile input burden without replacing
+either class all at once.
+
+## Direction
+
+The current classes play better than the earlier baseline, but both carry more actions and passive
+throughput layers than they need. The next phase is therefore incremental:
+
+1. Correct power sources that are already outside the expected band.
+2. Remove duplicated effects that do not create decisions.
+3. Observe play after each small reduction.
+4. Review the next redundant action only after the prior change is understood.
+5. Talk directly with heavy mobile users before changing the action-bar model.
+
+Builder, spender, proc, offensive cooldown, and defensive cooldown remain useful labels for
+explaining a core loop. They are not a required five-ability destination.
 
 ## Problem statement
 
@@ -24,8 +38,8 @@ Frost has the same shape in spell form. Icicles, Fingers of Frost, Brain Freeze,
 Shatter, Frozen Orb, and class-row amplifiers can all contribute to one burst sequence. Several
 mechanics increase output without creating a new decision.
 
-The target is not a low-action game. The target is a small number of readable interactions with
-real timing, target, and talent choices.
+The target is not a low-action game. The target is a readable core loop plus distinct situational
+tools, with fewer duplicate buttons and fewer passive multipliers.
 
 ## Measurement prerequisite
 
@@ -54,89 +68,80 @@ number.
 
 Cryomancy is a mobile build-and-release specialization:
 
-| Slot | Target behavior |
+| Core role | Target behavior |
 |---|---|
 | Builder | Rimelance builds Icicles |
-| Spender | Ice Lance releases stored Icicles |
-| Proc | Icicles are the one visible Frost payoff |
-| Offensive cooldown | Icy Veins accelerates the same loop |
-| Defensive cooldown | Frostveil protects the Mage |
+| Release | Ice Lance releases stored Icicles |
+| Visible payoff | Icicles reward holding or releasing at the right time |
+| Burst anchor | Icy Veins accelerates the same loop |
+| Defense anchor | Frostveil protects the Mage |
 
-Flickerstep and Spellbreak remain shared Mage utility. They do not add Frost throughput.
+Flickerstep, Spellbreak, and distinct area or control tools may remain outside that loop. They do
+not need to be removed to satisfy an action count, but they must not create another independent
+throughput rotation.
 
 The interesting decisions are whether to hold or release Icicles, whether to spend before an
-Icy Veins window, and whether a talent changes the release into single-target or area damage.
+Icy Veins window, which target to control, and whether to trade single-target output for area
+pressure.
 
 ### Immediate Frost slice
 
 The first code slice preserves the current action bar while removing independent multipliers and
 one unwanted passive defense:
 
-1. Remove Temporal Rift, the choice-row talent that automatically ignores the next stun, root,
-   or silence. Keep its stable option id for saved-build migration, but replace the option with
-   Shifting Ward: casting the existing personal barrier breaks roots. The replacement creates no
-   proc, aura, button, stun immunity, or silence immunity.
-2. Remove Shatter's additional critical-damage bonus. Its temporary frozen-target critical chance
-   remains for the first slice.
-3. Remove Brain Freeze's direct damage bonus. The instant Winterlash behavior remains for the
-   first slice.
-4. Make Frozen Orb feed the Icicle loop without also generating Fingers of Frost. One source
-   should not advance two independent proc systems.
-5. Add deterministic tests for every removed interaction and update all player-facing talent
-   descriptions in the same change.
+1. Replace Temporal Rift, which automatically ignored a stun, root, or silence, with Shifting
+   Ward. Casting an existing personal barrier breaks roots. The stable option id preserves saved
+   builds, and the replacement creates no proc, aura, button, stun immunity, or silence immunity.
+2. Remove Shatter's additional critical-damage bonus while retaining its temporary frozen-target
+   critical chance.
+3. Remove Brain Freeze's direct damage bonus while retaining instant Winterlash behavior.
+4. Make Frozen Orb feed Icicles without also generating Fingers of Frost.
+5. Pin every removed interaction with deterministic tests and update player-facing descriptions.
 
-These changes are deliberately reversible and source-specific. They reduce stacked output
-without changing Frostbolt, Ice Lance, or Icy Veins coefficients before a valid rotation fixture
-exists.
+These changes are reversible and source-specific. They reduce stacking without changing
+Rimelance, Ice Lance, or Icy Veins coefficients before a valid rotation fixture exists.
 
-### Frost consolidation
+### Frost redundancy queue
 
-The follow-up consolidation removes mechanics that do not fit the five-slot budget:
+The following are investigation candidates, not a pre-approved deletion list:
 
-- Fingers of Frost is removed. Frozen-target payoff belongs to Ice Lance itself.
-- Brain Freeze and Winter's Chill are folded into the Icicle release instead of remaining a
-  second random proc, an extra cast, and target-side charges.
-- Winterlash is retired as a separate rotational action. Its visuals may be reused by an Icicle
-  release.
-- Glacial Spike becomes an Ice Lance release shape rather than a separate spender.
-- Frozen Orb and Blizzard become mutually exclusive area shapes of an existing slot. They do not
-  add simultaneous damage, cooldown recovery, and proc generation.
-- Water Elemental is removed from the damage rotation. A cosmetic companion, if retained, has no
-  autonomous combat action.
-- Brittlebreak mastery strengthens Icicle generation or release. It does not add an independent
-  Frost damage percentage.
+- Whether Fingers of Frost and Icicles create meaningfully different decisions.
+- Whether Brain Freeze, Winter's Chill, and Winterlash can be expressed with fewer states or one
+  fewer rotational action.
+- Whether Glacial Spike is a distinct release decision or duplicates Ice Lance.
+- Whether Frozen Orb and Blizzard need separate rotational ownership.
+- Whether Water Elemental adds controllable gameplay or only passive damage.
+- Whether Brittlebreak mastery changes play or only adds another damage percentage.
+- Whether Power Echo, Overload, Elemental Convergence, and Rune of Power create lateral choices
+  or simply stack output windows.
 
-The Mage level 14, 17, and 20 rows must follow the slot rules. Power Echo, Overload, Elemental
-Convergence, and Rune of Power cannot stack copied output and percentage windows onto Icy Veins.
-Their legal replacements modify the builder, spender, offensive slot, or defensive slot.
+Evaluate one candidate at a time. A removal needs behavior evidence, a preserved player decision,
+and mobile feedback when it changes controls. There is no approved wholesale Frost consolidation.
 
 ## Bloodrush target playstyle
 
 Bloodrush is an aggressive dual-wield build-and-spend specialization:
 
-| Slot | Target behavior |
+| Core role | Target behavior |
 |---|---|
-| Builder | Bloodletting generates the active portion of rage |
-| Spender | Red Harvest converts rage into the main payoff |
-| Proc | Enrage is visible, nonstacking, and changes attack cadence |
-| Offensive cooldown | Avatar is the default personal-output choice |
-| Defensive cooldown | Furious Mending is the deliberate recovery choice |
+| Builder | Bloodletting supplies the active portion of rage |
+| Spend | Red Harvest converts rage into the main payoff |
+| Visible payoff | Enrage is nonstacking and changes attack cadence |
+| Burst anchor | Avatar is the clear personal-output reference |
+| Defense anchor | Furious Mending is deliberate recovery |
 
 White attacks provide steady pressure and supplementary rage. They do not provide a second full
-rotation by themselves.
-
-Twinstrike becomes an offhand rider on Bloodletting instead of a separate action. Bladestorm,
-Recklessness, and Sanguine Aura are lateral replacements for Avatar. A player chooses personal
-burst, area damage, critical reliability, or group support instead of stacking several of them.
+rotation by themselves. Distinct movement, control, area, and support actions may remain, but a
+talent must not stack several personal throughput layers onto the core loop.
 
 ### Immediate Fury slice: white damage first
 
 Fury white damage must be corrected before rage coefficients. Damage-based rage means changing
-both at once would hide how much each source contributes.
+both without separate attribution would hide how much each source contributes.
 
 The first Fury fixture compares one two-handed weapon against the supported Fury loadouts,
-including a two-handed main hand plus a one-handed offhand. It uses comparable total item level
-and reports main-hand damage, offhand damage, attack power from each item, and rage by hand.
+including a two-handed main hand plus a one-handed offhand. It uses comparable item levels and
+reports main-hand damage, offhand damage, attack power from each item, and rage by hand.
 
 The correction follows these rules:
 
@@ -144,7 +149,7 @@ The correction follows these rules:
 - Normalize the combined weapon-stat contribution instead of nerfing the one-handed item for
   every class.
 - Apply an explicit offhand stat budget for Fury.
-- Tune the offhand white-damage contribution after stat normalization.
+- Tune offhand white damage after stat normalization.
 - Add a Titan's Grip white-damage modifier only if the measured loadout still exceeds the band.
 - Keep active ability coefficients unchanged in this slice.
 
@@ -160,126 +165,113 @@ After the weapon correction lands and the fixture is re-run:
    of 7.5.
 2. Remove Recklessness's additional rage generation. Recklessness owns critical reliability,
    not critical chance plus resource acceleration.
-3. Make offhand rage supplementary and calculated from the corrected offhand damage.
-4. Remove the direct damage component from Battle Rhythm. A resource-row talent cannot grant
-   both rage and damage.
-5. Tune the remaining active rage around an explicit Red Harvest cadence. During continuous
-   target uptime, the rotation must not refill to the cap before it can spend again.
+3. Make offhand rage supplementary and derive it from corrected offhand damage.
+4. Remove the damage component from Battle Rhythm. A resource-row talent cannot grant both rage
+   and damage.
+5. Tune remaining active rage around an explicit Red Harvest cadence. During continuous target
+   uptime, the rotation must not refill to the cap before it can spend again.
 
-Rage generation is reported separately at leveling checkpoints so the cap correction does not
-starve early Fury.
+Report rage generation separately at leveling checkpoints so the cap correction does not starve
+early Fury.
 
 ### Warrior choice rows
 
 The Warrior rows keep six decisions but stop creating six additional throughput layers:
 
-| Level | Current problem | Target shape |
+| Level | Current problem | Incremental direction |
 |---|---|---|
-| 5 | Mobility options can add another control package | Modify the builder's approach behavior |
-| 8 | Passive healing and extra attacks add hidden power | Modify or replace the defensive slot |
-| 11 | Several extra control buttons | Add a control rider to builder, spender, or defense |
+| 5 | Mobility can add another control package | Keep movement distinct and avoid damage riders |
+| 8 | Passive healing and extra attacks add hidden power | Prefer clear survival behavior |
+| 11 | Several extra control buttons overlap | Remove or fold one redundant control at a time |
 | 14 | Rage, haste, critical damage, and damage stack | Resource cadence only |
-| 17 | Each option carries several throughput effects | Select one offensive-slot identity |
-| 20 | Another offensive effect stacks with level 17 | Modify or replace the selected offensive slot |
+| 17 | Options carry several throughput effects | One major offensive identity per option |
+| 20 | Another offensive effect stacks with level 17 | One named interaction or a lateral utility choice |
 
-Choice-row corrections:
+Immediate one-effect corrections:
 
-- Anger Management stops multiplying both white and ability rage. Its legal role is rage
-  smoothing or overflow protection.
-- Combat Mastery stops granting separate Battle damage, Berserker haste, and Guarded defense in
-  one option.
+- Anger Management stops multiplying both white and ability rage. It keeps one rage-smoothing
+  role.
 - Battle Rhythm loses its damage multiplier and remains resource behavior only.
-- Recklessness loses rage generation and keeps one critical-strike effect.
-- Avatar keeps one damage effect and its control break.
-- Bloodbath becomes one nonstacking effect that refreshes. It cannot stack critical chance and
-  damage after repeated add kills.
-- Colossal Might cannot reduce rotational attacks or several offensive cooldowns at once.
-- Bladestorm replaces the offensive slot for area damage.
-- Sanguine Aura replaces the offensive slot for group support and does not amplify the Warrior's
-  personal damage.
+- Recklessness loses rage generation and keeps critical-strike reliability.
+- Avatar keeps its damage effect and control break.
+- Bloodbath becomes one nonstacking effect that refreshes.
+- Colossal Might targets one named cooldown rather than rotational attacks and several cooldowns.
 
-Enrage also follows the one-effect rule. Haste carries the fantasy, so the independent damage
-percentage is removed during consolidation.
-
-The delivery plan below assigns each correction to an immediate atomic PR or to the PBE
-consolidation.
+Combat Mastery, Bladestorm, Sanguine Aura, Enrage, and any action removal remain later audit
+candidates. Change them one at a time only after the corrected white-damage and rage profiles are
+available. Avatar is the reference burst anchor, not a mandate to delete every alternative.
 
 ## Talent and aura stacking invariant
 
-Every throughput effect declares one of these ownership categories:
+Every throughput effect declares one ownership category:
 
 - Core resource state.
 - Reactive proc.
-- Major offensive slot.
+- Major personal offensive effect.
 - External group buff.
 
 A character may have one effect from each applicable category, but two effects cannot own the
 same category. An external group buff never credits another personal talent layer, and a support
-choice that buffs allies does not also buff its caster.
+choice that buffs allies does not also need a personal damage bonus.
 
-On-kill effects refresh instead of stacking. Cooldown recovery targets one named slot. A copied
-attack or spell uses a fixed talent-owned budget instead of copying already-amplified output.
+On-kill effects refresh instead of stacking. Cooldown recovery targets one named ability. A
+copied attack or spell uses a fixed talent-owned budget instead of copying already-amplified
+output.
 
-## Atomic delivery plan
+## Mobile validation
 
-This package lands as atomic code PRs. Each PR changes exactly one power source or one
-slot, ships with its own deterministic fails-before and passes-after evidence, and reverts
-independently of the others. Two corrections never share a PR when one can be reverted
-without the other. Every PR follows the change protocol in
-`docs/design/spell-balance-framework.md`: pin the behavior with a fixture, change the one
-source, show the fixture flip, re-run the three profiles, and name any PBE or raid
-validation a target-dummy fixture cannot prove.
+Do not infer the mobile problem only from action count. Interview heavy mobile users and record:
 
-### Frost sequence
+- Which rotational actions they miss or avoid.
+- Which buttons are hard to reach during movement or targeting.
+- Whether defensive and utility actions are discoverable.
+- Whether target swapping, ground targeting, or modifier use causes more friction than rotation.
+- Which actions feel redundant even when they are easy to press.
 
-The immediate Frost slice becomes four independent PRs. They touch different mechanics and
-can land in any order:
+A contextual single-button rotation is a likely prototype. It should select among existing core
+rotation actions using the same cooldown, resource, range, target, and global-cooldown rules as
+manual play. It must be optional, show the next action, leave defensives and utility deliberate,
+and provide no throughput advantage over manual input.
 
-| PR | One change | Evidence |
-|---|---|---|
-| F1 | Replace Temporal Rift with Shifting Ward; stable option id, saved-build migration, descriptions | Talent test pins the new barrier-breaks-roots behavior and the removed stun, root, and silence ignore; fails before, passes after |
-| F2 | Remove Shatter's critical-damage bonus; frozen-target critical chance stays | Pinned Shatter interaction test |
-| F3 | Remove Brain Freeze's direct damage bonus; instant Winterlash stays | Pinned Brain Freeze interaction test |
-| F4 | Frozen Orb feeds the Icicle loop without generating Fingers of Frost | Proc-attribution test: Orb advances Icicles only |
+## Incremental delivery plan
 
-Each PR updates the player-facing talent descriptions it touches in the same change.
+Each delivery unit changes one power source or redundant behavior, ships with deterministic
+fails-before and passes-after evidence, and can be reverted independently. Follow the protocol in
+`docs/design/spell-balance-framework.md`: pin behavior, change one source, show the fixture flip,
+re-run relevant profiles, and name what target-dummy tests cannot prove.
+
+### Frost delivery
+
+The open Frost quick-correction PR contains the four immediate source removals listed above. It
+does not remove actions or establish a fixed action count. Any later Frost reduction is a separate
+review after play and mobile feedback.
 
 ### Fury sequence
 
-The Fury corrections are ordered. Damage-based rage converts whatever white damage
-remains, so the white-damage corrections land before the rage corrections; changing both
-in one PR would hide each source's contribution.
+The Fury corrections remain ordered because damage-based rage converts whatever white damage
+remains:
 
-| PR | One change | Depends on | Evidence |
+| Unit | One change | Depends on | Evidence |
 |---|---|---|---|
-| W1 | Fury measurement fixture: one two-handed loadout versus the supported dual-wield loadouts at comparable total item level, reporting main-hand and offhand white damage, attack power by item, and rage by hand | None | Test-only PR with no behavior change; fixture output is checked in |
-| W2 | Explicit Fury offhand stat budget that normalizes the combined weapon-stat contribution | W1 | Fixture shows the combined budget outside the band before, inside after |
-| W3 | Offhand white-damage tuning, plus a Titan's Grip white-damage modifier only if the measured loadout still exceeds the band | W2 | Fixture white DPS within 10 to 15 percent of the one-weapon baseline |
-| W4 | Warrior white hits use the shared `rageFromDealing` coefficient instead of the Warrior-only 9 in `src/sim/combat/damage.ts`; offhand rage is supplementary and derives from the corrected offhand damage | W3 | Rage-by-hand fixture rows fail before, pass after |
-| W5 | Recklessness loses rage generation and keeps critical reliability | W4 | Talent interaction test |
-| W6 | Battle Rhythm loses its damage multiplier and remains resource behavior only | W4 | Talent interaction test |
-| W7 | Active rage tuned around an explicit Red Harvest cadence; continuous uptime cannot refill to the cap before the spender is ready | W4 to W6 | Sustained-profile resource-stability row plus the leveling-checkpoint rage report |
+| W1 | Measurement fixture for one two-handed and supported dual-wield loadouts | None | Checked-in main-hand, offhand, attack-power, and rage attribution |
+| W2 | Explicit Fury offhand stat budget | W1 | Combined weapon stats normalized |
+| W3 | Offhand white-damage tuning, with a Titan modifier only if still needed | W2 | White DPS within 10 to 15 percent of baseline |
+| W4 | Shared 7.5 white-hit rage coefficient and corrected rage by hand | W3 | Rage-attribution rows fail before and pass after |
+| W5 | Recklessness loses rage generation | W4 | Talent interaction test |
+| W6 | Battle Rhythm loses damage | W4 | Talent interaction test |
+| W7 | Active rage checked against Red Harvest cadence | W4 to W6 | Sustained resource-stability report |
 
-### Choice-row corrections
+Anger Management, Bloodbath, and Colossal Might use the same one-behavior evidence pattern. Do
+not bundle an action-bar overhaul into these balance corrections.
 
-The remaining one-effect removals are immediate atomic PRs of the same shape as W5 and W6,
-one talent per PR, measured against the corrected rage accounting:
+### Final gate
 
-- Anger Management keeps only rage smoothing or overflow protection.
-- Combat Mastery grants one effect per stance.
-- Bloodbath becomes one nonstacking effect that refreshes.
-- Colossal Might targets one named cooldown.
+1. Land this revised design package.
+2. Land the measured Frost and Fury corrections in small reviewable units.
+3. Gather raid and heavy-mobile feedback after each meaningful complexity reduction.
+4. Put only large content changes through PBE after explicit owner approval.
+5. Add the cross-spec 10 to 15 percent sustained single-target gate once valid rotations and gear
+   fixtures exist for every damage specialization.
 
-The slot replacements, Bladestorm for area damage and Sanguine Aura for group support, and
-the Enrage damage-percentage removal ship with the full kit consolidation after owner
-approval and PBE validation. Avatar already satisfies the one-effect rule and needs no
-immediate PR.
-
-### Consolidation and the final gate
-
-1. Land the design package (this PR).
-2. Land the Frost and Fury atomic PRs above.
-3. Run the full Frost and Fury kit consolidations through PBE after owner approval.
-4. Add the cross-spec 10 to 15 percent sustained single-target gate as its own measurement
-   PR once the required rotations and gear fixtures exist for every damage specialization.
-   It enforces the band and changes no coefficients.
+There is no scheduled five-ability migration. Further spell removal follows evidence from the
+incremental audits and mobile-user feedback.
