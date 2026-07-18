@@ -1243,6 +1243,16 @@ function drownedLitany(): Scenario {
         addThreat(boss, p.id, 5000);
         aggroOnto(boss, p);
         sim.startAutoAttack();
+        // `beef` is a synthetic parity-only health override. Live stat-aura
+        // recalculation can legitimately restore the authored max HP during the
+        // pull, so refresh the override one tick at a time; otherwise a single
+        // Tolling Bell can kill the driver before Blackwater Mark is exercised.
+        const bossTicks = (ticks: number) => {
+          for (let i = 0; i < ticks; i++) {
+            rec.tick(1);
+            beef(p);
+          }
+        };
         // Past the 70% gate -> cantor phase 1 (shield adds), then ride out the
         // 14s mark timer + ~12s first volley window on the driver's rng draws.
         sim.dealDamage(
@@ -1256,7 +1266,7 @@ function drownedLitany(): Scenario {
           true,
         );
         for (let round = 0; round < 15; round++) {
-          rec.tick(20);
+          bossTicks(20);
           if (!boss.dead) face(p, boss);
         }
         rec.notes.marksSeen = (run.nhaliaBoss?.marks?.length ?? 0) as number;
@@ -1270,7 +1280,7 @@ function drownedLitany(): Scenario {
           const m = sim.entities.get(id) as AnyEntity | undefined;
           if (m && !m.dead && m.templateId === 'drowned_cantor') lethal(sim, p, m);
         }
-        rec.tick(20);
+        bossTicks(20);
         sim.dealDamage(
           p,
           boss,
@@ -1281,7 +1291,7 @@ function drownedLitany(): Scenario {
           'hit',
           true,
         );
-        rec.tick(40);
+        bossTicks(40);
         sim.dealDamage(
           p,
           boss,
@@ -1292,7 +1302,7 @@ function drownedLitany(): Scenario {
           'hit',
           true,
         );
-        rec.tick(40);
+        bossTicks(40);
         lethal(sim, p, boss);
       }
       rec.tick(6); // reliquary + shrines rise, rite awaits the intensity choice
@@ -2004,7 +2014,7 @@ function partyRaid(): Scenario {
 
 // Talent application (G1a): exercise every sim-side talent method (applyTalents /
 // respec / saveLoadout + switchLoadout / setSpec) on a max-level warrior so the flat
-// `talentMods` struct re-bakes and the known-ability list flips on each change. Drives
+// canonical row modifiers re-bake and the known-ability list flips on each change. Drives
 // NO rng (talent application is deterministic validation + struct baking), so the draw
 // digest stays empty/byte-identical across the extraction. Pure snapshots, no ticks, so
 // the player never enters combat and the talent-lock guard never trips.
@@ -2012,10 +2022,10 @@ function talentsProgression(): Scenario {
   return {
     name: 'talents_progression',
     coverage: [
-      'applyTalents valid spec build (G1a) + recomputeTalents flat-struct bake',
-      'respec wipes ranks, keeps spec',
+      'applyTalents valid spec+rows build (G1a) + recomputeTalents flat-struct bake',
+      'respec wipes row choices, keeps spec',
       'saveLoadout (object-alloc overload) + switchLoadout (2 of 4 slots)',
-      'setSpec drops the prior spec tree points',
+      'setSpec preserves class-wide row choices',
       'refreshKnownAbilities(announce=false): known-ability list flips per change',
     ],
     sampleEvery: 2,
@@ -2026,27 +2036,126 @@ function talentsProgression(): Scenario {
       // (1) Apply a valid Arms build: the flat talentMods bakes + known list changes.
       sim.applyTalents({
         spec: 'arms',
-        ranks: { war_cruelty: 2, arms_imp_overpower: 2 },
-        choices: {},
+        rows: {
+          5: 'war_row_double_charge',
+          8: 'war_row_die_by_the_sword',
+        },
       });
       rec.snapshot('apply-arms');
-      // (2) Respec: ranks wiped, spec retained, stats revert.
+      // (2) Respec: row choices wiped, spec retained.
       sim.respec();
       rec.snapshot('respec');
       // (3) Save the respec'd build as a loadout (the HUD positional-alloc overload),
       // apply a different build, then switch back to slot 0.
       sim.saveLoadout('Arms', ['mortal_strike', 'overpower', null], {
         spec: 'arms',
-        ranks: { arms_imp_overpower: 2 },
-        choices: {},
+        rows: { 8: 'war_row_die_by_the_sword' },
       });
-      sim.applyTalents({ spec: 'arms', ranks: { war_cruelty: 3 }, choices: {} });
+      sim.applyTalents({ spec: 'arms', rows: { 8: 'war_row_victory_rush' } });
       rec.snapshot('second-build');
       sim.switchLoadout(0);
       rec.snapshot('switch-loadout');
-      // (4) Set spec to Fury: the prior (Arms) spec tree's points drop; class points stay.
+      // (4) Set spec to Fury: the class-wide level-8 choice stays selected.
       sim.setSpec('fury');
       rec.snapshot('set-spec');
+    },
+  };
+}
+
+// The four newest warrior choice-row talents end to end, pinning their rng draw
+// sites in global stream order: Double Charge's spend + sequential recharge
+// bookkeeping (abilityCharges via casting_lifecycle / updateTimers),
+// Intimidating Shout's aoeFear flee-heading draws with Lingering Dread's break
+// threshold armed, Victory Rush's on-kill window aura + selfHealPctMax heal,
+// and Bladestorm's self-centered channel (per-tick position pulse + damage
+// draws). Restored from the pre-revert payload (f274835b1^): pickRowTalent(row
+// index) became selectTalentRow(row LEVEL), and the payload's
+// entity.charges.get(id).spent bookkeeping moved to Entity.abilityCharges.
+function warriorRowCapstones(): Scenario {
+  return {
+    name: 'warrior_row_capstones',
+    coverage: [
+      'double charge: two spends while one recharge runs',
+      'aoeFear headings + Lingering Dread breakThreshold',
+      'victory rush on-kill window + selfHealPctMax',
+      'bladestorm self-centered channel ticks',
+    ],
+    sampleEvery: 4,
+    build: () => new Sim({ seed: 1015, playerClass: 'warrior', autoEquip: true }),
+    drive(rec: Recorder) {
+      const sim = rec.sim as AnySim;
+      sim.setPlayerLevel(MAX_LEVEL);
+      sim.selectTalentRow(5, 'war_row_double_charge');
+      sim.selectTalentRow(8, 'war_row_victory_rush');
+      sim.selectTalentRow(11, 'war_row_lingering_dread');
+      sim.selectTalentRow(20, 'war_row_bladestorm');
+      const p = sim.player as AnyEntity;
+      beef(p);
+      // Anchor everything on the nearest ambient camp mob's clearing: known
+      // walkable, line-of-sight-clear ground (charging from the raw spawn
+      // point hits props at this seed).
+      const anchor = [...sim.entities.values()].find(
+        (e) => (e as AnyEntity).kind === 'mob' && !(e as AnyEntity).dead,
+      ) as AnyEntity;
+      const ax = anchor.pos.x;
+      const az = anchor.pos.z;
+      const mobA = spawnMob(sim, 'forest_wolf', 8, ax, anchor.pos.y, az);
+      const mobB = spawnMob(sim, 'forest_wolf', 8, ax + 3, anchor.pos.y, az);
+      beef(mobA, 8000);
+      beef(mobB, 8000);
+      rec.track(mobA.id);
+      rec.track(mobB.id);
+      // Double Charge: two back-to-back charges while the first recharge runs.
+      teleport(sim, p, ax - 12, az);
+      sim.targetEntity(mobA.id);
+      face(p, mobA);
+      sim.castAbility('charge');
+      rec.tick(8);
+      teleport(sim, p, mobB.pos.x - 12, mobB.pos.z);
+      sim.targetEntity(mobB.id);
+      face(p, mobB);
+      sim.castAbility('charge');
+      // Coverage anchor: both stored uses spent while one recharge timer runs
+      // (the classic single-cooldown gate would have blocked cast #2).
+      const chargeState = p.abilityCharges?.charge;
+      rec.notes.chargeSpent = chargeState
+        ? chargeState.maxCharges - chargeState.charges
+        : undefined;
+      rec.notes.chargeRecharging = (chargeState?.recharge ?? 0) > 0;
+      rec.snapshot('double-charge-spent');
+      rec.tick(8);
+      // Intimidating Shout with the Lingering Dread threshold armed: both wolves
+      // are inside the 8yd shout (two flee-heading rng draws).
+      teleport(sim, p, mobA.pos.x - 3, mobA.pos.z);
+      p.resource = 50;
+      p.gcdRemaining = 0;
+      sim.castAbility('intimidating_shout');
+      rec.snapshot('feared');
+      rec.tick(8);
+      // Victory Rush: a lethal blow opens the window; the strike on a fresh
+      // dummy heals 20% of max health and consumes it.
+      const prey = spawnMob(sim, 'forest_wolf', 2, p.pos.x + 2, p.pos.y, p.pos.z);
+      rec.track(prey.id);
+      sim.targetEntity(prey.id);
+      face(p, prey);
+      lethal(sim, p, prey);
+      const dummy = spawnMob(sim, 'forest_wolf', 8, p.pos.x + 2.5, p.pos.y, p.pos.z);
+      beef(dummy, 9000);
+      rec.track(dummy.id);
+      sim.targetEntity(dummy.id);
+      face(p, dummy);
+      p.hp = Math.floor(p.maxHp * 0.6);
+      p.gcdRemaining = 0;
+      sim.castAbility('victory_rush');
+      rec.snapshot('victory-rush');
+      // Bladestorm: the self-centered channel pulses around the caster; the
+      // dummy stands inside the storm for its full duration.
+      p.resource = p.maxResource;
+      p.gcdRemaining = 0;
+      sim.castAbility('bladestorm');
+      rec.tick(20 * 5);
+      rec.snapshot('bladestorm-done');
+      rec.tick(4);
     },
   };
 }
@@ -2721,6 +2830,10 @@ function nythraxisFullPull(): Scenario {
       const sim = rec.sim as AnySim;
       const tankPid = sim.addPlayer('warrior', 'NyxTank') as number;
       sim.setPlayerLevel(MAX_LEVEL, tankPid);
+      // Exercise the winning tank identity explicitly. A level-cap raid tank
+      // with no committed specialization is not a representative v0.26 player
+      // state and bypasses Protection's equipment/mastery revalidation.
+      sim.setSpec('prot', tankPid);
       (sim.players.get(tankPid) as any).questsDone.add('q_nythraxis_bound_guardian'); // attune
       const dpsPids: number[] = [];
       for (let i = 0; i < 4; i++) {
@@ -3381,6 +3494,9 @@ function c4bEffectDispatch(): Scenario {
       ];
       for (const pid of [warrior, mage, rogue, paladin, druid, warlock])
         sim.setPlayerLevel(20, pid);
+      // Armor Shear is an authored Protection ability in the winning Warrior
+      // kit; make the scenario's intended dispatch arm reachable explicitly.
+      sim.setSpec('prot', warrior);
       for (const [x, e] of cells) {
         teleport(sim, e, x, -45);
         beef(e, 50000);
@@ -3429,6 +3545,9 @@ function c4bEffectDispatch(): Scenario {
       rec.snapshot('warrior-sunder');
 
       // --- mage: arcane_explosion (aoeDamage per-target rng.range over 2 mobs) ---
+      // Aetherburst is Chronomancer-gated (owner spec split 2026-07-14); commit the
+      // arcane spec so it stays known, the same idiom as the warrior's prot above.
+      sim.setSpec('arcane', mage);
       const mobM1 = spawnMob(sim, 'forest_wolf', 8, eMage.pos.x + 2, eMage.pos.y, eMage.pos.z + 1);
       const mobM2 = spawnMob(sim, 'forest_wolf', 8, eMage.pos.x - 2, eMage.pos.y, eMage.pos.z + 2);
       for (const m of [mobM1, mobM2]) {
@@ -4205,6 +4324,7 @@ export const SCENARIOS: Scenario[] = [
   questCollectTurnIn(),
   questLinkAbandon(),
   talentsProgression(),
+  warriorRowCapstones(),
   multiClassHeal(),
   mobLocomotion(),
   delveProgression(),

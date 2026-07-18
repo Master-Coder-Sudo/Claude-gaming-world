@@ -233,6 +233,9 @@ export const nl_NL: EnTranslations = {
       "title": "Talenten",
       "classTab": "Klasse",
       "specTab": "Specialisatie",
+      "choicesTab": "Keuzes",
+      "rowUnlockToast": "Een nieuwe talentkeuze is ontgrendeld!",
+      "rowUnlocks": "Wordt ontgrendeld op niveau {level}",
       "available": "Beschikbaar",
       "spent": "Besteed",
       "pointSource": "Verdien 1 talentpunt per level van level {first} tot {cap}. Level omhoog om meer punten te krijgen.",
@@ -291,6 +294,7 @@ export const nl_NL: EnTranslations = {
         "noTree": "Je klasse heeft nog geen talentenboom.",
         "locked": "Je hebt nog geen talenten ontgrendeld — die beginnen op niveau {level}.",
         "noSpec": "geen specialisatie",
+        "rowsSummary": "Talenten: {head}, {picked}/{unlocked} keuzerijen gekozen.",
         "summary": "Talenten: {head} — {spent}/{total} punten besteed ({breakdown}).",
         "breakdownClass": "Klasse {classPts}",
         "breakdownSpec": "Klasse {classPts}, {spec} {specPts}",
@@ -314,6 +318,10 @@ export const nl_NL: EnTranslations = {
       "resurrectAtCorpse": "Herrijs bij je lijk",
       "resurrectAtHealer": "De Bleke Hoeder (Tol van de Hoeder)",
       "spiritHealerAlive": "De Bleke Hoeder waakt over de doden. Jij bent nog onder de levenden."
+    },
+    "fct": {
+      "absorbed": "{amount} geabsorbeerd",
+      "cheap": "Goedkoper!"
     },
     "emotes": {
       "wave": "Zwaaien",
@@ -721,6 +729,7 @@ export const nl_NL: EnTranslations = {
       "playerLabel": "Je Held",
       "targetLabel": "Je Doelwit",
       "targetAnnounce": "Markeer {name}",
+      "targetOfTargetLabel": "Doelwit van het doelwit",
       "partyLabel": "Je Bende",
       "partyChip": "Groep",
       "partyGroup": "Groep {n}",
@@ -1023,16 +1032,39 @@ export const nl_NL: EnTranslations = {
       "aurasOnPlayerFrame": "Buffs op het spelerframe",
       "highContrastBackground": "Hoog-contrastachtergrond",
       "startAttackOnAbility": "Auto-aanval bij gebruik van vaardigheid",
-      "showAttackButton": "Aanvalsknop Tonen",
       "walkByAutoloot": "Buit oprapen in het voorbijgaan",
       "groundReticle": "Grondrichtkruis",
+      "mouseoverCast": "Mouseover-bezwering op groepsframes",
       "showItemLevel": "Itemniveau tonen",
       "itemLevelLine": "Itemniveau {level}",
       "itemScoreLine": "Score {score}",
       "showSecondaryActionBar": "Secundaire actiebalk tonen",
+      "showTargetOfTarget": "Doelwit van doelwit tonen",
+      "showAttackButton": "Aanvalsknop Tonen",
       "showDailyRewardsChest": "Kist met dagelijkse beloningen tonen",
       "mobileCameraJoystick": "Camerajoystick",
       "mobileLeftHanded": "Linkshandige indeling"
+    },
+    "talentRows": {
+      "tab": "Keuzes",
+      "defaultLoadout": "Standaardopstelling",
+      "comingSoon": "Binnenkort",
+      "readoutSummary": "Talenten: {head}, {spent}/{total} rijen geselecteerd."
+    },
+    "abilityError": {
+      "shieldRequired": "Je moet een schild hebben uitgerust."
+    },
+    "specPanel": {
+      "primaryAttr": "Primaire eigenschap",
+      "complexity": "Complexiteit",
+      "complexityLow": "Laag",
+      "complexityMedium": "Gemiddeld",
+      "complexityHigh": "Hoog",
+      "exampleAbilities": "Voorbeeldvaardigheden",
+      "viewTalents": "Talenten bekijken",
+      "selectSpec": "Specialisatie kiezen",
+      "specUnlockBanner": "Specialization Unlocked!",
+      "specUnlockHint": "Press N to choose your specialization."
     },
     "controller": {
       "title": "Controller",
@@ -1145,6 +1177,7 @@ export const nl_NL: EnTranslations = {
         "spellPower": "Spreukkracht",
         "critRating": "Crit-waardering",
         "hasteRating": "Snelheidswaardering",
+        "parry": "Parering",
         "hitRating": "Raakwaarde",
         "warfare": "Oorlogvoering"
       },
@@ -1163,6 +1196,7 @@ export const nl_NL: EnTranslations = {
         "dodge": "Je kans om een inkomende slagaanval volledig te ontwijken, zonder schade op te lopen.",
         "critRating": "Crit-waardering van je uitrusting en setbonussen, die je kans op een kritieke treffer verhoogt. Ongeveer 10 waardering verleent 1% crit.",
         "hasteRating": "Snelheidswaardering van je uitrusting en setbonussen, die je aanvallen en spreukbezwering versnelt. Ongeveer 10 waardering verleent 1% snelheid.",
+        "parry": "Je kans om een frontale melee-aanval volledig te pareren, zodat je geen schade oploopt. Een klap van achteren kan niet worden gepareerd.",
         "hitRating": "Raakwaarde van je uitrusting en setbonussen, waardoor je aanvallen minder vaak missen en je spreuken minder weerstand ondervinden, vooral tegen vijanden van een hoger niveau. Ongeveer 10 raakwaarde geeft 1% raakkans.",
         "warfare": "Verhoogt de schade die aan spelers wordt toegebracht met {increase}% en vermindert de schade die aan spelers wordt toegebracht met {reduction}%."
       },
@@ -1513,9 +1547,35 @@ export const nl_NL: EnTranslations = {
       "attackSpeedSlow": "Verlangsamt Angriffstempo um {pct}%",
       "attackSpeedFast": "Erhöht Angriffstempo um {pct}%",
       "haste": "Erhöht Angriffs- und Zaubertempo um {pct}%",
+      "dmgDone": "Increases damage dealt by {pct}%",
+      "dmgDoneReduce": "Reduces damage dealt by {pct}%",
+      "heatingUp": "Your next consecutive Fire builder critical strike grants Hot Streak; a non-critical builder removes Heating Up",
+      "elementalConvergencePrimed": "Your next spell from the other elemental school grants Elemental Convergence",
+      "battleStance": "Strijdhouding: 10% meer woedeopbouw",
+      "berserkerStance": "Berserkerhouding: kritieke treffers landen 3% vaker en raken 3% harder",
+      "crit": "Verhoogt kans op kritieke treffers met {pct}%",
+      "rageGen": "Verhoogt woedeopbouw met {pct}%",
+      "reckless": "Verhoogt kans op kritieke treffers met {pct}% en woedeopbouw met {ragePct}%",
+      "avatar": "Kolossus: toegebrachte schade verhoogd met {pct}%",
+      "bloodbath": "Verhoogt kans op kritieke treffers en toegebrachte schade met {pct}%",
+      "dieBySword": "Vermindert opgelopen schade met {pct}%",
+      "sanguine": "Verhoogt aanvalssnelheid met {hastePct}% en toegebrachte schade met {dmgPct}%",
+      "battleTrance": "Je volgende Plunderaarsslag of Verminkende Slag kost geen woede",
+      "revengeFree": "Je volgende Wraak kost geen woede",
+      "victoryRush": "Overwinningsroes is gereed",
+      "maxHpPct": "Verhoogt maximale gezondheid met {pct}%",
+      "temporalHourglass": "Immune and unable to act; restores health and accelerates cooldown recovery. Right-click to cancel.",
       "tongues": "Erhöht Zauberzeit um {pct}%",
+      "combustionCrit": "Your Fire spells always critically strike",
+      "overloadNext": "Your next spell is amplified by {pct}% but costs 50% more mana",
+      "powerEchoNext": "Your next direct spell repeats at {pct}% power on the same target",
+      "iceFloesCasts": "Your next {n} spells with a cast time can be cast while moving",
+      "freeCast": "Your next cast costs nothing",
+      "instantCast": "Your next spell with a cast time is instant",
+      "cheapCast": "Your next spell costs {pct}% less",
       "increase": {
         "ap": "Erhöht Angriffskraft um {value}",
+        "sp": "Increases spell power by {value}",
         "armor": "Erhöht Rüstung um {value}",
         "int": "Erhöht Intelligenz um {value}",
         "agi": "Erhöht Beweglichkeit um {value}",
@@ -1569,6 +1629,7 @@ export const nl_NL: EnTranslations = {
       "formBear": "Bruingedaante: verhoogde gezondheid en pantser",
       "formCat": "Katzengestalt: Nahkampfschaden und Energie",
       "formTravel": "Fleetgedaante: bewegingssnelheid verhoogd met {pct}%",
+      "formFireball": "Ember Form: movement speed increased by {pct}%; attacks and spells are disabled",
       "defensiveStance": "Bewaakte Houding: minder ontvangen schade, meer dreiging",
       "righteousFury": "Brandende Eed: sterk verhoogde dreiging door Heilige schade",
       "scale": "Größe um {pct}% erhöht",
@@ -2832,10 +2893,10 @@ export const nl_NL: EnTranslations = {
     },
     "abilityHook": {
       "heroic_strike": "Zet een zwaardere uithaal in de wachtrij die rage besteedt bij je volgende klap.",
+      "revenge": "Raakt vijanden voor je en kan gratis worden na een ontwijking of parering.",
+      "hamstring": "Belemmert de beweging van een vijand zodat die niet kan ontsnappen.",
       "battle_shout": "Een strijdkreet die de aanvalskracht van de groep verhoogt.",
-      "commanding_shout": "Versterkt uithoudingsvermogen zodat iedereen meer staande blijft in een gevecht.",
       "charge": "Stormt op een verre vijand af om het gevecht te openen met een korte verdoving.",
-      "rend": "Opent een bloeding die het doelwit na verloop van tijd uitput.",
       "thunder_clap": "Raakt alles om je heen en vertraagt hun aanvallen.",
       "seal_of_righteousness": "Doordringt je uithalen met Heilige schade, besteed het daarna met Verdict.",
       "holy_light": "Een gestage, flinke genezing om een bondgenoot of jezelf aan te vullen.",
@@ -2868,9 +2929,18 @@ export const nl_NL: EnTranslations = {
       "lightning_shield": "Laadt je op zodat aanvallers Natuurschade oplopen wanneer ze je raken.",
       "flame_shock": "Een directe brand die vooraan inslaat en blijft schroeien na verloop van tijd.",
       "fireball": "Je belangrijkste vuurnuke, raakt hard en laat het doelwit branden.",
+      "fireball_form": "Become a living ember to cross open ground at high speed.",
       "frost_armor": "Een blijvende zelfbuff die je pantser verhardt voor een gevecht.",
       "arcane_intellect": "Verhoogt Intellect om de manapoel van een bondgenoot te verdiepen, spreek het uit voor de pull.",
       "frostbolt": "Slaat van afstand toe en vertraagt het doelwit zodat het niet op je kan inlopen.",
+      "ice_lance": "An instant shard for spending frost procs, it hits far harder on a frozen target.",
+      "flurry": "Three quick bolts that chill the target so your next frost hits land as if it were frozen.",
+      "fingers_of_frost": "Your frost bolts sometimes empower an Ice Lance to strike as if the target were frozen.",
+      "brain_freeze": "Your frost bolts sometimes make the next Flurry instant and harder-hitting.",
+      "shatter": "Your spells crit far more often against frozen targets.",
+      "frozen_orb": "Rolls a slow orb through the pack that chills everything and feeds your frost procs.",
+      "blizzard": "Blankets an area in ice to wear down and slow a whole pack.",
+      "blink": "Teleports you a short distance forward, breaking roots on the way out.",
       "conjure_water": "Roept drank op die mana herstelt, zodat je tussen pulls kunt bijvullen.",
       "conjure_food": "Roept voedsel op dat gezondheid herstelt wanneer je gaat zitten om te eten.",
       "shadow_bolt": "Een bout van schaduw die je op een doelwit afvuurt, je vertrouwde nuke.",
@@ -5404,11 +5474,14 @@ export const nl_NL: EnTranslations = {
       "openTrade": "Handel openen",
       "duelRequest": "{name} heeft je uitgedaagd tot een duel!",
       "acceptDuel": "Duel aanvaarden",
+      "resurrectionOffer": "{name} wants to return you to life. Do you accept?",
+      "acceptResurrection": "Accept Resurrection",
       "decline": "Weigeren"
     },
     "combat": {
       "floatingMiss": "Mis",
       "floatingDodge": "Ontwijking",
+      "floatingParry": "Parering",
       "floatingResist": "Weerstaan",
       "cannotMove": "Kan niet bewegen!",
       "attack": "aanval",
@@ -5418,6 +5491,7 @@ export const nl_NL: EnTranslations = {
       "damageTakenCrit": "{source} raakt je kritiek voor {amount}.",
       "miss": "Je {ability} mist {target}.",
       "dodged": "Je {ability} wordt ontweken door {target}.",
+      "parried": "Je {ability} wordt gepareerd door {target}.",
       "resisted": "{target} weerstaat je {ability}.",
       "healSelf": "Je {ability} geneest je voor {amount}.",
       "healSelfCrit": "Je {ability} geneest je kritiek voor {amount}.",
@@ -5578,6 +5652,7 @@ export const nl_NL: EnTranslations = {
     },
     "pet": {
       "attack": "Aanvallen",
+      "waterJet": "Water Jet",
       "taunt": "Provoceren",
       "healDemon": "Demon genezen",
       "healPet": "Huisdier genezen",
@@ -5586,6 +5661,8 @@ export const nl_NL: EnTranslations = {
       "aggressive": "Agressief",
       "petAttackTitle": "Huisdier aanval",
       "petAttackDesc": "Beveel je huisdier om je huidige vijandige doelwit aan te vallen.",
+      "waterJetTitle": "Water Jet",
+      "waterJetDesc": "Command your Water Elemental to channel a slowing stream for 3 seconds. 8 second cooldown. Right-click to auto-cast it whenever it is off cooldown.",
       "petTauntTitle": "Huisdier provoceren",
       "petTauntDesc": "Beveel je huisdier om aan te vallen en te Grommen wanneer het binnen bereik is. Afkoeltijd van 10 seconden.",
       "healDemonDesc": "Besteed mana om gedurende 5 seconden genezing in je demon te kanaliseren.",
@@ -5596,7 +5673,7 @@ export const nl_NL: EnTranslations = {
       "defensiveDesc": "Valt vijanden aan die jou of je huisdier verwonden.",
       "aggressiveDesc": "Valt vijandige tegenstanders in de buurt aan.",
       "rename": "Huisdier hernoemen",
-      "revive": "Huisdier herleven",
+      "revive": "Oplappen",
       "abandon": "Huisdier achterlaten",
       "cancel": "Annuleren",
       "renameLabel": "Kies een nieuwe naam voor je huisdier.",
@@ -5852,6 +5929,8 @@ export const nl_NL: EnTranslations = {
     },
     "slots": {
       "mainhand": "Hoofdhand",
+      "twoHand": "Tweehandig",
+      "offhand": "Bijhand",
       "helmet": "Helm",
       "neck": "Hals",
       "shoulder": "Schouder",
@@ -5892,7 +5971,8 @@ export const nl_NL: EnTranslations = {
       "attackPower": "Aanvalskracht",
       "dps": "Schade/sec",
       "critChance": "Kritieke Kans",
-      "dodge": "Ontwijken"
+      "dodge": "Ontwijken",
+      "parry": "Parry"
     },
     "tooltip": {
       "qualityKind": "{quality} {kind}",
@@ -6131,23 +6211,15 @@ export const nl_NL: EnTranslations = {
       },
       "battle_shout": {
         "name": "IJzeren Gebrul",
-        "description": "Verhoogt je aanvalskracht met {buff} gedurende 2 min."
-      },
-      "commanding_shout": {
-        "name": "Versterkende Kreet",
-        "description": "Verhoogt je Uithoudingsvermogen met {buff} gedurende 2 min."
+        "description": "Een kreet die de aanvalskracht van alle groepsleden met {buff}% verhoogt gedurende 30 min."
       },
       "demoralizing_shout": {
         "name": "Grimmig Gehuil",
-        "description": "Slaakt een angstaanjagende kreet die de aanvalskracht van alle nabije vijanden met {buff} verlaagt gedurende 30 sec."
+        "description": "Slaakt een angstaanjagende kreet die de schade die alle nabije vijanden aanrichten met {buff}% verlaagt gedurende 20 sec."
       },
       "charge": {
         "name": "Bestorming",
         "description": "Stormt op een vijand af, genereert 9 woede en verdooft hem gedurende 1 sec. Bereik 8-25 m."
-      },
-      "rend": {
-        "name": "Diepe Snee",
-        "description": "Verwondt het doelwit, waardoor het {damage} schade bloedt gedurende {duration} sec."
       },
       "thunder_clap": {
         "name": "Schuddende Klap",
@@ -6193,6 +6265,10 @@ export const nl_NL: EnTranslations = {
         "name": "Sintelbout",
         "description": "Werpt een vurige bal die {damage} Vuurschade toebrengt plus extra schade over tijd."
       },
+      "fireball_form": {
+        "name": "Ember Form",
+        "description": "Transform into a blazing ember, increasing movement speed by {buff}%. You cannot attack or cast spells while transformed. Recast to return to your normal form."
+      },
       "frost_armor": {
         "name": "Rijpmantel",
         "description": "Omhult je in vorst en verhoogt het pantser met {buff} gedurende 30 min."
@@ -6204,6 +6280,94 @@ export const nl_NL: EnTranslations = {
       "frostbolt": {
         "name": "Rijplans",
         "description": "Lanceert een bout van vorst die {damage} Vorstschade toebrengt en de beweging met 40% vertraagt."
+      },
+      "blazing_barrier": {
+        "name": "Vlammende barrière",
+        "description": "Omhul jezelf met vlammen en absorbeer 130 schade gedurende 60 sec. (Vuur)"
+      },
+      "cold_snap": {
+        "name": "Roep van de winter",
+        "description": "Voltooit de afkoeltijd van Flitsstap, Vorstsluier en Grotere onzichtbaarheid. (magiërstalent)"
+      },
+      "greater_invisibility": {
+        "name": "Grotere onzichtbaarheid",
+        "description": "Verdwijn gedurende 20 sec.: verwijdert 2 effecten met schade over tijd en je loopt 90% minder schade op terwijl je onzichtbaar bent en kort daarna. (magiërstalent)"
+      },
+      "hot_streak": {
+        "name": "Hete reeks",
+        "description": "Passief: twee kritieke treffers achter elkaar met je Vuurspreuken (Sintelbout, Sintelval, Blakeren, Pyrelans of Vlammenslag) maken je volgende Pyrelans of Vlammenslag onmiddellijk en gratis. De verbruikers tellen mee voor de VOLGENDE reeks, inclusief gratis spreuken; Vlammenslag telt één keer, hoeveel vijanden hij ook raakt, en alleen de eerste inslag telt ooit mee. (Vuur)"
+      },
+      "ice_floes": {
+        "name": "IJsschotsen",
+        "description": "Je volgende twee spreuken met een casttijd kunnen tijdens het bewegen worden uitgesproken. Duurt 15 sec. (magiërstalent)"
+      },
+      "ignition": {
+        "name": "Ontbranding",
+        "description": "Passief: kritieke treffers van je spreuken verbranden het doelwit voor 40% van de toegebrachte schade gedurende 6 sec. en stapelen. (Vuurmeesterschap)"
+      },
+      "mass_barrier": {
+        "name": "Massabarrière",
+        "description": "Beschermt jou en maximaal 4 nabije bondgenoten binnen 30 m; elke barrière absorbeert 130 schade gedurende 60 sec. (magiërstalent)"
+      },
+      "overload": {
+        "name": "Overbelasting",
+        "description": "Je volgende spreuk wordt met 40% versterkt, maar kost 50% meer mana. Duurt 10 sec. (magiërstalent)"
+      },
+      "power_echo": {
+        "name": "Krachtsecho",
+        "description": "Je volgende directe spreuk herhaalt zich met 50% kracht op hetzelfde doelwit. Duurt 10 sec. (magiërstalent)"
+      },
+      "rings_of_frost": {
+        "name": "Ring van vorst",
+        "description": "Roept gedurende 10 sec. een ring op. Vijanden die de rand oversteken, worden 4 sec. bevroren. (magiërstalent)"
+      },
+      "rune_of_power": {
+        "name": "Krachtrune",
+        "description": "Teken gedurende 15 sec. een krachtrune aan je voeten: bondgenoten binnen 8 m brengen 10% meer schade toe. (magiërstalent)"
+      },
+      "summon_water_elemental": {
+        "name": "Waterelementaal oproepen",
+        "description": "Roep een Waterelementaal op om naast je te vechten, Waterbouten naar je doelwit te slingeren en Waterstraal te kanaliseren. (Vorst)"
+      },
+      "ice_lance": {
+        "name": "Ice Lance",
+        "description": "Hurl a shard of ice, dealing {damage} Frost damage, tripled against a frozen target. Spends Fingers of Frost, or a charge of Winter's Chill, to treat the target as frozen. (Frost)"
+      },
+      "flurry": {
+        "name": "Winterlash",
+        "description": "Loose three icy bolts for {damage} Frost damage each and plant Winter's Chill on the target: its next 2 incoming compatible spells treat it as frozen. Brain Freeze makes Winterlash instant, 30% harder, and skips its cooldown. (Frost)"
+      },
+      "frozen_orb": {
+        "name": "Frozen Orb",
+        "description": "Release an orb of swirling frost that drifts forward for 8 sec, dealing {damage} Frost damage each second to nearby enemies and slowing them by 30%. Its strikes generate Fingers of Frost. (Frost)"
+      },
+      "blizzard": {
+        "name": "Blizzard",
+        "description": "Calls an ice storm onto the target area for 6 sec, dealing {damage} Frost damage each second and slowing enemies by 40%. Each enemy struck shaves 0.5 sec off Frozen Orb, up to 3 sec per cast. (Frost)"
+      },
+      "glacial_spike": {
+        "name": "Glacial Spike",
+        "description": "Conjure a massive spike of ice, consuming 5 Icicles to deal {damage} Frost damage and freeze the target in place for 4 sec. (Frost)"
+      },
+      "glacial_front": {
+        "name": "Glacial Front",
+        "description": "Hold to gather a widening front of frost, then release it in a cone. Longer charges reach farther and deal more damage. All enemies hit are slowed by 50% for 4 sec; maximum charge also roots them for 1 sec. (Frost)"
+      },
+      "dragons_breath": {
+        "name": "Dragon's Breath",
+        "description": "Hold to gather a widening breath of flame, then release it in a cone. Longer charges reach farther and deal more damage. Enemies hit are disoriented and damage breaks the effect; maximum charge always critically strikes and counts once toward Hot Streak. (Fire)"
+      },
+      "fingers_of_frost": {
+        "name": "Fingers of Frost",
+        "description": "Rimelance has a 15% chance to grant Fingers of Frost, up to 2 charges: your next Ice Lance treats its target as frozen. (Frost)"
+      },
+      "brain_freeze": {
+        "name": "Brain Freeze",
+        "description": "Rimelance has a 20% chance to make your next Winterlash instant, 30% harder, and free of its cooldown. (Frost)"
+      },
+      "shatter": {
+        "name": "Brittle Ruin",
+        "description": "Your spells gain 50% critical strike chance against frozen targets, and those critical strikes deal 20% more damage. Fingers of Frost and Winter's Chill count as frozen. (Frost)"
       },
       "conjure_water": {
         "name": "Waterbinding",
@@ -6625,10 +6789,6 @@ export const nl_NL: EnTranslations = {
         "name": "Eikenhuid",
         "description": "Je huid verhardt als schors, waardoor je pantser met 150 toeneemt gedurende 15 sec."
       },
-      "ironhold": {
-        "name": "IJzeren Bolwerk",
-        "description": "Verschans je achter je schild en verminder alle schade die je oploopt met 40% gedurende 8 sec."
-      },
       "sacred_bulwark": {
         "name": "Heilige Verschansing",
         "description": "Gedurende {duration} sec wordt de volgende vijandelijke treffer die je zou doden afgeweerd en herstel je in plaats daarvan 35% gezondheid."
@@ -6717,6 +6877,10 @@ export const nl_NL: EnTranslations = {
         "name": "Heilige schok",
         "description": "Schokt een bevriend doelwit met Heilige energie en geneest het voor {damage}. (Heilig signatuur)"
       },
+      "aura_surge": {
+        "name": "Dageraadskets",
+        "description": "Slingert een bij dageraad gesmeed schild voor {damage} Heilige schade, legt het hoofddoel 2 sec. het zwijgen op en stuitert daarna naar maximaal 2 extra vijanden binnen 10 meter voor 75% schade per stuiter. (Paladijntalent)"
+      },
       "holy_shield": {
         "name": "Heilig schild",
         "description": "Beschermt je 10 sec met Heilige kracht, verhoogt pantser met 90 en raakt melee-aanvallers voor 12 Heilige schade. (Bescherming signatuur)"
@@ -6738,7 +6902,7 @@ export const nl_NL: EnTranslations = {
         "description": "Verhoogt spreukschade met 20% en spreukhaast met 10% gedurende 10 sec. (Arcane-signatuur)"
       },
       "combustion": {
-        "name": "Verbranding",
+        "name": "Feniks-trance",
         "description": "Verhoogt de kritieke kans van spreuken met 50% gedurende 15 sec. (Fire-signatuur)"
       },
       "icy_veins": {
@@ -6821,6 +6985,246 @@ export const nl_NL: EnTranslations = {
         "name": "Wraithborn Oproepen",
         "description": "Bindt een Wraithborn aan je wil, een elite-demon die van veraf zware Schaduwschade laat regenen. Een lange afkoeltijd beteugelt zijn verwoestende kracht. Het oproepen van een nieuwe demon stuurt je huidige weg. Je mag één demon tegelijk hebben."
       },
+      "battle_stance": {
+        "name": "Strijdhouding",
+        "description": "Een agressieve gevechtshouding: je genereert 10% meer woede. De standaardhouding voor Wapens en Protectie."
+      },
+      "berserker_stance": {
+        "name": "Berserkerhouding",
+        "description": "Een roekeloze gevechtshouding: je kritieke treffers landen 3% vaker en raken 3% harder. De Razernij-krijger vecht altijd in deze houding."
+      },
+      "sweeping_strikes": {
+        "name": "Verbredende Boog",
+        "description": "Gedurende 12 sec raken je aanvallen op een enkel doelwit ook 1 nabije vijand voor volledige schade. (Wapens)"
+      },
+      "deep_wounds": {
+        "name": "Gapende Wonden",
+        "description": "Passief: je Verminkende Slag laat het doelwit bloeden voor Fysieke schade gedurende 6 sec. (Wapens)"
+      },
+      "enrage_passive": {
+        "name": "Amok",
+        "description": "Passief: terwijl je Razend bent, breng je 7% meer schade toe, val je 25% sneller aan en beweeg je 10% sneller gedurende 4 sec. Aderlating heeft 30% kans om je Razend te maken; Rode Oogst doet dat altijd. (Razernij)"
+      },
+      "raging_gale": {
+        "name": "Dubbelslag",
+        "description": "Sla onmiddellijk tweemaal toe met je wapen, waarbij elke treffer 40% wapenschade plus {damage} toebrengt, en genereer 8 woede. Slaat maximaal 2 ladingen op. (Razernij)"
+      },
+      "red_harvest": {
+        "name": "Rode Oogst",
+        "description": "Zet alles in: sla driemaal woest toe voor telkens 65% wapenschade plus {damage}, en word altijd Razend. (Razernij)"
+      },
+      "furious_mending": {
+        "name": "Woedend Herstel",
+        "description": "Gedurende 10 sec loop je 20% minder schade op, en zolang het duurt geneest je Aderlating je voor 20% van je maximale gezondheid. (Razernij)"
+      },
+      "emboldening_roar": {
+        "name": "Bezielend Gebrul",
+        "description": "Laat een bezielend gebrul los: jij en bevriende spelers binnen 40 m worden Bezield, en je volgende 3 vaardigheden zijn gegarandeerd kritieke treffers. (Razernij)"
+      },
+      "raised_guard": {
+        "name": "Geheven Schild",
+        "description": "Zet je schrap achter je schild: je loopt gedurende 6 sec 50% minder Fysieke schade op. Slaat maximaal 2 ladingen op. (Protectie)"
+      },
+      "iron_resolve": {
+        "name": "IJzeren Vastberadenheid",
+        "description": "Bijt op je tanden en negeer de pijn: verbruikt maximaal 40 woede (minimaal 20) om 4 schade per verbruikt woedepunt te absorberen, tot 10 sec. lang. (Protectie)"
+      },
+      "faultline": {
+        "name": "Breuklijn",
+        "description": "Stuur een schokgolf door de grond: vijanden voor je binnen 8 m lopen {damage} schade op en worden gedurende 3 sec verdoofd. (Protectie)"
+      },
+      "defiant_bellow": {
+        "name": "Tartend Gebrul",
+        "description": "Een tartend gebrul: elke vijand binnen 10 m wordt geprovoceerd en gedwongen jou gedurende 3 sec aan te vallen. (Protectie)"
+      },
+      "breachmaker": {
+        "name": "Bresmaker",
+        "description": "Beuk het doelwit voor wapenschade plus {damage} en breek zijn dekking open: je eigen aanvallen op dat doelwit brengen gedurende 8 sec 20% meer schade toe. (Wapens)"
+      },
+      "measured_fury": {
+        "name": "Beheerste Woede",
+        "description": "Je beheerste woede scherpt je zuinigheid aan: je vaardigheden kosten 10% minder woede. (Wapens)"
+      },
+      "seasoned_soldier": {
+        "name": "Doorgewinterde Soldaat",
+        "description": "Je kritieke auto-aanvallen genereren 10% meer woede. (Wapens)"
+      },
+      "diabolical_twinstrike": {
+        "name": "Diabolische Dubbelslag",
+        "description": "Terwijl je Razend bent, brengt je Dubbelslag 15% meer schade toe. (Razernij)"
+      },
+      "cleaving_blows": {
+        "name": "Klievende Slagen",
+        "description": "Rode Oogst geeft altijd een lading Dubbelslag terug. (Razernij)"
+      },
+      "sudden_death": {
+        "name": "Plotse Dood",
+        "description": "Je auto-aanvallen hebben een kans om je Vroeg Graf te laten inzetten op een doelwit ongeacht zijn gezondheid, zonder woedekosten. (Wapens)"
+      },
+      "storm_bolt": {
+        "name": "Stormbout",
+        "description": "Slinger je wapen naar het doelwit voor {damage} en verdoof het gedurende 3 sec."
+      },
+      "piercing_howl": {
+        "name": "Doordringend Gehuil",
+        "description": "Een doordringende schreeuw die alle vijanden binnen 15 m gedurende 8 sec met 50% vertraagt."
+      },
+      "die_by_sword": {
+        "name": "Door het Zwaard",
+        "description": "Defensieve afkoeltijd: gedurende 8 sec loop je 30% minder schade op en ontwijk je veel meer aanvallen."
+      },
+      "recklessness": {
+        "name": "Roekeloosheid",
+        "description": "Maakt je Razend: gedurende 12 sec neemt je woedeopbouw met 50% toe en je kans op kritieke treffers met 20%."
+      },
+      "sanguine_aura": {
+        "name": "Bloedrode Aura",
+        "description": "Doordring je wapen met het bloed van je vijanden: jij en je melee-bondgenoten krijgen gedurende 20 sec 10% aanvalssnelheid en 10% schade."
+      },
+      "victory_rush": {
+        "name": "Overwinningsroes",
+        "description": "Sla toe voor wapenschade plus {damage} en genees 20% van je maximale gezondheid. Alleen bruikbaar binnen 20 sec na het doden van een vijand."
+      },
+      "intimidating_shout": {
+        "name": "Intimiderende Schreeuw",
+        "description": "Een angstaanjagende schreeuw die tot 5 vijanden binnen 8 m gedurende 8 sec in angst laat vluchten. Schade kan het effect verbreken."
+      },
+      "revenge": {
+        "name": "Wraak",
+        "description": "Val aan in een brede boog en breng Fysieke schade toe aan alle vijanden voor je. Boven de 5 doelwitten wordt de schade verminderd. Wanneer je ontwijkt of pareert, kan je volgende Wraak geen woede kosten. (Protection)"
+      },
+      "heroic_leap": {
+        "name": "Oorlogssprong",
+        "description": "Spring naar het doelgebied en breng bij de landing {damage} schade toe aan vijanden in de buurt."
+      },
+      "rallying_cry": {
+        "name": "Moedsbrul",
+        "description": "Slaak een moedig gebrul dat jou en groepsleden binnen 40 meter 10 sec. lang 20% extra maximale gezondheid geeft. Protectie: zij lopen gedurende die tijd ook 5% minder schade op."
+      },
+      "aspect_of_the_wild": {
+        "name": "Wildtandgedaante",
+        "description": "Inspireert bondgenoten binnen 30 m met wilde kracht en verhoogt hun aanvalskracht met 45 en aanvalssnelheid met 5% gedurende 5 min. (jagertalent)"
+      },
+      "avatar": {
+        "name": "Avatar",
+        "description": "Verander 20 sec. lang in een kolos, verbreek alle controle-effecten op jezelf en verhoog je toegebrachte schade met 20%."
+      },
+      "avenging_wrath": {
+        "name": "Wraakvleugel",
+        "description": "Roept wrekende kracht op en verhoogt je aanvalskracht met 60 en spreukkracht met 30 gedurende 20 sec. (paladijntalent)"
+      },
+      "berserk": {
+        "name": "Rode nevel",
+        "description": "Verhoogt je aanvalskracht met 70 gedurende 15 sec. (druïdetalent)"
+      },
+      "bladestorm": {
+        "name": "Messenstorm",
+        "description": "Word een wervelende storm van staal en tref 4 sec. lang elke seconde alle vijanden binnen 6 meter voor {damage} schade."
+      },
+      "blink": {
+        "name": "Flikkerstap",
+        "description": "Teleporteert je 15 m vooruit en verbreekt worteleffecten. (magiërtalent)"
+      },
+      "bloodlust": {
+        "name": "Oorlogstrommen",
+        "description": "Jaagt bondgenoten binnen 30 m tot razernij en verhoogt hun aanvalssnelheid met 30% gedurende 15 sec. (sjamaantalent)"
+      },
+      "chain_lightning": {
+        "name": "Gevorkte bliksem",
+        "description": "Slingert bliksem naar het doelgebied en brengt nabije vijanden {damage} schade toe. (sjamaantalent)"
+      },
+      "chaos_bolt": {
+        "name": "Ruinenschicht",
+        "description": "Slingert een chaotische vuurstraal die {damage} Vuurschade toebrengt. (tovenaarstalent)"
+      },
+      "cleansing_verdict": {
+        "name": "Zuiverend Vonnis",
+        "description": "Verwijdert een schadelijk magisch effect van een bevriend doelwit en geneest het met Heilige magie voor {damage}."
+      },
+      "cloak_of_shadows": {
+        "name": "Schaduwmantel",
+        "description": "Hult je in schaduwen en absorbeert 420 schade gedurende 5 sec. (schurkentalent)"
+      },
+      "cone_of_cold": {
+        "name": "Vorstveeg",
+        "description": "Golpea a nabije vijanden con escarcha e inflige {damage} de daño de Vorst. (magiertalent)"
+      },
+      "counterspell": {
+        "name": "Spreukbreuk",
+        "description": "Onderbreekt de spreuk van het doelwit en verhindert het 6 sec lang spreuken uit die magieschool uit te spreken."
+      },
+      "curse_of_exhaustion": {
+        "name": "Loden vloek",
+        "description": "Vervloekt het doelwit en vermindert de bewegingssnelheid met 30% gedurende 12 sec. (tovenaarstalent)"
+      },
+      "death_coil": {
+        "name": "Grafspiraal",
+        "description": "Treft de vijand voor {damage} Schaduwschade en vervult hem daarna 3 sec. met afgrijzen. (tovenaarstalent)"
+      },
+      "deep_freeze": {
+        "name": "Doodsvorst",
+        "description": "Congela profundamente a doelwit, inflige {damage} de daño de Vorst y lo aturde durante 4 sec. (magiertalent)"
+      },
+      "desperate_prayer": {
+        "name": "Laatste gebed",
+        "description": "Geneest je direct voor {damage}. (priestertalent)"
+      },
+      "deterrence": {
+        "name": "Borstelwacht",
+        "description": "Verhoogt je ontwijkingskans met 50 procentpunten gedurende 10 sec. (jagertalent)"
+      },
+      "divine_shield": {
+        "name": "Lichtwacht",
+        "description": "Beschermt je met heilige kracht en absorbeert 900 schade gedurende 8 sec. (paladijntalent)"
+      },
+      "earthbind": {
+        "name": "Grijpende aarde",
+        "description": "Bindt nabije vijanden aan de aarde en wortelt ze 2 sec. (sjamaantalent)"
+      },
+      "evocation": {
+        "name": "Etherbron",
+        "description": "Restaura mana rápidamente. (magiertalent)"
+      },
+      "frenzied_regeneration": {
+        "name": "Wilde genezing",
+        "description": "Herstelt 180 gezondheid gedurende 10 sec. Alleen in Berenvorm. (druïdetalent)"
+      },
+      "frost_trap": {
+        "name": "Rijpval",
+        "description": "Bevriest vijanden in het doelgebied 3 sec. en verhindert dat ze bewegen of handelen. (jagertalent)"
+      },
+      "ghostly_strike": {
+        "name": "Spookslag",
+        "description": "Treft de vijand voor wapenschade plus {damage}, verhoogt kort de ontwijking en kent 1 combinatiepunt toe. (schurkentalent)"
+      },
+      "hammer_of_wrath": {
+        "name": "Klinkende hamer",
+        "description": "Slingert een heilige hamer naar een gewonde vijand en brengt {damage} Heilige schade toe. Alleen bruikbaar onder 20% gezondheid. (paladijntalent)"
+      },
+      "healing_stream": {
+        "name": "Bronwel",
+        "description": "Herstelt 120 gezondheid van een bevriend doelwit gedurende 12 sec. (sjamaantalent)"
+      },
+      "holy_wrath": {
+        "name": "Heiligenwoede",
+        "description": "Ontketent heilige kracht en brengt nabije vijanden {damage} schade toe. (paladijntalent)"
+      },
+      "howl_of_terror": {
+        "name": "Huiveringwekkende huil",
+        "description": "Jaagt nabije vijanden tot 3 sec. angst aan. Schade kan het effect verbreken. (tovenaarstalent)"
+      },
+      "ice_block": {
+        "name": "Koude kist",
+        "description": "Te encierra en hielo y absorbe una enorme cantidad de daño durante 8 sec. (magiertalent)"
+      },
+      "inner_focus": {
+        "name": "Gestilde geest",
+        "description": "Maakt je volgende spreuk gratis. Duurt 60 sec. (priestertalent)"
+      },
+      "innervate": {
+        "name": "Levenssap",
+        "description": "Levend sap welt 10 sec. in je op en herstelt in golven 20 van je huidige hulpbron: mana, woede of energie. Van gedaante wisselen onderbreekt het niet. Slaap, verdoving of stasis brengt het sap tot stilstand. (druïdetalent)"
+      },
       "pummel": {
         "name": "Kaakbreker",
         "description": "Onderbreekt de spreuk van het doelwit en verhindert het 4 sec lang spreuken uit die magieschool uit te spreken."
@@ -6829,9 +7233,81 @@ export const nl_NL: EnTranslations = {
         "name": "Schop",
         "description": "Onderbreekt de spreuk van het doelwit en verhindert het 4 sec lang spreuken uit die magieschool uit te spreken."
       },
-      "counterspell": {
-        "name": "Spreukbreuk",
-        "description": "Onderbreekt de spreuk van het doelwit en verhindert het 6 sec lang spreuken uit die magieschool uit te spreken."
+      "mend_pet": {
+        "name": "Oplappen",
+        "description": "Sana a vriendelijk doelwit por {damage} durante 15 sec. (jagertalent)"
+      },
+      "meteor": {
+        "name": "Hemelsteen",
+        "description": "Roept een meteoor neer op het doelgebied en brengt {damage} Vuurschade toe. Daarna lijden vijanden daar 6 sec. lang elke 2 sec. 12 tot 18 Vuurschade. (magiërtalent)"
+      },
+      "temporal_mend": {
+        "name": "Temporal Mend",
+        "description": "Draws an ally a moment forward in time, mending {damage} health as the body settles into its healthier future self. (Chronomancy signature)"
+      },
+      "temporal_barrier": {
+        "name": "Temporal Barrier",
+        "description": "Shifts the target a heartbeat out of the present, a temporal shell absorbing {damage} damage for 10 sec before the timeline snaps back."
+      },
+      "temporal_echo": {
+        "name": "Temporal Echo",
+        "description": "Marks an ally with an echo of a healthier moment, mending {damage} health at once. For {duration} sec, part of the Arcane damage you deal is drawn back through the echo to heal them."
+      },
+      "temporal_cascade": {
+        "name": "Temporal Cascade",
+        "description": "Sends an echo cascading through your group: the target and up to four of their nearest allies are mended at once and each marked for {duration} sec, drawing part of the Arcane damage you deal back through their echoes to heal them. (Chronomancy)"
+      },
+      "temporal_reversal": {
+        "name": "Temporal Reversal",
+        "description": "Rewinds a fallen ally's timeline, returning them to life at their body with a portion of their health and mana, even in the thick of combat. (Chronomancy)"
+      },
+      "collective_reversal": {
+        "name": "Collectieve omkering",
+        "description": "Spoelt de tijdlijn van elk gesneuveld lid van je groep of raid terug en brengt hen bij hun lichaam tot leven met 30% gezondheid en mana. Kan niet tijdens een gevecht worden gebruikt. (Chronomantie)"
+      },
+      "temporal_rewind": {
+        "name": "Rewind",
+        "description": "Sends an arcane wave through your group or raid, rewinding time to restore 30% of the damage each ally within 40 yards took over the last 5 seconds (up to 35% of their maximum health). Cannot be a critical effect. (Chronomancy)"
+      },
+      "temporal_hourglass": {
+        "name": "Hourglass of Suspension",
+        "description": "Place a temporal hourglass at the selected location. Beneath an enemy, it suspends them for {hostilePveDuration} sec in PvE or {hostilePvpDuration} sec in PvP and prevents all actions; damage breaks the effect. At your feet or beneath a group ally, it grants stasis for {duration} sec, prevents damage and actions, restores {healing}% of maximum health, and makes cooldowns recover {selfCooldownRecovery}% faster for you or {allyCooldownRecovery}% faster for an ally. On empty ground, the hourglass waits for {groundDuration} sec and affects the first valid unit to step on it. The beneficial aura can be removed manually."
+      },
+      "temporal_acceleration": {
+        "name": "Temporal Acceleration",
+        "description": "Accelerates the flow of time for your group or raid, increasing attack, casting, and channeling speed by 30% for 15 sec. Allies recently affected by Temporal Acceleration or Storm Chorus are too exhausted to benefit. (Chronomancy)"
+      },
+      "perfect_moment": {
+        "name": "Perfect Moment",
+        "description": "Seize your perfect moment: instantly gain 4 Arcane Charges, and for 10 sec Aether Darts does not consume them. (Chronomancy)"
+      },
+      "arcane_surge": {
+        "name": "Aether Surge",
+        "description": "Draws a surge of raw aether through the enemy for {damage} damage. Each cast leaves an Arcane Charge that raises your next Aether Surge's damage and cast speed (5% faster each) but sharply raises its mana cost, stacking up to 4; Aether Darts spends the charges. Each cast can also arm Aether Rush, making your next Aether Surge free and twice as fast to cast."
+      },
+      "mind_sear": {
+        "name": "Gedachtenbrand",
+        "description": "Kanaliseert Schaduwenergie naar het doelgebied en brengt nabije vijanden elke seconde {damage} schade toe. (priestertalent)"
+      },
+      "multi_shot": {
+        "name": "Splijtschot",
+        "description": "Vuurt een salvo af op het doelgebied en brengt vijanden binnen een straal van 8 m {damage} Fysieke schade toe. (jagertalent)"
+      },
+      "prayer_of_healing": {
+        "name": "Koorherstel",
+        "description": "Geneest nabije bondgenoten voor {damage}. (priestertalent)"
+      },
+      "preparation": {
+        "name": "Noodplan",
+        "description": "Beëindigt de afkoeltijd van Sprint, Ontwijking en Verdwijning. (schurkentalent)"
+      },
+      "presence_of_mind": {
+        "name": "Razende geest",
+        "description": "Hace instantáneo tu siguiente hechizo con tiempo de lanzamiento. Dura 60 sec. (magiertalent)"
+      },
+      "psychic_scream": {
+        "name": "Psychische schreeuw",
+        "description": "Jaagt nabije vijanden tot 4 sec. angst aan. Schade kan het effect verbreken. (priestertalent)"
       },
       "counter_shot": {
         "name": "Dempingsschot",
@@ -6841,6 +7317,26 @@ export const nl_NL: EnTranslations = {
         "name": "Berisping",
         "description": "Onderbreekt de spreuk van het doelwit en verhindert het 4 sec lang spreuken uit die magieschool uit te spreken."
       },
+      "shadowstep": {
+        "name": "Schaduwglip",
+        "description": "Stapt door de schaduwen naar je doelwit. (schurkentalent)"
+      },
+      "silence": {
+        "name": "Stilte",
+        "description": "Legt het doelwit 4 sec. het zwijgen op. (priestertalent)"
+      },
+      "smoke_screen": {
+        "name": "Rookgordijn",
+        "description": "Je verdwijnt in een rookwolk, waardoor je ontwijkingskans 8 sec. lang met 30% toeneemt."
+      },
+      "spellsteal": {
+        "name": "Spreukroof",
+        "description": "Steelt een gunstig magisch effect van een vijand en draagt het op jou over."
+      },
+      "startle_shot": {
+        "name": "Schrikschot",
+        "description": "Een wild schot dat het doelwit {duration} sec. desoriënteert. Elke vorm van schade verbreekt het effect."
+      },
       "skull_bash": {
         "name": "Kopstoot",
         "description": "Een uitvallende kopstoot die de spreuk van het doelwit onderbreekt en die magieschool 4 sec vergrendelt."
@@ -6848,6 +7344,18 @@ export const nl_NL: EnTranslations = {
       "spell_lock": {
         "name": "Spreukverbod",
         "description": "Legt het doelwit tijdens een spreuk het zwijgen op en verhindert het 5 sec lang spreuken uit die magieschool uit te spreken."
+      },
+      "tranquility": {
+        "name": "Woudlied",
+        "description": "Kanaliseert 4 sec. herstellende energie en geneest bondgenoten binnen 30 m elke seconde voor 42 tot 52. (druïdetalent)"
+      },
+      "typhoon": {
+        "name": "Tyfoon",
+        "description": "Een windvlaag stoot alle vijanden binnen 8 m terug en versuft ze, waardoor hun bewegingssnelheid 4 sec. lang met 50% afneemt."
+      },
+      "voidfeast": {
+        "name": "Leegtefeest",
+        "description": "Verslindt een magisch effect (een gunstig effect van een vijand of een schadelijk effect van een bondgenoot) en geneest je voor 6% van je maximale gezondheid."
       },
       "bear_charge": {
         "name": "Bruin-stormloop",
@@ -6866,8 +7374,8 @@ export const nl_NL: EnTranslations = {
         "description": "Een sluipopener die de vijand harkt voor wapenschade plus {damage} en bloedingsschade veroorzaakt gedurende 9 sec. Levert 1 combopunt op. Alleen in Wolfsgedaante."
       },
       "revive_pet": {
-        "name": "Huisdier Herleven",
-        "description": "Doet je dode huisdier herleven en brengt het terug aan je zijde."
+        "name": "Oplappen",
+        "description": "Lapt je huisdier op. Als het leeft, herstelt het in totaal {overTime} gezondheid gedurende 12 sec., met elke 3 sec. een tik. Als het dood is, wordt het met 35% gezondheid tot leven gewekt."
       }
     },
     "items": {
@@ -7630,6 +8138,12 @@ export const nl_NL: EnTranslations = {
       "emberglass_warstaff": {
         "name": "Sintelglazen Oorlogsstaf"
       },
+      "conjured_water4": {
+        "name": "Getoverd bronwater"
+      },
+      "conjured_bread4": {
+        "name": "Getoverd feestbrood"
+      },
       "bristleback_maul": {
         "name": "Gallowglass-Hamer"
       },
@@ -8098,6 +8612,18 @@ export const nl_NL: EnTranslations = {
       "heroic_mark": {
         "name": "Heroïsch Merk"
       },
+      "eastbrook_buckler": {
+        "name": "Oostbeek-Beukelaar"
+      },
+      "eastbrook_greatsword": {
+        "name": "Oostbeek-Grootzwaard"
+      },
+      "highwatch_greatsword": {
+        "name": "Hoogwacht-Grootzwaard"
+      },
+      "highwatch_wallshield": {
+        "name": "Hoogwacht-Muurschild"
+      },
       "morthens_cryptforged_hauberk": {
         "name": "Morthens Kryptgesmede Maliënkolder"
       },
@@ -8250,6 +8776,18 @@ export const nl_NL: EnTranslations = {
       },
       "stormcallers_spaulders": {
         "name": "Galecall-Schouderstukken"
+      },
+      "bonewrought_greatsword": {
+        "name": "Bonewrought-Grootzwaard"
+      },
+      "direfang_greatblade": {
+        "name": "Direfang-Grootkling"
+      },
+      "bonewrought_bulwark": {
+        "name": "Bonewrought-Bolwerk"
+      },
+      "wraithfire_orb": {
+        "name": "Wraithfire-Orb"
       },
       "unknown_alien_weaponry": {
         "name": "Onbekende Buitenaardse Wapens"
@@ -8499,9 +9037,6 @@ export const nl_NL: EnTranslations = {
       "nythraxis_skeleton_warrior": {
         "name": "Verrezen Koninklijke Garde"
       },
-      "nythraxis_scourge_of_thornpeak": {
-        "name": "Nythraxis, Gesel van Doorntop"
-      },
       "nythraxis_heroic_warrior_add": {
         "name": "Aldren, Doodloze Krijgswacht"
       },
@@ -8510,6 +9045,9 @@ export const nl_NL: EnTranslations = {
       },
       "nythraxis_heroic_rogue_add": {
         "name": "Voss, Doodloos Mes"
+      },
+      "nythraxis_scourge_of_thornpeak": {
+        "name": "Nythraxis, Gesel van Doorntop"
       },
       "reliquary_ledger_wraith": {
         "name": "Grootboek-Schim"
@@ -8681,6 +9219,9 @@ export const nl_NL: EnTranslations = {
       },
       "ysolei": {
         "name": "Ysolei, Avatar van de Verdronken Maan"
+      },
+      "water_elemental": {
+        "name": "Waterelementaal"
       }
     },
     "npcs": {

@@ -1,6 +1,6 @@
 // W0c: the IWorld structural-parity gate.
 //
-// `IWorld` (src/world_api.ts, 240 members) is the ONE seam render/ui depend
+// `IWorld` (src/world_api.ts, 248 members) is the ONE seam render/ui depend
 // on. `tsc` already proves both the offline `Sim` and the online `ClientWorld` satisfy
 // it structurally, but the interface is erased at build: there is NO runtime member
 // list, so nothing catches a present-but-throws stub or a kind flip (method vs read).
@@ -9,7 +9,7 @@
 // IWORLD_MEMBERS below is the hand-maintained member list, the W0c analog of the
 // append-only CALLBACK_KEYS in tests/sim_context.test.ts. It is APPEND-ONLY WITH THE
 // INTERFACE: whenever a future slice adds (or removes/renames) a member on `IWorld`,
-// it lands the matching edit here in the SAME commit. The count pins (240 / 65 / 175)
+// it lands the matching edit here in the SAME commit. The count pins (248 / 67 / 181)
 // plus the sorted-name `toEqual` snapshots (modeled on the anti-loosening exclude-set
 // pin in tests/parity/harness.test.ts:131-162) are what force that: a dropped or
 // renamed member reddens deliberately, never silently. (The count pins in the `it`
@@ -79,8 +79,8 @@ interface IWorldMember {
   readonly kind: IWorldMemberKind;
 }
 
-// The 240 members of `interface IWorld`, in interface order (world_api.ts).
-// Partition: 65 `data` + 175 `method` (read-returning + command-void + async).
+// The 248 members of `interface IWorld`, in interface order (world_api.ts).
+// Partition: 67 `data` + 181 `method` (read-returning + command-void + async).
 // biome-ignore lint/suspicious/noExportsInTest: IWORLD_MEMBERS is the W0c pinned structural-parity contract (the authoritative IWorld member list)
 export const IWORLD_MEMBERS = [
   // --- core world / player roster + economy reads (data) ---
@@ -104,6 +104,8 @@ export const IWORLD_MEMBERS = [
   { name: 'craftSkills', kind: 'data' },
   { name: 'gatheringProficiency', kind: 'data' },
   { name: 'known', kind: 'data' },
+  { name: 'activeFrostRings', kind: 'data' },
+  { name: 'activeTemporalHourglasses', kind: 'data' },
   { name: 'questLog', kind: 'data' },
   { name: 'questsDone', kind: 'data' },
   // --- commands + read-returning methods ---
@@ -111,6 +113,8 @@ export const IWORLD_MEMBERS = [
   { name: 'castAbility', kind: 'method' },
   { name: 'castAbilityAt', kind: 'method' },
   { name: 'castAbilityBySlot', kind: 'method' },
+  { name: 'castAbilityOn', kind: 'method' },
+  { name: 'releaseEmpoweredAbility', kind: 'method' },
   { name: 'cancelAura', kind: 'method' },
   { name: 'targetEntity', kind: 'method' },
   { name: 'tabTarget', kind: 'method' },
@@ -153,14 +157,17 @@ export const IWORLD_MEMBERS = [
   { name: 'releaseSpirit', kind: 'method' },
   { name: 'resurrectAtCorpse', kind: 'method' },
   { name: 'resurrectAtSpiritHealer', kind: 'method' },
+  { name: 'respondToResurrection', kind: 'method' },
   { name: 'chat', kind: 'method' },
   { name: 'playEmote', kind: 'method' },
   { name: 'abandonPet', kind: 'method' },
   { name: 'renamePet', kind: 'method' },
   { name: 'revivePet', kind: 'method' },
   { name: 'petAttack', kind: 'method' },
+  { name: 'petWaterJet', kind: 'method' },
   { name: 'petTaunt', kind: 'method' },
   { name: 'setPetAutoTaunt', kind: 'method' },
+  { name: 'setPetAutoWaterJet', kind: 'method' },
   { name: 'feedPet', kind: 'method' },
   { name: 'healPet', kind: 'method' },
   { name: 'setPetMode', kind: 'method' },
@@ -317,6 +324,7 @@ export const IWORLD_MEMBERS = [
   { name: 'applyTalents', kind: 'method' },
   { name: 'respec', kind: 'method' },
   { name: 'setSpec', kind: 'method' },
+  { name: 'selectTalentRow', kind: 'method' },
   { name: 'saveLoadout', kind: 'method' },
   { name: 'switchLoadout', kind: 'method' },
   { name: 'deleteLoadout', kind: 'method' },
@@ -442,9 +450,12 @@ beforeAll(() => {
 
 describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => {
   it('pins total / data / method counts', () => {
-    expect(IWORLD_MEMBERS.length).toBe(240);
-    expect(DATA_MEMBERS.length).toBe(65);
-    expect(METHOD_MEMBERS.length).toBe(175);
+    // The merged Talent V2 + mage-line surface (selectTalentRow supersedes
+    // pickRowTalent; rowPicks stays off the seam, rows live on the allocation)
+    // plus the release's Card Duel facet and Professions 2.0 identity surface.
+    expect(IWORLD_MEMBERS.length).toBe(248);
+    expect(DATA_MEMBERS.length).toBe(67);
+    expect(METHOD_MEMBERS.length).toBe(181);
   });
   it('has no duplicate member names', () => {
     const names = IWORLD_MEMBERS.map((m) => m.name);
@@ -453,7 +464,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
 
   // Sorted-name `toEqual` snapshots: a dropped, renamed, or kind-flipped member reddens
   // these deliberately, forcing a reviewed edit. NOT length-only.
-  it('the full sorted member set is exactly the pinned 240', () => {
+  it('the full sorted member set is exactly the pinned 248', () => {
     expect(IWORLD_MEMBERS.map((m) => m.name).sort()).toEqual([
       'abandonPet',
       'abandonQuest',
@@ -463,8 +474,10 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'accountCosmetics',
       'accountFlair',
       'activeArchetype',
+      'activeFrostRings',
       'activeLoadout',
       'activeLootRolls',
+      'activeTemporalHourglasses',
       'activeTitle',
       'advanceAmendsProgress',
       'applyTalents',
@@ -494,6 +507,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'castAbility',
       'castAbilityAt',
       'castAbilityBySlot',
+      'castAbilityOn',
       'cfg',
       'changeSkin',
       'changeWeaponSkin',
@@ -623,6 +637,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'partyPromote',
       'petAttack',
       'petTaunt',
+      'petWaterJet',
       'pickUpObject',
       'playCardInDuel',
       'playEmote',
@@ -638,17 +653,20 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'readyCheckRespond',
       'realm',
       'recipeList',
+      'releaseEmpoweredAbility',
       'releaseSpirit',
       'renamePet',
       'renown',
       'reportTelemetry',
       'respec',
+      'respondToResurrection',
       'restedXp',
       'resurrectAtCorpse',
       'resurrectAtSpiritHealer',
       'revivePet',
       'saveLoadout',
       'searchCharacters',
+      'selectTalentRow',
       'sellAllJunk',
       'sellItem',
       'setActiveTitle',
@@ -656,6 +674,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'setMarker',
       'setPartyLootMaster',
       'setPetAutoTaunt',
+      'setPetAutoWaterJet',
       'setPetMode',
       'setSpec',
       'setTownFocus',
@@ -698,11 +717,13 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
     ]);
   });
 
-  it('the sorted data-kind set is exactly the pinned 65', () => {
+  it('the sorted data-kind set is exactly the pinned 67', () => {
     expect(DATA_MEMBERS.map((m) => m.name).sort()).toEqual([
       'accountCosmetics',
       'activeArchetype',
+      'activeFrostRings',
       'activeLoadout',
+      'activeTemporalHourglasses',
       'activeTitle',
       'archetypeAmendsProgress',
       'archetypeAmendsRequired',
@@ -768,7 +789,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
     ]);
   });
 
-  it('the sorted method-kind set is exactly the pinned 175', () => {
+  it('the sorted method-kind set is exactly the pinned 181', () => {
     expect(METHOD_MEMBERS.map((m) => m.name).sort()).toEqual([
       'abandonPet',
       'abandonQuest',
@@ -796,6 +817,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'castAbility',
       'castAbilityAt',
       'castAbilityBySlot',
+      'castAbilityOn',
       'changeSkin',
       'changeWeaponSkin',
       'characterProfile',
@@ -892,6 +914,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'partyPromote',
       'petAttack',
       'petTaunt',
+      'petWaterJet',
       'pickUpObject',
       'playCardInDuel',
       'playEmote',
@@ -899,15 +922,18 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'questState',
       'raidLockouts',
       'readyCheckRespond',
+      'releaseEmpoweredAbility',
       'releaseSpirit',
       'renamePet',
       'reportTelemetry',
       'respec',
+      'respondToResurrection',
       'resurrectAtCorpse',
       'resurrectAtSpiritHealer',
       'revivePet',
       'saveLoadout',
       'searchCharacters',
+      'selectTalentRow',
       'sellAllJunk',
       'sellItem',
       'setActiveTitle',
@@ -915,6 +941,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'setMarker',
       'setPartyLootMaster',
       'setPetAutoTaunt',
+      'setPetAutoWaterJet',
       'setPetMode',
       'setSpec',
       'setTownFocus',
@@ -992,7 +1019,7 @@ describe('membership, not equality: world extras do not fail the gate', () => {
 //       a MISSING name (if the array omits a key, Exclude<> is a non-never union and tsc
 //       fails) -- (1)+(2) together make each array EXACTLY its facet key-set;
 //   (3) the 28 arrays are pairwise DISJOINT (a member filed in two facets reddens);
-//   (4) their union, sorted, equals the pinned 240-name IWORLD_MEMBERS set (a member
+//   (4) their union, sorted, equals the pinned 248-name IWORLD_MEMBERS set (a member
 //       dropped from the split reddens).
 // This is the rigorous form, NOT the tautological `keyof IWorld === keyof (A & B & ...)`
 // (IWorld extends them, so that self-equality proves nothing): it asserts against the
@@ -1017,15 +1044,20 @@ type _ExhaustEntityRoster = AssertNever<
 
 const FACET_COMBAT = [
   'known',
+  'activeFrostRings',
+  'activeTemporalHourglasses',
   'castAbility',
   'castAbilityAt',
   'castAbilityBySlot',
+  'castAbilityOn',
+  'releaseEmpoweredAbility',
   'cancelAura',
   'startAutoAttack',
   'stopAutoAttack',
   'releaseSpirit',
   'resurrectAtCorpse',
   'resurrectAtSpiritHealer',
+  'respondToResurrection',
 ] as const satisfies readonly (keyof IWorldCombat)[];
 type _ExhaustCombat = AssertNever<Exclude<keyof IWorldCombat, (typeof FACET_COMBAT)[number]>>;
 
@@ -1133,6 +1165,7 @@ const FACET_TALENTS = [
   'applyTalents',
   'respec',
   'setSpec',
+  'selectTalentRow',
   'saveLoadout',
   'switchLoadout',
   'deleteLoadout',
@@ -1144,8 +1177,10 @@ const FACET_PET = [
   'renamePet',
   'revivePet',
   'petAttack',
+  'petWaterJet',
   'petTaunt',
   'setPetAutoTaunt',
+  'setPetAutoWaterJet',
   'feedPet',
   'healPet',
   'setPetMode',
@@ -1436,10 +1471,10 @@ describe('W1: aggregate IWorld member set equals the disjoint union of the 28 fa
     expect(overlaps, `members filed in more than one facet:\n${overlaps.join('\n')}`).toEqual([]);
   });
 
-  it('the union of the 28 facets equals the pinned 240-member IWORLD_MEMBERS set', () => {
+  it('the union of the 28 facets equals the pinned 248-member IWORLD_MEMBERS set', () => {
     const union = Object.values(FACET_MEMBER_ARRAYS).flatMap((arr) => [...arr]);
-    expect(union.length, 'union size before dedup (catches a duplicated member)').toBe(240);
-    expect(new Set(union).size, 'union size after dedup (catches a duplicated member)').toBe(240);
+    expect(union.length, 'union size before dedup (catches a duplicated member)').toBe(248);
+    expect(new Set(union).size, 'union size after dedup (catches a duplicated member)').toBe(248);
     const sortedUnion = [...union].sort();
     const pinned = IWORLD_MEMBERS.map((m) => m.name).sort();
     expect(sortedUnion).toEqual(pinned);

@@ -129,7 +129,7 @@ export const MOB_VOICE_CUES = {
   },
 } as const satisfies Record<string, Record<MobVoiceAction, SfxId>>;
 
-type MobVoiceFamily = keyof typeof MOB_VOICE_CUES;
+type MobVoiceFamily = keyof typeof MOB_VOICE_CUES | 'water_elemental';
 const NO_CUE = (): boolean => false;
 
 // Templates that should share one recorded subfamily voice instead of each
@@ -220,6 +220,7 @@ export function playerSwingCueForDamage(event: DamageEvent, source: Entity | nul
 }
 
 export function mobVoiceFamily(templateId: string): MobVoiceFamily | null {
+  if (templateId === 'water_elemental') return 'water_elemental';
   if (templateId === 'wild_boar' || templateId === 'elder_bristleback') return 'boar';
   const family = MOBS[templateId]?.family;
   return family && family in MOB_VOICE_CUES ? (family as MobVoiceFamily) : null;
@@ -232,6 +233,13 @@ export function mobVoiceCue(
 ): string | null {
   const family = mobVoiceFamily(templateId);
   if (!family) return null;
+  if (family === 'water_elemental') {
+    // An owned summon: never an idle-bark candidate, and no idle buffer is
+    // staged for it, so the idle sweep must get null rather than a cue id
+    // that can never play.
+    if (action === 'idle') return null;
+    return `mob_water_elemental_${action === 'hurt' ? 'attack' : action}`;
+  }
   const subfamily = SUBFAMILY_ALIAS[templateId] ?? templateId;
   const specific = `mob_${family}_${subfamily}_${action}`;
   return hasCue(specific) ? specific : MOB_VOICE_CUES[family][action];

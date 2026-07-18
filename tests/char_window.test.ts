@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { CRAFT_RING } from '../src/sim/content/professions';
 import { ARCHETYPE_PAIR_TARGETS } from '../src/sim/professions/archetype';
 import { archetypeTitleText, craftNameText, hobbyCraftText } from '../src/ui/char_window';
+import { hasTranslation } from '../src/ui/i18n';
 
 // The character window painter is a DOM module; driving the live DOM + events is
 // the opt-in browser suite. This is the no-DOM-suite
@@ -55,6 +56,24 @@ describe('char_window: WCAG 2.2 AA', () => {
 });
 
 describe('char_window: paperdoll core + HUD-owned preview boundary', () => {
+  it('registers every computed character-stat label used while opening the window', () => {
+    for (const stat of [
+      'str',
+      'armor',
+      'agi',
+      'attackPower',
+      'sta',
+      'dps',
+      'int',
+      'critChance',
+      'spi',
+      'dodge',
+      'parry',
+    ]) {
+      expect(hasTranslation(`itemUi.stats.${stat}`), stat).toBe(true);
+    }
+  });
+
   it('renders one player-facing Warfare stat row', () => {
     expect(painter).toContain("'warfare'");
     expect(painter).not.toContain("'pvpOffense'");

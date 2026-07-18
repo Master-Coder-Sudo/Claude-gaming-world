@@ -1380,6 +1380,17 @@ async function startGame(
       return music.enabled;
     },
     onRecenterCamera: () => input.recenterCameraBehind(world.player.facing),
+    onGroundAimMove: (x, y) => {
+      if (!hud.isGroundAimActive()) return false;
+      hud.updateGroundAimPoint(renderer.groundPoint(x, y, world.player.pos.y));
+      return true;
+    },
+    onGroundAimTap: (x, y) => {
+      if (!hud.isGroundAimActive()) return false;
+      const point = renderer.groundPoint(x, y, world.player.pos.y);
+      if (point) hud.commitGroundAimAt(point);
+      return true;
+    },
   });
   mobileControls.start();
   hud.onResurrectAtSpiritHealer = () => {
@@ -1648,6 +1659,10 @@ async function startGame(
         'show-actionbar2',
         settings.set('showSecondaryActionBar', !!value),
       );
+      return;
+    }
+    if (key === 'showTargetOfTarget') {
+      hud.setShowTargetOfTarget(settings.set('showTargetOfTarget', !!value));
       return;
     }
     if (key === 'showDailyRewardsChest') {
@@ -2222,9 +2237,15 @@ async function startGame(
       renderer.setGroundAimReticle(null);
       return;
     }
-    const cursor = input.cursorPoint();
-    const g = cursor ? renderer.groundPoint(cursor.x, cursor.y, world.player.pos.y) : null;
-    hud.updateGroundAimPoint(g);
+    // Touch placement is updated directly by MobileControls. Some mobile
+    // Chromium builds also expose a synthetic hover cursor parked at (0, 0);
+    // reading it here would erase the finger-owned point every render frame.
+    if (!document.body.classList.contains('mobile-touch')) {
+      const cursor = input.cursorPoint();
+      hud.updateGroundAimPoint(
+        cursor ? renderer.groundPoint(cursor.x, cursor.y, world.player.pos.y) : null,
+      );
+    }
     const reticle = hud.groundAimReticle();
     renderer.setGroundAimReticle(
       reticle
@@ -4906,6 +4927,7 @@ function charselectAppearance(c: CharacterSummary): PreviewAppearance {
     skin: c.skin ?? 0,
     skinCatalog: c.skinCatalog ?? 'class',
     mainhandItemId: c.mainhandItemId ?? null,
+    offhandItemId: c.offhandItemId ?? null,
   };
 }
 

@@ -11,6 +11,7 @@ import { DEED_ORDER, DEEDS, DEEDS_ERA } from '../src/sim/content/deeds';
 import { DELVE_MOBS } from '../src/sim/content/delves/mobs';
 import { HEROIC_DUNGEON_TUNING } from '../src/sim/content/dungeon_difficulty';
 import { FISHING_TABLES } from '../src/sim/content/items';
+import { MAGE_PET_MOBS } from '../src/sim/content/mage_pets';
 import { CRAFT_RING, GATHERING_PROFESSION_IDS } from '../src/sim/content/professions';
 import { WARLOCK_PET_MOBS } from '../src/sim/content/warlock_pets';
 import { YUMI_TEMPLATE_ID } from '../src/sim/content/yumi';
@@ -165,7 +166,12 @@ describe('frozen trigger + renown catalog (design rule 9: never retro-edit a tri
   // Regenerate after a DELIBERATE catalog change, then paste the printed hex
   // into FROZEN_CATALOG_SHA256 below (run from the repo root):
   //   npx tsx -e "import {DEED_ORDER,DEEDS} from './src/sim/content/deeds'; import {createHash} from 'node:crypto'; console.log(createHash('sha256').update(JSON.stringify(DEED_ORDER.map((id)=>[id,DEEDS[id].trigger,DEEDS[id].renown])),'utf8').digest('hex'))"
-  const FROZEN_CATALOG_SHA256 = '588212cd0f38904bcebf9f914b5bd8cacf721bd64b800ffe830428dfe5d5a366';
+  // v0.26 replaces the point tree before release, so prog_full_build's unreachable
+  // eleven-point threshold is deliberately migrated once to the canonical six rows.
+  // This new digest freezes that release contract; it is not permission for later edits.
+  // Re-baselined once more at the release/v0.27.0 base merge: the catalog now also
+  // carries the appended pvp_card_duel_first_win deed (Card Duel).
+  const FROZEN_CATALOG_SHA256 = '10ce166afae9bbe849d4a810ec66d9bfe02a01bca06265943a46bbc3a2262773';
 
   it('every shipped deed keeps its trigger and renown unchanged', () => {
     const canonical = JSON.stringify(
@@ -234,12 +240,16 @@ describe('retro fallback proof sets stay anchored to the real tables', () => {
     // can ever spawn at. Heroic instances pin every mob to one shared level;
     // outside heroic no spawnable template exceeds the player cap. The only
     // templates authored above the ceiling can never be credited: warlock
-    // pets sync to their owner's level and die outside kill credit
+    // and mage pets sync to their owner's level and die outside kill credit
     // (combat/damage.ts owned-pet early return), and the Yumi cat's damage
     // is intercepted before the death path (social/yumi.ts).
     const heroicLevels = Object.values(HEROIC_DUNGEON_TUNING).map((t) => t.level);
     expect(Math.max(...heroicLevels)).toBe(MAX_CREDITABLE_MOB_LEVEL);
-    const neverCreditable = new Set([...Object.keys(WARLOCK_PET_MOBS), YUMI_TEMPLATE_ID]);
+    const neverCreditable = new Set([
+      ...Object.keys(WARLOCK_PET_MOBS),
+      ...Object.keys(MAGE_PET_MOBS),
+      YUMI_TEMPLATE_ID,
+    ]);
     for (const [id, m] of Object.entries(MOBS)) {
       if (m.dummy || m.worldBoss || neverCreditable.has(id)) continue;
       expect(m.maxLevel, id).toBeLessThanOrEqual(MAX_CREDITABLE_MOB_LEVEL);

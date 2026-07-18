@@ -31,6 +31,11 @@ export const hudChromeStrings = {
     resurrectAtHealer: "The Pale Keeper (Keeper's Toll)",
     spiritHealerAlive: 'The Pale Keeper watches over the dead. You are still among the living.',
   },
+  // Floating combat text self-notes (proc consume labels, absorb readout).
+  fct: {
+    absorbed: 'Absorbed {amount}',
+    cheap: 'Cheap!',
+  },
   // Overhead emote display names (wheel tooltips/labels, editor items, overhead
   // bubble text). Source ids/order mirror OVERHEAD_EMOTES in world_api.ts.
   emotes: {
@@ -326,6 +331,12 @@ export const hudChromeStrings = {
     // is a five-letter run), so this reuses the frame's own term for the target ("Mark", from
     // targetLabel above), which a screen-reader user already hears as the target frame's name.
     targetAnnounce: 'Mark {name}',
+    // targetOfTargetLabel names the optional #totarget-frame region (the classic
+    // "target of target": who your current target is targeting). Kept NON-WORDY (no
+    // run of four+ lowercase after stripping tokens) so an English-filled non-Latin
+    // locale does not trip the M16 untranslated-leak guard, reusing the frame's own
+    // term for the target ("Mark", from targetLabel): your mark's mark.
+    targetOfTargetLabel: "Mark's Mark",
     // partyLabel names the #party-frames region (a group of tappable / focusable
     // party member buttons, each named by its visible member name). Kept short and
     // non-wordy (no run of four+ lowercase) so an English-filled non-Latin locale
@@ -333,7 +344,7 @@ export const hudChromeStrings = {
     // companions, parallel to playerLabel / targetLabel.
     partyLabel: 'Your Band',
     // partyChip is the caption on the mobile-only collapse chip that stands in for the
-    // expanded party stack (the member frames + Leave button) on the touch HUD: tap it
+    // expanded party stack (the member frames) on the touch HUD: tap it
     // to reveal the stack, tap again to collapse. A distinct key from the chat channel
     // "Party" (a different render sink: a disclosure header, not a channel tab), so a
     // locale can name the two independently. WORDY by M16 ("Party" to "arty", a four-
@@ -838,12 +849,12 @@ export const hudChromeStrings = {
     // Interface panel toggle: also engage auto-attack when using an offensive
     // ability, so white swings start without a separate Attack press (on by default).
     startAttackOnAbility: 'Auto-Attack on Ability Use',
-    // Interface panel toggle: show the fixed Attack (auto-attack) button in slot 0
-    // of the action bar (on by default). Off frees slot 0 for a normal action.
-    showAttackButton: 'Show Attack Button',
     // Interface panel toggle: loot corpses by walking past them (off by default).
     walkByAutoloot: 'Walk-by Autoloot',
     groundReticle: 'Ground-Targeting Reticle',
+    // Interface panel toggle: Clique-style mouseover casting of friendly abilities
+    // on the hovered party frame (on by default).
+    mouseoverCast: 'Mouseover Cast on Party Frames',
     // Interface panel toggle + the item-tooltip lines it reveals (off by default).
     showItemLevel: 'Show Item Level',
     itemLevelLine: 'Item Level {level}',
@@ -851,6 +862,14 @@ export const hudChromeStrings = {
     // Interface panel toggle that reveals the optional second action bar row (off
     // by default). The abilities bound to its slots stay castable via their keybinds.
     showSecondaryActionBar: 'Show Secondary Action Bar',
+    // Interface panel toggle for the classic "target of target" mini-frame (off by
+    // default): a small unit frame under the target frame showing who your target
+    // is targeting.
+    showTargetOfTarget: 'Show Target of Target',
+    // Interface panel toggle for the fixed Attack button in the first action-bar
+    // slot (on by default). Off frees that slot for a normal action (drag one in;
+    // its key then casts it). Right-clicking the Attack button flips this off too.
+    showAttackButton: 'Show Attack Button',
     showDailyRewardsChest: 'Show Daily Rewards Chest',
     // Touch-only Graphics panel toggles (mobile combat HUD rework, phase 2).
     // Camera joystick: hidden and off by default, swipe-look on open gameplay
@@ -860,6 +879,37 @@ export const hudChromeStrings = {
     // for left-thumb-dominant players; the same setting as the Key Bindings
     // panel's leftHandedTouch row, surfaced again here alongside the joystick.
     mobileLeftHanded: 'Left-handed layout',
+  },
+  // Choice-row talents (the rows tab in the talents window). The row OPTION
+  // names/descriptions are sim content (English source, localized with the
+  // talent-copy batch); only the chrome lives here. defaultLoadout is the
+  // loadout dropdown button's label while no saved build is active.
+  talentRows: {
+    tab: 'Choices',
+    defaultLoadout: 'Default Loadout',
+    // Badge on a row option whose mechanic is not implemented yet (empty
+    // effect): the pill renders disabled so nobody picks a no-op talent.
+    // Wordy (M16): filled in the five non-Latin locales in this change.
+    comingSoon: 'Coming soon',
+    readoutSummary: 'Talents: {head}, {spent}/{total} rows selected.',
+  },
+  abilityError: {
+    shieldRequired: 'You must have a shield equipped.',
+  },
+  // Specialization screen: the detail rows shown under the selected spec's card
+  // (role/description come from the spec itself; these label the extra facts).
+  // Wordy leaves (M16): filled in the five non-Latin locales in this change.
+  specPanel: {
+    primaryAttr: 'Primary attribute',
+    complexity: 'Complexity',
+    complexityLow: 'Low',
+    complexityMedium: 'Medium',
+    complexityHigh: 'High',
+    exampleAbilities: 'Example abilities',
+    viewTalents: 'View talents',
+    selectSpec: 'Select specialization',
+    specUnlockBanner: 'Specialization Unlocked!',
+    specUnlockHint: 'Press N to choose your specialization.',
   },
   // Controller / gamepad options panel (Options > Controller). Player-facing
   // chrome, so every label is a key here; the live numbers run through
@@ -999,6 +1049,7 @@ export const hudChromeStrings = {
       spellPower: 'Spell Power',
       critRating: 'Crit Rating',
       hasteRating: 'Haste Rating',
+      parry: 'Parry',
       hitRating: 'Hit Rating',
       warfare: 'Warfare',
     },
@@ -1018,11 +1069,13 @@ export const hudChromeStrings = {
       critChance: 'Your chance for an attack to strike critically, dealing double damage.',
       dodge: 'Your chance to completely avoid an incoming melee attack, taking no damage.',
       critRating:
-        'Crit rating from your gear and set bonuses, raising your critical strike chance. About 10 rating grants 1% crit.',
+        'Crit rating from your gear and set bonuses, raising the critical strike chance of both your attacks and your spells. Every 10 rating grants exactly 1% crit.',
       hasteRating:
-        'Haste rating from your gear and set bonuses, speeding up your attacks and spellcasting. About 10 rating grants 1% haste.',
+        'Haste rating from your gear and set bonuses, speeding up your attacks and spellcasting. Every 10 rating grants exactly 1% haste.',
+      parry:
+        'Your chance to fully parry a frontal melee attack, taking no damage. A blow from behind cannot be parried.',
       hitRating:
-        'Hit rating from your gear and set bonuses, reducing how often your attacks miss and your spells are resisted, especially against higher-level enemies. About 10 rating grants 1% hit.',
+        'Hit rating from your gear and set bonuses, reducing how often your attacks miss and your spells are resisted, especially against higher-level enemies. Every 10 rating grants exactly 1% hit.',
       warfare:
         'Increases damage dealt to players by {increase}% and reduces damage taken from players by {reduction}%.',
     },
@@ -1495,9 +1548,41 @@ export const hudChromeStrings = {
     attackSpeedSlow: 'Slows attack speed by {pct}%',
     attackSpeedFast: 'Increases attack speed by {pct}%',
     haste: 'Increases attack and casting speed by {pct}%',
+    // wordy (M16): filled in the five non-Latin locales in this change.
+    dmgDone: 'Increases damage dealt by {pct}%',
+    dmgDoneReduce: 'Reduces damage dealt by {pct}%',
+    heatingUp:
+      'Your next consecutive Fire builder critical strike grants Hot Streak; a non-critical builder removes Heating Up',
+    elementalConvergencePrimed:
+      'Your next spell from the other elemental school grants Elemental Convergence',
+    battleStance: 'Battle Stance: 10% more rage generation',
+    berserkerStance: 'Berserker Stance: crits 3% more often and hit 3% harder',
+    crit: 'Increases critical strike chance by {pct}%',
+    rageGen: 'Increases Rage generation by {pct}%',
+    reckless: 'Increases critical strike chance by {pct}% and Rage generation by {ragePct}%',
+    avatar: 'Colossus: damage dealt increased by {pct}%',
+    bloodbath: 'Increases critical strike chance and damage dealt by {pct}%',
+    dieBySword: 'Reduces damage taken by {pct}%',
+    sanguine: 'Increases attack speed by {hastePct}% and damage dealt by {dmgPct}%',
+    // The two ability names are the locale's own (Reaver Strike / Brute Swing
+    // here; each fill uses its locale's translated names).
+    battleTrance: 'Your next Reaver Strike or Brute Swing costs no Rage',
+    revengeFree: 'Your next Revenge costs no Rage',
+    victoryRush: 'Victory Rush is ready',
+    maxHpPct: 'Increases maximum health by {pct}%',
+    temporalHourglass:
+      'Immune and unable to act; restores health and accelerates cooldown recovery. Right-click to cancel.',
     tongues: 'Increases casting time by {pct}%',
+    combustionCrit: 'Your Fire spells always critically strike',
+    overloadNext: 'Your next spell is amplified by {pct}% but costs 50% more mana',
+    powerEchoNext: 'Your next direct spell repeats at {pct}% power on the same target',
+    iceFloesCasts: 'Your next {n} spells with a cast time can be cast while moving',
+    freeCast: 'Your next cast costs nothing',
+    instantCast: 'Your next spell with a cast time is instant',
+    cheapCast: 'Your next spell costs {pct}% less',
     increase: {
       ap: 'Increases attack power by {value}',
+      sp: 'Increases spell power by {value}',
       armor: 'Increases armor by {value}',
       int: 'Increases Intellect by {value}',
       agi: 'Increases Agility by {value}',
@@ -1554,6 +1639,7 @@ export const hudChromeStrings = {
     formBear: 'Bruin Form: increased health and armor',
     formCat: 'Wolf Form: melee damage and energy',
     formTravel: 'Fleet Form: movement speed increased by {pct}%',
+    formFireball: 'Ember Form: movement speed increased by {pct}%; attacks and spells are disabled',
     defensiveStance: 'Guarded Stance: reduced damage taken, more threat',
     righteousFury: 'Burning Oath: greatly increased threat from Holy damage',
     scale: 'Size increased by {pct}%',

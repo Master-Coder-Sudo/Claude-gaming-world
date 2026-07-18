@@ -625,10 +625,10 @@ export const guideStrings = {
   // press it). Keyed by the sim ability id.
   abilityHook: {
     heroic_strike: 'Queues a heavier swing that spends rage on your next hit.',
+    revenge: 'Sweeps enemies in front of you, with a chance to become free after a dodge or parry.',
+    hamstring: "Cripples an enemy's movement to keep it from escaping.",
     battle_shout: 'A rallying cry that raises attack power for the party.',
-    commanding_shout: 'Bolsters stamina so everyone has more staying power in a fight.',
     charge: 'Rushes a distant enemy to open the fight with a brief stun.',
-    rend: 'Opens a bleed that wears the target down over time.',
     thunder_clap: 'Hits everything around you and slows their attacks.',
     seal_of_righteousness: 'Imbues your swings with Holy damage, then spend it with Verdict.',
     holy_light: 'A steady, sizable heal for topping off an ally or yourself.',
@@ -662,9 +662,21 @@ export const guideStrings = {
     lightning_shield: 'Charges you so attackers take Nature damage when they hit you.',
     flame_shock: 'An instant burn that hits up front and keeps searing over time.',
     fireball: 'Your main fire nuke, lands a hit and leaves the target burning.',
+    fireball_form: 'Become a living ember to cross open ground at high speed.',
     frost_armor: 'A lasting self-buff that hardens your armor before a fight.',
     arcane_intellect: "Raises Intellect to deepen an ally's mana pool, cast it before the pull.",
     frostbolt: 'Strikes from range and slows the target so it cannot close on you.',
+    ice_lance: 'An instant shard for spending frost procs, it hits far harder on a frozen target.',
+    flurry:
+      'Three quick bolts that chill the target so your next frost hits land as if it were frozen.',
+    fingers_of_frost:
+      'Your frost bolts sometimes empower an Ice Lance to strike as if the target were frozen.',
+    brain_freeze: 'Your frost bolts sometimes make the next Flurry instant and harder-hitting.',
+    shatter: 'Your spells crit far more often against frozen targets.',
+    frozen_orb:
+      'Rolls a slow orb through the pack that chills everything and feeds your frost procs.',
+    blizzard: 'Blankets an area in ice to wear down and slow a whole pack.',
+    blink: 'Teleports you a short distance forward, breaking roots on the way out.',
     conjure_water: 'Conjures drinks that restore mana, so you can refill between pulls.',
     conjure_food: 'Conjures food that restores health when you sit down to eat.',
     shadow_bolt: 'A bolt of shadow you cast at a target, your go-to nuke.',

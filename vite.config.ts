@@ -71,7 +71,8 @@ const appBuildId =
 const desktopApiOrigin = env(['VITE_DESKTOP_API_ORIGIN']);
 const isDesktopDevBuild = env(['VITE_DESKTOP_APP']) === '1';
 const apiProxyTarget =
-  isDesktopDevBuild && desktopApiOrigin ? desktopApiOrigin : 'http://127.0.0.1:8787';
+  env(['WOC_DEV_API_TARGET']) ??
+  (isDesktopDevBuild && desktopApiOrigin ? desktopApiOrigin : 'http://127.0.0.1:8787');
 const wsProxyTarget = apiProxyTarget.replace(/^https:/, 'wss:').replace(/^http:/, 'ws:');
 
 // Pretty-URL aliases for standalone static HTML pages. Mirrors the production
