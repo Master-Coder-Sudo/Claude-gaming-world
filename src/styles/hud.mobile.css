@@ -2668,9 +2668,22 @@
   body.mobile-touch #market-body {
     min-height: 96px;
   }
-  body.mobile-touch .mkt-filters,
-  body.mobile-touch .mkt-filters.has-subtype {
-    grid-template-columns: 1fr;
+  /* The desktop one-row control layout (components.css .mkt-controls) caps the search
+     box and each filter select to a max-width so they sit side by side; on the narrow
+     mobile sheet there is no room for that, so stack search and every filter select
+     back to one full-width control per row (the pre-landscape-relayout mobile shape). */
+  body.mobile-touch .mkt-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  body.mobile-touch .mkt-search {
+    max-width: none;
+  }
+  body.mobile-touch .mkt-filters {
+    flex-direction: column;
+  }
+  body.mobile-touch .mkt-filter {
+    max-width: none;
   }
   /* The desktop landscape relayout (components.css .mkt-list) auto-fills
      multiple listing-card columns as the window widens; on mobile the window

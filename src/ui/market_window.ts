@@ -211,6 +211,19 @@ export class MarketWindow {
     };
     const tab = (id: MarketTab) =>
       `<button type="button" class="mkt-tab${this.tab === id ? ' sel' : ''}" data-tab="${id}" aria-pressed="${this.tab === id ? 'true' : 'false'}">${esc(tabLabel(id))}</button>`;
+    // The search box and the type/subtype/rarity dropdowns are both filter controls for
+    // the Browse tab, so they render side by side in one `.mkt-controls` row: the search
+    // box lives here (rather than being created inside #market-body by renderBrowse) so it
+    // can sit in the same flex row as the filter menus. It is only rebuilt when render()
+    // rebuilds the whole window (tab switch, filter pick), never on every keystroke:
+    // renderBrowse's own reuse-and-sync logic (below) is what preserves focus while typing.
+    const controlsHtml =
+      this.tab === 'browse'
+        ? `<div class="mkt-controls">` +
+          `<input type="search" class="mkt-search" placeholder="${esc(t('itemUi.market.searchPlaceholder'))}" aria-label="${esc(t('itemUi.market.searchAria'))}" value="${esc(this.searchQuery)}">` +
+          this.renderMarketFilters() +
+          `</div>`
+        : '';
     el.innerHTML =
       `<div class="panel-title"><span>${esc(t('itemUi.market.title'))} <span class="panel-subtitle">${esc(t('itemUi.market.subtitle'))}</span></span><button type="button" class="x-btn" data-close aria-label="${esc(t('itemUi.market.close'))}">${svgIcon('close')}</button></div>` +
       `<div class="mkt-tabs">` +
@@ -218,9 +231,15 @@ export class MarketWindow {
       tab('sell') +
       tab('collect') +
       `</div>` +
-      this.renderMarketFilters() +
+      controlsHtml +
       `<div id="market-body"></div>`;
     el.querySelector('[data-close]')?.addEventListener('click', () => this.close());
+    const searchInput = el.querySelector<HTMLInputElement>('.mkt-search');
+    searchInput?.addEventListener('input', () => {
+      this.searchQuery = searchInput.value;
+      this.browsePage = 0;
+      this.pushQuery();
+    });
     el.querySelectorAll('[data-tab]').forEach((node) => {
       node.addEventListener('click', () => {
         const next = (node as HTMLElement).dataset.tab as MarketTab;
@@ -412,25 +431,15 @@ export class MarketWindow {
   }
 
   private renderBrowse(body: HTMLElement, view: MarketBrowseBody): void {
-    // Reuse the search field and list container across refreshes so typing in
-    // the box never loses focus when the server streams back filtered results.
-    let search = body.querySelector('.mkt-search') as HTMLInputElement | null;
+    // The search field lives in the `.mkt-controls` row above #market-body (see render()),
+    // not inside body, so it survives untouched across a renderContent()-only refresh
+    // (typing calls pushQuery + renderContent, never the full render() rebuild); reuse the
+    // list container the same way so typing in the box never loses focus when the server
+    // streams back filtered results.
+    const search = this.deps.root().querySelector<HTMLInputElement>('.mkt-search');
     let list = body.querySelector('.mkt-list') as HTMLElement | null;
-    if (!search || !list) {
+    if (!list) {
       body.innerHTML = '';
-      search = document.createElement('input');
-      search.type = 'search';
-      search.className = 'mkt-search';
-      search.placeholder = t('itemUi.market.searchPlaceholder');
-      search.setAttribute('aria-label', t('itemUi.market.searchAria'));
-      search.value = this.searchQuery;
-      search.addEventListener('input', () => {
-        if (!search) return;
-        this.searchQuery = search.value;
-        this.browsePage = 0;
-        this.pushQuery();
-      });
-      body.appendChild(search);
       list = document.createElement('div');
       list.className = 'mkt-list';
       body.appendChild(list);
@@ -450,7 +459,7 @@ export class MarketWindow {
       body.appendChild(status);
     }
     // Keep the field in sync on external resets, but never clobber active typing.
-    if (document.activeElement !== search && search.value !== this.searchQuery) {
+    if (search && document.activeElement !== search && search.value !== this.searchQuery) {
       search.value = this.searchQuery;
     }
     list.innerHTML = '';

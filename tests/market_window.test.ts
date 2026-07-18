@@ -48,7 +48,7 @@ describe('market_window: WCAG 2.2 AA', () => {
     expect(painter).toContain('role="option"');
     expect(painter).toContain('aria-haspopup="listbox"');
     expect(painter).toContain('aria-selected=');
-    expect(painter).toContain("search.setAttribute('aria-label', t('itemUi.market.searchAria'))");
+    expect(painter).toContain('aria-label="${esc(t(\'itemUi.market.searchAria\'))}"');
     // buy/reclaim buttons get a programmatic name even though their face text is plain
     expect(painter).toContain("t(l.mine ? 'itemUi.market.reclaimAria' : 'itemUi.market.buyAria'");
   });
