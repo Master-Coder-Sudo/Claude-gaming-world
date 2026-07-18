@@ -1676,8 +1676,8 @@ export const tr_TR: EnTranslations = {
       "removeFromBarAria": "{name} yeteneğini eylem çubuğundan kaldır"
     },
     "nameplate": {
-      "mob": "[{level}] {name}",
-      "mobElite": "[{level}+] {name}"
+      "mobLevel": "{level}",
+      "mobEliteLevel": "{level}+"
     },
     "mobTooltip": {
       "levelFamily": "Seviye {level} {family}",

@@ -3561,8 +3561,6 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
   'hudChrome.landing.highContrast': 'Vysoký kontrast',
   'hudChrome.landing.highContrastAria':
     'Přepnout vysoce kontrastní pozadí: vypne pohyblivý trailer, aby text úvodní obrazovky zůstal čitelný',
-  'hudChrome.nameplate.mob': '[{level}] {name}',
-  'hudChrome.nameplate.mobElite': '[{level}+] {name}',
   'hudChrome.paperdoll.unequipAria': 'Sundat {item}',
   'hudChrome.paperdoll.unequipHint':
     'Klikni na x, pravé kliknutí, nebo přetáhni do batohů pro sundání',

@@ -1676,8 +1676,8 @@ export const da_DK: EnTranslations = {
       "removeFromBarAria": "Fjern {name} fra handlingslinjen"
     },
     "nameplate": {
-      "mob": "[{level}] {name}",
-      "mobElite": "[{level}+] {name}"
+      "mobLevel": "{level}",
+      "mobEliteLevel": "{level}+"
     },
     "mobTooltip": {
       "levelFamily": "Niveau {level} {family}",

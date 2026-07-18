@@ -1676,8 +1676,8 @@ export const fr_FR: EnTranslations = {
       "removeFromBarAria": "Retirer {name} de la barre d'action"
     },
     "nameplate": {
-      "mob": "[{level}] {name}",
-      "mobElite": "[{level}+] {name}"
+      "mobLevel": "{level}",
+      "mobEliteLevel": "{level}+"
     },
     "mobTooltip": {
       "levelFamily": "{family} niveau {level}",

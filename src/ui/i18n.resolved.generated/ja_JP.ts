@@ -1676,8 +1676,8 @@ export const ja_JP: EnTranslations = {
       "removeFromBarAria": "{name}をアクションバーから削除"
     },
     "nameplate": {
-      "mob": "[{level}] {name}",
-      "mobElite": "[{level}+] {name}"
+      "mobLevel": "{level}",
+      "mobEliteLevel": "{level}+"
     },
     "mobTooltip": {
       "levelFamily": "レベル{level} {family}",
