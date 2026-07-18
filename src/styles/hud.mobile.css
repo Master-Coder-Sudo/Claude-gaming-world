@@ -2672,6 +2672,14 @@
   body.mobile-touch .mkt-filters.has-subtype {
     grid-template-columns: 1fr;
   }
+  /* The desktop landscape relayout (components.css .mkt-list) auto-fills
+     multiple listing-card columns as the window widens; on mobile the window
+     is edge-pinned narrow (the sheet base above), so force it deliberately
+     back to one column rather than relying on auto-fill alone, keeping each
+     row's Buy/Reclaim button at the 40x40px touch-target floor. */
+  body.mobile-touch .mkt-list {
+    grid-template-columns: 1fr;
+  }
   body.mobile-touch .mkt-select-btn {
     min-height: 40px;
     font-size: 16px;
