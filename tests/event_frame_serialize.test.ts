@@ -15,6 +15,7 @@ vi.mock('../server/db', () => ({
   grantAccountMechChroma: vi.fn(async () => ({ completedQuestIds: [], mechChromaIds: [] })),
 }));
 
+import { assembleEventsFrame, serializeEventFragments } from '../server/event_frame';
 import { type ClientSession, GameServer } from '../server/game';
 import type { PlayerClass, SimEvent } from '../src/sim/types';
 
@@ -71,6 +72,11 @@ function entityPos(server: GameServer, pid: number): { x: number; y: number; z: 
   const e = server.sim.entities.get(pid);
   if (!e) throw new Error(`no entity for pid ${pid}`);
   return e.pos;
+}
+
+type ObserveSpyTarget = { observeEvent: (ctx: unknown, ev: unknown, now: unknown) => void };
+function botDetectorOf(server: GameServer): ObserveSpyTarget {
+  return (server as unknown as { botDetector: ObserveSpyTarget }).botDetector;
 }
 
 afterEach(() => vi.restoreAllMocks());
@@ -251,6 +257,7 @@ describe('routeEvents frame bytes and session mutations', () => {
     fOwner.sent.length = 0;
     fSpec.sent.length = 0;
     fOther.sent.length = 0;
+    const spy = vi.spyOn(botDetectorOf(server), 'observeEvent');
 
     const loot: SimEvent = { type: 'loot', text: 'You loot 5 gold', pid: owner.pid };
     routeRaw(server, [loot]);
@@ -259,11 +266,18 @@ describe('routeEvents frame bytes and session mutations', () => {
     expect(fOwner.sent).toEqual([expected]);
     expect(fSpec.sent).toEqual([expected]);
     expect(fOther.sent).toEqual([]);
-    // Heavy-self field re-diff is armed for the owner (its own snapshot), and for the
-    // spectator whose anchor is the owner; a spectator has no !spectating guard on this
-    // flip, so it too dirties. The unrelated session never saw the event.
+    // Heavy-self field re-diff is armed for the owner (its own snapshot) AND for the
+    // spectator whose anchor is the owner: the selfHeavyDirty flip has no !spectating
+    // guard, so the spectator dirties too. The unrelated session never saw the event.
     expect(owner.selfHeavyDirty).toBe(true);
+    expect(spec.selfHeavyDirty).toBe(true);
     expect(other.selfHeavyDirty).toBe(false);
+    // observeEvent, by contrast, IS !spectating-guarded on the plain arm (site 2): the
+    // spectator reaches the plain arm (its anchor is the owner) but is suppressed, so the
+    // event is observed exactly once, for the owner. This pins the guard's suppression
+    // direction; removing it would let the spectator double-observe the owner's events.
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy.mock.calls[0][0]).toBe(owner.botTrackingContext);
   });
 
   it('drops chat from a blocked sender and public chat from an ignored sender', () => {
@@ -417,5 +431,197 @@ describe('routeEvents frame bytes and session mutations', () => {
       expect(crowd[i].fc.sent).toEqual([broadcastFrame]);
       expect(crowd[i].fc.sent[0]).toBe(crowd[1].fc.sent[0]);
     }
+  });
+});
+
+// Pins for the per-session side effects and the serialize-once shape that the golden
+// byte fixture above does not, on its own, lock. The two lastWhisperFrom sites and the
+// selfHeavyDirty flip are pinned by the whisper and heavy-self cases in the fixture
+// (reverting any of those three lines reds a named case there). These add the two
+// botDetector.observeEvent call sites, whose stub is a no-op so only a spy can see them,
+// and the O(events) serialization shape.
+describe('routeEvents bot-detector observation and serialize-once shape', () => {
+  it('observes a pid-scoped chat once at the plain arm for a non-spectating recipient (site 2)', () => {
+    const server = new GameServer();
+    const fa = fakeWs();
+    const sa = joinServer(server, fa, 1, 'Ayla');
+    const fb = fakeWs();
+    const sb = joinServer(server, fb, 2, 'Bram');
+    const spy = vi.spyOn(botDetectorOf(server), 'observeEvent');
+
+    // A whisper addressed to Bram, who is not spectating: only the plain arm can fire
+    // (the spectating-mirror arm requires session.spectating).
+    const whisper: SimEvent = {
+      type: 'chat',
+      fromPid: sa.pid,
+      from: 'Ayla',
+      channel: 'whisper',
+      text: 'hi',
+      pid: sb.pid,
+    };
+    routeRaw(server, [whisper]);
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy.mock.calls[0][0]).toBe(sb.botTrackingContext);
+    expect(spy.mock.calls[0][1]).toBe(whisper);
+    expect(typeof spy.mock.calls[0][2]).toBe('number');
+  });
+
+  it('observes a self-addressed chat once at the spectating-mirror arm (site 1), which has no !spectating guard', () => {
+    const server = new GameServer();
+    const fWatcher = fakeWs();
+    const watcher = joinServer(server, fWatcher, 1, 'Watcher');
+    const fSubject = fakeWs();
+    const subject = joinServer(server, fSubject, 2, 'Subject');
+    watcher.spectating = {
+      characterId: subject.characterId,
+      name: 'Subject',
+      savedPos: { ...entityPos(server, watcher.pid) },
+      priorGm: false,
+      stowedPet: null,
+    };
+    const spy = vi.spyOn(botDetectorOf(server), 'observeEvent');
+
+    // A whisper addressed to the spectating Watcher's OWN pid: only the mirror arm can
+    // fire (the plain arm's observe is guarded by !session.spectating).
+    const whisper: SimEvent = {
+      type: 'chat',
+      fromPid: subject.pid,
+      from: 'Subject',
+      channel: 'whisper',
+      text: 'psst',
+      pid: watcher.pid,
+    };
+    routeRaw(server, [whisper]);
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy.mock.calls[0][0]).toBe(watcher.botTrackingContext);
+    expect(spy.mock.calls[0][1]).toBe(whisper);
+    expect(typeof spy.mock.calls[0][2]).toBe('number');
+  });
+
+  it('serializes each event exactly once for the whole batch, not once per session', () => {
+    const server = new GameServer();
+    const sessions: ClientSession[] = [];
+    for (let i = 0; i < 24; i++) {
+      const fc = fakeWs();
+      sessions.push(joinServer(server, fc, i + 1, `Crowd${i}`));
+    }
+    const speaker = sessions[0];
+    // Twelve broadcast lines fanned to 24 sessions: a per-session serialization would
+    // stringify once per recipient (24 calls), a per-session-per-event one would be 288.
+    // Serialize-once is exactly events.length (12). The batch is deliberately kept
+    // stringify-neutral outside serializeEventFragments: plain broadcast chat with no
+    // flair, no social invites, and no pid-scoped events, so nothing else on the fan-out
+    // path calls JSON.stringify and inflates the count. Keep it that way if extended.
+    const batch: SimEvent[] = [];
+    for (let i = 0; i < 12; i++) {
+      batch.push({
+        type: 'chat',
+        fromPid: speaker.pid,
+        from: 'Crowd0',
+        channel: 'general',
+        text: `m${i}`,
+      });
+    }
+    expect(batch.length).toBeLessThan(sessions.length); // the pin only bites while this holds
+    const stringifySpy = vi.spyOn(JSON, 'stringify');
+    stringifySpy.mockClear();
+    routeRaw(server, batch);
+
+    expect(stringifySpy).toHaveBeenCalledTimes(batch.length);
+  });
+});
+
+// Direct unit tests of the extracted pure module. The integration cases above pin the
+// real wire bytes (stronger), but these document the module contract at the shapes the
+// caller's mine.length > 0 guard keeps the integration path from reaching (an empty list,
+// a single fragment) and the length-alignment serializeEventFragments must hold.
+describe('event_frame pure assembly', () => {
+  it('serializeEventFragments stringifies each event once, index-aligned', () => {
+    const events = [
+      { type: 'chat', fromPid: 7, from: 'A', channel: 'general', text: 'hi' },
+      { type: 'loot', text: 'gold', pid: 7 },
+    ] as unknown as SimEvent[];
+    const frags = serializeEventFragments(events);
+    expect(frags).toHaveLength(events.length);
+    expect(frags[0]).toBe(JSON.stringify(events[0]));
+    expect(frags[1]).toBe(JSON.stringify(events[1]));
+  });
+
+  it('assembleEventsFrame is byte-identical to JSON.stringify of the whole frame object', () => {
+    const events = [
+      { type: 'chat', fromPid: 7, from: 'A', channel: 'general', text: 'hi' },
+      { type: 'loot', text: 'gold', pid: 7 },
+    ] as unknown as SimEvent[];
+    expect(assembleEventsFrame(serializeEventFragments(events))).toBe(
+      JSON.stringify({ t: 'events', list: events }),
+    );
+  });
+
+  it('assembleEventsFrame renders an empty list as the empty-array frame', () => {
+    expect(assembleEventsFrame([])).toBe('{"t":"events","list":[]}');
+  });
+
+  it('assembleEventsFrame joins a single fragment with no trailing separator', () => {
+    expect(assembleEventsFrame(['{"type":"log","text":"x"}'])).toBe(
+      '{"t":"events","list":[{"type":"log","text":"x"}]}',
+    );
+  });
+});
+
+// Over-delivery and empty-batch selection guards the fan-out relies on (pre-existing
+// routeEvents branches the refactor keeps intact).
+describe('routeEvents selection guards', () => {
+  it('does not deliver the spectated target whisper to a spectator (plain-arm chat skip)', () => {
+    const server = new GameServer();
+    const fWatcher = fakeWs();
+    const watcher = joinServer(server, fWatcher, 1, 'Watcher');
+    const fTarget = fakeWs();
+    const target = joinServer(server, fTarget, 2, 'Target');
+    const fSender = fakeWs();
+    const sender = joinServer(server, fSender, 3, 'Sender');
+    // Watcher spectates Target: a spectator sees the target's say/yell but NEVER their
+    // private whispers (the plain-arm skip at ev.channel not in say/yell while spectating).
+    watcher.spectating = {
+      characterId: target.characterId,
+      name: 'Target',
+      savedPos: { ...entityPos(server, watcher.pid) },
+      priorGm: false,
+      stowedPet: null,
+    };
+    fWatcher.sent.length = 0;
+    fTarget.sent.length = 0;
+
+    const whisper: SimEvent = {
+      type: 'chat',
+      fromPid: sender.pid,
+      from: 'Sender',
+      channel: 'whisper',
+      text: 'private',
+      pid: target.pid,
+    };
+    routeRaw(server, [whisper]);
+
+    expect(fTarget.sent).toEqual([
+      eventsFrame({
+        type: 'chat',
+        fromPid: sender.pid,
+        from: 'Sender',
+        channel: 'whisper',
+        text: 'private',
+        pid: target.pid,
+      }),
+    ]);
+    expect(fWatcher.sent).toEqual([]);
+  });
+
+  it('sends nothing for an empty batch', () => {
+    const server = new GameServer();
+    const fa = fakeWs();
+    joinServer(server, fa, 1, 'Ayla');
+    fa.sent.length = 0;
+    routeRaw(server, []);
+    expect(fa.sent).toEqual([]);
   });
 });

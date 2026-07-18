@@ -144,6 +144,7 @@ import { enqueueActivity } from './discord_activity';
 import { discordFlairForAccount, grantRewardPoints } from './discord_db';
 import { enqueueRelay } from './discord_relay';
 import { formatDuration } from './duration';
+import { assembleEventsFrame, serializeEventFragments } from './event_frame';
 import { mergedPrsForLogin } from './github_contributors';
 import { githubForAccount } from './github_db';
 import { forEachGuarded, runGuarded } from './guarded_iter';
@@ -5807,6 +5808,12 @@ export class GameServer {
     // batch (dropped for every session and declined in the sim), not per
     // receiving session, so spectators of the target never see them either.
     const suppressedInvites = this.suppressBlockedSocialInvites(events);
+    // Serialize each event exactly once for the whole batch (after the flair stamp
+    // above, so the fragment carries the final wire shape). Every recipient's frame is
+    // then assembled by joining the fragments it selects, index-aligned with `events`,
+    // instead of re-stringifying a per-session { t:'events', list } object. Byte-for-byte
+    // identical to the old per-session JSON.stringify; only the fan-out cost changes.
+    const fragments = serializeEventFragments(events);
     // Guard each session: a throw while routing events to one player must not
     // drop this tick's events for every other session (server/CLAUDE.md).
     forEachGuarded(
@@ -5823,8 +5830,9 @@ export class GameServer {
           anchorPid = target.pid;
           anchorPos = targetEntity.pos;
         }
-        const mine: SimEvent[] = [];
-        for (const ev of events) {
+        const mine: string[] = [];
+        for (let i = 0; i < events.length; i++) {
+          const ev = events[i];
           if (suppressedInvites?.has(ev)) continue;
           // ignore list: drop chat originating from a character this player has
           // blocked, before it ever reaches their client
@@ -5854,7 +5862,7 @@ export class GameServer {
               ev.channel !== 'yell'
             ) {
               if (this.isBlockedSender(session, ev.fromPid)) continue;
-              mine.push(ev);
+              mine.push(fragments[i]);
               if (ev.channel === 'whisper' && ev.to === undefined && ev.fromPid !== session.pid) {
                 session.lastWhisperFrom = ev.from;
               }
@@ -5870,7 +5878,7 @@ export class GameServer {
               ) {
                 continue;
               }
-              mine.push(ev);
+              mine.push(fragments[i]);
               // a sim-driven change to a heavy self field (loot, level-up, quest
               // credit, ...) refreshes those fields on the next snapshot
               if (HEAVY_SELF_EVENTS.has(ev.type)) session.selfHeavyDirty = true;
@@ -5894,10 +5902,12 @@ export class GameServer {
           // world events: only those near this player
           const anchor = this.eventAnchor(ev);
           if (anchor === null || dist2d(anchorPos, anchor) <= EVENT_RADIUS) {
-            mine.push(ev);
+            mine.push(fragments[i]);
           }
         }
-        if (mine.length > 0) this.send(session, { t: 'events', list: mine });
+        // sendRaw (not send) so the pre-serialized fragments are not re-stringified;
+        // the assembled string is byte-identical to send({ t:'events', list: events }).
+        if (mine.length > 0) this.sendRaw(session, assembleEventsFrame(mine));
       },
       (err, session) =>
         console.error(`[events] failed to route events for pid ${session.pid}, skipping:`, err),
