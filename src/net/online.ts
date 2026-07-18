@@ -12,15 +12,15 @@ import { bagCapacity } from '../sim/bags';
 import { signChallenge } from '../sim/client_challenge';
 import { mechChromaItemId, mechChromaSkinIndex } from '../sim/content/skins';
 import {
-  cloneAllocation,
   computeTalentModifiers,
   emptyAllocation,
-  pointsSpent,
   type Role,
-  SAVED_LOADOUT_BAR_SLOTS,
+  repairAllocation,
+  rowsPicked,
+  rowsUnlockedAtLevel,
   type SavedLoadout,
   type TalentAllocation,
-  talentPointsAtLevel,
+  type TalentRowLevel,
 } from '../sim/content/talents';
 import { resolveSportKit } from '../sim/content/vale_cup';
 import { resolveActiveWeaponSkin, withWeaponSkinApplied } from '../sim/content/weapon_skin_rules';
@@ -36,6 +36,8 @@ import { getArchetypeTitle, getHobbyCraft } from '../sim/professions/archetype';
 import type { MaterialRarity } from '../sim/professions/gathering';
 import { emptyCraftSkills } from '../sim/professions/wheel';
 import type { ResolvedAbility } from '../sim/sim';
+import { parseTalentAllocation } from '../sim/talent_allocation_input';
+import { repairTalentLoadouts } from '../sim/talent_loadouts';
 import {
   type DeedStats,
   type DungeonDifficulty,
@@ -60,6 +62,8 @@ import {
 } from '../sim/types';
 import {
   type AccountCosmetics,
+  type ActiveFrostRing,
+  type ActiveTemporalHourglass,
   type ArenaInfo,
   type BankInfo,
   type CardMinigameInfo,
@@ -122,9 +126,10 @@ export interface CharacterSummary {
   playtimeSeconds?: number;
   // Real, in-world appearance so the char-select preview matches the game. Both
   // optional for back-compat with an older server that omits them: absent
-  // skinCatalog defaults to the class rig, absent mainhand shows no weapon.
+  // skinCatalog defaults to the class rig, absent hand fields show no item.
   skinCatalog?: 'class' | 'mech';
   mainhandItemId?: string | null;
+  offhandItemId?: string | null;
 }
 
 function stringList(value: unknown): string[] {
@@ -1052,6 +1057,7 @@ function blankEntity(id: number): Entity {
       pvpDefense: 0,
     },
     weapon: { min: 1, max: 2, speed: 2 },
+    offhandWeapon: null,
     attackPower: 0,
     rangedPower: 0,
     spellPower: 0,
@@ -1061,6 +1067,7 @@ function blankEntity(id: number): Entity {
     setProcs: [],
     procReadyAt: undefined as unknown as Record<string, number>,
     critChance: 0.05,
+    sharedCritBonus: 0,
     critRating: 0,
     hasteRating: 0,
     hitRating: 0,
@@ -1069,11 +1076,15 @@ function blankEntity(id: number): Entity {
     critDmgPhysBonus: 0,
     critDmgHealBonus: 0,
     dodgeChance: 0.05,
+    blockChance: 0,
+    blockValue: 0,
     moveSpeed: 7,
     hostile: false,
     targetId: null,
     autoAttack: false,
     swingTimer: 0,
+    offhandSwingTimer: 0,
+    dualWielding: false,
     inCombat: false,
     combatTimer: 99,
     auras: [],
@@ -1087,6 +1098,7 @@ function blankEntity(id: number): Entity {
     channeling: false,
     channelTickTimer: 0,
     channelTickEvery: 0,
+    channelTicksLeft: 0,
     gcdRemaining: 0,
     cooldowns: new Map(),
     queuedOnSwing: null,
@@ -1131,6 +1143,7 @@ function blankEntity(id: number): Entity {
     petMode: 'defensive',
     petTauntTimer: 0,
     petAutoTaunt: false,
+    petAutoWaterJet: false,
     petManualTauntPending: false,
     spawnPos: { x: 0, y: 0, z: 0 },
     leashAnchor: null,
@@ -1161,6 +1174,7 @@ function blankEntity(id: number): Entity {
     skinCatalog: 'class',
     skin: 0,
     mainhandItemId: null,
+    offhandItemId: null,
     weaponSkinLoadout: {},
     weaponSkinId: null,
     equippedItems: {},
@@ -1422,6 +1436,8 @@ export class ClientWorld implements IWorld {
   private readonly base: string;
   private readonly clientSeed: string;
   private eventQueue: SimEvent[] = [];
+  activeFrostRings: ActiveFrostRing[] = [];
+  activeTemporalHourglasses: ActiveTemporalHourglass[] = [];
   // inventory deltas arrive in snapshots, separate from the event frames the
   // HUD redraws on — the frame loop polls this so open panels re-render
   private invChanged = false;
@@ -1945,6 +1961,61 @@ export class ClientWorld implements IWorld {
     if (typeof snap.tickHz === 'number' && Number.isFinite(snap.tickHz) && snap.tickHz > 0) {
       this.serverTickHz = snap.tickHz;
     }
+    this.activeFrostRings = Array.isArray(snap.rings)
+      ? snap.rings.flatMap((value: unknown): ActiveFrostRing[] => {
+          if (!value || typeof value !== 'object') return [];
+          const ring = value as Record<string, unknown>;
+          if (
+            typeof ring.id !== 'string' ||
+            ![ring.x, ring.z, ring.r, ring.i, ring.dur, ring.rem].every(
+              (value) => typeof value === 'number' && Number.isFinite(value),
+            ) ||
+            (ring.r as number) <= 0 ||
+            (ring.i as number) < 0 ||
+            (ring.i as number) >= (ring.r as number) ||
+            (ring.dur as number) <= 0 ||
+            (ring.rem as number) <= 0
+          )
+            return [];
+          return [
+            {
+              id: ring.id,
+              x: ring.x as number,
+              z: ring.z as number,
+              radius: ring.r as number,
+              innerRadius: ring.i as number,
+              duration: ring.dur as number,
+              remaining: Math.min(ring.rem as number, ring.dur as number),
+            },
+          ];
+        })
+      : [];
+    this.activeTemporalHourglasses = Array.isArray(snap.hourglasses)
+      ? snap.hourglasses.flatMap((value: unknown): ActiveTemporalHourglass[] => {
+          if (!value || typeof value !== 'object') return [];
+          const hourglass = value as Record<string, unknown>;
+          if (
+            typeof hourglass.id !== 'string' ||
+            ![hourglass.x, hourglass.z, hourglass.r, hourglass.dur, hourglass.rem].every(
+              (entry) => typeof entry === 'number' && Number.isFinite(entry),
+            ) ||
+            (hourglass.r as number) <= 0 ||
+            (hourglass.dur as number) <= 0 ||
+            (hourglass.rem as number) <= 0
+          )
+            return [];
+          return [
+            {
+              id: hourglass.id,
+              x: hourglass.x as number,
+              z: hourglass.z as number,
+              radius: hourglass.r as number,
+              duration: hourglass.dur as number,
+              remaining: Math.min(hourglass.rem as number, hourglass.dur as number),
+            },
+          ];
+        })
+      : [];
 
     // lazy init (not the field initializer alone): tests build bare instances
     // via Object.create(ClientWorld.prototype), which skips field initializers
@@ -1977,6 +2048,7 @@ export class ClientWorld implements IWorld {
         e.level = w.lv;
         e.skin = w.sk ?? 0;
         e.mainhandItemId = w.mh ?? null; // equipped mainhand → held weapon model (render-only)
+        e.offhandItemId = w.oh ?? null; // equipped offhand → held weapon model (render-only)
         e.weaponSkinId = w.wsk ?? null; // active weapon-skin cosmetic (render-only)
         e.equippedItems = w.eq ?? {}; // full worn set (render-only), for the inspect window
         e.skinCatalog = w.cat === 'mech' ? 'mech' : 'class';
@@ -2102,6 +2174,10 @@ export class ClientWorld implements IWorld {
       e.sitting = !!w.sit;
       e.weaponStowed = !!w.ws;
       e.aggroTargetId = w.aggro ?? null;
+      // Another entity's selected target (players/bots; mobs use aggro above). Powers
+      // the target-of-target frame for a player target. For the SELF record this is
+      // re-set authoritatively from `s.target` in the self-decode below (same value).
+      e.targetId = w.tgt ?? null;
       e.tappedById = w.tap ?? null;
       // corpse harvest claim: unconditional so a record without hcb (unclaimed,
       // or a respawn that cleared the claim) resets any stale mirrored pid
@@ -2110,6 +2186,7 @@ export class ClientWorld implements IWorld {
       e.petMode = w.pm ?? 'defensive';
       e.petTauntTimer = w.pt ?? 0;
       e.petAutoTaunt = !!w.pa;
+      e.petAutoWaterJet = !!w.pw;
       e.petManualTauntPending = false;
       // same semantics as `new Map(w.thr ?? [])` (absent thr = empty table), but
       // updates the existing Map in place: no per-entity Map churn at 20 Hz
@@ -2155,6 +2232,7 @@ export class ClientWorld implements IWorld {
           // sends it only when defined (server/game.ts), so an ordinary aura or an old server
           // decodes to undefined and the badge falls back to the stacks path, exactly as before.
           rec.charges = a.charges;
+          rec.empowerAbilities = a.emp;
           // The caster's entity id, for the target strip's own-aura prominence
           // (auras_view ownFirst). An old server omits it; 0 matches no player id.
           rec.sourceId = a.src ?? 0;
@@ -2174,6 +2252,7 @@ export class ClientWorld implements IWorld {
           school: a.school ?? 'physical',
           stacks: a.stacks,
           charges: a.charges,
+          empowerAbilities: a.emp,
         }));
       }
       e.loot = w.lootList ?? null;
@@ -2233,6 +2312,19 @@ export class ClientWorld implements IWorld {
       // see tests/CLAUDE.md) may not have pre-initialized it.
       if (s.ncd !== undefined) {
         this.nodeCooldowns = new Map(Object.entries(s.ncd).map(([k, v]) => [k, Number(v)]));
+      }
+      if (s.achg !== undefined) {
+        // Recharge-model live counts (Frost's second Ice Block). Only the count is
+        // displayed; max/recharge are server-side details the mirror zero-fills.
+        e.abilityCharges = {};
+        for (const k in s.achg) {
+          e.abilityCharges[k] = {
+            charges: Number(s.achg[k]),
+            maxCharges: 0,
+            recharge: 0,
+            rechargeLength: 0,
+          };
+        }
       }
       e.gcdRemaining = s.gcd ?? 0;
       e.potionCdRemaining = s.pcd ?? 0;
@@ -2314,14 +2406,24 @@ export class ClientWorld implements IWorld {
       // talent state (heavy field, sent on change): mirror it, then resolve known
       // with the precomputed modifiers so granted abilities + tweaks show locally.
       if (s.tal !== undefined && s.tal) {
-        this.talents = s.tal.alloc ?? emptyAllocation();
-        this.talentSpec = s.tal.spec ?? null;
-        this.talentRole = s.tal.role ?? null;
-        this.loadouts = s.tal.loadouts ?? [];
-        this.activeLoadout = typeof s.tal.activeLoadout === 'number' ? s.tal.activeLoadout : -1;
+        const parsed = parseTalentAllocation(s.tal.alloc);
+        if (parsed) {
+          this.talents = repairAllocation(this.cfg.playerClass, parsed, e.level);
+          const repairedLoadouts = repairTalentLoadouts(
+            this.cfg.playerClass,
+            e.level,
+            s.tal.loadouts,
+            s.tal.activeLoadout,
+          );
+          this.loadouts = repairedLoadouts.loadouts;
+          this.activeLoadout = repairedLoadouts.activeLoadout;
+        }
       }
       if (!this.talents) this.talents = emptyAllocation();
       const talents = this.talents;
+      const talentMods = computeTalentModifiers(this.cfg.playerClass, talents, e.level);
+      this.talentSpec = talentMods.spec;
+      this.talentRole = talentMods.role;
       // IWorldValeCup sport-kit swap (the wire trap, docs/prd/vale-cup.md): a
       // server-side meta.known swap is invisible to this derived rebuild, so
       // the server flags the live role via the wireRev-gated heavy `sport`
@@ -2331,11 +2433,7 @@ export class ClientWorld implements IWorld {
       if (s.sport !== undefined) this.sportRole = s.sport ? (s.sport.role ?? null) : null;
       this.known = this.sportRole
         ? resolveSportKit(this.sportRole)
-        : abilitiesKnownAt(
-            this.cfg.playerClass,
-            e.level,
-            computeTalentModifiers(this.cfg.playerClass, talents, e.level),
-          );
+        : abilitiesKnownAt(this.cfg.playerClass, e.level, talentMods);
       // --- IWorldParty: party roster + raid markers, delta-omitted self-decode
       // (keep the prior value when absent; `marks: null` clears on disband). ---
       if (s.party !== undefined) this.partyInfo = s.party;
@@ -2557,6 +2655,16 @@ export class ClientWorld implements IWorld {
     // Ground-targeted: no entity target involved, so no dead-target guard.
     this.cmd({ cmd: 'castAt', ability: abilityId, x: aim.x, z: aim.z });
   }
+  // Mouseover cast: the friendly-target override rides the existing 'cast'
+  // token as an extra field; the server routes it to sim.castAbilityOn. No
+  // dead-target pre-reject here: friendly casts never take that path, and a
+  // stale override falls back to current-target-else-self server-side.
+  castAbilityOn(abilityId: string, targetId: number): void {
+    this.cmd({ cmd: 'cast', ability: abilityId, target: targetId });
+  }
+  releaseEmpoweredAbility(abilityId: string): void {
+    this.cmd({ cmd: 'releaseEmpowered', ability: abilityId });
+  }
   cancelAura(auraId: string): void {
     // Authoritative on the server; the dropped aura disappears on the next self
     // snapshot. No optimistic local removal (stat recalc is server-owned).
@@ -2576,6 +2684,9 @@ export class ClientWorld implements IWorld {
   }
   resurrectAtSpiritHealer(): Promise<boolean> {
     return this.cmdWithOutcome({ cmd: 'resurrect_healer' });
+  }
+  respondToResurrection(accept: boolean): void {
+    this.cmd({ cmd: 'resurrect_respond', accept });
   }
 
   // --- IWorldTargeting: target selection + tab cycling ---
@@ -2807,6 +2918,9 @@ export class ClientWorld implements IWorld {
   petTaunt(): void {
     this.cmd({ cmd: 'pet_taunt' });
   }
+  petWaterJet(): void {
+    this.cmd({ cmd: 'pet_water_jet' });
+  }
   setPetAutoTaunt(enabled: boolean): void {
     for (const e of this.entities.values()) {
       if (e.kind === 'mob' && e.ownerId === this.playerId) {
@@ -2815,6 +2929,16 @@ export class ClientWorld implements IWorld {
       }
     }
     this.cmd({ cmd: 'pet_auto_taunt', enabled });
+  }
+
+  setPetAutoWaterJet(enabled: boolean): void {
+    for (const e of this.entities.values()) {
+      if (e.kind === 'mob' && e.ownerId === this.playerId) {
+        e.petAutoWaterJet = enabled;
+        break;
+      }
+    }
+    this.cmd({ cmd: 'pet_auto_water_jet', enabled });
   }
   feedPet(itemId: string): void {
     this.cmd({ cmd: 'pet_feed', item: itemId });
@@ -3527,13 +3651,11 @@ export class ClientWorld implements IWorld {
   prestige(): void {
     this.cmd({ cmd: 'prestige' });
   }
-  // --- IWorldTalents: talentPoints is a local compute (no send); applyTalents/
-  // respec/setSpec/saveLoadout/switchLoadout/deleteLoadout send camelCase commands,
-  // saveLoadout/deleteLoadout carry sanctioned display-only local recompute.
-  // Talents & Specializations: the server re-validates every allocation. ---
+  // --- IWorldTalents: talentPoints is a local display compute; every mutation
+  // is sent to the authoritative server and mirrors only from a later snapshot. ---
   talentPoints(): { total: number; spent: number } {
     const level = this.entities.get(this.playerId)?.level ?? 1;
-    return { total: talentPointsAtLevel(level), spent: pointsSpent(this.talents) };
+    return { total: rowsUnlockedAtLevel(level), spent: rowsPicked(this.talents) };
   }
   applyTalents(alloc: TalentAllocation): void {
     this.cmd({ cmd: 'applyTalents', alloc });
@@ -3544,51 +3666,17 @@ export class ClientWorld implements IWorld {
   setSpec(specId: string | null): void {
     this.cmd({ cmd: 'setSpec', spec: specId });
   }
+  selectTalentRow(level: TalentRowLevel, optionId: string | null): void {
+    this.cmd({ cmd: 'selectTalentRow', level, optionId });
+  }
   saveLoadout(name: string, bar: (string | null)[], alloc?: TalentAllocation): void {
     this.cmd({ cmd: 'saveLoadout', name, bar, alloc });
-    if (alloc) {
-      const clean = (name || 'Build').toString().slice(0, 24);
-      const safeBar = Array.isArray(bar)
-        ? bar.slice(0, SAVED_LOADOUT_BAR_SLOTS).map((b) => (typeof b === 'string' ? b : null))
-        : [];
-      const saved = { name: clean, alloc: cloneAllocation(alloc), bar: safeBar };
-      this.talents = cloneAllocation(alloc);
-      const existing = this.loadouts.findIndex((l) => l.name === clean);
-      if (existing >= 0) {
-        this.loadouts[existing] = saved;
-        this.activeLoadout = existing;
-      } else {
-        this.loadouts = [...this.loadouts, saved];
-        this.activeLoadout = this.loadouts.length - 1;
-      }
-      this.known = abilitiesKnownAt(
-        this.cfg.playerClass,
-        this.player.level,
-        computeTalentModifiers(this.cfg.playerClass, this.talents, this.player.level),
-      );
-    }
   }
   switchLoadout(index: number): void {
     this.cmd({ cmd: 'switchLoadout', index });
   }
   deleteLoadout(index: number): void {
     this.cmd({ cmd: 'deleteLoadout', index });
-    if (index < 0 || index >= this.loadouts.length) return;
-    const wasActive = this.activeLoadout === index;
-    this.loadouts = this.loadouts.filter((_, i) => i !== index);
-    if (wasActive) {
-      this.activeLoadout =
-        this.loadouts.length > 0 ? Math.min(index, this.loadouts.length - 1) : -1;
-      const next = this.activeLoadout >= 0 ? this.loadouts[this.activeLoadout] : null;
-      if (next) {
-        this.talents = cloneAllocation(next.alloc);
-        this.known = abilitiesKnownAt(
-          this.cfg.playerClass,
-          this.player.level,
-          computeTalentModifiers(this.cfg.playerClass, this.talents, this.player.level),
-        );
-      }
-    } else if (this.activeLoadout > index) this.activeLoadout -= 1;
   }
   // legacy aliases kept for older scripts
   enterCrypt(): void {

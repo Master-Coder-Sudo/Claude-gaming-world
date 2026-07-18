@@ -599,9 +599,11 @@ export const ZONE1_NPCS: Record<string, NpcDef> = {
     questIds: ['q_archetype_acceptance', 'q_prof_make_amends', 'q_prof_hobby_switch'],
     vendorItems: [
       'eastbrook_arming_sword',
+      'eastbrook_greatsword',
       'bronzework_mace',
       'vale_carving_knife',
       'hickory_shortstaff',
+      'eastbrook_buckler',
       'eastbrook_chain_vest',
       'valespun_robe',
       'tanned_leather_jerkin',
