@@ -1615,8 +1615,8 @@ export const ru_RU: EnTranslations = {
       "removeFromBarAria": "Убрать {name} с панели действий"
     },
     "nameplate": {
-      "mob": "[{level}] {name}",
-      "mobElite": "[{level}+] {name}"
+      "mobLevel": "{level}",
+      "mobEliteLevel": "{level}+"
     },
     "mobTooltip": {
       "levelFamily": "Уровень {level} {family}",

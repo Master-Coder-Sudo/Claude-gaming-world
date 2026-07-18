@@ -1615,8 +1615,8 @@ export const sv_SE: EnTranslations = {
       "removeFromBarAria": "Ta bort {name} från handlingsfältet"
     },
     "nameplate": {
-      "mob": "[{level}] {name}",
-      "mobElite": "[{level}+] {name}"
+      "mobLevel": "{level}",
+      "mobEliteLevel": "{level}+"
     },
     "mobTooltip": {
       "levelFamily": "Nivå {level} {family}",

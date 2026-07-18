@@ -1615,8 +1615,8 @@ export const cs_CZ: EnTranslations = {
       "removeFromBarAria": "Odebrat {name} z akční lišty"
     },
     "nameplate": {
-      "mob": "[{level}] {name}",
-      "mobElite": "[{level}+] {name}"
+      "mobLevel": "{level}",
+      "mobEliteLevel": "{level}+"
     },
     "mobTooltip": {
       "levelFamily": "Úroveň {level} {family}",
