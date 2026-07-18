@@ -13,7 +13,7 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 2 QA | Verify masterwork model | complete | 2026-07-17 | 2026-07-17 |
 | 3 | Host-parity bug fixes | complete | 2026-07-17 | 2026-07-17 |
 | 3 QA | Verify host-parity bug fixes | complete | 2026-07-17 | 2026-07-17 |
-| 4 | Node materials and pristine veins | not started | | |
+| 4 | Node materials and pristine veins | complete | 2026-07-18 | 2026-07-18 |
 | 4 QA | Verify node materials and pristine veins | not started | | |
 | 5 | The professions wheel window | not started | | |
 | 5 QA | Verify the professions wheel window | not started | | |
@@ -164,10 +164,37 @@ not open online, pre-existing); flip with an open-gate test when
 Phase 4 makes gathering trust corpse claims (details in state.md).
 
 ### Phase 4: Node materials and pristine veins
-- [ ] Per-rarity node material tables replace placeholder junk (zone-1 stays low-tier)
-- [ ] Rare+ node yields signed like corpse yields
-- [ ] Per-node-type rare events: pristine vein / ancient heartwood / moonlit bloom (spawns, per-flavor soft broadcasts, deed-mark hooks)
-- [ ] `gatherResult` consumed: gather cue + rarity-colored loot line
+- [x] Per-rarity node material tables replace placeholder junk (zone-1 stays low-tier)
+- [x] Rare+ node yields signed like corpse yields
+- [x] Per-node-type rare events: pristine vein / ancient heartwood / moonlit bloom (spawns, per-flavor soft broadcasts, deed-mark hooks)
+- [x] `gatherResult` consumed: gather cue + rarity-colored loot line
+
+Completed 2026-07-18 (phase-start HEAD 4d8b32d09, the release/v0.28.0 tip
+with Phase 3 QA aboard). `NODE_MATERIAL_TABLE` in
+`src/sim/professions/gathering.ts` grants zone-tiered materials (four new
+low-tier defs; zones 2 and 3 reuse the existing recipe-consumed premium
+reagents, closing the loop the TOOL_RECIPE_STUBS note forward-declared);
+zone 1 grants only the sellValue-4 starters per the stockpiling
+mitigation, pinned with a non-vacuous negative arm. resolveHarvest draws
+twice (rarity, then the 1/90 rare-event roll in the new
+`gather_events.ts` module); the one-draw pins were re-pinned deliberately.
+Rare events are five-fold always-signed yields with a per-recipient
+soft-zone broadcast (the Phase 6 reuse mechanism; instance space excluded
+via DUNGEON_X_THRESHOLD) and dormant `gather_event:<flavor>` deed marks.
+The Phase 3 deferral landed: main.ts's three open-gate sites now trust
+the hcb mirror (`tests/gather_open_gate.test.ts` pins both arms plus the
+pre-existing INTERACT_RANGE + 1 open boundary, which keeps despawn-grace
+corpses out of reach). The HUD consumes gatherResult as a rarity-colored
+"You gather:" line worded apart from the grant hub's "You receive:" loot
+line with no second cue (review catch: the first draft double-logged and
+double-played; five-reviewer fan-out, zero blocking after fixes). A new
+parity scenario `professions_gather` (seed 3) pins the draw order across
+hosts; no existing golden changed. gatherResult gained qty and rareEvent
+fields; the cue reuses existing sampled SFX (new cues are
+manifest-gated). Deferred: node tier gating (Phase 12), recipe
+consumption of the new materials (Phase 10), rare-event deed authoring
+(Phase 15), a live-server instance-exclusion broadcast arm (unit-level
+covered).
 
 ### Phase 5: The professions wheel window
 - [ ] New window at deeds quality per DESIGN.md: view core (UI_PURE_CORES), painter, styles, i18n
