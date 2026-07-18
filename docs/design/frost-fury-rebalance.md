@@ -379,3 +379,8 @@ misses the target.
 
 There is no scheduled five-ability migration. Further spell removal follows evidence from the
 incremental audits and mobile-user feedback.
+
+The shipped hotfix probe result (230.6 to 147.2 sustained DPS and 13.2 to 7.3 Red Harvests per
+minute on `scripts/fury_dps_probe.ts`) does not by itself prove the roughly 300 DPS raid case is
+solved. The next blanket tuning decision, including the W11 reserve coefficient round, waits for
+PBE raid data before any further coefficient nerf.
