@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 // The Node major every deploy and CI carrier must agree on, and the exact runtime
-// base tag. A coordinated bump moves this ONE constant plus the four carriers read
+// base tag. A coordinated bump moves this ONE constant plus every carrier read
 // below; a bump that forgets any single carrier fails that carrier's extraction
 // assertion here. This is deliberately a cross-carrier pin, unlike the
 // deploy_watchdog literal (which freezes DEPLOY.md's gate line against its own text
@@ -17,6 +17,7 @@ const ciWorkflow = readFileSync('.github/workflows/ci.yml', 'utf8');
 const prAiWorkflow = readFileSync('.github/workflows/pr-ai.yml', 'utf8');
 const desktopWorkflow = readFileSync('.github/workflows/desktop-publish.yml', 'utf8');
 const deployDoc = readFileSync('DEPLOY.md', 'utf8');
+const compose = readFileSync('docker-compose.yml', 'utf8');
 
 /** Every major in a `FROM node:<major>...` stage line across a Dockerfile. */
 function dockerfileFromMajors(text: string): number[] {
@@ -24,23 +25,25 @@ function dockerfileFromMajors(text: string): number[] {
 }
 
 /**
- * Every `node-version: <major>` value in a GitHub Actions workflow file. The optional
- * quote tolerates `node-version: '26'`; without it a future edit that both quotes AND
- * wrong-values one line would slip past the extraction while the literal pins passed on
- * the surviving unquoted lines.
+ * Every `node-version: <major>` value in a GitHub Actions workflow file. Anchored to the
+ * start of a line (`^\s*`, multiline) so a commented-out `# node-version: 22` reminder
+ * cannot inject a phantom value; the optional quote tolerates `node-version: '26'`; without
+ * it a future edit that both quotes AND wrong-values one line would slip past the extraction
+ * while the literal pins passed on the surviving unquoted lines.
  */
 function nodeVersionValues(text: string): number[] {
-  return [...text.matchAll(/node-version:\s*['"]?(\d+)/g)].map((m) => Number(m[1]));
+  return [...text.matchAll(/^\s*node-version:\s*['"]?(\d+)/gm)].map((m) => Number(m[1]));
 }
 
 /**
- * The Node major from DEPLOY.md's containerized tsc-gate `docker run ... -w /app node:<tag>`.
- * Anchored on the `-w /app node:` fragment (the same fragment the literal pin below uses),
- * so a future unrelated `docker run node:` example prepended above the gate cannot shift it.
+ * Every Node major from a DEPLOY.md containerized tsc-gate `docker run ... -w /app node:<tag>`.
+ * Anchored on the `-w /app node:` fragment (the same fragment the literal pin below uses), so
+ * a future unrelated `docker run node:` example prepended above the gate cannot shift it; and
+ * matchAll (not a single match) so a SECOND gate example carrying a different major is pinned
+ * too, not silently ignored.
  */
-function deployGateMajor(text: string): number | null {
-  const match = text.match(/-w \/app node:(\d+)[-.\w]*/);
-  return match ? Number(match[1]) : null;
+function deployGateMajors(text: string): number[] {
+  return [...text.matchAll(/-w \/app node:(\d+)[-.\w]*/g)].map((m) => Number(m[1]));
 }
 
 describe('deploy and CI Node version pin', () => {
@@ -82,9 +85,9 @@ describe('deploy and CI Node version pin', () => {
   // TARGET_MAJOR explicitly, plus an anchored literal so a matching reformat still
   // has to carry the exact base tag on the gate line.
   it('pins the DEPLOY.md containerized tsc-gate image to the target Node major', () => {
-    const major = deployGateMajor(deployDoc);
-    expect(major).not.toBeNull();
-    expect(major).toBe(TARGET_MAJOR);
+    const majors = deployGateMajors(deployDoc);
+    expect(majors.length).toBeGreaterThan(0);
+    for (const major of majors) expect(major).toBe(TARGET_MAJOR);
     expect(deployDoc).toContain(`-w /app ${TARGET_TAG}`);
   });
 
@@ -99,5 +102,24 @@ describe('deploy and CI Node version pin', () => {
     expect(values.length).toBeGreaterThan(0);
     for (const value of values) expect(value).toBe(22);
     expect(desktopWorkflow).not.toContain(`node-version: ${TARGET_MAJOR}`);
+  });
+
+  // The game healthcheck comment names the runtime base explicitly (node:26-slim, a Debian
+  // slim base with no curl/wget) to justify the exec-form node probe. That tag is a
+  // hand-maintained echo of the Dockerfile runtime stage on a comment line no other pin
+  // reads, so pin it to the target base tag: a coordinated bump that moves the Dockerfile
+  // but leaves the comment naming the old base reds here rather than shipping a comment that
+  // lies about the image the healthcheck runs in.
+  it('keeps the docker-compose healthcheck comment on the target base tag', () => {
+    expect(compose).toContain(`(${TARGET_TAG})`);
+  });
+
+  // DEPLOY.md's tsc-gate carries a prose aside for the host that already has Node on PATH
+  // ("On a host that does have Node <major> on PATH ..."). It states the same major as the
+  // gate image but on a different line the `-w /app node:` extraction never sees, so pin the
+  // phrase to the target major: a bump that moves the gate image but forgets this aside would
+  // otherwise leave the doc telling operators to use the wrong Node major off-box.
+  it('pins the DEPLOY.md Node-on-PATH aside to the target major', () => {
+    expect(deployDoc).toContain(`Node ${TARGET_MAJOR} on PATH`);
   });
 });
