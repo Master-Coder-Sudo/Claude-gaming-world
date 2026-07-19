@@ -2394,7 +2394,7 @@ export const zh_CN: Partial<Record<TranslationKey, string>> = {
     '将敌人变成蟾蜍，最多持续 {duration} 秒。蟾蜍会四处游荡并快速恢复。任何伤害都会打破效果。仅限野兽和人型生物。',
   'entities.abilities.frost_nova.name': '冰缚',
   'entities.abilities.frost_nova.description':
-    '将附近所有敌人冻结在原地，最多持续 8 秒，并造成 {damage} 点冰霜伤害。',
+    '将附近所有敌人冻结在原地，最多持续 8 秒，并造成 {damage} 点冰霜伤害。定身效果会在累计受到相当于目标最大生命值15%的伤害后解除，伤害阈值最低为20点，最高为60点。',
   'entities.abilities.arcane_explosion.name': '以太爆发',
   'entities.abilities.arcane_explosion.description':
     '奥术能量爆发，对附近所有敌人造成 {damage} 点奥术伤害。',
@@ -7626,7 +7626,7 @@ export const zh_CN: Partial<Record<TranslationKey, string>> = {
   'entities.items.conjured_water4.name': '魔法泉水',
   'entities.abilities.blazing_barrier.name': '炽热屏障',
   'entities.abilities.blazing_barrier.description':
-    '以烈焰环绕自身，吸收 130 点伤害，持续 60 秒。（火焰）',
+    '以烈焰环绕自身，吸收 {damage} 点伤害，持续 60 秒。（火焰）',
   'entities.abilities.cold_snap.name': '冬之召还',
   'entities.abilities.cold_snap.description':
     '立即结束闪烁步、霜幕和强效隐形术的冷却时间。（法师天赋）',

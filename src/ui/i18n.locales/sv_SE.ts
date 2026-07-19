@@ -2292,7 +2292,7 @@ export const sv_SE: Partial<Record<TranslationKey, string>> = {
     'Omsluter dig i frost och ökar rustningen med {buff} i 30 min.',
   'entities.abilities.frost_armor.name': 'Rimfrostmantel',
   'entities.abilities.frost_nova.description':
-    'Fryser fast alla närliggande fiender på platsen i upp till 8 sek och vållar {damage} frostskada.',
+    'Fryser fast alla närliggande fiender på platsen i upp till 8 sek och vållar {damage} frostskada. Fasthållningen bryts efter sammanlagd skada motsvarande 15 % av målets maximala hälsa, dock minst 20 och högst 60 skada.',
   'entities.abilities.frost_nova.name': 'Isbindning',
   'entities.abilities.frost_shock.description':
     'Chockar omedelbart målet med frost för {damage} frostskada och saktar dess förflyttning med 50 % i 8 sek.',
@@ -7994,7 +7994,7 @@ export const sv_SE: Partial<Record<TranslationKey, string>> = {
   'game.talents.rowUnlocks': 'Låses upp på nivå {level}',
   'entities.abilities.blazing_barrier.name': 'Flammande barriär',
   'entities.abilities.blazing_barrier.description':
-    'Svep in dig i lågor och absorbera 130 skada i 60 sek. (Eld)',
+    'Svep in dig i lågor och absorbera {damage} skada i 60 sek. (Eld)',
   'entities.abilities.cold_snap.name': 'Vinterns kallelse',
   'entities.abilities.cold_snap.description':
     'Avslutar nedkylningen för Flimmersteg, Frostslöja och Förbättrad osynlighet. (magikertalang)',

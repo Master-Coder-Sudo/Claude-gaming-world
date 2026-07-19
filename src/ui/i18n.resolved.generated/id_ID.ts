@@ -6350,7 +6350,7 @@ export const id_ID: EnTranslations = {
       },
       "blazing_barrier": {
         "name": "Penghalang Membara",
-        "description": "Selimuti dirimu dengan api untuk menyerap 130 kerusakan selama 60 dtk. (Api)"
+        "description": "Selimuti dirimu dengan api untuk menyerap {damage} kerusakan selama 60 dtk. (Api)"
       },
       "cold_snap": {
         "name": "Panggilan Musim Dingin",
@@ -6458,7 +6458,7 @@ export const id_ID: EnTranslations = {
       },
       "frost_nova": {
         "name": "Icebind",
-        "description": "Membekukan semua musuh di sekitar di tempatnya hingga 8 detik, memberi {damage} kerusakan Beku."
+        "description": "Membekukan semua musuh di sekitar di tempatnya hingga 8 detik, memberi {damage} kerusakan Beku. Efek pengakaran berakhir setelah menerima total kerusakan sebesar 15% kesehatan maksimum target, dengan minimal 20 dan maksimal 60 kerusakan."
       },
       "arcane_explosion": {
         "name": "Aetherburst",

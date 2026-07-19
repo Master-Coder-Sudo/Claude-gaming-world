@@ -6350,7 +6350,7 @@ export const fr_FR: EnTranslations = {
       },
       "blazing_barrier": {
         "name": "Barrière flamboyante",
-        "description": "Vous enveloppe de flammes et absorbe 130 points de dégâts pendant 60 s. (Feu)"
+        "description": "Vous enveloppe de flammes et absorbe {damage} points de dégâts pendant 60 s. (Feu)"
       },
       "cold_snap": {
         "name": "Rappel de l'hiver",
@@ -6458,7 +6458,7 @@ export const fr_FR: EnTranslations = {
       },
       "frost_nova": {
         "name": "Icebind",
-        "description": "Gèle tous les ennemis proches sur place pendant un maximum de 8 s et inflige {damage} points de dégâts de Givre."
+        "description": "Gèle tous les ennemis proches sur place pendant un maximum de 8 s et inflige {damage} points de dégâts de Givre. L’immobilisation prend fin après avoir subi un total de dégâts égal à 15 % des points de vie maximum de la cible, avec un minimum de 20 et un maximum de 60 points de dégâts."
       },
       "arcane_explosion": {
         "name": "Aetherburst",

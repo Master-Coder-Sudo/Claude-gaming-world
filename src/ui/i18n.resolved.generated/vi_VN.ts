@@ -6350,7 +6350,7 @@ export const vi_VN: EnTranslations = {
       },
       "blazing_barrier": {
         "name": "Lá Chắn Rực Lửa",
-        "description": "Bao bọc bản thân trong lửa, hấp thụ 130 sát thương trong 60 giây. (Lửa)"
+        "description": "Bao bọc bản thân trong lửa, hấp thụ {damage} sát thương trong 60 giây. (Lửa)"
       },
       "cold_snap": {
         "name": "Tiếng Gọi Mùa Đông",
@@ -6458,7 +6458,7 @@ export const vi_VN: EnTranslations = {
       },
       "frost_nova": {
         "name": "Trói Băng",
-        "description": "Đóng băng tất cả kẻ địch xung quanh tại chỗ trong tối đa 8 giây, gây {damage} sát thương Băng."
+        "description": "Đóng băng tất cả kẻ địch xung quanh tại chỗ trong tối đa 8 giây, gây {damage} sát thương Băng. Hiệu ứng trói chân bị phá vỡ sau khi nhận tổng sát thương bằng 15% máu tối đa của mục tiêu, tối thiểu 20 và tối đa 60 sát thương."
       },
       "arcane_explosion": {
         "name": "Nổ Ê-te",

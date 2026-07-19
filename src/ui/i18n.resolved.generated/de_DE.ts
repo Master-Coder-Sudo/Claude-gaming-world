@@ -6350,7 +6350,7 @@ export const de_DE: EnTranslations = {
       },
       "blazing_barrier": {
         "name": "Flammende Barriere",
-        "description": "Hüllt Euch in Flammen und absorbiert 60 Sek. lang 130 Schaden. (Feuer)"
+        "description": "Hüllt Euch in Flammen und absorbiert 60 Sek. lang {damage} Schaden. (Feuer)"
       },
       "cold_snap": {
         "name": "Ruf des Winters",
@@ -6458,7 +6458,7 @@ export const de_DE: EnTranslations = {
       },
       "frost_nova": {
         "name": "Icebind",
-        "description": "Friert alle nahen Gegner bis zu 8 Sek. lang fest und verursacht {damage} Frostschaden."
+        "description": "Friert alle nahen Gegner bis zu 8 Sek. lang fest und verursacht {damage} Frostschaden. Der Festhalteeffekt endet nach kumulativem Schaden in Höhe von 15 % der maximalen Gesundheit des Ziels, mindestens jedoch 20 und höchstens 60 Schaden."
       },
       "arcane_explosion": {
         "name": "Aetherburst",

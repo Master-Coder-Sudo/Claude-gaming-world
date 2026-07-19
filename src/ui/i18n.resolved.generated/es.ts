@@ -6350,7 +6350,7 @@ export const es: EnTranslations = {
       },
       "blazing_barrier": {
         "name": "Barrera llameante",
-        "description": "Te envuelve en llamas y absorbe 130 de daño durante 60 s. (Fuego)"
+        "description": "Te envuelve en llamas y absorbe {damage} de daño durante 60 s. (Fuego)"
       },
       "cold_snap": {
         "name": "Llamada del invierno",
@@ -6458,7 +6458,7 @@ export const es: EnTranslations = {
       },
       "frost_nova": {
         "name": "Atadura de Hielo",
-        "description": "Congela a todos los enemigos cercanos en el sitio durante hasta 8 s e inflige {damage} de daño de Escarcha."
+        "description": "Congela a todos los enemigos cercanos en el sitio durante hasta 8 s e inflige {damage} de daño de Escarcha. El enraizamiento se rompe tras recibir daño acumulado equivalente al 15 % de la salud máxima del objetivo, con un mínimo de 20 y un máximo de 60 de daño."
       },
       "arcane_explosion": {
         "name": "Estallido de Éter",

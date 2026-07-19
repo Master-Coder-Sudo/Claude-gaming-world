@@ -6350,7 +6350,7 @@ export const en: EnTranslations = {
       },
       "blazing_barrier": {
         "name": "Blazing Barrier",
-        "description": "Wreathe yourself in flame, absorbing 130 damage for 60 sec. (Fire)"
+        "description": "Wreathe yourself in flame, absorbing {damage} damage for 60 sec. (Fire)"
       },
       "cold_snap": {
         "name": "Winter's Recall",
@@ -6458,7 +6458,7 @@ export const en: EnTranslations = {
       },
       "frost_nova": {
         "name": "Icebind",
-        "description": "Freezes all nearby enemies in place for up to 8 sec, dealing {damage} Frost damage."
+        "description": "Freezes all nearby enemies in place for up to 8 sec, dealing {damage} Frost damage. The root breaks after cumulative damage equal to 15% of the target's maximum health, with a minimum of 20 and a maximum of 60 damage."
       },
       "arcane_explosion": {
         "name": "Aetherburst",

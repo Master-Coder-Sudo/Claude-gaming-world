@@ -393,6 +393,7 @@ export interface SimContextCallbacks {
     id: string,
     duration: number,
     school: Aura['school'],
+    breakThreshold?: number,
   ): void;
   applyKnockback(source: Entity, target: Entity, distance: number): number;
   diminishedCrowdControlDuration(

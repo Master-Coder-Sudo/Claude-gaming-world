@@ -6350,7 +6350,7 @@ export const pt_BR: EnTranslations = {
       },
       "blazing_barrier": {
         "name": "Barreira Flamejante",
-        "description": "Envolve você em chamas, absorvendo 130 de dano por 60 s. (Fogo)"
+        "description": "Envolve você em chamas, absorvendo {damage} de dano por 60 s. (Fogo)"
       },
       "cold_snap": {
         "name": "Chamado do Inverno",
@@ -6458,7 +6458,7 @@ export const pt_BR: EnTranslations = {
       },
       "frost_nova": {
         "name": "Grilhão de Gelo",
-        "description": "Congela todos os inimigos próximos no lugar por até 8 s e causa {damage} de dano de Gelo."
+        "description": "Congela todos os inimigos próximos no lugar por até 8 s e causa {damage} de dano de Gelo. O enraizamento se rompe após receber dano acumulado equivalente a 15% da vida máxima do alvo, com um mínimo de 20 e um máximo de 60 de dano."
       },
       "arcane_explosion": {
         "name": "Explosão Etérea",

@@ -2287,7 +2287,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
     'Indhyller dig i frost og øger rustningen med {buff} i 30 min.',
   'entities.abilities.frost_armor.name': 'Rimfrost-Kappe',
   'entities.abilities.frost_nova.description':
-    'Fryser alle nærliggende fjender fast i op til 8 sek og volder {damage} frostskade.',
+    'Fryser alle nærliggende fjender fast i op til 8 sek og volder {damage} frostskade. Fastfrysningen brydes efter samlet skade svarende til 15 % af målets maksimale helbred, dog mindst 20 og højst 60 skade.',
   'entities.abilities.frost_nova.name': 'Isbinding',
   'entities.abilities.frost_shock.description':
     'Chokerer øjeblikkeligt målet med frost for {damage} frostskade og sænker dets bevægelse med 50% i 8 sek.',
@@ -7980,7 +7980,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'game.talents.rowUnlocks': 'Låses op på niveau {level}',
   'entities.abilities.blazing_barrier.name': 'Flammende barriere',
   'entities.abilities.blazing_barrier.description':
-    'Indhyl dig i flammer og absorber 130 skade i 60 sek. (Ild)',
+    'Indhyl dig i flammer og absorber {damage} skade i 60 sek. (Ild)',
   'entities.abilities.cold_snap.name': 'Vinterens kalden',
   'entities.abilities.cold_snap.description':
     'Afslutter nedkølingen for Flimmertrin, Frostslør og Større usynlighed. (magikertalent)',

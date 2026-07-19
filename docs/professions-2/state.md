@@ -604,6 +604,16 @@ tables, i18n key namespaces, files created)
   + M16 fills in the five non-Latin overlays; the S3 scan list ALREADY
   contained src/sim/quests/quest_commands.ts (PR 2039), its membership
   now pinned by a meta-guard in tests/localization_fixes.test.ts.
+  Phase 7 QA additions (2026-07-19): skillOf counts only positive
+  FINITE numbers (Number.isFinite, the comment contract made real);
+  per-clause eligibility negatives and a flip-before-send pin on the
+  exported maybeSendGuildTrendLetter, the system MailKind pinned on the
+  mailInfo surface, a two-player same-sweep case, and a same-seed
+  determinism pin (tests/professions_trend.test.ts); live GameServer
+  session-routing suite tests/guild_letter_online.test.ts (owner-only
+  mailArrived, mailU mirrors, booking-level one-shot). OPEN maintainer
+  decision from the vertical slice: the letter to Haldren hop dead-ends
+  pre-q_prof_intro (no locked-row hint, no redirect to Odell).
 - Phase 8: (planned) station registry (typed stations, multi-zone); master
   NpcDefs across the three hubs; placement-safety test.
 - Phase 13: (planned) disenchantItem/applyEnchant/salvageItem IWorld

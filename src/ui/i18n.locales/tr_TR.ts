@@ -2352,7 +2352,7 @@ export const tr_TR: Partial<Record<TranslationKey, string>> = {
     'Seni buzla sarar ve zırhını 30 dakika boyunca {buff} artırır.',
   'entities.abilities.frost_armor.name': 'Kırağı Pelerini',
   'entities.abilities.frost_nova.description':
-    'Yakındaki tüm düşmanları 8 saniyeye kadar yerinde dondurur ve {damage} Ayaz hasarı verir.',
+    'Yakındaki tüm düşmanları 8 saniyeye kadar yerinde dondurur ve {damage} Ayaz hasarı verir. Köklenme etkisi, hedefin azami sağlığının %15’ine eşit toplam hasar aldıktan sonra kırılır; bu değer en az 20, en fazla 60 hasardır.',
   'entities.abilities.frost_nova.name': 'Buz Bağı',
   'entities.abilities.frost_shock.description':
     'Hedefi ayazla anında şoklar, {damage} Ayaz hasarı verir ve hareketini 8 saniye boyunca %50 yavaşlatır.',
@@ -8001,7 +8001,7 @@ export const tr_TR: Partial<Record<TranslationKey, string>> = {
   'game.talents.rowUnlocks': '{level}. seviyede açılır',
   'entities.abilities.blazing_barrier.name': 'Alevli Bariyer',
   'entities.abilities.blazing_barrier.description':
-    'Kendini alevlerle sararak 60 sn. boyunca 130 hasarı soğurursun. (Ateş)',
+    'Kendini alevlerle sararak 60 sn. boyunca {damage} hasarı soğurursun. (Ateş)',
   'entities.abilities.cold_snap.name': 'Kışın Çağrısı',
   'entities.abilities.cold_snap.description':
     'Titrek Adım, Ayaz Örtüsü ve Üstün Görünmezlik yeteneklerinin bekleme süresini bitirir. (büyücü yeteneği)',

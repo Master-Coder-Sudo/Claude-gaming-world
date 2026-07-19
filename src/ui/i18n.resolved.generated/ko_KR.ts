@@ -6350,7 +6350,7 @@ export const ko_KR: EnTranslations = {
       },
       "blazing_barrier": {
         "name": "이글거리는 방벽",
-        "description": "자신을 불길로 감싸 130의 피해를 흡수합니다. 60초 동안 지속됩니다. (화염)"
+        "description": "자신을 불길로 감싸 {damage}의 피해를 흡수합니다. 60초 동안 지속됩니다. (화염)"
       },
       "cold_snap": {
         "name": "겨울의 부름",
@@ -6458,7 +6458,7 @@ export const ko_KR: EnTranslations = {
       },
       "frost_nova": {
         "name": "얼음 속박",
-        "description": "주위 모든 적을 최대 8초 동안 제자리에 얼리고 {damage}의 냉기 피해를 입힙니다."
+        "description": "주위 모든 적을 최대 8초 동안 제자리에 얼리고 {damage}의 냉기 피해를 입힙니다. 이동 불가 효과는 대상 최대 생명력의 15%에 해당하는 누적 피해를 받으면 해제되며, 피해 기준은 최소 20, 최대 60입니다."
       },
       "arcane_explosion": {
         "name": "에테르 폭발",

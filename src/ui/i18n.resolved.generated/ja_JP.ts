@@ -6350,7 +6350,7 @@ export const ja_JP: EnTranslations = {
       },
       "blazing_barrier": {
         "name": "ブレイジングバリア",
-        "description": "自身を炎で包み、130ダメージを吸収します。60秒間持続します。（火）"
+        "description": "自身を炎で包み、{damage}ダメージを吸収します。60秒間持続します。（火）"
       },
       "cold_snap": {
         "name": "冬の呼び戻し",
@@ -6458,7 +6458,7 @@ export const ja_JP: EnTranslations = {
       },
       "frost_nova": {
         "name": "氷縛",
-        "description": "周囲の敵すべてを最大8秒間その場に凍結させ、{damage} の冷気ダメージを与えます。"
+        "description": "周囲の敵すべてを最大8秒間その場に凍結させ、{damage} の冷気ダメージを与えます。移動不能効果は、対象の最大体力の15%に相当する累積ダメージを受けると解除されます。解除に必要なダメージは最低20、最大60です。"
       },
       "arcane_explosion": {
         "name": "エーテルバースト",

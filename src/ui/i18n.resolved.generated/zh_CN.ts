@@ -6350,7 +6350,7 @@ export const zh_CN: EnTranslations = {
       },
       "blazing_barrier": {
         "name": "炽热屏障",
-        "description": "以烈焰环绕自身，吸收 130 点伤害，持续 60 秒。（火焰）"
+        "description": "以烈焰环绕自身，吸收 {damage} 点伤害，持续 60 秒。（火焰）"
       },
       "cold_snap": {
         "name": "冬之召还",
@@ -6458,7 +6458,7 @@ export const zh_CN: EnTranslations = {
       },
       "frost_nova": {
         "name": "冰缚",
-        "description": "将附近所有敌人冻结在原地，最多持续 8 秒，并造成 {damage} 点冰霜伤害。"
+        "description": "将附近所有敌人冻结在原地，最多持续 8 秒，并造成 {damage} 点冰霜伤害。定身效果会在累计受到相当于目标最大生命值15%的伤害后解除，伤害阈值最低为20点，最高为60点。"
       },
       "arcane_explosion": {
         "name": "以太爆发",

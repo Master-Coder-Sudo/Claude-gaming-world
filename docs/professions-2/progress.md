@@ -20,7 +20,7 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 6 | Crafting window upgrades and celebrations | complete | 2026-07-18 | 2026-07-19 |
 | 6 QA | Verify crafting window upgrades | complete | 2026-07-19 | 2026-07-19 |
 | 7 | The Guild letter and quest objectives | complete | 2026-07-19 | 2026-07-19 |
-| 7 QA | Verify the Guild letter and quest objectives | not started | | |
+| 7 QA | Verify the Guild letter and quest objectives | complete | 2026-07-19 | 2026-07-19 |
 | 8 | Stations and masters (sim and server) | not started | | |
 | 8 QA | Verify stations and masters | not started | | |
 | 9 | Station presence and recipe training | not started | | |
@@ -546,3 +546,68 @@ mailArrived events into event digests. Fixed in passing: the status
 table's Phase 6 QA row (completion was recorded in Notes but the row
 still said not started). Phase 7 QA plays the vertical-slice checkpoint
 (phase-07-qa.md).
+
+2026-07-19 Phase 7 QA complete: PASS with fixes, zero blocking. Seven
+agent fan-out (correctness, test-coverage, dead-code packet audits plus
+migration-safety, cross-platform-sync, architecture, qa-checklist per
+the dispatch matrix; privacy-security, database-performance, and
+frontend-seam did not match the diff), 5 should-fix findings deduping to
+3 unique, all fixed on the QA branch: (1) the online path was verified
+live by inspection by three agents independently but had no pin, closed
+by the live GameServer session-routing suite
+tests/guild_letter_online.test.ts (owner-only mailArrived with exact
+payload, mailU unread mirror 2 vs 1, booking-level one-shot when a
+second pair qualifies); (2) the activeArchetype eligibility clause had
+no isolating negative (the attuned test flips two fields at once),
+closed by per-clause unit negatives on the exported
+maybeSendGuildTrendLetter plus a flip-before-send spy pin, both
+mutation-verified (deleting the guard or the finiteness check each
+kills exactly one test); (3) no same-seed determinism pin for the sweep
+through the real Sim, closed with an identical-arrival-tick run-twice
+test. Also landed: skillOf now enforces its own positive-FINITE comment
+contract (Number.isFinite; Infinity or NaN in a malformed save can no
+longer classify as crossed), the system MailKind and Guild sender
+pinned on the real mailInfo mailbox surface, a two-player same-sweep
+case, and the letters.ts header enumerating all four authored families.
+The vertical-slice checkpoint (kernel exit) PLAYED end to end in the
+seeded offline world: pristine vein fired at harvest 41 with the finder
+line and x5 signed mats; crafting surfaced loot line, XP, Crafted line,
+Made By Hand deed, live identity-card skill movement and the first-tier
+next-unlock hint; the crossing craft flipped guildLetterSent 12 ticks
+later (the 1 Hz sweep) and the raven landed at exactly 90 seconds with
+banner, whisper cue, chat line, correct pair letter (system kind, The
+Crafting Guild) whose body names the Smith title and Smith Haldren; the
+acceptance quest flow attuned the pair through the 10-archetype chooser
+with its live Result line (Title Smith, majors uncapped, hobby
+Leatherworking); a masterwork procced with the full-screen marquee,
+personal toast line, AND the zone-broadcast line; the sole-copy
+masterwork traded to a second player with signer + rolled.masterwork +
+stats payload intact. ONE experiential finding, DEFERRED to the
+maintainer (design decision): the letter's call to action dead-ends for
+a player who has not done q_prof_intro, Smith Haldren shows only his
+greeting and vendor line (q_archetype_acceptance reads unavailable
+behind requiresQuest, no locked-row hint, no redirect to Foreman
+Odell), so the letter's promise silently fails for exactly its target
+audience (players who leveled crafts without the mining intro); options
+recorded: a locked-quest hint row in the dialog, a letter-body pointer
+to the Copper Dig (needs the 5 overlay refills), or softening the
+requiresQuest gate when skills already qualify. Observations, no
+action: the starter weapon recipe (arming sword) can never masterwork,
+masterworkBonusStats is null for its stat-less def, so the tier-1 Smith
+proc path is the caster-stat warded leggings (design note for Phase
+8/10 recipe ladders); zone-1 pristine copper feeds no recipe (the
+recorded Phase 4 zone-1 mitigation), so the signed-mats-into-craft link
+starts with battlefield-drop reagents or zone 2+; trade removal prefers
+fungible copies, a signed copy transfers only when it is the only copy
+(the recorded Phase 3 model, a specific-instance offer UX is a future
+call); the mail arrival banner is lost if the recipient is offline when
+the raven lands (pre-existing PostOffice announce semantics, welcome
+letter identical); an old client renders an unknown guild_trend_
+letterId as the raw id (pre-existing letters behavior, system-wide
+resolver fallback filed as a future nicety). NITs recorded, not worth
+churn: source-scan pins tolerate commented-out entries (accepted
+precedent), replaceAll clarity in the letterId scheme, the sweep bills
+to the postOffice lap bucket, a third backfill load, a dedicated parity
+scenario (the determinism pin covers the risk, the sweep draws zero
+rng). Release cut reminder: the 10 letters' pending rows for the
+non-M16 locales fill at the release-tier gate as usual.
