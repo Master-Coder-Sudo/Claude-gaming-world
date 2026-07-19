@@ -1470,7 +1470,8 @@ export const de_DE: EnTranslations = {
       "watchTwitch": "Auf Twitch ansehen",
       "watchX": "Auf X ansehen",
       "watchKick": "Auf Kick ansehen",
-      "watchYouTube": "Auf YouTube ansehen"
+      "watchYouTube": "Auf YouTube ansehen",
+      "streamerBadgeTitle": "Verified streamer"
     },
     "lootSettings": {
       "title": "Beute-Einstellungen",
@@ -5043,7 +5044,9 @@ export const de_DE: EnTranslations = {
     "rendererFailed": "Renderer konnte nicht gestartet werden: bitte neu laden. {error}",
     "enterTimeout": "Die Welt konnte nicht betreten werden. Die Verbindung ist abgelaufen. Läuft der Spielserver?",
     "connectionLost": "Die Verbindung zum Server wurde unterbrochen.",
-    "reconnecting": "Verbindung verloren. Verbindung wird wieder hergestellt...",
+    "reconnectingAttempt": "Connection lost. Reconnecting... (attempt {attempt}/{maxAttempts}, retrying in {seconds}s)",
+    "reconnectingNow": "Connection lost. Reconnecting now... (attempt {attempt}/{maxAttempts})",
+    "slowConnection": "This is taking longer than usual. Check your internet connection.",
     "connectionRejected": "Der Server hat die Verbindung geschlossen.",
     "realmFull": "Diese Welt ist derzeit voll. Bitte versuche es in wenigen Minuten erneut.",
     "tooManyConnections": "Zu viele Verbindungen zu dieser Welt kommen von deinem Netzwerk. Bitte schliesse zusatzliche Spielfenster oder versuche es in wenigen Minuten erneut.",
@@ -10540,6 +10543,56 @@ export const de_DE: EnTranslations = {
         "sender": "Heroischer Quartiermeister",
         "subject": "Deine heroischen Marken",
         "body": "Deine Gruppe hat die heroische Prüfung gemeistert, während du in der Nachhut gekämpft hast oder bereits am Boden lagst. Auch deine Instanzbindung wurde aktiviert, daher ist dein Anteil an heroischen Marken hier angekommen, statt verloren zu gehen. Setze sie klug ein.\n\n- Heroischer Quartiermeister"
+      },
+      "guild_trend_engineering_alchemy": {
+        "sender": "The Crafting Guild",
+        "subject": "Your work in Engineering and Alchemy",
+        "body": "Artisan,\n\nWord reaches the Guild of your work in Engineering and Alchemy: charges measured and reagents weighed, the two crafts feeding one another. Neighboring crafts worked together mark a hand ready for attunement. Those who bind this pair earn the name of Bombardier in time. Seek out Smith Haldren, the armorer of Eastbrook: he speaks for the masters for now. Prove your craft to him with work of your own hands, and he will see your two majors attuned.\n\nIn good standing,\nThe Crafting Guild"
+      },
+      "guild_trend_alchemy_cooking": {
+        "sender": "The Crafting Guild",
+        "subject": "Your work in Alchemy and Cooking",
+        "body": "Artisan,\n\nWord reaches the Guild of your work in Alchemy and Cooking: draughts simmered and dishes seasoned, the two crafts feeding one another. Neighboring crafts worked together mark a hand ready for attunement. Those who bind this pair earn the name of Apothecary in time. Seek out Smith Haldren, the armorer of Eastbrook: he speaks for the masters for now. Prove your craft to him with work of your own hands, and he will see your two majors attuned.\n\nIn good standing,\nThe Crafting Guild"
+      },
+      "guild_trend_cooking_leatherworking": {
+        "sender": "The Crafting Guild",
+        "subject": "Your work in Cooking and Leatherworking",
+        "body": "Artisan,\n\nWord reaches the Guild of your work in Cooking and Leatherworking: meals plated and hides cured, the two crafts feeding one another. Neighboring crafts worked together mark a hand ready for attunement. Seek out Smith Haldren, the armorer of Eastbrook: he speaks for the masters for now. Prove your craft to him with work of your own hands, and he will see your two majors attuned.\n\nIn good standing,\nThe Crafting Guild"
+      },
+      "guild_trend_leatherworking_tailoring": {
+        "sender": "The Crafting Guild",
+        "subject": "Your work in Leatherworking and Tailoring",
+        "body": "Artisan,\n\nWord reaches the Guild of your work in Leatherworking and Tailoring: leather cut and cloth hemmed, the two crafts feeding one another. Neighboring crafts worked together mark a hand ready for attunement. Those who bind this pair earn the name of Outfitter in time. Seek out Smith Haldren, the armorer of Eastbrook: he speaks for the masters for now. Prove your craft to him with work of your own hands, and he will see your two majors attuned.\n\nIn good standing,\nThe Crafting Guild"
+      },
+      "guild_trend_tailoring_inscription": {
+        "sender": "The Crafting Guild",
+        "subject": "Your work in Tailoring and Inscription",
+        "body": "Artisan,\n\nWord reaches the Guild of your work in Tailoring and Inscription: seams stitched and glyphs inked, the two crafts feeding one another. Neighboring crafts worked together mark a hand ready for attunement. Seek out Smith Haldren, the armorer of Eastbrook: he speaks for the masters for now. Prove your craft to him with work of your own hands, and he will see your two majors attuned.\n\nIn good standing,\nThe Crafting Guild"
+      },
+      "guild_trend_inscription_enchanting": {
+        "sender": "The Crafting Guild",
+        "subject": "Your work in Inscription and Enchanting",
+        "body": "Artisan,\n\nWord reaches the Guild of your work in Inscription and Enchanting: scrolls lettered and charms woven, the two crafts feeding one another. Neighboring crafts worked together mark a hand ready for attunement. Seek out Smith Haldren, the armorer of Eastbrook: he speaks for the masters for now. Prove your craft to him with work of your own hands, and he will see your two majors attuned.\n\nIn good standing,\nThe Crafting Guild"
+      },
+      "guild_trend_enchanting_jewelcrafting": {
+        "sender": "The Crafting Guild",
+        "subject": "Your work in Enchanting and Jewelcrafting",
+        "body": "Artisan,\n\nWord reaches the Guild of your work in Enchanting and Jewelcrafting: charms bound and stones polished, the two crafts feeding one another. Neighboring crafts worked together mark a hand ready for attunement. Seek out Smith Haldren, the armorer of Eastbrook: he speaks for the masters for now. Prove your craft to him with work of your own hands, and he will see your two majors attuned.\n\nIn good standing,\nThe Crafting Guild"
+      },
+      "guild_trend_jewelcrafting_weaponcrafting": {
+        "sender": "The Crafting Guild",
+        "subject": "Your work in Jewelcrafting and Weaponcrafting",
+        "body": "Artisan,\n\nWord reaches the Guild of your work in Jewelcrafting and Weaponcrafting: gems seated and edges ground, the two crafts feeding one another. Neighboring crafts worked together mark a hand ready for attunement. Seek out Smith Haldren, the armorer of Eastbrook: he speaks for the masters for now. Prove your craft to him with work of your own hands, and he will see your two majors attuned.\n\nIn good standing,\nThe Crafting Guild"
+      },
+      "guild_trend_weaponcrafting_armorcrafting": {
+        "sender": "The Crafting Guild",
+        "subject": "Your work in Weaponcrafting and Armorcrafting",
+        "body": "Artisan,\n\nWord reaches the Guild of your work in Weaponcrafting and Armorcrafting: blades tempered and plates fitted, the two crafts feeding one another. Neighboring crafts worked together mark a hand ready for attunement. Those who bind this pair earn the name of Smith in time. Seek out Smith Haldren, the armorer of Eastbrook: he speaks for the masters for now. Prove your craft to him with work of your own hands, and he will see your two majors attuned.\n\nIn good standing,\nThe Crafting Guild"
+      },
+      "guild_trend_armorcrafting_engineering": {
+        "sender": "The Crafting Guild",
+        "subject": "Your work in Armorcrafting and Engineering",
+        "body": "Artisan,\n\nWord reaches the Guild of your work in Armorcrafting and Engineering: plates riveted and gears trued, the two crafts feeding one another. Neighboring crafts worked together mark a hand ready for attunement. Seek out Smith Haldren, the armorer of Eastbrook: he speaks for the masters for now. Prove your craft to him with work of your own hands, and he will see your two majors attuned.\n\nIn good standing,\nThe Crafting Guild"
       }
     },
     "itemSets": {
