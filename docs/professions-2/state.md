@@ -585,8 +585,25 @@ tables, i18n key namespaces, files created)
   call site, the char_window self-mirror closure, the openInspect slot
   rows, and hud.itemTooltip composition order; plan.motion consumer and
   station-repaint liveness are source-pinned.
-- Phase 7: (planned) trend detection module; Guild letter content; S3 scan
-  list gains src/sim/quests/quest_commands.ts.
+- Phase 7 (landed 2026-07-19; phase start 8e88b27f5): trend module
+  src/sim/professions/trend.ts (classifyCraftTrend, CraftTrend,
+  GUILD_LETTER_SKILL_THRESHOLD = TIER_SKILL_STEP; pair score = member
+  sum over ARCHETYPE_PAIR_TARGETS, leading pair by score then min
+  member then first member then ring order, crossed at the threshold);
+  trigger src/sim/professions/guild_letter.ts (maybeSendGuildTrendLetter
+  + updateGuildTrendLetters, the 1 Hz sweep beside postOffice.update in
+  the tick mail phase) booking mail through the NEW append-only
+  SimContext callback mailAuthoredLetter; one-shot
+  PlayerMeta.guildLetterSent (optional CharacterState field, normalize
+  default false via s.guildLetterSent === true, serialized
+  unconditionally, the mailWelcomed shape); GUILD_TREND_LETTERS in
+  src/sim/content/letters.ts (10 pair-keyed letters, ids
+  guild_trend_<a>_<b>, load-time ring-completeness guard, Smith Haldren
+  stands in for masters until Phase 8); entities.letters coverage via
+  LETTER_IDS in world_entity_i18n.ts + LETTERS_BY_ID in entity_i18n.ts
+  + M16 fills in the five non-Latin overlays; the S3 scan list ALREADY
+  contained src/sim/quests/quest_commands.ts (PR 2039), its membership
+  now pinned by a meta-guard in tests/localization_fixes.test.ts.
 - Phase 8: (planned) station registry (typed stations, multi-zone); master
   NpcDefs across the three hubs; placement-safety test.
 - Phase 13: (planned) disenchantItem/applyEnchant/salvageItem IWorld

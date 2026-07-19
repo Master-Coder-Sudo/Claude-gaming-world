@@ -18,8 +18,8 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 5 | The professions wheel window | complete | 2026-07-18 | 2026-07-18 |
 | 5 QA | Verify the professions wheel window | complete | 2026-07-18 | 2026-07-18 |
 | 6 | Crafting window upgrades and celebrations | complete | 2026-07-18 | 2026-07-19 |
-| 6 QA | Verify crafting window upgrades | not started | | |
-| 7 | The Guild letter and quest objectives | not started | | |
+| 6 QA | Verify crafting window upgrades | complete | 2026-07-19 | 2026-07-19 |
+| 7 | The Guild letter and quest objectives | complete | 2026-07-19 | 2026-07-19 |
 | 7 QA | Verify the Guild letter and quest objectives | not started | | |
 | 8 | Stations and masters (sim and server) | not started | | |
 | 8 QA | Verify stations and masters | not started | | |
@@ -337,9 +337,12 @@ CLAUDE.md.
 - [x] Craft button never lies: same eligibility rule as the sim in both hosts (shared craftSkillGainMultiplier and combo_eligibility)
 
 ### Phase 7: The Guild letter and quest objectives
-- [ ] Craft/gather quest objective types (minimal set for the letter quest)
-- [ ] The Guild letter arrives via the mail system on trend detection; starts the first-attunement quest hook
-- [ ] S3 scanner gap closed: `src/sim/quests/quest_commands.ts` in scan scope, guard test updated
+- [x] Trending-pair classifier: pure, deterministic, own module (`src/sim/professions/trend.ts`; `GUILD_LETTER_SKILL_THRESHOLD` = `TIER_SKILL_STEP`), unit-tested (closes the #1295 gap)
+- [x] The Guild letter arrives via the mail system on trend detection: exactly one pair-correct `guild_trend_` letter on a fresh crossing; backfill single-fire for legacy high-skill saves; attuned and threshold-hovering characters never (re)receive it (`guildLetterSent` one-shot, the `mailWelcomed` shape)
+- [x] Letter content id-based in `src/sim/content/letters.ts` (10 pair-keyed letters naming Smith Haldren, the stand-in master until Phase 8); `entities.letters` coverage via `LETTER_IDS` and `LETTERS_BY_ID`; M16 fills in the five non-Latin overlays
+- [x] S3 scanner gap closed for good: `src/sim/quests/quest_commands.ts` was ALREADY in scan scope (PR 2039); every player-facing string verified covered; scan-list membership now pinned by a meta-guard in `tests/localization_fixes.test.ts`
+- [x] Tutorial-panel timing item: no defect exists (the surface is the pure derived hint in `profession_identity_view.ts`, correct by construction); pinned by test
+- Note: the "craft/gather quest objective types" line above predated the approved amendments; the letter rides `q_archetype_acceptance` (gather objective, shipped with PR 2039), so no new objective types were needed.
 
 ### Phase 8: Stations and masters (sim and server)
 - [ ] Station registry generalizes `requiresHubStation` to typed stations (forge, kitchens, apothecary, tannery, loom, toolworks); `CRAFTING_HUB_MIN_LEVEL` retired
@@ -511,3 +514,35 @@ tt-instance-bonus hook class; the guide.ts reword leaving Latin overlay
 fills stale until the release-tier refill (standard workflow);
 archetypeCeilingFor computed twice per resolveCraftForRecipe
 (behavior-neutral).
+
+2026-07-19 Phase 7 (the Guild letter) landed on
+feature/professions-2-phase-07-guild-letter off the release/v0.28.0 tip
+8e88b27f5 (the phase-start commit for the QA diff). Three-agent build
+fan-out plus a four-reviewer dispatch (architecture,
+cross-platform-sync, migration-safety, frontend-seam), zero blocking;
+two review fixes landed: the letter trigger books mail through the NEW
+append-only SimContext callback mailAuthoredLetter instead of a raw
+injected PostOffice (registry, createSimContext passthrough, both test
+stub hosts, and the pinned callback list all updated), and
+entity_i18n.ts LETTERS_BY_ID now mirrors GUILD_TREND_LETTERS (the
+parallel-registry drift cross-platform-sync confirmed; the
+localization_coverage world-entry count formula was re-pinned to
+include the 10 letters, a deliberate count re-pin, no rng golden
+touched). Surprises: the phase file's S3 premise was stale (scan
+coverage landed with PR 2039, so the deliverable reduced to the
+membership meta-guard plus per-string verification);
+nearTier/dormantKnowledge live in profession_identity_view.ts, not
+wheel.ts; letters localize via entities.letters + LETTER_IDS, not the
+i18n catalog, and the letter emits no free sim text, so no sim_i18n
+matcher row was needed. Deliberate content choice for the design owner:
+only the four wave-one archetype pairs name their titles in the letter
+body (the other six titles exist in hudChrome.archetypePair but would
+promise pre-Phase-14 content). Deploy note: a deploy, rollback,
+roll-forward sequence can re-fire one duplicate letter (the
+mailWelcomed precedent, cosmetic). Golden caution for future scenario
+authors: an unattuned character with a craft pair sum of 25 or more
+ticked past the 90 second delivery delay starts emitting guild_trend
+mailArrived events into event digests. Fixed in passing: the status
+table's Phase 6 QA row (completion was recorded in Notes but the row
+still said not started). Phase 7 QA plays the vertical-slice checkpoint
+(phase-07-qa.md).
