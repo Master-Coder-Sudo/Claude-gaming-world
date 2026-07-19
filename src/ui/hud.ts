@@ -1562,7 +1562,7 @@ export class Hud {
         bagOpen: () => audio.bagOpen(),
         bagClose: () => audio.bagClose(),
         click: () => audio.click(),
-        levelUp: () => audio.levelUp(),
+        cosmeticUnlock: () => audio.cosmeticUnlock(),
       },
     });
     this.chatGeometry = new ChatGeometryController({
@@ -9034,7 +9034,7 @@ export class Hud {
           break;
         }
         case 'partyInvite':
-          audio.questAccept();
+          audio.invitePrompt();
           this.showPrompt(
             t('hud.prompts.partyInvite', { name: `<b>${esc(ev.fromName)}</b>` }),
             t('hud.prompts.joinParty'),
@@ -9056,7 +9056,9 @@ export class Hud {
           );
           break;
         case 'resurrectionOffer':
-          audio.questAccept();
+          // Same "someone is asking you to respond to a prompt" vocabulary as
+          // party/guild invite; questAccept() was retired, see invitePrompt().
+          audio.invitePrompt();
           // The sim keeps one authoritative latest offer per dead player. Mirror
           // that singleton in the HUD so an older prompt can never answer a newer
           // Chronomancer's offer.
@@ -9081,7 +9083,7 @@ export class Hud {
           );
           break;
         case 'guildInvite':
-          audio.questAccept();
+          audio.invitePrompt();
           this.showPrompt(
             t('hud.prompts.guildInvite', {
               name: `<b>${esc(ev.fromName)}</b>`,
@@ -9251,7 +9253,7 @@ export class Hud {
               delta: ratingDelta,
             });
             arenaResultColor = '#ff7a6a';
-            audio.death();
+            audio.arenaLoss();
           }
           this.log(arenaResultLine, arenaResultColor);
           // Combat-pane mirror without the announcer (log() above already announces the
@@ -9329,7 +9331,7 @@ export class Hud {
           break;
         case 'vcupKickoff':
           this.showBanner(t('hudChrome.vcup.bannerKickoff'));
-          audio.duelStart();
+          audio.vcupKickoff();
           break;
         case 'vcupGoal': {
           const scoringNation = vcupNationName(ev.team === 'A' ? ev.nationA : ev.nationB);
