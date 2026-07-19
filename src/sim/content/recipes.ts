@@ -32,6 +32,17 @@
 // materials as the common tier; outputs reuse existing BASE_ITEMS entries
 // (boundstone_helm, gravewyrm_gauntlets, elixir_of_the_bear) for the same
 // i18n reason as above.
+//
+// Acquisition (Professions 2.0 Phase 9, locked scope): ONLY the three
+// COMBO_RECIPES carry `acquisition: ['trainer']`, learned from the resident
+// master at their craft's station (professions/training.ts resolveTrain).
+// COMMON_RECIPES, TOOL_RECIPES, and CASTER_HUB_RECIPES deliberately keep NO
+// acquisition field: state.md locks them grandfathered, known to everyone via
+// the empty-acquisition arm of crafting.ts isRecipeKnown. Existing characters
+// keep the combo recipes too, via the one-time grandfather union
+// (training.ts PRE_TRAINING_RECIPE_IDS / grandfatherKnownRecipes); every
+// recipe authored AFTER Phase 9 must carry a non-empty acquisition list (see
+// the field doc in ../professions/types.ts).
 
 import type { ProfessionRecipeRecord } from '../professions/types';
 
@@ -320,6 +331,7 @@ export const COMBO_RECIPES: ProfessionRecipeRecord[] = [
     itemLevelBudget: 20,
     level: 15,
     comboRequirement: { craftA: 'armorcrafting', craftB: 'weaponcrafting', minTier: 1 },
+    acquisition: ['trainer'],
   },
   {
     id: 'recipe_forgeguard_bulwark_gauntlets',
@@ -334,6 +346,7 @@ export const COMBO_RECIPES: ProfessionRecipeRecord[] = [
     itemLevelBudget: 18,
     level: 15,
     comboRequirement: { craftA: 'armorcrafting', craftB: 'weaponcrafting', minTier: 1 },
+    acquisition: ['trainer'],
   },
   {
     id: 'recipe_volatile_flux_elixir',
@@ -348,6 +361,7 @@ export const COMBO_RECIPES: ProfessionRecipeRecord[] = [
     itemLevelBudget: 16,
     level: 15,
     comboRequirement: { craftA: 'alchemy', craftB: 'engineering', minTier: 1 },
+    acquisition: ['trainer'],
   },
 ];
 

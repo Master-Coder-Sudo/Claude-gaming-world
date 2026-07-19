@@ -4067,6 +4067,14 @@ export class GameServer {
       case 'place_mobile_station':
         if (typeof msg.craft === 'string') sim.placeMobileStation(msg.craft, pid);
         break;
+      case 'train_recipe':
+        // Professions 2.0 Phase 9: fee + grant resolve inside the sim
+        // (Sim.trainRecipe -> professions/training.ts resolveTrain); the
+        // outcome reaches this client as the pid-scoped trainResult event and
+        // the learned set rides the per-tick cprof diff (knownRecipes is part
+        // of craftingIdentityFor's JSON), so no dirty-marking is needed here.
+        if (typeof msg.recipe === 'string') sim.trainRecipe(msg.recipe, pid);
+        break;
       case 'sell_all_junk':
         sim.sellAllJunk(pid);
         break;
