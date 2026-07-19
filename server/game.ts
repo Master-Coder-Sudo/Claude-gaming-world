@@ -71,7 +71,6 @@ import {
   isDungeonDifficulty,
   MAX_LEVEL,
   type MobFamily,
-  PARTY_MEMBER_AURA_CAP,
   RUN_SPEED,
   type SimEvent,
   type SportRole,
@@ -858,7 +857,8 @@ function identityFields(e: Entity): Record<string, unknown> {
       if (inst.enchant !== undefined) pub.enchant = inst.enchant;
       if (inst.rolled !== undefined) pub.rolled = inst.rolled;
       for (const _ in pub) {
-        (eqi ??= {})[slot] = pub;
+        if (eqi === undefined) eqi = {};
+        eqi[slot] = pub;
         break;
       }
     }
