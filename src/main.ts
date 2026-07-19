@@ -1308,6 +1308,9 @@ async function startGame(
           case 'deeds':
             hud.toggleDeeds();
             break;
+          case 'professions':
+            hud.toggleProfessions();
+            break;
           case 'sheathe': {
             // Cosmetic sheathe toggle (Z). The world owns the rule (dead-gate,
             // combat auto-unsheathe); play the cue only when the state moved.
@@ -1375,6 +1378,7 @@ async function startGame(
     onLeaderboard: () => hud.toggleLeaderboard(),
     onDailyRewards: () => hud.toggleDailyRewards(),
     onDeeds: () => hud.toggleDeeds(),
+    onProfessions: () => hud.toggleProfessions(),
     onNameplates: () => (renderer.showNameplates = !renderer.showNameplates),
     onMusic: () => {
       music.setEnabled(!music.enabled);
@@ -1488,6 +1492,9 @@ async function startGame(
         break;
       case 'deeds':
         hud.toggleDeeds();
+        break;
+      case 'professions':
+        hud.toggleProfessions();
         break;
       case 'chat':
         openChat();
