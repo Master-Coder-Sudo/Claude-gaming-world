@@ -40,8 +40,9 @@ export function rollGatherRareEvent(
 
 // Soft zone broadcast: one pid-scoped copy of the event per player whose
 // current zone matches, the finder included (the chat yell fanout precedent,
-// src/sim/social/chat.ts). Phase 6 masterwork broadcasts reuse this pattern.
-function emitToZonePlayers(
+// src/sim/social/chat.ts). Exported for the Phase 6 masterworkZone broadcast
+// (Sim.craftItem), which reuses the exact same fanout and exclusion rules.
+export function emitToZonePlayers(
   ctx: SimContext,
   zoneId: string,
   build: (recipientPid: number) => SimEvent,

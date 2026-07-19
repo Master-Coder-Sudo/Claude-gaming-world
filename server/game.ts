@@ -842,6 +842,16 @@ function identityFields(e: Entity): Record<string, unknown> {
       out.eq = eq;
       break;
     }
+    // Per-slot ItemInstancePayloads of the worn set (masterwork/enchant rolls),
+    // for the inspect window (Professions 2.0 Phase 6). Same sparse rule as
+    // `eq` above: players only, only when at least one worn piece carries a
+    // payload, riding the identity record (wireCacheFor diffs the identity
+    // JSON, so an equip/unequip of an instanced piece re-emits automatically).
+    const eqi = e.equippedInstances;
+    for (const _ in eqi) {
+      out.eqi = eqi;
+      break;
+    }
   }
   if (e.holderTier) out.ht = e.holderTier; // $WOC holder-tier flair (cosmetic)
   if (e.holderBalance) out.hb = Math.round(e.holderBalance); // exact $WOC, for inspect
