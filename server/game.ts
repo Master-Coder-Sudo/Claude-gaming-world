@@ -80,9 +80,9 @@ import {
   type BankBonusSource,
   type CommandName,
   isOverheadEmoteId,
-  type VcViewerReadout,
   STABLE_TIMER_WIRE_VERSION,
   type StableTimerWireVersion,
+  type VcViewerReadout,
 } from '../src/world_api';
 import { recordOnlineSample } from './admin_db';
 import { offensiveName } from './auth';
@@ -148,6 +148,7 @@ import { mergedPrsForLogin } from './github_contributors';
 import { githubForAccount } from './github_db';
 import { forEachGuarded, runGuarded } from './guarded_iter';
 import { gameMetricsCounters } from './http/game_signals';
+import { buildSharedInterestCandidates } from './interest_candidates';
 import { IpBlockList } from './ip_block';
 import { loadActiveBlockedIps } from './ip_block_db';
 import { keepaliveSweepDelayed } from './keepalive_sweep';
@@ -1110,6 +1111,21 @@ interface EntityWireView {
   liteJson: string;
   fullAuraJson: string;
   liteAuraJson: string;
+}
+
+// One session's resolved interest anchor for a broadcast pass: the entity whose
+// position seeds the interest scan (self, or the spectated target), plus the
+// meta/session the self payload is built from. Resolved once up front so a
+// single padded grid query per occupied cell can be shared across every session
+// anchored in that cell. sessionId keys the shared candidate lookup and equals
+// session.pid (unique per session), so it also satisfies the module's AnchorRef.
+interface SnapshotAnchor {
+  sessionId: number;
+  session: ClientSession;
+  anchor: Entity;
+  anchorMeta: PlayerMeta;
+  anchorSession: ClientSession;
+  stableTimerWire: boolean;
 }
 
 function round2(v: number): number {
@@ -5040,8 +5056,21 @@ export class GameServer {
     const head = `{"t":"snap","tick":${tick},"time":${round2(this.sim.time)}${tickHzJson}`;
     const activeFrostRings = this.sim.activeFrostRings;
     const activeTemporalHourglasses = this.sim.activeTemporalHourglasses;
-    // Guard each session: a throw while building one player's snapshot must not
-    // starve every other session of its snapshot this tick (server/CLAUDE.md).
+    // Resolve every live session's interest anchor up front, each inside its own
+    // guard so a throw building one anchor cannot starve every other session's
+    // snapshot this tick (server/CLAUDE.md, guarded_iter.ts). Positions are read
+    // fresh here, off the live Entity.pos, never cached across passes: the shared
+    // per-cell query below is a strict superset of every per-viewer query ONLY
+    // because Sim.tick's end-of-tick grid.refresh leaves buckets fresh, so an
+    // anchor's CURRENT cell is the right one to query. The one mutation reachable
+    // here is the vanished-spectate exitSpectate fallback, which re-buckets the
+    // moderator back to savedPos; hoisting it ahead of the shared-candidate build
+    // makes every co-located session see the moderator at savedPos this pass, a
+    // tick earlier than the old inline ordering (gameplay-neutral: a moderator
+    // leaving spectate limbo becomes visible to co-located viewers one tick
+    // sooner, never later, and it never changes combat, loot, interest, or what
+    // the spectated players see).
+    const anchors: SnapshotAnchor[] = [];
     forEachGuarded(
       this.clients.values(),
       (session) => {
@@ -5069,68 +5098,105 @@ export class GameServer {
             anchorSession = target;
           }
         }
+        anchors.push({
+          sessionId: session.pid,
+          session,
+          anchor: anchorEntity,
+          anchorMeta,
+          anchorSession,
+          stableTimerWire,
+        });
+      },
+      (err, session) =>
+        console.error(`[snap] failed to resolve anchor for pid ${session.pid}, skipping:`, err),
+    );
+
+    // One padded grid query per occupied anchor cell, shared by every session
+    // anchored there, replacing the old one-query-per-viewer interest scan. The
+    // pad (half the cell diagonal) makes a query from the cell center a strict
+    // superset of every viewer-exact INTEREST_QUERY_RADIUS query for any viewer
+    // in that cell; each session below re-applies its exact viewer-relative
+    // cutoff. Timed into bcastGridNs (the shared build once), the same counter
+    // that brackets the per-session lookup+filter work below.
+    const sharedStart = this.perfDetailActive ? process.hrtime.bigint() : 0n;
+    const candidates = buildSharedInterestCandidates(this.sim.grid, anchors, INTEREST_QUERY_RADIUS);
+    if (this.perfDetailActive) this.bcastGridNs += process.hrtime.bigint() - sharedStart;
+    const queryLimitSq = INTEREST_QUERY_RADIUS * INTEREST_QUERY_RADIUS;
+
+    // Build each session's snapshot from its shared candidate list, still guarded
+    // per session so one throw cannot starve the rest.
+    forEachGuarded(
+      anchors,
+      ({ session, anchor: anchorEntity, anchorMeta, anchorSession, stableTimerWire }) => {
         const ents: string[] = [];
         const keep: number[] = [];
         const present = new Set<number>();
         const gridStart = this.perfDetailActive ? process.hrtime.bigint() : 0n;
-        this.sim.grid.forEachInRadius(
-          anchorEntity.pos.x,
-          anchorEntity.pos.z,
-          INTEREST_QUERY_RADIUS,
-          (e, d2) => {
-            if (this.perfDetailActive) this.bcVisits++;
-            if (e.id === anchorEntity.id) return;
-            if (!this.canObserveEntity(anchorEntity, e, d2)) return;
-            const known = session.sentEnts.get(e.id);
-            // the viewer's current target stays in interest to the widest drop
-            // radius so its unit frame doesn't vanish mid-chase
-            const limitSq =
-              anchorEntity.targetId === e.id
-                ? NPC_DROP_RADIUS * NPC_DROP_RADIUS
-                : interestLimitSq(e, known !== undefined);
-            if (d2 > limitSq) return;
-            present.add(e.id);
-            const cache = this.wireCacheFor(e, stableTimerWire);
-            if (known === undefined) {
-              // first sight carries the at-rest state exactly, so no settle
-              // record is owed until it moves again
-              ents.push(stableTimerWire ? cache.fullAuraJson : cache.fullJson);
-              session.sentEnts.set(e.id, {
-                idVer: cache.idVer,
-                dynVer: cache.dynVer,
-                auraVer: cache.auraVer,
-                sentAtTick: tick,
-                settled: true,
-              });
-              return;
-            }
-            const auraChanged = stableTimerWire && known.auraVer !== cache.auraVer;
-            if (known.idVer !== cache.idVer) {
-              ents.push(auraChanged ? cache.fullAuraJson : cache.fullJson);
-              known.idVer = cache.idVer;
-              known.dynVer = cache.dynVer;
-              known.auraVer = cache.auraVer;
-              known.sentAtTick = tick;
-              known.settled = false;
-              return;
-            }
-            if (
-              !isUpdateDue(tick, e, d2, anchorEntity, known.sentAtTick) ||
-              (known.dynVer === cache.dynVer && !auraChanged && known.settled)
-            ) {
-              // not due at this distance tier yet, or unchanged and already
-              // settled: a bare id keeps it alive on the client
-              keep.push(e.id);
-              return;
-            }
-            // due, and either changed or owing its one settle record
-            known.settled = known.dynVer === cache.dynVer;
+        for (const e of candidates.forSession(session.pid)) {
+          // Re-apply the exact viewer-relative cutoff the single grid query used
+          // to apply for us: the shared candidate list is padded and larger, and
+          // its own callback d2 was cell-center-relative, so recompute d2 here
+          // from this anchor's live position. Every downstream filter stays
+          // viewer-relative (canObserveEntity, interestLimitSq, isUpdateDue).
+          const dx = e.pos.x - anchorEntity.pos.x;
+          const dz = e.pos.z - anchorEntity.pos.z;
+          const d2 = dx * dx + dz * dz;
+          if (d2 > queryLimitSq) continue;
+          // bcVisits counts the exact per-viewer in-range set (self included),
+          // byte-identical to the old scan: increment only AFTER the exact-d2
+          // cutoff, never on the padded per-cell candidate list.
+          if (this.perfDetailActive) this.bcVisits++;
+          if (e.id === anchorEntity.id) continue;
+          if (!this.canObserveEntity(anchorEntity, e, d2)) continue;
+          const known = session.sentEnts.get(e.id);
+          // the viewer's current target stays in interest to the widest drop
+          // radius so its unit frame doesn't vanish mid-chase
+          const limitSq =
+            anchorEntity.targetId === e.id
+              ? NPC_DROP_RADIUS * NPC_DROP_RADIUS
+              : interestLimitSq(e, known !== undefined);
+          if (d2 > limitSq) continue;
+          present.add(e.id);
+          const cache = this.wireCacheFor(e, stableTimerWire);
+          if (known === undefined) {
+            // first sight carries the at-rest state exactly, so no settle
+            // record is owed until it moves again
+            ents.push(stableTimerWire ? cache.fullAuraJson : cache.fullJson);
+            session.sentEnts.set(e.id, {
+              idVer: cache.idVer,
+              dynVer: cache.dynVer,
+              auraVer: cache.auraVer,
+              sentAtTick: tick,
+              settled: true,
+            });
+            continue;
+          }
+          const auraChanged = stableTimerWire && known.auraVer !== cache.auraVer;
+          if (known.idVer !== cache.idVer) {
+            ents.push(auraChanged ? cache.fullAuraJson : cache.fullJson);
+            known.idVer = cache.idVer;
             known.dynVer = cache.dynVer;
             known.auraVer = cache.auraVer;
             known.sentAtTick = tick;
-            ents.push(auraChanged ? cache.liteAuraJson : cache.liteJson);
-          },
-        );
+            known.settled = false;
+            continue;
+          }
+          if (
+            !isUpdateDue(tick, e, d2, anchorEntity, known.sentAtTick) ||
+            (known.dynVer === cache.dynVer && !auraChanged && known.settled)
+          ) {
+            // not due at this distance tier yet, or unchanged and already
+            // settled: a bare id keeps it alive on the client
+            keep.push(e.id);
+            continue;
+          }
+          // due, and either changed or owing its one settle record
+          known.settled = known.dynVer === cache.dynVer;
+          known.dynVer = cache.dynVer;
+          known.auraVer = cache.auraVer;
+          known.sentAtTick = tick;
+          ents.push(auraChanged ? cache.liteAuraJson : cache.liteJson);
+        }
         // forget entities that left interest, so a re-entry sends identity again
         for (const id of session.sentEnts.keys()) {
           if (!present.has(id)) session.sentEnts.delete(id);
@@ -5177,8 +5243,11 @@ export class GameServer {
           `${head}${timerWireJson},"self":${selfJson},"ents":[${ents.join(',')}]${frostRingsJson}${temporalHourglassesJson}${keepJson}}`,
         );
       },
-      (err, session) =>
-        console.error(`[snap] failed to build snapshot for pid ${session.pid}, skipping:`, err),
+      (err, resolved) =>
+        console.error(
+          `[snap] failed to build snapshot for pid ${resolved.session.pid}, skipping:`,
+          err,
+        ),
     );
     // >= rather than a modulo check: catch-up broadcasts can skip ticks
     if (tick - this.lastWireSweepTick >= WIRE_CACHE_SWEEP_TICKS) {
