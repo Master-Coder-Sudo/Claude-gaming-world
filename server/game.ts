@@ -5813,6 +5813,11 @@ export class GameServer {
     // then assembled by joining the fragments it selects, index-aligned with `events`,
     // instead of re-stringifying a per-session { t:'events', list } object. Byte-for-byte
     // identical to the old per-session JSON.stringify; only the fan-out cost changes.
+    // INVARIANT: nothing in the per-session loop below may mutate a SimEvent after this
+    // point, or a recipient's fragment would stop matching its event. The one in-loop
+    // visitor that takes `ev` is botDetector.observeEvent, an observer that writes the
+    // tracking context and never the event; the once-per-batch flair stamp above is the
+    // only event mutation and correctly precedes this serialization.
     const fragments = serializeEventFragments(events);
     // Guard each session: a throw while routing events to one player must not
     // drop this tick's events for every other session (server/CLAUDE.md).
