@@ -8286,6 +8286,60 @@ export const ru_RU: EnTranslations = {
       "glass_vial": {
         "name": "Стеклянный флакон"
       },
+      "copper_bearded_axe": {
+        "name": "Медный бородовидный топор"
+      },
+      "copper_flanged_mace": {
+        "name": "Медная ребристая булава"
+      },
+      "ironbark_boar_spear": {
+        "name": "Рогатина из железнокорого дерева"
+      },
+      "ironedge_longsword": {
+        "name": "Железнокромочный длинный меч"
+      },
+      "ironshod_maul": {
+        "name": "Окованный железом молот"
+      },
+      "whetted_iron_dirk": {
+        "name": "Отточенный железный кинжал"
+      },
+      "thorium_warblade": {
+        "name": "Ториевый боевой клинок"
+      },
+      "arcanite_war_axe": {
+        "name": "Арканитовый боевой топор"
+      },
+      "elderwood_battle_staff": {
+        "name": "Боевой посох из древней бузины"
+      },
+      "riveted_copper_girdle": {
+        "name": "Клепаный медный пояс"
+      },
+      "coppermail_sabatons": {
+        "name": "Медные кольчужные сабатоны"
+      },
+      "coppermail_gauntlets": {
+        "name": "Медные кольчужные рукавицы"
+      },
+      "ironlink_hauberk": {
+        "name": "Железная кольчуга"
+      },
+      "ironlink_legguards": {
+        "name": "Железные кольчужные поножи"
+      },
+      "ironlink_spaulders": {
+        "name": "Железные кольчужные наплечники"
+      },
+      "thoriumscale_greathelm": {
+        "name": "Ториевый чешуйчатый большой шлем"
+      },
+      "thoriumscale_cuirass": {
+        "name": "Ториевая чешуйчатая кираса"
+      },
+      "thoriumscale_leggings": {
+        "name": "Ториевые чешуйчатые ноговицы"
+      },
       "conjured_water4": {
         "name": "Сотворённая родниковая вода"
       },

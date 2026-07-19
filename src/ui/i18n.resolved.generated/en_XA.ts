@@ -8286,6 +8286,60 @@ export const en_XA: EnTranslations = {
       "glass_vial": {
         "name": "[Ĝļášš Ʋíáļ]"
       },
+      "copper_bearded_axe": {
+        "name": "[Çóþþéŕ Ɓéáŕðéð Áẋé]"
+      },
+      "copper_flanged_mace": {
+        "name": "[Çóþþéŕ Ƒļáñĝéð Ɱáçé]"
+      },
+      "ironbark_boar_spear": {
+        "name": "[Íŕóñƀáŕķ Ɓóáŕ Šþéáŕ]"
+      },
+      "ironedge_longsword": {
+        "name": "[Íŕóñéðĝé Ļóñĝšŵóŕð]"
+      },
+      "ironshod_maul": {
+        "name": "[Íŕóñšĥóð Ɱáúļ]"
+      },
+      "whetted_iron_dirk": {
+        "name": "[Ŵĥéţţéð Íŕóñ Ðíŕķ]"
+      },
+      "thorium_warblade": {
+        "name": "[Ţĥóŕíúɱ Ŵáŕƀļáðé]"
+      },
+      "arcanite_war_axe": {
+        "name": "[Áŕçáñíţé Ŵáŕ Áẋé]"
+      },
+      "elderwood_battle_staff": {
+        "name": "[Éļðéŕŵóóð Ɓáţţļé Šţáƒƒ]"
+      },
+      "riveted_copper_girdle": {
+        "name": "[Ŕíʋéţéð Çóþþéŕ Ĝíŕðļé]"
+      },
+      "coppermail_sabatons": {
+        "name": "[Çóþþéŕɱáíļ Šáƀáţóñš]"
+      },
+      "coppermail_gauntlets": {
+        "name": "[Çóþþéŕɱáíļ Ĝáúñţļéţš]"
+      },
+      "ironlink_hauberk": {
+        "name": "[Íŕóñļíñķ Ĥáúƀéŕķ]"
+      },
+      "ironlink_legguards": {
+        "name": "[Íŕóñļíñķ Ļéĝĝúáŕðš]"
+      },
+      "ironlink_spaulders": {
+        "name": "[Íŕóñļíñķ Šþáúļðéŕš]"
+      },
+      "thoriumscale_greathelm": {
+        "name": "[Ţĥóŕíúɱšçáļé Ĝŕéáţĥéļɱ]"
+      },
+      "thoriumscale_cuirass": {
+        "name": "[Ţĥóŕíúɱšçáļé Çúíŕášš]"
+      },
+      "thoriumscale_leggings": {
+        "name": "[Ţĥóŕíúɱšçáļé Ļéĝĝíñĝš]"
+      },
       "conjured_water4": {
         "name": "[Çóñĵúŕéð Šþŕíñĝŵáţéŕ]"
       },

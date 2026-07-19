@@ -8286,6 +8286,60 @@ export const ja_JP: EnTranslations = {
       "glass_vial": {
         "name": "ガラスの小瓶"
       },
+      "copper_bearded_axe": {
+        "name": "銅のひげ斧"
+      },
+      "copper_flanged_mace": {
+        "name": "銅のフランジメイス"
+      },
+      "ironbark_boar_spear": {
+        "name": "アイアンバークの猪槍"
+      },
+      "ironedge_longsword": {
+        "name": "鉄刃のロングソード"
+      },
+      "ironshod_maul": {
+        "name": "鉄装のモール"
+      },
+      "whetted_iron_dirk": {
+        "name": "研ぎ澄まされた鉄の短剣"
+      },
+      "thorium_warblade": {
+        "name": "トリウムのウォーブレード"
+      },
+      "arcanite_war_axe": {
+        "name": "アーケナイトの戦斧"
+      },
+      "elderwood_battle_staff": {
+        "name": "エルダーウッドのバトルスタッフ"
+      },
+      "riveted_copper_girdle": {
+        "name": "銅のリベットベルト"
+      },
+      "coppermail_sabatons": {
+        "name": "銅鎖のサバトン"
+      },
+      "coppermail_gauntlets": {
+        "name": "銅鎖のガントレット"
+      },
+      "ironlink_hauberk": {
+        "name": "鉄鎖のホーバーク"
+      },
+      "ironlink_legguards": {
+        "name": "鉄鎖のレッグガード"
+      },
+      "ironlink_spaulders": {
+        "name": "鉄鎖のショルダーガード"
+      },
+      "thoriumscale_greathelm": {
+        "name": "トリウム鱗のグレートヘルム"
+      },
+      "thoriumscale_cuirass": {
+        "name": "トリウム鱗のキュイラス"
+      },
+      "thoriumscale_leggings": {
+        "name": "トリウム鱗のレギンス"
+      },
       "conjured_water4": {
         "name": "魔法の湧き水"
       },

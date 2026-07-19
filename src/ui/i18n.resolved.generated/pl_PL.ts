@@ -8286,6 +8286,60 @@ export const pl_PL: EnTranslations = {
       "glass_vial": {
         "name": "Glass Vial"
       },
+      "copper_bearded_axe": {
+        "name": "Copper Bearded Axe"
+      },
+      "copper_flanged_mace": {
+        "name": "Copper Flanged Mace"
+      },
+      "ironbark_boar_spear": {
+        "name": "Ironbark Boar Spear"
+      },
+      "ironedge_longsword": {
+        "name": "Ironedge Longsword"
+      },
+      "ironshod_maul": {
+        "name": "Ironshod Maul"
+      },
+      "whetted_iron_dirk": {
+        "name": "Whetted Iron Dirk"
+      },
+      "thorium_warblade": {
+        "name": "Thorium Warblade"
+      },
+      "arcanite_war_axe": {
+        "name": "Arcanite War Axe"
+      },
+      "elderwood_battle_staff": {
+        "name": "Elderwood Battle Staff"
+      },
+      "riveted_copper_girdle": {
+        "name": "Riveted Copper Girdle"
+      },
+      "coppermail_sabatons": {
+        "name": "Coppermail Sabatons"
+      },
+      "coppermail_gauntlets": {
+        "name": "Coppermail Gauntlets"
+      },
+      "ironlink_hauberk": {
+        "name": "Ironlink Hauberk"
+      },
+      "ironlink_legguards": {
+        "name": "Ironlink Legguards"
+      },
+      "ironlink_spaulders": {
+        "name": "Ironlink Spaulders"
+      },
+      "thoriumscale_greathelm": {
+        "name": "Thoriumscale Greathelm"
+      },
+      "thoriumscale_cuirass": {
+        "name": "Thoriumscale Cuirass"
+      },
+      "thoriumscale_leggings": {
+        "name": "Thoriumscale Leggings"
+      },
       "conjured_water4": {
         "name": "Wyczarowana woda źródlana"
       },

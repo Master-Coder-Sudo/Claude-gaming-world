@@ -8286,6 +8286,60 @@ export const ko_KR: EnTranslations = {
       "glass_vial": {
         "name": "유리병"
       },
+      "copper_bearded_axe": {
+        "name": "구리 수염 도끼"
+      },
+      "copper_flanged_mace": {
+        "name": "구리 날개 철퇴"
+      },
+      "ironbark_boar_spear": {
+        "name": "무쇠껍질나무 멧돼지 창"
+      },
+      "ironedge_longsword": {
+        "name": "무쇠날 대검"
+      },
+      "ironshod_maul": {
+        "name": "무쇠 대형 망치"
+      },
+      "whetted_iron_dirk": {
+        "name": "날카로운 무쇠 단검"
+      },
+      "thorium_warblade": {
+        "name": "토륨 전투검"
+      },
+      "arcanite_war_axe": {
+        "name": "비전 전투도끼"
+      },
+      "elderwood_battle_staff": {
+        "name": "고대 딱총나무 전투 지팡이"
+      },
+      "riveted_copper_girdle": {
+        "name": "리벳 구리 허리띠"
+      },
+      "coppermail_sabatons": {
+        "name": "구리 사슬 사바톤"
+      },
+      "coppermail_gauntlets": {
+        "name": "구리 사슬 건틀릿"
+      },
+      "ironlink_hauberk": {
+        "name": "무쇠사슬 갑옷"
+      },
+      "ironlink_legguards": {
+        "name": "무쇠사슬 다리보호구"
+      },
+      "ironlink_spaulders": {
+        "name": "무쇠사슬 어깨보호구"
+      },
+      "thoriumscale_greathelm": {
+        "name": "토륨 비늘 대형 투구"
+      },
+      "thoriumscale_cuirass": {
+        "name": "토륨 비늘 흉갑"
+      },
+      "thoriumscale_leggings": {
+        "name": "토륨 비늘 각반"
+      },
       "conjured_water4": {
         "name": "창조된 샘물"
       },

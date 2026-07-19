@@ -8286,6 +8286,60 @@ export const zh_TW: EnTranslations = {
       "glass_vial": {
         "name": "玻璃瓶"
       },
+      "copper_bearded_axe": {
+        "name": "銅鬚斧"
+      },
+      "copper_flanged_mace": {
+        "name": "銅翼錘"
+      },
+      "ironbark_boar_spear": {
+        "name": "鐵皮木野豬矛"
+      },
+      "ironedge_longsword": {
+        "name": "鐵刃長劍"
+      },
+      "ironshod_maul": {
+        "name": "鐵包巨槌"
+      },
+      "whetted_iron_dirk": {
+        "name": "磨利鐵匕首"
+      },
+      "thorium_warblade": {
+        "name": "瑟銀戰刃"
+      },
+      "arcanite_war_axe": {
+        "name": "秘銀戰斧"
+      },
+      "elderwood_battle_staff": {
+        "name": "古老接骨木戰棍"
+      },
+      "riveted_copper_girdle": {
+        "name": "鉚釘銅腰帶"
+      },
+      "coppermail_sabatons": {
+        "name": "銅鏈戰靴"
+      },
+      "coppermail_gauntlets": {
+        "name": "銅鏈護手"
+      },
+      "ironlink_hauberk": {
+        "name": "鐵鏈鎖甲"
+      },
+      "ironlink_legguards": {
+        "name": "鐵鏈護腿"
+      },
+      "ironlink_spaulders": {
+        "name": "鐵鏈肩甲"
+      },
+      "thoriumscale_greathelm": {
+        "name": "瑟銀鱗巨盔"
+      },
+      "thoriumscale_cuirass": {
+        "name": "瑟銀鱗胸甲"
+      },
+      "thoriumscale_leggings": {
+        "name": "瑟銀鱗腿甲"
+      },
       "conjured_water4": {
         "name": "魔法泉水"
       },
