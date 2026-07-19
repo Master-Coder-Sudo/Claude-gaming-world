@@ -2880,9 +2880,9 @@ describe('lockpick view rebuilds from events on the online client', () => {
 // while the prior decoded value is preserved.
 // ---------------------------------------------------------------------------
 
-// The pinned set of the 49 delta keys, sorted. Cross-checked below against the
+// The pinned set of the 50 delta keys, sorted. Cross-checked below against the
 // live `maybe(...)` (and `maybeRaw(...)`) calls scraped from server/game.ts
-// source, so a 50th unregistered delta key reddens this gate. All but one ride
+// source, so a 51st unregistered delta key reddens this gate. All but one ride
 // via `maybe(...)`; `vcupb` is written with `maybeRaw(...)` (the realm-wide Vale
 // Cup fragment, already serialized once realm-wide and shared across viewers),
 // not plain `maybe(...)`.
@@ -2922,6 +2922,7 @@ const ALL_DELTA_KEYS = [
   'market',
   'marks',
   'milestones',
+  'mst',
   'ncd',
   'party',
   'prof',
@@ -2982,6 +2983,7 @@ const TERSE_TO_IWORLD: Record<string, string> = {
   marks: 'markers',
   milestones: 'unlockedMilestones',
   mres: 'maxResource',
+  mst: 'activeMobileStationCraft',
   party: 'partyInfo',
   prk: 'prestigeRank',
   prof: 'professionsState',
@@ -3084,6 +3086,17 @@ function dirtyEveryDeltaField(): {
     attunedPairs: ['weaponcrafting+armorcrafting'],
     switchCount: 2,
     amendsProgress: 4,
+  };
+  // An ACTIVE mobile crafting station (Phase 8, `mst`): set directly on the
+  // meta slot (the placement command's specialization gate is pinned in
+  // tests/professions_crafting_hub.test.ts; this suite pins the WIRE mirror),
+  // far from expiry so the server-side liveness check reads it active.
+  meta.mobileStation = {
+    playerId: 'Alld',
+    craftId: 'armorcrafting',
+    pos: { x: 1, z: 2 },
+    placedAtTick: sim.tickCount,
+    expiresAtTick: sim.tickCount + 12000,
   };
   // Per-player gather-node respawn cooldown (#1866): one node still cooling
   // down (readyAt 30s in the sim future), so `ncd` mirrors it as ~30 remaining
@@ -3306,6 +3319,9 @@ describe('full self-state snapshot delta fixture', () => {
     // craft id, and it must reflect the cprof delta just applied.
     expect(client.archetypeTitle).toBe('weaponcrafting+armorcrafting');
     expect(client.craftSkills).toMatchObject({ armorcrafting: 31, weaponcrafting: 29 });
+    // mst -> activeMobileStationCraft: the server-computed ACTIVE craft id
+    // (expiry resolved server-side against the sim's own tickCount).
+    expect(client.activeMobileStationCraft).toBe('armorcrafting');
     expect(client.delveClears).toEqual({ 'collapsed_reliquary:heroic': 1 }); // dclears -> delveClears
     expect(client.delveDaily).toMatchObject({ markClears: 4 }); // delveDaily
     // deeds -> deedsEarned: the Map rebuilds from the plain wire object with
@@ -3335,6 +3351,26 @@ describe('full self-state snapshot delta fixture', () => {
     expect(client.cupInfo?.role).toBe('keeper'); // per-viewer field, arrived on vcup
     expect(Object.keys(client.cupInfo?.queueSizes ?? {}).sort()).toEqual(['1', '2', '3', '4', '5']); // realm-wide field, arrived on vcupb
     expect(client.cupInfo?.live).toBeNull(); // no live match in the fixture
+  });
+
+  it('flips mst to null when the mobile station expires (server-side tick-domain check)', () => {
+    // The expiry arm of the mst self-delta: activeMobileStationCraftFor
+    // resolves active-vs-expired against the SERVER sim's own tickCount, so
+    // the lapse must reach the client as an explicit mst: null delta (a
+    // nullable scalar; omission would leave the stale craft id mirrored).
+    const { server, fc, leader } = dirtyEveryDeltaField();
+    broadcast(server);
+    const client = bareClient(leader.pid);
+    (client as any).applySnapshot(lastSnap(fc.sent));
+    expect(client.activeMobileStationCraft).toBe('armorcrafting');
+
+    const meta = server.sim.meta(leader.pid);
+    if (!meta?.mobileStation) throw new Error('mobile station missing from the harness');
+    meta.mobileStation.expiresAtTick = server.sim.tickCount; // isStationActive: now < expiry fails
+    server.sim.tick();
+    broadcast(server);
+    (client as any).applySnapshot(lastSnap(fc.sent));
+    expect(client.activeMobileStationCraft).toBeNull();
   });
 
   it('omits all delta keys on a no-op re-broadcast and preserves the prior mirror', () => {
@@ -3411,9 +3447,9 @@ describe('gather node cooldown wire round trip (ncd)', () => {
 });
 
 describe('delta-key contract pins (anti-drift)', () => {
-  it('ALL_DELTA_KEYS contains exactly 49 unique keys in sorted order', () => {
-    expect(ALL_DELTA_KEYS).toHaveLength(49);
-    expect(new Set(ALL_DELTA_KEYS).size).toBe(49);
+  it('ALL_DELTA_KEYS contains exactly 50 unique keys in sorted order', () => {
+    expect(ALL_DELTA_KEYS).toHaveLength(50);
+    expect(new Set(ALL_DELTA_KEYS).size).toBe(50);
     expect([...ALL_DELTA_KEYS]).toEqual([...ALL_DELTA_KEYS].sort());
   });
 
@@ -3427,7 +3463,7 @@ describe('delta-key contract pins (anti-drift)', () => {
     for (let m = re.exec(src); m !== null; m = re.exec(src)) scraped.add(m[1]);
     expect(scraped.has('lockouts')).toBe(true); // the multi-line call IS captured
     expect(scraped.has('vcupb')).toBe(true); // the maybeRaw call IS captured by the widened regex
-    expect(scraped.size).toBe(49);
+    expect(scraped.size).toBe(50);
     expect([...scraped].sort()).toEqual([...ALL_DELTA_KEYS].sort());
   });
 
