@@ -288,13 +288,7 @@ export const TARGETS = [
   {
     key: 'market-window',
     label: 'World Market window (landscape multi-column listings)',
-    when: [
-      'ui/market_window',
-      'ui/market_view',
-      'styles/components.css',
-      'styles/hud.mobile.css',
-      'sim/market',
-    ],
+    when: ['ui/market_window', 'ui/market_view', 'ui/market_filters', 'sim/market'],
     variants: [{ key: 'desktop' }, { key: 'mobile', mobile: true }],
     // Teleport onto the Merchant's stall (zone1, {0, 11.5}) so marketOpen's proximity
     // gate passes, then open the Browse tab directly. The Merchant always keeps some of
