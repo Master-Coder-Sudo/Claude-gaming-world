@@ -1754,6 +1754,35 @@ describe('client HTML shell', () => {
     expect(marketWindowTs).toMatch(/this\.renderMarketFilterMenu\(\s*'subtype'/);
     expect(marketWindowTs).toMatch(/this\.renderMarketFilterMenu\(\s*'rarity'/);
     expect(marketWindowTs).not.toContain('<select data-market-filter=');
+    // The load-bearing claim of the landscape refactor: `.mkt-controls` (search +
+    // filters) is a SIBLING of `#market-body`, positioned above it, not nested
+    // inside it (round 4 review, finding 4). A regression that renested the
+    // controls back inside #market-body would silently break the mobile
+    // sheet-scroll fix (hud.mobile.css keys off this exact sibling shape) with no
+    // other test catching it. controlsHtml (built with `.mkt-controls` as its own
+    // top-level div) is spliced into el.innerHTML as a sibling ahead of the
+    // `#market-body` div, never inside it.
+    expect(marketWindowTs).toContain('`<div class="mkt-controls">`');
+    const markupIdx = marketWindowTs.indexOf('el.innerHTML =');
+    const controlsHtmlIdx = marketWindowTs.indexOf('controlsHtml +', markupIdx);
+    const bodyIdx = marketWindowTs.indexOf('<div id="market-body">', markupIdx);
+    expect(controlsHtmlIdx).toBeGreaterThan(markupIdx);
+    expect(bodyIdx).toBeGreaterThan(controlsHtmlIdx);
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: asserting the source literally contains this template expression
+    expect(marketWindowTs).toContain('value="${esc(this.searchQuery)}"');
+    // .mkt-list is the grid the listing cards render into; a deletion of the
+    // multi-column landscape grid would otherwise go undetected.
+    expect(componentsCss).toContain('.mkt-list {');
+    expect(marketWindowTs).toContain("list.className = 'mkt-list';");
+    // Mobile stacks the controls row to one column (the flex-basis-neutralizing
+    // fix depends on this direction flip actually happening) and forces the
+    // listing grid back to a single column instead of relying on auto-fill alone.
+    expect(hudMobileCss).toContain(
+      'body.mobile-touch .mkt-controls {\n    flex-direction: column;\n    align-items: stretch;',
+    );
+    expect(hudMobileCss).toContain(
+      'body.mobile-touch .mkt-list {\n    grid-template-columns: 1fr;',
+    );
   });
 
   it('keeps the mobile bar at top-left and leaves low-frequency actions in the More tray', () => {

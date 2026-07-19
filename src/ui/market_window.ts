@@ -118,7 +118,12 @@ export class MarketWindow {
     this.lastSig = '';
     this.render();
     this.deps.root().style.display = 'flex';
-    // Bags ride alongside so you can click items straight onto the Sell tab.
+    // Bags ride alongside so you can click items straight onto the Sell tab. The
+    // body class drives the desktop docking pair in components.css (the bank-open
+    // pattern): without it, both #market-window (centered) and #bags resolve their
+    // percentages against #ui independently and can overlap on common laptop
+    // widths, covering the Sell-tab drop target (review round 4).
+    document.body.classList.add('market-open');
     this.deps.syncBags(true);
     audio.bagOpen();
   }
@@ -129,6 +134,7 @@ export class MarketWindow {
     this.sellItemId = null;
     this.deps.root().style.display = 'none';
     this.deps.hideTooltip();
+    document.body.classList.remove('market-open');
     this.deps.syncBags(false);
     this.deps.restoreFocus(this.openerFocus);
     this.openerFocus = null;
@@ -550,7 +556,12 @@ export class MarketWindow {
           this.lastSig = '';
           audio.click();
           this.renderContent();
+          // #market-body scrolls on desktop; on mobile the sheet base makes
+          // #market-window (deps.root()) the actual scroller instead (see
+          // hud.mobile.css). Reset whichever one is live; the other is a no-op
+          // (overflow: hidden / visible has no scroll position to clear).
           body.scrollTop = 0;
+          this.deps.root().scrollTop = 0;
           // The pager is rebuilt by renderContent, so move focus to the matching new
           // page button (or any enabled pager button if it became disabled at an end),
           // keeping the keyboard user off <body> (WCAG 2.4.3).

@@ -8420,6 +8420,26 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+  /* Desktop docking pair with #bags (the bank-open pattern, see body.bank-open
+     above): opening the market force-opens bags alongside so items can be
+     clicked straight onto the Sell tab, but #market-window (centered) and
+     #bags (percentage-positioned off #ui independently) could overlap on
+     common laptop widths, covering the drop target (PR #2107 review round 4).
+     Pin both off the same 50% split with a fixed gap so they can never
+     collide, regardless of viewport width or either window's own size. */
+  body.market-open #market-window {
+    left: 50%;
+    transform: translateX(calc(-100% - var(--bank-dock-gap, 8px)));
+  }
+  body.market-open #bags {
+    left: 50%;
+    top: 10vh;
+    right: auto;
+    bottom: auto;
+    width: 320px;
+    max-height: calc(var(--app-vh, 100vh) * 0.85 / var(--window-scale) - 24px);
+    transform: translateX(var(--bank-dock-gap, 8px));
+  }
   .mkt-tabs {
     display: flex;
     gap: 4px;

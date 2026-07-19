@@ -8,6 +8,10 @@ import { describe, expect, it } from 'vitest';
 // the pure core (no duplicated market_filters logic).
 const painter = readFileSync(new URL('../src/ui/market_window.ts', import.meta.url), 'utf8');
 const core = readFileSync(new URL('../src/ui/market_view.ts', import.meta.url), 'utf8');
+const componentsCss = readFileSync(
+  new URL('../src/styles/components.css', import.meta.url),
+  'utf8',
+);
 
 describe('market_window: no magic values', () => {
   it('carries no literal color in TS (colors live in the extracted stylesheet/tokens)', () => {
@@ -61,6 +65,35 @@ describe('market_window: WCAG 2.2 AA', () => {
     expect(painter).toContain('role="option" tabindex="-1"');
     expect(painter).toContain("import { dropdownKeyNav } from './dropdown_nav'");
     expect(painter).toContain('dropdownKeyNav(');
+  });
+});
+
+describe('market_window: desktop docking with bags (PR #2107 review round 4)', () => {
+  it('toggles a market-open body class on open and close, on every close path', () => {
+    const open = painter.slice(
+      painter.indexOf('open(): void {'),
+      painter.indexOf('close(): void {'),
+    );
+    expect(open).toContain("document.body.classList.add('market-open')");
+    const close = painter.slice(painter.indexOf('close(): void {'));
+    expect(close).toContain("document.body.classList.remove('market-open')");
+    // The X button routes through this.close() (not a bespoke DOM hide), so the
+    // class removal above also covers that close path, not just Esc/closeManagedWindow.
+    expect(painter).toContain(
+      "querySelector('[data-close]')?.addEventListener('click', () => this.close())",
+    );
+  });
+
+  it('docks #market-window and #bags off the same 50% split so they can never overlap', () => {
+    // Reuses the body.bank-open docking pattern instead of a viewport-width-dependent
+    // width cap: market's core Sell-tab workflow needs bags always fully visible
+    // alongside it, on every viewport width, not just the ones a cap happens to cover.
+    expect(componentsCss).toContain('body.market-open #market-window {\n    left: 50%;');
+    expect(componentsCss).toContain(
+      'transform: translateX(calc(-100% - var(--bank-dock-gap, 8px)));',
+    );
+    expect(componentsCss).toContain('body.market-open #bags {\n    left: 50%;');
+    expect(componentsCss).toContain('transform: translateX(var(--bank-dock-gap, 8px));');
   });
 });
 
