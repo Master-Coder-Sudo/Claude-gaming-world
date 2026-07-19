@@ -428,6 +428,10 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'hudChrome.statInfo.names.hitRating': 'Raakwaarde',
   'abilityUi.actionBar.attackRemoveHint':
     'Klik met rechts om het van de balk te verwijderen en de plek vrij te maken.',
+  'entryGuard.body':
+    'Het spel is onverwacht afgesloten bij het betreden van de wereld, dus de grafische kwaliteit staat nu op {preset}. Je kunt dit wijzigen in de grafische keuzelijst hieronder of in de opties in het spel.',
+  'entryGuard.dismiss': 'Sluiten',
+  'entryGuard.title': 'Grafische kwaliteit verlaagd',
   'loading.realmFull':
     'Deze wereld is op dit moment vol. Probeer het over een paar minuten opnieuw.',
   'loading.tooManyConnections':
@@ -488,7 +492,7 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
     'Een doordringende schreeuw die alle vijanden binnen 15 m gedurende 8 sec met 50% vertraagt.',
   'entities.abilities.piercing_howl.name': 'Doordringend Gehuil',
   'entities.abilities.raging_gale.description':
-    'Sla onmiddellijk tweemaal toe met je wapen, waarbij elke treffer 40% wapenschade plus {damage} toebrengt, en genereer 8 woede. Slaat maximaal 2 ladingen op. (Razernij)',
+    'Sla onmiddellijk tweemaal toe met je wapen, waarbij elke treffer 40% wapenschade plus {damage} toebrengt, en genereer 4 woede. Slaat maximaal 2 ladingen op. (Razernij)',
   'entities.abilities.raging_gale.name': 'Dubbelslag',
   'entities.abilities.raised_guard.description':
     'Zet je schrap achter je schild: je loopt gedurende 6 sec 50% minder Fysieke schade op. Slaat maximaal 2 ladingen op. (Protectie)',

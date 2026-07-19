@@ -445,6 +445,10 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'hudChrome.statInfo.names.hitRating': 'Trefferwertung',
   'abilityUi.actionBar.attackRemoveHint':
     'Rechtsklick, um es von der Leiste zu entfernen und den Slot freizugeben.',
+  'entryGuard.body':
+    'Das Spiel wurde beim Betreten der Welt unerwartet beendet, daher ist die Grafik jetzt auf {preset} eingestellt. Du kannst dies unten in der Grafikauswahl oder in den Optionen im Spiel ändern.',
+  'entryGuard.dismiss': 'Schließen',
+  'entryGuard.title': 'Grafik verringert',
   'loading.realmFull': 'Diese Welt ist derzeit voll. Bitte versuche es in wenigen Minuten erneut.',
   'loading.tooManyConnections':
     'Zu viele Verbindungen zu dieser Welt kommen von deinem Netzwerk. Bitte schliesse zusatzliche Spielfenster oder versuche es in wenigen Minuten erneut.',
@@ -504,7 +508,7 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
     'Ein durchdringender Schrei, der alle Gegner im Umkreis von 15 m 8 Sek. lang um 50% verlangsamt.',
   'entities.abilities.piercing_howl.name': 'Durchdringendes Heulen',
   'entities.abilities.raging_gale.description':
-    'Schlagt sofort zweimal mit Eurer Waffe zu, jeder Treffer verursacht 40% Waffenschaden plus {damage}, und erzeugt 8 Wut. Speichert bis zu 2 Aufladungen. (Furor)',
+    'Schlagt sofort zweimal mit Eurer Waffe zu, jeder Treffer verursacht 40% Waffenschaden plus {damage}, und erzeugt 4 Wut. Speichert bis zu 2 Aufladungen. (Furor)',
   'entities.abilities.raging_gale.name': 'Zwillingsschlag',
   'entities.abilities.raised_guard.description':
     'Verschanzt Euch hinter Eurem Schild: Ihr erleidet 6 Sek. lang 50% weniger physischen Schaden. Speichert bis zu 2 Aufladungen. (Schutz)',

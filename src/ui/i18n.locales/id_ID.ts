@@ -433,6 +433,10 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'hudChrome.statInfo.names.hitRating': 'Rating Pukulan',
   'abilityUi.actionBar.attackRemoveHint':
     'Klik kanan untuk menghapusnya dari bilah dan mengosongkan slot.',
+  'entryGuard.body':
+    'Game tertutup secara tidak terduga saat memasuki dunia, jadi grafis sekarang diatur ke {preset}. Anda dapat mengubahnya di pemilih grafis di bawah atau di opsi dalam game.',
+  'entryGuard.dismiss': 'Tutup',
+  'entryGuard.title': 'Grafis diturunkan',
   'loading.realmFull': 'Dunia ini sedang penuh. Coba lagi dalam beberapa menit.',
   'loading.tooManyConnections':
     'Terlalu banyak koneksi ke dunia ini dari jaringanmu. Tutup jendela permainan ekstra atau coba lagi dalam beberapa menit.',
@@ -492,7 +496,7 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
     'Teriakan menusuk yang memperlambat semua musuh dalam 15 yard sebesar 50% selama 8 detik.',
   'entities.abilities.piercing_howl.name': 'Lolongan Menusuk',
   'entities.abilities.raging_gale.description':
-    'Seketika menyerang dengan senjatamu dua kali, setiap pukulan memberikan 40% kerusakan senjata ditambah {damage}, dan menghasilkan 8 amarah. Menyimpan hingga 2 muatan. (Fury)',
+    'Seketika menyerang dengan senjatamu dua kali, setiap pukulan memberikan 40% kerusakan senjata ditambah {damage}, dan menghasilkan 4 amarah. Menyimpan hingga 2 muatan. (Fury)',
   'entities.abilities.raging_gale.name': 'Twinstrike',
   'entities.abilities.raised_guard.description':
     'Bersiaga di balik perisaimu: kamu menerima kerusakan Fisik 50% lebih sedikit selama 6 detik. Menyimpan hingga 2 muatan. (Protection)',

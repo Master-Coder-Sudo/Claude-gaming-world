@@ -448,6 +448,10 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.statInfo.names.hitRating': 'Classificação de Acerto',
   'abilityUi.actionBar.attackRemoveHint':
     'Clique com o botão direito para removê-lo da barra e liberar o espaço.',
+  'entryGuard.body':
+    'O jogo fechou inesperadamente ao entrar no mundo, então os gráficos agora estão definidos como {preset}. Você pode alterar isso no seletor de gráficos abaixo ou nas opções do jogo.',
+  'entryGuard.dismiss': 'Fechar',
+  'entryGuard.title': 'Gráficos reduzidos',
   'loading.realmFull': 'Este mundo está lotado no momento. Tente novamente em alguns minutos.',
   'loading.tooManyConnections':
     'Há conexões em excesso a este mundo vindas da sua rede. Feche janelas extras do jogo ou tente novamente em alguns minutos.',
@@ -507,7 +511,7 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
     'Um grito penetrante que reduz em 50% a velocidade de todos os inimigos em um raio de 15 m por 8 s.',
   'entities.abilities.piercing_howl.name': 'Uivo Penetrante',
   'entities.abilities.raging_gale.description':
-    'Golpeia instantaneamente com sua arma duas vezes, cada acerto causando 40% do dano da arma mais {damage}, e gera 8 de raiva. Acumula até 2 cargas. (Fúria)',
+    'Golpeia instantaneamente com sua arma duas vezes, cada acerto causando 40% do dano da arma mais {damage}, e gera 4 de raiva. Acumula até 2 cargas. (Fúria)',
   'entities.abilities.raging_gale.name': 'Golpe Gêmeo',
   'entities.abilities.raised_guard.description':
     'Firme-se atrás do seu escudo: você recebe 50% menos dano Físico por 6 s. Acumula até 2 cargas. (Proteção)',

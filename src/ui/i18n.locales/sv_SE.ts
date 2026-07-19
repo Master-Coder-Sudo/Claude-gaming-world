@@ -427,6 +427,10 @@ export const sv_SE: Partial<Record<TranslationKey, string>> = {
   'hudChrome.statInfo.names.hitRating': 'Träffvärde',
   'abilityUi.actionBar.attackRemoveHint':
     'Högerklicka för att ta bort det från fältet och frigöra platsen.',
+  'entryGuard.body':
+    'Spelet stängdes oväntat när du gick in i världen, så grafiken är nu inställd på {preset}. Du kan ändra detta i grafikväljaren nedan eller i alternativen i spelet.',
+  'entryGuard.dismiss': 'Stäng',
+  'entryGuard.title': 'Grafik sänkt',
   'loading.realmFull': 'Denna värld är full just nu. Försök igen om några minuter.',
   'loading.tooManyConnections':
     'För många anslutningar till denna värld kommer från ditt nätverk. Stäng extra spelfönster eller försök igen om några minuter.',
@@ -486,7 +490,7 @@ export const sv_SE: Partial<Record<TranslationKey, string>> = {
     'Ett genomträngande rop som saktar ner alla fiender inom 15 meter med 50 % i 8 sek.',
   'entities.abilities.piercing_howl.name': 'Genomträngande tjut',
   'entities.abilities.raging_gale.description':
-    'Slå omedelbart två gånger med ditt vapen, där varje träff vållar 40 % vapenskada plus {damage}, och generera 8 raseri. Lagrar upp till 2 laddningar. (Raseri)',
+    'Slå omedelbart två gånger med ditt vapen, där varje träff vållar 40 % vapenskada plus {damage}, och generera 4 raseri. Lagrar upp till 2 laddningar. (Raseri)',
   'entities.abilities.raging_gale.name': 'Tvillingslag',
   'entities.abilities.raised_guard.description':
     'Förskansa dig bakom din sköld: du tar 50 % mindre fysisk skada i 6 sek. Lagrar upp till 2 laddningar. (Beskydd)',

@@ -426,6 +426,10 @@ export const tr_TR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.statInfo.names.hitRating': 'İsabetlilik Puanı',
   'abilityUi.actionBar.attackRemoveHint':
     'Çubuktan kaldırıp yuvayı serbest bırakmak için sağ tıkla.',
+  'entryGuard.body':
+    'Dünyaya girerken oyun beklenmedik şekilde kapandı, bu yüzden grafikler artık {preset} olarak ayarlandı. Bunu aşağıdaki grafik seçicisinden veya oyun içi seçeneklerden değiştirebilirsiniz.',
+  'entryGuard.dismiss': 'Kapat',
+  'entryGuard.title': 'Grafikler düşürüldü',
   'loading.realmFull': 'Bu dünya şu an dolu. Lütfen birkaç dakika sonra tekrar dene.',
   'loading.tooManyConnections':
     'Ağından bu dünyaya çok fazla bağlantı geliyor. Lütfen fazladan oyun pencerelerini kapat ya da birkaç dakika sonra tekrar dene.',
@@ -485,7 +489,7 @@ export const tr_TR: Partial<Record<TranslationKey, string>> = {
     '15 yarda içindeki tüm düşmanları 8 sn boyunca %50 yavaşlatan delici bir nara.',
   'entities.abilities.piercing_howl.name': 'Delici Uluma',
   'entities.abilities.raging_gale.description':
-    'Silahınla anında iki kez vurursun; her vuruş %40 silah hasarı artı {damage} verir ve 8 öfke üretirsin. En fazla 2 kullanım birikir. (Hiddet)',
+    'Silahınla anında iki kez vurursun; her vuruş %40 silah hasarı artı {damage} verir ve 4 öfke üretirsin. En fazla 2 kullanım birikir. (Hiddet)',
   'entities.abilities.raging_gale.name': 'Çifte Darbe',
   'entities.abilities.raised_guard.description':
     'Kalkanının ardında siper alırsın: 6 sn boyunca %50 azaltılmış Fiziksel hasar alırsın. En fazla 2 kullanım birikir. (Koruma)',

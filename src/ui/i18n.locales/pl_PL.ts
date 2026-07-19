@@ -433,6 +433,10 @@ export const pl_PL: Partial<Record<TranslationKey, string>> = {
   'hudChrome.statInfo.names.hitRating': 'Ocena Trafienia',
   'abilityUi.actionBar.attackRemoveHint':
     'Kliknij prawym przyciskiem, aby usunąć z paska i zwolnić miejsce.',
+  'entryGuard.body':
+    'Gra nieoczekiwanie zamknęła się podczas wchodzenia do świata, więc grafika jest teraz ustawiona na {preset}. Możesz to zmienić w wyborze grafiki poniżej lub w opcjach w grze.',
+  'entryGuard.dismiss': 'Zamknij',
+  'entryGuard.title': 'Obniżono grafikę',
   'loading.realmFull': 'Ten świat jest teraz pełny. Spróbuj ponownie za kilka minut.',
   'loading.tooManyConnections':
     'Z twojej sieci pochodzi zbyt wiele połączeń do tego świata. Zamknij dodatkowe okna gry lub spróbuj ponownie za kilka minut.',
@@ -492,7 +496,7 @@ export const pl_PL: Partial<Record<TranslationKey, string>> = {
     'Przeszywający okrzyk, który spowalnia wszystkich wrogów w promieniu 15 jardów o 50% na 8 sek.',
   'entities.abilities.piercing_howl.name': 'Przeszywające wycie',
   'entities.abilities.raging_gale.description':
-    'Natychmiast uderzasz bronią dwukrotnie, każde trafienie zadaje 40% obrażeń broni plus {damage}, a ty generujesz 8 wściekłości. Gromadzi maksymalnie 2 ładunki. (specjalizacja Furia)',
+    'Natychmiast uderzasz bronią dwukrotnie, każde trafienie zadaje 40% obrażeń broni plus {damage}, a ty generujesz 4 wściekłości. Gromadzi maksymalnie 2 ładunki. (specjalizacja Furia)',
   'entities.abilities.raging_gale.name': 'Bliźniaczy cios',
   'entities.abilities.raised_guard.description':
     'Zapierasz się za tarczą: otrzymujesz o 50% mniejsze obrażenia fizyczne przez 6 sek. Gromadzi maksymalnie 2 ładunki. (specjalizacja Ochrona)',

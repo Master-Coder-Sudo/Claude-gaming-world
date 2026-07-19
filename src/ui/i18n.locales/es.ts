@@ -423,6 +423,10 @@ export const es: Partial<Record<TranslationKey, string>> = {
   'hudChrome.statInfo.names.hitRating': 'Puntuacion de impacto',
   'abilityUi.actionBar.attackRemoveHint':
     'Clic derecho para quitarlo de la barra y liberar el espacio.',
+  'entryGuard.body':
+    'El juego se cerró inesperadamente al entrar al mundo, así que los gráficos ahora están en {preset}. Puedes cambiarlo en el selector de gráficos de abajo o en las opciones del juego.',
+  'entryGuard.dismiss': 'Descartar',
+  'entryGuard.title': 'Gráficos reducidos',
   'loading.realmFull':
     'Este mundo esta lleno en este momento. Por favor, intentalo de nuevo en unos minutos.',
   'loading.tooManyConnections':
@@ -483,7 +487,7 @@ export const es: Partial<Record<TranslationKey, string>> = {
     'Un grito penetrante que ralentiza un 50% a todos los enemigos en un radio de 15 m durante 8 s.',
   'entities.abilities.piercing_howl.name': 'Aullido Penetrante',
   'entities.abilities.raging_gale.description':
-    'Golpeas al instante dos veces con tu arma; cada golpe inflige un 40% de daño de arma más {damage}, y generas 8 de ira. Almacena hasta 2 cargas. (Furia)',
+    'Golpeas al instante dos veces con tu arma; cada golpe inflige un 40% de daño de arma más {damage}, y generas 4 de ira. Almacena hasta 2 cargas. (Furia)',
   'entities.abilities.raging_gale.name': 'Golpe Gemelo',
   'entities.abilities.raised_guard.description':
     'Te afianzas tras tu escudo: recibes un 50% menos de daño Físico durante 6 s. Almacena hasta 2 cargas. (Protección)',

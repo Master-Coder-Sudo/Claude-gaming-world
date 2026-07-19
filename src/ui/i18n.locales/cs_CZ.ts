@@ -432,6 +432,10 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
   'hudChrome.statInfo.names.hitRating': 'Hodnocení zásahu',
   'abilityUi.actionBar.attackRemoveHint':
     'Klikni pravým tlačítkem pro odebrání z lišty a uvolnění slotu.',
+  'entryGuard.body':
+    'Hra se při vstupu do světa neočekávaně ukončila, grafika je proto nyní nastavena na {preset}. Můžete to změnit ve výběru grafiky níže nebo v nastavení ve hře.',
+  'entryGuard.dismiss': 'Zavřít',
+  'entryGuard.title': 'Grafika snížena',
   'loading.realmFull': 'Tento svět je momentálně plný. Zkus to prosím znovu za několik minut.',
   'loading.tooManyConnections':
     'Z tvé sítě se k tomuto světu připojuje příliš mnoho spojení. Zavři nadbytečná herní okna nebo to zkus znovu za několik minut.',
@@ -491,7 +495,7 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
     'Pronikavý pokřik, který na 8 s zpomalí všechny nepřátele do 15 yardů o 50 %.',
   'entities.abilities.piercing_howl.name': 'Pronikavé zavytí',
   'entities.abilities.raging_gale.description':
-    'Okamžitě dvakrát udeříš zbraní, každý zásah způsobí 40 % poškození zbraně plus {damage}, a vygeneruješ 8 vzteku. Ukládá až 2 nabití. (Fury)',
+    'Okamžitě dvakrát udeříš zbraní, každý zásah způsobí 40 % poškození zbraně plus {damage}, a vygeneruješ 4 vzteku. Ukládá až 2 nabití. (Fury)',
   'entities.abilities.raging_gale.name': 'Dvojúder',
   'entities.abilities.raised_guard.description':
     'Zapři se za štítem: po dobu 6 s utrpíš o 50 % méně fyzického poškození. Ukládá až 2 nabití. (Protection)',

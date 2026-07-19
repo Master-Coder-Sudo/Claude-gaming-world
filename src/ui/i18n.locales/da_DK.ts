@@ -428,6 +428,10 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'hudChrome.statInfo.names.hitRating': 'Rammevurdering',
   'abilityUi.actionBar.attackRemoveHint':
     'Højreklik for at fjerne den fra bjælken og frigøre pladsen.',
+  'entryGuard.body':
+    'Spillet lukkede uventet, mens du trådte ind i verdenen, så grafikken er nu sat til {preset}. Du kan ændre det i grafikvælgeren nedenfor eller i indstillingerne i spillet.',
+  'entryGuard.dismiss': 'Afvis',
+  'entryGuard.title': 'Grafik sænket',
   'loading.realmFull': 'Denne verden er fuld i øjeblikket. Prøv igen om et par minutter.',
   'loading.tooManyConnections':
     'Der kommer for mange forbindelser til denne verden fra dit netværk. Luk ekstra spilvinduer, eller prøv igen om et par minutter.',
@@ -487,7 +491,7 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
     'Et gennemtrængende råb, der sænker alle fjender inden for 15 m med 50% i 8 sek.',
   'entities.abilities.piercing_howl.name': 'Gennemtrængende Hyl',
   'entities.abilities.raging_gale.description':
-    'Slå øjeblikkeligt to gange med dit våben, hvor hvert slag volder 40% våbenskade plus {damage}, og generér 8 raseri. Gemmer op til 2 ladninger. (Furie)',
+    'Slå øjeblikkeligt to gange med dit våben, hvor hvert slag volder 40% våbenskade plus {damage}, og generér 4 raseri. Gemmer op til 2 ladninger. (Furie)',
   'entities.abilities.raging_gale.name': 'Tvillingeslag',
   'entities.abilities.raised_guard.description':
     'Sæt dig fast bag dit skjold: du tager 50% mindre fysisk skade i 6 sek. Gemmer op til 2 ladninger. (Beskyttelse)',
