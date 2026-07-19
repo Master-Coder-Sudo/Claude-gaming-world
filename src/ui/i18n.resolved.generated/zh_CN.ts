@@ -2227,6 +2227,25 @@ export const zh_CN: EnTranslations = {
       "masterworkSeal": "杰作",
       "enchantedLine": "已附魔"
     },
+    "training": {
+      "title": "训练：{name}",
+      "close": "关闭训练",
+      "empty": "这位大师没有可传授的配方。",
+      "free": "免费",
+      "stateKnown": "已学会",
+      "stateTeachable": "可学习",
+      "stateLocked": "未解锁",
+      "requirement": "需要{craft}达到 {skill} 后传授",
+      "trainAria": "花费{fee}学习{name}",
+      "dialogOption": "训练",
+      "dialogOptionAria": "向{name}学习配方",
+      "learned": "已学会配方：{recipe}",
+      "tierUnmet": "你需要{craft}达到 {skill} 才能学习该配方。",
+      "cannotAfford": "你付不起这次训练的费用。",
+      "notTaughtHere": "这里不传授该配方。",
+      "alreadyKnown": "你已经学会了该配方。",
+      "outOfRange": "你必须站在对应的工作台旁才能训练。"
+    },
     "finder": {
       "title": "地下城查找器",
       "close": "关闭",

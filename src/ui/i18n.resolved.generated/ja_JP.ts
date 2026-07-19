@@ -2227,6 +2227,25 @@ export const ja_JP: EnTranslations = {
       "masterworkSeal": "傑作",
       "enchantedLine": "エンチャント済み"
     },
+    "training": {
+      "title": "訓練：{name}",
+      "close": "訓練を閉じる",
+      "empty": "この師匠には教えられるレシピがありません。",
+      "free": "無料",
+      "stateKnown": "習得済み",
+      "stateTeachable": "習得可能",
+      "stateLocked": "未開放",
+      "requirement": "{craft} {skill} で伝授",
+      "trainAria": "{fee}で{name}を習得",
+      "dialogOption": "訓練",
+      "dialogOptionAria": "{name}から訓練を受ける",
+      "learned": "レシピを習得しました：{recipe}",
+      "tierUnmet": "そのレシピを習得するには{craft}が {skill} 必要です。",
+      "cannotAfford": "その訓練の費用を支払えません。",
+      "notTaughtHere": "そのレシピはここでは教えていません。",
+      "alreadyKnown": "そのレシピはすでに習得しています。",
+      "outOfRange": "訓練するには作業台のそばにいる必要があります。"
+    },
     "finder": {
       "title": "ダンジョンファインダー",
       "close": "閉じる",

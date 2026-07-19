@@ -718,7 +718,9 @@ export const ZONE2_NPCS: Record<string, NpcDef> = {
     facing: 2.3,
     color: 0x8a5a2a,
     questIds: [],
-    vendorItems: ['travelers_knapsack', 'tough_jerky', 'smoked_eel'],
+    // Phase 9 station stocking: thorium_ore is the premium reagent the
+    // tannery station's own recipe (recipe_duskhide_wraps) consumes.
+    vendorItems: ['travelers_knapsack', 'tough_jerky', 'smoked_eel', 'thorium_ore'],
     greeting: 'A hide is only as good as its tanning, $C. The vats are ready when you are.',
   },
 };

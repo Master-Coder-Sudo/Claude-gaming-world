@@ -664,6 +664,77 @@ tables, i18n key namespaces, files created)
   runtime cycle today because the zone modules never import
   professions content, but a future reverse import would see
   undefined during init).
+- Phase 9 (landed 2026-07-19; phase start d40f0a90f): recipe training
+  live end to end. src/sim/professions/training.ts (TRAINING_FEE_BY_TIER
+  [0, 2500, 10000] copper, clamp-to-last for future tiers pending the
+  Phase 10/15 tuning; trainingFeeFor; teachTierMet = exactly
+  tierForSkill(craftSkills[professionId] ?? 0) >= tierForSkill(skillReq);
+  resolveTrain with the replay-safe deny order already_known ->
+  not_taught_here -> out_of_range -> tier_unmet -> cannot_afford;
+  PRE_TRAINING_RECIPE_IDS, the frozen 21 pre-phase recipe ids;
+  grandfatherKnownRecipes). The acquisition switch: exactly the three
+  COMBO_RECIPES carry acquisition ['trainer'] (the wave-one taught set:
+  skillReq 25 is the locked "uncommon at 25" rung; commons and the
+  75/150 TOOL/CASTER recipes keep empty acquisition, grandfathered
+  known to everyone); every recipe authored after Phase 9 must carry a
+  non-empty acquisition list (trained-not-known default, pinned in
+  tests/professions_grandfather.test.ts). Persistence: PlayerMeta +
+  CharacterState recipesGrandfathered boolean (new chars true; a load
+  missing the flag unions PRE_TRAINING_RECIPE_IDS into knownRecipes
+  once, idempotent; parity goldens regenerated for the new persisted
+  field in their own commit). Wire: IWorldProfessions.trainRecipe +
+  train_recipe command; CraftingIdentityView.knownRecipes (sorted)
+  rides the existing cprof JSON-diff key (ALL_DELTA_KEYS stays 49);
+  text-free SimEvent trainResult {ok, recipeId, reason?} with deny ids
+  train_already_known/train_not_taught_here/train_out_of_range/
+  train_tier_unmet/train_cannot_afford rendered via hudChrome.training.*
+  (17 keys + five non-Latin M16 overlay fills; no sim_i18n matcher row,
+  the Phase 6/8 text-free-id precedent). Training proximity accepts
+  STATIC stations only (a mobile crafting station never satisfies
+  training, pinned). UI: Train dialog option on STATIONS masters,
+  train_view.ts pure core (UI_PURE_CORES) + train_window.ts painter on
+  the vendor family; locked rows always render with "Taught at {craft}
+  {skill}"; the crafting window now lists known recipes only. Render:
+  src/render/stations.ts + stations_core.ts (RENDER_PURE_CORES) prop
+  clusters on all six STATIONS records (existing GLBs only, no radius
+  decal), six master ids mapped to existing NPC visual keys, minimap
+  'station' marker + --color-minimap-station token, tier-identical,
+  pinned against both host shapes. Master stocking (the Phase 8 travel
+  loop flag): tinker_gizzel sells all six premium reagents;
+  forgemistress_darva, weaver_ottilie, tanner_hesk sell thorium_ore
+  (their station recipes' only premium reagent); cook_marlow,
+  alchemist_verane, quartermaster_bree unchanged. Phase 9 drift notes
+  (2026-07-19): the unknown-recipe (malformed) train arm emits a
+  reason-less ok:false trainResult (craftResult precedent; hud renders
+  nothing for it); train_not_taught_here is content-unreachable until
+  a drop/quest acquisition recipe exists (precedence pinned, no
+  positive arm test); online, before the first cprof lands
+  (craftingIdentity.synced false) the crafting window briefly hides
+  trainer recipes the player knows (transient, advisory-only); the
+  Eastbrook forge station prop stands ~2.7yd from smith_haldren's
+  stall anvil (two anvils, accepted: the station pos is the legible
+  gate anchor; drop the anvil entry in STATION_PROP_CLUSTERS.forge if
+  the maintainer prefers the stall to be the visual); station props
+  are BUILTIN_WORLD-guarded (artisan-row precedent), so editor custom
+  maps get the sim gate with no props; the mobile-station prop stays
+  deferred (pos/placedAtTick still consumer-less); smith_haldren does
+  not train (the forge's masterNpcId is forgemistress_darva, the
+  locked Phase 8 seating); since the Phase 9 QA pass, the viewer-side
+  knownness predicate is the SHARED train_view.ts
+  isRecipeKnownForViewer (the train ladder's known state and the
+  crafting window's known-filter both delegate to it, and rowState
+  delegates to training.ts teachTierMet, so neither UI site can
+  drift from the sim's rule; the hud known-filter source pin in
+  tests/train_window_hud.test.ts pins the delegation itself).
+  ROLLBACK CAVEAT (reviewed and consciously
+  accepted, migration-safety 2026-07-19): a character created under
+  Phase 9 code whose save round-trips through pre-Phase-9 server code
+  loses the unknown recipesGrandfathered field (old serialize rebuilds
+  CharacterState), so returning to Phase 9 code re-runs the union and
+  grants the three combos without the fee or tier gate. Same class as
+  the mailWelcomed re-trigger; bounded to a skipped gold fee (combo
+  USE stays pair-gated), and unavoidable for any additive flag old
+  code strips. Note it in the v0.28.0 release notes rollback section.
 - Phase 13: (planned) disenchantItem/applyEnchant/salvageItem IWorld
   members + wire commands.
 
@@ -706,8 +777,10 @@ tables, i18n key namespaces, files created)
   as the union, delta-key census 47), history rewritten so every commit
   carries a body, and the six review agents passed the amended head with
   zero blocking findings.
-- Exact FIELD_RECIPES membership (Phase 9 decides; default: the 9 common
-  recipes stay field-craftable so nothing breaks).
+- RESOLVED (2026-07-19, Phase 9): exact FIELD_RECIPES membership stays
+  the default, the 9 common recipes remain field-craftable (nothing
+  breaks; combos stay field-craftable but pair-gated and are now
+  trainer-taught; recorded in the Phase 9 surfaces entry).
 - Master NPC names/personalities (content flavor, Phase 8; maintainer may
   want a naming pass).
 - Whether fishing keeps a separate skill id or folds into professionsState

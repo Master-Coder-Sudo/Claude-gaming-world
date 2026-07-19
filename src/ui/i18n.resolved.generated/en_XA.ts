@@ -2227,6 +2227,25 @@ export const en_XA: EnTranslations = {
       "masterworkSeal": "[Ɱášţéŕŵóŕķ]",
       "enchantedLine": "[Éñçĥáñţéð]"
     },
+    "training": {
+      "title": "[Ţŕáíñíñĝ: {name}]",
+      "close": "[Çļóšé ţŕáíñíñĝ]",
+      "empty": "[Ţĥíš ɱášţéŕ ĥáš ñóţĥíñĝ ţó ţéáçĥ.]",
+      "free": "[Ƒŕéé]",
+      "stateKnown": "[Ķñóŵñ]",
+      "stateTeachable": "[Áʋáíļáƀļé]",
+      "stateLocked": "[Ļóçķéð]",
+      "requirement": "[Ţáúĝĥţ áţ {craft} {skill}]",
+      "trainAria": "[Ļéáŕñ {name} ƒóŕ {fee}]",
+      "dialogOption": "[Ţŕáíñíñĝ]",
+      "dialogOptionAria": "[Ɓŕóŵšé ţŕáíñíñĝ ƒŕóɱ {name}]",
+      "learned": "[Ŕéçíþé ļéáŕñéð: {recipe}]",
+      "tierUnmet": "[Ýóú ñééð {craft} {skill} ţó ļéáŕñ ţĥáţ ŕéçíþé.]",
+      "cannotAfford": "[Ýóú çáññóţ áƒƒóŕð ţĥáţ ţŕáíñíñĝ.]",
+      "notTaughtHere": "[Ţĥáţ ŕéçíþé íš ñóţ ţáúĝĥţ ĥéŕé.]",
+      "alreadyKnown": "[Ýóú áļŕéáðý ķñóŵ ţĥáţ ŕéçíþé.]",
+      "outOfRange": "[Ýóú ɱúšţ ƀé áţ ţĥé šţáţíóñ ţó ţŕáíñ.]"
+    },
     "finder": {
       "title": "[Ðúñĝéóñ Ƒíñðéŕ]",
       "close": "[Çļóšé]",

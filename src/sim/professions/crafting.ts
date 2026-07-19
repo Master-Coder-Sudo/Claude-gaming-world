@@ -171,8 +171,11 @@ export function acquireRecipe(
 /** Acquire one already-resolved recipe record from one source. Exported
  *  separately from `acquireRecipe` (mirroring the resolveCraft /
  *  resolveCraftForRecipe split above) so tests can exercise the success and
- *  wrong_source arms against a synthetic gated recipe without needing an
- *  acquisition-gated entry in `content/recipes.ts` (none exists yet). */
+ *  wrong_source arms against a synthetic gated recipe, independent of the
+ *  real acquisition-gated content (since Professions 2.0 Phase 9 the three
+ *  COMBO_RECIPES in `content/recipes.ts` are trainer-gated; see
+ *  ./training.ts for the training flow that feeds this the 'trainer'
+ *  source). */
 export function acquireRecipeForRecipe(
   ctx: SimContext,
   pid: number,

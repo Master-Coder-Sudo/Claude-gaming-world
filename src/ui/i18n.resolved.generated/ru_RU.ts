@@ -2227,6 +2227,25 @@ export const ru_RU: EnTranslations = {
       "masterworkSeal": "Шедевр",
       "enchantedLine": "Зачаровано"
     },
+    "training": {
+      "title": "Обучение: {name}",
+      "close": "Закрыть обучение",
+      "empty": "Этому мастеру нечему вас научить.",
+      "free": "Бесплатно",
+      "stateKnown": "Изучено",
+      "stateTeachable": "Доступно",
+      "stateLocked": "Недоступно",
+      "requirement": "Обучение при {craft} {skill}",
+      "trainAria": "Изучить {name} за {fee}",
+      "dialogOption": "Обучение",
+      "dialogOptionAria": "Пройти обучение у {name}",
+      "learned": "Рецепт изучен: {recipe}",
+      "tierUnmet": "Чтобы изучить этот рецепт, нужен навык {craft} {skill}.",
+      "cannotAfford": "Вам не хватает денег на это обучение.",
+      "notTaughtHere": "Этот рецепт здесь не преподают.",
+      "alreadyKnown": "Вы уже знаете этот рецепт.",
+      "outOfRange": "Для обучения нужно стоять у мастерской."
+    },
     "finder": {
       "title": "Поиск подземелий",
       "close": "Закрыть",
