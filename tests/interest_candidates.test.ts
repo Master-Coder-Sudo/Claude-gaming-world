@@ -39,6 +39,9 @@ function survivingIds(
 describe('interest_candidates', () => {
   it('sharedQueryRadius adds half the cell diagonal to the base radius', () => {
     expect(sharedQueryRadius(130, 32)).toBeCloseTo(130 + (32 * Math.SQRT2) / 2);
+    // a raw numeric pin, independent of the implementation expression: 130 plus
+    // the 32-cell half-diagonal (16*sqrt2 = 22.62742) is 152.62742.
+    expect(sharedQueryRadius(130, 32)).toBeCloseTo(152.62742, 4);
     // strictly between base and base + cellSize
     expect(sharedQueryRadius(BASE, CELL)).toBeGreaterThan(BASE);
     expect(sharedQueryRadius(BASE, CELL)).toBeLessThan(BASE + CELL);
@@ -96,6 +99,53 @@ describe('interest_candidates', () => {
     expect(list.some((e) => e.id === 21)).toBe(true); // present in the padded list
     const survivors = survivingIds(list, anchor.pos.x, anchor.pos.z);
     expect(survivors.has(21)).toBe(true); // and survives the anchor cutoff
+  });
+
+  it('preserves per-viewer traversal ORDER across a multi-cell scatter, not just membership', () => {
+    // The load-bearing byte-identity contract is about ORDER, not only membership:
+    // the shared cell-center query, refined by the viewer's exact cutoff IN ORDER,
+    // must reproduce the OLD per-viewer grid.forEachInRadius(viewer, BASE) sequence
+    // exactly. Every other unit case here asserts Set membership via survivingIds,
+    // so this pins the sequence a direct array comparison would catch a traversal
+    // reorder (e.g. a center-relative iteration) that a Set check would miss.
+    const grid = new SpatialGrid(CELL);
+    const viewerId = 500;
+    const viewer = mkEntity(viewerId, 48, 48); // cell (1,1)
+    // Entities scattered across several distinct cells (both cx and cz vary), all
+    // within BASE of the viewer, inserted out of grid order.
+    const scattered = [
+      mkEntity(40, 48, 48 - 100), // north, cell (1,-2)
+      mkEntity(41, 48 - 90, 48), // west, cell (-2,1)
+      mkEntity(42, 48 + 90, 48 + 40), // east, cell (4,2)
+      mkEntity(43, 48, 48 + 110), // south (just inside BASE), cell (1,4)
+      mkEntity(44, 48 - 60, 48 - 60), // nw diagonal, cell (-1,-1)
+      mkEntity(45, 48 + 20, 48 - 20), // near, cell (2,0)
+    ];
+    grid.insert(viewer);
+    for (const e of scattered) grid.insert(e);
+
+    // module path: the shared cell-center candidate list refined by the viewer's
+    // EXACT cutoff, keeping the module's returned order.
+    const built = buildSharedInterestCandidates(
+      grid,
+      [{ sessionId: viewerId, anchor: viewer }],
+      BASE,
+    );
+    const sharedOrdered: number[] = [];
+    for (const e of built.forSession(viewerId)) {
+      const dx = e.pos.x - viewer.pos.x;
+      const dz = e.pos.z - viewer.pos.z;
+      if (dx * dx + dz * dz <= BASE * BASE) sharedOrdered.push(e.id);
+    }
+
+    // old path: a direct per-viewer query, in the grid's own traversal order.
+    const perViewerOrdered: number[] = [];
+    grid.forEachInRadius(viewer.pos.x, viewer.pos.z, BASE, (e) => perViewerOrdered.push(e.id));
+
+    // ORDER and membership must both match (array equality, not a Set).
+    expect(sharedOrdered).toEqual(perViewerOrdered);
+    // non-vacuous: a real multi-entity ordered sequence (viewer + 6 scattered).
+    expect(sharedOrdered.length).toBeGreaterThanOrEqual(6);
   });
 
   it('two viewers in the same cell share one query and one candidate array', () => {
