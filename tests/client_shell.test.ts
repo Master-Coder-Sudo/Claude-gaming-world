@@ -1728,14 +1728,20 @@ describe('client HTML shell', () => {
     expect(componentsCss).toContain(
       '.mkt-page {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;',
     );
-    // On mobile the Market takes the full available height (not the vendor's 58vh
-    // cap) so its tall stacked-filter header cannot squeeze the listing body flat,
-    // and #market-body keeps a min-height floor; the window itself stays
-    // overflow:hidden so #market-body remains the single scroll container.
+    // On mobile the search box lives above #market-body in `.mkt-controls`, a
+    // fourth stacked chrome row (tabs + controls + body). Reviewed regression on
+    // PR #2107: with the window clipped via overflow:hidden and #market-body as
+    // the only scroller, a tall controls row (the subtype filter's third menu)
+    // could push the body's content past the window's bottom edge with no way to
+    // reach it. The window now scrolls the whole sheet (tabs, controls, and the
+    // listing body together) instead of clipping, and #market-body sizes to its
+    // natural content height rather than flexing to fill a fixed remainder.
     expect(hudMobileCss).toContain(
-      'body.mobile-touch #market-window {\n    max-height: calc(var(--app-vh) / var(--ui-scale, 1) - 20px);\n    overflow: hidden;',
+      'body.mobile-touch #market-window {\n    max-height: calc(var(--app-vh) / var(--ui-scale, 1) - 20px);\n    overflow-y: auto;\n    overflow-x: hidden;',
     );
-    expect(hudMobileCss).toContain('body.mobile-touch #market-body {\n    min-height: 96px;');
+    expect(hudMobileCss).toContain(
+      'body.mobile-touch #market-body {\n    flex: none;\n    overflow-y: visible;\n    min-height: 0;',
+    );
     expect(marketWindowTs).toContain('buildMarketView'); // pagination + filtering delegated to the core
     expect(marketWindowTs).toContain('this.browsePage');
     expect(marketWindowTs).toContain('data-market-page="prev"');
