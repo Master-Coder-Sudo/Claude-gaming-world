@@ -84,7 +84,12 @@ vi.mock('../server/staff_db', () => ({
   roleChangeHistory: vi.fn(async () => []),
 }));
 
-import { handleAdminApi, parsePageParams } from '../server/admin';
+import {
+  configureAdminPlayersCap,
+  handleAdminApi,
+  parsePageParams,
+  resetAdminPlayersCapForTests,
+} from '../server/admin';
 import {
   accountDetail,
   associationsForIp,
@@ -225,6 +230,7 @@ beforeEach(() => {
   // whose refresh IS the mocked overviewCounts here; start every test cold so one
   // test's cached value never leaks into the next.
   resetOverviewCacheForTests();
+  resetAdminPlayersCapForTests();
   fakeGame.isIpBlocked.mockReturnValue(false);
   fakeGame.liveSharedIps.mockReturnValue([]);
   fakeGame.suspiciousPlayers.mockReturnValue([]);
@@ -336,6 +342,44 @@ describe('admin api auth', () => {
       success: true,
       error: null,
       data: expect.objectContaining({ accounts: 77, siteUsersNow: 21 }),
+    });
+  });
+
+  it('includes the injected realm player cap on the legacy overview arm', async () => {
+    // The legacy handleAdminApi overview branch is a SEPARATE body from the RouteDef
+    // overviewHandler, so it needs its own cap assertion. The RouteDef merge-math test
+    // (tests/server/admin.test.ts) pins 4242 on that arm; pinning the SAME value here
+    // proves both dispatch arms read the one injected canonicalPlayersCap source, and
+    // reds if the legacy arm ever omits playersCap (the objectContaining "serves the
+    // overview" case would stay green on such an omission).
+    vi.mocked(accountForToken).mockResolvedValue(7);
+    vi.mocked(isAdminAccount).mockResolvedValue(true);
+    vi.mocked(overviewCounts).mockResolvedValue({
+      accounts: 1,
+      characters: 1,
+      accountsToday: 0,
+      accountsWeek: 0,
+      accountsMonth: 0,
+      sessionsToday: 0,
+      activeAccountsToday: 0,
+      activeAccountsWeek: 0,
+      activeAccountsMonth: 0,
+      returningAccountsToday: 0,
+      avgPlaytimeSeconds: 0,
+      peakOnlineToday: 0,
+      peakOnlineAllTime: 0,
+      siteUsersNow: 0,
+    });
+    configureAdminPlayersCap(() => 4242);
+    const res = fakeRes();
+
+    await handleAdminApi(fakeReq({ token: VALID_TOKEN }), res, fakeGame);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual({
+      success: true,
+      error: null,
+      data: expect.objectContaining({ playersCap: 4242 }),
     });
   });
 

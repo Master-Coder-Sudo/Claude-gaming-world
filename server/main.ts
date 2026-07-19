@@ -42,7 +42,7 @@ import {
   handleEmailUnsubscribe,
   verifyLoginTwoFactor,
 } from './account';
-import { configureAdminRuntime, handleAdminApi } from './admin';
+import { configureAdminPlayersCap, configureAdminRuntime, handleAdminApi } from './admin';
 import {
   currentSitePresenceUsers,
   distinctOnlineSampleRealms,
@@ -2818,6 +2818,10 @@ export async function startServer(): Promise<http.Server> {
   // handleAdminApi / handleInternalApi ladders stay intact as the flag-off rollback
   // paths (and are the corresponding dispatchers' delegates).
   configureAdminRuntime(game);
+  // The admin overview's realm player cap: canonicalPlayersCap needs no game instance
+  // (unlike AdminRuntime), so it rides its own seam, fed the SAME canonical source
+  // /api/status uses, keeping the cap byte-identical across the status and overview reads.
+  configureAdminPlayersCap(canonicalPlayersCap);
   configureInternalRuntime(game);
   // Bot detector: replay this realm's saved config overrides onto the fresh
   // detector. Boot applies what it can; a stale entry (schema drift after a
