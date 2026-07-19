@@ -2227,6 +2227,25 @@ export const es_ES: EnTranslations = {
       "masterworkSeal": "Masterwork",
       "enchantedLine": "Enchanted"
     },
+    "training": {
+      "title": "Training: {name}",
+      "close": "Close training",
+      "empty": "This master has nothing to teach.",
+      "free": "Free",
+      "stateKnown": "Known",
+      "stateTeachable": "Available",
+      "stateLocked": "Locked",
+      "requirement": "Taught at {craft} {skill}",
+      "trainAria": "Learn {name} for {fee}",
+      "dialogOption": "Training",
+      "dialogOptionAria": "Browse training from {name}",
+      "learned": "Recipe learned: {recipe}",
+      "tierUnmet": "You need {craft} {skill} to learn that recipe.",
+      "cannotAfford": "You cannot afford that training.",
+      "notTaughtHere": "That recipe is not taught here.",
+      "alreadyKnown": "You already know that recipe.",
+      "outOfRange": "You must be at the station to train."
+    },
     "finder": {
       "title": "Buscador de Mazmorras",
       "close": "Cerrar",

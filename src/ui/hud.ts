@@ -62,6 +62,7 @@ import { requiredLevelFor } from '../sim/item_level_req';
 import type { Ante, PickAction } from '../sim/lockpick';
 import { FOCUS_POINT_BUDGET, isInTownZone } from '../sim/professions/focus';
 import { inRangeStationTypes, stationTypesSignature } from '../sim/professions/stations';
+import { TIER_SKILL_STEP, tierForSkill } from '../sim/professions/wheel';
 import { type QuestObjectiveRef, questObjectivesForMob } from '../sim/quest_targets';
 import type { ResolvedAbility } from '../sim/sim';
 import type {
@@ -302,6 +303,8 @@ import { QuestTrackerController } from './hud/quest/quest_tracker_controller';
 import { QuestLogWindow } from './hud/quest/questlog_window';
 import { buildHeroicVendorView } from './hud/vendor/heroic_vendor_view';
 import { renderHeroicVendorWindow } from './hud/vendor/heroic_vendor_window';
+import { buildTrainView } from './hud/vendor/train_view';
+import { renderTrainWindow } from './hud/vendor/train_window';
 import { buildVendorView } from './hud/vendor/vendor_view';
 import { renderVendorWindow } from './hud/vendor/vendor_window';
 import {
@@ -1218,6 +1221,7 @@ export class Hud {
   private readonly lootRolls: LootRollController;
   private openVendorNpcId: number | null = null;
   private openHeroicVendorNpcId: number | null = null;
+  private openTrainNpcId: number | null = null;
   // Craft tier-up snapshot (Professions 2.0 Phase 6): the last SYNCED
   // craftSkills observation handleEvents diffs for tier crossings. null until
   // the first synced observation, which initializes silently (no toasts for
@@ -1500,6 +1504,7 @@ export class Hud {
       openChronicles: () => this.openDeeds('chronicle'),
       openVendor: (npcId) => this.openVendor(npcId),
       openHeroicVendor: (npcId) => this.openHeroicVendor(npcId),
+      openTrain: (npcId) => this.openTrain(npcId),
       openMarket: () => this.openMarket(),
       openDelveBoard: (npcId) => this.openDelveBoard(npcId),
       openValeCup: () => this.toggleValeCup(),
@@ -2555,6 +2560,9 @@ export class Hud {
       case 'vendor-window':
         this.closeVendor();
         this.closeHeroicVendor();
+        break;
+      case 'train-window':
+        this.closeTrain();
         break;
       case 'town-focus-window':
         this.closeTownFocus();
@@ -4776,6 +4784,8 @@ export class Hud {
       this.renderVendor();
     if (this.openHeroicVendorNpcId !== null && $('#vendor-window').style.display === 'block')
       this.renderHeroicVendor();
+    if (this.openTrainNpcId !== null && $('#train-window').style.display === 'block')
+      this.renderTrain();
     if (this.marketWindow.isOpen) this.marketWindow.render();
     if (this.bankWindow.isOpen) this.bankWindow.render();
     if (this.deedsWindow.isOpen) this.deedsWindow.render();
@@ -7352,6 +7362,10 @@ export class Hud {
         const npc = sim.entities.get(this.openHeroicVendorNpcId);
         if (!npc || dist2d(p.pos, npc.pos) > 8) this.closeHeroicVendor();
       }
+      if (this.openTrainNpcId !== null) {
+        const npc = sim.entities.get(this.openTrainNpcId);
+        if (!npc || dist2d(p.pos, npc.pos) > 8) this.closeTrain();
+      }
       this.questDialog.updateProximity();
     }
 
@@ -8738,6 +8752,50 @@ export class Hud {
               '#ff6b6b',
             );
           }
+          if ($('#crafting-window').style.display === 'block') this.renderCrafting();
+          break;
+        }
+        case 'trainResult': {
+          // Recipe training outcome (Professions 2.0 Phase 9). The event is
+          // text-free: the recipe name, craft, and tier threshold all derive
+          // from recipeId plus static content, identical in both worlds. ONE
+          // chat line either way: no toast and no sound cue on success (the
+          // grant-hub double-log trap; the fee/grant surfaces stay single).
+          const trainedRecipe = recipeById(ev.recipeId);
+          if (ev.ok) {
+            const item = trainedRecipe ? ITEMS[trainedRecipe.resultItemId] : undefined;
+            this.log(
+              t('hudChrome.training.learned', {
+                recipe: item ? itemDisplayName(item) : ev.recipeId,
+              }),
+              '#7fdc4f',
+            );
+          } else {
+            this.log(
+              ev.reason === 'train_tier_unmet'
+                ? t('hudChrome.training.tierUnmet', {
+                    craft: craftNameText(trainedRecipe?.professionId ?? null),
+                    skill: formatNumber(
+                      tierForSkill(trainedRecipe?.skillReq ?? 0) * TIER_SKILL_STEP,
+                      { maximumFractionDigits: 0 },
+                    ),
+                  })
+                : t(
+                    ev.reason === 'train_cannot_afford'
+                      ? 'hudChrome.training.cannotAfford'
+                      : ev.reason === 'train_not_taught_here'
+                        ? 'hudChrome.training.notTaughtHere'
+                        : ev.reason === 'train_already_known'
+                          ? 'hudChrome.training.alreadyKnown'
+                          : 'hudChrome.training.outOfRange',
+                  ),
+              '#ff6b6b',
+            );
+          }
+          // Flip the trained row (and the crafting list, which filters to
+          // known recipes) without waiting for a manual reopen.
+          if (this.openTrainNpcId !== null && $('#train-window').style.display === 'block')
+            this.renderTrain();
           if ($('#crafting-window').style.display === 'block') this.renderCrafting();
           break;
         }
@@ -10750,6 +10808,50 @@ export class Hud {
   }
 
   // -------------------------------------------------------------------------
+  // Recipe training (Professions 2.0 Phase 9): a station master teaches
+  // trainer-acquisition recipes for a tier-priced copper fee. Opens ONLY from
+  // the master's gossip dialog (no side-rail button; the rail is at
+  // capacity). The window is advisory: the server re-validates every gate on
+  // the train_recipe command and answers with the text-free trainResult event.
+  // -------------------------------------------------------------------------
+
+  openTrain(npcId: number): void {
+    this.closeOtherWindows('#train-window');
+    this.openTrainNpcId = npcId;
+    this.renderTrain();
+  }
+
+  private renderTrain(): void {
+    if (this.openTrainNpcId === null) return;
+    const npc = this.sim.entities.get(this.openTrainNpcId);
+    if (!npc) return;
+    const identity = this.sim.craftingIdentity;
+    renderTrainWindow(
+      $('#train-window'),
+      entityDisplayName(npc),
+      buildTrainView(npc.templateId, {
+        knownRecipes: identity.knownRecipes,
+        craftSkills: identity.craftSkills,
+        copper: this.sim.copper,
+        items: ITEMS,
+      }),
+      {
+        ...this.presentationBag,
+        hideTooltip: () => this.hideTooltip(),
+        onTrain: (recipeId) => this.sim.trainRecipe(recipeId),
+        onClose: () => this.closeTrain(),
+      },
+    );
+  }
+
+  closeTrain(): void {
+    if (this.openTrainNpcId === null) return;
+    $('#train-window').style.display = 'none';
+    this.openTrainNpcId = null;
+    this.hideTooltip();
+  }
+
+  // -------------------------------------------------------------------------
   // Town Focus (#1143): persistent per-player harvest-component focus,
   // settable only while standing in the current zone's town hub (the
   // lightweight town-tag stand-in; see professions/focus.ts). The panel shows
@@ -10841,10 +10943,20 @@ export class Hud {
       this.sim.activeMobileStationCraft,
     );
     this.lastCraftingStationSig = stationTypesSignature(inRangeStations);
+    // Phase 9: the window lists only KNOWN recipes (isRecipeKnown semantics
+    // over the mirrored knownRecipes: a recipe with no/empty acquisition list
+    // is grandfathered known to everyone; otherwise its id must be in the
+    // viewer's known set), so an unlearned trainer recipe never renders as a
+    // craftable row. The server still re-validates recipe_not_learned.
+    const knownRecipeIds = new Set(this.sim.craftingIdentity.knownRecipes);
+    const knownRecipes = this.sim.recipeList.filter(
+      (recipe) =>
+        !recipe.acquisition || recipe.acquisition.length === 0 || knownRecipeIds.has(recipe.id),
+    );
     renderCraftingWindow(
       $('#crafting-window'),
       buildCraftingView(
-        this.sim.recipeList,
+        knownRecipes,
         this.sim.inventory,
         ITEMS,
         this.sim.craftSkills,

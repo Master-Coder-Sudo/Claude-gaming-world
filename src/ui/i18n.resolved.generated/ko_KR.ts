@@ -2227,6 +2227,25 @@ export const ko_KR: EnTranslations = {
       "masterworkSeal": "걸작",
       "enchantedLine": "마법부여됨"
     },
+    "training": {
+      "title": "훈련: {name}",
+      "close": "훈련 닫기",
+      "empty": "이 장인은 가르칠 제조법이 없습니다.",
+      "free": "무료",
+      "stateKnown": "습득함",
+      "stateTeachable": "습득 가능",
+      "stateLocked": "잠김",
+      "requirement": "{craft} {skill}에서 전수",
+      "trainAria": "{fee}(으)로 {name} 습득",
+      "dialogOption": "훈련",
+      "dialogOptionAria": "{name}에게 훈련 받기",
+      "learned": "제조법을 습득했습니다: {recipe}",
+      "tierUnmet": "그 제조법을 배우려면 {craft} {skill}이(가) 필요합니다.",
+      "cannotAfford": "훈련 비용을 지불할 수 없습니다.",
+      "notTaughtHere": "그 제조법은 여기서 가르치지 않습니다.",
+      "alreadyKnown": "이미 알고 있는 제조법입니다.",
+      "outOfRange": "훈련하려면 작업대 옆에 있어야 합니다."
+    },
     "finder": {
       "title": "던전 찾기",
       "close": "닫기",

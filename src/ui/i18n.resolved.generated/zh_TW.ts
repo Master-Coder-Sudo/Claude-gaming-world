@@ -2227,6 +2227,25 @@ export const zh_TW: EnTranslations = {
       "masterworkSeal": "傑作",
       "enchantedLine": "已附魔"
     },
+    "training": {
+      "title": "訓練：{name}",
+      "close": "關閉訓練",
+      "empty": "這位大師沒有可傳授的配方。",
+      "free": "免費",
+      "stateKnown": "已學會",
+      "stateTeachable": "可學習",
+      "stateLocked": "未解鎖",
+      "requirement": "需要{craft}達到 {skill} 後傳授",
+      "trainAria": "花費{fee}學習{name}",
+      "dialogOption": "訓練",
+      "dialogOptionAria": "向{name}學習配方",
+      "learned": "已學會配方：{recipe}",
+      "tierUnmet": "你需要{craft}達到 {skill} 才能學習該配方。",
+      "cannotAfford": "你付不起這次訓練的費用。",
+      "notTaughtHere": "這裡不傳授該配方。",
+      "alreadyKnown": "你已經學會了該配方。",
+      "outOfRange": "你必須站在對應的工作臺旁才能訓練。"
+    },
     "finder": {
       "title": "地城搜尋器",
       "close": "關閉",
