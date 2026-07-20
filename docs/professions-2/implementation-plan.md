@@ -98,7 +98,10 @@ landed. Therefore every UI phase in this packet:
 
 ## Phase summary
 
-Phases 1 to 7 are the fun kernel; 8 to 15 are wave one. End of Phase 7 is
+Phases 1 to 7 are the fun kernel; 8 to 15 are wave one (the 2026-07-20
+timing and economy amendments inserted Phases 12b and 14b without
+renumbering; the remaining order is 12, 12b, 13, 14, 14b, 15, and the
+state.md amendments block is the authority for their rulings). End of Phase 7 is
 the vertical-slice checkpoint (see README). Phase 6 depends on Phases 2 and
 4, not on Phase 5, and may run ahead of the wheel window if the
 design-language rollout stalls Phase 5. The 2026-07-17 design-review
@@ -123,12 +126,16 @@ Phase 1.
 | 10 | Recipe ladders and materials (ultracode) | Six deep crafts' tier ladders + material families + economy invariant tests + the materialTierBonus wire | content, sim, tests |
 | 11 | Fishing joins the framework | Fishing proficiency + catch rarity ladder feeding cooking | sim, content, ui |
 | 12 | Base tool tier gating | Node tiers; tool tier + skill gates; tools matter; effects stay parked | sim, content, tests |
-| 13 | Enchanting reachable | Disenchant, enchant-apply, and salvage on IWorld/wire/UI in both hosts | world_api, net, server, ui |
-| 14 | Attunement quests and nudges | Lore quests, work orders, and tier mail at the masters; nudges; celebration | content, sim, ui |
-| 15 | Deeds, tuning, and polish | Universal profession deeds, economy tuning, wiki rewrite, final gate | content, docs, tests |
+| 12b | Gathering rhythm | Gather cast scaled by tool tier and band; the fishing bite minigame with rod synergy; placeholder cues; the pin-cost appendix | sim, ui, tests |
+| 13 | Enchanting reachable | Disenchant, enchant-apply, and salvage on IWorld/wire/UI in both hosts; typed reagents with same-phase consumers; the bind-on-trade primitive | world_api, net, server, ui, content |
+| 14 | Attunement quests and nudges | Lore quests, work orders, and tier mail at the masters; nudges; celebration; the learnable-at-a-master hint | content, sim, ui |
+| 14b | Commissions and the Maker's Bond | Opt-in commission crafts bind on first trade; master unbind gold sink; resolves #1298 semantics | sim, server, ui |
+| 15 | Deeds, tuning, and polish | Universal profession deeds, economy tuning, the SFX completion sweep, wiki rewrite, final gate | content, docs, tests |
 
 Wave 2+ (NOT this packet, tracked on epic #1866): market/mail instance
-carriage (#1146), commissions and boundTo (#1298), Jack of All Trades
-(#1296), monster-harvest proficiency, battlefield experience expansion,
-item biographies, tool effects, jewelcrafting/inscription depth. (Salvage
-wiring left this list on 2026-07-17; it joins Phase 13.)
+carriage (#1146), the commission ORDER workflow of #1298, Jack of All
+Trades (#1296), monster-harvest proficiency, battlefield experience
+expansion, item biographies, tool effects, jewelcrafting/inscription
+depth. (Salvage wiring left this list on 2026-07-17; it joins Phase 13.
+The binding enforcement half of #1298 left it on 2026-07-20; it is
+Phase 14b, issue #2207.)
