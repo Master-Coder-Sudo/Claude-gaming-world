@@ -348,6 +348,9 @@ export function updateCasting(ctx: SimContext, p: Entity, meta: PlayerMeta): voi
     // Gather cast completion (Phase 12b): route to the gathering module and
     // return before fireQueuedCast, like fishing above (a press can never
     // queue against a non-spell cast, see castAbility's queue exemption).
+    // NOTE castStop success reflects the CAST finishing, not the grant: a
+    // completion whose re-validation denies (too far, respawn, bags) still
+    // stopped successfully; the denial renders through its own error line.
     if (castId === GATHER_CAST_ID) {
       ctx.completeGatherCast(p, meta);
       return;

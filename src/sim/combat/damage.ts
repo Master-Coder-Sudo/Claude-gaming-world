@@ -1014,6 +1014,13 @@ export function handleDeath(ctx: SimContext, e: Entity, killer: Entity | null): 
   e.ccDr.clear();
   e.castingAbility = null;
   e.castTargetId = null;
+  // Phase 12b hidden per-cast state: death ends any gather/fishing session, so
+  // the fields must return to inert here too (the parity samplers rely on them
+  // being 0/'' at every sampled frame outside a live cast; cancelCast owns the
+  // ordinary cancel paths, but a lethal non-hit tick reaches death directly).
+  e.gatherCastNodeId = '';
+  e.fishBiteAtTick = 0;
+  e.fishReelDeadlineTick = 0;
   ctx.emit({ type: 'death', entityId: e.id, killerId: killer?.id ?? -1 });
 
   // a dead mob keeps no raid marker — respawnMob reuses the same entity id,
