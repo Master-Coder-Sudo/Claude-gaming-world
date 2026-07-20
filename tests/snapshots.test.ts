@@ -3067,7 +3067,7 @@ function dirtyEveryDeltaField(): {
   meta.delveMarks = 7;
   meta.delveClears = { 'collapsed_reliquary:heroic': 1 };
   meta.companionUpgrades = { companion_tessa: 2 };
-  meta.gatheringProficiency = { mining: 6, logging: 0, herbalism: 0 };
+  meta.gatheringProficiency = { mining: 6, logging: 0, herbalism: 0, fishing: 0 };
   meta.craftSkills.armorcrafting = 31;
   meta.craftSkills.weaponcrafting = 29;
   meta.archetype = {
@@ -3333,7 +3333,12 @@ describe('full self-state snapshot delta fixture', () => {
     expect(client.companionState?.companionId).toBe('companion_tessa'); // dcompanion -> companionState
     expect(client.delveMarks).toBe(7); // dmarks -> delveMarks
     expect(client.companionUpgrades).toEqual({ companion_tessa: 2 }); // dcomp -> companionUpgrades
-    expect(client.gatheringProficiency).toEqual({ mining: 6, logging: 0, herbalism: 0 }); // gprof -> gatheringProficiency
+    expect(client.gatheringProficiency).toEqual({
+      mining: 6,
+      logging: 0,
+      herbalism: 0,
+      fishing: 0,
+    }); // gprof -> gatheringProficiency
     // ncd -> nodeHarvestableByMe: the cooling-down node reads not-ready, an
     // untouched node (never in the map) still reads ready.
     expect(client.nodeHarvestableByMe(GATHER_NODES[0].id)).toBe(false);
@@ -3343,6 +3348,7 @@ describe('full self-state snapshot delta fixture', () => {
         { professionId: 'mining', skill: 6, maxSkill: 300 },
         { professionId: 'logging', skill: 0, maxSkill: 300 },
         { professionId: 'herbalism', skill: 0, maxSkill: 300 },
+        { professionId: 'fishing', skill: 0, maxSkill: 300 },
       ],
     }); // prof -> professionsState
     expect(client.craftingIdentity).toMatchObject({

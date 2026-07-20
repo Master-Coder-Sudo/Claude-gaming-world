@@ -27,7 +27,7 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 9 QA | Verify station presence and training | complete | 2026-07-19 | 2026-07-19 |
 | 10 | Recipe ladders and materials content | complete | 2026-07-19 | 2026-07-19 |
 | 10 QA | Verify recipe ladders and materials | not started | | |
-| 11 | Fishing joins the framework | not started | | |
+| 11 | Fishing joins the framework | built (draft PR #2197 retargeted to release/v0.29.0) | 2026-07-20 | 2026-07-20 |
 | 11 QA | Verify fishing framework | not started | | |
 | 12 | Base tool tier gating | not started | | |
 | 12 QA | Verify tool tier gating | not started | | |
@@ -364,8 +364,35 @@ CLAUDE.md.
 - [x] Wiki content regenerated; recipe data feeds the guide (regenerates clean with zero diff; the generator does not yet enumerate recipe records, so the guide skeleton is unchanged, and the professions guide rewrite stays the Phase 15 deliverable)
 
 ### Phase 11: Fishing joins the framework
-- [ ] Fishing proficiency (additive, framework-integrated) while the minigame stays as-is
-- [ ] Catch rarity ladder feeds cooking tiers; rare catch integrates (deed intact)
+- [x] Fishing proficiency (additive, framework-integrated) while the minigame stays as-is (the
+  fishing row joins `GATHERING_PROFESSIONS` appended last; one point per landed catch, junk
+  included, through the shared `queueGatheringGrant` queue; no-bite, bags-full, and the
+  codfather quest branch never accrue; the minigame's guards, fixed 5 s cast, emitted strings,
+  and single table draw are untouched; the fishing block extracted move-not-rewrite into
+  `src/sim/professions/fishing.ts` behind SimContext, sim.ts shed 111 lines, parity goldens
+  byte-identical)
+- [x] Catch rarity ladder feeds cooking tiers; rare catch integrates (deed intact)
+  (`FISHING_TABLES_BY_BAND`, bands at proficiency 0/100/200 via `fishingBandFor`, pure state
+  ahead of the unchanged single rng draw; higher bands shift weight out of junk and empty-hook
+  rows into the six cooking fish; glimmerfin weight deliberately flat in every band and
+  `col_glimmerfin` plus the per-zone fish marks untouched; band 0 is the shipped table object
+  byte for byte, pinned by literal seed sequences in `tests/professions_fishing.test.ts`)
+
+Phase 11 notes (2026-07-20): phase start 09e943669 (the release/v0.28.0 "prepare v0.28.0"
+tip; QA diffs 09e943669..the PR head, first-parent across the 83b929398 release sync). Built
+as DRAFT PR #2197 while v0.28.0 shipped; after the cut, release/v0.29.0 (623b10aee) was
+merged in (sync commit 83b929398, release-merge-audit clean: three incoming commits, the
+Discord invite-rotation revert only, zero overlap with the phase diff) and the PR retargeted
+to release/v0.29.0. Phase 11 QA runs after the maintainer merges it. Decisions: catch feedback landed as the text-free personal
+`fishingResult` SimEvent (gatherResult family) rendered as `hudChrome.gathering.catchLine`
+colored by ItemDef quality with no second cue; the packet OPEN item resolved as fold-in (no
+separate skill id, gprof unchanged, ALL_DELTA_KEYS stays 49). Deferrals: the
+guide.professions gather prose still says "Three gathering trades" (the Phase 15 guide
+rewrite owns the reword; touching reviewed prose trips the full-gate i18n
+semantic-regression pins); a live chat catch-line screenshot was skipped (the two window
+surfaces are covered before/after). QA probe-first: the extraction commit 62ee26ec8
+move-not-rewrite, band-1 liveness at proficiency 150, and the live GameServer gprof round
+trip suite.
 
 ### Phase 12: Base tool tier gating
 - [ ] Nodes carry tiers; tool tier + skill gate node and corpse-material access

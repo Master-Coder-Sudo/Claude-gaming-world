@@ -9,25 +9,70 @@
 // Reproducibility is checked by tests/i18n_resolved_equivalence.test.ts.
 
 export const pending: Record<string, readonly string[]> = {
-  "es": [],
-  "es_ES": [],
-  "fr_FR": [],
-  "fr_CA": [],
+  "es": [
+    "hudChrome.gathering.catchLine",
+    "hudChrome.gathering.fishing"
+  ],
+  "es_ES": [
+    "hudChrome.gathering.catchLine",
+    "hudChrome.gathering.fishing"
+  ],
+  "fr_FR": [
+    "hudChrome.gathering.catchLine",
+    "hudChrome.gathering.fishing"
+  ],
+  "fr_CA": [
+    "hudChrome.gathering.catchLine",
+    "hudChrome.gathering.fishing"
+  ],
   "en_CA": [],
-  "it_IT": [],
-  "de_DE": [],
+  "it_IT": [
+    "hudChrome.gathering.catchLine",
+    "hudChrome.gathering.fishing"
+  ],
+  "de_DE": [
+    "hudChrome.gathering.catchLine",
+    "hudChrome.gathering.fishing"
+  ],
   "zh_CN": [],
   "zh_TW": [],
   "ko_KR": [],
   "ja_JP": [],
-  "pt_BR": [],
+  "pt_BR": [
+    "hudChrome.gathering.catchLine",
+    "hudChrome.gathering.fishing"
+  ],
   "ru_RU": [],
-  "cs_CZ": [],
-  "nl_NL": [],
-  "pl_PL": [],
-  "id_ID": [],
-  "tr_TR": [],
-  "sv_SE": [],
-  "vi_VN": [],
-  "da_DK": []
+  "cs_CZ": [
+    "hudChrome.gathering.catchLine",
+    "hudChrome.gathering.fishing"
+  ],
+  "nl_NL": [
+    "hudChrome.gathering.catchLine",
+    "hudChrome.gathering.fishing"
+  ],
+  "pl_PL": [
+    "hudChrome.gathering.catchLine",
+    "hudChrome.gathering.fishing"
+  ],
+  "id_ID": [
+    "hudChrome.gathering.catchLine",
+    "hudChrome.gathering.fishing"
+  ],
+  "tr_TR": [
+    "hudChrome.gathering.catchLine",
+    "hudChrome.gathering.fishing"
+  ],
+  "sv_SE": [
+    "hudChrome.gathering.catchLine",
+    "hudChrome.gathering.fishing"
+  ],
+  "vi_VN": [
+    "hudChrome.gathering.catchLine",
+    "hudChrome.gathering.fishing"
+  ],
+  "da_DK": [
+    "hudChrome.gathering.catchLine",
+    "hudChrome.gathering.fishing"
+  ]
 };
