@@ -31,7 +31,7 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 11 QA | Verify fishing framework | complete (PR #2199 merged) | 2026-07-20 | 2026-07-20 |
 | 12 | Base tool tier gating | complete (PR #2217 merged into release/v0.29.0) | 2026-07-20 | 2026-07-20 |
 | 12 QA | Verify tool tier gating | complete (PR #2223 merged) | 2026-07-20 | 2026-07-20 |
-| 12b | Gathering rhythm | built (PR open) | 2026-07-20 | 2026-07-20 |
+| 12b | Gathering rhythm | built (PR #2226 open) | 2026-07-20 | 2026-07-20 |
 | 12b QA | Verify gathering rhythm | not started | | |
 | 13 | Enchanting reachable | not started | | |
 | 13 QA | Verify enchanting reachable | not started | | |
