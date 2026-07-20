@@ -33,6 +33,10 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 12 QA | Verify tool tier gating | complete (PR #2223 merged) | 2026-07-20 | 2026-07-20 |
 | 12b | Gathering rhythm | complete (PR #2226 merged into release/v0.29.0) | 2026-07-20 | 2026-07-20 |
 | 12b QA | Verify gathering rhythm | complete (PASS, zero blocking) | 2026-07-20 | 2026-07-20 |
+| 12c | The Mastery Curve | not started | | |
+| 12c QA | Verify The Mastery Curve | not started | | |
+| 12d | Provenance and the harvest loop | not started | | |
+| 12d QA | Verify provenance and the harvest loop | not started | | |
 | 13 | Enchanting reachable | not started | | |
 | 13 QA | Verify enchanting reachable | not started | | |
 | 14 | Attunement quests and nudges | not started | | |
@@ -529,11 +533,29 @@ were re-run green first-hand at the head before review dispatch.
 - [x] Placeholder cues routed and PLACEHOLDER-marked (sfx:check green, listed on #2208)
 - [x] Every Pin-cost appendix row executed as briefed; no unlisted pin weakened (two pre-briefed additive extensions outside the appendix, recorded in the as-landed block: the game_audio cue census 14 to 20 and the gather_event_i18n fishingResult cue pin)
 
+### Phase 12c: The Mastery Curve
+- [ ] The four-state curve replaces the free floor (1 / 0.5 / 0.25 / 0; every recipe tier included; zero new Rng draws)
+- [ ] Enforced per-profession caps as content data (crafts + enchanting 125, mining/logging/herbalism 100, fishing 200) at all four clamp arms
+- [ ] Gathering gains node-tier-relative; fishing gains band-relative and fractional; constants named, exported, pinned
+- [ ] The one-time reset (two maps + one flag, nothing else): keep ledger pinned, re-crossing audit green, blob-diff rehearsal evidence recorded, notice letter delivered once
+- [ ] The shared action throttle covers crafting, disenchant, enchant-apply, salvage
+- [ ] Enchanting gains quality-tiered with the soft ceiling; q_prof_hobby_switch xpReward 0
+- [ ] Four-state difficulty colors and the cap-aware mastered state in the UI
+- [ ] Pin-cost appendix executed as briefed; goldens byte-identical outside the appendix pair
+
+### Phase 12d: Provenance and the harvest loop
+- [ ] Identical-payload material stacking in bags AND through the bank move path; counted instanced stacks ride trade, wire, and removal correctly
+- [ ] Gathered by copy, the bag-grid instanced marker, and the full-bag signed-downgrade notice
+- [ ] One interact press loots AND harvests; denial of either half never blocks the other; corpse lifecycle decoupled; town focus verified and fixed or made legible
+- [ ] Mail attachment expiry (30 days, one return cycle, system mail exempt)
+- [ ] Companion fixes landed and pinned: #2139 and the force-rename signer sweep
+
 ### Phase 13: Enchanting reachable
 - [ ] Disenchant + enchant-apply + salvage on IWorld, wire commands, bags context UI, both hosts
 - [ ] Enchanting skill visible in the wheel window
-- [ ] Typed disenchant reagents (hybrid): rare+ adds the type-keyed secondary; every typed material has a same-phase consumer (the wolf_fang rule); staves/wands bucket flagged
+- [ ] Typed disenchant reagents (hybrid): rare+ adds the type-keyed secondary; every typed material has a same-phase consumer (the wolf_fang rule); staves/wands in the WEAPON bucket per the resolved decision
 - [ ] Bind-on-trade primitive live against the typed rare+ reagents (generic enforcement arm for Phase 14b)
+- [ ] Inherited 12c pacing verified: the shared throttle and quality-tiered gains govern the newly reachable actions
 
 ### Phase 14: Attunement quests and nudges
 - [ ] Acceptance lore quests at the masters for all four wave-one archetypes
@@ -552,10 +574,11 @@ were re-run green first-hand at the head before review dispatch.
 
 ### Phase 15: Deeds, tuning, and polish
 - [ ] Universal profession deeds incl. titles + marquee renown on first attunement and first masterwork, the Specialist deed, and the rare-find deeds (plus the rare fish, verified to celebrate through the Phase 12b bite moment)
-- [ ] Economy tuning targets applied (#1301 fee/throttle, training fees, teach tiers, work orders, masterwork bounds, unbind fee); faucet-vs-sink review recorded
+- [ ] Mastery deed additions: fishing's first deed, prog_master_gatherer counts fishing, per-craft mastery deeds at the resolved caps with the approved titles; no 300 reference anywhere; reset re-crossings double-grant nothing
+- [ ] Economy tuning targets applied (#1301 fee/throttle live rows; the FINAL-marked rows verified byte-unchanged); faucet-vs-sink review recorded incl. the market fee, disenchant margin, and gland-to-pristine ratio rows
 - [ ] Legacy junk-recipe burn-down dispositioned, cross-checked against the typed-reagent consumers first
 - [ ] Profession SFX completion sweep over #2208: placeholders replaced or explicitly re-filed, station ambiences, per-craft success variants
-- [ ] Guide/wiki professions page rewritten; asset manifest final
+- [ ] The wiki at the RuneScape bar: per-skill pages, tables generated from sim content, exact numbers per the transparency policy, English-only keys with the guide-scoped M16 exemption; asset manifest final
 - [ ] Whole-feature qa-checklist.md matrix green; packet teardown offered
 
 ## Notes
@@ -565,6 +588,24 @@ were re-run green first-hand at the head before review dispatch.
 2026-07-20 timing and economy amendments: a second maintainer-approved
 amendment pass (community feedback on gathering feel and the crafted-goods
 economy) restructured the remaining packet to 12, 12b, 13, 14, 14b, 15.
+
+2026-07-20 mastery and provenance amendments (the SECOND same-day block;
+state.md carries the authority rulings): the close-out brainstorm with the
+maintainer settled pacing (the four-state curve, enforced caps 125/100/200,
+the one-time skill reset with the keep ledger), provenance and stacking
+(identical-payload merge, Gathered by, the unified loot-and-harvest
+interact, mail expiry), the market ruling (gold buys materials, never
+skill), the offline-taster ruling, and resolved EVERY standing flagged
+decision except the letter-to-Haldren dead-end (which still rides Phase
+14): the three 14b decisions, the staves/wands bucket, the work-order
+formula, q_prof_hobby_switch (0 XP), masterwork discovery credit (keep
+def), master voices, the titles scheme, the rare-event shared knob, the
+specialization finals, and the training-fee extension. Phases 12c (#2235)
+and 12d (#2236) were inserted after the 12b QA; community draft PR #2134
+is out of consideration by maintainer ruling. Community inputs recorded:
+the signed Ironbark Log confusion thread, the common-recipes-to-300
+question, and the loot-versus-harvest report (its gland-to-pristine ratio
+feeds the Phase 15 faucet review).
 state.md records the rulings under "2026-07-20 timing and economy
 amendments" (the authority block); the new phase files
 (phase-12b-gathering-rhythm.md, phase-14b-commissions-binding.md, both
