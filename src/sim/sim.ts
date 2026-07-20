@@ -294,6 +294,7 @@ import * as fishing from './professions/fishing';
 import * as professionsFocus from './professions/focus';
 import { announceMasterworkZone } from './professions/gather_events';
 import {
+  completeGatherCast as completeGatherCastImpl,
   drainGatheringGrants,
   emptyGatheringProficiency,
   gatheringSkillsView,
@@ -3934,6 +3935,9 @@ export class Sim {
       startAutoAttack: sim.startAutoAttack.bind(sim),
       revivePet: sim.revivePet.bind(sim),
       completeFishing: (p, meta) => fishing.completeFishing(sim.ctx, p, meta),
+      // Gather cast completion (Phase 12b): module-bound with the live ctx,
+      // exactly like completeFishing above; no Sim method exists for it.
+      completeGatherCast: (p, meta) => completeGatherCastImpl(sim.ctx, p, meta),
       applyDemonHealTick: sim.applyDemonHealTick.bind(sim),
       // C4b effect-dispatch surface: the per-effect switch the cast lifecycle hands
       // off to. awardCombo, the stat/LoS helpers, and meleeSwing STAY on Sim

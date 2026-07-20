@@ -2094,6 +2094,8 @@ export const ja_JP: EnTranslations = {
       "gatherLine": "{name}を採集した。",
       "gatherLineQty": "{name}を{qty}個採集した。",
       "catchLine": "{name}を釣り上げた",
+      "biteLine": "何かが食いついた！",
+      "gotAwayLine": "逃げられてしまった。",
       "nodeName": {
         "ore": "鉱脈",
         "wood": "立木",
@@ -5967,6 +5969,7 @@ export const ja_JP: EnTranslations = {
     },
     "cast": {
       "fishing": "釣り",
+      "gathering": "採集",
       "demonHeal": "悪魔の治癒",
       "thunzharrStormcall": "嵐の呼び声"
     }

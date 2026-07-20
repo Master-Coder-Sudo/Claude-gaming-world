@@ -29,9 +29,9 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 10 QA | Verify recipe ladders and materials | complete | 2026-07-19 | 2026-07-19 |
 | 11 | Fishing joins the framework | complete (PR #2197 merged into release/v0.29.0) | 2026-07-20 | 2026-07-20 |
 | 11 QA | Verify fishing framework | complete (PR #2199 merged) | 2026-07-20 | 2026-07-20 |
-| 12 | Base tool tier gating | built (PR #2217 open) | 2026-07-20 | 2026-07-20 |
-| 12 QA | Verify tool tier gating | not started | | |
-| 12b | Gathering rhythm | not started | | |
+| 12 | Base tool tier gating | complete (PR #2217 merged into release/v0.29.0) | 2026-07-20 | 2026-07-20 |
+| 12 QA | Verify tool tier gating | complete (PR #2223 merged) | 2026-07-20 | 2026-07-20 |
+| 12b | Gathering rhythm | built (PR #2226 open) | 2026-07-20 | 2026-07-20 |
 | 12b QA | Verify gathering rhythm | not started | | |
 | 13 | Enchanting reachable | not started | | |
 | 13 QA | Verify enchanting reachable | not started | | |
@@ -482,13 +482,28 @@ toolTierUnmet key composition duplication (two copies, below the rule of three),
 hover-tooltip listener-logic test and the *_tooltip.ts painter-scan naming, and the
 minimap per-build tool-tier memo allocation. Drift notes in state.md.
 
+Phase 12b (2026-07-20): built off release/v0.29.0, phase start 26f7f40b9 (the Phase 12 QA
+merge). Seven build commits (predicate extraction, gather cast, bite minigame, ui, appendix
+re-pins, professions_gather regen in its own commit, new contracts) per the phase file's
+commit cadence. The Pin-cost appendix executed row by row; the professions_gather seed
+re-hunted to 1 under the cast-reshaped drive (mobs silenced up front because mob damage
+cancels a gather cast, per-iteration band-0 proficiency reset plus a newest-8 signed
+retention filter keep the 100-cast window solvent, sampleEvery 500; the labelled frames pin
+cumulative draws 2/4/204). The two fishing-cancel goldens verified byte-identical, not
+regenerated. Live boundary semantics: reel valid while tickCount <= deadline, miss at
+deadline + 1; reel-window tick literals 60/75/90 per rod tier; delay bounds [60, 160] bare
+and [60, 100] at tier 3. Deviations and the two pre-briefed outside-appendix additive
+extensions are recorded in the phase file's as-landed block and state.md (surfaces + drift
+notes + tuning finals). The full validation matrix, parity, net/wire, i18n, and audio rows
+were re-run green first-hand at the head before review dispatch.
+
 ### Phase 12b: Gathering rhythm
-- [ ] Gather cast (tool-tier and band scaled, floored); completion re-validates; move cancels free
-- [ ] The shared non-spell-cast predicate consolidates the eleven cast-id exemption sites
-- [ ] Fishing bite minigame: hidden seeded delay, private bite SimEvent, server-authoritative reaction window, reel via pole re-press, miss costs nothing
-- [ ] Rod synergy: shorter average delay, wider window (composes with Phase 12 bands)
-- [ ] Placeholder cues routed and PLACEHOLDER-marked (sfx:check green, listed on #2208)
-- [ ] Every Pin-cost appendix row executed as briefed; no unlisted pin weakened
+- [x] Gather cast (tool-tier and band scaled, floored); completion re-validates; move cancels free
+- [x] The shared non-spell-cast predicate consolidates the eleven cast-id exemption sites
+- [x] Fishing bite minigame: hidden seeded delay, private bite SimEvent, server-authoritative reaction window, reel via pole re-press, miss costs nothing
+- [x] Rod synergy: shorter average delay, wider window (composes with Phase 12 bands)
+- [x] Placeholder cues routed and PLACEHOLDER-marked (sfx:check green, listed on #2208)
+- [x] Every Pin-cost appendix row executed as briefed; no unlisted pin weakened (two pre-briefed additive extensions outside the appendix, recorded in the as-landed block: the game_audio cue census 14 to 20 and the gather_event_i18n fishingResult cue pin)
 
 ### Phase 13: Enchanting reachable
 - [ ] Disenchant + enchant-apply + salvage on IWorld, wire commands, bags context UI, both hosts

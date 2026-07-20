@@ -140,7 +140,9 @@ describe('hudChrome.gathering catch line (Professions 2.0 Phase 11)', () => {
   // catch line carries the same duties as the gather line above: exist,
   // splice, diverge from BOTH the loot family and the gather family (the
   // grant hub still prints "You receive:" for the same catch), stay wired in
-  // the hud switch, color by item quality, and add no second cue.
+  // the hud switch, and color by item quality. Since Phase 12b the arm plays
+  // exactly the reel cue (the landed-reel splash/crank), never the loot
+  // notification the grant hub already owns (the double-log trap).
   it('the catch-line key exists and splices the name', () => {
     expect(hasTranslation('hudChrome.gathering.catchLine')).toBe(true);
     expect(t('hudChrome.gathering.catchLine', { name: 'Glimmerfin Koi' })).toBe(
@@ -154,14 +156,17 @@ describe('hudChrome.gathering catch line (Professions 2.0 Phase 11)', () => {
     expect(line.startsWith('You gather')).toBe(false);
   });
 
-  it('the fishingResult case is wired, quality-colored, and cue-free', () => {
+  it('the fishingResult case is wired, quality-colored, and plays only the reel cue', () => {
     const source = readFileSync(path.resolve(process.cwd(), 'src/ui/hud.ts'), 'utf8');
     const caseStart = source.indexOf("case 'fishingResult'");
     expect(caseStart).toBeGreaterThan(-1);
     const block = source.slice(caseStart, source.indexOf('break;', caseStart));
     expect(block.includes('hudChrome.gathering.catchLine')).toBe(true);
     expect(block.includes('QUALITY_COLOR[ev.quality]')).toBe(true);
-    expect(block.includes('audio.')).toBe(false);
+    // Phase 12b: the reel cue rides this arm; the loot notification cue must
+    // not (the grant hub's own 'loot' event already plays it).
+    expect(block.includes('audio.fishReel()')).toBe(true);
+    expect(block.includes('audio.lootItem')).toBe(false);
   });
 
   it('every gathering profession id has a catalog label and both window rows', () => {

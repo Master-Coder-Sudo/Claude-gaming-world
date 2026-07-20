@@ -182,11 +182,13 @@ describe('sampled GameAudio facade', () => {
 });
 
 describe('deterministic UI SFX catalog', () => {
-  it('adds 14 unique UI cues to the authoritative studio inventory', () => {
+  it('adds 20 unique UI cues to the authoritative studio inventory', () => {
+    // 14 pre-12b cues plus the six Phase 12b gathering-rhythm placeholders
+    // (ui_gather_cast/strike/rare, ui_fish_cast/bite/reel), issue #2208.
     const keys = UI_SFX_CATALOG.map((cue: { key: string }) => cue.key);
     const fullCatalogKeys = new Set(SFX.map((cue: { key: string }) => cue.key));
 
-    expect(keys).toHaveLength(14);
+    expect(keys).toHaveLength(20);
     expect(new Set(keys).size).toBe(keys.length);
     expect(keys.every((key: string) => key.startsWith('ui_'))).toBe(true);
     expect(UI_SFX_CATALOG.every((cue: { generator: string }) => cue.generator === 'ffmpeg')).toBe(

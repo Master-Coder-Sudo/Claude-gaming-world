@@ -10,8 +10,11 @@
 
 export const pending: Record<string, readonly string[]> = {
   "es": [
+    "abilityUi.cast.gathering",
+    "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
+    "hudChrome.gathering.gotAwayLine",
     "hudChrome.gathering.nodeName.herb",
     "hudChrome.gathering.nodeName.ore",
     "hudChrome.gathering.nodeName.wood",
@@ -26,8 +29,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmetCorpse"
   ],
   "es_ES": [
+    "abilityUi.cast.gathering",
+    "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
+    "hudChrome.gathering.gotAwayLine",
     "hudChrome.gathering.nodeName.herb",
     "hudChrome.gathering.nodeName.ore",
     "hudChrome.gathering.nodeName.wood",
@@ -42,8 +48,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmetCorpse"
   ],
   "fr_FR": [
+    "abilityUi.cast.gathering",
+    "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
+    "hudChrome.gathering.gotAwayLine",
     "hudChrome.gathering.nodeName.herb",
     "hudChrome.gathering.nodeName.ore",
     "hudChrome.gathering.nodeName.wood",
@@ -58,8 +67,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmetCorpse"
   ],
   "fr_CA": [
+    "abilityUi.cast.gathering",
+    "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
+    "hudChrome.gathering.gotAwayLine",
     "hudChrome.gathering.nodeName.herb",
     "hudChrome.gathering.nodeName.ore",
     "hudChrome.gathering.nodeName.wood",
@@ -75,8 +87,11 @@ export const pending: Record<string, readonly string[]> = {
   ],
   "en_CA": [],
   "it_IT": [
+    "abilityUi.cast.gathering",
+    "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
+    "hudChrome.gathering.gotAwayLine",
     "hudChrome.gathering.nodeName.herb",
     "hudChrome.gathering.nodeName.ore",
     "hudChrome.gathering.nodeName.wood",
@@ -91,8 +106,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmetCorpse"
   ],
   "de_DE": [
+    "abilityUi.cast.gathering",
+    "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
+    "hudChrome.gathering.gotAwayLine",
     "hudChrome.gathering.nodeName.herb",
     "hudChrome.gathering.nodeName.ore",
     "hudChrome.gathering.nodeName.wood",
@@ -111,8 +129,11 @@ export const pending: Record<string, readonly string[]> = {
   "ko_KR": [],
   "ja_JP": [],
   "pt_BR": [
+    "abilityUi.cast.gathering",
+    "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
+    "hudChrome.gathering.gotAwayLine",
     "hudChrome.gathering.nodeName.herb",
     "hudChrome.gathering.nodeName.ore",
     "hudChrome.gathering.nodeName.wood",
@@ -128,8 +149,11 @@ export const pending: Record<string, readonly string[]> = {
   ],
   "ru_RU": [],
   "cs_CZ": [
+    "abilityUi.cast.gathering",
+    "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
+    "hudChrome.gathering.gotAwayLine",
     "hudChrome.gathering.nodeName.herb",
     "hudChrome.gathering.nodeName.ore",
     "hudChrome.gathering.nodeName.wood",
@@ -144,8 +168,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmetCorpse"
   ],
   "nl_NL": [
+    "abilityUi.cast.gathering",
+    "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
+    "hudChrome.gathering.gotAwayLine",
     "hudChrome.gathering.nodeName.herb",
     "hudChrome.gathering.nodeName.ore",
     "hudChrome.gathering.nodeName.wood",
@@ -160,8 +187,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmetCorpse"
   ],
   "pl_PL": [
+    "abilityUi.cast.gathering",
+    "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
+    "hudChrome.gathering.gotAwayLine",
     "hudChrome.gathering.nodeName.herb",
     "hudChrome.gathering.nodeName.ore",
     "hudChrome.gathering.nodeName.wood",
@@ -176,8 +206,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmetCorpse"
   ],
   "id_ID": [
+    "abilityUi.cast.gathering",
+    "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
+    "hudChrome.gathering.gotAwayLine",
     "hudChrome.gathering.nodeName.herb",
     "hudChrome.gathering.nodeName.ore",
     "hudChrome.gathering.nodeName.wood",
@@ -192,8 +225,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmetCorpse"
   ],
   "tr_TR": [
+    "abilityUi.cast.gathering",
+    "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
+    "hudChrome.gathering.gotAwayLine",
     "hudChrome.gathering.nodeName.herb",
     "hudChrome.gathering.nodeName.ore",
     "hudChrome.gathering.nodeName.wood",
@@ -208,8 +244,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmetCorpse"
   ],
   "sv_SE": [
+    "abilityUi.cast.gathering",
+    "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
+    "hudChrome.gathering.gotAwayLine",
     "hudChrome.gathering.nodeName.herb",
     "hudChrome.gathering.nodeName.ore",
     "hudChrome.gathering.nodeName.wood",
@@ -224,8 +263,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmetCorpse"
   ],
   "vi_VN": [
+    "abilityUi.cast.gathering",
+    "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
+    "hudChrome.gathering.gotAwayLine",
     "hudChrome.gathering.nodeName.herb",
     "hudChrome.gathering.nodeName.ore",
     "hudChrome.gathering.nodeName.wood",
@@ -240,8 +282,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmetCorpse"
   ],
   "da_DK": [
+    "abilityUi.cast.gathering",
+    "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
+    "hudChrome.gathering.gotAwayLine",
     "hudChrome.gathering.nodeName.herb",
     "hudChrome.gathering.nodeName.ore",
     "hudChrome.gathering.nodeName.wood",

@@ -2094,6 +2094,8 @@ export const zh_CN: EnTranslations = {
       "gatherLine": "你采集了：{name}。",
       "gatherLineQty": "你采集了：{name} x{qty}。",
       "catchLine": "你钓上了：{name}",
+      "biteLine": "有东西上钩了！",
+      "gotAwayLine": "它跑掉了。",
       "nodeName": {
         "ore": "矿脉",
         "wood": "林木",
@@ -5967,6 +5969,7 @@ export const zh_CN: EnTranslations = {
     },
     "cast": {
       "fishing": "钓鱼",
+      "gathering": "采集",
       "demonHeal": "恶魔治疗",
       "thunzharrStormcall": "风暴召唤"
     }

@@ -1,17 +1,21 @@
 // Fishing profession command logic, behind the SimContext seam (Professions
-// 2.0 Phase 11): startFishing begins the fishing cast (the fishing-pole item
-// use routes here via SimContext, src/sim/items.ts) and completeFishing
-// resolves the catch when that cast finishes (the cast lifecycle routes here,
-// src/sim/combat/casting_lifecycle.ts). Fishing is a full gathering proficiency
-// (GATHERING_PROFESSIONS.fishing): a landed catch queues a proficiency grant on
-// the tick path like any other gathering harvest, and the accrued proficiency
-// selects a catch rarity band (fishingBandFor) whose per-zone table shifts
-// weight out of junk/empty-hook rows and into food fish as skill rises. The rng
-// draw order is preserved exactly (one ctx.rng draw per normal catch, zero on
-// the codfather early-return path, and zero in startFishing): band selection is
-// pure state, not a draw, so at band 0 (proficiency < 100) the resolved rows
-// stay the shipped rows and every existing seed reproduces its catch sequence,
-// keeping the parity goldens byte-identical.
+// 2.0 Phase 11; the Phase 12b bite minigame). startFishing begins the fishing
+// session (the fishing-pole item use routes here via SimContext,
+// src/sim/items.ts) and draws ONE hidden seeded bite delay; the cast
+// lifecycle (src/sim/combat/casting_lifecycle.ts) fires the bite and the
+// got-away miss off hidden tick deadlines; a pole RE-press inside the armed
+// reel window (the reel arm in startFishing's busy gate) lands the catch
+// through completeFishing's single table draw. Fishing is a full gathering
+// proficiency (GATHERING_PROFESSIONS.fishing): a landed catch queues a
+// proficiency grant on the tick path like any other gathering harvest, and
+// the accrued proficiency selects a catch rarity band (fishingBandFor) whose
+// per-zone table shifts weight out of junk/empty-hook rows and into food fish
+// as skill rises. Draw contract (Phase 12b): a normal session draws one rng
+// value at cast start (the bite delay) and one more at a landed reel (the
+// table); a miss stays at one; the codfather reel draws nothing (early
+// return); a bags-full reel still draws the table (capacity gates after the
+// roll). Band selection is pure state, not a draw, and every deny arm is
+// draw-free.
 
 import { FISHING_RARE_ID, FISHING_TABLES_BY_BAND } from '../content/items';
 import { DEEPFEN_SHALLOWS_LAKE } from '../content/zone2';
@@ -20,33 +24,45 @@ import { onFishCaughtForDeeds } from '../deeds';
 import { PLAYER_SWIM_DEPTH } from '../pathfind';
 import type { PlayerMeta } from '../sim';
 import type { SimContext } from '../sim_context';
-import { type Entity, FISHING_CAST_ID, FISHING_CAST_TIME, isConsuming } from '../types';
+import { DT, type Entity, FISHING_CAST_ID, FISHING_SESSION_CAP_SEC, isConsuming } from '../types';
 import { groundHeight, waterLevelAt } from '../world';
 import { queueGatheringGrant } from './gathering';
+import { PROFICIENCY_BAND_THRESHOLDS, proficiencyBandFor } from './proficiency_bands';
 import { bestOwnedGatherToolTier, canGatherTier } from './tools';
 
 const SWIM_DEPTH = PLAYER_SWIM_DEPTH; // ground this far under the water line = deep water
-const FISHING_SAMPLE_DISTANCES = [4, 8, 12, 16, 20, 24];
+// Facing-forward sample ring the fishable-water check walks. Exported since
+// Phase 12b: the bobber visual (src/render/fishing_bobber_core.ts) anchors on
+// the FIRST accepted sample, so it must walk the exact same ring.
+export const FISHING_SAMPLE_DISTANCES = [4, 8, 12, 16, 20, 24];
 const DEEPFEN_FISHING_SHORE_MARGIN = 10;
 const THE_CODFATHER_ITEM_ID = 'the_codfather';
 const THE_CODFATHER_QUEST_ID = 'q_the_codfather';
 
 // Catch rarity ladder band boundaries (Professions 2.0 Phase 11): the minimum
-// fishing proficiency for each of the three catch tables. The thirds of the
-// Fishing maxSkill (300) line up with the shipped 100-proficiency deed
-// milestones: band 0 covers 0-99, band 1 covers 100-199, band 2 covers 200+.
-// Exported so tests can pin the boundaries.
-export const FISHING_BAND_THRESHOLDS = [0, 100, 200] as const;
+// fishing proficiency for each of the three catch tables. Since Phase 12b the
+// ladder itself lives in proficiency_bands.ts (gathering.ts shares it for the
+// gather-cast duration); these exports delegate so every existing import and
+// test pin keeps resolving with identical values.
+export const FISHING_BAND_THRESHOLDS = PROFICIENCY_BAND_THRESHOLDS;
+
+// Bite minigame timing (Professions 2.0 Phase 12b), all in seconds. The
+// hidden bite delay is ONE seeded draw in [MIN, effMax]; a better rod (tier
+// above 1) pulls effMax down by ROD_REDUCTION per tier and never moves MIN
+// (tier 2 covers [3, 6.5], tier 3 covers [3, 5]). The reel window opens at
+// the bite and lasts WINDOW plus ROD_BONUS per rod tier above 1 (tier 3
+// reaches 4.5 s), re-scanning the rod at bite time. Named constants so the
+// tests pin the rod synergy directly.
+export const FISH_BITE_DELAY_MIN_SEC = 3;
+export const FISH_BITE_DELAY_MAX_SEC = 8;
+export const FISH_BITE_DELAY_ROD_REDUCTION_SEC = 1.5;
+export const FISH_REEL_WINDOW_SEC = 3;
+export const FISH_REEL_WINDOW_ROD_BONUS_SEC = 0.75;
 
 // Which catch table band a given fishing proficiency selects. Pure state (no
-// rng), so it never perturbs the one-draw-per-catch rng contract. A NaN
-// proficiency falls through both comparisons to band 0, matching the
-// proficiency-0 default.
-export function fishingBandFor(proficiency: number): 0 | 1 | 2 {
-  if (proficiency >= FISHING_BAND_THRESHOLDS[2]) return 2;
-  if (proficiency >= FISHING_BAND_THRESHOLDS[1]) return 1;
-  return 0;
-}
+// rng), so it never perturbs the one-draw-per-catch rng contract; NaN falls
+// to band 0 (see proficiencyBandFor).
+export const fishingBandFor = proficiencyBandFor;
 
 function hasFishableWaterAhead(ctx: SimContext, p: Entity): boolean {
   const sin = Math.sin(p.facing);
@@ -86,6 +102,27 @@ export function startFishing(ctx: SimContext, p: Entity, meta: PlayerMeta): void
     return;
   }
   if (p.castingAbility || isConsuming(p)) {
+    // The reel (Phase 12b): re-pressing the pole during one's own fishing
+    // session, inside the armed server-authoritative reaction window, lands
+    // the catch. The re-press reaches here through the same useItem fishing
+    // arms as the original cast (items.ts routes them to startFishing BEFORE
+    // its generic busy guard), so the wire command census is unchanged. A
+    // re-press BEFORE the bite or AFTER the deadline keeps the busy error.
+    // Boundary contract (pinned): the reel is valid while ctx.tickCount <=
+    // fishReelDeadlineTick; the miss fires at deadline + 1 in the tick phase.
+    if (
+      p.castingAbility === FISHING_CAST_ID &&
+      p.fishReelDeadlineTick > 0 &&
+      ctx.tickCount <= p.fishReelDeadlineTick
+    ) {
+      p.castingAbility = null;
+      p.castRemaining = 0;
+      p.fishBiteAtTick = 0;
+      p.fishReelDeadlineTick = 0;
+      ctx.emit({ type: 'castStop', entityId: p.id, success: true });
+      completeFishing(ctx, p, meta);
+      return;
+    }
     ctx.error(meta.entityId, 'You are busy.');
     return;
   }
@@ -95,16 +132,29 @@ export function startFishing(ctx: SimContext, p: Entity, meta: PlayerMeta): void
   }
   if (p.sitting) ctx.standUp(p);
   p.castingAbility = FISHING_CAST_ID;
-  p.castTotal = FISHING_CAST_TIME;
-  p.castRemaining = FISHING_CAST_TIME;
+  p.castTotal = FISHING_SESSION_CAP_SEC;
+  p.castRemaining = FISHING_SESSION_CAP_SEC;
   p.castTargetId = null;
   p.channeling = false;
   ctx.emit({
     type: 'castStart',
     entityId: p.id,
     ability: FISHING_CAST_ID,
-    time: FISHING_CAST_TIME,
+    time: FISHING_SESSION_CAP_SEC,
   });
+  // The ONE bite-delay draw, AFTER every deny arm above (a denial draws
+  // nothing and starts nothing): a hidden seeded delay in [MIN, effMax], the
+  // rod pulling the max down only. Stored in TICKS on hidden Entity state
+  // (ceil, the lockpick deadline precedent), NEVER on castTotal/castRemaining:
+  // those broadcast in dynamicFields and must carry no bite information.
+  const rodTier = bestOwnedGatherToolTier(meta.inventory, 'fishing', ITEMS);
+  const effMax = Math.max(
+    FISH_BITE_DELAY_MIN_SEC,
+    FISH_BITE_DELAY_MAX_SEC - FISH_BITE_DELAY_ROD_REDUCTION_SEC * (rodTier - 1),
+  );
+  const delaySec = FISH_BITE_DELAY_MIN_SEC + ctx.rng.next() * (effMax - FISH_BITE_DELAY_MIN_SEC);
+  p.fishBiteAtTick = ctx.tickCount + Math.ceil(delaySec / DT);
+  p.fishReelDeadlineTick = 0;
 }
 
 export function completeFishing(ctx: SimContext, p: Entity, meta: PlayerMeta): void {
