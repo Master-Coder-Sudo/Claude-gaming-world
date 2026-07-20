@@ -334,6 +334,21 @@ describe('hidden-state wire invariant', () => {
     expect(payload.includes('fishBiteAtTick')).toBe(false);
     expect(payload.includes('fishReelDeadlineTick')).toBe(false);
     expect(payload.includes('gatherCastNodeId')).toBe(false);
+    // Second scan AFTER the bite fires, so the reel deadline is provably
+    // NONZERO at snapshot time too (the review coverage pass: a value-gated
+    // leak that serialized the deadline only while armed would have slipped
+    // the first scan, where it was still 0).
+    const biteTick = angler.fishBiteAtTick;
+    while (server.sim.tickCount <= biteTick) server.sim.tick();
+    expect(angler.fishReelDeadlineTick).toBeGreaterThan(0);
+    fcA.sent.length = 0;
+    fcB.sent.length = 0;
+    (server as any).broadcastSnapshots();
+    const biterPayload = fcA.sent.join('\n') + fcB.sent.join('\n');
+    expect(biterPayload).toContain('castRem');
+    expect(biterPayload.includes('fishBiteAtTick')).toBe(false);
+    expect(biterPayload.includes('fishReelDeadlineTick')).toBe(false);
+    expect(biterPayload.includes('gatherCastNodeId')).toBe(false);
   });
 });
 
@@ -613,5 +628,149 @@ describe('interrupt immunity and damage-cancels-not-pushback', () => {
     );
     expect(sim.countItem(NODE_MATERIAL.itemId, pid)).toBe(0);
     expect(sim.nodeHarvestableByMeFor(NODE.id, pid)).toBe(true);
+  });
+});
+
+describe('the reel window follows the rod held at BITE time, not cast start', () => {
+  // The window re-scans the rod when the bite fires (fishing.ts documents the
+  // re-scan); these two arms kill a cached-at-cast-start implementation from
+  // both directions.
+  it('a rod dropped between cast start and the bite arms only the base window', () => {
+    const sim = makeSim(4242);
+    const meta = mustMeta(sim, sim.playerId);
+    sim.addItem('silverstream_fishing_rod', 1);
+    teleportToValeShore(sim);
+    const p = sim.player;
+    startFishing(sim.ctx, p, meta);
+    sim.removeItem('silverstream_fishing_rod', 1);
+    sim.tickCount = p.fishBiteAtTick;
+    updateCasting(sim.ctx, p, meta);
+    expect(p.fishReelDeadlineTick - sim.tickCount).toBe(60);
+  });
+
+  it('a rod picked up between cast start and the bite widens the window', () => {
+    const sim = makeSim(4242);
+    const meta = mustMeta(sim, sim.playerId);
+    teleportToValeShore(sim);
+    const p = sim.player;
+    startFishing(sim.ctx, p, meta);
+    sim.addItem('silverstream_fishing_rod', 1);
+    sim.tickCount = p.fishBiteAtTick;
+    updateCasting(sim.ctx, p, meta);
+    expect(p.fishReelDeadlineTick - sim.tickCount).toBe(90);
+  });
+});
+
+describe('every gather start-deny arm leaves no cast and draws nothing', () => {
+  // The review coverage pass found the start-deny arms pinned only the false
+  // return; a deny that erroneously left castingAbility set would have slipped
+  // every arm but the tool gate. Each arm here asserts the full deny shape:
+  // false, no cast, no hidden node id, zero draws.
+  function expectDenied(sim: Sim, pid: number, nodeId: string): void {
+    const p = sim.entities.get(pid);
+    if (!p) throw new Error('missing entity');
+    let draws = 0;
+    sim.rng.setObserver(() => draws++);
+    try {
+      expect(sim.harvestNode(nodeId, pid)).toBe(false);
+    } finally {
+      sim.rng.setObserver(null);
+    }
+    expect(draws).toBe(0);
+    expect(p.castingAbility).toBe(null);
+    expect(p.gatherCastNodeId).toBe('');
+  }
+
+  it('dead, unknown node, too far, respawn-not-ready, bags-full: no cast, zero draws', () => {
+    const sim = new Sim({ seed: 42, playerClass: 'warrior', noPlayer: true });
+    const pid = sim.addPlayer('warrior', 'Denied');
+    const p = sim.entities.get(pid);
+    const meta = mustMeta(sim, pid);
+    if (!p) throw new Error('missing entity');
+    teleportOntoNode(sim, pid, NODE.id);
+    // dead
+    p.dead = true;
+    expectDenied(sim, pid, NODE.id);
+    p.dead = false;
+    // unknown node
+    expectDenied(sim, pid, 'no_such_node');
+    // too far
+    p.pos.x += 50;
+    expectDenied(sim, pid, NODE.id);
+    p.pos.x -= 50;
+    // respawn not ready (their own timer)
+    meta.nodeHarvestReadyAt[NODE.id] = sim.time + 60;
+    expectDenied(sim, pid, NODE.id);
+    delete meta.nodeHarvestReadyAt[NODE.id];
+    // bags full of an unstackable the material cannot top up
+    const capacity = bagCapacity(meta.bags);
+    while (meta.inventory.length < capacity) {
+      sim.addItemInstance('wolf_fang', { signer: 'Denied' }, pid);
+    }
+    expectDenied(sim, pid, NODE.id);
+  });
+
+  it('busy: a mid-cast re-press denies without touching the running cast', () => {
+    const sim = new Sim({ seed: 42, playerClass: 'warrior', noPlayer: true });
+    const pid = sim.addPlayer('warrior', 'Busy');
+    const p = sim.entities.get(pid);
+    if (!p) throw new Error('missing entity');
+    teleportOntoNode(sim, pid, NODE.id);
+    expect(sim.harvestNode(NODE.id, pid)).toBe(true);
+    const total = p.castTotal;
+    const nodeId = p.gatherCastNodeId;
+    sim.drainEvents();
+    let draws = 0;
+    sim.rng.setObserver(() => draws++);
+    try {
+      expect(sim.harvestNode(NODE.id, pid)).toBe(false);
+    } finally {
+      sim.rng.setObserver(null);
+    }
+    expect(draws).toBe(0);
+    // The original cast is untouched by the denied re-press.
+    expect(p.castingAbility).toBe(GATHER_CAST_ID);
+    expect(p.castTotal).toBe(total);
+    expect(p.gatherCastNodeId).toBe(nodeId);
+    expect(sim.drainEvents()).toContainEqual(
+      expect.objectContaining({ type: 'error', text: 'You are busy.' }),
+    );
+  });
+});
+
+describe('death clears the hidden cast state (review fix)', () => {
+  // Sourceless damage skips the cancel-not-pushback arm (it requires a source
+  // and kind hit), so a lethal environmental tick reaches handleDeath with the
+  // cast still live; death itself must return the hidden fields to inert (the
+  // parity samplers rely on inert values at every sampled frame, dead players
+  // included).
+  it('a sourceless lethal blow mid-fishing leaves every hidden field inert', () => {
+    const sim = makeSim(4242);
+    const meta = mustMeta(sim, sim.playerId);
+    teleportToValeShore(sim);
+    startFishing(sim.ctx, sim.player, meta);
+    expect(sim.player.fishBiteAtTick).toBeGreaterThan(0);
+    sim.dealDamage(null, sim.player, sim.player.maxHp + 50, false, 'physical', null, 'hit');
+    expect(sim.player.dead).toBe(true);
+    expect(sim.player.castingAbility).toBe(null);
+    expect(sim.player.fishBiteAtTick).toBe(0);
+    expect(sim.player.fishReelDeadlineTick).toBe(0);
+    expect(sim.player.gatherCastNodeId).toBe('');
+  });
+
+  it('a sourceless lethal blow mid-gather-cast leaves every hidden field inert', () => {
+    const sim = new Sim({ seed: 42, playerClass: 'warrior', noPlayer: true });
+    const pid = sim.addPlayer('warrior', 'Slain');
+    const p = sim.entities.get(pid);
+    if (!p) throw new Error('missing entity');
+    teleportOntoNode(sim, pid, NODE.id);
+    expect(sim.harvestNode(NODE.id, pid)).toBe(true);
+    expect(p.gatherCastNodeId).toBe(NODE.id);
+    sim.dealDamage(null, p, p.maxHp + 50, false, 'physical', null, 'hit');
+    expect(p.dead).toBe(true);
+    expect(p.castingAbility).toBe(null);
+    expect(p.gatherCastNodeId).toBe('');
+    expect(p.fishBiteAtTick).toBe(0);
+    expect(p.fishReelDeadlineTick).toBe(0);
   });
 });
