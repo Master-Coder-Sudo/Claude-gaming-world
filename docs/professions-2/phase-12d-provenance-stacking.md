@@ -45,6 +45,33 @@ that also breaks the self-signed reagent discount and Battlefield Experience att
 - `src/sim/interaction.ts`: corpse loot and harvest resolution, the claim-once rule
   (`harvestClaimedBy`), the focus picker, town focus (the tfocus wire key), and the corpse
   despawn/respawn lifecycle this phase decouples.
+- VERIFIED MECHANICS (2026-07-20 read-only pass at the 12b QA tip; STEP 1 re-confirms at
+  the phase tip; symbols only per the anchor rule):
+  - The interact key never harvests: `interactKey` routes through `tryNearbyInteraction`
+    to `lootCorpse` only; harvest is reachable only through the loot window
+    (`LootWindowController.openCorpse`), which opens on BOTH click buttons and renders
+    Take All plus the component picker.
+  - The lifecycle coupling is real: a FULL loot runs `pruneCorpseLoot`, which empties the
+    corpse, flips `lootable` false, and clamps `corpseTimer` low, so the respawn gate in
+    the mob locomotion tick (`respawnTimer` elapsed AND (`corpseTimer` elapsed OR not
+    lootable)) fires fast, and BOTH harvest entry points close even when
+    `harvestClaimedBy` is still null: loot destroys harvestability. A harvest-only corpse
+    keeps `lootable` true, so respawn defers until `corpseTimer` runs out (bounded by
+    CORPSE_DURATION and the template respawnSeconds): the lingering-corpse report is
+    literally correct. A PARTIAL loot leaves the corpse lootable and harvestable.
+  - `harvestCorpse` touches only `harvestClaimedBy`, never loot state or timers; a
+    full-bags harvest denial returns WITHOUT consuming the claim.
+  - Town focus is not broken, it is illegible: authoritative `townFocus` can only be set
+    inside the town circle, is consumed passively inside `harvestCorpse`
+    (`applyFocusTierBonus` shifts tier by floor(points / 5) capped at +2, so under 5
+    points does nothing; `applyFocusBonus` adds 10 percent yield per point that rounding
+    can eat at low tiers), and the picker opens with an EMPTY selection: town focus is
+    neither a picker default nor an auto-selector today.
+  - Combined-press hazards for Slice C: the two resolvers have independent claim state
+    and DIFFERENT capacity gates (loot checks per slot via `canAddItem`; harvest reserves
+    max-tier quantity up front via `fitsAll`), so ordering decides starvation; and the
+    loot half's prune destroys the harvest target, so the harvest half must resolve
+    BEFORE, or atomically with, the loot prune.
 - `src/sim/mail/post_office.ts`: `MAIL_POSTAGE`, `MAIL_MAX_ATTACHMENTS`, and the
   expiresAt-Infinity-while-attachments-remain rule this phase replaces.
 - `server/characters.ts`: `rekeyMarketSeller` / `rekeyMailOwner`, the rename hooks the signer
@@ -83,18 +110,17 @@ STEP 0 - PRE-FLIGHT:
 
 STEP 1 - LOAD CONTEXT AND VERIFY THE LIFECYCLE (do NOT read planning docs directly): spawn
 one Explore agent to read and summarize: docs/professions-2/state.md (the provenance
-rulings), this phase file, src/sim/bags.ts, src/sim/bank.ts, the addItemInstance and
-removeItem paths in src/sim/sim.ts, src/sim/social/trade.ts, src/sim/interaction.ts and
-src/sim/professions/gathering.ts (the corpse loot/harvest resolvers, claim-once, the focus
-picker and town focus end to end), src/sim/mail/post_office.ts, server/characters.ts (the
-rename rekey hooks), src/ui/item_instance_tooltip.ts, and the CLAUDE.md files for sim,
-professions, ui, server, and tests. The summary MUST return, verified against code, the
-CORPSE LIFECYCLE STATE MACHINE: what removes a corpse (loot completion, timers), whether a
-looted corpse remains harvestable today, whether an unlooted-but-harvested corpse delays
-respawn, where despawn and respawn scheduling live, and what the town focus actually does
-and why a player would perceive it as not working. Record that state machine in this phase
-file's as-landed block BEFORE designing the unified flow; the community claims are
-symptoms, the code is the truth.
+rulings), this phase file INCLUDING its VERIFIED MECHANICS block, src/sim/bags.ts,
+src/sim/bank.ts, the addItemInstance and removeItem paths in src/sim/sim.ts,
+src/sim/social/trade.ts, src/sim/interaction.ts and src/sim/professions/gathering.ts (the
+corpse loot/harvest resolvers, claim-once, the focus picker and town focus end to end),
+src/sim/mail/post_office.ts, server/characters.ts (the rename rekey hooks),
+src/ui/item_instance_tooltip.ts, and the CLAUDE.md files for sim, professions, ui,
+server, and tests. The summary MUST RE-CONFIRM the VERIFIED MECHANICS block against the
+phase tip (the prune-on-full-loot arm, the respawn gate condition, the harvest-only
+deferral, the town-focus consumption sites, the empty picker pre-selection, and the two
+capacity-gate shapes); record any drift in the as-landed block BEFORE designing the
+unified flow. The community claims are symptoms; the code is the truth.
 
 STEP 2 - EXECUTE. Suggested slices: merge rule first (everything else composes with it),
 then provenance UI, then the unified interact, then mail, with the two bug fixes as their
@@ -132,14 +158,22 @@ Slice C, the unified interact:
   authoritative in both hosts; the claim-once rule and the hcb claim mirror are untouched.
 - Composition rule: a harvest denial (tool tier, capacity) NEVER blocks the loot half, and
   vice versa; each half reports its own outcome; capacity pre-checks run per half.
-- Lifecycle decoupling per the verified state machine: a looted corpse stays harvestable
-  until claimed or timed out; a harvested corpse loots normally; neither half strands the
-  corpse; respawn scheduling is explicitly NOT hostage to manual cleanup (if the verified
-  machine shows respawn gated on corpse removal, fix the gating; if it does not, pin the
-  actual behavior and correct the town-focus legibility instead).
-- Town focus: whatever the verification found, the player-visible behavior becomes
-  legible: the picker shows the active town focus as the default selection, and the
-  unified press uses it.
+- Ordering inside the unified press (from the verified hazards): the harvest half
+  resolves BEFORE, or atomically with, the loot half's prune (loot-first destroys the
+  harvest target); each half runs its own capacity gate (loot per-slot canAddItem,
+  harvest up-front fitsAll) and reports its own outcome, and a harvest denial leaves the
+  claim unconsumed exactly as today.
+- Lifecycle decoupling against the verified state machine: an UNCLAIMED fully-looted
+  corpse stays harvestable for a short grace window instead of closing both entry points
+  (the pruneCorpseLoot lootable flip and timer clamp must stop hiding an unclaimed
+  harvest); a harvest-only corpse no longer defers respawn for the full decay window
+  (the respawn gate stops treating a still-lootable-but-harvested corpse as
+  must-preserve once its loot is gone or claimed); neither half ever strands the corpse,
+  and respawn is never hostage to manual cleanup. Pin the resulting machine in full.
+- Town focus becomes legible: the picker opens with the active town focus PRE-SELECTED
+  (today it opens empty), the unified press uses that selection, and the sub-5-point
+  dead zone (tier shift is floor(points / 5)) plus the in-town-only setter get surfaced
+  in the focus UI copy so the passive bonus reads as real.
 Slice D, mail expiry:
 - Letters with attachments get a 30-day expiry (ticks-derived, never wall clock in sim
   logic) with ONE return-to-sender cycle before deletion; system-authored mail (the Guild
