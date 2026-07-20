@@ -259,6 +259,7 @@ import {
   handleCardRoutes,
   handleCardUpload,
 } from './player_card';
+import { prunePlayerActivityDailyBatch } from './player_metrics_db';
 import { handleAvatar, handleCharacterSitemap, handleProfilePage } from './profile_page';
 import { recordUsageCacheEvent, recordUsageMetric, setUsageCacheSize } from './provider_usage';
 import {
@@ -3027,6 +3028,13 @@ export async function startServer(): Promise<http.Server> {
           if (cutoff === null) return 0;
           return pruneDailyRewardEventsBatch(cutoff, n);
         },
+      },
+      {
+        // The activity day is the UTC calendar day the metrics writers stamp,
+        // so the primitive derives its own UTC cutoff (no reward-clock helper).
+        name: 'player_activity_daily',
+        pruneBatch: (n) =>
+          prunePlayerActivityDailyBatch(pool, config.playerActivityRetentionDays, n),
       },
       {
         name: 'admin_site_presence_samples',

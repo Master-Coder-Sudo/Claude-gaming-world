@@ -163,7 +163,10 @@ export interface PlayerFunnelSnapshot {
 }
 
 interface Queryable {
-  query(text: string, values?: unknown[]): Promise<{ rows: Record<string, unknown>[] }>;
+  query(
+    text: string,
+    values?: unknown[],
+  ): Promise<{ rows: Record<string, unknown>[]; rowCount?: number | null }>;
 }
 
 /** Whole-refresh deadline, including waiting for a pooled client. */
@@ -448,6 +451,41 @@ export async function closeOrphanPlayerSessions(db: Queryable, realm: string): P
     [realm],
   );
   return Number(res.rows[0]?.closed_count ?? 0);
+}
+
+/**
+ * One bounded delete batch of expired player_activity_daily rows; returns the
+ * deleted count. The activity day is the UTC calendar day the writers stamp
+ * ((... AT TIME ZONE 'UTC')::date above), so the cutoff is the same plain UTC
+ * date arithmetic, NEVER the daily-reward clock (that day rolls at a configured
+ * offset, not UTC midnight). The strict `<` keeps a row whose day is exactly
+ * retentionDays old: the kept window is [today - retentionDays, today]. The
+ * batch subquery selects the composite primary key (the table has no id
+ * column). No index leads on day (the PK leads on realm, and the integration
+ * suite pins the table to the PK alone), so the batch subquery is a bounded
+ * scan; that is accepted because this prune itself keeps the table small and
+ * the sweep runs it off-peak behind the advisory lock. The business snapshot
+ * reads touch only today and yesterday, so any positive window is
+ * read-invisible to them. retentionDays <= 0 means keep forever.
+ */
+export async function prunePlayerActivityDailyBatch(
+  db: Queryable,
+  retentionDays: number,
+  batchSize: number,
+): Promise<number> {
+  if (!Number.isFinite(retentionDays) || retentionDays <= 0) return 0;
+  // A fractional value must clamp to at least one day, never floor to day zero.
+  const days = Math.max(1, Math.floor(retentionDays));
+  const res = await db.query(
+    `DELETE FROM player_activity_daily
+      WHERE (realm, day, account_id) IN (
+        SELECT realm, day, account_id FROM player_activity_daily
+         WHERE day < (now() AT TIME ZONE 'UTC')::date - $1::int
+         ORDER BY day
+         LIMIT $2)`,
+    [days, Math.max(1, Math.floor(batchSize))],
+  );
+  return res.rowCount ?? 0;
 }
 
 export const PLAYER_BUSINESS_SNAPSHOT_SQL = `

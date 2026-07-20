@@ -602,6 +602,19 @@ describe('no consolidated tunable literal is duplicated at a call site', () => {
     expect(agingBody).toContain("last_seen_at < now() - ($1 || ' days')::interval");
   });
 
+  it('the player-activity retention prune stays batched on the default allowance', () => {
+    // Same contract as the sibling prunes: one bounded batch per call (LIMIT $2)
+    // on the default statement timeout, with the sweep driving iteration.
+    const metricsSrc = read('server/player_metrics_db.ts');
+    const body = bodyOf(metricsSrc, 'export async function prunePlayerActivityDailyBatch');
+    expect(body).not.toContain('runWithStatementTimeout');
+    expect(body).toContain('LIMIT $2');
+    // The cutoff rides the UTC activity-day clock the writers stamp; pin the
+    // literal so the reward-clock helper (a different day boundary) can never
+    // swap in.
+    expect(body).toContain("day < (now() AT TIME ZONE 'UTC')::date - $1::int");
+  });
+
   it('the retention floor stays strictly above the admin activity window', () => {
     // The fold must never delete a session an admin activity chart still
     // counts. Extract both literals from source so a widened admin window

@@ -21,7 +21,7 @@ describe('retention sweep wiring in server/main.ts', () => {
   it('runs no retention DELETE before the server is listening', () => {
     // No retention prune may ever block or precede boot again: the old one-shot
     // boot prunes held boot hostage to an unbounded DELETE on a large table.
-    // ALL eight prune call-forms plus the fold are named: a prune MOVED (not
+    // ALL nine prune call-forms plus the fold are named: a prune MOVED (not
     // copied) to a pre-listen one-shot keeps its exactly-once count and only
     // this list catches it.
     const preListen = MAIN.slice(0, MAIN.indexOf('server.listen('));
@@ -31,6 +31,7 @@ describe('retention sweep wiring in server/main.ts', () => {
       'pruneChatLogsBatch(',
       'pruneClientPerfReportsBatch(',
       'pruneDailyRewardEventsBatch(',
+      'prunePlayerActivityDailyBatch(',
       'pruneOnlineSamplesBatch(',
       'pruneSitePresenceSamplesBatch(',
       'pruneSitePresenceSessionsBatch(',
@@ -64,6 +65,7 @@ describe('retention sweep wiring in server/main.ts', () => {
     // silently disables that table's retention with everything else green.
     for (const call of [
       'pruneDailyRewardEventsBatch(',
+      'prunePlayerActivityDailyBatch(',
       'pruneOnlineSamplesBatch(',
       'pruneSitePresenceSamplesBatch(',
       'pruneSitePresenceSessionsBatch(',
@@ -103,6 +105,9 @@ describe('retention sweep wiring in server/main.ts', () => {
     // online-samples days feeding a site-presence prune).
     expect(MAIN).toContain('pruneChatLogsBatch(config.chatLogRetentionDays, n)');
     expect(MAIN).toContain('pruneClientPerfReportsBatch(config.perfReportRetentionDays, n)');
+    expect(MAIN).toContain(
+      'prunePlayerActivityDailyBatch(pool, config.playerActivityRetentionDays, n)',
+    );
     expect(MAIN).toContain('pruneSitePresenceSamplesBatch(config.sitePresenceRetentionDays, n)');
     expect(MAIN).toContain('pruneSitePresenceSessionsBatch(config.sitePresenceRetentionDays, n)');
     expect(MAIN).toContain('pruneOnlineSamplesBatch(realm, config.onlineSamplesRetentionDays, n)');

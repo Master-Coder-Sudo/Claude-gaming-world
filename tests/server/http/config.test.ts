@@ -41,6 +41,7 @@ describe('loadConfig', () => {
     expect(cfg.sitePresenceRetentionDays).toBe(90);
     expect(cfg.playSessionRetentionDays).toBe(180);
     expect(cfg.accountIpAssociationRetentionDays).toBe(730);
+    expect(cfg.playerActivityRetentionDays).toBe(400);
     expect(cfg.retentionSweepUtcHour).toBe(5);
     expect(cfg.retentionSweepMaxRowsPerRun).toBe(50000);
     expect(cfg.requireWebLogin).toBe(false);
@@ -236,7 +237,7 @@ describe('loadConfig', () => {
     expect(loadConfig({ ...MIN_ENV, MAX_PLAYERS_PER_REALM: ' 0 ' }).maxPlayersPerRealm).toBe(0);
   });
 
-  it('reads the five retention day keys on the chat-log contract: empty is the default, whitespace is keep-forever', () => {
+  it('reads the six retention day keys on the chat-log contract: empty is the default, whitespace is keep-forever', () => {
     const cases = [
       {
         key: 'DAILY_REWARD_EVENTS_RETENTION_DAYS',
@@ -251,6 +252,7 @@ describe('loadConfig', () => {
         field: 'accountIpAssociationRetentionDays',
         dflt: 730,
       },
+      { key: 'PLAYER_ACTIVITY_RETENTION_DAYS', field: 'playerActivityRetentionDays', dflt: 400 },
     ] as const;
     for (const { key, field, dflt } of cases) {
       // A set value overrides the default.

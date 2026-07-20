@@ -101,7 +101,7 @@ export interface Config {
   readonly githubToken: string;
   readonly chatLogRetentionDays: number;
   readonly perfReportRetentionDays: number;
-  // The five retention keys below follow the chatLogRetentionDays contract: 0 =
+  // The six retention keys below follow the chatLogRetentionDays contract: 0 =
   // keep forever, and the read is deliberately UNTRIMMED, so a whitespace-only
   // value falls to 0, the SAFE side for a destructive delete (keep, never prune).
   readonly dailyRewardEventsRetentionDays: number;
@@ -115,6 +115,10 @@ export interface Config {
   // again: the privacy bound on stored IP links and the ban-evasion lookback
   // horizon. 0 keeps them forever.
   readonly accountIpAssociationRetentionDays: number;
+  // How many days of per-account daily activity rows (player_activity_daily,
+  // the business-metrics fact table) to keep. The snapshot reads touch only
+  // today and yesterday, so any positive window is read-invisible to them.
+  readonly playerActivityRetentionDays: number;
   // The two sweep knobs follow the maxPlayersPerRealm trimmed-read contract
   // instead, because for them a whitespace-derived 0 is fail-DANGEROUS: hour 0
   // moves the sweep to 00:00 UTC, next to the nightly 03:15 UTC pg_dump window
@@ -167,6 +171,7 @@ const DEFAULT_ONLINE_SAMPLES_RETENTION_DAYS = 90;
 const DEFAULT_SITE_PRESENCE_RETENTION_DAYS = 90;
 const DEFAULT_PLAY_SESSION_RETENTION_DAYS = 180;
 const DEFAULT_ACCOUNT_IP_ASSOCIATION_RETENTION_DAYS = 730;
+const DEFAULT_PLAYER_ACTIVITY_RETENTION_DAYS = 400;
 // PROVISIONAL: two hours after the nightly 03:15 UTC pg_dump window, pending real
 // traffic-curve evidence of the quietest hour; revisit when that evidence lands.
 const DEFAULT_RETENTION_SWEEP_UTC_HOUR = 5;
@@ -344,6 +349,10 @@ export function loadConfig(env: NodeJS.ProcessEnv): Config {
     accountIpAssociationRetentionDays: numberOr(
       env.ACCOUNT_IP_ASSOCIATION_RETENTION_DAYS,
       DEFAULT_ACCOUNT_IP_ASSOCIATION_RETENTION_DAYS,
+    ),
+    playerActivityRetentionDays: numberOr(
+      env.PLAYER_ACTIVITY_RETENTION_DAYS,
+      DEFAULT_PLAYER_ACTIVITY_RETENTION_DAYS,
     ),
     // An hour outside 0..23 is garbage, not a preference; fall back like numberOr does.
     retentionSweepUtcHour:
