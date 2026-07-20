@@ -6400,9 +6400,15 @@ function startDiscordOAuth(mode: 'login' | 'link'): void {
     // LOGIN from the auth screen: a FULL-PAGE redirect, not a popup. The popup's
     // window.opener is severed by the cross-origin hop to Discord (COOP), so the
     // result never returns; a same-tab redirect always lands the callback, which
-    // writes the session + onboard flag and reloads us into play.
+    // writes the session + onboard flag and reloads us into play. The desktop shell
+    // opens THIS login screen at /desktop-login in the OS browser (electron/main.cjs
+    // openDesktopLogin, via shell.openExternal), never inside Electron itself, so
+    // NATIVE_APP/DESKTOP_APP are both false here: the signal that this is a desktop
+    // handoff is the page we are ON, not the runtime. Pass it through so the callback
+    // bounces back to /desktop-login (which mints the worldofclaudecraft:// deep-link
+    // code, see completeDesktopBrowserLogin) instead of the plain web '/'.
     void api
-      .discordStart('login')
+      .discordStart('login', false, '', undefined, isDesktopLoginPage())
       .then(({ url }) => {
         window.location.href = url;
       })
