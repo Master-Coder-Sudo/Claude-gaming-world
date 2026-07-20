@@ -1019,6 +1019,26 @@ tables, i18n key namespaces, files created)
   parity goldens byte-identical (nodes are content, not entities); the
   tools.ts gating trio now has live callers while the effect/recharge
   half stays PARKED with zero callers.
+  Phase 12 QA drift notes (2026-07-20): the corpse deny event's
+  requiredTier is the FIRST failing family in yield order (now pinned
+  both ways at seed 11); for a future corpse mixing tiers the single
+  toast can advertise a lower tier than the highest needed, revisit when
+  a tier-2+ family is authored. bestOwnedAnyGatherToolTier spans ALL
+  gathering professions, so a fishing rod re-opens a raised-tier corpse
+  premium pull (proven live in QA; inert through shipped content;
+  maintainer design call whether rods should count as skinning tools
+  when tier-2+ corpse families arrive). In normal play the client
+  pre-gate short-circuits before harvestNode, so the sim gatherDenied
+  fires mainly online and under direct drives; the sim gate is the
+  authoritative backstop, deliberate. Spectator sessions receive the
+  spectated player's gatherDenied toast (the generic personal-event
+  contract, inherited, not Phase 12-specific). The client pre-gate
+  checks the tool gate BEFORE readiness while the sim checks respawn
+  first; deliberate divergence, both orders pinned, documented at
+  decideGatherNodeAction. RELEASE-NOTES AWARENESS for v0.29.0: the
+  silent band cap applies retroactively to existing high-proficiency
+  rod-less anglers the moment the release ships (band 0 until they buy
+  the 60c/150c rods at trader_wilkes; 12b adds the visibility UX).
 - Phase 12b: (planned) the shared non-spell-cast predicate, the gather
   cast, the fishing bite minigame, rod synergy, placeholder cues; the
   Pin-cost appendix in phase-12b-gathering-rhythm.md is the pre-briefed

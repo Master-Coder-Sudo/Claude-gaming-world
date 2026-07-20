@@ -449,6 +449,39 @@ IWorld member; parity goldens byte-identical. Deferred: rod-synergy and cap visi
 node hover tooltip is desktop-pointer-only (mobile reads the minimap lock tint + denial
 toast).
 
+Phase 12 QA (2026-07-20): PASS with fixes, zero blocking. Verified off the merge a57e43b78
+into release/v0.29.0 (QA diff = the PR #2217 commits c139db6d5..4fa130aedf first-parent
+across the 59f9c42d2 sync, whose only cargo was the market landscape PR #2107, clean
+release-merge-audit on record). Method: validation matrix green at the untouched tip first
+(tsc plus the seventeen phase-touched suites), one Explore context load, then an
+adversarial-verify Workflow (three packet audits plus the four dispatch-matrix reviewers;
+every BLOCKING or SHOULD-FIX finding retried by two independent skeptics under
+code-verification and impact lenses; all seven audits delivered structured output first
+try), with a correctness probe suite driven through the real Sim and deleted in-tree
+(bare-hands tier-1 success, rng-free t2/t3 denies with exact event shapes, pick unlocks,
+per-profession owned-best, the herbalism arm, corpse deny and restore via withTier with
+identical claims and draws, silent band caps with and without rods, useItem rod casts,
+both-host denial liveness). Two SHOULD-FIX decisiveness holes fixed test-first with
+mutation verification: the fishing band min() proficiency arm was one-arm-only (a tier-3
+rod at band-0 proficiency now pins band 0; the pre-fix suite passed with the min collapsed
+to the rod arm), and requiredTier was never pinned at any value other than 2 (an
+owned-but-short iron pick at a tier-3 vein now pins requiredTier 3). Also landed: the
+herbalism deny/unlock arm through the real harvestNode, the corpse
+granted-with-tool-at-raised-tier arm, the FIRST-failing-family pin on the corpse deny
+event (asymmetric raised tiers both ways at the pre-hunted seed 11), a draw-count liveness
+pin on the determinism drive's fishing arm, withTier absent-component restore hygiene, and
+the gate-order comment correction in gather_node_interact.ts (the client pre-gate
+deliberately reports the lock before readiness while the sim checks respawn first; both
+orders were already pinned, the comment claimed they matched). Verified clean: the PR body
+references all five screenshot pairs, wiki:content regenerates no diff, no scope-creep
+timing mechanic, the parked tool-effect half has zero callers, rods stocked at the literal
+trader_wilkes. Deferred with reasons: the main.ts gate-wiring source pin (rename-fragile
+idiom; the sim/server deny is the authoritative backstop, so a dropped wire only costs the
+pre-gate line), the items.ts isGatherToolUse consistency swap (zero behavior change), the
+toolTierUnmet key composition duplication (two copies, below the rule of three), the
+hover-tooltip listener-logic test and the *_tooltip.ts painter-scan naming, and the
+minimap per-build tool-tier memo allocation. Drift notes in state.md.
+
 ### Phase 12b: Gathering rhythm
 - [ ] Gather cast (tool-tier and band scaled, floored); completion re-validates; move cancels free
 - [ ] The shared non-spell-cast predicate consolidates the eleven cast-id exemption sites
