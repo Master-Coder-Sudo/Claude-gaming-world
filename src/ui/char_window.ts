@@ -171,13 +171,13 @@ export interface CharWindowDeps extends PainterHostPresentation {
 
 // Maps each gathering profession id to its hud_chrome display-name key (issue
 // 1124). String-keyed like the sibling professions_window.ts GATHERING_NAME_KEYS
-// (and this file's CRAFT_NAME_KEYS): an id with no key here renders no row, so
-// Phase 11's fishing proficiency stays out of this section until the UI stage
-// adds its catalog key and row alongside the others.
+// (and this file's CRAFT_NAME_KEYS): an id with no key here renders no row
+// (fishing landed with Professions 2.0 Phase 11).
 const GATHERING_PROFESSION_LABEL_KEY: Record<string, TranslationKey> = {
   mining: 'hudChrome.gathering.mining',
   logging: 'hudChrome.gathering.logging',
   herbalism: 'hudChrome.gathering.herbalism',
+  fishing: 'hudChrome.gathering.fishing',
 };
 
 const SHARE_GLYPH =

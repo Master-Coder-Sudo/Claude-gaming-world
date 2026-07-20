@@ -792,7 +792,7 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
     quality: 'poor',
     sellValue: 1,
   },
-  // The prized rare catch, reelable from any water — a lucky hook.
+  // The prized rare catch, reelable from any water, a lucky hook.
   glimmerfin_koi: {
     id: 'glimmerfin_koi',
     name: 'Glimmerfin Koi',

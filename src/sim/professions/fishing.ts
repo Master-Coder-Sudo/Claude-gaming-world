@@ -15,7 +15,7 @@
 
 import { FISHING_RARE_ID, FISHING_TABLES_BY_BAND } from '../content/items';
 import { DEEPFEN_SHALLOWS_LAKE } from '../content/zone2';
-import { zoneAt } from '../data';
+import { ITEMS, zoneAt } from '../data';
 import { onFishCaughtForDeeds } from '../deeds';
 import { PLAYER_SWIM_DEPTH } from '../pathfind';
 import type { PlayerMeta } from '../sim';
@@ -151,6 +151,18 @@ export function completeFishing(ctx: SimContext, p: Entity, meta: PlayerMeta): v
     });
   }
   ctx.addItem(caught, 1, meta.entityId);
+  // Catch feedback event (Professions 2.0 Phase 11): personal (pid = the
+  // angler), text-free on purpose (the gatherResult idiom): the client logs
+  // its own localized reel-in line colored by the caught item's quality.
+  // Emitted ONLY here on the landed-catch path (never on the no-bite null
+  // branch, the bags-full got-away branch, or the codfather quest branch)
+  // and draws no rng, so the one-draw-per-catch contract is unaffected.
+  ctx.emit({
+    type: 'fishingResult',
+    pid: meta.entityId,
+    itemId: caught,
+    quality: ITEMS[caught]?.quality ?? 'common',
+  });
   // Book of Deeds: a real fish (never weeds or boots) from this zone's
   // waters feeds the per-zone first-cast mark.
   onFishCaughtForDeeds(ctx, meta, zoneAt(p.pos.z).id, caught);
