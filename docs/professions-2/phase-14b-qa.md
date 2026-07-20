@@ -38,10 +38,12 @@ Correctness agent:
   fee, tradeable again, signer and masterwork intact throughout.
 - Abuse probes (drive them, do not read them): replay/duplicate the unbind command (one fee,
   one clear); race the first trade against a concurrent trade of the same instance; a
-  crafted-then-banked-then-traded piece; vendor sell and buyback of a bound piece (buyback
+  crafted-then-banked-then-traded piece; the bound holder equipping and using the piece
+  (binding restricts onward trade only); vendor sell and buyback of a bound piece (buyback
   re-grants a plain copy today, pre-existing: confirm no NEW hole); trade the piece back to
-  the crafter (per the resolved semantics); a mixed offer of bound and unbound copies of the
-  same itemId (the Phase 3 same-itemId cross-contamination class: prove slot-accurate
+  the crafter (per the resolved semantics); after an unbind, the NEXT trade re-binding to
+  its new recipient per the resolved semantics; a mixed offer of bound and unbound copies of
+  the same itemId (the Phase 3 same-itemId cross-contamination class: prove slot-accurate
   refusal).
 - Verify the three maintainer decisions were implemented exactly as state.md resolved them,
   not defaulted.

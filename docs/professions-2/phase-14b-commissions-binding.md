@@ -27,10 +27,11 @@ which links #1298.
 - `src/sim/social/trade.ts`: `tradeSetOffer` (the def-level gate that silently drops quest and
   soulbound slots; instance-aware counting via ctx.countItem) and the two-phase
   `tradeConfirm` (removeOffer both sides then grantOffer both sides, the Phase 3 QA fix).
-- `src/sim/mail/post_office.ts` (`sendMail`: attachments validate against countFungibleItem,
-  so instances never mail) and `src/sim/market.ts` (`marketList`: same fungible-only rule,
-  the #1146 wave-2 note). These make first delivery face-to-face BY CONSTRUCTION; verify, do
-  not rebuild.
+- `src/sim/mail/post_office.ts` (the PostOffice `mailSend` / `mailSendResolved` paths:
+  attachments validate against countFungibleItem, so instances never mail) and
+  `src/sim/market.ts` (`marketList`: same fungible-only rule; real instance carriage is the
+  closed #1146's scope, re-homed to a named follow-up when picked up). These make first
+  delivery face-to-face BY CONSTRUCTION; verify, do not rebuild.
 - `src/sim/professions/training.ts`: `TRAINING_FEE_BY_TIER` and the `resolveTrain` deny-order
   shape, the master gold-sink service precedent the unbind service follows.
 - `src/sim/professions/crafting.ts` and `masterwork.ts`: the craft resolver the commission
@@ -70,7 +71,8 @@ STEP 1 - LOAD CONTEXT (do NOT read planning docs directly):
 Spawn one Explore agent to read and summarize: docs/professions-2/state.md (the 2026-07-20
 amendments block, the resolved decision rows, the Phase 13 surfaces entry),
 docs/professions-2/progress.md, this phase file, src/sim/social/trade.ts (tradeSetOffer and
-the two-phase tradeConfirm), src/sim/mail/post_office.ts sendMail and src/sim/market.ts
+the two-phase tradeConfirm), the PostOffice mailSend/mailSendResolved paths in
+src/sim/mail/post_office.ts and src/sim/market.ts
 marketList (the fungible-only refusals), src/sim/types.ts ItemInstancePayload,
 src/sim/professions/training.ts (the fee and deny-order precedent), the Phase 13 bind-on-trade
 enforcement arm as landed, src/sim/professions/crafting.ts, server/game.ts dispatch, and the
@@ -146,7 +148,8 @@ Out of scope (do NOT do in this phase):
 - The commission ORDER workflow (open/accept/deliver/cancel UI and state; #1298 stays open
   for it).
 - Recipient-tied required materials (needs order-time escrow, per #1298's notes).
-- Market surfacing of boundTo (#1146, wave 2).
+- Market surfacing of boundTo and instance carriage (the closed #1146's scope; re-homes to a
+  named follow-up when picked up, wave 2).
 - Any binding of NON-commission output (opt-in only).
 
 STEP 3 - VALIDATION + MULTI-AGENT REVIEW:

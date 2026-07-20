@@ -131,9 +131,10 @@ Agent ui deliverables:
   re-localizes through the sim_i18n matcher; the deed hook is left for Phase 15.
 - The "learnable at a master" hint row (the 2026-07-20 amendment): the crafting window,
   which lists known recipes only since Phase 9, gains one discoverability line per craft
-  section telling the player MORE recipes are taught at that craft's master (resolve the
-  master and station via the shared train_view.ts viewer predicates and
-  stationTypeForCraft; never a second knownness rule). Untrained ladders exist but are
+  section telling the player MORE recipes are taught at that craft's master (resolve
+  knownness via the shared train_view.ts viewer predicates and the station via the
+  sim-side stationTypeForCraft in src/sim/professions/stations.ts; never a second
+  knownness rule). Untrained ladders exist but are
   invisible today; this row routes players to them. Today's tokens, English-only t() key,
   both hosts, graphics-preset-identical; render it only when the viewer actually has
   unlearned trainer recipes for that craft (no noise for a fully-trained craft).

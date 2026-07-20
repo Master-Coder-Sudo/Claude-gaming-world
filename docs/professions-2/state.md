@@ -986,14 +986,14 @@ tables, i18n key namespaces, files created)
   accrual has no maxSkill cap on the drain path (shared, pre-existing
   semantics across all four professions; the wheel UI clamps display via
   the Phase 5 above-cap saturation pin).
-- Phase 13: (planned) disenchantItem/applyEnchant/salvageItem IWorld
-  members + wire commands; plus, per the 2026-07-20 amendments, the typed
-  disenchant reagents (hybrid model, same-phase consumers) and the
-  bind-on-trade primitive applied to them.
 - Phase 12b: (planned) the shared non-spell-cast predicate, the gather
   cast, the fishing bite minigame, rod synergy, placeholder cues; the
   Pin-cost appendix in phase-12b-gathering-rhythm.md is the pre-briefed
   re-pin list.
+- Phase 13: (planned) disenchantItem/applyEnchant/salvageItem IWorld
+  members + wire commands; plus, per the 2026-07-20 amendments, the typed
+  disenchant reagents (hybrid model, same-phase consumers) and the
+  bind-on-trade primitive applied to them.
 - Phase 14b: (planned) the commission marker, bind-on-first-trade
   enforcement, the master unbind service; blocked on the three flagged
   maintainer decisions in OPEN items.

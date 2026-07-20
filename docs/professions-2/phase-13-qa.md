@@ -75,7 +75,11 @@ PHASE-SPECIFIC QA EMPHASIS (probe these directly, not just by reading):
   boundTo), attempt the onward trade (refused, localized deny id, both hosts), and verify
   the enforcement arm is generic over the instance payload (Phase 14b extends it to gear:
   grep for reagent-specific conditionals in the gate and flag any). Verify mail and market
-  still refuse the instanced reagents (the face-to-face construction).
+  still refuse the instanced reagents (the face-to-face construction: the fungible-only
+  counting in the PostOffice mailSend/mailSendResolved paths and market.ts marketList).
+- The exclusions held: no cooking- or alchemy-keyed typed material exists, and no cooking
+  or alchemy recipe consumes a typed reagent (the deliberate both-sides exclusion); the
+  sink-sizing note landed in state.md's Tuning targets.
 
 STEP 3 - FIX: apply every BLOCKING and SHOULD-FIX finding; rerun the failed validation rows
 until green; commit with explicit paths (never git add -A), Conventional Commits with a body.

@@ -208,7 +208,9 @@ STEP 5 - ACCEPTANCE CRITERIA (do not mark complete until all check):
       requirement and proficiency band, floored; completion re-validates range, respawn,
       and capacity; moving cancels free.
 - [ ] All eleven exemption sites (plus the two new-cast joins) route through the shared
-      predicate; no site compares raw cast-id literals anymore.
+      predicate for the fishing/gather semantics; DEMON_HEAL_CAST_ID folds in only at sites
+      where its behavior was already byte-identical (per the sim deliverable), and any site
+      where it stays ad hoc is listed in state.md.
 - [ ] Fishing draws the hidden bite delay exactly once per cast; the bite fires a text-free
       personal SimEvent; the catch lands only on a pole re-press inside the
       server-authoritative window; a miss costs nothing but the cast.
@@ -272,10 +274,12 @@ that reds is a defect in the change, not an accepted cost.
   fishing" with remaining/total seconds, pinned LITERALLY in `tests/casting_command.test.ts`
   ("special-cases the fishing sentinel"). Under the bite model the readout must stay honest
   without leaking the bite time (e.g. no meaningful countdown during the waiting phase).
-  THREE coupled traps: (a) the current literal carries a grandfathered em dash exempted as a
-  v0.7 backstop via ALLOW_V07_SLASH in tests/localization_fixes.test.ts; any reword must drop
-  the em dash per the repo rule; (b) the readout is status-registry-backed English (not a t()
-  catalog key), so a reword updates src/ui/i18n.status.json via the scan, not a catalog; (c)
+  THREE coupled traps: (a) the current literal carries a grandfathered em dash that predates
+  the repo no-dash rule (the readout itself is an ALLOW_V07_SLASH English-backstop surface in
+  tests/localization_fixes.test.ts, an i18n exemption, NOT a dash exemption); any reword must
+  drop the em dash per the repo rule; (b) the readout is status-registry-backed English (not
+  a t() catalog key), so a reword updates src/ui/i18n.status.json via the scan, not a
+  catalog; (c)
   the localization_fixes probe substituter deliberately avoids desyncing the fishing/overpower
   backstop forms that share "total/remaining"; keep that coupling intact.
 - Parity: `professions_gather` (tests/parity/scenarios.ts, golden
@@ -285,10 +289,11 @@ that reds is a defect in the change, not an accepted cost.
   be RE-HUNTED against the new drive shape. Own reviewed commit.
 - Parity: the two fishing-cancel scenarios (`c4a_casting_lifecycle`, snapshot label
   "warlock-fishing-cancel", and `fiesta_midcast_kill`, label "midcast-fishcancel") BYPASS
-  startFishing (the drive assigns castingAbility/castRemaining/castTotal directly), so they
-  do NOT regen from the bite-delay draw; they only move if the cancel semantics or the
-  assigned fields change. Verify rather than regen; their checkpoint samples pin the
-  castTotal 5 shape the drive itself assigns.
+  startFishing (the drive assigns the casting fields directly: c4a sets
+  castingAbility/castRemaining/castTotal, fiesta sets only castingAbility and castRemaining
+  and leaves castTotal at its prior value), so they do NOT regen from the bite-delay draw;
+  they only move if the cancel semantics or the assigned fields change. Verify rather than
+  regen; whatever field shape each drive assigns is what its checkpoint samples pin.
 - Parity storage decision (make it EXPLICITLY, before coding): the digest harness
   (tests/parity/trace.ts) samples entities and player meta through exclude lists then
   canonicalizes with omitDefaults, so a new field ESCAPES all 56 goldens only while its value

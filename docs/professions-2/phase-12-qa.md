@@ -114,7 +114,8 @@ STEP 4 - UPDATE DOCS + MEMORY:
 STEP 5 - FINAL RESPONSE FORMAT:
 End your turn with: QA verdict (PASS / PASS-WITH-FOLLOWUPS / FAIL), counts of BLOCKING /
 SHOULD-FIX / NICE-TO-HAVE found and fixed, deferred items, and a one-line handoff for the
-Phase 13 implementation session.
+Phase 12b implementation session (Gathering rhythm follows Phase 12 in the restructured
+order).
 
 STOPPING RULES:
 - Stop and surface to the user if any BLOCKING item cannot be fixed without changing the phase

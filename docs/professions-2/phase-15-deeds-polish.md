@@ -171,7 +171,8 @@ INVARIANTS THIS PHASE MUST KEEP:
   ItemDef players may hold; no hand-edits to generated files.
 
 Out of scope (do NOT do in this phase):
-- Anything wave 2: market/mail instance carriage (#1146), the commission ORDER workflow
+- Anything wave 2: market/mail instance carriage (the closed #1146's scope, re-homed to a
+  named follow-up when picked up), the commission ORDER workflow
   (#1298; the binding primitive and the Maker's Bond landed in Phases 13 and 14b),
   Jack of All Trades (#1296), monster-harvest proficiency, batch salvage UI (single-item
   salvage landed in Phase 13), battlefield experience

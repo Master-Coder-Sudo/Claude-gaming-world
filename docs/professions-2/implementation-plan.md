@@ -1,9 +1,10 @@
 # Professions 2.0: implementation plan
 
 The canonical workflow and phase index. Each phase is a fresh Claude Code
-session running its own starter prompt from `phase-NN-*.md`; each is followed
-by its QA session (`phase-NN-qa.md`). Locked decisions live in `state.md`;
-the vision lives in `brainstorm.md`.
+session running its own starter prompt from its phase file (`phase-NN-*.md`,
+or `phase-NNb-*.md` for the inserted 12b/14b phases); each is followed
+by its QA session (the matching `-qa.md` twin). Locked decisions live in
+`state.md`; the vision lives in `brainstorm.md`.
 
 ## Team workflow (every phase)
 
@@ -129,13 +130,15 @@ Phase 1.
 | 12b | Gathering rhythm | Gather cast scaled by tool tier and band; the fishing bite minigame with rod synergy; placeholder cues; the pin-cost appendix | sim, ui, tests |
 | 13 | Enchanting reachable | Disenchant, enchant-apply, and salvage on IWorld/wire/UI in both hosts; typed reagents with same-phase consumers; the bind-on-trade primitive | world_api, net, server, ui, content |
 | 14 | Attunement quests and nudges | Lore quests, work orders, and tier mail at the masters; nudges; celebration; the learnable-at-a-master hint | content, sim, ui |
-| 14b | Commissions and the Maker's Bond | Opt-in commission crafts bind on first trade; master unbind gold sink; resolves #1298 semantics | sim, server, ui |
+| 14b | Commissions and the Maker's Bond | Opt-in commission crafts bind on first trade; master unbind gold sink; resolves #1298 semantics | sim, world_api, net, server, ui |
 | 15 | Deeds, tuning, and polish | Universal profession deeds, economy tuning, the SFX completion sweep, wiki rewrite, final gate | content, docs, tests |
 
-Wave 2+ (NOT this packet, tracked on epic #1866): market/mail instance
-carriage (#1146), the commission ORDER workflow of #1298, Jack of All
-Trades (#1296), monster-harvest proficiency, battlefield experience
-expansion, item biographies, tool effects, jewelcrafting/inscription
-depth. (Salvage wiring left this list on 2026-07-17; it joins Phase 13.
-The binding enforcement half of #1298 left it on 2026-07-20; it is
-Phase 14b, issue #2207.)
+Wave 2+ (NOT this packet; epic #1866 is the umbrella for the packet AND
+its follow-ups, so wave-2 items live there beside the in-packet
+sub-issues): market/mail instance carriage (the closed #1146's scope,
+re-homed to a named follow-up when picked up), the commission ORDER
+workflow of #1298, Jack of All Trades (#1296), monster-harvest
+proficiency, battlefield experience expansion, item biographies, tool
+effects, jewelcrafting/inscription depth. (Salvage wiring left this list
+on 2026-07-17; it joins Phase 13. The binding enforcement half of #1298
+left it on 2026-07-20; it is Phase 14b, issue #2207.)

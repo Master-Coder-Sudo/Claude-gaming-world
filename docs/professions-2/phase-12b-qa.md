@@ -37,8 +37,9 @@ Correctness agent:
 - Verify every deliverable and acceptance criterion against the real code.
 - Run the phase's validation commands and record each result.
 - Exercise the REAL behavior in the offline sim: a bare gather cast at base speed, a faster
-  cast with a higher-tier tool, the floor, a cancel by moving, completion denial after the
-  node respawn state changes mid-cast and after bags fill mid-cast; a fishing cast through
+  cast with a higher-tier tool, a faster cast at a higher proficiency band, the floor, a
+  cancel by moving, completion denial after the node respawn state changes mid-cast, after
+  bags fill mid-cast, and after walking out of range mid-cast; a fishing cast through
   bite and reel inside the window, a miss one tick past the deadline, an immediate recast,
   rod synergy on both the delay and the window; the codfather branch as pinned.
 - Prove the anti-cheat invariant with a probe, not a read: walk every broadcast snapshot
