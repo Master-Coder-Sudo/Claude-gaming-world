@@ -23,6 +23,7 @@ import type { SimContext } from '../sim_context';
 import { type Entity, FISHING_CAST_ID, FISHING_CAST_TIME, isConsuming } from '../types';
 import { groundHeight, waterLevelAt } from '../world';
 import { queueGatheringGrant } from './gathering';
+import { PROFICIENCY_BAND_THRESHOLDS, proficiencyBandFor } from './proficiency_bands';
 import { bestOwnedGatherToolTier, canGatherTier } from './tools';
 
 const SWIM_DEPTH = PLAYER_SWIM_DEPTH; // ground this far under the water line = deep water
@@ -32,21 +33,16 @@ const THE_CODFATHER_ITEM_ID = 'the_codfather';
 const THE_CODFATHER_QUEST_ID = 'q_the_codfather';
 
 // Catch rarity ladder band boundaries (Professions 2.0 Phase 11): the minimum
-// fishing proficiency for each of the three catch tables. The thirds of the
-// Fishing maxSkill (300) line up with the shipped 100-proficiency deed
-// milestones: band 0 covers 0-99, band 1 covers 100-199, band 2 covers 200+.
-// Exported so tests can pin the boundaries.
-export const FISHING_BAND_THRESHOLDS = [0, 100, 200] as const;
+// fishing proficiency for each of the three catch tables. Since Phase 12b the
+// ladder itself lives in proficiency_bands.ts (gathering.ts shares it for the
+// gather-cast duration); these exports delegate so every existing import and
+// test pin keeps resolving with identical values.
+export const FISHING_BAND_THRESHOLDS = PROFICIENCY_BAND_THRESHOLDS;
 
 // Which catch table band a given fishing proficiency selects. Pure state (no
-// rng), so it never perturbs the one-draw-per-catch rng contract. A NaN
-// proficiency falls through both comparisons to band 0, matching the
-// proficiency-0 default.
-export function fishingBandFor(proficiency: number): 0 | 1 | 2 {
-  if (proficiency >= FISHING_BAND_THRESHOLDS[2]) return 2;
-  if (proficiency >= FISHING_BAND_THRESHOLDS[1]) return 1;
-  return 0;
-}
+// rng), so it never perturbs the one-draw-per-catch rng contract; NaN falls
+// to band 0 (see proficiencyBandFor).
+export const fishingBandFor = proficiencyBandFor;
 
 function hasFishableWaterAhead(ctx: SimContext, p: Entity): boolean {
   const sin = Math.sin(p.facing);

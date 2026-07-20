@@ -48,6 +48,7 @@ import {
   dist2d,
   FACING_HOLD_DIST,
   FISHING_CAST_ID,
+  GATHER_CAST_ID,
   isFormAuraKind,
   isNonSpellCast,
   MELEE_ARC,
@@ -305,6 +306,13 @@ export function updateCasting(ctx: SimContext, p: Entity, meta: PlayerMeta): voi
       ctx.completeFishing(p, meta);
       return;
     }
+    // Gather cast completion (Phase 12b): route to the gathering module and
+    // return before fireQueuedCast, like fishing above (a press can never
+    // queue against a non-spell cast, see castAbility's queue exemption).
+    if (castId === GATHER_CAST_ID) {
+      ctx.completeGatherCast(p, meta);
+      return;
+    }
     // Ice Floes (mage choice row): a COMPLETED hard cast spends one protected
     // use whether or not the caster actually moved (the buff is a banked
     // window, not a refund). Fishing above never spends one. Draws no rng.
@@ -398,6 +406,13 @@ export function cancelCast(ctx: SimContext, p: Entity): void {
   // an interrupted cast never completed, so its queued follow-up is dropped too
   p.queuedCastAbility = null;
   p.queuedCastAim = null;
+  // Phase 12b hidden per-cast state: unconditional inert writes (all three
+  // are already '' / 0 on every non-fishing/gather cancel path), so every
+  // existing cancel stays byte-identical while a cancelled gather or fishing
+  // cast can never leak a stale node id or bite deadline into a later cast.
+  p.gatherCastNodeId = '';
+  p.fishBiteAtTick = 0;
+  p.fishReelDeadlineTick = 0;
   ctx.emit({ type: 'castStop', entityId: p.id, success: false });
 }
 

@@ -2736,6 +2736,20 @@ export interface Entity {
   // aimed at, captured (server-clamped to range) when the cast begins and read by
   // its area effects when it resolves. null for normal entity/self casts.
   castAim: Vec3 | null;
+  // Hidden per-cast state (Professions 2.0 Phase 12b). All three are
+  // transient: initialized inert ('' / 0) at entity creation, nonzero ONLY
+  // between a real cast start and its end, and cleared on EVERY end path
+  // (completion, reel, miss, cancelCast). Parity contract: while inert they
+  // canonicalize away (omitDefaults), so existing goldens stay byte-identical;
+  // a future scenario sampling mid-cast regenerates. Anti-cheat contract:
+  // never written to any wire snapshot field (wireEntity emits explicit
+  // fields only), so the bite timing stays server-hidden.
+  /** Node id a running gather cast resolves against at completion ('' = none). */
+  gatherCastNodeId: string;
+  /** Hidden seeded sim tick the fishing bite fires on (0 = no pending bite). */
+  fishBiteAtTick: number;
+  /** Sim-tick deadline for the fishing reel re-press (0 = window not armed). */
+  fishReelDeadlineTick: number;
   channeling: boolean;
   channelTickTimer: number;
   channelTickEvery: number;
