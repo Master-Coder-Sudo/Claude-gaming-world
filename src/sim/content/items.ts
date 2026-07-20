@@ -1907,7 +1907,7 @@ export const FISHING_TABLES_BY_BAND: Record<string, FishingEntry[]>[] = [
 ];
 
 // The band-0 tables, kept under the original export name so pre-Phase-11
-// consumers (src/sim/data.ts re-export, the deeds zone-key guard) resolve
+// consumers (the deeds zone-key guard in tests/deeds_content.test.ts) resolve
 // unchanged. Identical object as FISHING_TABLES_BY_BAND[0], so its rows are the
 // shipped rows byte for byte.
 export const FISHING_TABLES: Record<string, FishingEntry[]> = FISHING_TABLES_BY_BAND[0];
