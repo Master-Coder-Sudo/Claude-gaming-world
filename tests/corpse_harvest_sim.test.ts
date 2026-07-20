@@ -528,11 +528,12 @@ describe('corpse premium-arm tool gating (Professions 2.0 Phase 12)', () => {
   // re-implementation. Restored before any assertion runs.
   function withTier(component: string, tier: number, body: () => void): void {
     const tiers = MONSTER_MATERIAL_TIERS as Record<string, number>;
+    const prior = tiers[component];
     tiers[component] = tier;
     try {
       body();
     } finally {
-      tiers[component] = 1;
+      tiers[component] = prior;
     }
   }
 
