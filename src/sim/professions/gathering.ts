@@ -324,9 +324,11 @@ export function harvestNode(ctx: SimContext, nodeId: string, pid?: number): bool
   // a denial never touches the respawn timer, never draws rng, and never
   // consumes anything.
   const professionId = NODE_HARVEST_TABLE[node.type].professionId;
+  // One bag scan serves both the tool gate and the cast-duration formula
+  // below (pure lookup, no rng, so hoisting it cannot shift the draw order).
+  const ownedToolTier = bestOwnedGatherToolTier(meta.inventory, professionId, ITEMS);
   if (node.tier > BARE_HANDS_TOOL_TIER) {
-    const best = bestOwnedGatherToolTier(meta.inventory, professionId, ITEMS);
-    if (!canGatherTier(best, node.tier)) {
+    if (!canGatherTier(ownedToolTier, node.tier)) {
       ctx.emit({
         type: 'gatherDenied',
         pid: meta.entityId,
@@ -352,7 +354,7 @@ export function harvestNode(ctx: SimContext, nodeId: string, pid?: number): bool
   if (p.sitting) ctx.standUp(p);
   const duration = gatherCastDurationSec(
     node.tier,
-    bestOwnedGatherToolTier(meta.inventory, professionId, ITEMS),
+    ownedToolTier,
     proficiencyBandFor(meta.gatheringProficiency[professionId]),
   );
   p.castingAbility = GATHER_CAST_ID;
