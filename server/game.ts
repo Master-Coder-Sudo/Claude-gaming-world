@@ -82,6 +82,7 @@ import {
   isOverheadEmoteId,
   STABLE_TIMER_WIRE_VERSION,
   type StableTimerWireVersion,
+  type VcSharedCupInfo,
   type VcViewerReadout,
 } from '../src/world_api';
 import { recordOnlineSample } from './admin_db';
@@ -1238,7 +1239,7 @@ export class GameServer {
   // Realm-wide Vale Cup readout, built and stringified once per broadcast pass and
   // shared across every viewer (keyed on sim.tickCount inside selfWireJson), the
   // same once-per-tick memo shape as wireCache / partyFrameGlobalsCache.
-  private readonly realmReadout = createRealmReadoutMemo();
+  private readonly realmReadout = createRealmReadoutMemo<VcSharedCupInfo>();
   // When the realm-wide Vale Cup readout is next due, tracked realm-global (not
   // per session) so every viewer still gates together in one pass and the memo
   // above builds once. `>=` against this, never `tickCount % interval`:
