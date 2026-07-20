@@ -1526,6 +1526,7 @@ export class ClientWorld implements IWorld {
   private actionBarRestoreResolved = false;
   private actionBarSaveTimer: ReturnType<typeof setTimeout> | null = null;
   private actionBarSaveLastJson: string | null = null;
+  private actionBarSavePending: ActionBarLayout | null = null;
   // Soft (cosmetic) profanity terms the server sends in `hello` and pushes via
   // `censor` frames when an admin edits the list. The HUD drains these to mask
   // chat locally when the player's filter is on. Hard words never arrive here.
@@ -1575,6 +1576,16 @@ export class ClientWorld implements IWorld {
   // resume, force a real state check and retry immediately instead of
   // waiting for a close event or the rest of the backoff delay.
   private readonly handleVisibilityChange = (): void => {
+    if (document.visibilityState === 'hidden') {
+      // Backgrounding (tab switch, tab close, phone lock) is the last reliable
+      // beat to get an in-flight debounced layout edit to the server while the
+      // socket is still open, so a "rearrange then close the tab" never strands
+      // the final edit for a second device. Bounded: a no-op unless a save is
+      // pending. A raw tab close routes through pagehide, not sendLogout, so this
+      // is what covers it.
+      this.flushActionBarLayoutSave();
+      return;
+    }
     if (document.visibilityState !== 'visible') return;
     if (this.sessionEnded) return;
     if (this.ws.readyState === WebSocket.OPEN) return;
@@ -1668,6 +1679,11 @@ export class ClientWorld implements IWorld {
   }
 
   private endSession(): void {
+    // Flush a pending layout save BEFORE teardown, while the socket is still open
+    // and `connected` is still true: close() calls this before ws.close() and
+    // sendLogout() calls it before the logout frame, so the final edit is not
+    // lost to a deliberate logout within the debounce window.
+    this.flushActionBarLayoutSave();
     this.sessionEnded = true;
     this.failPendingCommandOutcomes();
     clearInterval(this.sendTimer);
@@ -3165,11 +3181,29 @@ export class ClientWorld implements IWorld {
     const json = JSON.stringify(clean);
     if (json === this.actionBarSaveLastJson) return;
     this.actionBarSaveLastJson = json;
+    this.actionBarSavePending = clean;
     if (this.actionBarSaveTimer !== null) clearTimeout(this.actionBarSaveTimer);
-    this.actionBarSaveTimer = setTimeout(() => {
+    this.actionBarSaveTimer = setTimeout(
+      () => this.flushActionBarLayoutSave(),
+      ACTION_BAR_SAVE_DEBOUNCE_MS,
+    );
+  }
+
+  // Send any debounced-but-not-yet-sent layout NOW. Called on the debounce timer
+  // and, critically, when the session ends or the page backgrounds (endSession +
+  // the visibilitychange 'hidden' branch), so the final sub-debounce edit reaches
+  // the server before the socket goes away instead of being stranded (the local
+  // mirror would still be right on the same device, but a second device would
+  // miss it). No-op unless a save is pending.
+  private flushActionBarLayoutSave(): void {
+    if (this.actionBarSaveTimer !== null) {
+      clearTimeout(this.actionBarSaveTimer);
       this.actionBarSaveTimer = null;
-      this.cmd({ cmd: 'save_hotbar_layout', layout: clean });
-    }, ACTION_BAR_SAVE_DEBOUNCE_MS);
+    }
+    const pending = this.actionBarSavePending;
+    if (pending === null) return;
+    this.actionBarSavePending = null;
+    this.cmd({ cmd: 'save_hotbar_layout', layout: pending });
   }
   takeActionBarLayoutRestore(): ActionBarLayoutRestore | undefined {
     const restore = this.actionBarRestore;

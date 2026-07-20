@@ -10,6 +10,7 @@ function bareClient(): { client: any; sent: any[] } {
   const client: any = Object.create(ClientWorld.prototype);
   client.actionBarSaveTimer = null;
   client.actionBarSaveLastJson = null;
+  client.actionBarSavePending = null;
   const sent: any[] = [];
   client.cmd = (payload: any) => sent.push(payload);
   return { client, sent };
@@ -55,6 +56,25 @@ describe('ClientWorld.saveActionBarLayout (debounce + dedup)', () => {
     const { client, sent } = bareClient();
     client.saveActionBarLayout({ forms: 'garbage' } as unknown as ActionBarLayout);
     vi.advanceTimersByTime(1600);
+    expect(sent).toHaveLength(0);
+  });
+
+  it('flushes a pending debounced save immediately (logout / tab-close path)', () => {
+    const { client, sent } = bareClient();
+    client.saveActionBarLayout(A);
+    expect(sent).toHaveLength(0); // still inside the debounce window
+    client.flushActionBarLayoutSave();
+    expect(sent).toHaveLength(1);
+    expect(sent[0].cmd).toBe('save_hotbar_layout');
+    expect(sent[0].layout).toEqual(A);
+    // The cancelled debounce timer must not then fire a duplicate.
+    vi.advanceTimersByTime(1600);
+    expect(sent).toHaveLength(1);
+  });
+
+  it('flush with nothing pending is a no-op', () => {
+    const { client, sent } = bareClient();
+    client.flushActionBarLayoutSave();
     expect(sent).toHaveLength(0);
   });
 });
