@@ -536,6 +536,19 @@ describe('fishing band tool cap (Professions 2.0 Phase 12)', () => {
     expect(catchSequence(sim, meta, 18)).toEqual(B2_SEQ_4242);
   });
 
+  it('a high rod never buys bands: proficiency band 0 with the tier-3 rod stays band 0', () => {
+    const sim = makeSim(4242);
+    const meta = sim.meta(sim.playerId)!;
+    // Proficiency 0 resolves band 0 while the silverstream rod allows band 2,
+    // so the effective band must take the PROFICIENCY arm of min(profBand,
+    // allowedBand): a fresh buyer of the 150c rod cannot fish the band-2
+    // table. Every other cap test binds the rod arm or the equal case, so
+    // this is the only guard against the min() collapsing to allowedBand
+    // alone. B0 diverges from B1/B2 at index 1, so 12 casts are decisive.
+    sim.addItem('silverstream_fishing_rod', 1);
+    expect(catchSequence(sim, meta, 12)).toEqual(B0_SEQ_4242.slice(0, 12));
+  });
+
   it('a pole-only proficiency-0 angler is byte-identical to the shipped pre-phase walk', () => {
     const sim = makeSim(4242);
     const meta = sim.meta(sim.playerId)!;

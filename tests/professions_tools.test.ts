@@ -185,6 +185,40 @@ describe('sim-level node access gating (Professions 2.0 Phase 12)', () => {
     expect(sim.countItem('thorium_ore', pid)).toBeGreaterThanOrEqual(1);
   });
 
+  it('an owned tool one tier short still denies, and the event carries the real node tier (3)', () => {
+    const { sim, pid } = simAtNode(T3_ORE);
+    sim.addItem('iron_mining_pick', 1, pid); // mining tier 2 at a tier-3 vein
+    sim.drainEvents();
+    expect(sim.harvestNode(T3_ORE, pid)).toBe(false);
+    // requiredTier must be the node's tier, not a constant: every other deny
+    // pin in the suite reads 2, so this arm is the guard against a
+    // hardcoded-2 (or viewer-tier-plus-1) regression lying in the toast.
+    expect(sim.drainEvents().filter((e) => e.type === 'gatherDenied')).toEqual([
+      { type: 'gatherDenied', pid, surface: 'node', professionId: 'mining', requiredTier: 3 },
+    ]);
+  });
+
+  it('the herbalism arm denies and unlocks through the real harvestNode like the others', () => {
+    const T2_HERB = 'herb_mirefen_t2';
+    const bare = simAtNode(T2_HERB);
+    bare.sim.drainEvents();
+    expect(bare.sim.harvestNode(T2_HERB, bare.pid)).toBe(false);
+    expect(bare.sim.drainEvents().filter((e) => e.type === 'gatherDenied')).toEqual([
+      {
+        type: 'gatherDenied',
+        pid: bare.pid,
+        surface: 'node',
+        professionId: 'herbalism',
+        requiredTier: 2,
+      },
+    ]);
+    const tooled = simAtNode(T2_HERB);
+    tooled.sim.addItem('bronze_sickle', 1, tooled.pid); // herbalism tier 2
+    tooled.sim.drainEvents();
+    expect(tooled.sim.harvestNode(T2_HERB, tooled.pid)).toBe(true);
+    expect(tooled.sim.drainEvents().some((e) => e.type === 'gatherDenied')).toBe(false);
+  });
+
   it('mixed-profession bags resolve per profession: mining tier 3 never lends logging its tier', () => {
     const { sim, pid } = simAtNode(T2_WOOD);
     sim.addItem('mithril_mining_pick', 1, pid); // mining tier 3

@@ -600,12 +600,21 @@ describe('Phase 12 determinism (same seed, same drive)', () => {
       sim.entities.set(wolf.id, wolf);
       sim.harvestCorpse(wolf.id, ['hide'], pid);
       // A band-capped catch: band-1 proficiency with no rod resolves band 0.
+      // The draw count proves the arm is LIVE (completeFishing has no water
+      // gate of its own, but an early-return regression would leave it 0).
       meta.gatheringProficiency.fishing = 150;
-      completeFishing(sim.ctx, p, meta);
+      let fishDraws = 0;
+      sim.rng.setObserver(() => fishDraws++);
+      try {
+        completeFishing(sim.ctx, p, meta);
+      } finally {
+        sim.rng.setObserver(null);
+      }
       events.push(...sim.drainEvents());
       sim.tick();
       return {
         events,
+        fishDraws,
         ore: sim.countItem('iron_ore', pid),
         proficiency: { ...meta.gatheringProficiency },
         nodeReady: sim.nodeHarvestableByMeFor('ore_mirefen_t2', pid),
@@ -619,6 +628,8 @@ describe('Phase 12 determinism (same seed, same drive)', () => {
     expect(a.events.some((e) => (e as { type: string }).type === 'gatherResult')).toBe(true);
     expect(a.ore).toBeGreaterThanOrEqual(1);
     expect(a.nodeReady).toBe(false);
+    // Non-degenerate fishing arm: exactly the one band-table draw ran.
+    expect(a.fishDraws).toBe(1);
   });
 });
 
