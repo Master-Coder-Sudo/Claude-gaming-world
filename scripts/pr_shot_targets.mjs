@@ -635,25 +635,28 @@ export const TARGETS = [
         document.querySelector('.tut-skip')?.click();
         document.querySelector('.gpu-notice-dismiss')?.click();
       });
-      await page.evaluate((opts) => {
-        const game = window.__game;
-        const meshes = game?.renderer?.gatherNodeMeshes ?? [];
-        const byId = (id) => meshes.find((m) => m.userData?.gatherNodeId === id);
-        // ore_mirefen_t2 exists only on the Phase 12 tree; ore_mirefen_1 is the
-        // pre-phase vein 12 yd away, the honest before-side stand-in.
-        const mesh = byId('ore_mirefen_t2') ?? byId('ore_mirefen_1') ?? meshes[0];
-        const p = game?.world?.player;
-        if (!mesh || !p) return;
-        if (opts.pickup) game.world.addItem(opts.pickup, 1);
-        // The minimap variant stands off the vein so the lock-tinted marker
-        // is not hidden under the player arrow at the map centre.
-        const off = opts.standOff ? 14 : 2.5;
-        p.pos.x = mesh.position.x + off;
-        p.pos.y = mesh.position.y;
-        p.pos.z = mesh.position.z + off;
-        p.facing = Math.atan2(mesh.position.x - p.pos.x, mesh.position.z - p.pos.z);
-        window.__p12ShotNodeId = mesh.userData?.gatherNodeId ?? null;
-      }, { pickup: variant?.pickup ?? null, standOff: Boolean(variant?.standOff) });
+      await page.evaluate(
+        (opts) => {
+          const game = window.__game;
+          const meshes = game?.renderer?.gatherNodeMeshes ?? [];
+          const byId = (id) => meshes.find((m) => m.userData?.gatherNodeId === id);
+          // ore_mirefen_t2 exists only on the Phase 12 tree; ore_mirefen_1 is the
+          // pre-phase vein 12 yd away, the honest before-side stand-in.
+          const mesh = byId('ore_mirefen_t2') ?? byId('ore_mirefen_1') ?? meshes[0];
+          const p = game?.world?.player;
+          if (!mesh || !p) return;
+          if (opts.pickup) game.world.addItem(opts.pickup, 1);
+          // The minimap variant stands off the vein so the lock-tinted marker
+          // is not hidden under the player arrow at the map centre.
+          const off = opts.standOff ? 14 : 2.5;
+          p.pos.x = mesh.position.x + off;
+          p.pos.y = mesh.position.y;
+          p.pos.z = mesh.position.z + off;
+          p.facing = Math.atan2(mesh.position.x - p.pos.x, mesh.position.z - p.pos.z);
+          window.__p12ShotNodeId = mesh.userData?.gatherNodeId ?? null;
+        },
+        { pickup: variant?.pickup ?? null, standOff: Boolean(variant?.standOff) },
+      );
       await wait(1200);
       if (variant?.harvest) {
         // Tap-harvest through the real IWorld command: denied on the gated
