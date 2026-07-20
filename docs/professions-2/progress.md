@@ -394,6 +394,41 @@ surfaces are covered before/after). QA probe-first: the extraction commit 62ee26
 move-not-rewrite, band-1 liveness at proficiency 150, and the live GameServer gprof round
 trip suite.
 
+Phase 11 QA (2026-07-20): PASS with fixes, zero blocking. Verified off the merge
+15c9794db9 into release/v0.29.0 (QA diff = the PR #2197 commits first-parent across the
+83b929398 sync, whose only cargo was the Discord invite-rotation revert). Method:
+validation matrix green at the untouched tip first (the matrix suites plus tests/parity,
+925 tests, tsc clean), one Explore context load, then an adversarial-verify Workflow (3
+packet audits + the 5 dispatch-matrix reviewers; every nontrivial finding retried by two
+independent skeptics under distinct lenses; all audits delivered structured output first
+try) plus a correctness probe suite run and deleted in-tree (band boundaries live at
+99/100/199/200, startFishing deny arms, codfather full-bags, col_glimmerfin off a real
+fished koi, nonzero persistence round trips). The extraction stopping rule never
+triggered: move-not-rewrite confirmed at line level, draw order and observable behavior
+unchanged, the two sanctioned additions (fishingResult emit, grant queue) draw-free after
+the single roll. The one guard regression found and fixed: the S3 drift guard's scan list
+was not extended to src/sim/professions/fishing.ts, so the three relocated literals whose
+only emitters now live there (no-bite, rare catch, face-fishable-water) had silently lost
+reword-drift protection (matchers unchanged, zero runtime impact; the guard now reds on a
+reword, mutation-verified). Coverage closed test-first, each pin mutation-verified: the
+band-2 top-band liveness literal (B2_SEQ_4242, diverging from the band-1 walk exactly
+where band 2 lands the koi and band 1 an empty hook), the codfather over-capacity
+force-add (the quest soft-lock defense), col_glimmerfin on the fished path, the
+startFishing deny arms plus the fixed 5 s zero-draw cast start, negative band input, the
+NONZERO fishing persistence round trip (every prior fixture carried fishing 0), and the
+ACCEPTED rollback caveat pin (a stripped-key reload re-zeroes fishing only, the other
+three professions survive). Cleanup: the data.ts FISHING_RARE_ID / FISHING_TABLES
+re-export arm, left consumer-less by the extraction, dropped. Deferred with reasons: a
+char_window DOM-level gathering test (the undefined-key skip arm is unreachable by
+construction: rows come from the fixed client-side GATHERING_PROFESSION_IDS list, and the
+label-map tripwire plus the wheel-window DOM pins cover the reachable arm), a
+vale-fallback cast test (unreachable via zoneAt: ZONES is exactly the three tabled zones,
+clamped at the strip ends), the SWIM_DEPTH deep-water alias now at four copies
+(extraction chore candidate, drift note in state.md), gathering accrual past maxSkill
+(pre-existing semantics shared with node harvests across all four professions; the wheel
+UI clamps via the Phase 5 above-cap saturation pin), and the catchLine unknown-item
+fallback arm (defensive, unreachable today).
+
 ### Phase 12: Base tool tier gating
 - [ ] Nodes carry tiers; tool tier + skill gate node and corpse-material access
 - [ ] The 15 existing tools change outcomes; stale no-op test pin replaced
