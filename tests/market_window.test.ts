@@ -12,6 +12,7 @@ const componentsCss = readFileSync(
   new URL('../src/styles/components.css', import.meta.url),
   'utf8',
 );
+const hud = readFileSync(new URL('../src/ui/hud.ts', import.meta.url), 'utf8');
 
 describe('market_window: no magic values', () => {
   it('carries no literal color in TS (colors live in the extracted stylesheet/tokens)', () => {
@@ -88,12 +89,36 @@ describe('market_window: desktop docking with bags (PR #2107 review round 4)', (
     // Reuses the body.bank-open docking pattern instead of a viewport-width-dependent
     // width cap: market's core Sell-tab workflow needs bags always fully visible
     // alongside it, on every viewport width, not just the ones a cap happens to cover.
+    expect(componentsCss).toContain('body.market-open {\n    --bank-dock-gap: 8px;\n  }');
     expect(componentsCss).toContain('body.market-open #market-window {\n    left: 50%;');
-    expect(componentsCss).toContain(
-      'transform: translateX(calc(-100% - var(--bank-dock-gap, 8px)));',
-    );
+    expect(componentsCss).toContain('transform: translateX(calc(-100% - var(--bank-dock-gap)));');
     expect(componentsCss).toContain('body.market-open #bags {\n    left: 50%;');
-    expect(componentsCss).toContain('transform: translateX(var(--bank-dock-gap, 8px));');
+    expect(componentsCss).toContain('transform: translateX(var(--bank-dock-gap));');
+  });
+
+  it('re-clamps #market-window max-width against half the dock split, not the full viewport (PR #2107 review round 4 follow-up)', () => {
+    // The generic .window max-width clamp (layout.css) is computed against the FULL
+    // app viewport, so it never bites on the half the dock actually leaves this
+    // window: #market-window's left edge used to clip outside #ui on common desktop
+    // widths below ~1752px. This narrower clamp keeps the docked pair on-screen.
+    const dockBlock = componentsCss.slice(
+      componentsCss.indexOf('body.market-open #market-window {'),
+    );
+    const block = dockBlock.slice(0, dockBlock.indexOf('body.market-open #bags {'));
+    expect(block).toContain('max-width: calc(');
+    expect(block).toContain('var(--app-vw, 100vw) / var(--window-scale) / 2');
+    expect(block).toContain('var(--bank-dock-gap)');
+  });
+
+  it('exempts the market cluster from the window-cascade position bake (mirrors the bank/vendor guard, PR #2107 review round 5)', () => {
+    // placeNewWindow bakes an inline cascade-offset inset the moment a second window
+    // is already open; on the market's forced-open-bags cluster that inline inset
+    // beats the docking CSS above and re-overlaps the two windows. The market cluster
+    // must be exempted exactly as the bank cluster is, or opening a third window
+    // (e.g. bags first, then market) silently regresses the docked pairing.
+    expect(hud).toMatch(
+      /classList\.contains\('market-open'\)\s*&&\s*\(el\.id === 'market-window' \|\| el\.id === 'bags'\)\s*\)\s*return;/,
+    );
   });
 });
 

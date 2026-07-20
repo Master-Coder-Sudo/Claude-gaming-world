@@ -2722,11 +2722,21 @@
     min-height: 40px;
     font-size: 16px;
   }
+  /* .mkt-page-btn stayed at its desktop 28px min-height with no mobile-touch
+     override (PR #2107 review round 4 follow-up), missing the 40x40 tap
+     target floor every other market control on this row already meets. */
+  body.mobile-touch .mkt-page-btn {
+    min-height: 40px;
+    min-width: 40px;
+  }
   /* Phase 5: the tall list windows (mailbox, calendar) are flex columns with an
      inner scroll body (#mailbox-body, .cal-day-pane) and overflow:hidden on the
-     shell. Edge-pinned they take the full available height (the #market-window
+     shell. Edge-pinned they take the full available height (the #trade-window
      template) so the inner body keeps a usable, touch-scrollable height under the
-     header instead of the sheet's overflow-y:auto fighting the inner flex scroll. */
+     header instead of the sheet's overflow-y:auto fighting the inner flex scroll.
+     #market-window used to follow this same inner-scroll shape, but PR #2107
+     switched it to scroll the whole sheet instead (see body.mobile-touch
+     #market-window below), so it is no longer this pattern's example. */
   body.mobile-touch #mailbox-window,
   body.mobile-touch #calendar-window {
     height: auto;

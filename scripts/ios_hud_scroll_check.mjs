@@ -156,11 +156,10 @@ const after = {};
 await page.evaluate(() => window.__game.hud.openMarket?.());
 await wait(500);
 after.uiTouchAction = await touchActionOf('#ui');
-after.marketBodyTouchAction = await touchActionOf('#market-body');
-// Diagnostic only, not an assertion: #market-body no longer owns the mobile
-// scroll (the sheet base makes #market-window the scroller instead, see
-// hud.mobile.css), so this now reads false on mobile even when the list
-// overflows and scrolls fine at the window level.
+after.marketWindowTouchAction = await touchActionOf('#market-window');
+// #market-body no longer owns the mobile scroll (the sheet base makes
+// #market-window the scroller instead, see hud.mobile.css), so assert against
+// the window, the element that actually scrolls, not the body it used to.
 after.marketOverflows = await overflowsOf('#market-body');
 // openMarket() opens the Bag alongside (drag-to-sell); hide it so the Market
 // list is the focus of this screenshot.
@@ -206,7 +205,7 @@ const pass =
   before.uiTouchAction === 'none' &&
   after.uiTouchAction !== 'none' &&
   after.bagGridTouchAction !== 'none' &&
-  after.marketBodyTouchAction !== 'none';
+  after.marketWindowTouchAction !== 'none';
 console.log(
   pass
     ? `PASS: HUD overlay permits touch panning (bag overflows=${after.bagOverflows}, market overflows=${after.marketOverflows}).`

@@ -8426,10 +8426,24 @@
      #bags (percentage-positioned off #ui independently) could overlap on
      common laptop widths, covering the drop target (PR #2107 review round 4).
      Pin both off the same 50% split with a fixed gap so they can never
-     collide, regardless of viewport width or either window's own size. */
+     collide, regardless of viewport width or either window's own size.
+     --bank-dock-gap is declared here (not inline literals) so BOTH sibling
+     windows inherit the same value, matching the body.bank-open pattern above. */
+  body.market-open {
+    --bank-dock-gap: 8px;
+  }
   body.market-open #market-window {
     left: 50%;
-    transform: translateX(calc(-100% - var(--bank-dock-gap, 8px)));
+    /* The generic .window max-width clamp (layout.css) is computed against the
+       FULL app viewport, so it never bites on the half the dock actually
+       leaves this window: at 860px wide plus the 320px bags companion plus
+       the gap, the pair needs ~1196px, and #market-window's left edge clips
+       outside #ui (overflow: hidden, base.css) on any common desktop width
+       below ~1752px (PR #2107 review round 4 follow-up). Re-clamp against
+       half the dock split instead, so the auto-fill listing grid degrades to
+       fewer columns instead of the window overflowing offscreen. */
+    max-width: calc(var(--app-vw, 100vw) / var(--window-scale) / 2 - var(--bank-dock-gap) - 8px);
+    transform: translateX(calc(-100% - var(--bank-dock-gap)));
   }
   body.market-open #bags {
     left: 50%;
@@ -8438,7 +8452,7 @@
     bottom: auto;
     width: 320px;
     max-height: calc(var(--app-vh, 100vh) * 0.85 / var(--window-scale) - 24px);
-    transform: translateX(var(--bank-dock-gap, 8px));
+    transform: translateX(var(--bank-dock-gap));
   }
   .mkt-tabs {
     display: flex;
