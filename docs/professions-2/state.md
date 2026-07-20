@@ -1041,11 +1041,15 @@ tables, i18n key namespaces, files created)
   the 60c/150c rods at trader_wilkes; 12b adds the visibility UX).
 - Phase 12b (built 2026-07-20, phase start 26f7f40b9): the gather cast and
   the fishing bite minigame. Shared predicate: `isNonSpellCast(castId)`
-  (src/sim/types.ts, fishing | gathering) now routes all ELEVEN cast-id
-  exemption sites (casting_lifecycle silence/lockout/completion-routing/
-  blink-through/spell-queue, effect_dispatch interrupt immunity, damage
-  cancel-not-pushback, items useItem busy guard, chat_readouts castingReadout,
-  cast_bar castBarState, hud castDisplayName). DEMON_HEAL_CAST_ID folded ONLY
+  (src/sim/types.ts, fishing | gathering) consolidates the ELEVEN cast-id
+  exemption sites: SEVEN consume the boolean directly (casting_lifecycle
+  silence/lockout/blink-through/spell-queue, effect_dispatch interrupt
+  immunity, damage cancel-not-pushback, items useItem busy guard) and FOUR
+  are id-DISCRIMINATING by construction, so they compare the sentinels
+  individually beside it (casting_lifecycle completion routing, chat_readouts
+  castingReadout, cast_bar castBarState, hud castDisplayName; QA wording
+  correction, the original entry said all eleven "route through" the
+  predicate). DEMON_HEAL_CAST_ID folded ONLY
   at the silence and lockout sites (byte-identical: it was already exempt
   there via failed ability resolution); it stays deliberately AD HOC at
   blink-through (live during its channel), spell queue (queuing works for
@@ -1123,6 +1127,25 @@ tables, i18n key namespaces, files created)
   drives re-driven through completion, coverage extended). The bobber anchor
   logic lives in the RENDER_PURE_CORES core fishing_bobber_core.ts walking
   the sim's exported FISHING_SAMPLE_DISTANCES by identity.
+  Phase 12b QA notes (2026-07-20, PASS, zero blocking): the anti-cheat
+  invariant was proven NEGATIVE live twice (a GameServer probe walked every
+  broadcast field for a mid-cast angler across ~58 pre-bite rounds: no
+  hidden key, castTot constant 15, castRem uniform DT decay carrying no
+  bite information; note castRem DOES decay on the wire toward the 15 s
+  cap, identically for every drawn delay, so the earlier "constant" phrasing
+  means bite-independent, not frozen). The appendix executed with ZERO
+  violations. Five mutation-proven pin gaps were closed in the QA PR (miss
+  boundary at the deadline tick, cancelCast/arena/fiesta/session-cap
+  hidden-field clears, the useItem gather busy arm, cue routing pins, plus
+  literal re-pins; the appendix post-inventory block lists them). The
+  played-beats probe ran the offline rhythm loop end to end 13/13,
+  including both gathering deeds and the Mirror Lake first-catch deed
+  celebrating through the new cast/bite moments. Deferred as INFO:
+  observer clients never see another angler's bobber bite flip
+  (owner-only by design), nameplate cast-label per-frame localize is
+  pre-existing, gatherResult/fishingResult log lines use the repo's raw
+  hex log-color idiom, and the six cues stay PLACEHOLDER pending #2208
+  (release-notes caveat).
 - Phase 13: (planned) disenchantItem/applyEnchant/salvageItem IWorld
   members + wire commands; plus, per the 2026-07-20 amendments, the typed
   disenchant reagents (hybrid model, same-phase consumers) and the

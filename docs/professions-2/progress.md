@@ -31,8 +31,8 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 11 QA | Verify fishing framework | complete (PR #2199 merged) | 2026-07-20 | 2026-07-20 |
 | 12 | Base tool tier gating | complete (PR #2217 merged into release/v0.29.0) | 2026-07-20 | 2026-07-20 |
 | 12 QA | Verify tool tier gating | complete (PR #2223 merged) | 2026-07-20 | 2026-07-20 |
-| 12b | Gathering rhythm | built (PR #2226 open) | 2026-07-20 | 2026-07-20 |
-| 12b QA | Verify gathering rhythm | not started | | |
+| 12b | Gathering rhythm | complete (PR #2226 merged into release/v0.29.0) | 2026-07-20 | 2026-07-20 |
+| 12b QA | Verify gathering rhythm | complete (PASS, zero blocking) | 2026-07-20 | 2026-07-20 |
 | 13 | Enchanting reachable | not started | | |
 | 13 QA | Verify enchanting reachable | not started | | |
 | 14 | Attunement quests and nudges | not started | | |
@@ -481,6 +481,30 @@ pre-gate line), the items.ts isGatherToolUse consistency swap (zero behavior cha
 toolTierUnmet key composition duplication (two copies, below the rule of three), the
 hover-tooltip listener-logic test and the *_tooltip.ts painter-scan naming, and the
 minimap per-build tool-tier memo allocation. Drift notes in state.md.
+
+Phase 12b QA (2026-07-20): PASS, zero blocking; QA diff 26f7f40b9..8e7bc1121 audited off the
+merge 43bfcb927. Fan-out: 21-agent Workflow (3 packet audits + 6 dispatch-matrix reviewers,
+all 9 delivered schema-forced first try; every BLOCKING/SHOULD-FIX finding verified by two
+skeptics, refute + impact lenses). The Pin-cost appendix executed with ZERO violations: every
+touched test file classifies as an appendix row, a pre-cleared additive class, or pure
+additive registration; the band literals carry a discriminating draw (second discriminator at
+index 23). The anti-cheat stopping rule is NEGATIVE by live probe (every broadcast field
+walked for a mid-cast angler; no hidden key, castTot constant, castRem decay bite-independent
+across seeds). Played beats: the offline rhythm loop end to end 13/13 via CDP (gather cast
+2.5 s with real key-input move-cancel, constant fishing bar, bite line, reel-in with the
+Mirror Lake deed firing through the bite moment, got-away miss, immediate recast); the live
+GameServer bite-and-reel arm rode the correctness probe. Six skeptic-confirmed SHOULD-FIX
+regression-protection gaps (no live defects) fixed in the QA PR, all mutation-verified:
+deadline-tick no-miss arm, cancelCast/arena/fiesta/session-cap hidden-field clear pins, the
+useItem gather busy arm, the six cue routing pins (fishBite always-audible), plus literal
+re-pins (constant-self-comparison removals, rod-synergy same-draw literals 127/107/87, cast
+bar fill pins, exact reel-cue set) and the harvestNode duplicate bag-scan hoist. Docs: the
+predicate-consumer wording corrected in state.md + the phase file (7 boolean consumers, 4
+id-discriminating sites), appendix re-inventoried with the QA pins. Deferred with reasons:
+observer-bobber bite flip (owner-only by design), nameplate per-frame localize (pre-existing),
+raw hex log colors (repo idiom), placeholder cues pending #2208 (release-notes caveat), guide
+bite-minigame prose (Phase 15 rewrite), mobile fishing E2E (desktop probe + committed mobile
+shots stand; Phase 15 sweep).
 
 Phase 12b (2026-07-20): built off release/v0.29.0, phase start 26f7f40b9 (the Phase 12 QA
 merge). Seven build commits (predicate extraction, gather cast, bite minigame, ui, appendix
