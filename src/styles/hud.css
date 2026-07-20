@@ -1726,16 +1726,29 @@
     box-shadow: 0 0 8px #7fd1ff88;
   }
   /* micro-menu: bottom-right, stacked upward, sitting just above the
-     Discord/GitHub buttons (both right-aligned to the same edge). */
+     Discord/GitHub buttons (both right-aligned to the same edge). Two adjacent
+     columns instead of one long rail: col-b (the launchers used most in
+     combat/travel, plus the Daily Rewards chest) hugs the same right edge the
+     single rail used to anchor to; col-a sits right next to it with a small
+     gap, never spread across the HUD. Splitting the rail in two roughly halves
+     its height, which is what used to force the short-viewport compaction
+     below onto a maximized 1366x768 laptop. */
   #side-buttons {
     position: absolute;
     right: 16px;
     bottom: 74px;
     display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 6px;
+    z-index: 19;
+  }
+  #side-buttons-col-a,
+  #side-buttons-col-b {
+    display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 4px;
-    z-index: 19;
   }
   .micro-btn {
     width: 34px;
@@ -1845,13 +1858,16 @@
     pointer-events: none;
   }
   /* Short-viewport rescue: #side-buttons is bottom-anchored and grows upward,
-     so on a maximized 1366x768 laptop (about 660px usable height) the topmost
-     button (the Daily Rewards chest) is pushed off the top of the screen and
-     becomes unclickable. Compact the rail (shorter buttons, tighter gap) so
-     every launcher, including the chest, stays on screen. Pinned by the
+     so on a very short viewport the topmost button in the taller column (the
+     Daily Rewards chest, at the top of col-b) could still be pushed off the
+     top of the screen. Compact each column (shorter buttons, tighter gap) so
+     every launcher, including the chest, stays on screen. The two-column
+     split already keeps each column well under budget at 1366x768, but the
+     rescue stays as a floor for shorter viewports still. Pinned by the
      rail-height budget test in tests/crafting_launcher.test.ts. */
   @media (max-height: 720px) {
-    #side-buttons {
+    #side-buttons-col-a,
+    #side-buttons-col-b {
       gap: 1px;
     }
     #side-buttons .micro-btn {
