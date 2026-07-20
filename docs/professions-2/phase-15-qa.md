@@ -15,6 +15,13 @@ final audit of the entire Professions 2.0 packet, ending with the teardown offer
 - Spot-check the rewritten wiki professions page against the real sim code: every claim the
   page makes must be true of the shipped system, and the teardown offer must follow the house
   rule exactly.
+- The 2026-07-20 additions: the SFX completion sweep is accountable (scan the sfx catalogs
+  for PLACEHOLDER rows; each one found must be listed on issue #2208 with a recorded
+  maintainer sign-off, and each replaced clip must pass npm run sfx:check with its
+  CREDITS.md licensing row); the rare-fish deed unlocks through the REAL bite-and-reel flow
+  in the scripted playthrough; the legacy burn-down disposition
+  (LEGACY_GOLD_POSITIVE_RECIPE_IDS) is recorded per member with the typed-reagent
+  cross-check applied first.
 
 ## QA Starter Prompt
 

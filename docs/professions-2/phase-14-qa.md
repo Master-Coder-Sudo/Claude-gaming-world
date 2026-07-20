@@ -119,3 +119,8 @@ STOPPING RULES:
 - Tier-crossing mail (the 2026-07-17 amendment): exactly one letter per tier per major
   craft, from the archetype's anchor master; re-crossings, hobby and dormant crossings,
   unattuned characters, and repeated loads deliver none.
+- The "learnable at a master" hint (the 2026-07-20 amendment): shown exactly when the
+  viewer has unlearned trainer recipes for the craft, absent for a fully-trained craft,
+  naming the master via the shared train_view.ts predicates (grep the hint's data source:
+  a second knownness rule beside isRecipeKnownForViewer is a finding); identical offline
+  and online, and across graphics presets.
