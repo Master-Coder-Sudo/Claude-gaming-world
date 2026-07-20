@@ -22,7 +22,7 @@ clamp-to-last). STEP 0's gate is satisfied; implement exactly these.
 ## Context pointers
 
 - `docs/professions-2/state.md`: the 2026-07-20 timing and economy amendments block (the
-  authority), the OPEN items rows for this phase's three flagged maintainer decisions, and the
+  authority), the OPEN items rows RESOLVING this phase's three maintainer decisions, and the
   locked economy pillars (crafted below the raid floor; NPCs only sink gold).
 - `docs/professions-2/progress.md`: the Phase 14b status row and checklist.
 - `docs/professions-2/phase-13-enchanting.md`: the bind-on-trade PRIMITIVE this phase extends

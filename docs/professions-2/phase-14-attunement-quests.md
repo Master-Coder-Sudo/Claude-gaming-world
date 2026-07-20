@@ -104,7 +104,7 @@ Agent content deliverables:
   cadence-capped craft-objective turn-in ("the master needs N of X") on QuestDef.repeatable
   plus the 2039 craft objective, consuming that master's craft materials: a recurring
   material sink with a face on it. Rewards use the RESOLVED formula in state.md Tuning
-  targets (the 2026-07-20 mastery amendments: coin = floor(0.5 * summed input vendor
+  targets (the 2026-07-20 mastery amendments: coin = floor(0.5 * summed input vendor SELL
   value) plus standard repeatable-quest XP for the level band; vendoring always pays more
   gold by construction, so the loop is never gold-optimal) and the cadence cap reuses the
   nudge cadence pattern so the loop can never become an unbounded XP or gold faucet (the

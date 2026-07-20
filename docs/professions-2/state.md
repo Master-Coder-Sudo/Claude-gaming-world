@@ -129,8 +129,10 @@ the remaining order is 12c, 12d, 13, 14, 14b, 15. Next: Phase 12c
     basic, universal, cosmetic-only, append-only.
 - 2026-07-20 timing and economy amendments (maintainer-approved; this block
   is the authority, on the 2026-07-17 template). The restructure INSERTS
-  Phases 12b and 14b without renumbering anything; the remaining order is
-  12, 12b, 13, 14, 14b, 15. Epic #1866 sub-issues: #2206 (Gathering
+  Phases 12b and 14b without renumbering anything; the remaining order was
+  12, 12b, 13, 14, 14b, 15 at this block's writing (superseded by the
+  second 2026-07-20 block below, which inserts 12c and 12d after the 12b
+  QA). Epic #1866 sub-issues: #2206 (Gathering
   rhythm), #2207 (Commissions and the Maker's Bond), #2208 (the profession
   SFX help-wanted list). Each ruling binds its owning phase file, which
   carries the full deliverable wording:
@@ -162,8 +164,9 @@ the remaining order is 12c, 12d, 13, 14, 14b, 15. Next: Phase 12c
     dust/essence/shard) stays for every quality, and RARE OR ABOVE
     additionally yields a type-keyed secondary material keyed off the
     existing ArmorType (cloth/leather/mail) and the sim-side weapon-kind
-    taxonomy (WEAPON_TYPE_BY_ITEM); the staves/wands bucket is a FLAGGED
-    maintainer decision; cooking and alchemy are deliberately excluded on
+    taxonomy (WEAPON_TYPE_BY_ITEM); the staves/wands bucket was FLAGGED
+    here and is RESOLVED by the second 2026-07-20 block below (the WEAPON
+    bucket); cooking and alchemy are deliberately excluded on
     both sides. Every typed material ships WITH at least one consumer
     recipe in the same phase (the wolf_fang no-dead-materials rule). The
     bind-on-trade PRIMITIVE lands in this phase applied to the typed
@@ -1266,8 +1269,9 @@ tables, i18n key namespaces, files created)
   bind-on-trade primitive applied to them; inherits the Phase 12c shared
   throttle and quality-tiered soft-ceiling gain model on day one.
 - Phase 14b: (planned) the commission marker, bind-on-first-trade
-  enforcement, the master unbind service; blocked on the three flagged
-  maintainer decisions in OPEN items.
+  enforcement, the master unbind service; the three maintainer decisions
+  are RESOLVED in OPEN items (character binding, equipment-only opt-in
+  classes, the tier-scaled unbind ladder), so STEP 0's gate is satisfied.
 
 ## Tuning targets (placeholders until Phase 15 tunes against live data)
 
@@ -1305,7 +1309,7 @@ tables, i18n key namespaces, files created)
   amendments): the cadence stays ONE shared knob; no per-family split in
   wave one; revisit with zone-expansion data.
 - Work-order quests (Phase 14), FORMULA RESOLVED (2026-07-20 mastery
-  amendments): coin reward = floor(0.5 * the summed vendor value of the
+  amendments): coin reward = floor(0.5 * the summed vendor SELL value of the
   requested materials), plus standard repeatable-quest XP for the level
   band; cadence-capped on the nudge cadence pattern. Vendoring is always
   more gold by construction, so work orders can never be the gold-optimal

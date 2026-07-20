@@ -123,7 +123,7 @@ STOPPING RULES:
   against the input vendor value; the turn-in consumes the materials (a recurring sink,
   not a faucet); probe the loop with a real repeated turn-in, not a formula read. The
   rewards implement the RESOLVED formula from state.md Tuning targets (the 2026-07-20
-  mastery amendments: coin = floor(0.5 * summed input vendor value) plus standard
+  mastery amendments: coin = floor(0.5 * summed input vendor SELL value) plus standard
   repeatable XP); verify at least one order's arithmetic against real vendor values, and
   verify vendoring the same materials pays strictly more.
 - Master voices (the 2026-07-20 mastery amendments): quest, work-order, and letter text
