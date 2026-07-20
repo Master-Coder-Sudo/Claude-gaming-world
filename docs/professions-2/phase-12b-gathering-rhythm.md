@@ -10,6 +10,47 @@ Phase 12 tool tiers, it deliberately re-pins a known, pre-briefed set of timing 
 Pin-cost appendix below), and none of the content phases depend on it. Approved by the
 2026-07-20 timing and economy amendments (state.md is the authority); tracked as issue #2206.
 
+As landed (2026-07-20, authoritative over the Starter Prompt below where they differ; the
+full surfaces record is state.md's Phase 12b entry):
+- The reel re-press does NOT land in items.ts useItem's generic busy branch: the useItem
+  fishing arms route to ctx.startFishing BEFORE that guard, so the reel arm lives inside
+  startFishing's own busy gate (command census unchanged either way). A re-press before the
+  bite or after the deadline keeps the busy error.
+- The parity storage decision: three transient Entity fields (fishBiteAtTick,
+  fishReelDeadlineTick, gatherCastNodeId), inert-initialized, cleared on every end path;
+  no exclude-list change; only professions_gather regenerated (hunted seed 1 under the
+  re-shaped drive; the drive silences mobs, resets the herb window to band 0 per iteration,
+  and keeps the newest eight signed instances so the window never hits bags-full).
+- DEMON_HEAL_CAST_ID folded ONLY at the silence and lockout sites (byte-identical: it was
+  already exempt there via failed ability resolution); everywhere else it stays deliberately
+  ad hoc (the state.md entry lists each site with its live-behavior reason).
+- The tool gate is deliberately NOT re-checked at gather-cast completion (held at cast
+  start); completion re-validates exactly range, respawn, and capacity.
+- The codfather cast SHIPS as 1 draw at cast start (no quest special-case in startFishing)
+  plus 0 at the reel (early return preserved), per the appendix's either-is-fine row.
+- FISHING_CAST_TIME retired in favor of FISHING_SESSION_CAP_SEC = 15, a constant cast-bar
+  cap carrying zero bite information; the fishing cast bar renders a constant full waiting
+  bar, and the /cast fishing readout shows no countdown ('You are fishing. Waiting for a
+  bite.', em dash dropped, landed via the scripts/i18n_blocked_seed.mjs registry seed).
+- No fishing bobber existed before this phase: src/render/fishing_bobber.ts is NEW
+  (renderer-owned, idle bob for any fishing entity in view, owner-only bite state off the
+  personal event, preset-identical).
+- THREE additive pin moves landed OUTSIDE the Pin-cost appendix, all forced by mandated new
+  behavior, none a weakening: the game_audio cue census re-pinned 14 to 20 (six new
+  PLACEHOLDER cues); the Phase 11 gather_event_i18n pin "fishingResult is cue-free"
+  re-pinned to "plays only the reel cue" (audio.fishReel present, audio.lootItem absent);
+  and tests/gather_rare_events.test.ts re-driven through cast completion at its five
+  harvestNode call sites (an APPENDIX INVENTORY MISS the review coverage pass identified:
+  the file's drives were as synchronous as gather_node_harvest's, but the appendix never
+  listed it; coverage extended, nothing weakened). The appendix is otherwise CLOSED and
+  fully executed; per the standing rule it must be re-inventoried by any later phase that
+  adds pins in its blast radius.
+- tests/gather_open_gate.test.ts and tests/gather_node_online.test.ts are deliberately
+  unchanged (the former is corpse-focused with a stub harvestNode and corpse timing is out
+  of scope; the latter is a pure ClientWorld ncd-mirror suite); the online
+  castStart-wire-shape and completion-grant arms live in gather_node_harvest's live
+  GameServer describe, and the interact-starts-a-cast arm in gather_node_interact.test.ts.
+
 ## Context pointers
 
 - `docs/professions-2/state.md`: the 2026-07-20 timing and economy amendments block (the

@@ -1039,10 +1039,90 @@ tables, i18n key namespaces, files created)
   silent band cap applies retroactively to existing high-proficiency
   rod-less anglers the moment the release ships (band 0 until they buy
   the 60c/150c rods at trader_wilkes; 12b adds the visibility UX).
-- Phase 12b: (planned) the shared non-spell-cast predicate, the gather
-  cast, the fishing bite minigame, rod synergy, placeholder cues; the
-  Pin-cost appendix in phase-12b-gathering-rhythm.md is the pre-briefed
-  re-pin list.
+- Phase 12b (built 2026-07-20, phase start 26f7f40b9): the gather cast and
+  the fishing bite minigame. Shared predicate: `isNonSpellCast(castId)`
+  (src/sim/types.ts, fishing | gathering) now routes all ELEVEN cast-id
+  exemption sites (casting_lifecycle silence/lockout/completion-routing/
+  blink-through/spell-queue, effect_dispatch interrupt immunity, damage
+  cancel-not-pushback, items useItem busy guard, chat_readouts castingReadout,
+  cast_bar castBarState, hud castDisplayName). DEMON_HEAL_CAST_ID folded ONLY
+  at the silence and lockout sites (byte-identical: it was already exempt
+  there via failed ability resolution); it stays deliberately AD HOC at
+  blink-through (live during its channel), spell queue (queuing works for
+  channels), interrupt immunity (interruptible today), damage pushback,
+  useItem busy (items usable during its channel), completion (channel path),
+  and the readout/label rows. PARITY STORAGE DECISION (the appendix brief,
+  option (a) Entity variant): hidden per-cast state = three transient Entity
+  fields, `fishBiteAtTick`/`fishReelDeadlineTick` (0 = inert) and
+  `gatherCastNodeId` ('' = inert), initialized inert, cleared on every end
+  path including cancelCast, never wired, never persisted; consequence: all
+  goldens except professions_gather stayed byte-identical (verified), and any
+  FUTURE parity scenario sampling mid-cast will regen; parity CAN see
+  hidden-state desync (stronger than a module map). GATHER CAST: harvestNode
+  keeps its name/signature/bool return and all deny arms (order preserved,
+  new busy gate after the dead gate), rng-free at cast start, then starts a
+  GATHER_CAST_ID cast (duration = gatherCastDurationSec off tool tier above
+  the node tier + proficiency band, via the new shared
+  professions/proficiency_bands.ts leaf that fishing's band exports now
+  delegate to); completion routes through the NEW SimContext callback
+  completeGatherCast (five-site append) and re-validates EXACTLY range,
+  respawn, capacity (existing literals); the tool gate is deliberately NOT
+  re-checked at completion (held at cast start). The two-draw resolve pair
+  moved intact to completion. BITE MINIGAME: startFishing keeps its deny
+  arms byte-identical, draws ONE hidden bite delay after them (stored in
+  ticks on the hidden Entity state, ceil, the lockpick precedent), sets
+  castTotal/castRemaining to the constant FISHING_SESSION_CAP_SEC = 15
+  (FISHING_CAST_TIME RETIRED; the broadcast fields carry zero bite
+  information); the updateCasting fishing arm fires the text-free personal
+  fishingBite at the hidden tick (reel window re-scans the rod at bite time)
+  and the miss (fishingGotAway, castStop success false, zero draws, no loss)
+  at deadline + 1; the reel = re-pressing the pole (the existing useItem
+  fishing arms route to startFishing BEFORE the generic busy guard, so the
+  reel arm lives in startFishing's busy gate; command census unchanged),
+  valid while tickCount <= deadline, landing through completeFishing's
+  unchanged single table draw (codfather early return kept: a codfather cast
+  draws 1 at start + 0 at the reel, the shipped choice per the appendix row;
+  a bags-full reel still draws the table, capacity gates after). Draw
+  contract: 1 draw per cast + 1 per landed reel; miss = 1 total. UI: new
+  src/render/fishing_bobber.ts (NO bobber existed; renderer-owned instance,
+  idle bob for any fishing entity, owner-only bite state off the personal
+  event, preset-identical), castBarState renders fishing as a CONSTANT full
+  waiting bar (fill 1), gather as a normal filling cast;
+  abilityUi.cast.gathering + hudChrome.gathering.biteLine/gotAwayLine
+  (English + the five M16 non-Latin overlay fills); /cast readouts reworded
+  (em dash dropped, fishing shows no countdown: 'You are fishing. Waiting
+  for a bite.'; gather counts down honestly), landed via the
+  scripts/i18n_blocked_seed.mjs status-registry seed. Six PLACEHOLDER cues
+  on #2208's canonical keys (ui_gather_cast/strike/rare, ui_fish_cast/bite/
+  reel; bite rides the always-audible play() arm, pinned); the game_audio
+  cue census re-pinned 14 to 20 (pre-briefed additive extension class), and
+  the Phase 11 fishingResult cue-free pin re-pinned to plays-only-the-reel-
+  cue (both outside the appendix, both additive, recorded in the phase
+  files' as-landed blocks).
+  Phase 12b review-pass drift notes (six reviewers, zero blocking): the
+  hidden fields are ALSO cleared at the three direct cast-end sites
+  (handleDeath, the arena match reset, the fiesta down path), closing a
+  sourceless-lethal stale-state hole the architecture pass found (sourceless
+  damage skips the cancel-not-pushback arm, which requires a source and kind
+  hit). ctx.completeFishing on SimContext is now VESTIGIAL-but-retained: the
+  lifecycle completion arm no longer calls it (fishing completion is the
+  defensive got-away end) and the reel calls the module function directly;
+  the callback stays for interface/pin stability. ACCEPTED-BY-DESIGN
+  anti-cheat sign-off: a modified client can script the reel off the
+  personal bite event; the window is deliberately attention-not-reflexes,
+  and no client can learn the bite BEFORE it fires nor extend the window.
+  Mixed-fleet transient (rolling deploy window only): a stale client renders
+  the 'gathering' sentinel raw on the cast bar and ignores the unknown
+  fishingBite/fishingGotAway events per the unknown-event precedent; the
+  reel still works (it rides use_item). The gather completion's castStop
+  success reflects the CAST, not the grant (a re-validation denial still
+  stops successfully and renders its own error line). The tool gate held at
+  cast start means a tool dropped mid-cast still completes that one harvest
+  (deliberate; balance-inert). tests/gather_rare_events.test.ts joined the
+  outside-appendix additive list at build time (appendix inventory miss,
+  drives re-driven through completion, coverage extended). The bobber anchor
+  logic lives in the RENDER_PURE_CORES core fishing_bobber_core.ts walking
+  the sim's exported FISHING_SAMPLE_DISTANCES by identity.
 - Phase 13: (planned) disenchantItem/applyEnchant/salvageItem IWorld
   members + wire commands; plus, per the 2026-07-20 amendments, the typed
   disenchant reagents (hybrid model, same-phase consumers) and the
@@ -1070,11 +1150,18 @@ tables, i18n key namespaces, files created)
 - Work-order quests (Phase 14): reward numbers need MAINTAINER numbers
   before Phase 14 runs (never gold-positive against the input vendor value;
   the cadence cap reuses the nudge cadence pattern). Flagged in OPEN items.
-- Gathering rhythm (Phase 12b): gather cast base about 2.5 s, floor about
-  1.5 s, per-tool-tier and per-band reductions; bite delay roughly 3 to
-  8 s with the rod synergy deltas. Exact numbers are the implementer's
-  call within these shapes, landed as named exported constants and pinned;
-  record the finals here when 12b lands.
+- Gathering rhythm (Phase 12b), FINALS as landed, all named exports, all
+  pinned: gather cast GATHER_CAST_BASE_SEC 2.5, GATHER_CAST_FLOOR_SEC 1.5,
+  GATHER_CAST_TOOL_TIER_REDUCTION_SEC 0.4 per owned tool tier ABOVE the
+  node's tier, GATHER_CAST_BAND_REDUCTION_SEC 0.15 per proficiency band
+  (duration = max(floor, base - tiersAbove * 0.4 - band * 0.15),
+  gathering.ts gatherCastDurationSec). Bite delay FISH_BITE_DELAY_MIN_SEC 3
+  to FISH_BITE_DELAY_MAX_SEC 8, FISH_BITE_DELAY_ROD_REDUCTION_SEC 1.5 per
+  rod tier above 1 off the MAX only (tier 2 covers [3, 6.5], tier 3
+  [3, 5]); reel window FISH_REEL_WINDOW_SEC 3 plus
+  FISH_REEL_WINDOW_ROD_BONUS_SEC 0.75 per rod tier above 1 (tick literals
+  60/75/90 pinned), rod re-scanned at bite time. FISHING_SESSION_CAP_SEC 15
+  (the constant cast-bar cap; FISHING_CAST_TIME retired).
 - Unbind service fee (Phase 14b): a MAINTAINER number (see OPEN items);
   never invented.
 - Typed-reagent yields and consumer costs (Phase 13): sized against the
