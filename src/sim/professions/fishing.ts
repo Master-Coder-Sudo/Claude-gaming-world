@@ -31,7 +31,10 @@ import { PROFICIENCY_BAND_THRESHOLDS, proficiencyBandFor } from './proficiency_b
 import { bestOwnedGatherToolTier, canGatherTier } from './tools';
 
 const SWIM_DEPTH = PLAYER_SWIM_DEPTH; // ground this far under the water line = deep water
-const FISHING_SAMPLE_DISTANCES = [4, 8, 12, 16, 20, 24];
+// Facing-forward sample ring the fishable-water check walks. Exported since
+// Phase 12b: the bobber visual (src/render/fishing_bobber_core.ts) anchors on
+// the FIRST accepted sample, so it must walk the exact same ring.
+export const FISHING_SAMPLE_DISTANCES = [4, 8, 12, 16, 20, 24];
 const DEEPFEN_FISHING_SHORE_MARGIN = 10;
 const THE_CODFATHER_ITEM_ID = 'the_codfather';
 const THE_CODFATHER_QUEST_ID = 'q_the_codfather';

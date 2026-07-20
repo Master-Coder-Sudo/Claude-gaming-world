@@ -8,15 +8,9 @@
 // bite state are player-actionable feedback, so nothing here reads GFX tiers
 // or the frame-budget governor.
 import * as THREE from 'three';
-import { PLAYER_SWIM_DEPTH } from '../sim/pathfind';
 import { type Entity, FISHING_CAST_ID } from '../sim/types';
-import { groundHeight, waterLevelAt } from '../sim/world';
+import { type BobberAnchor, bobberAnchorInto } from './fishing_bobber_core';
 import { surfaceMat } from './gfx';
-
-// Keep in sync with FISHING_SAMPLE_DISTANCES in src/sim/professions/fishing.ts:
-// the bobber lands on the FIRST facing-forward sample the sim would accept as
-// fishable water, so the visual agrees with where the cast was validated.
-const SAMPLE_DISTANCES = [4, 8, 12, 16, 20, 24];
 
 // Idle bob: a gentle float. Bite: a hard dunk with a fast jitter the player
 // can spot from the corner of the eye, plus expanding splash rings.
@@ -58,20 +52,9 @@ function ringGeometry(): THREE.RingGeometry {
   return sharedRingGeo;
 }
 
-/** Facing-forward water point the bobber floats at, or null when no sample
- *  clears the sim's fishable-depth rule (the cast validated one, so this only
- *  goes null if the angler turned; the bobber then hides until it resolves). */
-function bobberAnchor(e: Entity, seed: number): { x: number; y: number; z: number } | null {
-  const sin = Math.sin(e.facing);
-  const cos = Math.cos(e.facing);
-  for (const d of SAMPLE_DISTANCES) {
-    const x = e.pos.x + sin * d;
-    const z = e.pos.z + cos * d;
-    const water = waterLevelAt(x, z);
-    if (groundHeight(x, z, seed) < water - PLAYER_SWIM_DEPTH) return { x, y: water, z };
-  }
-  return null;
-}
+// Scratch anchor the per-frame update resolves into (allocation-free; the
+// selection logic itself lives in the pure core, fishing_bobber_core.ts).
+const scratchAnchor: BobberAnchor = { x: 0, y: 0, z: 0 };
 
 export class FishingBobberVisual {
   private instances = new Map<number, BobberInstance>();
@@ -102,13 +85,12 @@ export class FishingBobberVisual {
       }
       // a fresh cast right after a sink-out revives the same instance
       inst.sinkT = 0;
-      const anchor = bobberAnchor(e, seed);
-      if (!anchor) {
+      if (!bobberAnchorInto(scratchAnchor, e.pos.x, e.pos.z, e.facing, seed)) {
         inst.group.visible = false;
         continue;
       }
       inst.group.visible = true;
-      inst.group.position.set(anchor.x, anchor.y, anchor.z);
+      inst.group.position.set(scratchAnchor.x, scratchAnchor.y, scratchAnchor.z);
       this.animate(inst, dt);
     }
     // cast over (reel, got away, cancel) or entity left interest: sink out
