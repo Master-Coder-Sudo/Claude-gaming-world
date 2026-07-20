@@ -316,6 +316,69 @@ describe('vale cup: online integration (GameServer)', () => {
     expect(memo.stringifies).toBe(stringifiesBefore + 1);
   });
 
+  it('ships a changed shared readout to every settled session in the same due pass, byte-identical', () => {
+    // The realm-global dueness tracker deliberately ALIGNS sessions: when the
+    // shared readout changes, every settled viewer receives `vcupb` in the SAME
+    // due broadcast pass, each frame embedding the one memoized string (maybeRaw
+    // splices `"vcupb":<memo.json>` verbatim). This pins the aligned fan-out
+    // shape itself, the flip side of the build-once pin above: what a due pass
+    // emits is bounded to raw re-sends of one string, never per-session
+    // rebuilds, and it lands on one pass, never staggered.
+    const VC_WIRE_INTERVAL_TICKS = 10;
+    const rawFakeWs = (): FakeClient & { raws: string[] } => {
+      const sent: unknown[] = [];
+      const raws: string[] = [];
+      return {
+        sent,
+        raws,
+        ws: {
+          readyState: 1,
+          send: (payload: string) => {
+            raws.push(payload);
+            sent.push(JSON.parse(payload));
+          },
+        },
+      };
+    };
+    const fcA = rawFakeWs();
+    const fcB = rawFakeWs();
+    const fcC = fakeWs();
+    const sa = joinServer(server, fcA, 60, 'BurstOne');
+    const sb = joinServer(server, fcB, 61, 'BurstTwo');
+    const sc = joinServer(server, fcC, 62, 'BurstQueuer');
+    teleport(server.sim, sa.pid, 0, -40);
+    teleport(server.sim, sb.pid, 4, -40);
+    teleport(server.sim, sc.pid, 8, -40);
+    // settle all three past their fresh-join ships so only the due gate opens
+    for (let i = 0; i < 30; i++) advance(server);
+
+    // step to just before the next due pass, THEN change the shared readout:
+    // the observers A and B do nothing, only C's queue join bumps queueSizes
+    while (server.sim.tickCount - (server as any).lastVcupWireTick < VC_WIRE_INTERVAL_TICKS - 1)
+      advance(server);
+    cmd(server, sc, { cmd: 'vcup_queue', bracket: 3, nation: 'vale', role: 'striker' });
+    const aBefore = fcA.sent.length;
+    const bBefore = fcB.sent.length;
+    const memo = (server as any).realmReadout;
+    const stringifiesBefore = memo.stringifies;
+
+    // ONE advance crosses exactly one due pass: both observers get the readout
+    advance(server);
+    expect(server.sim.tickCount - (server as any).lastVcupWireTick).toBe(0);
+    const aShips = snapsWithSelfKey(fcA, 'vcupb', aBefore);
+    const bShips = snapsWithSelfKey(fcB, 'vcupb', bBefore);
+    expect(aShips).toHaveLength(1);
+    expect(bShips).toHaveLength(1);
+    expect(aShips[0].self.vcupb.queueSizes['3']).toBe(1);
+
+    // byte identity on the UNPARSED payloads: both frames embed the ONE
+    // memoized string, and serving both viewers cost exactly one stringify
+    expect(memo.stringifies).toBe(stringifiesBefore + 1);
+    const needle = `"vcupb":${memo.json}`;
+    expect(fcA.raws.slice(aBefore).some((p) => p.includes(needle))).toBe(true);
+    expect(fcB.raws.slice(bBefore).some((p) => p.includes(needle))).toBe(true);
+  });
+
   it('reships the readout to an established session under catch-up, off a wire-interval multiple', () => {
     // broadcastSnapshots runs once per callback OUTSIDE the `while (acc >= DT)`
     // catch-up loop, so under load tickCount jumps 2+ per pass and can land off a
