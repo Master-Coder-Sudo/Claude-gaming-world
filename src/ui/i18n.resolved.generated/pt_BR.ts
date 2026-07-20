@@ -8726,6 +8726,12 @@ export const pt_BR: EnTranslations = {
       "verlans_oathblade": {
         "name": "Lâmina do juramento de Verlan"
       },
+      "ironreel_fishing_rod": {
+        "name": "Vara com molinete de ferro"
+      },
+      "silverstream_fishing_rod": {
+        "name": "Vara do riacho prateado"
+      },
       "briny_idol": {
         "name": "Ídolo Salobro"
       },

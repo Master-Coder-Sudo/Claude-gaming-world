@@ -3942,6 +3942,8 @@ export const zh_CN: Partial<Record<TranslationKey, string>> = {
   'entities.items.conjured_bread2.name': '魔法黑面包',
   'entities.items.conjured_bread3.name': '魔法蜜糕',
   'entities.items.glimmerfin_koi.name': '微光鳍锦鲤',
+  'entities.items.ironreel_fishing_rod.name': '铁轮钓竿',
+  'entities.items.silverstream_fishing_rod.name': '银溪钓竿',
   'entities.items.raw_bog_eel.name': '生沼泽鳗鱼',
   'entities.items.raw_frostgill_trout.name': '生霜鳃鳟鱼',
   'entities.items.raw_marsh_pike.name': '生沼泽狗鱼',

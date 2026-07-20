@@ -8726,6 +8726,12 @@ export const ko_KR: EnTranslations = {
       "verlans_oathblade": {
         "name": "베를란의 맹세검"
       },
+      "ironreel_fishing_rod": {
+        "name": "쇠릴 낚싯대"
+      },
+      "silverstream_fishing_rod": {
+        "name": "은빛 시내 낚싯대"
+      },
       "briny_idol": {
         "name": "소금기 어린 우상"
       },

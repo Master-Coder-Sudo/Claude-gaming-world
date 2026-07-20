@@ -8726,6 +8726,12 @@ export const ja_JP: EnTranslations = {
       "verlans_oathblade": {
         "name": "ヴァーランの誓約刃"
       },
+      "ironreel_fishing_rod": {
+        "name": "鉄リールの釣り竿"
+      },
+      "silverstream_fishing_rod": {
+        "name": "銀流の釣り竿"
+      },
       "briny_idol": {
         "name": "潮辛の偶像"
       },

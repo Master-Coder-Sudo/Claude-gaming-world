@@ -4103,6 +4103,8 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'entities.items.conjured_bread2.name': '魔法の黒パン',
   'entities.items.conjured_bread3.name': '魔法のハニーケーキ',
   'entities.items.glimmerfin_koi.name': 'きらめきヒレの錦鯉',
+  'entities.items.ironreel_fishing_rod.name': '鉄リールの釣り竿',
+  'entities.items.silverstream_fishing_rod.name': '銀流の釣り竿',
   'entities.items.raw_bog_eel.name': '生の沼ウナギ',
   'entities.items.raw_frostgill_trout.name': '生の霜エラマス',
   'entities.items.raw_marsh_pike.name': '生の沼カワカマス',

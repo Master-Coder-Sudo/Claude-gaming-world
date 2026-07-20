@@ -8726,6 +8726,12 @@ export const zh_CN: EnTranslations = {
       "verlans_oathblade": {
         "name": "维尔兰的誓约之刃"
       },
+      "ironreel_fishing_rod": {
+        "name": "铁轮钓竿"
+      },
+      "silverstream_fishing_rod": {
+        "name": "银溪钓竿"
+      },
       "briny_idol": {
         "name": "咸海神像"
       },

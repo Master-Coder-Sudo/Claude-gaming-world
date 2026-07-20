@@ -8726,6 +8726,12 @@ export const ru_RU: EnTranslations = {
       "verlans_oathblade": {
         "name": "Клинок клятвы Верлана"
       },
+      "ironreel_fishing_rod": {
+        "name": "Удочка с железной катушкой"
+      },
+      "silverstream_fishing_rod": {
+        "name": "Удочка серебряного ручья"
+      },
       "briny_idol": {
         "name": "Просоленный идол"
       },

@@ -8726,6 +8726,12 @@ export const sv_SE: EnTranslations = {
       "verlans_oathblade": {
         "name": "Verlans edsklinga"
       },
+      "ironreel_fishing_rod": {
+        "name": "Järnrullespö"
+      },
+      "silverstream_fishing_rod": {
+        "name": "Silverbäcksspö"
+      },
       "briny_idol": {
         "name": "Salt avgudabild"
       },

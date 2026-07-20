@@ -8726,6 +8726,12 @@ export const en_CA: EnTranslations = {
       "verlans_oathblade": {
         "name": "Verlan's Oathblade"
       },
+      "ironreel_fishing_rod": {
+        "name": "Ironreel Fishing Rod"
+      },
+      "silverstream_fishing_rod": {
+        "name": "Silverstream Fishing Rod"
+      },
       "briny_idol": {
         "name": "Briny Idol"
       },

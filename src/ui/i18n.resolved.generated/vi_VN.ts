@@ -8726,6 +8726,12 @@ export const vi_VN: EnTranslations = {
       "verlans_oathblade": {
         "name": "Thề Kiếm của Verlan"
       },
+      "ironreel_fishing_rod": {
+        "name": "Cần câu guồng sắt"
+      },
+      "silverstream_fishing_rod": {
+        "name": "Cần câu suối bạc"
+      },
       "briny_idol": {
         "name": "Thần Tượng Mặn Mòi"
       },

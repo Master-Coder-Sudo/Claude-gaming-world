@@ -8726,6 +8726,12 @@ export const en_XA: EnTranslations = {
       "verlans_oathblade": {
         "name": "[Ʋéŕļáñ'š Óáţĥƀļáðé]"
       },
+      "ironreel_fishing_rod": {
+        "name": "[Íŕóñŕééļ Ƒíšĥíñĝ Ŕóð]"
+      },
+      "silverstream_fishing_rod": {
+        "name": "[Šíļʋéŕšţŕéáɱ Ƒíšĥíñĝ Ŕóð]"
+      },
       "briny_idol": {
         "name": "[Ɓŕíñý Íðóļ]"
       },

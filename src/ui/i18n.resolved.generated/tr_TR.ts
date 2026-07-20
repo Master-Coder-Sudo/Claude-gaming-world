@@ -8726,6 +8726,12 @@ export const tr_TR: EnTranslations = {
       "verlans_oathblade": {
         "name": "Verlan'ın Yemin Kılıcı"
       },
+      "ironreel_fishing_rod": {
+        "name": "Demir makaralı olta"
+      },
+      "silverstream_fishing_rod": {
+        "name": "Gümüş dere oltası"
+      },
       "briny_idol": {
         "name": "Tuzlu Put"
       },

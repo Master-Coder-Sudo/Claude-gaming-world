@@ -8726,6 +8726,12 @@ export const cs_CZ: EnTranslations = {
       "verlans_oathblade": {
         "name": "Verlanova čepel přísahy"
       },
+      "ironreel_fishing_rod": {
+        "name": "Prut se železným navijákem"
+      },
+      "silverstream_fishing_rod": {
+        "name": "Prut stříbrného potoka"
+      },
       "briny_idol": {
         "name": "Slaný idol"
       },

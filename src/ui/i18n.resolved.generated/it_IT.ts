@@ -8726,6 +8726,12 @@ export const it_IT: EnTranslations = {
       "verlans_oathblade": {
         "name": "Lama del giuramento di Verlan"
       },
+      "ironreel_fishing_rod": {
+        "name": "Canna con mulinello di ferro"
+      },
+      "silverstream_fishing_rod": {
+        "name": "Canna del ruscello d'argento"
+      },
       "briny_idol": {
         "name": "Idolo Salmastro"
       },

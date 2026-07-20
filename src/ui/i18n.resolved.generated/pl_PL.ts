@@ -8726,6 +8726,12 @@ export const pl_PL: EnTranslations = {
       "verlans_oathblade": {
         "name": "Ostrze przysięgi Verlana"
       },
+      "ironreel_fishing_rod": {
+        "name": "Wędka z żelaznym kołowrotkiem"
+      },
+      "silverstream_fishing_rod": {
+        "name": "Wędka srebrnego strumienia"
+      },
       "briny_idol": {
         "name": "Słony bożek"
       },

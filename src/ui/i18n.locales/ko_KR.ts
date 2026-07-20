@@ -4086,6 +4086,8 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'entities.items.conjured_bread2.name': '마력의 검은 빵',
   'entities.items.conjured_bread3.name': '마력의 꿀과자',
   'entities.items.glimmerfin_koi.name': '반짝이는 지느러미 코이',
+  'entities.items.ironreel_fishing_rod.name': '쇠릴 낚싯대',
+  'entities.items.silverstream_fishing_rod.name': '은빛 시내 낚싯대',
   'entities.items.raw_bog_eel.name': '날 늪지 뱀장어',
   'entities.items.raw_frostgill_trout.name': '날 서리아가미 송어',
   'entities.items.raw_marsh_pike.name': '날 늪지 강꼬치고기',

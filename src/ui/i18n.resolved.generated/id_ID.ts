@@ -8726,6 +8726,12 @@ export const id_ID: EnTranslations = {
       "verlans_oathblade": {
         "name": "Bilah Sumpah Verlan"
       },
+      "ironreel_fishing_rod": {
+        "name": "Joran gulungan besi"
+      },
+      "silverstream_fishing_rod": {
+        "name": "Joran arus perak"
+      },
       "briny_idol": {
         "name": "Berhala Asin"
       },

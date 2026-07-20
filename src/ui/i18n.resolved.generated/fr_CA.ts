@@ -8726,6 +8726,12 @@ export const fr_CA: EnTranslations = {
       "verlans_oathblade": {
         "name": "Lame du serment de Verlan"
       },
+      "ironreel_fishing_rod": {
+        "name": "Canne à moulinet de fer"
+      },
+      "silverstream_fishing_rod": {
+        "name": "Canne du ruisseau d'argent"
+      },
       "briny_idol": {
         "name": "Idole saumâtre"
       },

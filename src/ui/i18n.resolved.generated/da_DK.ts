@@ -8726,6 +8726,12 @@ export const da_DK: EnTranslations = {
       "verlans_oathblade": {
         "name": "Verlans Edsklinge"
       },
+      "ironreel_fishing_rod": {
+        "name": "Fiskestang med jernhjul"
+      },
+      "silverstream_fishing_rod": {
+        "name": "Sølvbæk-fiskestang"
+      },
       "briny_idol": {
         "name": "Saltvandsafgud"
       },

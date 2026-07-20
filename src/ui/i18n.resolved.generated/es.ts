@@ -8726,6 +8726,12 @@ export const es: EnTranslations = {
       "verlans_oathblade": {
         "name": "Espada del juramento de Verlan"
       },
+      "ironreel_fishing_rod": {
+        "name": "Caña de carrete de hierro"
+      },
+      "silverstream_fishing_rod": {
+        "name": "Caña del arroyo plateado"
+      },
       "briny_idol": {
         "name": "Ídolo salobre"
       },

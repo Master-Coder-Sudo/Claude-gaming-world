@@ -8726,6 +8726,12 @@ export const nl_NL: EnTranslations = {
       "verlans_oathblade": {
         "name": "Verlans Eedkling"
       },
+      "ironreel_fishing_rod": {
+        "name": "Hengel met ijzeren molen"
+      },
+      "silverstream_fishing_rod": {
+        "name": "Zilverbeek-hengel"
+      },
       "briny_idol": {
         "name": "Zilt Afgodsbeeld"
       },

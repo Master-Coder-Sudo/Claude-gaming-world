@@ -4134,6 +4134,8 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'entities.items.conjured_bread2.name': 'Сотворённый чёрный каравай',
   'entities.items.conjured_bread3.name': 'Сотворённый медовый пряник',
   'entities.items.glimmerfin_koi.name': 'Карп кои с мерцающими плавниками',
+  'entities.items.ironreel_fishing_rod.name': 'Удочка с железной катушкой',
+  'entities.items.silverstream_fishing_rod.name': 'Удочка серебряного ручья',
   'entities.items.raw_bog_eel.name': 'Сырой болотный угорь',
   'entities.items.raw_frostgill_trout.name': 'Сырая морозожаберная форель',
   'entities.items.raw_marsh_pike.name': 'Сырая болотная щука',
