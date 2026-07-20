@@ -11,15 +11,17 @@ block and state.md's Phase 12b entry before auditing):
   fishReelDeadlineTick, gatherCastNodeId); the module-local-map cleanup arm in the coverage
   charter below is therefore MOOT (no eviction discipline exists to audit; audit the
   cancel-path clears instead).
-- THREE pin moves land OUTSIDE the appendix by design, and are NOT blocking findings: the
-  game_audio cue census re-pin (14 to 20, six new PLACEHOLDER cues), the Phase 11
-  gather_event_i18n "fishingResult is cue-free" pin re-pinned to "plays only the reel cue"
-  (the phase mandates the reel cue; the loot-hub cue absence is still pinned), and
-  tests/gather_rare_events.test.ts re-driven through cast completion at its five
-  harvestNode sites (an appendix inventory miss found and recorded at build time; the
-  drives were as synchronous as gather_node_harvest's). Audit all three for decisiveness,
-  then treat them as the additive-extension class (the Phase 9 command census precedent),
-  not appendix violations. Any OTHER unlisted pin move stays BLOCKING.
+- Pin moves land OUTSIDE the appendix by design in two classes, and are NOT blocking
+  findings. Cue-census extensions for the six new cues: game_audio 14 to 20,
+  sfx_manifest 181/36 to 187/42, and the Phase 11 gather_event_i18n "fishingResult is
+  cue-free" pin re-pinned to "plays only the reel cue" (the phase mandates the reel cue;
+  the loot-hub cue absence is still pinned). The synchronous-drive family (an appendix
+  inventory miss found and recorded at build time): gather_rare_events,
+  gather_rare_event_online, prof_intro_quest, and profession_quest_objectives, each
+  re-driven through cast completion via a local completeCastNow helper. Audit all of
+  them for decisiveness, then treat them as the additive-extension class (the Phase 9
+  command census precedent), not appendix violations. Any OTHER unlisted pin move stays
+  BLOCKING.
 - The reel arm lives in startFishing's busy gate, not items.ts useItem's generic busy
   branch (the useItem fishing arms route to startFishing first); audit the re-press paths
   there.

@@ -35,16 +35,21 @@ full surfaces record is state.md's Phase 12b entry):
 - No fishing bobber existed before this phase: src/render/fishing_bobber.ts is NEW
   (renderer-owned, idle bob for any fishing entity in view, owner-only bite state off the
   personal event, preset-identical).
-- THREE additive pin moves landed OUTSIDE the Pin-cost appendix, all forced by mandated new
-  behavior, none a weakening: the game_audio cue census re-pinned 14 to 20 (six new
-  PLACEHOLDER cues); the Phase 11 gather_event_i18n pin "fishingResult is cue-free"
-  re-pinned to "plays only the reel cue" (audio.fishReel present, audio.lootItem absent);
-  and tests/gather_rare_events.test.ts re-driven through cast completion at its five
-  harvestNode call sites (an APPENDIX INVENTORY MISS the review coverage pass identified:
-  the file's drives were as synchronous as gather_node_harvest's, but the appendix never
-  listed it; coverage extended, nothing weakened). The appendix is otherwise CLOSED and
-  fully executed; per the standing rule it must be re-inventoried by any later phase that
-  adds pins in its blast radius.
+- Additive pin moves landed OUTSIDE the Pin-cost appendix, all forced by mandated new
+  behavior, none a weakening, in two classes. CUE-CENSUS EXTENSIONS for the six new
+  PLACEHOLDER cues: tests/game_audio.test.ts 14 to 20 and tests/sfx_manifest.test.ts
+  181-key/36-ui to 187/42; plus the Phase 11 gather_event_i18n pin "fishingResult is
+  cue-free" re-pinned to "plays only the reel cue" (audio.fishReel present,
+  audio.lootItem absent). THE SYNCHRONOUS-DRIVE FAMILY (an APPENDIX INVENTORY MISS: four
+  files drive harvestNode as synchronously as gather_node_harvest's listed describes, but
+  the appendix never listed them; each re-driven through cast completion via a local
+  completeCastNow helper mirroring the lifecycle arm, coverage extended, nothing
+  weakened): tests/gather_rare_events.test.ts (found by the review coverage pass),
+  tests/gather_rare_event_online.test.ts, tests/prof_intro_quest.test.ts, and
+  tests/profession_quest_objectives.test.ts (the last three caught by the FULL GATE, the
+  recurring full-gate-catches-what-the-matrix-missed class). The appendix is otherwise
+  CLOSED and fully executed; per the standing rule it must be re-inventoried by any later
+  phase that adds pins in its blast radius.
 - tests/gather_open_gate.test.ts and tests/gather_node_online.test.ts are deliberately
   unchanged (the former is corpse-focused with a stub harvestNode and corpse timing is out
   of scope; the latter is a pure ClientWorld ncd-mirror suite); the online
