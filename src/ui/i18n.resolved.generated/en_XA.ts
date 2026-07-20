@@ -2093,7 +2093,25 @@ export const en_XA: EnTranslations = {
       "notReady": "[Ţĥíš ŕéšóúŕçé ñóðé ĥáš ñóţ ŕéšþáŵñéð ƒóŕ ýóú ýéţ.]",
       "gatherLine": "[Ýóú ĝáţĥéŕ: {name}.]",
       "gatherLineQty": "[Ýóú ĝáţĥéŕ: {name} ẋ{qty}.]",
-      "catchLine": "[Ýóú ŕééļ íñ: {name}]"
+      "catchLine": "[Ýóú ŕééļ íñ: {name}]",
+      "nodeName": {
+        "ore": "[Óŕé Ʋéíñ]",
+        "wood": "[Ţíɱƀéŕ Šţáñð]",
+        "herb": "[Ĥéŕƀ Þáţçĥ]"
+      },
+      "tierRequired": {
+        "mining": "[Ŕéɋúíŕéš á ţíéŕ {tier} ɱíñíñĝ þíçķ]",
+        "logging": "[Ŕéɋúíŕéš á ţíéŕ {tier} ļóĝĝíñĝ áẋé]",
+        "herbalism": "[Ŕéɋúíŕéš á ţíéŕ {tier} ĥéŕƀáļíšɱ šíçķļé]"
+      },
+      "toolTierUnmet": {
+        "mining": "[Ýóú ñééð á ţíéŕ {tier} ɱíñíñĝ þíçķ ţó ĥáŕʋéšţ ţĥíš ʋéíñ.]",
+        "logging": "[Ýóú ñééð á ţíéŕ {tier} ļóĝĝíñĝ áẋé ţó ƒéļļ ţĥíš šţáñð.]",
+        "herbalism": "[Ýóú ñééð á ţíéŕ {tier} ĥéŕƀáļíšɱ šíçķļé ţó ĝáţĥéŕ ţĥíš þáţçĥ.]"
+      },
+      "toolTierUnmetCorpse": "[Ýóú ñééð á ţíéŕ {tier} ĝáţĥéŕíñĝ ţóóļ ţó ŕéçóʋéŕ ţĥé ƒíñéšţ ɱáţéŕíáļš.]",
+      "stateReady": "[Ŕéáðý]",
+      "stateCooldown": "[Ŕéšþáŵñíñĝ]"
     },
     "archetypeTitle": {
       "label": "[Ţíţļé]",

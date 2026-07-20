@@ -7180,6 +7180,22 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.gathering.gatherLine': '{name}을(를) 채집했습니다.',
   'hudChrome.gathering.gatherLineQty': '{name}을(를) {qty}개 채집했습니다.',
   'hudChrome.gathering.catchLine': '{name}을(를) 낚아 올렸습니다',
+  'hudChrome.gathering.nodeName.ore': '광맥',
+  'hudChrome.gathering.nodeName.wood': '벌목 나무',
+  'hudChrome.gathering.nodeName.herb': '약초 군락',
+  'hudChrome.gathering.tierRequired.mining': '{tier}티어 채광 곡괭이 필요',
+  'hudChrome.gathering.tierRequired.logging': '{tier}티어 벌목 도끼 필요',
+  'hudChrome.gathering.tierRequired.herbalism': '{tier}티어 약초 낫 필요',
+  'hudChrome.gathering.toolTierUnmet.mining':
+    '이 광맥을 캐려면 {tier}티어 채광 곡괭이가 필요합니다.',
+  'hudChrome.gathering.toolTierUnmet.logging':
+    '이 나무를 베려면 {tier}티어 벌목 도끼가 필요합니다.',
+  'hudChrome.gathering.toolTierUnmet.herbalism':
+    '이 군락을 채집하려면 {tier}티어 약초 낫이 필요합니다.',
+  'hudChrome.gathering.toolTierUnmetCorpse':
+    '최상급 재료를 회수하려면 {tier}티어 채집 도구가 필요합니다.',
+  'hudChrome.gathering.stateReady': '채집 가능',
+  'hudChrome.gathering.stateCooldown': '재생성 중',
   'gatherEvent.pristineVein': '{finder}님이 순수한 광맥을 발견했습니다!',
   'gatherEvent.ancientHeartwood': '{finder}님이 고대 심목을 베어냈습니다!',
   'gatherEvent.moonlitBloom': '{finder}님이 달빛 꽃을 발견했습니다!',

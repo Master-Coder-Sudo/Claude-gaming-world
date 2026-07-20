@@ -7200,6 +7200,22 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'hudChrome.gathering.gatherLine': '{name}を採集した。',
   'hudChrome.gathering.gatherLineQty': '{name}を{qty}個採集した。',
   'hudChrome.gathering.catchLine': '{name}を釣り上げた',
+  'hudChrome.gathering.nodeName.ore': '鉱脈',
+  'hudChrome.gathering.nodeName.wood': '立木',
+  'hudChrome.gathering.nodeName.herb': '薬草の群生地',
+  'hudChrome.gathering.tierRequired.mining': 'ティア{tier}の採掘ピッケルが必要',
+  'hudChrome.gathering.tierRequired.logging': 'ティア{tier}の伐採斧が必要',
+  'hudChrome.gathering.tierRequired.herbalism': 'ティア{tier}の薬草鎌が必要',
+  'hudChrome.gathering.toolTierUnmet.mining':
+    'この鉱脈を採掘するにはティア{tier}の採掘ピッケルが必要です。',
+  'hudChrome.gathering.toolTierUnmet.logging':
+    'この立木を伐り倒すにはティア{tier}の伐採斧が必要です。',
+  'hudChrome.gathering.toolTierUnmet.herbalism':
+    'この群生地を採取するにはティア{tier}の薬草鎌が必要です。',
+  'hudChrome.gathering.toolTierUnmetCorpse':
+    '最高の素材を回収するにはティア{tier}の採集道具が必要です。',
+  'hudChrome.gathering.stateReady': '採集可能',
+  'hudChrome.gathering.stateCooldown': '再生中',
   'gatherEvent.pristineVein': '{finder}が純粋な鉱脈を掘り当てた！',
   'gatherEvent.ancientHeartwood': '{finder}が太古の心木を切り倒した！',
   'gatherEvent.moonlitBloom': '{finder}が月光の花を発見した！',

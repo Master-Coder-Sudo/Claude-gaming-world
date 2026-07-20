@@ -7323,6 +7323,22 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.gathering.gatherLine': 'Вы добываете: {name}.',
   'hudChrome.gathering.gatherLineQty': 'Вы добываете: {name} x{qty}.',
   'hudChrome.gathering.catchLine': 'Вы выуживаете: {name}',
+  'hudChrome.gathering.nodeName.ore': 'Рудная жила',
+  'hudChrome.gathering.nodeName.wood': 'Древостой',
+  'hudChrome.gathering.nodeName.herb': 'Заросли трав',
+  'hudChrome.gathering.tierRequired.mining': 'Требуется шахтерская кирка {tier} уровня',
+  'hudChrome.gathering.tierRequired.logging': 'Требуется лесорубный топор {tier} уровня',
+  'hudChrome.gathering.tierRequired.herbalism': 'Требуется серп травника {tier} уровня',
+  'hudChrome.gathering.toolTierUnmet.mining':
+    'Чтобы разработать эту жилу, нужна шахтерская кирка {tier} уровня.',
+  'hudChrome.gathering.toolTierUnmet.logging':
+    'Чтобы срубить этот древостой, нужен лесорубный топор {tier} уровня.',
+  'hudChrome.gathering.toolTierUnmet.herbalism':
+    'Чтобы собрать эти заросли, нужен серп травника {tier} уровня.',
+  'hudChrome.gathering.toolTierUnmetCorpse':
+    'Чтобы добыть лучшие материалы, нужен инструмент сбора {tier} уровня.',
+  'hudChrome.gathering.stateReady': 'Готово',
+  'hudChrome.gathering.stateCooldown': 'Восстанавливается',
   'gatherEvent.pristineVein': '{finder} находит нетронутую жилу!',
   'gatherEvent.ancientHeartwood': '{finder} добывает древнюю сердцевину!',
   'gatherEvent.moonlitBloom': '{finder} находит лунный цветок!',
