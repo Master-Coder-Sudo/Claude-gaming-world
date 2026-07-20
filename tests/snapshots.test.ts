@@ -3505,7 +3505,10 @@ describe('delta-key contract pins (anti-drift)', () => {
   });
 
   it('ALL_DELTA_KEYS equals the maybe(...) keys scraped from server/game.ts (multi-line lockouts incl.)', () => {
-    const src = readFileSync(resolve(process.cwd(), 'server/game.ts'), 'utf8');
+    const raw = readFileSync(resolve(process.cwd(), 'server/game.ts'), 'utf8');
+    // Strip comments before scraping so a commented-out call cannot keep its key
+    // in the scraped set (the `(^|[^:])` guard keeps protocol `://` intact).
+    const src = raw.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
     // tolerate whitespace/newline between `(` and the quote so the multi-line
     // maybe('lockouts', ...) call (game.ts ~2166-2169) is captured, not undercounted;
     // the optional `(?:Raw)?` also captures the maybeRaw realm-wide calls
@@ -3614,7 +3617,15 @@ describe('dfb realm-readout memo (shared board bytes, per-session cadence)', () 
   });
 
   it('ships byte-for-byte what plain maybe() shipped: the memo string equals a direct stringify', () => {
-    const { server, fcA } = boardServer();
+    // A raw-capturing socket so the wire assertion reads the UNPARSED payload: a
+    // JSON.parse/re-stringify round trip could mask a non-canonical formatting
+    // difference in the raw bytes; the substring check below cannot.
+    const raw: string[] = [];
+    const server = new GameServer();
+    const fcRaw = { sent: [] as any[], ws: { readyState: 1, send: (p: string) => raw.push(p) } };
+    const sa = joinServer(server, fcRaw as any, 61, 'BoardOne');
+    server.sim.setPlayerLevel(8, sa.pid);
+    server.sim.dungeonFinderListingCreate('hollow_crypt_normal', ['first_run'], sa.pid);
     broadcast(server);
     const memo = (server as any).dfBoardReadout;
     // Same tick, so the finder's own boardRev/tickBucket cache is untouched: the
@@ -3623,7 +3634,12 @@ describe('dfb realm-readout memo (shared board bytes, per-session cadence)', () 
     // (buildBoard always returns a listing array), so `?? null` is inert and the
     // direct stringify IS the plain-maybe oracle.
     expect(memo.json).toBe(JSON.stringify(server.sim.dungeonFinderBoardView()));
-    expect(JSON.stringify(lastSnap(fcA.sent).self.dfb)).toBe(memo.json);
+    expect(JSON.parse(memo.json)).toHaveLength(1); // real payload, not an empty fixture
+    // The raw snap frame embeds the memoized string verbatim (maybeRaw splices
+    // `,"dfb":<serialized>` into the self JSON with no re-stringify).
+    expect(raw.some((p) => p.includes('"t":"snap"') && p.includes(`"dfb":${memo.json}`))).toBe(
+      true,
+    );
   });
 
   it('keeps delta-elision on an unchanged board and still ships a changed board to every session', () => {
@@ -3660,6 +3676,44 @@ describe('dfb realm-readout memo (shared board bytes, per-session cadence)', () 
     expect(grownB).toHaveLength(1);
     expect(grownA[0].self.dfb).toHaveLength(2);
     expect(JSON.stringify(grownA[0].self.dfb)).toBe(JSON.stringify(grownB[0].self.dfb));
+  });
+
+  it('keeps the cadence gate per-session: staggered sessions receive a change at their OWN ticks', () => {
+    // The dfb gate is per-session state (session.lastDfWireTick), NOT a
+    // realm-global dueness tracker like vcup's: two sessions with offset gates
+    // receive a board change at DIFFERENT broadcast passes, each at its own
+    // next due tick. A realm-global gate would deliver the change to both
+    // sessions in the SAME pass and red the not-yet-delivered assertion below.
+    const server = new GameServer();
+    const fcA = fakeWs();
+    const sa = joinServer(server, fcA, 63, 'StagOne');
+    server.sim.setPlayerLevel(8, sa.pid);
+    server.sim.dungeonFinderListingCreate('hollow_crypt_normal', ['first_run'], sa.pid);
+    broadcast(server); // tick 0: A ships the one-listing board; A's gate anchors at 0
+    // five ticks later a SECOND session joins: its fresh-join pass anchors its
+    // gate at tick 5, so the two sessions stay offset by 5 ticks forever
+    for (let i = 0; i < 5; i++) server.sim.tick();
+    const fcB = fakeWs();
+    const sb = joinServer(server, fcB, 64, 'StagTwo');
+    broadcast(server); // tick 5: B (fresh) ships the board; A is mid-interval, elided
+    expect(lastSnap(fcB.sent).self.dfb).toHaveLength(1);
+    // the board changes while BOTH gates are closed
+    server.sim.setPlayerLevel(8, sb.pid);
+    server.sim.dungeonFinderListingCreate('hollow_crypt_normal', [], sb.pid);
+    const dfbSnaps = (sent: any[], from: number): any[] =>
+      sent.slice(from).filter((m) => m.t === 'snap' && m.self && 'dfb' in m.self);
+    const aFrom = fcA.sent.length;
+    const bFrom = fcB.sent.length;
+    for (let i = 0; i < 5; i++) server.sim.tick();
+    broadcast(server); // tick 10: A's gate opens (10 - 0), B's does not (10 - 5)
+    expect(dfbSnaps(fcA.sent, aFrom)).toHaveLength(1);
+    expect(dfbSnaps(fcA.sent, aFrom)[0].self.dfb).toHaveLength(2);
+    expect(dfbSnaps(fcB.sent, bFrom)).toHaveLength(0); // B must NOT see it yet
+    for (let i = 0; i < 5; i++) server.sim.tick();
+    broadcast(server); // tick 15: B's own gate opens (15 - 5)
+    const bGrown = dfbSnaps(fcB.sent, bFrom);
+    expect(bGrown).toHaveLength(1);
+    expect(bGrown[0].self.dfb).toHaveLength(2);
   });
 });
 
