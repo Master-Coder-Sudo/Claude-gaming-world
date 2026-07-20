@@ -849,8 +849,9 @@ tables, i18n key namespaces, files created)
   text; the economy invariant's decisiveness was mutation-verified both
   ways (a seeded gold-positive new recipe reds the sweep, a legacy
   member flipped non-violating reds the self-pruning arm).
-- Phase 11 (built 2026-07-20; phase start 09e943669; a DRAFT PR parked for
-  the next release cut, QA runs after the maintainer retargets/merges):
+- Phase 11 (built 2026-07-20; phase start 09e943669; DRAFT PR #2197
+  retargeted to release/v0.29.0 after the cut, sync 83b929398 audit-clean;
+  QA runs after the maintainer merges):
   fishing joins the gathering framework. `src/sim/professions/fishing.ts`
   (startFishing/completeFishing behind SimContext, late-bound ctx arrows at
   the sim.ts host literal on the runEffects idiom; move-not-rewrite, parity

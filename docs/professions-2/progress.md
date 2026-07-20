@@ -27,7 +27,7 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 9 QA | Verify station presence and training | complete | 2026-07-19 | 2026-07-19 |
 | 10 | Recipe ladders and materials content | complete | 2026-07-19 | 2026-07-19 |
 | 10 QA | Verify recipe ladders and materials | not started | | |
-| 11 | Fishing joins the framework | built (draft PR parked for the next release cut) | 2026-07-20 | 2026-07-20 |
+| 11 | Fishing joins the framework | built (draft PR #2197 retargeted to release/v0.29.0) | 2026-07-20 | 2026-07-20 |
 | 11 QA | Verify fishing framework | not started | | |
 | 12 | Base tool tier gating | not started | | |
 | 12 QA | Verify tool tier gating | not started | | |
@@ -379,9 +379,11 @@ CLAUDE.md.
   byte for byte, pinned by literal seed sequences in `tests/professions_fishing.test.ts`)
 
 Phase 11 notes (2026-07-20): phase start 09e943669 (the release/v0.28.0 "prepare v0.28.0"
-tip; QA diffs 09e943669..the PR head). Built as a DRAFT PR parked for the next release cut
-(the maintainer ships v0.28.0, cuts the next release branch, then retargets/merges; Phase 11
-QA runs only after that landing). Decisions: catch feedback landed as the text-free personal
+tip; QA diffs 09e943669..the PR head, first-parent across the 83b929398 release sync). Built
+as DRAFT PR #2197 while v0.28.0 shipped; after the cut, release/v0.29.0 (623b10aee) was
+merged in (sync commit 83b929398, release-merge-audit clean: three incoming commits, the
+Discord invite-rotation revert only, zero overlap with the phase diff) and the PR retargeted
+to release/v0.29.0. Phase 11 QA runs after the maintainer merges it. Decisions: catch feedback landed as the text-free personal
 `fishingResult` SimEvent (gatherResult family) rendered as `hudChrome.gathering.catchLine`
 colored by ItemDef quality with no second cue; the packet OPEN item resolved as fold-in (no
 separate skill id, gprof unchanged, ALL_DELTA_KEYS stays 49). Deferrals: the
