@@ -245,7 +245,10 @@ STOPPING RULES:
 
 Every test, literal, and golden this phase is EXPECTED to move, so the implementer re-pins
 deliberately instead of discovering the blast radius mid-flight. Anything outside this list
-that reds is a defect in the change, not an accepted cost.
+that reds is a defect in the change, not an accepted cost. Re-inventoried by the Phase 12
+QA session against the Phase 12 merge (a57e43b78) plus the QA PR's own pins: the last
+three rows below cover the pins that landed AFTER the original inventory point and keep
+this list closed.
 
 - `tests/professions_fishing.test.ts`, describe "fishing one-draw rng contract (pin 2)": the
   one-draw-per-cast contract ("draws exactly one rng value per normal cast, including the
@@ -320,3 +323,25 @@ that reds is a defect in the change, not an accepted cost.
   pinned callback-name list in tests/sim_context.test.ts (the Phase 7 trap).
 - The wire: castRem/castTot ride dynamicFields only while castingAbility is set; the gather
   cast reuses that shape for free. Do NOT add any bite field beside them.
+- (post-inventory, Phase 12 + its QA) `tests/professions_fishing.test.ts`, describe
+  "fishing band tool cap (Professions 2.0 Phase 12)": the five literal-sequence arms (the
+  three rod-cap arms, the pole-only proficiency-0 byte-identity walk, and the QA's "a high
+  rod never buys bands" proficiency-arm pin) re-record under the new draw order exactly
+  like pins 1 and 6, same band-discriminating-window trap; and "useItem on each new rod
+  starts the standard fishing cast" pins the cast start at FISHING_CAST_ID with the
+  castStart emit, so it re-pins to the new bite cast-start shape.
+- (post-inventory, Phase 12 + its QA) `tests/professions_tools.test.ts`, describe
+  "sim-level node access gating (Professions 2.0 Phase 12)": the deny, unlock, owned-best,
+  requiredTier-3, and herbalism arms drive harvestNode synchronously with exact
+  gatherDenied shapes and a zero-draw deny pin; extend them to the new cast entry point
+  (extend, do not orphan), and the deny-is-rng-free property must hold at cast START (a
+  denied attempt draws nothing and starts no cast).
+- (post-inventory, Phase 12 + its QA) `tests/gather_node_harvest.test.ts`, describes
+  "node tool gate ordering (Phase 12)" and "Phase 12 determinism (same seed, same drive)":
+  the deny-order pins (respawn before tool gate, tool gate before bags-full) and the
+  hot-path exactly-two-draws pin re-home to the cast-completion shape; the determinism
+  drive re-shapes under the cast, and its fishDraws liveness pin (completeFishing called
+  directly, bypassing startFishing, exactly one table draw) survives only while the reel
+  keeps its single draw, re-pin consciously if that draw moves. The corpse premium-arm
+  suite (tests/corpse_harvest_sim.test.ts) is OUTSIDE this phase's blast radius: 12b adds
+  no corpse timing.
