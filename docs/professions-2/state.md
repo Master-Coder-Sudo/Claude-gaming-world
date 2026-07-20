@@ -892,6 +892,24 @@ tables, i18n key namespaces, files created)
   touching reviewed prose trips the full-gate i18n semantic-regression
   pins). catchLine's English carries no trailing period while gatherLine
   has one (deliberate; the five overlay fills match their English source).
+- Phase 11 QA notes (2026-07-20, PASS with fixes, zero blocking): the S3
+  drift guard scan list now includes src/sim/professions/fishing.ts (the
+  extraction had orphaned the three fishing-only emit literals from reword
+  protection; matchers unchanged). The stranded data.ts FISHING_RARE_ID /
+  FISHING_TABLES re-export dropped (the band-0 alias comment in
+  content/items.ts now names the deeds zone-key guard as the surviving
+  consumer). New pins, all mutation-verified: band-2 liveness on the live
+  catch path, codfather over-capacity force-add (soft-lock defense),
+  col_glimmerfin off a fished koi, startFishing deny arms + fixed 5 s
+  zero-draw cast start, nonzero fishing persistence round trip, and the
+  ACCEPTED rollback caveat (stripped-key reload re-zeroes fishing only).
+  Chore candidate: the `const SWIM_DEPTH = PLAYER_SWIM_DEPTH` deep-water
+  alias now has FOUR copies (sim.ts, player_motion.ts, mob/locomotion.ts,
+  professions/fishing.ts); rule of three tripped, a shared deep-water
+  predicate is the extraction shape. Awareness note: gathering proficiency
+  accrual has no maxSkill cap on the drain path (shared, pre-existing
+  semantics across all four professions; the wheel UI clamps display via
+  the Phase 5 above-cap saturation pin).
 - Phase 13: (planned) disenchantItem/applyEnchant/salvageItem IWorld
   members + wire commands.
 

@@ -74,6 +74,58 @@ describe('gathering profession proficiency (#1119)', () => {
     expect(meta2.gatheringProficiency).toEqual({ mining: 7, logging: 0, herbalism: 2, fishing: 0 });
   });
 
+  it('a NONZERO fishing proficiency survives the save/load round trip (Phase 11)', () => {
+    // Every other persistence fixture in this file carries fishing:0, so a
+    // regression dropping the fishing key from serializeCharacter (or a
+    // hand-rolled normalize key list) would stay green without this pin.
+    const sim = makeSim();
+    const pid = sim.playerId;
+    sim.chat('/dev gather mining 7', pid);
+    sim.chat('/dev gather fishing 57', pid);
+    sim.tick();
+
+    const state = (sim as any).serializeCharacter(pid);
+    // The save dual-writes both the legacy and the current key.
+    expect(state.professions).toEqual({ mining: 7, logging: 0, herbalism: 0, fishing: 57 });
+    expect(state.gatheringProficiency).toEqual({
+      mining: 7,
+      logging: 0,
+      herbalism: 0,
+      fishing: 57,
+    });
+
+    const sim2 = new Sim({ seed: 42, playerClass: 'warrior', noPlayer: true });
+    const loadedPid = sim2.addPlayer('warrior', 'RoundTrip', { state });
+    const meta2 = (sim2 as any).players.get(loadedPid);
+    expect(meta2.gatheringProficiency).toEqual({
+      mining: 7,
+      logging: 0,
+      herbalism: 0,
+      fishing: 57,
+    });
+  });
+
+  it('ACCEPTED ROLLBACK CAVEAT (documented Phase 11 semantic): a pre-Phase-11 round trip re-zeroes fishing only', () => {
+    // A pre-Phase-11 loader normalizes the blob to the starter three keys, so
+    // a save written by that code path comes back WITHOUT the fishing key:
+    // accrued fishing proficiency is deliberately lost on the downgrade round
+    // trip (the mailWelcomed class; release-notes line at tag time) while the
+    // other three professions survive untouched.
+    const sim = makeSim();
+    const pid = sim.playerId;
+    sim.chat('/dev gather mining 7', pid);
+    sim.chat('/dev gather fishing 57', pid);
+    sim.tick();
+    const state = (sim as any).serializeCharacter(pid);
+    delete state.professions.fishing;
+    delete state.gatheringProficiency.fishing;
+
+    const sim2 = new Sim({ seed: 42, playerClass: 'warrior', noPlayer: true });
+    const loadedPid = sim2.addPlayer('warrior', 'RolledBack', { state });
+    const meta2 = (sim2 as any).players.get(loadedPid);
+    expect(meta2.gatheringProficiency).toEqual({ mining: 7, logging: 0, herbalism: 0, fishing: 0 });
+  });
+
   it('backward-compatible: an old save lacking the field loads with all-zero proficiency', () => {
     const sim = makeSim();
     const pid = sim.playerId;
@@ -127,6 +179,15 @@ describe('gathering profession proficiency (#1119)', () => {
       logging: 0,
       herbalism: 0,
       fishing: 0,
+    });
+    // A nonzero fishing value passes through intact (Phase 11: every other
+    // fixture in this file feeds fishing 0, which a fishing-specific drop
+    // would satisfy vacuously).
+    expect(normalizeGatheringProficiency({ fishing: 57 })).toEqual({
+      mining: 0,
+      logging: 0,
+      herbalism: 0,
+      fishing: 57,
     });
   });
 

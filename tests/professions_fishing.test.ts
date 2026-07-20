@@ -33,11 +33,12 @@ import { type ClientSession, GameServer } from '../server/game';
 import { ClientWorld } from '../src/net/online';
 import { bagCapacity } from '../src/sim/bags';
 import { FISHING_TABLES, FISHING_TABLES_BY_BAND } from '../src/sim/content/items';
-import { DEEPFEN_SHALLOWS_LAKE } from '../src/sim/data';
+import { DEEPFEN_SHALLOWS_LAKE, LAKE } from '../src/sim/data';
 import {
   completeFishing,
   FISHING_BAND_THRESHOLDS,
   fishingBandFor,
+  startFishing,
 } from '../src/sim/professions/fishing';
 import { type PlayerMeta, Sim } from '../src/sim/sim';
 import type { Entity, PlayerClass, SimEvent } from '../src/sim/types';
@@ -153,6 +154,35 @@ const B1_SEQ_4242: (string | null)[] = [
   TROUT,
 ];
 
+// The literal band-2 sequence for the SAME seed with fishing proficiency 200,
+// hand-computed from the band-2 Vale weights (trout 51 / perch 36 / weed 4 /
+// koi 3 / null 6) against the same raw rng stream. It diverges from the
+// band-0 walk at index 1 and, decisively, from the BAND-1 walk at index 16:
+// that draw lands in the 92-to-94 window where band 2 yields the koi but
+// band 1 yields an empty hook, so matching this sequence proves the live
+// path resolved FISHING_TABLES_BY_BAND[2], not a band-1 collapse (Phase 11
+// QA: the top-band wiring was previously unpinned on the live path).
+const B2_SEQ_4242: (string | null)[] = [
+  PERCH,
+  TROUT,
+  TROUT,
+  TROUT,
+  TROUT,
+  PERCH,
+  TROUT,
+  PERCH,
+  PERCH,
+  TROUT,
+  PERCH,
+  TROUT,
+  TROUT,
+  TROUT,
+  TROUT,
+  TROUT,
+  KOI,
+  PERCH,
+];
+
 function codfatherSim(): { sim: Sim; meta: PlayerMeta } {
   const sim = makeSim();
   const meta = sim.meta(sim.playerId)!;
@@ -250,6 +280,23 @@ describe('fishing one-draw rng contract (pin 2)', () => {
     sim.tick();
     expect(meta.gatheringProficiency.fishing).toBe(0);
   });
+
+  it('codfather force-lands even with full bags (over-capacity tolerated, the soft-lock defense)', () => {
+    // The codfather branch deliberately skips the capacity gate: losing the
+    // once-ever quest fish to full bags could soft-lock the quest chain. A
+    // well-meaning "consistency" change adding a canAddItem gate here would
+    // keep every other pin green while recreating the soft-lock; this pin is
+    // the tooth.
+    const { sim, meta } = codfatherSim();
+    meta.inventory = Array.from({ length: bagCapacity(meta.bags) }, () => ({
+      itemId: 'simple_fishing_pole',
+      count: 1,
+    }));
+    sim.events = [];
+    completeFishing(sim.ctx, sim.player, meta);
+    expect(sim.countItem('the_codfather')).toBe(1);
+    expect(sim.events.filter((e) => (e as { type: string }).type === 'error')).toHaveLength(0);
+  });
 });
 
 describe('fishing proficiency accrual (pin 3)', () => {
@@ -303,6 +350,8 @@ describe('fishing band function (pin 4)', () => {
     expect(fishingBandFor(200)).toBe(2);
     expect(fishingBandFor(300)).toBe(2);
     expect(fishingBandFor(Number.NaN)).toBe(0);
+    // A negative proficiency (malformed input) also falls to band 0.
+    expect(fishingBandFor(-5)).toBe(0);
   });
 });
 
@@ -432,6 +481,16 @@ describe('fishing band selection liveness (pin 6)', () => {
     // stream, so this match proves the live path actually switched tables.
     expect(catchSequence(sim, meta, 12)).toEqual(B1_SEQ_4242);
   });
+
+  it('proficiency 200 resolves the band-2 Vale table: literal sequence at seed 4242', () => {
+    const sim = makeSim(4242);
+    const meta = sim.meta(sim.playerId)!;
+    meta.gatheringProficiency.fishing = 200;
+    // The koi at index 16 sits where the band-1 table yields an empty hook
+    // (see the B2_SEQ_4242 derivation comment), so this match proves the
+    // live path resolved the TOP band, not a band-1 collapse.
+    expect(catchSequence(sim, meta, 18)).toEqual(B2_SEQ_4242);
+  });
 });
 
 describe('fishingResult event (pin 7)', () => {
@@ -529,6 +588,121 @@ describe('fishing deeds through the extracted module path (pin 9)', () => {
     sim.ctx.markDeedsDirty(meta.entityId);
     sim.tick();
     expect(meta.deedsEarned.has('prog_master_gatherer')).toBe(true);
+  });
+
+  it('a fished glimmerfin koi logs the rare-catch line and completes col_glimmerfin', () => {
+    // Acceptance criterion 3: the rare catch and its deed complete unchanged
+    // through the extracted module path. col_glimmerfin is a collectItems
+    // trigger riding the addItem collection path, so a real completeFishing
+    // koi (B0_SEQ_4242 index 21) must credit it end to end.
+    const sim = makeSim(4242);
+    const meta = sim.meta(sim.playerId)!;
+    let koiAt = -1;
+    for (let i = 0; i < 22; i++) {
+      if (castOnce(sim, meta).caught === KOI) koiAt = i;
+    }
+    expect(koiAt).toBe(21);
+    expect(sim.events).toContainEqual(
+      expect.objectContaining({
+        type: 'log',
+        text: 'A rare catch! Something gleams on your line.',
+      }),
+    );
+    sim.ctx.markDeedsDirty(meta.entityId);
+    sim.tick();
+    expect(meta.deedsEarned.has('col_glimmerfin')).toBe(true);
+  });
+});
+
+describe('startFishing arms through the extracted module path (pin 10)', () => {
+  it('all five deny arms refuse with the exact error and never start the cast', () => {
+    const sim = makeSim(4242);
+    const meta = sim.meta(sim.playerId)!;
+    const denyCase = (mutate: () => void, restore: () => void, text: string) => {
+      mutate();
+      sim.events = [];
+      startFishing(sim.ctx, sim.player, meta);
+      expect(sim.events).toContainEqual(expect.objectContaining({ type: 'error', text }));
+      // No cast ever starts on a deny (the busy arm's precondition is itself
+      // a live castingAbility, so the tooth is the absent castStart event).
+      expect(sim.events.some((e) => (e as { type: string }).type === 'castStart')).toBe(false);
+      restore();
+    };
+    denyCase(
+      () => {
+        sim.player.dead = true;
+      },
+      () => {
+        sim.player.dead = false;
+      },
+      "You can't do that while dead.",
+    );
+    denyCase(
+      () => {
+        sim.player.inCombat = true;
+      },
+      () => {
+        sim.player.inCombat = false;
+      },
+      "You can't do that while in combat.",
+    );
+    // Swimming: the vale lake center puts the player in deep water.
+    const dry = { ...sim.player.pos };
+    denyCase(
+      () => {
+        teleportTo(sim, LAKE.x, LAKE.z);
+      },
+      () => {
+        sim.player.pos = { ...dry };
+        sim.player.prevPos = { ...dry };
+      },
+      "You can't do that while swimming.",
+    );
+    denyCase(
+      () => {
+        sim.player.castingAbility = 'fishing';
+      },
+      () => {
+        sim.player.castingAbility = null;
+      },
+      'You are busy.',
+    );
+    // No fishable water: the spawn plaza facing due south is dry land for
+    // every sample distance.
+    denyCase(
+      () => {
+        sim.player.facing = Math.PI;
+      },
+      () => {},
+      'You need to face fishable water.',
+    );
+  });
+
+  it('facing the vale lake starts the fixed 5 s cast and draws no rng', () => {
+    const sim = makeSim(4242);
+    const meta = sim.meta(sim.playerId)!;
+    // South shore of the vale lake, facing the center: fishable water ahead.
+    const pz = LAKE.z - LAKE.radius - 2;
+    teleportTo(sim, LAKE.x, pz);
+    sim.player.facing = Math.atan2(0, LAKE.z - pz);
+    sim.events = [];
+    let draws = 0;
+    sim.rng.setObserver(() => draws++);
+    try {
+      startFishing(sim.ctx, sim.player, meta);
+    } finally {
+      sim.rng.setObserver(null);
+    }
+    // The cast timer is a FIXED 5 s constant (literal on purpose: comparing
+    // against the imported constant would pin nothing) and the cast start
+    // draws zero rng, preserving the draw-order contract.
+    expect(draws).toBe(0);
+    expect(sim.player.castingAbility).toBe('fishing');
+    expect(sim.player.castTotal).toBe(5);
+    expect(sim.player.castRemaining).toBe(5);
+    expect(sim.events).toContainEqual(
+      expect.objectContaining({ type: 'castStart', ability: 'fishing', time: 5 }),
+    );
   });
 });
 
