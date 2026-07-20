@@ -2094,6 +2094,8 @@ export const ru_RU: EnTranslations = {
       "gatherLine": "Вы добываете: {name}.",
       "gatherLineQty": "Вы добываете: {name} x{qty}.",
       "catchLine": "Вы выуживаете: {name}",
+      "biteLine": "Что-то клюнуло!",
+      "gotAwayLine": "Добыча сорвалась.",
       "nodeName": {
         "ore": "Рудная жила",
         "wood": "Древостой",
@@ -5967,6 +5969,7 @@ export const ru_RU: EnTranslations = {
     },
     "cast": {
       "fishing": "Рыбная ловля",
+      "gathering": "Сбор ресурсов",
       "demonHeal": "Исцеление демона",
       "thunzharrStormcall": "Зов бури"
     }

@@ -2094,6 +2094,8 @@ export const de_DE: EnTranslations = {
       "gatherLine": "Sie sammeln: {name}.",
       "gatherLineQty": "Sie sammeln: {name} x{qty}.",
       "catchLine": "You reel in: {name}",
+      "biteLine": "Something takes the bait!",
+      "gotAwayLine": "It got away.",
       "nodeName": {
         "ore": "Ore Vein",
         "wood": "Timber Stand",
@@ -5967,6 +5969,7 @@ export const de_DE: EnTranslations = {
     },
     "cast": {
       "fishing": "Angeln",
+      "gathering": "Gathering",
       "demonHeal": "Dämonenheilung",
       "thunzharrStormcall": "Sturmruf"
     }

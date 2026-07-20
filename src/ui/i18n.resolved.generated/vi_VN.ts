@@ -2094,6 +2094,8 @@ export const vi_VN: EnTranslations = {
       "gatherLine": "Bạn tập hợp: {name}.",
       "gatherLineQty": "Bạn tập hợp: {name} x{qty}.",
       "catchLine": "You reel in: {name}",
+      "biteLine": "Something takes the bait!",
+      "gotAwayLine": "It got away.",
       "nodeName": {
         "ore": "Ore Vein",
         "wood": "Timber Stand",
@@ -5967,6 +5969,7 @@ export const vi_VN: EnTranslations = {
     },
     "cast": {
       "fishing": "Câu Cá",
+      "gathering": "Gathering",
       "demonHeal": "Quỷ Trị Liệu",
       "thunzharrStormcall": "Tiếng Gọi Bão"
     }

@@ -2094,6 +2094,8 @@ export const id_ID: EnTranslations = {
       "gatherLine": "Anda mengumpulkan: {name}.",
       "gatherLineQty": "Anda mengumpulkan: {name} x{qty}.",
       "catchLine": "You reel in: {name}",
+      "biteLine": "Something takes the bait!",
+      "gotAwayLine": "It got away.",
       "nodeName": {
         "ore": "Ore Vein",
         "wood": "Timber Stand",
@@ -5967,6 +5969,7 @@ export const id_ID: EnTranslations = {
     },
     "cast": {
       "fishing": "Memancing",
+      "gathering": "Gathering",
       "demonHeal": "Penyembuhan Iblis",
       "thunzharrStormcall": "Panggilan Badai"
     }

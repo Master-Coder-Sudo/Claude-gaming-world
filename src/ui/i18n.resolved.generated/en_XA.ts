@@ -2094,6 +2094,8 @@ export const en_XA: EnTranslations = {
       "gatherLine": "[Ýóú ĝáţĥéŕ: {name}.]",
       "gatherLineQty": "[Ýóú ĝáţĥéŕ: {name} ẋ{qty}.]",
       "catchLine": "[Ýóú ŕééļ íñ: {name}]",
+      "biteLine": "[Šóɱéţĥíñĝ ţáķéš ţĥé ƀáíţ!]",
+      "gotAwayLine": "[Íţ ĝóţ áŵáý.]",
       "nodeName": {
         "ore": "[Óŕé Ʋéíñ]",
         "wood": "[Ţíɱƀéŕ Šţáñð]",
@@ -5967,6 +5969,7 @@ export const en_XA: EnTranslations = {
     },
     "cast": {
       "fishing": "[Ƒíšĥíñĝ]",
+      "gathering": "[Ĝáţĥéŕíñĝ]",
       "demonHeal": "[Ðéɱóñ Ĥéáļ]",
       "thunzharrStormcall": "[Šţóŕɱçáļļ]"
     }

@@ -2094,6 +2094,8 @@ export const tr_TR: EnTranslations = {
       "gatherLine": "Topladığınız şey: {name}.",
       "gatherLineQty": "Şunu toplarsınız: {name} x{qty}.",
       "catchLine": "You reel in: {name}",
+      "biteLine": "Something takes the bait!",
+      "gotAwayLine": "It got away.",
       "nodeName": {
         "ore": "Ore Vein",
         "wood": "Timber Stand",
@@ -5967,6 +5969,7 @@ export const tr_TR: EnTranslations = {
     },
     "cast": {
       "fishing": "Balık Tutma",
+      "gathering": "Gathering",
       "demonHeal": "Şeytan İyileştirmesi",
       "thunzharrStormcall": "Fırtına Çağrısı"
     }

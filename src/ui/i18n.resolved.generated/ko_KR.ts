@@ -2094,6 +2094,8 @@ export const ko_KR: EnTranslations = {
       "gatherLine": "{name}을(를) 채집했습니다.",
       "gatherLineQty": "{name}을(를) {qty}개 채집했습니다.",
       "catchLine": "{name}을(를) 낚아 올렸습니다",
+      "biteLine": "무언가 미끼를 물었습니다!",
+      "gotAwayLine": "놓쳐 버렸습니다.",
       "nodeName": {
         "ore": "광맥",
         "wood": "벌목 나무",
@@ -5967,6 +5969,7 @@ export const ko_KR: EnTranslations = {
     },
     "cast": {
       "fishing": "낚시",
+      "gathering": "채집",
       "demonHeal": "악마 치유",
       "thunzharrStormcall": "폭풍의 부름"
     }

@@ -87,6 +87,7 @@ import {
   type Entity,
   FAERIE_FIRE_ARMOR_PCT,
   FISHING_CAST_ID,
+  GATHER_CAST_ID,
   type ItemDef,
   MAX_LEVEL,
   MELEE_RANGE,
@@ -688,6 +689,7 @@ const PLAYER_TOOLTIP_VIEW_DEPS: PlayerTooltipI18n = {
 };
 const castDisplayName = (id: string): string => {
   if (id === FISHING_CAST_ID) return t('abilityUi.cast.fishing');
+  if (id === GATHER_CAST_ID) return t('abilityUi.cast.gathering');
   if (id === 'demon_heal') return t('abilityUi.cast.demonHeal');
   if (id === 'thunzharr_stormcall') return t('abilityUi.cast.thunzharrStormcall');
   const ability = ABILITIES[id];
@@ -8882,7 +8884,10 @@ export class Hud {
           // material rarity. Identical on every graphics tier (player feedback
           // is never profile-gated). The grant hub's own 'loot' event already
           // prints the "You receive:" line and plays the loot cue, so this
-          // line uses distinct gather wording and adds no second cue.
+          // line uses distinct gather wording; the strike cue (Phase 12b) is
+          // the physical pick/axe/sickle impact of the completed gather cast,
+          // not a second loot notification, with a rare variant for a rare+
+          // material or a rare-event roll.
           const item = ITEMS[ev.itemId];
           const name = item ? itemDisplayName(item) : ev.itemId;
           this.log(
@@ -8894,6 +8899,14 @@ export class Hud {
               : t('hudChrome.gathering.gatherLine', { name }),
             QUALITY_COLOR[ev.rarity],
           );
+          if (
+            ev.rareEvent !== null ||
+            ev.rarity === 'rare' ||
+            ev.rarity === 'epic' ||
+            ev.rarity === 'legendary'
+          )
+            audio.gatherRare();
+          else audio.gatherStrike();
           break;
         }
         case 'gatherDenied': {
@@ -8913,12 +8926,34 @@ export class Hud {
           // caught item's quality. Identical on every graphics tier (player
           // feedback is never profile-gated). The grant hub's own 'loot' event
           // already prints the "You receive:" line and plays the loot cue, so
-          // this line uses distinct reel-in wording and adds no second cue.
+          // this line uses distinct reel-in wording; the reel cue (Phase 12b)
+          // is the splash-and-crank of the landed reel itself, not a second
+          // loot notification.
           const item = ITEMS[ev.itemId];
           this.log(
             t('hudChrome.gathering.catchLine', { name: item ? itemDisplayName(item) : ev.itemId }),
             QUALITY_COLOR[ev.quality],
           );
+          audio.fishReel();
+          break;
+        }
+        case 'fishingBite': {
+          // The hidden seeded bite fired (Professions 2.0 Phase 12b). The cue
+          // rides the ALWAYS-AUDIBLE play() arm (timing/affordance: the reel
+          // window is running, so it must never be silenced by the feedback
+          // toggle), the bobber flips into its bite state via the renderer's
+          // own handleEvent arm, and this localized line keeps the moment
+          // visible in the log so it is never sound-only (accessibility).
+          this.log(t('hudChrome.gathering.biteLine'), '#9adcff');
+          audio.fishBite();
+          break;
+        }
+        case 'fishingGotAway': {
+          // The reel window closed unanswered (Professions 2.0 Phase 12b): a
+          // localized line only, NO cue (a miss costs nothing and a cue every
+          // missed bite would spam an AFK-adjacent moment); the bobber sinks
+          // out on its own as the cast ends.
+          this.log(t('hudChrome.gathering.gotAwayLine'), '#a8a8a8');
           break;
         }
         case 'gatherRareEvent': {
@@ -9850,7 +9885,14 @@ export class Hud {
           this.log(t('hud.system.respawn'), '#7fdc4f');
           break;
         case 'castStart':
-          break; // cast-loop SFX is spatial now (see playEventSfx)
+          // cast-loop SFX is spatial now (see playEventSfx); the profession
+          // casts (Professions 2.0 Phase 12b) add a personal placeholder cue
+          // at cast start, feedback-gated like other notification cues.
+          if (ev.entityId === sim.playerId) {
+            if (ev.ability === GATHER_CAST_ID) audio.gatherCast();
+            else if (ev.ability === FISHING_CAST_ID) audio.fishCast();
+          }
+          break;
         case 'castStop':
           // Deferred "Auto-Attack on Ability Use" (timed casts): engage only when
           // the player's own cast COMPLETES, so the aggro happens as the damage
