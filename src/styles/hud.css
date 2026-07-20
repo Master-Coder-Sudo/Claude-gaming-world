@@ -1743,11 +1743,14 @@
     gap: 2px;
     z-index: 19;
   }
-  #side-buttons-col-a,
-  #side-buttons-col-b {
+  .side-buttons-col {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    /* Explicit, not content-sized: #daily-rewards-button is 50px wide against
+       the 34px .micro-btn, and flex-end would otherwise right-align it inside
+       a 50px-wide column, opening a dead gutter between the two columns. */
+    width: 34px;
     gap: 4px;
   }
   .micro-btn {
@@ -1864,10 +1867,12 @@
      every launcher, including the chest, stays on screen. The two-column
      split already keeps each column well under budget at 1366x768, but the
      rescue stays as a floor for shorter viewports still. Pinned by the
-     rail-height budget test in tests/crafting_launcher.test.ts. */
-  @media (max-height: 720px) {
-    #side-buttons-col-a,
-    #side-buttons-col-b {
+     rail-height budget test in tests/crafting_launcher.test.ts. Threshold is
+     600px, not 720px: uncompacted col-b (128 + 10 * (34 + 4) = 582) already
+     fits the 660px maximized-1366x768 budget, so the rescue only needs to
+     fire below that. */
+  @media (max-height: 600px) {
+    .side-buttons-col {
       gap: 1px;
     }
     #side-buttons .micro-btn {
@@ -2296,6 +2301,10 @@
     flex-direction: column;
     gap: 14px;
     pointer-events: none;
+    /* Above #side-buttons (z-index: 19): the two-column rail split moved its
+       icon strip taller on short viewports, into the tracker's vertical span.
+       Text stays readable over the icons instead of the rail painting over it. */
+    z-index: 20;
   }
   /* ---------- quest tracker ---------- */
   #quest-tracker {
