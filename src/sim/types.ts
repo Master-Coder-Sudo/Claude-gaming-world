@@ -93,6 +93,19 @@ export const CAST_QUEUE_WINDOW_SEC = 0.4;
 export const FISHING_CAST_ID = 'fishing';
 export const FISHING_CAST_NAME = 'Fishing';
 export const FISHING_CAST_TIME = 5;
+// The gather-cast sentinel riding castingAbility (Professions 2.0 Phase 12b),
+// beside FISHING_CAST_ID above: an activity marker, never an ability id.
+export const GATHER_CAST_ID = 'gathering';
+// The non-spell casts: castingAbility sentinels that are activities, not
+// abilities. They share one semantics bundle at the casting choke points:
+// exempt from silence and school lockouts, no blink-through, no spell queue,
+// immune to interrupt effects, damage cancels instead of pushing back, and
+// item use is blocked while one runs. DEMON_HEAL_CAST_ID is deliberately NOT
+// a member: its channel keeps its own per-site behavior, folded in explicitly
+// only where that behavior is already byte-identical (see the call sites).
+export function isNonSpellCast(castId: string | null): boolean {
+  return castId === FISHING_CAST_ID || castId === GATHER_CAST_ID;
+}
 // Seconds an empty instance idles before it resets. Shared by the dungeon instance
 // reaper (instances/dungeons.ts) and the delve reaper (sim.ts). NYTHRAXIS_BOSS_ID
 // (the dungeon raid-door seal also keys off it) lives lower in this file (C1 relocation).

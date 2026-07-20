@@ -49,6 +49,7 @@ import {
   FACING_HOLD_DIST,
   FISHING_CAST_ID,
   isFormAuraKind,
+  isNonSpellCast,
   MELEE_ARC,
   MELEE_RANGE,
   MIN_GCD,
@@ -223,17 +224,25 @@ export function updateCasting(ctx: SimContext, p: Entity, meta: PlayerMeta): voi
       return;
     }
   }
-  // a silence breaks an in-progress spell, but never the fishing cast or a
-  // physical channel (e.g. an aimed-shot kind) — those aren't spells.
-  if (isSilenced(p) && p.castingAbility !== FISHING_CAST_ID) {
+  // a silence breaks an in-progress spell, but never a non-spell cast (the
+  // fishing/gather sentinels) or a physical channel (e.g. an aimed-shot
+  // kind): those aren't spells. Demon Heal folds into the same short-circuit
+  // explicitly: it was already exempt here via failed ability resolution (its
+  // sentinel resolves to no ability), so the comparison is byte-identical.
+  if (
+    isSilenced(p) &&
+    !(isNonSpellCast(p.castingAbility) || p.castingAbility === DEMON_HEAL_CAST_ID)
+  ) {
     const cast = ctx.resolvedAbility(p.castingAbility, p.id);
     if (cast && cast.def.school !== 'physical') {
       cancelCast(ctx, p);
       return;
     }
   }
-  // a school lockout breaks an in-progress spell only when it matches the locked school.
-  if (p.castingAbility !== FISHING_CAST_ID) {
+  // a school lockout breaks an in-progress spell only when it matches the
+  // locked school; non-spell casts are exempt. Demon Heal folds in exactly as
+  // in the silence arm above (already exempt via failed ability resolution).
+  if (!(isNonSpellCast(p.castingAbility) || p.castingAbility === DEMON_HEAL_CAST_ID)) {
     const cast = ctx.resolvedAbility(p.castingAbility, p.id);
     if (cast && cast.def.school !== 'physical' && isLockedOut(p, cast.def.school)) {
       cancelCast(ctx, p);
@@ -503,7 +512,9 @@ export function castAbility(
   // casts on MOVE INPUT). Everything else keeps the classic rules. No rng.
   const blinkThrough =
     p.castingAbility !== null &&
-    p.castingAbility !== FISHING_CAST_ID &&
+    // Non-spell casts (fishing/gather) never blink through. Demon Heal is
+    // deliberately NOT folded here: blink-through during its channel is live.
+    !isNonSpellCast(p.castingAbility) &&
     ability.castTime === 0 &&
     (ability.usableWhileCasting === true ||
       (abilityId === 'blink' && ctx.playerMods(meta).global.blinkCast > 0));
@@ -511,10 +522,12 @@ export function castAbility(
     if (!blinkThrough) {
       // classic-era spell queue: a press during the tail of the current cast
       // queues instead of erroring, and updateCasting fires it on cast completion.
-      // Fishing is exempt (like the silence/lockout guards above): completeFishing
-      // never calls fireQueuedCast, so a press queued against it would strand and
-      // misfire on a later, unrelated cast.
-      if (p.castRemaining <= CAST_QUEUE_WINDOW_SEC && p.castingAbility !== FISHING_CAST_ID) {
+      // Non-spell casts (fishing/gather) are exempt (like the silence/lockout
+      // guards above): their completion paths never call fireQueuedCast, so a
+      // press queued against one would strand and misfire on a later, unrelated
+      // cast. Demon Heal is deliberately NOT folded: its channel completion
+      // fires the queue, so queuing against it works today.
+      if (p.castRemaining <= CAST_QUEUE_WINDOW_SEC && !isNonSpellCast(p.castingAbility)) {
         p.queuedCastAbility = abilityId;
         p.queuedCastAim = aim ?? null;
         return;

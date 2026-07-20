@@ -39,8 +39,8 @@ import type { Entity } from '../types';
 import {
   berserkerCritDamage,
   dist2d,
-  FISHING_CAST_ID,
   isConsuming,
+  isNonSpellCast,
   MAX_LEVEL,
   mobXpValue,
   NYTHRAXIS_BOSS_ID,
@@ -886,7 +886,10 @@ export function dealDamage(
       amount > 0 &&
       kind === 'hit'
     ) {
-      if (target.castingAbility === FISHING_CAST_ID) ctx.cancelCast(target);
+      // A non-spell cast (fishing/gather) cancels outright instead of pushing
+      // back. The Demon Heal channel is deliberately NOT folded in: it takes
+      // the normal channel pushback below, as today.
+      if (isNonSpellCast(target.castingAbility)) ctx.cancelCast(target);
       else if (!ignoresDamagePushback(ctx, target, target.castingAbility)) ctx.pushbackCast(target);
     }
   }
