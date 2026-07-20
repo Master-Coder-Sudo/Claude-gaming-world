@@ -105,7 +105,10 @@ describe('side rail height budget', () => {
   // launchers. This pins the arithmetic so a column that grows too tall still
   // fails here, the same way the single rail used to.
   const BUDGET_PX = 660; // maximized 1366x768 usable viewport height
+  const COMPACT_BUDGET_PX = 600; // the @media (max-height: 600px) rescue threshold itself
   const BOTTOM_ANCHOR_PX = 74; // #side-buttons { bottom: 74px }
+  const UNCOMPACTED_MICRO_PX = 30; // .micro-btn height at full size (hud.css:1758)
+  const UNCOMPACTED_GAP_PX = 4; // .side-buttons-col gap at full size (hud.css:1754)
   const COMPACT_MICRO_PX = 24; // .micro-btn height under @media (max-height: 600px)
   const COMPACT_GAP_PX = 1; // column gap under the same media query
   // The Daily Rewards chest block (button plus its margin), which now lives
@@ -167,31 +170,43 @@ describe('side rail height budget', () => {
     expect(colRule).toMatch(/width:\s*34px;/);
   });
 
-  it('each compacted column fits the 1366x768 height budget in both game entries', () => {
+  // Splits the two regimes the rail actually renders in, instead of mixing them:
+  // at a 660px viewport the @media (max-height: 600px) rescue does not fire, so
+  // the rail renders at full (uncompacted) size; only at 600px and below does it
+  // shrink to the compacted metrics. Measuring compacted metrics against the
+  // 660px budget (the previous version of this test) created a false-pass
+  // window, since the real uncompacted footprint is taller and the guard never
+  // saw it.
+  function columnMarkup(html: string, name: string): { colA: string; colB: string } {
+    const wrapper = wrapperMarkup(html);
+    expect(wrapper, name).not.toBe('');
+
+    const colAStart = wrapper.indexOf('id="side-buttons-col-a"');
+    const colBStart = wrapper.indexOf('id="side-buttons-col-b"');
+    expect(colAStart, name).toBeGreaterThan(-1);
+    expect(colBStart, name).toBeGreaterThan(-1);
+    const colA = wrapper.slice(colAStart, colBStart);
+    const colB = wrapper.slice(colBStart);
+
+    // The Daily Rewards chest lives in col-b only: pin that so moving it
+    // back to col-a (silently shifting 128px of budget) still fails here.
+    expect(colB, name).toContain('id="daily-rewards-button"');
+    expect(colA, name).not.toContain('id="daily-rewards-button"');
+    return { colA, colB };
+  }
+
+  it('each uncompacted column fits the 1366x768 height budget in both game entries', () => {
     for (const [name, html] of [
       ['index.html', indexHtml],
       ['play.html', playHtml],
     ] as const) {
-      const wrapper = wrapperMarkup(html);
-      expect(wrapper, name).not.toBe('');
-
-      const colAStart = wrapper.indexOf('id="side-buttons-col-a"');
-      const colBStart = wrapper.indexOf('id="side-buttons-col-b"');
-      expect(colAStart, name).toBeGreaterThan(-1);
-      expect(colBStart, name).toBeGreaterThan(-1);
-      const colA = wrapper.slice(colAStart, colBStart);
-      const colB = wrapper.slice(colBStart);
-
-      // The Daily Rewards chest lives in col-b only: pin that so moving it
-      // back to col-a (silently shifting 128px of budget) still fails here.
-      expect(colB, name).toContain('id="daily-rewards-button"');
-      expect(colA, name).not.toContain('id="daily-rewards-button"');
-
+      const { colA, colB } = columnMarkup(html, name);
       const colAVisible = countVisibleMicroBtns(colA);
       const colBVisible = countVisibleMicroBtns(colB);
 
-      const colAPx = colAVisible * (COMPACT_MICRO_PX + COMPACT_GAP_PX);
-      const colBPx = DAILY_CHEST_BLOCK_PX + colBVisible * (COMPACT_MICRO_PX + COMPACT_GAP_PX);
+      const colAPx = colAVisible * (UNCOMPACTED_MICRO_PX + UNCOMPACTED_GAP_PX);
+      const colBPx =
+        DAILY_CHEST_BLOCK_PX + colBVisible * (UNCOMPACTED_MICRO_PX + UNCOMPACTED_GAP_PX);
 
       expect(
         colAPx + BOTTOM_ANCHOR_PX,
@@ -204,16 +219,69 @@ describe('side rail height budget', () => {
     }
   });
 
+  it('each compacted column fits the 600px rescue threshold in both game entries', () => {
+    for (const [name, html] of [
+      ['index.html', indexHtml],
+      ['play.html', playHtml],
+    ] as const) {
+      const { colA, colB } = columnMarkup(html, name);
+      const colAVisible = countVisibleMicroBtns(colA);
+      const colBVisible = countVisibleMicroBtns(colB);
+
+      const colAPx = colAVisible * (COMPACT_MICRO_PX + COMPACT_GAP_PX);
+      const colBPx = DAILY_CHEST_BLOCK_PX + colBVisible * (COMPACT_MICRO_PX + COMPACT_GAP_PX);
+
+      expect(
+        colAPx + BOTTOM_ANCHOR_PX,
+        `${name} col-a: ${colAVisible} visible micro-btn`,
+      ).toBeLessThanOrEqual(COMPACT_BUDGET_PX);
+      expect(
+        colBPx + BOTTOM_ANCHOR_PX,
+        `${name} col-b: ${colBVisible} visible micro-btn`,
+      ).toBeLessThanOrEqual(COMPACT_BUDGET_PX);
+    }
+  });
+
   it('keeps the rail narrow enough to not widen the overlap with #right-tracker-stack', () => {
     // The two-column split traded height for width: the rail used to be one
     // ~50px-wide column, now it is two 34px columns plus a gap. This is the
     // constraint that moved, and nothing pinned it before this test: widening
     // either column, or the gap between them, grows the band where the rail's
     // icon strip can paint over #right-tracker-stack on a short viewport.
-    const railWidthPx = COL_WIDTH_PX * 2 + RAIL_GAP_PX;
+    // Derive both numbers from the CSS itself (the same pattern the
+    // close-together test above uses for the gap): a hardcoded expectation
+    // built from the same local constants as the CSS would trivially pass
+    // no matter how wide the rail actually rendered.
+    const colWidthMatch = /\.side-buttons-col \{([^}]*)\}/.exec(hudCss)?.[1] ?? '';
+    const colWidth = Number(/width:\s*(\d+)px/.exec(colWidthMatch)?.[1]);
+    const wrapperRule = /#side-buttons \{([^}]*)\}/.exec(hudCss)?.[1] ?? '';
+    const railGap = Number(/gap:\s*(\d+)px/.exec(wrapperRule)?.[1]);
+    expect(colWidth).toBe(COL_WIDTH_PX);
+    expect(railGap).toBe(RAIL_GAP_PX);
+
+    const railWidthPx = colWidth * 2 + railGap;
     expect(railWidthPx).toBeLessThanOrEqual(70);
-    expect(hudCss).toMatch(/\.side-buttons-col \{[^}]*width:\s*34px;/);
-    expect(hudCss).toMatch(/#side-buttons \{[^}]*gap:\s*2px;/);
+  });
+
+  it('shrinks the tracker rows to their own content width, so the tracker paints over the rail without stealing its clicks', () => {
+    // #right-tracker-stack sits above #side-buttons (z-index: 20 vs 19,
+    // hud.css:2307) so its text stays readable when the rail grows into its
+    // vertical span on a short viewport. That z-index bump alone would also
+    // let any full-width, pointer-events:auto tracker row steal clicks and
+    // hover meant for a rail button underneath it; the fix is to shrink each
+    // clickable row to its own content width instead of letting it span the
+    // whole 240px #right-tracker-stack.
+    for (const selector of [
+      '#quest-tracker \\.qt-header',
+      '#quest-tracker \\.qt-title',
+      '#deed-tracker \\.dt-header',
+      '#delve-tracker \\.dt-affix-row',
+    ]) {
+      const rule = new RegExp(`${selector} \\{([^}]*)\\}`).exec(hudCss)?.[1] ?? '';
+      expect(rule, selector).not.toBe('');
+      expect(rule, selector).toMatch(/width:\s*fit-content;/);
+      expect(rule, selector).not.toMatch(/[^-]width:\s*100%;/);
+    }
   });
 });
 
