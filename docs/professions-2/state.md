@@ -849,6 +849,48 @@ tables, i18n key namespaces, files created)
   text; the economy invariant's decisiveness was mutation-verified both
   ways (a seeded gold-positive new recipe reds the sweep, a legacy
   member flipped non-violating reds the self-pruning arm).
+- Phase 11 (built 2026-07-20; phase start 09e943669; a DRAFT PR parked for
+  the next release cut, QA runs after the maintainer retargets/merges):
+  fishing joins the gathering framework. `src/sim/professions/fishing.ts`
+  (startFishing/completeFishing behind SimContext, late-bound ctx arrows at
+  the sim.ts host literal on the runEffects idiom; move-not-rewrite, parity
+  goldens byte-identical, sim.ts shed 111 lines). `GatheringProfessionId`
+  gains `fishing` appended LAST (eager-init in emptyGatheringProficiency;
+  normalize-on-load zero-defaults old saves; ROLLBACK CAVEAT: pre-Phase-11
+  normalize drops the unknown fishing key, so accrued fishing proficiency
+  re-zeroes on a downgrade round trip, the mailWelcomed class). Accrual:
+  `queueGatheringGrant(meta, 'fishing', 1)` per landed catch (junk counts;
+  no-bite, bags-full, and the codfather branch never accrue). Catch rarity
+  ladder: `FISHING_TABLES_BY_BAND` (3 bands x 3 zones) selected by
+  `fishingBandFor` over `FISHING_BAND_THRESHOLDS` [0, 100, 200]; band 0 IS
+  the shipped table object (the `FISHING_TABLES` export aliases it) so every
+  pre-phase seed reproduces its catch sequence; higher bands shift weight
+  from junk/empty-hook rows into the six cooking fish, koi weight flat
+  everywhere; band selection is pure state ahead of the unchanged single rng
+  draw. Wire: zero changes (gprof/prof whole-record; no IWorld member
+  added). Catch feedback: text-free personal `fishingResult` SimEvent
+  (gatherResult family, itemId + ItemDef quality) rendered as
+  `hudChrome.gathering.catchLine` colored by quality, wording apart from the
+  loot and gather lines, no second cue; keys `hudChrome.gathering.fishing` +
+  `catchLine` with M16 fills in the five non-Latin overlays. UI rows ride
+  the existing builders (char window + wheel window name-key maps; the Phase
+  5 gather_fishing icon read went live). `tests/professions_fishing.test.ts`
+  (21 pins: literal band-0/band-1 seed sequences, the one-draw contract with
+  zero draws on the codfather branch, accrual arms, table literals with flat
+  koi and monotone shifts, alias identity, the fishingResult contract, a
+  live GameServer gprof round trip with bystander isolation, the accepted
+  deed drift). Screenshots: docs/screenshots/professions-2-phase-11-fishing/.
+- Phase 11 drift notes (2026-07-20): prog_first_harvest (trigger gathering
+  amount 1, desc "Harvest your first gathering node") now completes on a
+  first landed CATCH, and prog_master_gatherer (count 3, desc naming the
+  starter trio) counts fishing so any 3 of 4 at 100 completes it; both
+  accepted as cosmetic-only and pinned as documented Phase 11 semantics in
+  tests/professions_fishing.test.ts (a deed-desc wording pass is a
+  maintainer call). guide.professions gatherTitle/gatherIntro prose still
+  says "Three gathering trades" (Phase 15 guide rewrite owns the reword;
+  touching reviewed prose trips the full-gate i18n semantic-regression
+  pins). catchLine's English carries no trailing period while gatherLine
+  has one (deliberate; the five overlay fills match their English source).
 - Phase 13: (planned) disenchantItem/applyEnchant/salvageItem IWorld
   members + wire commands.
 
@@ -897,8 +939,10 @@ tables, i18n key namespaces, files created)
   trainer-taught; recorded in the Phase 9 surfaces entry).
 - Master NPC names/personalities (content flavor, Phase 8; maintainer may
   want a naming pass).
-- Whether fishing keeps a separate skill id or folds into professionsState
-  shape (Phase 11 decides; wire shape follows gprof pattern either way).
+- RESOLVED (2026-07-20, Phase 11): fishing FOLDS into the gathering
+  proficiency shape (a fourth GATHERING_PROFESSIONS row, no separate skill
+  id); the wire rides the existing gprof/prof whole-record keys unchanged
+  (ALL_DELTA_KEYS stays 49; recorded in the Phase 11 surfaces entry).
 - q_prof_hobby_switch is an unbounded repeatable 75 XP turn-in (flagged by
   the Phase 1 QA security review): fully server-authoritative and XP-only,
   but unlike its two self-limiting siblings it has no escalating gate, so a
