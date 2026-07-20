@@ -1,0 +1,131 @@
+// Fishing profession command logic, behind the SimContext seam. Relocated
+// verbatim from the Sim coordinator (Professions 2.0 Phase 11): startFishing
+// begins the fishing cast (the fishing-pole item use routes here via
+// SimContext, src/sim/items.ts) and completeFishing resolves the catch when
+// that cast finishes (the cast lifecycle routes here,
+// src/sim/combat/casting_lifecycle.ts). This stage is a pure move: no
+// proficiency, no rarity ladder, no content change. The rng draw order is
+// preserved exactly (one ctx.rng draw per normal catch, zero on the codfather
+// early-return path, and zero in startFishing), so the parity goldens stay
+// byte-identical.
+
+import { FISHING_RARE_ID, FISHING_TABLES } from '../content/items';
+import { DEEPFEN_SHALLOWS_LAKE } from '../content/zone2';
+import { zoneAt } from '../data';
+import { onFishCaughtForDeeds } from '../deeds';
+import { PLAYER_SWIM_DEPTH } from '../pathfind';
+import type { PlayerMeta } from '../sim';
+import type { SimContext } from '../sim_context';
+import { type Entity, FISHING_CAST_ID, FISHING_CAST_TIME, isConsuming } from '../types';
+import { groundHeight, waterLevelAt } from '../world';
+
+const SWIM_DEPTH = PLAYER_SWIM_DEPTH; // ground this far under the water line = deep water
+const FISHING_SAMPLE_DISTANCES = [4, 8, 12, 16, 20, 24];
+const DEEPFEN_FISHING_SHORE_MARGIN = 10;
+const THE_CODFATHER_ITEM_ID = 'the_codfather';
+const THE_CODFATHER_QUEST_ID = 'q_the_codfather';
+
+function hasFishableWaterAhead(ctx: SimContext, p: Entity): boolean {
+  const sin = Math.sin(p.facing);
+  const cos = Math.cos(p.facing);
+  return FISHING_SAMPLE_DISTANCES.some((d) => {
+    const x = p.pos.x + sin * d;
+    const z = p.pos.z + cos * d;
+    return groundHeight(x, z, ctx.cfg.seed) < waterLevelAt(x, z) - SWIM_DEPTH;
+  });
+}
+
+function isAtDeepfenShallowsFishingSpot(p: Entity): boolean {
+  const d = Math.hypot(p.pos.x - DEEPFEN_SHALLOWS_LAKE.x, p.pos.z - DEEPFEN_SHALLOWS_LAKE.z);
+  return d <= DEEPFEN_SHALLOWS_LAKE.radius + DEEPFEN_FISHING_SHORE_MARGIN;
+}
+
+function shouldCatchCodfather(ctx: SimContext, p: Entity, meta: PlayerMeta): boolean {
+  const qp = meta.questLog.get(THE_CODFATHER_QUEST_ID);
+  return (
+    qp?.state === 'active' &&
+    ctx.countItem(THE_CODFATHER_ITEM_ID, meta.entityId) === 0 &&
+    isAtDeepfenShallowsFishingSpot(p)
+  );
+}
+
+export function startFishing(ctx: SimContext, p: Entity, meta: PlayerMeta): void {
+  if (p.dead) {
+    ctx.error(meta.entityId, "You can't do that while dead.");
+    return;
+  }
+  if (p.inCombat) {
+    ctx.error(meta.entityId, "You can't do that while in combat.");
+    return;
+  }
+  if (ctx.isSwimming(p)) {
+    ctx.error(meta.entityId, "You can't do that while swimming.");
+    return;
+  }
+  if (p.castingAbility || isConsuming(p)) {
+    ctx.error(meta.entityId, 'You are busy.');
+    return;
+  }
+  if (!hasFishableWaterAhead(ctx, p)) {
+    ctx.error(meta.entityId, 'You need to face fishable water.');
+    return;
+  }
+  if (p.sitting) ctx.standUp(p);
+  p.castingAbility = FISHING_CAST_ID;
+  p.castTotal = FISHING_CAST_TIME;
+  p.castRemaining = FISHING_CAST_TIME;
+  p.castTargetId = null;
+  p.channeling = false;
+  ctx.emit({
+    type: 'castStart',
+    entityId: p.id,
+    ability: FISHING_CAST_ID,
+    time: FISHING_CAST_TIME,
+  });
+}
+
+export function completeFishing(ctx: SimContext, p: Entity, meta: PlayerMeta): void {
+  if (shouldCatchCodfather(ctx, p, meta)) {
+    // Deliberately NOT capacity-gated: this once-ever quest catch is guarded
+    // to a single copy by shouldCatchCodfather, and losing it to full bags
+    // could soft-lock the quest chain. Force-add (over-capacity tolerated).
+    ctx.addItem(THE_CODFATHER_ITEM_ID, 1, meta.entityId);
+    return;
+  }
+  // The catch depends on which zone's water you're fishing, each has its own
+  // weighted table (src/sim/content/items.ts). Fall back to the Vale table for
+  // any spot without its own (e.g. fishable water inside a dungeon zone).
+  const table = FISHING_TABLES[zoneAt(p.pos.z).id] ?? FISHING_TABLES.eastbrook_vale;
+  const total = table.reduce((sum, e) => sum + e.weight, 0);
+  let roll = ctx.rng.next() * total;
+  let caught: string | null = null;
+  for (const entry of table) {
+    roll -= entry.weight;
+    if (roll < 0) {
+      caught = entry.itemId;
+      break;
+    }
+  }
+  if (caught === null) {
+    ctx.emit({ type: 'log', text: 'No fish are biting.', color: '#999', pid: p.id });
+    return;
+  }
+  // Capacity gate AFTER the table roll so the rng draw order never depends
+  // on bag state; a catch with no room to land simply gets away.
+  if (!ctx.canAddItem(caught, 1, meta.entityId)) {
+    ctx.error(meta.entityId, 'Your bags are full.');
+    return;
+  }
+  if (caught === FISHING_RARE_ID) {
+    ctx.emit({
+      type: 'log',
+      text: 'A rare catch! Something gleams on your line.',
+      color: '#1eff00',
+      pid: p.id,
+    });
+  }
+  ctx.addItem(caught, 1, meta.entityId);
+  // Book of Deeds: a real fish (never weeds or boots) from this zone's
+  // waters feeds the per-zone first-cast mark.
+  onFishCaughtForDeeds(ctx, meta, zoneAt(p.pos.z).id, caught);
+}
