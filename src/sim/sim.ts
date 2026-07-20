@@ -1,5 +1,7 @@
 import type {
   AccountCosmetics,
+  ActionBarLayout,
+  ActionBarLayoutRestore,
   ActiveFrostRing,
   ActiveTemporalHourglass,
   BankBonusSource,
@@ -3001,6 +3003,20 @@ export class Sim {
 
   changeWeaponSkin(skinId: string | null, weaponType?: WeaponSkinType): void {
     this.setWeaponSkin(this.primaryId, skinId, weaponType);
+  }
+
+  // IWorldActionBar (offline arm). The action-bar layout is client presentation
+  // state, not sim state: offline, localStorage (written by the controller) is
+  // the one store, so persisting is a no-op and there is no server copy to
+  // reconcile ('noop' leaves the localStorage-loaded bars untouched). Keeping
+  // these host-agnostic no-ops here is what stops the offline Sim ever becoming
+  // aware of a persistence host.
+  saveActionBarLayout(_layout: ActionBarLayout): void {
+    // Offline: the controller already wrote localStorage; nothing else to do.
+  }
+
+  takeActionBarLayoutRestore(): ActionBarLayoutRestore | undefined {
+    return { source: 'noop' };
   }
 
   /** Z-key sheathe toggle (IWorld.toggleWeaponStow; server `stow_weapon` command).
