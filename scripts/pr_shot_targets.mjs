@@ -28,6 +28,67 @@ async function pollForSize(page, selector, attempts = 20, intervalMs = 500) {
 
 export const TARGETS = [
   {
+    key: 'player-tooltip',
+    label: 'Player hover tooltip',
+    when: ['player_tooltip'],
+    async capture(page) {
+      const staged = await page.evaluate(() => {
+        const game = window.__game;
+        const sim = game?.sim;
+        const player = sim?.player;
+        if (!game || !sim || !player) return { ok: false, reason: 'offline world is unavailable' };
+        const id = sim.addPlayer('mage', 'Aldwin');
+        const other = sim.entities.get(id);
+        if (!other) return { ok: false, reason: 'player spawn failed' };
+        other.level = 18;
+        other.guild = 'The Azure Order';
+        // Put the bot in front of the camera's focal point. Renderer places the
+        // camera behind the player along the opposite of this vector.
+        other.pos.x = player.pos.x + Math.sin(game.input.camYaw) * 3;
+        other.pos.z = player.pos.z + Math.cos(game.input.camYaw) * 3;
+        return { ok: true, id };
+      });
+      if (!staged.ok) throw new Error(staged.reason);
+      await wait(500);
+      let point = null;
+      for (let attempt = 0; attempt < 12 && !point; attempt++) {
+        point = await page.evaluate((id) => {
+          const game = window.__game;
+          const other = game?.sim?.entities.get(id);
+          if (!game || !other) return null;
+          const anchor = game.renderer.worldToScreen(other.pos.x, other.pos.y + 0.8, other.pos.z);
+          if (anchor.behind) return null;
+          for (let dy = -120; dy <= 120; dy += 12) {
+            for (let dx = -80; dx <= 80; dx += 12) {
+              const x = anchor.x + dx;
+              const y = anchor.y + dy;
+              if (game.renderer.pick(x, y) === id) return { x, y };
+            }
+          }
+          return null;
+        }, staged.id);
+        if (!point) await wait(250);
+      }
+      if (!point) throw new Error('no renderer pick point for staged player');
+      await page.hover('#game-canvas');
+      await page.mouse.move(point.x, point.y);
+      await wait(500);
+      const shown = await page.evaluate((id) => {
+        const game = window.__game;
+        const tip = document.querySelector('#tooltip');
+        return (
+          game?.renderer.pick(game.input.hoverX, game.input.hoverY) === id &&
+          tip?.classList.contains('mob-tooltip') &&
+          getComputedStyle(tip).display !== 'none' &&
+          tip.textContent?.includes('Aldwin') &&
+          tip.textContent?.includes('The Azure Order')
+        );
+      }, staged.id);
+      if (!shown) throw new Error('player tooltip did not appear through the hover path');
+      return {};
+    },
+  },
+  {
     key: 'tank-defensive-cds',
     label: 'Tank defensive cooldowns',
     when: ['tests/tank_defensive_cds.test.ts'],
@@ -805,6 +866,180 @@ export const TARGETS = [
       // The anvil GLB and station clutter stream in on first view; wait generously.
       await wait(4500);
       await page.evaluate(() => document.querySelector('#gpu-notice')?.remove());
+      return {};
+    },
+  },
+  {
+    key: 'confirm-gates',
+    label: 'Confirm dialogs: spirit-healer revive + marks purchases',
+    when: ['ui/hud/delve/delve_board_controller', 'tests/hud_confirm_gates'],
+    variants: [
+      { key: 'healer-desktop', scene: 'healer' },
+      { key: 'heroic-desktop', scene: 'heroic' },
+      { key: 'delve-desktop', scene: 'delve' },
+      { key: 'healer-mobile', scene: 'healer', mobile: true },
+      { key: 'heroic-mobile', scene: 'heroic', mobile: true },
+    ],
+    // Each scene stages the pre-existing one-tap action and takes it through the
+    // REAL button so the shot proves the confirm dialog now gates it. Full-frame
+    // shots: the dialog matters together with the scene it interrupts (ghost
+    // prompt / vendor window / delve board).
+    async capture(page, variant) {
+      await page.evaluate(() => {
+        document.querySelector('.camera-prompt-confirm')?.click();
+        document.querySelector('.tut-skip')?.click();
+        document.querySelector('#gpu-notice')?.remove();
+      });
+      await wait(300);
+      if (variant.scene === 'healer') {
+        // Die, release through the real death overlay button, then stand at the
+        // Pale Keeper so the ghost prompt offers the healer revive.
+        await page.evaluate(() => {
+          const sim = window.__game?.sim;
+          if (!sim) return;
+          sim.player.hp = 1;
+          sim.player.dead = true;
+        });
+        await wait(600);
+        await page.evaluate(() => document.querySelector('#release-btn')?.click());
+        await wait(600);
+        await page.evaluate(() => {
+          const sim = window.__game?.sim;
+          if (!sim) return;
+          for (const ent of sim.entities.values()) {
+            if (ent.kind === 'npc' && ent.templateId === 'spirit_healer') {
+              sim.player.pos.x = ent.pos.x + 2;
+              sim.player.pos.z = ent.pos.z + 2;
+              break;
+            }
+          }
+        });
+        await wait(600);
+        await page.evaluate(() => document.querySelector('#resurrect-healer-btn')?.click());
+      } else if (variant.scene === 'heroic') {
+        await page.evaluate(() => {
+          const game = window.__game;
+          const sim = game?.sim;
+          if (!sim) return;
+          sim.addItem('heroic_mark', 60);
+          for (const ent of sim.entities.values()) {
+            if (ent.kind === 'npc' && ent.templateId === 'heroic_quartermaster') {
+              game.hud.openHeroicVendor(ent.id);
+              break;
+            }
+          }
+        });
+        await wait(500);
+        await page.evaluate(() =>
+          document.querySelector('#vendor-window .vendor-item:not([disabled])')?.click(),
+        );
+      } else {
+        // Unlock the delve shop stock and fund the marks wallet, then buy
+        // through the real shop-tab button.
+        await page.evaluate(() => {
+          const game = window.__game;
+          const sim = game?.sim;
+          if (!sim) return;
+          const meta = sim.players.get(sim.player.id);
+          if (meta) {
+            meta.delveMarks = 99;
+            meta.delveClears = {
+              'collapsed_reliquary:normal': 20,
+              'collapsed_reliquary:heroic': 20,
+            };
+          }
+          for (const ent of sim.entities.values()) {
+            if (ent.kind === 'npc' && ent.templateId === 'brother_halven') {
+              game.hud.delveBoard.open(ent.id);
+              break;
+            }
+          }
+        });
+        await wait(500);
+        await page.evaluate(() =>
+          document.querySelector('#delve-board [data-board-tab="shop"]')?.click(),
+        );
+        await wait(400);
+        await page.evaluate(() =>
+          document.querySelector('#delve-board [data-buy]:not([disabled])')?.click(),
+        );
+      }
+      await pollForSize(page, '#confirm-dialog');
+      return {};
+    },
+  },
+  {
+    key: 'held-weapon-variants',
+    label: 'Held weapon model variants (mainhand + dual-wield offhand)',
+    when: ['src/ui/weapon_variants.ts', 'tests/held_weapon_models.test.ts'],
+    variants: [
+      {
+        key: 'cleaver-mainhand',
+        charClass: 'warrior',
+        charName: 'Cleaverjaw',
+        items: ['gravewyrm_cleaver'],
+        // Mirrored three-quarter: the mainhand (the subject) is the RIGHT hand.
+        yawFactor: 1.28,
+      },
+      {
+        key: 'dual-fang',
+        charClass: 'rogue',
+        charName: 'Twinfang',
+        items: ['mirejaw_fang_knife', 'mirejaw_fang_knife'],
+      },
+    ],
+    // A world-scene shot of the character facing the camera with the listed items
+    // equipped (second item, when present, goes to the offhand slot: the
+    // dual-wield case). Full-viewport shot (return {}): the subject is the 3D
+    // held model, not a window.
+    async capture(page, variant) {
+      await page.evaluate(() => {
+        document.querySelector('.camera-prompt-confirm')?.click();
+        document.querySelector('.tut-skip')?.click();
+        document.querySelector('#gpu-notice')?.remove();
+      });
+      await wait(300);
+      await page.evaluate((shot) => {
+        const game = window.__game;
+        const sim = game.sim;
+        const player = sim.player;
+        sim.setPlayerLevel?.(30, player.id);
+        // Draw the weapons: the held (not sheathed) pose is the subject.
+        if (player.weaponStowed) game.world.toggleWeaponStow();
+        const [mainId, offId] = shot.items;
+        // Aim each hand explicitly: the no-slot resolver (desiredEquipSlot) routes
+        // a dual-wielder's one-hander into an empty offhand, which would leave the
+        // starter weapon in the mainhand.
+        sim.addItem(mainId, 1, player.id);
+        sim.equipItemToSlot(mainId, 'mainhand', player.id);
+        if (offId) {
+          sim.addItem(offId, 1, player.id);
+          sim.equipItemToSlot(offId, 'offhand', player.id);
+        }
+        // Step away from the spawn campfire so the held models read against clean
+        // ground, then park the camera in front of the character, pulled back and
+        // level, so the whole body and both hands are in frame.
+        player.pos.x += 6;
+        player.pos.z += 4;
+        game.input.camDist = 5.5;
+        game.input.camPitch = 0.1;
+        // Three-quarter front view: an edge-on blade reads as a sliver from dead
+        // ahead; the off-angle shows the weapon's profile. The factor picks which
+        // hand is nearest the camera (below PI favors the left, above the right).
+        game.input.camYaw = player.facing + Math.PI * (shot.yawFactor ?? 0.72);
+      }, variant);
+      // The weapon GLBs and the rig settle, and the levelup/deed banners fade.
+      await wait(4500);
+      const equipped = await page.evaluate(() => {
+        const player = window.__game.sim.player;
+        return { mainhand: player.mainhandItemId, offhand: player.offhandItemId };
+      });
+      if (equipped.mainhand !== variant.items[0]) {
+        throw new Error(`mainhand equip failed: ${JSON.stringify(equipped)}`);
+      }
+      if (variant.items[1] && equipped.offhand !== variant.items[1]) {
+        throw new Error(`offhand equip failed: ${JSON.stringify(equipped)}`);
+      }
       return {};
     },
   },
