@@ -8886,6 +8886,19 @@ export class Hud {
           );
           break;
         }
+        case 'fishingResult': {
+          // Reel-in feedback line (Professions 2.0 Phase 11), colored by the
+          // caught item's quality. Identical on every graphics tier (player
+          // feedback is never profile-gated). The grant hub's own 'loot' event
+          // already prints the "You receive:" line and plays the loot cue, so
+          // this line uses distinct reel-in wording and adds no second cue.
+          const item = ITEMS[ev.itemId];
+          this.log(
+            t('hudChrome.gathering.catchLine', { name: item ? itemDisplayName(item) : ev.itemId }),
+            QUALITY_COLOR[ev.quality],
+          );
+          break;
+        }
         case 'gatherRareEvent': {
           // Soft zone broadcast (Professions 2.0 Phase 4): every recipient in
           // the zone logs the localized flavor line; only the finder also gets
