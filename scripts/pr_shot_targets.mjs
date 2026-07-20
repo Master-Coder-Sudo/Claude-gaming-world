@@ -1205,6 +1205,130 @@ export const TARGETS = [
       return {};
     },
   },
+  {
+    key: 'gathering-rhythm',
+    label:
+      'Gathering rhythm: gather cast bar + fishing bobber and bite (Professions 2.0 Phase 12b)',
+    when: [
+      'professions/fishing',
+      'professions/gathering',
+      'combat/casting_lifecycle',
+      'render/fishing_bobber',
+      'render/cast_bar',
+    ],
+    // Phase 12b turns the instant harvest into a short visible cast and the
+    // fixed 5 s fishing cast into a bite minigame. The gather variants shoot
+    // mid-cast at the eastbrook ore vein (the base tree grants instantly, so
+    // the SAME recipe degrades honestly to the post-harvest frame). The
+    // fishing variants stand at the hunted Mirror Lake shore spot: the wait
+    // shot shows the constant waiting bar plus the new bobber (base: the old
+    // filling bar, no bobber); the bite shot polls the chat log for the bite
+    // line and shoots inside the reaction window (base: the poll times out
+    // after the old cast lands, degrading to the post-catch frame). Both
+    // bring-ups still the local mobs first: mob damage cancels a cast and a
+    // boar camp sits near the vale vein.
+    variants: [
+      { key: 'desktop-gather-cast' },
+      { key: 'mobile-gather-cast', mobile: true },
+      { key: 'desktop-fishing-wait', fishing: true },
+      { key: 'desktop-fishing-bite', fishing: true, bite: true },
+    ],
+    async capture(page, variant) {
+      await page.evaluate(() => {
+        document.querySelector('.camera-prompt-confirm')?.click();
+        document.querySelector('.tut-skip')?.click();
+        document.querySelector('.gpu-notice-dismiss')?.click();
+        for (const e of window.__game?.world?.entities?.values?.() ?? []) {
+          if (e.kind !== 'mob') continue;
+          e.dead = true;
+          e.hp = 0;
+          e.aiState = 'dead';
+          e.respawnTimer = 9999;
+          e.corpseTimer = 9999;
+          e.inCombat = false;
+        }
+      });
+      if (variant?.fishing) {
+        await page.evaluate(async () => {
+          const game = window.__game;
+          const p = game?.world?.player;
+          if (!p) return;
+          const { groundHeight, waterLevelAt } = await import('/src/sim/world.ts');
+          const { PLAYER_SWIM_DEPTH } = await import('/src/sim/pathfind.ts');
+          const { LAKE } = await import('/src/sim/content/zone1.ts');
+          const seed = game.world.cfg.seed;
+          const dists = [4, 8, 12, 16, 20, 24];
+          const fishable = (x, z, facing) => {
+            const sin = Math.sin(facing);
+            const cos = Math.cos(facing);
+            return dists.some(
+              (d) =>
+                groundHeight(x + sin * d, z + cos * d, seed) <
+                waterLevelAt(x + sin * d, z + cos * d) - PLAYER_SWIM_DEPTH,
+            );
+          };
+          let spot = null;
+          for (let r = LAKE.radius * 0.7; r <= LAKE.radius * 1.8 && !spot; r += 1) {
+            for (let i = 0; i < 72 && !spot; i++) {
+              const a = (i / 72) * Math.PI * 2;
+              const x = LAKE.x + Math.cos(a) * r;
+              const z = LAKE.z + Math.sin(a) * r;
+              if (groundHeight(x, z, seed) < waterLevelAt(x, z)) continue;
+              const facing = Math.atan2(LAKE.x - x, LAKE.z - z);
+              if (fishable(x, z, facing)) spot = { x, z, facing };
+            }
+          }
+          if (!spot) return;
+          p.pos.x = spot.x;
+          p.pos.y = groundHeight(spot.x, spot.z, seed);
+          p.pos.z = spot.z;
+          p.facing = spot.facing;
+          game.world.addItem('simple_fishing_pole', 1);
+        });
+        await wait(1200);
+        await page.evaluate(() => {
+          window.__game.world.useItem('simple_fishing_pole');
+        });
+        if (variant?.bite) {
+          // The hidden delay tops out at 8 s bare-handed; the reaction window
+          // (3 s) is generous enough for the settle frame plus the shot.
+          for (let i = 0; i < 45; i++) {
+            const bit = await page.evaluate(() =>
+              (document.querySelector('#chatlog')?.textContent ?? '').includes('takes the bait'),
+            );
+            if (bit) break;
+            await wait(250);
+          }
+          await wait(250);
+          return {};
+        }
+        await wait(1500);
+        return {};
+      }
+      await page.evaluate(() => {
+        const game = window.__game;
+        const meshes = game?.renderer?.gatherNodeMeshes ?? [];
+        const mesh =
+          meshes.find((m) => m.userData?.gatherNodeId === 'ore_eastbrook_1') ?? meshes[0];
+        const p = game?.world?.player;
+        if (!mesh || !p) return;
+        p.pos.x = mesh.position.x + 2.5;
+        p.pos.y = mesh.position.y;
+        p.pos.z = mesh.position.z + 2.5;
+        p.facing = Math.atan2(mesh.position.x - p.pos.x, mesh.position.z - p.pos.z);
+        window.__p12bShotNodeId = mesh.userData?.gatherNodeId ?? null;
+      });
+      await wait(1200);
+      await page.evaluate(() => {
+        const game = window.__game;
+        if (window.__p12bShotNodeId) game.world.harvestNode(window.__p12bShotNodeId);
+      });
+      // Mid-cast at the 2.5 s base duration; on the base tree the grant has
+      // already landed and the frame shows the harvest outcome instead.
+      await wait(900);
+      return {};
+    },
+  },
 ];
 
 // Map a list of changed file paths to the targets they imply (deduped, registry order).
