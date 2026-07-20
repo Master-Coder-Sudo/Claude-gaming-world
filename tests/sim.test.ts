@@ -14,7 +14,7 @@ import { Sim } from '../src/sim/sim';
 import {
   dist2d,
   FISHING_CAST_ID,
-  FISHING_CAST_TIME,
+  FISHING_SESSION_CAP_SEC,
   MAX_LEVEL,
   meleeMissChance,
   mobXpValue,
@@ -1172,14 +1172,14 @@ describe('food, drink, vendor', () => {
     sim.events = [];
     sim.useItem('simple_fishing_pole');
     expect(sim.player.castingAbility).toBe(FISHING_CAST_ID);
-    expect(sim.player.castTotal).toBe(FISHING_CAST_TIME);
-    expect(sim.player.castRemaining).toBe(FISHING_CAST_TIME);
+    expect(sim.player.castTotal).toBe(FISHING_SESSION_CAP_SEC);
+    expect(sim.player.castRemaining).toBe(FISHING_SESSION_CAP_SEC);
     expect(sim.player.channeling).toBe(false);
     expect(sim.events).toContainEqual(
       expect.objectContaining({
         type: 'castStart',
         ability: FISHING_CAST_ID,
-        time: FISHING_CAST_TIME,
+        time: FISHING_SESSION_CAP_SEC,
       }),
     );
   });

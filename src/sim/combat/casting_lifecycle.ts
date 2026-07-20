@@ -31,6 +31,8 @@ import { isDispellableAura } from '../aura_classify';
 import { ITEMS, isDelvePos, MOBS } from '../data';
 import { recalcPlayerStats } from '../entity';
 import { isShieldItem } from '../equipment_rules';
+import { FISH_REEL_WINDOW_ROD_BONUS_SEC, FISH_REEL_WINDOW_SEC } from '../professions/fishing';
+import { bestOwnedGatherToolTier } from '../professions/tools';
 import { scheduleProjectile } from '../projectile_travel';
 import type { PlayerMeta, ResolvedAbility } from '../sim';
 import type { SimContext } from '../sim_context';
@@ -250,6 +252,35 @@ export function updateCasting(ctx: SimContext, p: Entity, meta: PlayerMeta): voi
       return;
     }
   }
+  // Fishing bite minigame (Phase 12b): the hidden seeded bite and the
+  // server-authoritative reel deadline, resolved in sim ticks (the lockpick
+  // stepDeadlineTick precedent; the client never reports a timeout). The
+  // bite arm falls THROUGH to the generic decrement below, so a
+  // direct-assigned fishing cast (the parity cancel drives, hidden state
+  // inert) decays exactly as before. Draws no rng on any path.
+  if (p.castingAbility === FISHING_CAST_ID) {
+    if (p.fishBiteAtTick > 0 && ctx.tickCount >= p.fishBiteAtTick) {
+      // The bite: text-free personal event (bobber bite state plus the
+      // always-audible cue). The reel window re-scans the rod at bite time,
+      // so the widened window follows the rod actually held at the bite.
+      ctx.emit({ type: 'fishingBite', pid: p.id });
+      p.fishBiteAtTick = 0;
+      const rodTier = bestOwnedGatherToolTier(meta.inventory, 'fishing', ITEMS);
+      const windowSec = FISH_REEL_WINDOW_SEC + FISH_REEL_WINDOW_ROD_BONUS_SEC * (rodTier - 1);
+      p.fishReelDeadlineTick = ctx.tickCount + Math.ceil(windowSec / DT);
+    } else if (p.fishReelDeadlineTick > 0 && ctx.tickCount > p.fishReelDeadlineTick) {
+      // The miss ("it got away"), firing at deadline + 1: the reel re-press
+      // stays valid while tickCount <= deadline (startFishing's reel arm).
+      // Ends the cast with zero draws and no loss; recast immediately.
+      ctx.emit({ type: 'fishingGotAway', pid: p.id });
+      p.castingAbility = null;
+      p.castRemaining = 0;
+      p.fishBiteAtTick = 0;
+      p.fishReelDeadlineTick = 0;
+      ctx.emit({ type: 'castStop', entityId: p.id, success: false });
+      return;
+    }
+  }
   p.castRemaining -= DT;
 
   if (p.channeling) {
@@ -301,11 +332,19 @@ export function updateCasting(ctx: SimContext, p: Entity, meta: PlayerMeta): voi
     const castId = p.castingAbility;
     p.castingAbility = null;
     p.castRemaining = 0;
-    ctx.emit({ type: 'castStop', entityId: p.id, success: true });
+    // Defensive fishing end (Phase 12b): the session cap is unreachable in
+    // real flow (max bite delay plus max reel window end every session well
+    // before FISHING_SESSION_CAP_SEC), and a direct-assigned drive that
+    // ticks a fishing cast out simply gets away, same shape as the miss arm
+    // above. The catch table is never rolled here anymore.
     if (castId === FISHING_CAST_ID) {
-      ctx.completeFishing(p, meta);
+      ctx.emit({ type: 'fishingGotAway', pid: p.id });
+      p.fishBiteAtTick = 0;
+      p.fishReelDeadlineTick = 0;
+      ctx.emit({ type: 'castStop', entityId: p.id, success: false });
       return;
     }
+    ctx.emit({ type: 'castStop', entityId: p.id, success: true });
     // Gather cast completion (Phase 12b): route to the gathering module and
     // return before fireQueuedCast, like fishing above (a press can never
     // queue against a non-spell cast, see castAbility's queue exemption).
