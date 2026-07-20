@@ -4,13 +4,13 @@ The ONLY file every session must trust. Update it at the end of every phase.
 
 ## Current phase
 
-Phase 1 (Ring and identity foundations) and its QA: complete
-(2026-07-17, PASS, zero blocking; fixes and drift notes below). Phase 2
-(Masterwork model): complete (2026-07-17, branch
-feature/professions-2-phase-02-masterwork; six reviewers, zero blocking;
-landed surfaces and drift notes below). Phase 2 QA: complete
-(2026-07-17, PASS, zero blocking; coverage pins, retirement cleanup, and
-QA drift notes below). Next: Phase 3 (phase-03-parity-bug-fixes.md).
+Phases 1 through 11 and all their QA sessions: complete (per-phase records
+under "New surfaces per phase" below and in progress.md). v0.28.0 SHIPPED
+with Phases 1 through 10 aboard; Phase 11 (fishing) and its QA merged into
+release/v0.29.0. The 2026-07-20 timing and economy amendments restructured
+the remaining plan to 12, 12b, 13, 14, 14b, 15 (see the amendments block
+under Locked design decisions). Next: Phase 12 (phase-12-tool-gating.md,
+issue #2057).
 
 ## Locked design decisions
 
@@ -70,6 +70,9 @@ QA drift notes below). Next: Phase 3 (phase-03-parity-bug-fixes.md).
   src/sim/professions/tools.ts stay dormant; do not wire, do not delete.
 - Wave 2+ excluded from this packet (see implementation-plan.md); EXCEPTION
   2026-07-17: salvage wiring moved INTO Phase 13 (see the amendments below).
+  EXCEPTION 2026-07-20: the binding enforcement half of commissions (#1298)
+  moved INTO the packet as Phase 14b; the commission ORDER workflow stays
+  wave 2 on #1298.
 - 2026-07-17 design-review amendments (maintainer-approved; the response to
   the external Codex review). Each binds its owning phase file, which
   carries the full deliverable wording:
@@ -122,6 +125,79 @@ QA drift notes below). Next: Phase 3 (phase-03-parity-bug-fixes.md).
     professions; a cosmetic Specialist deed lands at the 75-skill
     threshold; a faucet-vs-sink review runs in the tuning pass. Still
     basic, universal, cosmetic-only, append-only.
+- 2026-07-20 timing and economy amendments (maintainer-approved; this block
+  is the authority, on the 2026-07-17 template). The restructure INSERTS
+  Phases 12b and 14b without renumbering anything; the remaining order is
+  12, 12b, 13, 14, 14b, 15. Epic #1866 sub-issues: #2206 (Gathering
+  rhythm), #2207 (Commissions and the Maker's Bond), #2208 (the profession
+  SFX help-wanted list). Each ruling binds its owning phase file, which
+  carries the full deliverable wording:
+  - NEW Phase 12b, Gathering rhythm (#2206,
+    phase-12b-gathering-rhythm.md + QA twin): gathering gains ACTION TIME.
+    A gather cast (base about 2.5 s, shortened per owned tool tier above
+    the node's Phase 12 requirement and modestly by proficiency band,
+    floor about 1.5 s) rides the fishing cast-id template behind a new
+    shared non-spell-cast predicate consolidating the eleven scattered
+    FISHING_CAST_ID exemption sites; completion re-validates range,
+    respawn, and capacity. The FIXED 5 s FISHING CAST IS SUPERSEDED by the
+    bite minigame: ONE hidden seeded delay drawn at startFishing (roughly
+    3 to 8 s, exact numbers the implementer's call), never readable from
+    castRemaining/castTotal or any broadcast field, a text-free personal
+    bite SimEvent (bobber VFX + cue), a generous server-authoritative
+    tick-deadline reaction window (the lockpick stepDeadlineTick
+    precedent), reel = re-pressing the pole on the existing useItem
+    dispatch (command census unchanged), and a miss costs nothing but the
+    cast. Rods shorten the average bite delay and widen the window,
+    composing with Phase 12's band gating. SHIPPING NOTE: v0.29.0 ships
+    the fixed 5 s cast as-is; the bite model replaces it only when 12b
+    lands. The phase file carries a Pin-cost appendix: the CLOSED,
+    pre-briefed list of deliberate re-pins and golden regens (anything
+    outside it that reds is a defect, not a cost).
+  - Phase 12 (amended): stays PURE ACCESS GATING; forward notes only
+    (speed lands in 12b, rods gain bite synergy in 12b).
+  - Phase 13 (amended): typed disenchant reagents on the HYBRID model:
+    the universal rarity ladder (DISENCHANT_MATERIAL_BY_QUALITY
+    dust/essence/shard) stays for every quality, and RARE OR ABOVE
+    additionally yields a type-keyed secondary material keyed off the
+    existing ArmorType (cloth/leather/mail) and the sim-side weapon-kind
+    taxonomy (WEAPON_TYPE_BY_ITEM); the staves/wands bucket is a FLAGGED
+    maintainer decision; cooking and alchemy are deliberately excluded on
+    both sides. Every typed material ships WITH at least one consumer
+    recipe in the same phase (the wolf_fang no-dead-materials rule). The
+    bind-on-trade PRIMITIVE lands in this phase applied to the typed
+    rare+ reagents as its first LIVE consumer (never a dormant stub, the
+    2033 lesson); the enforcement arm stays generic so Phase 14b extends
+    it. Sink sizing notes the measured faucet: every heroic final boss
+    drops TWO tradeable epics (src/sim/content/heroic_loot.ts).
+  - Phase 14 (amended): the crafting window gains the "learnable at a
+    master" discoverability hint row (the Phase 9 known-recipes-only
+    filter made the untrained ladders invisible; the hint resolves
+    through the shared train_view.ts viewer predicates, never a second
+    knownness rule, and renders only when unlearned trainer recipes
+    exist for that craft).
+  - NEW Phase 14b, Commissions and the Maker's Bond (#2207,
+    phase-14b-commissions-binding.md + QA twin): opt-in commission
+    crafts bind to the recipient on FIRST trade, enforced in the same
+    trade gate that blocks def-level soulbound items; mail and market
+    already refuse instanced items, so first delivery is face-to-face by
+    construction; a master unbind service clears the bond for gold (a
+    real sink on the resolveTrain service shape). Resolves the
+    enforcement semantics of #1298 (which stays open as the parent for
+    the full commission ORDER workflow). THREE maintainer decisions stay
+    FLAGGED, never defaulted, and must be resolved before the phase
+    runs: character-vs-account binding, which item classes may opt in,
+    and unbind pricing (see OPEN items).
+  - Phase 15 (amended): the profession SFX completion sweep over #2208
+    (every Phase 12b PLACEHOLDER clip replaced or explicitly re-filed;
+    the five missing station ambiences beside amb_forge; per-craft
+    success variants where delivered); the rare-fish deed celebrates
+    through the Phase 12b bite moment; the legacy junk-recipe burn-down
+    (LEGACY_GOLD_POSITIVE_RECIPE_IDS) cross-checks candidates against
+    the Phase 13 typed-reagent consumers before plain price nerfs.
+  - SFX placeholders are SANCTIONED across the packet: generated with
+    the deterministic local synthesis pipeline (scripts/sfx/ui_sfx.mjs
+    cue specs), passing npm run sfx:check, catalog rows marked
+    PLACEHOLDER for the sound engineer, all tracked on #2208.
 
 ## Non-negotiable constraints
 
@@ -910,8 +986,17 @@ tables, i18n key namespaces, files created)
   accrual has no maxSkill cap on the drain path (shared, pre-existing
   semantics across all four professions; the wheel UI clamps display via
   the Phase 5 above-cap saturation pin).
+- Phase 12b: (planned) the shared non-spell-cast predicate, the gather
+  cast, the fishing bite minigame, rod synergy, placeholder cues; the
+  Pin-cost appendix in phase-12b-gathering-rhythm.md is the pre-briefed
+  re-pin list.
 - Phase 13: (planned) disenchantItem/applyEnchant/salvageItem IWorld
-  members + wire commands.
+  members + wire commands; plus, per the 2026-07-20 amendments, the typed
+  disenchant reagents (hybrid model, same-phase consumers) and the
+  bind-on-trade primitive applied to them.
+- Phase 14b: (planned) the commission marker, bind-on-first-trade
+  enforcement, the master unbind service; blocked on the three flagged
+  maintainer decisions in OPEN items.
 
 ## Tuning targets (placeholders until Phase 15 tunes against live data)
 
@@ -932,6 +1017,16 @@ tables, i18n key namespaces, files created)
 - Work-order quests (Phase 14): reward numbers need MAINTAINER numbers
   before Phase 14 runs (never gold-positive against the input vendor value;
   the cadence cap reuses the nudge cadence pattern). Flagged in OPEN items.
+- Gathering rhythm (Phase 12b): gather cast base about 2.5 s, floor about
+  1.5 s, per-tool-tier and per-band reductions; bite delay roughly 3 to
+  8 s with the rod synergy deltas. Exact numbers are the implementer's
+  call within these shapes, landed as named exported constants and pinned;
+  record the finals here when 12b lands.
+- Unbind service fee (Phase 14b): a MAINTAINER number (see OPEN items);
+  never invented.
+- Typed-reagent yields and consumer costs (Phase 13): sized against the
+  measured heroic faucet (two tradeable epics per heroic final boss);
+  final numbers are maintainer calls in the Phase 15 tuning pass.
 
 ## OPEN items
 
@@ -979,3 +1074,16 @@ tables, i18n key namespaces, files created)
   note, intended). Flagged 2026-07-17 for a maintainer call; if masterworks
   should credit the bumped tier, that is a deliberate design change for a
   tuning phase, never a QA fix.
+- Phase 14b maintainer decisions (2026-07-20, FLAGGED, must be resolved
+  here before phase-14b-commissions-binding.md runs): (a) does the Maker's
+  Bond bind to the CHARACTER or the ACCOUNT; (b) which item classes may
+  opt into commission crafting; (c) the unbind service price (flat, or
+  scaled by item tier). The phase's STEP 0 stops if any row is still open.
+- Staves/wands typed-reagent bucket (2026-07-20, FLAGGED, Phase 13): which
+  type-keyed secondary material family staff and wand disenchants feed
+  (the sim-side weapon taxonomy has them as their own kinds; cloth-adjacent
+  is arguable). Resolve before or during the Phase 13 PR review.
+- The letter-to-Haldren dead-end (Phase 7 QA): an unattuned player who
+  follows the Guild letter before q_prof_intro is available hits a dialog
+  dead-end; options recorded in progress.md Notes; the fix naturally rides
+  Phase 14's master quest work. Still open.

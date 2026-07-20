@@ -26,15 +26,19 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 9 | Station presence and recipe training | complete | 2026-07-19 | 2026-07-19 |
 | 9 QA | Verify station presence and training | complete | 2026-07-19 | 2026-07-19 |
 | 10 | Recipe ladders and materials content | complete | 2026-07-19 | 2026-07-19 |
-| 10 QA | Verify recipe ladders and materials | not started | | |
-| 11 | Fishing joins the framework | built (draft PR #2197 retargeted to release/v0.29.0) | 2026-07-20 | 2026-07-20 |
-| 11 QA | Verify fishing framework | not started | | |
+| 10 QA | Verify recipe ladders and materials | complete | 2026-07-19 | 2026-07-19 |
+| 11 | Fishing joins the framework | complete (PR #2197 merged into release/v0.29.0) | 2026-07-20 | 2026-07-20 |
+| 11 QA | Verify fishing framework | complete (PR #2199 merged) | 2026-07-20 | 2026-07-20 |
 | 12 | Base tool tier gating | not started | | |
 | 12 QA | Verify tool tier gating | not started | | |
+| 12b | Gathering rhythm | not started | | |
+| 12b QA | Verify gathering rhythm | not started | | |
 | 13 | Enchanting reachable | not started | | |
 | 13 QA | Verify enchanting reachable | not started | | |
 | 14 | Attunement quests and nudges | not started | | |
 | 14 QA | Verify attunement quests and nudges | not started | | |
+| 14b | Commissions and the Maker's Bond | not started | | |
+| 14b QA | Verify commissions and the Maker's Bond | not started | | |
 | 15 | Deeds, tuning, and polish | not started | | |
 | 15 QA | Final integration QA and packet teardown | not started | | |
 
@@ -434,9 +438,19 @@ fallback arm (defensive, unreachable today).
 - [ ] The 15 existing tools change outcomes; stale no-op test pin replaced
 - [ ] Tool effects remain parked (explicitly out of scope)
 
+### Phase 12b: Gathering rhythm
+- [ ] Gather cast (tool-tier and band scaled, floored); completion re-validates; move cancels free
+- [ ] The shared non-spell-cast predicate consolidates the eleven cast-id exemption sites
+- [ ] Fishing bite minigame: hidden seeded delay, private bite SimEvent, server-authoritative reaction window, reel via pole re-press, miss costs nothing
+- [ ] Rod synergy: shorter average delay, wider window (composes with Phase 12 bands)
+- [ ] Placeholder cues routed and PLACEHOLDER-marked (sfx:check green, listed on #2208)
+- [ ] Every Pin-cost appendix row executed as briefed; no unlisted pin weakened
+
 ### Phase 13: Enchanting reachable
 - [ ] Disenchant + enchant-apply + salvage on IWorld, wire commands, bags context UI, both hosts
 - [ ] Enchanting skill visible in the wheel window
+- [ ] Typed disenchant reagents (hybrid): rare+ adds the type-keyed secondary; every typed material has a same-phase consumer (the wolf_fang rule); staves/wands bucket flagged
+- [ ] Bind-on-trade primitive live against the typed rare+ reagents (generic enforcement arm for Phase 14b)
 
 ### Phase 14: Attunement quests and nudges
 - [ ] Acceptance lore quests at the masters for all four wave-one archetypes
@@ -444,16 +458,41 @@ fallback arm (defensive, unreachable today).
 - [ ] Trend nudges (chat first, Guild letter voice); attunement summary explains everything before commit
 - [ ] Work-order quests per master (cadence-capped) and one-shot-per-tier master mail
 - [ ] Title celebration on attunement
+- [ ] The crafting-window "learnable at a master" hint (shown exactly when unlearned trainer recipes exist, via the shared viewer predicates)
+
+### Phase 14b: Commissions and the Maker's Bond
+- [ ] Commission opt-in at craft; the marker rides the instance in both hosts
+- [ ] First trade stamps boundTo; onward trades refused beside the def-level soulbound gate, localized deny id
+- [ ] Master unbind service: resolved fee, replay-safe, signer and masterwork markers survive
+- [ ] The three flagged maintainer decisions implemented exactly as resolved in state.md
+- [ ] Mail/market face-to-face construction pinned against the new marker
 
 ### Phase 15: Deeds, tuning, and polish
-- [ ] Universal profession deeds incl. titles + marquee renown on first attunement and first masterwork, the Specialist deed, and the rare-find deeds (plus the rare fish, verified)
-- [ ] Economy tuning targets applied (#1301 fee/throttle, training fees, teach tiers, work orders, masterwork bounds); faucet-vs-sink review recorded
+- [ ] Universal profession deeds incl. titles + marquee renown on first attunement and first masterwork, the Specialist deed, and the rare-find deeds (plus the rare fish, verified to celebrate through the Phase 12b bite moment)
+- [ ] Economy tuning targets applied (#1301 fee/throttle, training fees, teach tiers, work orders, masterwork bounds, unbind fee); faucet-vs-sink review recorded
+- [ ] Legacy junk-recipe burn-down dispositioned, cross-checked against the typed-reagent consumers first
+- [ ] Profession SFX completion sweep over #2208: placeholders replaced or explicitly re-filed, station ambiences, per-craft success variants
 - [ ] Guide/wiki professions page rewritten; asset manifest final
 - [ ] Whole-feature qa-checklist.md matrix green; packet teardown offered
 
 ## Notes
 
 (append per-phase notes, deferrals, and surprises here as sessions complete)
+
+2026-07-20 timing and economy amendments: a second maintainer-approved
+amendment pass (community feedback on gathering feel and the crafted-goods
+economy) restructured the remaining packet to 12, 12b, 13, 14, 14b, 15.
+state.md records the rulings under "2026-07-20 timing and economy
+amendments" (the authority block); the new phase files
+(phase-12b-gathering-rhythm.md, phase-14b-commissions-binding.md, both
+with QA twins) and the amended Phase 12/13/14/15 files (each swept with
+its QA twin in the same pass) carry the deliverable wording. Epic #1866
+gained sub-issues #2206 (12b), #2207 (14b, linking #1298), and #2208 (the
+profession SFX help-wanted list); #2051 and #2053 closed against their
+landing PRs in the same sweep. The Phase 12b file introduces the Pin-cost
+appendix pattern: the phase pre-briefs its complete deliberate re-pin and
+golden-regen list, inventoried against the release/v0.29.0 tree, so QA
+audits appendix fidelity instead of discovering the blast radius.
 
 2026-07-17 design-review amendments: a maintainer design review (the
 response to the external Codex review) amended the packet between Phases 2
