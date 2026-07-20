@@ -1,15 +1,19 @@
-// Fishing profession command logic, behind the SimContext seam. Relocated
-// verbatim from the Sim coordinator (Professions 2.0 Phase 11): startFishing
-// begins the fishing cast (the fishing-pole item use routes here via
-// SimContext, src/sim/items.ts) and completeFishing resolves the catch when
-// that cast finishes (the cast lifecycle routes here,
-// src/sim/combat/casting_lifecycle.ts). This stage is a pure move: no
-// proficiency, no rarity ladder, no content change. The rng draw order is
-// preserved exactly (one ctx.rng draw per normal catch, zero on the codfather
-// early-return path, and zero in startFishing), so the parity goldens stay
-// byte-identical.
+// Fishing profession command logic, behind the SimContext seam (Professions
+// 2.0 Phase 11): startFishing begins the fishing cast (the fishing-pole item
+// use routes here via SimContext, src/sim/items.ts) and completeFishing
+// resolves the catch when that cast finishes (the cast lifecycle routes here,
+// src/sim/combat/casting_lifecycle.ts). Fishing is a full gathering proficiency
+// (GATHERING_PROFESSIONS.fishing): a landed catch queues a proficiency grant on
+// the tick path like any other gathering harvest, and the accrued proficiency
+// selects a catch rarity band (fishingBandFor) whose per-zone table shifts
+// weight out of junk/empty-hook rows and into food fish as skill rises. The rng
+// draw order is preserved exactly (one ctx.rng draw per normal catch, zero on
+// the codfather early-return path, and zero in startFishing): band selection is
+// pure state, not a draw, so at band 0 (proficiency < 100) the resolved rows
+// stay the shipped rows and every existing seed reproduces its catch sequence,
+// keeping the parity goldens byte-identical.
 
-import { FISHING_RARE_ID, FISHING_TABLES } from '../content/items';
+import { FISHING_RARE_ID, FISHING_TABLES_BY_BAND } from '../content/items';
 import { DEEPFEN_SHALLOWS_LAKE } from '../content/zone2';
 import { zoneAt } from '../data';
 import { onFishCaughtForDeeds } from '../deeds';
@@ -18,12 +22,30 @@ import type { PlayerMeta } from '../sim';
 import type { SimContext } from '../sim_context';
 import { type Entity, FISHING_CAST_ID, FISHING_CAST_TIME, isConsuming } from '../types';
 import { groundHeight, waterLevelAt } from '../world';
+import { queueGatheringGrant } from './gathering';
 
 const SWIM_DEPTH = PLAYER_SWIM_DEPTH; // ground this far under the water line = deep water
 const FISHING_SAMPLE_DISTANCES = [4, 8, 12, 16, 20, 24];
 const DEEPFEN_FISHING_SHORE_MARGIN = 10;
 const THE_CODFATHER_ITEM_ID = 'the_codfather';
 const THE_CODFATHER_QUEST_ID = 'q_the_codfather';
+
+// Catch rarity ladder band boundaries (Professions 2.0 Phase 11): the minimum
+// fishing proficiency for each of the three catch tables. The thirds of the
+// Fishing maxSkill (300) line up with the shipped 100-proficiency deed
+// milestones: band 0 covers 0-99, band 1 covers 100-199, band 2 covers 200+.
+// Exported so tests can pin the boundaries.
+export const FISHING_BAND_THRESHOLDS = [0, 100, 200] as const;
+
+// Which catch table band a given fishing proficiency selects. Pure state (no
+// rng), so it never perturbs the one-draw-per-catch rng contract. A NaN
+// proficiency falls through both comparisons to band 0, matching the
+// proficiency-0 default.
+export function fishingBandFor(proficiency: number): 0 | 1 | 2 {
+  if (proficiency >= FISHING_BAND_THRESHOLDS[2]) return 2;
+  if (proficiency >= FISHING_BAND_THRESHOLDS[1]) return 1;
+  return 0;
+}
 
 function hasFishableWaterAhead(ctx: SimContext, p: Entity): boolean {
   const sin = Math.sin(p.facing);
@@ -92,10 +114,14 @@ export function completeFishing(ctx: SimContext, p: Entity, meta: PlayerMeta): v
     ctx.addItem(THE_CODFATHER_ITEM_ID, 1, meta.entityId);
     return;
   }
-  // The catch depends on which zone's water you're fishing, each has its own
-  // weighted table (src/sim/content/items.ts). Fall back to the Vale table for
-  // any spot without its own (e.g. fishable water inside a dungeon zone).
-  const table = FISHING_TABLES[zoneAt(p.pos.z).id] ?? FISHING_TABLES.eastbrook_vale;
+  // The catch depends on which zone's water you're fishing and how skilled you
+  // are: each zone has its own weighted table per rarity band, and the player's
+  // fishing proficiency picks the band (fishingBandFor). Band selection is pure
+  // state, resolved before the single rng draw below, so the draw order never
+  // depends on it. Fall back to the Vale table for any spot without its own
+  // (e.g. fishable water inside a dungeon zone), per band.
+  const bandTables = FISHING_TABLES_BY_BAND[fishingBandFor(meta.gatheringProficiency.fishing ?? 0)];
+  const table = bandTables[zoneAt(p.pos.z).id] ?? bandTables.eastbrook_vale;
   const total = table.reduce((sum, e) => sum + e.weight, 0);
   let roll = ctx.rng.next() * total;
   let caught: string | null = null;
@@ -128,4 +154,10 @@ export function completeFishing(ctx: SimContext, p: Entity, meta: PlayerMeta): v
   // Book of Deeds: a real fish (never weeds or boots) from this zone's
   // waters feeds the per-zone first-cast mark.
   onFishCaughtForDeeds(ctx, meta, zoneAt(p.pos.z).id, caught);
+  // Fishing proficiency: a landed catch (fish AND junk alike) accrues one point
+  // through the shared gathering-grant queue, draining on the tick path exactly
+  // like a world-node harvest. Deliberately queued only here, on the landed
+  // path: the no-bite null branch, the bags-full got-away branch, and the
+  // codfather quest branch (which returns above) never accrue.
+  queueGatheringGrant(meta, 'fishing', 1);
 }
