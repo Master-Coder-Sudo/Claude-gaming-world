@@ -79,6 +79,7 @@ import { isAtSowfield } from '../src/sim/vale_cup_layout';
 import {
   type BankBonusSource,
   type CommandName,
+  type DungeonFinderBoard,
   isOverheadEmoteId,
   STABLE_TIMER_WIRE_VERSION,
   type StableTimerWireVersion,
@@ -1240,6 +1241,13 @@ export class GameServer {
   // shared across every viewer (keyed on sim.tickCount inside selfWireJson), the
   // same once-per-tick memo shape as wireCache / partyFrameGlobalsCache.
   private readonly realmReadout = createRealmReadoutMemo<VcSharedCupInfo>();
+  // Realm-wide dungeon-finder board (`dfb`), the memo's second tenant: the board
+  // is viewer-independent (dungeonFinderBoardView takes no pid), so sessions whose
+  // per-session cadence gates open on the same tick share one build + stringify
+  // instead of each re-stringifying the same listings. Unlike the Vale Cup memo
+  // above there is no realm-global dueness tracker: each session keeps its own
+  // lastDfWireTick gate, and the memo only collapses same-tick evaluations.
+  private readonly dfBoardReadout = createRealmReadoutMemo<DungeonFinderBoard>();
   // When the realm-wide Vale Cup readout is next due, tracked realm-global (not
   // per session) so every viewer still gates together in one pass and the memo
   // above builds once. `>=` against this, never `tickCount % interval`:
@@ -5446,12 +5454,10 @@ export class GameServer {
       }
     };
     // Like `maybe`, but for a value already serialized once (the realm-wide Vale
-    // Cup fragment is JSON.stringify'd a single time per broadcast pass by the
-    // realm-readout memo): skip the per-session re-stringify and only diff the
-    // pre-serialized string against what this session last received. This goes one
-    // step past the `dfb` precedent below, which still stringifies its shared board
-    // once per session via plain `maybe(...)`; here one memoized string is reused
-    // realm-wide.
+    // Cup fragment and the dungeon-finder board are each JSON.stringify'd a single
+    // time per tick by their realm-readout memos): skip the per-session
+    // re-stringify and only diff the pre-serialized string against what this
+    // session last received.
     const maybeRaw = (key: string, serialized: string): void => {
       if (sent[key] !== serialized) {
         sent[key] = serialized;
@@ -5604,11 +5610,20 @@ export class GameServer {
     // blob carries whole-second clocks (queue wait, proposal countdown), so
     // re-evaluating every tick would re-serialize it 20 times per visible
     // change. The shared `dfb` board is a separate key so a live countdown
-    // never re-sends the listings.
+    // never re-sends the listings; it is viewer-independent, so its JSON rides
+    // the realm-readout memo (built + stringified at most once per tick, reused
+    // by every session whose gate opens on that tick) and ships via `maybeRaw`.
+    // The per-session `>=` gate itself is unchanged: sessions keep their own
+    // offsets, and the memo only collapses same-tick evaluations.
     if (this.sim.tickCount - session.lastDfWireTick >= DF_WIRE_INTERVAL_TICKS) {
       session.lastDfWireTick = this.sim.tickCount;
       maybe('df', this.sim.dungeonFinderInfoFor(anchorSession.pid));
-      maybe('dfb', this.sim.dungeonFinderBoardView());
+      maybeRaw(
+        'dfb',
+        realmReadoutJson(this.dfBoardReadout, this.sim.tickCount, () =>
+          this.sim.dungeonFinderBoardView(),
+        ),
+      );
     }
     // market info is null unless the player is standing at the Merchant, so it
     // only rides the wire for players actually browsing the World Market

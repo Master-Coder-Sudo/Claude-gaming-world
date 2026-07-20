@@ -2882,10 +2882,10 @@ describe('lockpick view rebuilds from events on the online client', () => {
 
 // The pinned set of the 50 delta keys, sorted. Cross-checked below against the
 // live `maybe(...)` (and `maybeRaw(...)`) calls scraped from server/game.ts
-// source, so a 51st unregistered delta key reddens this gate. All but one ride
-// via `maybe(...)`; `vcupb` is written with `maybeRaw(...)` (the realm-wide Vale
-// Cup fragment, already serialized once realm-wide and shared across viewers),
-// not plain `maybe(...)`.
+// source, so a 51st unregistered delta key reddens this gate. All but two ride
+// via `maybe(...)`; `vcupb` and `dfb` are written with `maybeRaw(...)` (realm-wide
+// fragments, each serialized at most once per tick by a realm-readout memo and
+// shared across viewers), not plain `maybe(...)`.
 const ALL_DELTA_KEYS = [
   'achg',
   'arena',
@@ -3508,12 +3508,14 @@ describe('delta-key contract pins (anti-drift)', () => {
     const src = readFileSync(resolve(process.cwd(), 'server/game.ts'), 'utf8');
     // tolerate whitespace/newline between `(` and the quote so the multi-line
     // maybe('lockouts', ...) call (game.ts ~2166-2169) is captured, not undercounted;
-    // the optional `(?:Raw)?` also captures the maybeRaw('vcupb', ...) realm-wide call
+    // the optional `(?:Raw)?` also captures the maybeRaw realm-wide calls
+    // ('vcupb' and the multi-line 'dfb')
     const re = /\bmaybe(?:Raw)?\(\s*['"](\w+)['"]/g;
     const scraped = new Set<string>();
     for (let m = re.exec(src); m !== null; m = re.exec(src)) scraped.add(m[1]);
     expect(scraped.has('lockouts')).toBe(true); // the multi-line call IS captured
-    expect(scraped.has('vcupb')).toBe(true); // the maybeRaw call IS captured by the widened regex
+    expect(scraped.has('vcupb')).toBe(true); // the maybeRaw calls ARE captured by the widened regex
+    expect(scraped.has('dfb')).toBe(true); // incl. the multi-line maybeRaw('dfb', ...) form
     expect(scraped.size).toBe(50);
     expect([...scraped].sort()).toEqual([...ALL_DELTA_KEYS].sort());
   });
@@ -3560,6 +3562,104 @@ describe('delta-key contract pins (anti-drift)', () => {
         `${terse} is neither a delta key nor a known self scalar`,
       ).toBe(true);
     }
+  });
+});
+
+// The realm-wide dungeon-finder board (`dfb`) is viewer-independent
+// (dungeonFinderBoardView takes no pid), so selfWireJson ships it via `maybeRaw`
+// plus a realm-readout memo: the board is built and JSON.stringify'd at most once
+// per tick and reused by every session whose per-session lastDfWireTick gate opens
+// on that tick. These pins prove the memo collapses the same-tick work WITHOUT
+// changing a single wire byte or any session's cadence: the shipped string equals
+// what plain `maybe()` produced before, an unchanged board still delta-elides,
+// and a changed board still reaches every session within its own gate interval.
+describe('dfb realm-readout memo (shared board bytes, per-session cadence)', () => {
+  const DF_WIRE_INTERVAL_TICKS = 10; // DF_WIRE_HZ = 2 at DT = 1/20
+
+  function boardServer(): {
+    server: GameServer;
+    fcA: FakeClient;
+    fcB: FakeClient;
+    sa: ClientSession;
+    sb: ClientSession;
+  } {
+    const server = new GameServer();
+    const fcA = fakeWs();
+    const fcB = fakeWs();
+    const sa = joinServer(server, fcA, 61, 'BoardOne');
+    const sb = joinServer(server, fcB, 62, 'BoardTwo');
+    // A real premade listing so the shared board is non-empty and its bytes are
+    // meaningful (hollow_crypt_normal accepts a solo level-8 leader).
+    server.sim.setPlayerLevel(8, sa.pid);
+    server.sim.dungeonFinderListingCreate('hollow_crypt_normal', ['first_run'], sa.pid);
+    return { server, fcA, fcB, sa, sb };
+  }
+
+  it('builds and stringifies the shared board once for two sessions gating on the same tick', () => {
+    const { server, fcA, fcB } = boardServer();
+    const memo = (server as any).dfBoardReadout;
+    expect(memo.objectBuilds).toBe(0);
+    expect(memo.stringifies).toBe(0);
+    // Both sessions join with lastDfWireTick a full interval back, so the first
+    // broadcast pass is due for both at the same sim tick: one build, one
+    // stringify, shared. A per-session build/stringify would count 2 here.
+    broadcast(server);
+    expect(memo.objectBuilds).toBe(1);
+    expect(memo.stringifies).toBe(1);
+    const a = lastSnap(fcA.sent).self.dfb;
+    const b = lastSnap(fcB.sent).self.dfb;
+    expect(a).toHaveLength(1); // the listing is on the board both viewers received
+    expect(JSON.stringify(a)).toBe(JSON.stringify(b)); // identical shared payload
+    expect(JSON.stringify(a)).toBe(memo.json); // and it is exactly the memoized string
+  });
+
+  it('ships byte-for-byte what plain maybe() shipped: the memo string equals a direct stringify', () => {
+    const { server, fcA } = boardServer();
+    broadcast(server);
+    const memo = (server as any).dfBoardReadout;
+    // Same tick, so the finder's own boardRev/tickBucket cache is untouched: the
+    // memoized string must equal the JSON.stringify(value ?? null) plain maybe()
+    // would have produced. The view returns a bare array, never null/undefined
+    // (buildBoard always returns a listing array), so `?? null` is inert and the
+    // direct stringify IS the plain-maybe oracle.
+    expect(memo.json).toBe(JSON.stringify(server.sim.dungeonFinderBoardView()));
+    expect(JSON.stringify(lastSnap(fcA.sent).self.dfb)).toBe(memo.json);
+  });
+
+  it('keeps delta-elision on an unchanged board and still ships a changed board to every session', () => {
+    const { server, fcA, fcB, sb } = boardServer();
+    broadcast(server); // both sessions receive the initial one-listing board
+    const idleA = fcA.sent.length;
+    const idleB = fcB.sent.length;
+    // Two full DF wire intervals with no board change: each session's gate opens
+    // (due), the memo re-keys on the new ticks, but the serialized bytes are
+    // unchanged, so maybeRaw elides the key for every session in the window.
+    // The window deliberately crosses tick 20, where the finder's tickBucket
+    // cache rebuilds the same content: same bytes, still elided.
+    for (let pass = 0; pass < 2; pass++) {
+      for (let i = 0; i < DF_WIRE_INTERVAL_TICKS; i++) server.sim.tick();
+      broadcast(server);
+    }
+    const dfbSnaps = (sent: any[], from: number): any[] =>
+      sent.slice(from).filter((m) => m.t === 'snap' && m.self && 'dfb' in m.self);
+    expect(dfbSnaps(fcA.sent, idleA)).toHaveLength(0);
+    expect(dfbSnaps(fcB.sent, idleB)).toHaveLength(0);
+    // A real board change (a second listing) still reaches both sessions on
+    // their next due pass: the memo re-keys on the pass tick and re-stringifies
+    // the grown board. A memo that never invalidated (a constant tick key)
+    // would keep serving the stale one-listing string and red the length pin.
+    server.sim.setPlayerLevel(8, sb.pid);
+    server.sim.dungeonFinderListingCreate('hollow_crypt_normal', [], sb.pid);
+    const changedA = fcA.sent.length;
+    const changedB = fcB.sent.length;
+    for (let i = 0; i < DF_WIRE_INTERVAL_TICKS; i++) server.sim.tick();
+    broadcast(server);
+    const grownA = dfbSnaps(fcA.sent, changedA);
+    const grownB = dfbSnaps(fcB.sent, changedB);
+    expect(grownA).toHaveLength(1);
+    expect(grownB).toHaveLength(1);
+    expect(grownA[0].self.dfb).toHaveLength(2);
+    expect(JSON.stringify(grownA[0].self.dfb)).toBe(JSON.stringify(grownB[0].self.dfb));
   });
 });
 
