@@ -4,13 +4,14 @@
 // concurrent cold/expired callers, a rejected refresh is never cached (the next
 // call re-reads fresh), a refresh error stale-serves the last-good value, and a
 // moderation bust landing mid-flight evicts any in-flight pre-ban joiner (the
-// epoch-keyed leaderboard and arena flights) instead of handing it the pre-ban
-// snapshot. The arena ladder is per FORMAT (each of '1v1' / '2v2' its own slot and
-// flight); the project-stats count is single-key and moderation-INVARIANT, so it is
-// NOT bust-wired and a cold-cache db error degrades it to 0.
+// epoch-keyed leaderboard, arena, and deeds Renown board flights) instead of
+// handing it the pre-ban snapshot. The arena ladder is per FORMAT (each of
+// '1v1' / '2v2' its own slot and flight); the project-stats count is single-key and
+// moderation-INVARIANT, so it is NOT bust-wired and a cold-cache db error degrades
+// it to 0.
 //
 // These drive the REAL module-private getters through boardReadTestSeam (exported
-// by server/main.ts) with only the three underlying db reads mocked, so every
+// by server/main.ts) with only the underlying db reads mocked, so every
 // assertion exercises the genuine single-flight wiring. They deliberately do NOT
 // go through configureDeedsRuntime / configureLeaderboardRuntime + fakeCtx: those
 // runtime seams REPLACE the function under test with an injected fake, so a
@@ -36,7 +37,7 @@ process.env.DATABASE_URL ||= 'postgres://test:test@127.0.0.1:5433/wocc_board_sin
 import { readFileSync } from 'node:fs';
 import { afterEach, beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
 
-// The three underlying board reads, controlled per case. Hoisted so the vi.mock
+// The underlying board reads, controlled per case. Hoisted so the vi.mock
 // factories below (which run before the module imports) can reference them.
 const dbMocks = vi.hoisted(() => ({
   topLifetimeXp: vi.fn(),
@@ -44,9 +45,11 @@ const dbMocks = vi.hoisted(() => ({
   topArenaRatings: vi.fn(),
   getAccountsCount: vi.fn(),
   deedRarityCounts: vi.fn(),
+  deedsBoardRanked: vi.fn(),
+  charactersForDeedsBoard: vi.fn(),
 }));
 
-// Mock ONLY the three underlying reads, spreading the real modules so every other
+// Mock ONLY the underlying reads, spreading the real modules so every other
 // export main.ts pulls from them (the pool, the many db helpers, the deeds SQL)
 // stays real and the import stays inert. publicRarityPayload
 // (server/deeds_records) is deliberately NOT mocked: it must strip hidden deeds
@@ -57,13 +60,21 @@ vi.mock('../../server/db', async (importOriginal) => ({
   topGuilds: dbMocks.topGuilds,
   topArenaRatings: dbMocks.topArenaRatings,
   getAccountsCount: dbMocks.getAccountsCount,
+  deedsBoardRanked: dbMocks.deedsBoardRanked,
+  charactersForDeedsBoard: dbMocks.charactersForDeedsBoard,
 }));
 vi.mock('../../server/deeds_db', async (importOriginal) => ({
   ...(await importOriginal<typeof import('../../server/deeds_db')>()),
   deedRarityCounts: dbMocks.deedRarityCounts,
 }));
 
-import type { ArenaLeaderRow, GuildLeaderRow, LifetimeXpLeaderRow } from '../../server/db';
+import type {
+  ArenaLeaderRow,
+  DeedsBoardCharacterRow,
+  GuildLeaderRow,
+  LifetimeXpLeaderRow,
+} from '../../server/db';
+import type { RankedDeedsAccount } from '../../server/deeds_board';
 import type { DeedRarityAggregate } from '../../server/deeds_db';
 import { ARENA_LEADERBOARD_LIMIT } from '../../server/leaderboard';
 import { boardReadTestSeam } from '../../server/main';
@@ -125,12 +136,47 @@ function rarityAggregate(): DeedRarityAggregate {
   return { totalEligible: 100, earned: { [LISTABLE_DEED_ID]: 40 } };
 }
 
+// A one-account Renown board roll-up whose display character id carries the
+// pre/post discriminator: the entry fill reads the character NAME live
+// (deedsCharacter below), so the tag surfaces on the entry name.
+function deedsBoard(tag: 'preban' | 'postban'): {
+  ranked: RankedDeedsAccount[];
+  totalRanked: number;
+  unknownDeedIds: string[];
+} {
+  return {
+    ranked: [
+      {
+        accountId: 9,
+        renown: 500,
+        completionTime: 1_000,
+        displayCharacterId: tag === 'preban' ? 1 : 2,
+      },
+    ],
+    totalRanked: 1,
+    unknownDeedIds: [],
+  };
+}
+
+function deedsCharacter(id: number): DeedsBoardCharacterRow {
+  return {
+    id,
+    name: id === 1 ? 'preban-deedster' : 'postban-deedster',
+    class: 'warrior',
+    level: 60,
+    realm: 'test-realm',
+    activeTitle: null,
+  };
+}
+
 beforeEach(() => {
   dbMocks.topLifetimeXp.mockReset();
   dbMocks.topGuilds.mockReset();
   dbMocks.topArenaRatings.mockReset();
   dbMocks.getAccountsCount.mockReset();
   dbMocks.deedRarityCounts.mockReset();
+  dbMocks.deedsBoardRanked.mockReset();
+  dbMocks.charactersForDeedsBoard.mockReset();
   // Null the leaderboard/guild/rarity caches between cases (the flights clear
   // their own in-flight slots on settle, and every case below settles all its
   // deferreds, so no slot leaks across cases).
@@ -432,6 +478,11 @@ describe('server/main.ts wiring: both leaderboard read paths share one flight', 
   // Whitespace-collapsed views so these pins survive biome line-wrapping of the
   // fluent `.realm().catch(...)` chains and the `singleFlight(() => ...)` wraps.
   const compactSrc = src.replace(/\s+/g, '');
+  // Comment-stripped AND collapsed: the epoch-getter count below sits on this
+  // view so a getter that is commented out (its text alive in the comment) still
+  // drops the count and reds, the comment-gameable trap the raw compactSrc view
+  // cannot catch.
+  const compactCode = codeOnly.replace(/\s+/g, '');
 
   it('warmLeaderboards routes its four reads through the shared flights, none bare', () => {
     const at = src.indexOf('const warmLeaderboards');
@@ -503,7 +554,7 @@ describe('server/main.ts wiring: both leaderboard read paths share one flight', 
     expect(gaBody).toContain('refreshArenaShared[format]()');
   });
 
-  it('every leaderboard and arena flight is constructed with the boardEpoch getter (rarity + count are not)', () => {
+  it('every leaderboard, arena, and deeds-board flight is constructed with the boardEpoch getter (rarity + count are not)', () => {
     // The whole hard-stop value is that each epoch-keyed flight is keyed on
     // boardEpoch, so a moderation bust evicts an in-flight joiner. Pin the epoch
     // getter on each construction: dropping it from any flight compiles and passes
@@ -523,10 +574,16 @@ describe('server/main.ts wiring: both leaderboard read paths share one flight', 
     );
     expect(compactSrc).toContain("singleFlight(()=>refreshArena('1v1'),()=>boardEpoch");
     expect(compactSrc).toContain("singleFlight(()=>refreshArena('2v2'),()=>boardEpoch");
-    // Exactly six epoch-keyed flights (player + guild, realm + global; arena 1v1 +
-    // 2v2): the rarity and project-stats caches (not bust-wired) must NOT gain the
-    // getter, and no board flight may lose it.
-    expect(compactSrc.match(/\(\)=>boardEpoch/g)).toHaveLength(6);
+    // The deeds Renown board flight wraps a NAMED function (no per-scope arrow),
+    // pinned on the comment-stripped view: the board is character-faced, so its
+    // plain flight let one post-bust read serve a just-banned account's character.
+    expect(compactCode).toContain('singleFlight(refreshDeedsBoard,()=>boardEpoch');
+    // Exactly seven epoch-keyed flights (player + guild, realm + global; arena
+    // 1v1 + 2v2; the deeds board): the rarity and project-stats caches (not
+    // bust-wired) must NOT gain the getter, and no board flight may lose it. The
+    // count sits on the comment-stripped compactCode view so a commented-out
+    // getter drops it.
+    expect(compactCode.match(/\(\)=>boardEpoch/g)).toHaveLength(7);
   });
 
   it('a warm tick landing during an in-flight inline read runs the query once', async () => {
@@ -551,7 +608,10 @@ describe('server/main.ts wiring: both leaderboard read paths share one flight', 
 // (player and guild, realm and global): the whole point of the change is that every
 // one of them evicts the joiner on bust, so each is proven behaviorally, not just
 // the realm-player flight. Distinct pre/post stub values discriminate which read
-// each caller got.
+// each caller got. The arena (per format) and deeds Renown board cases below
+// mirror the same five oracles; the deeds case is bespoke because that flight's
+// refresh chains TWO db reads (the ranked roll-up, then the display-character
+// fill), so the generic helper's single-mock shape does not fit it.
 async function assertBustEvictsJoiner<R extends { name: string }, E extends { name: string }>(
   mock: Mock,
   rows: (tag: string) => R[],
@@ -627,6 +687,52 @@ describe('a moderation bust mid-flight evicts the in-flight joiner (epoch-keyed)
     await assertBustEvictsJoiner(dbMocks.topArenaRatings, arenaRows, () =>
       seam.getArenaLeaderboard('2v2'),
     );
+  });
+
+  it('deeds Renown board: post-bust caller re-reads, pre-ban snapshot never installs', async () => {
+    // The board is character-faced (each entry is an account's display
+    // character), so a post-bust reader joining the pre-ban flight would serve a
+    // just-banned account's character for one read. Same five oracles as
+    // assertBustEvictsJoiner, hand-rolled because this flight chains a second db
+    // read (the display-character fill) after the ranked roll-up: the deferreds
+    // control the roll-up, and the fill resolves live from whichever character
+    // ids the resolved board names, discriminating pre from post.
+    const preD = deferred<ReturnType<typeof deedsBoard>>();
+    const postD = deferred<ReturnType<typeof deedsBoard>>();
+    dbMocks.deedsBoardRanked
+      .mockImplementationOnce(() => preD.promise)
+      .mockImplementationOnce(() => postD.promise);
+    dbMocks.charactersForDeedsBoard.mockImplementation(async (ids: readonly number[]) =>
+      ids.map(deedsCharacter),
+    );
+
+    const first = seam.getDeedsLeaderboard(); // pre-ban flight (epoch E0), in flight
+    expect(dbMocks.deedsBoardRanked).toHaveBeenCalledTimes(1);
+
+    seam.bustBoardCaches(); // boardEpoch++ (E1) and nulls the deeds board cache
+
+    const second = seam.getDeedsLeaderboard(); // cache null; E1 != E0 -> fresh flight
+    // THE key oracle: the post-bust caller did NOT join the pre-ban flight; it
+    // started its own read. This reds if THIS flight is not keyed on boardEpoch.
+    expect(dbMocks.deedsBoardRanked).toHaveBeenCalledTimes(2);
+
+    // Resolve the POST-ban roll-up FIRST so the pre-ban flight's install is the
+    // LAST one attempted: the capture-before-await guard declines it, keeping the
+    // post-ban snapshot installed (same decisiveness ordering as the helper).
+    postD.resolve(deedsBoard('postban'));
+    preD.resolve(deedsBoard('preban'));
+    const [r1, r2] = await Promise.all([first, second]);
+
+    // The in-flight pre-ban caller still gets its own computed snapshot ...
+    expect(r1[0].name).toBe('preban-deedster');
+    // ... but the post-bust caller got the POST-ban read, never the pre-ban one.
+    expect(r2[0].name).toBe('postban-deedster');
+
+    // The installed cache is the post-ban snapshot: a fresh in-TTL read serves it
+    // with NO further roll-up read (call count stays 2).
+    const peeked = await seam.getDeedsLeaderboard();
+    expect(dbMocks.deedsBoardRanked).toHaveBeenCalledTimes(2);
+    expect(peeked[0].name).toBe('postban-deedster');
   });
 
   it('a WARM arena cache is nulled by the bust: the next read re-queries, not a stale TTL serve', async () => {

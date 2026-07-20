@@ -676,8 +676,13 @@ async function refreshDeedsBoard(): Promise<DeedsBoardCache> {
 // request, since the warm interval equals the cache TTL) must share ONE
 // refresh: concurrent flights would multiply the most expensive query the
 // process has, and the slower flight would overwrite a newer snapshot with a
-// fresher timestamp.
-const refreshDeedsBoardShared = singleFlight(refreshDeedsBoard);
+// fresher timestamp. The flight is keyed on boardEpoch like the leaderboard
+// and arena flights: the board is character-faced, and a plain flight let a
+// reader arriving AFTER a moderation bust join the in-flight pre-ban refresh
+// and be served a just-banned account's character for one read; keyed, the
+// bust (which bumps the epoch) makes that reader start a fresh, delisting
+// read instead, and the install guard above declines the pre-ban snapshot.
+const refreshDeedsBoardShared = singleFlight(refreshDeedsBoard, () => boardEpoch);
 
 // Freshness gate shared by the two board reads below: serve the cache inside
 // the TTL, else refresh, else stale-serve (or null before the first success).
@@ -815,6 +820,7 @@ async function getAccountsCreatedCount(): Promise<number> {
 // would replace the function under test with a fake).
 export const boardReadTestSeam = {
   getDeedsRarity,
+  getDeedsLeaderboard,
   getLeaderboard,
   getGuildLeaderboard,
   getArenaLeaderboard,
@@ -831,6 +837,7 @@ export const boardReadTestSeam = {
     guildLeaderboardCache.global = null;
     arenaLeaderboardCache['1v1'] = null;
     arenaLeaderboardCache['2v2'] = null;
+    deedsBoardCache = null;
     deedsRarityCache = null;
     accountsCreatedCache.bust();
   },

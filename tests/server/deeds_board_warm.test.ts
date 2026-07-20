@@ -234,6 +234,12 @@ describe('server/main.ts wiring: both board read paths share one flight', () => 
     // wrap into the shared flight. Anything else is a bypass.
     expect(src.match(/\brefreshDeedsBoard\b/g)).toHaveLength(2);
     expect(src).toContain('async function refreshDeedsBoard(');
-    expect(src).toContain('singleFlight(refreshDeedsBoard)');
+    // The wrap carries the boardEpoch getter (a moderation bust evicts in-flight
+    // joiners of the character-faced board). Comment-stripped then collapsed, so
+    // a commented-out wrap cannot satisfy the pin and the match survives biome
+    // wrapping; the eviction behavior itself is proven in
+    // tests/server/board_read_single_flight.test.ts.
+    const compactCode = src.replace(/(^|[^:])\/\/.*$/gm, '$1').replace(/\s+/g, '');
+    expect(compactCode).toContain('singleFlight(refreshDeedsBoard,()=>boardEpoch');
   });
 });
