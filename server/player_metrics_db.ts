@@ -462,11 +462,16 @@ export async function closeOrphanPlayerSessions(db: Queryable, realm: string): P
  * retentionDays old: the kept window is [today - retentionDays, today]. The
  * batch subquery selects the composite primary key (the table has no id
  * column). No index leads on day (the PK leads on realm, and the integration
- * suite pins the table to the PK alone), so the batch subquery is a bounded
- * scan; that is accepted because this prune itself keeps the table small and
- * the sweep runs it off-peak behind the advisory lock. The business snapshot
- * reads touch only today and yesterday, so any positive window is
- * read-invisible to them. retentionDays <= 0 means keep forever.
+ * suite pins the table to the PK alone), and UNLIKE the sibling prunes (whose
+ * age column is indexed, so oldest-first rides the index) there is deliberately
+ * NO ORDER BY: among expired rows the deletion order is immaterial, and an
+ * unordered LIMIT lets the scan stop as soon as the batch fills, where an
+ * ORDER BY over the unindexed day would force a full scan plus a top-N sort of
+ * every expired row on EVERY batch (worst exactly during the first catch-up
+ * run). The steady-state zero-expired night still costs one full scan of a
+ * table this prune itself keeps small, off-peak behind the advisory lock. The
+ * business snapshot reads touch only today and yesterday, so any positive
+ * window is read-invisible to them. retentionDays <= 0 means keep forever.
  */
 export async function prunePlayerActivityDailyBatch(
   db: Queryable,
@@ -481,7 +486,6 @@ export async function prunePlayerActivityDailyBatch(
       WHERE (realm, day, account_id) IN (
         SELECT realm, day, account_id FROM player_activity_daily
          WHERE day < (now() AT TIME ZONE 'UTC')::date - $1::int
-         ORDER BY day
          LIMIT $2)`,
     [days, Math.max(1, Math.floor(batchSize))],
   );

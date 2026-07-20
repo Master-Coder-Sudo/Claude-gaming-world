@@ -100,7 +100,7 @@ describe('player activity retention prune', () => {
     query: vi.fn(async (_sql: string, _params?: unknown[]) => ({ rows: [], rowCount })),
   });
 
-  it('deletes one bounded oldest-first batch by composite key and reports the row count', async () => {
+  it('deletes one bounded unordered batch by composite key and reports the row count', async () => {
     const db = prunedb(3);
     await expect(prunePlayerActivityDailyBatch(db, 400, 500)).resolves.toBe(3);
     const [sql, params] = db.query.mock.calls[0];
@@ -109,7 +109,13 @@ describe('player activity retention prune', () => {
     // primary key, and the bounded LIMIT keeps each call a short statement on
     // the default allowance (the sweep drives iteration).
     expect(sql).toContain('(realm, day, account_id) IN');
-    expect(sql).toContain('ORDER BY day');
+    // Deliberately UNORDERED, unlike the sibling prunes (their age column is
+    // indexed): no index leads on day, so an ORDER BY here would force a full
+    // scan plus a top-N sort of every expired row per batch, while an
+    // unordered LIMIT early-stops once the batch fills. Deletion order among
+    // expired rows is immaterial; pin the absence so oldest-first is never
+    // "restored" by symmetry with the siblings.
+    expect(sql).not.toContain('ORDER BY');
     expect(sql).toContain('LIMIT $2');
     expect(params).toEqual([400, 500]);
   });
@@ -144,6 +150,11 @@ describe('player activity retention prune', () => {
     // TODAY: it would delete every historical row while keeping the config
     // nominally on); a 0 batch binds LIMIT 1, never LIMIT 0.
     expect(db.query.mock.calls[0][1]).toEqual([1, 1]);
+    // A fractional value above one floors DOWN (400.7 binds 400 days), the
+    // same Math.floor the sibling prunes apply; only the sub-one case clamps UP.
+    const db2 = prunedb();
+    await prunePlayerActivityDailyBatch(db2, 400.7, 500);
+    expect(db2.query.mock.calls[0][1]).toEqual([400, 500]);
   });
 });
 
