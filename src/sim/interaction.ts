@@ -23,7 +23,7 @@
 // `src/sim`-pure: no DOM/Three/render-ui-game-net imports, no Math.random/Date.now
 // (enforced by tests/architecture.test.ts).
 
-import { bagCapacity, fitsAll } from './bags';
+import { bagCapacity, canGrantItemInstance, fitsAll } from './bags';
 import { HARVEST_COMPONENT_SPECIMENS, monsterMaterialTierFor } from './content/professions';
 import { ITEMS, MOBS, QUESTS, SPIRIT_HEALER_NPC_ID } from './data';
 import * as deedsMod from './deeds';
@@ -361,21 +361,23 @@ export function harvestCorpse(
   }
   // Signed-family components first: their plain FALLBACK still owns
   // pre-gate-reserved stack room, so they outrank the specimens, which are
-  // pure extras. A signed instance merges only into a byte-equal same-signer
-  // stack (identical-payload stacking, Phase 12d; never a plain stack, #1165),
-  // so this gate conservatively demands a genuinely free slot, and with none
-  // the signed-family grant falls back to the plain fungible top-up (the
-  // signature truncates, the yield does not) while a specimen truncates
-  // outright, the same truncation contract harvestNode's signed grants
-  // follow. Each downgrade tells the player via the text-free personal
-  // gatherDowngrade event, at most ONCE per harvest command (the
+  // pure extras. A signed instance merges into a byte-equal same-signer stack
+  // (identical-payload stacking, Phase 12d; never a plain stack, #1165), so
+  // this gate accepts same-signer stack room OR a genuinely free slot
+  // (canGrantItemInstance, the countFit model harvestNode's signed grants
+  // share, #2139); with neither the signed-family grant falls back to the
+  // plain fungible top-up (the signature truncates, the yield does not) while
+  // a specimen truncates outright, the same truncation contract harvestNode's
+  // signed grants follow. Each downgrade tells the player via the text-free
+  // personal gatherDowngrade event, at most ONCE per harvest command (the
   // toolDeniedEmitted idiom); the mark-lost arm runs first, so when both a
   // signature and a jackpot are lost the single event reports the mark.
   let downgradeEmitted = false;
   for (const grant of signedGrants) {
     if (grant.specimen) continue;
-    if (meta.inventory.length < bagCapacity(meta.bags)) {
-      ctx.addItemInstance(grant.itemId, { signer: meta.name }, meta.entityId);
+    const payload = { signer: meta.name };
+    if (canGrantItemInstance(meta.inventory, bagCapacity(meta.bags), grant.itemId, payload)) {
+      ctx.addItemInstance(grant.itemId, payload, meta.entityId);
     } else {
       ctx.addItem(grant.itemId, grant.plainQty, meta.entityId);
       if (!downgradeEmitted) {
@@ -386,8 +388,9 @@ export function harvestCorpse(
   }
   for (const grant of signedGrants) {
     if (!grant.specimen) continue;
-    if (meta.inventory.length < bagCapacity(meta.bags)) {
-      ctx.addItemInstance(grant.itemId, { signer: meta.name }, meta.entityId);
+    const payload = { signer: meta.name };
+    if (canGrantItemInstance(meta.inventory, bagCapacity(meta.bags), grant.itemId, payload)) {
+      ctx.addItemInstance(grant.itemId, payload, meta.entityId);
     } else if (!downgradeEmitted) {
       downgradeEmitted = true;
       ctx.emit({ type: 'gatherDowngrade', pid: meta.entityId, surface: 'corpse', lost: 'find' });

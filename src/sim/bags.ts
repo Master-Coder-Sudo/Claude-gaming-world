@@ -99,6 +99,22 @@ export function countFit(
   return Math.min(count, room);
 }
 
+/** True when ONE copy of an instanced grant fits: room in a byte-equal
+ *  mergeable stack (identical-payload stacking, Phase 12d) OR a free slot.
+ *  The signed-grant guards (corpse focus-harvest, node harvest) consume this
+ *  so a slot-full bag holding a same-payload stack with room keeps the
+ *  signature instead of downgrading to the plain fungible fallback (#2139:
+ *  every capacity pre-check must model the merge identically, or a guard
+ *  that disagrees with addStacked re-opens the overflow class). */
+export function canGrantItemInstance(
+  inventory: readonly InvSlot[],
+  capacity: number,
+  itemId: string,
+  instance: ItemInstancePayload,
+): boolean {
+  return countFit(inventory, capacity, itemId, 1, instance) >= 1;
+}
+
 /** True when all `count` copies fit. */
 export function canAddItem(
   inventory: readonly InvSlot[],

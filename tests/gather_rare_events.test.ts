@@ -507,6 +507,47 @@ describe('grant truncation at the command boundary (full bags)', () => {
     throw new Error('no signed roll within 3000 attempts');
   });
 
+  it('a signed roll with zero free slots merges into a same-signer stack and keeps the signature', () => {
+    const { sim, pid, nodeId, meta } = simAtOreNode();
+    const capacity = bagCapacity(meta.bags);
+    // Max proficiency so signed (rare-or-better) rolls appear quickly.
+    meta.gatheringProficiency.mining = 100;
+    for (let i = 0; i < 3000; i++) {
+      // The merge arm of the crossing case above: still zero free slots, and
+      // the partial PLAIN stack still passes the fungible pre-gate, but a
+      // byte-equal same-signer stack now offers signed room. countFit models
+      // that merge room, so the signed units must land there signed instead
+      // of falling back to the unsigned top-up (#2139, merge-aware guards).
+      meta.inventory.length = 0;
+      for (let f = 0; f < capacity - 2; f++)
+        meta.inventory.push({ itemId: 'bone_fragments', count: 1 });
+      meta.inventory.push({ itemId: 'copper_ore', count: 15 });
+      meta.inventory.push({ itemId: 'copper_ore', count: 5, instance: { signer: 'Packrat' } });
+      delete meta.nodeHarvestReadyAt[nodeId];
+      if (!sim.harvestNode(nodeId, pid)) continue;
+      completeCastNow(sim, pid);
+      const events = sim.drainEvents();
+      const gather = events.find((e) => e.type === 'gatherResult');
+      if (gather?.type !== 'gatherResult') throw new Error('expected gatherResult');
+      // Never past capacity, on EVERY iteration (fungible rolls included).
+      expect(meta.inventory.length).toBeLessThanOrEqual(capacity);
+      const wouldSign = gather.rareEvent !== null || isSignableMaterialRarity(gather.rarity);
+      if (!wouldSign) continue;
+      // The signed arm: every granted unit merged into the same-signer stack
+      // (no new slot), the plain stack is untouched, and no downgrade fires.
+      expect(meta.inventory.length).toBe(capacity);
+      const signed = meta.inventory.find((s) => s.itemId === 'copper_ore' && s.instance);
+      expect(signed?.instance?.signer).toBe('Packrat');
+      expect(gather.qty).toBeGreaterThanOrEqual(1);
+      expect(signed?.count).toBe(5 + gather.qty);
+      const plain = meta.inventory.find((s) => s.itemId === 'copper_ore' && !s.instance);
+      expect(plain?.count).toBe(15);
+      expect(events.filter((e) => e.type === 'gatherDowngrade')).toHaveLength(0);
+      return;
+    }
+    throw new Error('no signed roll within 3000 attempts');
+  });
+
   it('a fungible yield larger than the remaining stack room truncates to what fits', () => {
     const { sim, pid, nodeId, meta } = simAtOreNode();
     const capacity = bagCapacity(meta.bags);
