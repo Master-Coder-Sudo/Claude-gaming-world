@@ -3936,6 +3936,13 @@
     min-height: 40px;
     font-size: 16px;
   }
+  /* An Apply Enchant picker row (Professions 2.0 Phase 13) carries a dim meta
+     sub-line; the flex row above would seat it inline beside the enchant name
+     on a narrow menu, so a meta-bearing row stacks instead. */
+  body.mobile-touch #ctx-menu .ctx-item:has(.ctx-item-meta) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
   body.mobile-touch #ctx-menu {
     box-sizing: border-box;
     max-height: calc(var(--app-vh, 100vh) / var(--ui-scale, 1) - 20px);

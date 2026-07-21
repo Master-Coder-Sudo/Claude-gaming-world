@@ -345,7 +345,7 @@ export function tradeCancel(ctx: SimContext, pid?: number): void {
 }
 
 // true when the player's bags cover the offered totals per item, summing
-// duplicate slots — a per-slot check would let duplicates each pass alone.
+// duplicate slots: a per-slot check would let duplicates each pass alone.
 // Phase 13: counts against the UNBOUND copies only (unboundCount), the same
 // exclusion tradeSetOffer applies, so a copy bound between set-offer and
 // confirm can never slip through final validation into the swap.

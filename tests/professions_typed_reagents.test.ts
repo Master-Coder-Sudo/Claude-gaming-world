@@ -114,6 +114,47 @@ describe('typed disenchant secondary mapping (disenchant_reagents.ts)', () => {
       expect(reagentIds.has(mat), `${mat} is consumed by an enchant`).toBe(true);
     }
   });
+
+  it('each Runed consumer pairs its one material and sits between base and Greater on its slot', () => {
+    // Review should-fix: the exact material-to-consumer pairing and the "between
+    // base and Greater, never above the Greater value on that slot" magnitude
+    // doctrine were comment-only. Pin both against the live table.
+    const pairs: Record<string, string> = {
+      resonant_steel: 'enchant_weapon_runed_edge',
+      resonant_timber: 'enchant_weapon_runed_focus',
+      resonant_thread: 'enchant_chest_runeweave',
+      resonant_hide: 'enchant_legs_runed_hide',
+      resonant_links: 'enchant_helmet_runed_links',
+    };
+    const maxBonus = (e: (typeof ENCHANTS)[string]) =>
+      Math.max(...Object.values(e.statBonus).filter((v): v is number => typeof v === 'number'));
+    const consumesShard = (e: (typeof ENCHANTS)[string]) =>
+      e.reagents.some((r) => r.itemId === 'arcane_shard');
+    const consumesTyped = (e: (typeof ENCHANTS)[string]) =>
+      e.reagents.some((r) => r.itemId.startsWith('resonant_'));
+    for (const [material, enchantId] of Object.entries(pairs)) {
+      const runed = ENCHANTS[enchantId];
+      expect(runed, enchantId).toBeDefined();
+      expect(
+        runed.reagents.some((r) => r.itemId === material),
+        `${enchantId} consumes ${material}`,
+      ).toBe(true);
+      const siblings = Object.values(ENCHANTS).filter(
+        (e) => e.itemSlot === runed.itemSlot && e.id !== runed.id,
+      );
+      const greater = siblings.filter(consumesShard).map(maxBonus);
+      const base = siblings.filter((e) => !consumesShard(e) && !consumesTyped(e)).map(maxBonus);
+      expect(greater.length, `${runed.itemSlot} has a Greater tier`).toBeGreaterThan(0);
+      expect(base.length, `${runed.itemSlot} has a base tier`).toBeGreaterThan(0);
+      const value = maxBonus(runed);
+      expect(value, `${enchantId} never exceeds the slot's Greater tier`).toBeLessThanOrEqual(
+        Math.max(...greater),
+      );
+      expect(value, `${enchantId} clears the slot's base floor`).toBeGreaterThanOrEqual(
+        Math.min(...base),
+      );
+    }
+  });
 });
 
 describe('disenchant yield model (professions/enchanting.ts)', () => {
@@ -178,6 +219,32 @@ describe('disenchant yield model (professions/enchanting.ts)', () => {
       expect(sim.countItem(expectedSecondary as string, pid)).toBe(result.secondaryCount);
       expect(slotFor(sim, pid, expectedSecondary as string)?.instance?.bindOnTrade).toBe(true);
     }
+  });
+
+  it('the epic secondary draw genuinely reaches BOTH magnitudes, and a 2-count grants two armed copies', () => {
+    // Review should-fix: the 1-or-2 union assertion above would pass under a bug
+    // that always granted 1. Sweep a fixed deterministic seed range and require
+    // BOTH outcomes to occur, then pin the 2-arm's grant end to end.
+    const counts = new Map<number, number>();
+    for (let seed = 1; seed <= 40; seed++) {
+      const sim = makeSim(seed);
+      const pid = sim.playerId;
+      sim.addItem('gravewyrm_cleaver', 1, pid);
+      const result = resolveDisenchant(sim.ctx, pid, 'gravewyrm_cleaver');
+      expect(result.ok).toBe(true);
+      counts.set(result.secondaryCount as number, seed);
+      if (result.secondaryCount === 2) {
+        // The 2-count is not just reported: two armed copies really land, as one
+        // byte-equal counted stack (the 12d merge model).
+        expect(sim.countItem(result.secondaryItemId as string, pid)).toBe(2);
+        const slot = slotFor(sim, pid, result.secondaryItemId as string);
+        expect(slot?.count).toBe(2);
+        expect(slot?.instance?.bindOnTrade).toBe(true);
+      }
+      if (counts.has(1) && counts.has(2)) break;
+    }
+    expect(counts.has(1), 'no seed in 1..40 produced a 1-count secondary').toBe(true);
+    expect(counts.has(2), 'no seed in 1..40 produced a 2-count secondary').toBe(true);
   });
 
   it('is deterministic: the same seed yields the same secondary count (all rng via ctx.rng)', () => {
@@ -272,6 +339,35 @@ describe('bind-on-trade primitive (social/trade.ts)', () => {
     tradeMod.tradeConfirm(sim.ctx, a);
     expect(sim.countItem('resonant_steel', b)).toBe(1); // stayed with B
     expect(sim.countItem('resonant_steel', a)).toBe(0); // never crossed
+  });
+
+  it('confirm-time revalidation (offerCovered) blocks a copy bound AFTER the offer was set', () => {
+    // Review should-fix: the offer-time clamp normally fires first, so the
+    // confirm-time unbound recheck never sees a bound copy in a natural session
+    // (boundTo only stamps on a COMPLETED trade, and a player holds one session
+    // at a time). Manufacture the in-between state directly: offer an unbound
+    // copy, stamp it while the session sits unconfirmed, then confirm both
+    // sides. The final validation must fail the whole swap: nothing moves.
+    const { sim, a, b } = makeTradeSim();
+    grantInstance(sim, 'resonant_steel', { bindOnTrade: true }, a);
+    sim.ctx.addItem('arcane_dust', 3, b);
+    tradeMod.tradeRequest(sim.ctx, b, a);
+    tradeMod.tradeAccept(sim.ctx, b);
+    tradeMod.tradeSetOffer(sim.ctx, [{ itemId: 'resonant_steel', count: 1 }], 0, a);
+    tradeMod.tradeSetOffer(sim.ctx, [{ itemId: 'arcane_dust', count: 3 }], 0, b);
+    const offered = slotFor(sim, a, 'resonant_steel');
+    expect(offered?.instance?.boundTo).toBeUndefined();
+    // The mid-session stamp (no natural path reaches this; defence in depth).
+    if (offered?.instance) offered.instance.boundTo = a;
+    tradeMod.tradeConfirm(sim.ctx, a);
+    tradeMod.tradeConfirm(sim.ctx, b);
+    // The swap was refused wholesale: the bound copy stayed with A, and B's
+    // counter-offer never crossed either.
+    expect(sim.countItem('resonant_steel', a)).toBe(1);
+    expect(sim.countItem('resonant_steel', b)).toBe(0);
+    expect(sim.countItem('arcane_dust', b)).toBe(3);
+    expect(sim.countItem('arcane_dust', a)).toBe(0);
+    expect(slotFor(sim, a, 'resonant_steel')?.instance?.boundTo).toBe(a);
   });
 
   it('a trade removal consumes an unbound copy and never a bound one', () => {

@@ -9,6 +9,7 @@ import { ENCHANTS } from '../src/sim/content/enchants';
 import { ITEMS } from '../src/sim/data';
 import type { InvSlot, ItemSlot } from '../src/sim/types';
 import { enchantNameKey, enchantsForReagent, enchantTargets } from '../src/ui/enchant_apply_view';
+import { hudChromeStrings } from '../src/ui/i18n.catalog/hud_chrome';
 
 // A real item id for a slot, taken from live content so the def.slot match is
 // exercised against ITEMS exactly as the runtime picker reads it.
@@ -27,6 +28,17 @@ describe('enchant_apply_view: enchantNameKey', () => {
     );
     for (const id of Object.keys(ENCHANTS)) {
       expect(enchantNameKey(id)).toBe(`hudChrome.enchantName.${id}`);
+    }
+    // Review should-fix: the key CONSTRUCTION alone would pass over an empty
+    // catalog. The render sink is only real if every id resolves to a non-empty
+    // English row, and every row still names a live enchant (no orphans).
+    const table = hudChromeStrings.enchantName as Record<string, string>;
+    for (const id of Object.keys(ENCHANTS)) {
+      expect(typeof table[id], `catalog row for ${id}`).toBe('string');
+      expect(table[id].length, `non-empty name for ${id}`).toBeGreaterThan(0);
+    }
+    for (const key of Object.keys(table)) {
+      expect(ENCHANTS[key], `orphaned enchantName row ${key}`).toBeDefined();
     }
   });
 });

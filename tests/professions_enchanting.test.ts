@@ -95,7 +95,9 @@ describe('disenchant', () => {
     sim.addItem('eastbrook_arming_sword', 1, sim.playerId);
     sim.disenchantItem('eastbrook_arming_sword');
     expect(sim.lastDisenchantResult?.ok).toBe(true);
-    expect(disenchantItem(sim.ctx, 'nonexistent_item_id').ok).toBe(false);
+    const denied = disenchantItem(sim.ctx, 'nonexistent_item_id');
+    expect(denied.ok).toBe(false);
+    expect(denied.reason).toBe('unknown_item');
   });
 
   // Regression for review #1712 point 2: crafting.ts grants every rare-or-better
