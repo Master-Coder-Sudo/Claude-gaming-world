@@ -1183,6 +1183,10 @@ export const da_DK: EnTranslations = {
         "fiestaWin": "Fiesta-sejr"
       }
     },
+    "charSheet": {
+      "offense": "Offense",
+      "defense": "Defense"
+    },
     "statInfo": {
       "fromYour": "Fra din {value} {stat}:",
       "names": {

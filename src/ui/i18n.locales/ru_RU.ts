@@ -809,6 +809,8 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.warfare.reasons.fiestaKill': 'Устранение на Фиесте',
   'hudChrome.warfare.reasons.fiestaComplete': 'Завершение Фиесты',
   'hudChrome.warfare.reasons.fiestaWin': 'Победа на Фиесте',
+  'hudChrome.charSheet.offense': 'Атака',
+  'hudChrome.charSheet.defense': 'Защита',
   'hudChrome.statInfo.fromYour': 'От вашей характеристики ({value} {stat}):',
   'hudChrome.statInfo.names.spellPower': 'Сила заклинаний',
   'hudChrome.statInfo.names.critRating': 'Рейтинг крит. удара',

@@ -1183,6 +1183,10 @@ export const id_ID: EnTranslations = {
         "fiestaWin": "Kemenangan Fiesta"
       }
     },
+    "charSheet": {
+      "offense": "Offense",
+      "defense": "Defense"
+    },
     "statInfo": {
       "fromYour": "Dari {value} {stat} Anda:",
       "names": {

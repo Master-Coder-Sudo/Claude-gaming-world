@@ -5757,14 +5757,31 @@
     align-items: center;
     gap: 12px;
   }
+  /* Header meta wraps as pill chips beside the name (level/class, title, hobby,
+     honor). The name is the leading flex item; each chip follows. */
   .panel-title.char-title-portrait .char-title-text {
     flex: 1 1 auto;
     min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px 7px;
   }
+  .char-title-text .panel-subtitle {
+    display: inline-block;
+    margin: 0;
+    padding: 4px 9px;
+    font-size: 10.5px;
+    line-height: 1;
+    border: 1px solid #463a1c;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.3);
+  }
+  /* The honor chip drops its special gold to the shared muted chip color, so it
+     reads as one of the header pills rather than a highlighted line. */
   .panel-title.char-title-portrait .char-honor-balance {
-    display: block;
-    color: var(--gold);
-    margin-top: var(--spacing-xs);
+    color: var(--color-text-muted);
+    margin-top: 0;
   }
   .panel-title.char-title-portrait .portrait-chip {
     flex: 0 0 auto;
@@ -5783,19 +5800,32 @@
     text-overflow: ellipsis;
   }
 
-  /* Inspect-other-player profile window */
+  /* Inspect-other-player profile ("Profile") window: the showcase language, same
+     socket / column / centering family as the character sheet (reused via
+     .paperdoll / .equip-col / .equip-slot). Only the class-colored model stage and
+     the compact header are inspect-specific. */
   #inspect-window {
-    width: 420px;
+    width: 740px;
   }
+  /* Compact rich-card header: name + level/class chip + badge rows (the big
+     portrait chip is dropped for the rich card; the remote card keeps it below). */
   .inspect-card {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 2px 2px 10px;
+    text-align: left;
+  }
+  /* The out-of-range remote card is unchanged: centered portrait + name + a plain
+     level/class line + optional guild. */
+  .inspect-card-remote {
     align-items: center;
     gap: 8px;
     padding: 18px 16px 8px;
     text-align: center;
   }
-  .inspect-card .portrait-chip {
+  .inspect-card-remote .portrait-chip {
     width: 132px;
     height: 132px;
   }
@@ -5804,9 +5834,27 @@
     font-size: 20px;
     color: #f0ead8;
   }
-  .inspect-meta {
-    font-size: 13px;
+  .inspect-title {
+    font-size: 12px;
     color: var(--color-text-muted);
+  }
+  /* The rich card shows level/class as a pill chip; the remote card keeps the
+     original plain line (unchanged). */
+  .inspect-meta {
+    display: inline-block;
+    padding: 4px 9px;
+    font-size: 10.5px;
+    line-height: 1;
+    color: var(--color-text-muted);
+    border: 1px solid #463a1c;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .inspect-card-remote .inspect-meta {
+    padding: 0;
+    font-size: 13px;
+    border: none;
+    background: none;
   }
   /* $WOC holder-tier flair badge in the inspect/profile window */
   .inspect-holder {
@@ -5863,37 +5911,49 @@
     font-size: 11px;
     color: var(--color-text-muted);
   }
-  /* Worn-gear paperdoll in the inspect/profile window (read-only). Reuses the
-     character-window .equip-col / .equip-slot styling, but the two columns flex
-     to share the narrower window instead of the char sheet's fixed 150px. */
+  /* Worn-gear paperdoll in the inspect/profile window (read-only). It reuses the
+     shared .paperdoll / .equip-col / .equip-slot showcase family (44px sockets,
+     wrapping names, flexing columns); only the class-colored model stage below is
+     inspect-specific. No unequip / drag affordances (another player's gear is
+     view-only), so no corner chip is painted here. */
   .inspect-equip {
-    margin: 4px 14px 12px;
-    padding-top: 10px;
-    border-top: 1px solid var(--color-border-default);
+    margin-top: 4px;
   }
   .inspect-equip-title {
     font-family: var(--title-font);
     font-size: 13px;
     color: var(--color-text-muted);
     text-align: center;
-    margin-bottom: 8px;
+    letter-spacing: 0.04em;
   }
-  .inspect-paperdoll {
-    justify-content: center;
-    gap: 8px;
+  /* The model stage takes the inspected player's CLASS color, delivered as the
+     --inspect-class-color custom property the painter sets. Fixed width so the
+     columns flex around it (the same band-centering contract as the sheet), and
+     taller than the sheet stage to frame the pulled-back inspect camera. */
+  #inspect-window .inspect-model-panel {
+    min-height: 400px;
+    border: 1px solid var(--inspect-class-color, #5a4a20);
+    box-shadow:
+      0 0 14px 0 color-mix(in srgb, var(--inspect-class-color, #5a4a20) 35%, transparent),
+      inset 0 0 0 1px rgba(0, 0, 0, 0.8),
+      inset 0 0 60px rgba(0, 0, 0, 0.55);
+    background:
+      radial-gradient(
+        ellipse 62% 46% at 50% 58%,
+        color-mix(in srgb, var(--inspect-class-color, #5a4a20) 13%, transparent),
+        transparent 72%
+      ),
+      linear-gradient(to bottom, rgba(20, 16, 8, 0.35), rgba(0, 0, 0, 0.5));
   }
-  .inspect-paperdoll .equip-col {
-    width: auto;
-    flex: 1 1 0;
-    min-width: 0;
-  }
-  /* Read-only gear, so the item name WRAPS instead of ellipsizing: a viewer must be
-     able to read the whole name (the wider window gives it room). Overrides the
-     shared .equip-slot .slot-item nowrap/ellipsis used by the editable char sheet. */
-  .inspect-paperdoll .slot-item {
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
+  #inspect-window .inspect-model-panel::after {
+    content: "";
+    position: absolute;
+    left: 22%;
+    right: 22%;
+    bottom: 40px;
+    height: 26px;
+    background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(0, 0, 0, 0.55), transparent 70%);
+    pointer-events: none;
   }
 
   @media (min-width: 900px) {

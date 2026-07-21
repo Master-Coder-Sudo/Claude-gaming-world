@@ -786,6 +786,8 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'hudChrome.warfare.reasons.fiestaKill': '嘉年華擊倒',
   'hudChrome.warfare.reasons.fiestaComplete': '完成嘉年華',
   'hudChrome.warfare.reasons.fiestaWin': '嘉年華勝利',
+  'hudChrome.charSheet.offense': '攻擊',
+  'hudChrome.charSheet.defense': '防禦',
   'hudChrome.statInfo.fromYour': '來自你的 {value} 點{stat}：',
   'hudChrome.statInfo.names.spellPower': '法術強度',
   'hudChrome.statInfo.names.critRating': '暴擊等級',

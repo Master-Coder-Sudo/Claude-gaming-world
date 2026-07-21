@@ -1183,6 +1183,10 @@ export const en_CA: EnTranslations = {
         "fiestaWin": "Fiesta victory"
       }
     },
+    "charSheet": {
+      "offense": "Offense",
+      "defense": "Defense"
+    },
     "statInfo": {
       "fromYour": "From your {value} {stat}:",
       "names": {

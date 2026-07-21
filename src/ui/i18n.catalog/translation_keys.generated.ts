@@ -4900,6 +4900,8 @@ export type TranslationKeyFlat =
   | 'hudChrome.cameraPrompt.title'
   | 'hudChrome.castBar.playerAria'
   | 'hudChrome.castBar.targetAria'
+  | 'hudChrome.charSheet.defense'
+  | 'hudChrome.charSheet.offense'
   | 'hudChrome.character.modelPreview'
   | 'hudChrome.chatTimestamps.clock12h'
   | 'hudChrome.chatTimestamps.clock24h'

@@ -1037,60 +1037,116 @@
   }
 
   /* ---------- character window ---------- */
-  /* character window */
+  /* The showcase treatment: fixed-width staged model, 6/6 quality-glow sockets,
+     stat tiles + Offense/Defense panels, carded sections. */
   #char-window {
-    width: 600px;
+    width: 740px;
   }
+  /* Paperdoll: two flexing equipment columns flank a FIXED-WIDTH model stage. The
+     columns own all leftover width and each socket row floats centered in its band,
+     so the gap window-edge -> row unit matches the gap row unit -> stage (the band
+     centering contract). Shared with the inspect window, which reuses .paperdoll /
+     .equip-col / .equip-slot (inspect layout overrides live in shell.css). */
   .paperdoll {
     display: flex;
-    gap: 10px;
+    gap: 18px;
     align-items: flex-start;
+    padding-top: 12px;
   }
   .equip-col {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    width: 150px;
-    flex-shrink: 0;
+    gap: 15px;
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
   }
+  /* The right column mirrors: item name on the left, socket on the right. */
   .equip-col-right .equip-slot {
     flex-direction: row-reverse;
     text-align: right;
   }
   .equip-slot {
     display: flex;
-    gap: 7px;
+    gap: 10px;
     align-items: center;
-    width: 100%;
+    justify-content: center;
+    position: relative;
   }
+  /* Fixed-width text box so every row unit is the same width and its icon lands at
+     the identical x within the column (part of the centering contract). */
   .equip-slot > div {
+    flex: 0 0 100px;
     min-width: 0;
+  }
+  /* 44px socket, 2px quality-colored border; the soft quality glow is set inline by
+     the painter (quality_glow.ts), derived from the item's quality color. */
+  .equip-slot .item-icon {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    border-width: 2px;
+    border-radius: 7px;
   }
   .equip-slot .slot-name {
-    font-size: 10px;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
     color: var(--color-text-muted);
   }
+  /* Item names WRAP (never ellipsized) so a full name always reads. */
   .equip-slot .slot-item {
-    font-size: 11px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 11.5px;
+    line-height: 1.3;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
   }
+  /* Model stage: FIXED width so the columns flex around it (the centering
+     contract). The base carries only structure; the showcase treatment (keyline,
+     inset vignette, tinted haze, ground shadow) is layered per window, gold on the
+     character sheet below and class-colored on the inspect window (shell.css). */
   .char-model-panel {
-    flex: 1;
+    flex: 0 0 310px;
     min-width: 0;
-    min-height: 172px;
-    border: 1px solid #463a1c;
+    min-height: 330px;
+    position: relative;
     border-radius: 5px;
-    background: rgba(0, 0, 0, 0.28);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+  }
+  #char-window .char-model-panel {
+    border: 1px solid #5a4a20;
+    box-shadow:
+      inset 0 0 0 1px rgba(0, 0, 0, 0.8),
+      inset 0 0 60px rgba(0, 0, 0, 0.55);
+    background:
+      radial-gradient(
+        ellipse 62% 46% at 50% 58%,
+        rgba(255, 205, 110, 0.13),
+        rgba(255, 205, 110, 0.03) 55%,
+        transparent 72%
+      ),
+      linear-gradient(to bottom, rgba(20, 16, 8, 0.35), rgba(0, 0, 0, 0.5));
+  }
+  /* Ground-shadow ellipse under the model (a pseudo-element, no extra DOM). */
+  #char-window .char-model-panel::after {
+    content: "";
+    position: absolute;
+    left: 22%;
+    right: 22%;
+    bottom: 46px;
+    height: 26px;
+    background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(0, 0, 0, 0.55), transparent 70%);
+    pointer-events: none;
   }
   .char-model-preview {
     width: 100%;
     flex: 1;
     min-height: 0;
+    position: relative;
+    z-index: 1;
   }
   .char-model-preview canvas {
     display: block;
@@ -1103,14 +1159,106 @@
     margin: 0;
     padding: 6px 0 8px;
     flex-shrink: 0;
+    position: relative;
+    z-index: 1;
   }
+  /* Stats: five primary attribute tiles, then the Offense and Defense panels. */
+  .stat-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .stat-panel {
+    min-width: 0;
+    padding: 8px 12px 10px;
+    background: rgba(0, 0, 0, 0.24);
+    border: 1px solid #463a1c;
+    border-radius: 7px;
+  }
+  .sp-title {
+    font-variant: small-caps;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+    font-size: 13px;
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #463a1c;
+  }
+  /* Offense/Defense rows: label left, value right, no trailing colon (dropped by
+     the painter's colon-free stat cell). */
+  .stat-panel .stat-cell {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .stat-panel .stat-cell b {
+    color: #fff;
+    font-weight: normal;
+    font-variant-numeric: tabular-nums;
+  }
+  /* Attributes: five bordered number tiles spanning the grid, big tabular value. */
+  .stat-panel.attrs-tiles {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 8px;
+    padding: 10px 12px;
+    background: none;
+    border: none;
+  }
+  .attrs-tiles .sp-title {
+    display: none;
+  }
+  .attrs-tiles .stat-cell {
+    flex: 1;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 1px;
+    padding: 8px 4px 7px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    background: rgba(0, 0, 0, 0.24);
+    border: 1px solid #463a1c;
+    border-radius: 7px;
+  }
+  .attrs-tiles .stat-cell b {
+    color: #fff;
+    font-weight: normal;
+    font-size: 21px;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  /* Each stat cell opens the class-aware breakdown tooltip; the hover/focus pill is
+     color-only (no transform) per the motion rule, and keyboard focus gets the same
+     pill as hover. Background-only, so rows never reflow between states. */
+  .stat-panel .stat-cell,
+  .attrs-tiles .stat-cell {
+    cursor: help;
+    transition:
+      color 0.12s,
+      background-color 0.12s;
+  }
+  .stat-panel .stat-cell:hover,
+  .attrs-tiles .stat-cell:hover {
+    color: #fff;
+    background: rgba(255, 215, 120, 0.1);
+  }
+  .stat-panel .stat-cell:focus-visible,
+  .attrs-tiles .stat-cell:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 1px;
+    color: #fff;
+    background: rgba(255, 215, 120, 0.14);
+  }
+  /* The Gathering section reuses the compact two-column readout (cp-stats). */
   .char-stats {
     font-size: 12px;
     line-height: 1.65;
     color: var(--color-text-muted);
-    margin-top: 10px;
-    border-top: 1px solid #463a1c;
-    padding-top: 8px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0 12px;
@@ -1119,34 +1267,10 @@
     color: #fff;
     font-weight: normal;
   }
-  /* Each stat is a hoverable/focusable cell that opens a class-aware breakdown
-     tooltip. The padding + matching negative margin turn the hover/focus tint into
-     a padded pill WITHOUT moving the text (layout-neutral: the margin box equals the
-     content box, so rows never reflow between states). Color/background only (no
-     transform) per the motion-sickness rule; keyboard focus gets the same pill as
-     hover so the affordance is identical for mouse and keyboard. */
-  .char-stats .stat-cell {
-    cursor: help;
-    border-radius: 4px;
-    padding: 1px 5px;
-    margin: -1px -5px;
-    transition:
-      color 0.12s,
-      background-color 0.12s;
-  }
-  .char-stats .stat-cell:hover {
-    color: #fff;
-    background: rgba(255, 215, 120, 0.1);
-  }
-  .char-stats .stat-cell:focus-visible {
-    outline: 2px solid var(--color-border-focus);
-    outline-offset: 1px;
-    color: #fff;
-    background: rgba(255, 215, 120, 0.1);
-  }
   /* Honor the OS-level reduced-motion preference too, not just the in-app toggle. */
   @media (prefers-reduced-motion: reduce) {
-    .char-stats .stat-cell {
+    .stat-panel .stat-cell,
+    .attrs-tiles .stat-cell {
       transition: none;
     }
   }
@@ -1304,11 +1428,14 @@
     margin-top: var(--spacing-sm);
   }
 
-  /* post-cap progression: character-sheet block + milestone badges */
+  /* Specialization / Progression / Gathering sections: the same inset-card
+     treatment as the stat panels (all three wrap in .char-progression). */
   .char-progression {
     margin-top: 10px;
-    border-top: 1px solid #463a1c;
-    padding-top: 8px;
+    padding: 8px 12px 10px;
+    background: rgba(0, 0, 0, 0.24);
+    border: 1px solid #463a1c;
+    border-radius: 7px;
   }
   .cp-title {
     font-family: var(--title-font);
@@ -9964,21 +10091,29 @@
   /* Character-window / bags chrome that rode inline past the windows extraction;
      homed here beside the other window bodies under @layer components. */
   /* Per-slot Unequip affordance in the character window (paperdoll): a corner ×
-     glyph revealed on hover/focus (always shown on touch). Also right-click the
-     slot, or drag the piece onto the bags window. */
+     chip revealed on hover/focus (always shown on touch). Also right-click the
+     slot, or drag the piece onto the bags window.
+     CRITICAL: it is an ABSOLUTE corner overlay on the socket, NOT a flex child. As
+     a flex child it would grow the row unit and shove it toward the window edge,
+     breaking the band-centering contract; out of flow, the unit and its icon x are
+     untouched. It is anchored to the socket's top-outer corner per column (the row
+     unit is 154px wide = 44 icon + 10 gap + 100 text, centered in the band, so the
+     icon's outer edge sits ~77px from the row center). */
   .equip-slot .equip-unequip-btn {
-    margin-inline-start: auto;
+    position: absolute;
+    top: -7px;
+    z-index: 2;
     flex: none;
-    width: 40px;
-    height: 40px;
+    width: 22px;
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    border: 1px solid rgba(202, 164, 114, 0.42);
-    background: rgba(60, 38, 28, 0.42);
+    border: 1px solid rgba(202, 164, 114, 0.5);
+    background: rgba(40, 26, 20, 0.85);
     color: var(--color-text-secondary, #d6c1a0);
-    font-size: 20px;
+    font-size: 13px;
     line-height: 1;
     font-weight: 600;
     cursor: var(--cursor-point);
@@ -9988,6 +10123,12 @@
       box-shadow 0.12s,
       color 0.12s,
       opacity 0.12s;
+  }
+  .equip-col:not(.equip-col-right) .equip-slot .equip-unequip-btn {
+    left: calc(50% - 88px);
+  }
+  .equip-col-right .equip-slot .equip-unequip-btn {
+    right: calc(50% - 88px);
   }
   .equip-slot:hover .equip-unequip-btn,
   .equip-slot:focus-within .equip-unequip-btn,
