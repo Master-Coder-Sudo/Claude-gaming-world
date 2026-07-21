@@ -8696,7 +8696,7 @@ function wireStartScreens(): void {
             discordChoiceError(t('auth.twoFactorHint'));
             return;
           }
-          finishDiscordChoice();
+          return finishDiscordChoice();
         })
         .catch(onDiscordChoiceError)
         .finally(() => setDiscordChoiceBusy(false));
