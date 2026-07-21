@@ -378,6 +378,30 @@ export function craftSkillGainMultiplier(
     : tierProgressMultiplier(tierCapability(skills, craftId), recipeTier);
 }
 
+/** The enchanting skill-gain multiplier (Professions 2.0 Phase 12c):
+ *  quality-tiered input run through the same four-state curve as crafting,
+ *  but under the SOFT ceiling: above-ceiling input DEGRADES to the ceiling
+ *  tier (Math.min) instead of crafting's hard zero, so an epic disenchant
+ *  never grants zero merely for sitting above a pre-archetype ceiling, and
+ *  rarer input is always at least as good as commoner input (min is
+ *  monotone in `inputTier`, and tierProgressMultiplier is non-decreasing in
+ *  its recipe-tier argument). The hard-zero guard in
+ *  `craftSkillGainMultiplier` stays crafting-only: a recipe is a chosen
+ *  target, an input item is whatever the world dropped. */
+export function enchantingGainMultiplier(
+  skills: CraftSkills,
+  activeArchetype: string | null,
+  pairedMajor: string | null,
+  hobbyCraft: string | null,
+  inputTier: number,
+): number {
+  const ceilingTier = archetypeCeilingFor(activeArchetype, pairedMajor, 'enchanting', hobbyCraft);
+  return tierProgressMultiplier(
+    tierCapability(skills, 'enchanting'),
+    Math.min(inputTier, ceilingTier),
+  );
+}
+
 /** The actually-reachable tier ceiling for one craft: the lesser of the raw
  *  flat-skill tier capability (wheel.ts `tierCapability`) and the
  *  archetype-derived ceiling above. This is what a crafting/skill-gain call

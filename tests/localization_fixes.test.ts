@@ -926,6 +926,13 @@ describe('S3: every sim.ts emit is recognized (drift guard)', () => {
     // every new sim module joins the scan list in the same change so any
     // future emit added here lands under the drift guard from day one.
     fs.readFileSync(path.resolve(process.cwd(), 'src/sim/professions/mastery_reset.ts'), 'utf8'),
+    // Professions 2.0 Phase 12c: the shared action-throttle module (the
+    // crafting window logic extracted from crafting.ts). It emits no player
+    // text itself (the throttled denial is a reason code its callers
+    // localize), but every new sim module joins the scan list in the same
+    // change so any future emit added here lands under the drift guard from
+    // day one.
+    fs.readFileSync(path.resolve(process.cwd(), 'src/sim/professions/action_throttle.ts'), 'utf8'),
     // #2033 (PR 2039): the quest command bodies (accept/share/abandon/turn-in guards +
     // the accepted/abandoned/completed logs). The two profession-choice denials
     // ("That profession choice is not available." / "... no longer available.") have
