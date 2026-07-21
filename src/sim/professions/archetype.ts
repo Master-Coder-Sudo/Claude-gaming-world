@@ -361,8 +361,9 @@ export function archetypeCeilingFor(
  *  so a recipe tier above the player's RAW capability is the ordinary,
  *  doc-confirmed climb ("full at or above capability: this is how capability
  *  advances in the first place", wheel.ts). Below or at the ceiling, the
- *  ordinary curve (full at/above raw capability, reduced one tier under,
- *  zero two-plus under) applies off raw capability. */
+ *  ordinary four-state curve (full at/above raw capability, reduced one tier
+ *  under, minimal two under, zero three-plus under) applies off raw
+ *  capability. */
 export function craftSkillGainMultiplier(
   skills: CraftSkills,
   activeArchetype: string | null,

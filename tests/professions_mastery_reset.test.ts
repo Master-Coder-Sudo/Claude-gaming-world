@@ -111,6 +111,18 @@ describe('applyMasteryReset (pure, in place)', () => {
     const end = src.indexOf('] as const;', start);
     expect(src.slice(start, end)).toContain(`'${MASTERY_RESET_LETTER_ID}'`);
   });
+
+  it('the letter is registered in the entity_i18n LETTERS_BY_ID runtime registry', () => {
+    // The SECOND ui letter registry (the tEntity runtime source); also
+    // module-private, so the same source-scan idiom pins the literal entry.
+    const src = fs.readFileSync(path.resolve(process.cwd(), 'src/ui/entity_i18n.ts'), 'utf8');
+    const start = src.indexOf('const LETTERS_BY_ID: Record<string, LetterDef> = {');
+    expect(start, 'the LETTERS_BY_ID declaration should exist').toBeGreaterThan(-1);
+    const end = src.indexOf('};', start);
+    expect(src.slice(start, end)).toContain(
+      '[MASTERY_RESET_LETTER.letterId]: MASTERY_RESET_LETTER',
+    );
+  });
 });
 
 describe('the reset fires at load-time normalize', () => {
@@ -259,6 +271,26 @@ describe('one-shot: the flag serializes literal true and never re-fires', () => 
     const pid3 = sim3.addPlayer('warrior', 'Once', { state: blob2 });
     expect(metaOf(sim3, pid3).craftSkills.armorcrafting).toBe(40);
     expect(metaOf(sim3, pid3).gatheringProficiency.mining).toBe(25);
+  });
+
+  it('ROLLBACK CAVEAT pinned: a flag-stripping round trip re-fires the reset', () => {
+    // Pre-12c serialize knows no masteryResetApplied key, so a rollback
+    // window strips it and the re-upgrade re-fires the reset, zeroing the
+    // skills regained during the window. This is the ACCEPTED destructive
+    // arm of the mailWelcomed flag class (release-notes item); this pin
+    // makes the acceptance conscious, per the Phase 9 rollback-pin
+    // precedent.
+    const sim = makeSim();
+    const pid = sim.addPlayer('warrior', 'Rolled', { state: resetSave() });
+    const blob = sim.serializeCharacter(pid);
+    if (!blob) throw new Error('serializeCharacter returned null');
+    blob.craftSkills = { ...blob.craftSkills, armorcrafting: 40 };
+    // biome-ignore lint/performance/noDelete: modeling the pre-12c blob shape
+    delete blob.masteryResetApplied;
+    const sim2 = makeSim(43);
+    const pid2 = sim2.addPlayer('warrior', 'Rolled', { state: blob });
+    expect(metaOf(sim2, pid2).craftSkills.armorcrafting).toBe(0);
+    expect(metaOf(sim2, pid2).pendingMasteryResetNotice).toBe(true);
   });
 });
 

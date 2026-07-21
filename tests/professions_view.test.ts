@@ -222,6 +222,26 @@ describe('tier pips and perks', () => {
     });
   });
 
+  it('display-floors fractional skill and ceils points-to-go (never a fake crossing)', () => {
+    // Fractional mastery gains (0.5 / 0.25 arms) must never round a readout
+    // over an uncrossed threshold: 74.75 reads 74 with 1 to go, not 75 with 0.
+    expect(buildSkillBar(74.75, CRAFT_CAP)).toMatchObject({
+      skill: 74,
+      tierIndex: 2,
+      pointsToNextTier: 1,
+    });
+    // The exact fraction still drives the bar geometry.
+    expect(buildSkillBar(74.75, CRAFT_CAP).tierFraction).toBeCloseTo(24.75 / 25, 12);
+    expect(craftNextUnlock('weaponcrafting', 74.75)).toMatchObject({
+      kind: 'specialized',
+      pointsRemaining: 1,
+    });
+    expect(craftNextUnlock('weaponcrafting', 30.5)).toMatchObject({
+      kind: 'tier',
+      pointsRemaining: 20,
+    });
+  });
+
   it('gives 5 pip slots at the 125 craft cap and zero fraction at cap', () => {
     expect(CRAFT_CAP).toBe(125);
     expect(buildSkillBar(0, CRAFT_CAP).pipSlots).toBe(5);

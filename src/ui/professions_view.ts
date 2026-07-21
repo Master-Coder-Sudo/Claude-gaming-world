@@ -57,14 +57,18 @@ export function buildSkillBar(skill: number, maxSkill: number): SkillBarModel {
   const tierIndex = tierForSkill(skill);
   const remainder = skill % TIER_SKILL_STEP;
   return {
-    skill,
+    // Fractional mastery gains never round a threshold forward on a readout:
+    // the displayed skill floors (74.75 reads 74, not a fake crossed 75) and
+    // the points-to-go ceils (0.25 left reads 1, never 0). Fractions still
+    // drive the exact bar/pip geometry below.
+    skill: Math.floor(skill),
     maxSkill,
     pipSlots,
     filledPips: Math.min(tierIndex, pipSlots),
     tierIndex,
     tierFraction: skill >= maxSkill ? 0 : remainder / TIER_SKILL_STEP,
     fillFraction: Math.min(1, skill / maxSkill),
-    pointsToNextTier: TIER_SKILL_STEP - remainder,
+    pointsToNextTier: Math.ceil(TIER_SKILL_STEP - remainder),
   };
 }
 
@@ -93,14 +97,15 @@ export function craftNextUnlock(craftId: string, skill: number): CraftNextUnlock
   ) {
     return {
       kind: 'specialized',
-      pointsRemaining: threshold.specializedSkillThreshold - skill,
+      // ceil: fractional gains never advertise an uncrossed threshold as 0 away.
+      pointsRemaining: Math.ceil(threshold.specializedSkillThreshold - skill),
       materialDiscountPct: threshold.materialDiscountPct,
     };
   }
   return {
     kind: 'tier',
     targetTier: tierForSkill(skill) + 1,
-    pointsRemaining: nextTierBoundary - skill,
+    pointsRemaining: Math.ceil(nextTierBoundary - skill),
   };
 }
 

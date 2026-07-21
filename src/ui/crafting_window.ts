@@ -11,7 +11,7 @@ import type { CraftDifficulty, CraftingView } from './crafting_view';
 import { itemDisplayName } from './entity_i18n';
 import { esc } from './esc';
 import { formatNumber, type TranslationKey, t } from './i18n';
-import { QUALITY_COLOR } from './icons';
+import { GOLD_ACCENT_COLOR, QUALITY_COLOR } from './icons';
 import type { PainterHostPresentation } from './painter_host';
 import { renderProfessionIdentityCard } from './profession_identity_card';
 import type { ProfessionIdentityModel } from './profession_identity_view';
@@ -27,7 +27,7 @@ import { svgIcon } from './ui_icons';
 // preset/tier (docs/design/graphics-settings-fairness.md).
 const DIFFICULTY_TINT: Record<CraftDifficulty, string> = {
   full: QUALITY_COLOR.legendary,
-  reduced: '#ffd100',
+  reduced: GOLD_ACCENT_COLOR,
   minimal: QUALITY_COLOR.uncommon,
   none: QUALITY_COLOR.poor,
 };
