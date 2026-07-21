@@ -8,7 +8,12 @@
 // render/game/net imports. Per-call allocation is fine: the window is cold
 // (event-driven), never per-frame.
 
-import { CRAFT_RING, oppositeCraft, PERK_THRESHOLDS } from '../sim/content/professions';
+import {
+  CRAFT_RING,
+  craftMaxSkillFor,
+  oppositeCraft,
+  PERK_THRESHOLDS,
+} from '../sim/content/professions';
 import { requiredAmendsProgress } from '../sim/professions/archetype';
 import {
   type CraftSkills,
@@ -24,21 +29,18 @@ import {
   type ProfessionSkillRow,
 } from './profession_identity_view';
 
-// Display cap for a craft's skill bar. Craft skill is additive and uncapped in
-// the sim (wheel.ts gainCraftSkill) and content defines no craft-side cap
-// constant, so this is presentational only, following the classic 1-300
-// profession scale the gathering defs pin (content/professions.ts maxSkill):
-// pip slot count and the 'max' next-unlock state derive from it.
-export const CRAFT_MAX_SKILL = 300;
-
 // ---------------------------------------------------------------------------
 // Skill bar + tier pips (shared by the ten craft rows and the gathering rows).
+// Craft rows read the ENFORCED per-profession content cap
+// (content/professions.ts craftMaxSkillFor, Phase 12c); pip slot count and
+// the 'mastered' next-unlock state derive from it. The old display-only
+// CRAFT_MAX_SKILL 300 constant is retired.
 // ---------------------------------------------------------------------------
 
 export interface SkillBarModel {
   skill: number;
   maxSkill: number;
-  /** ceil(maxSkill / TIER_SKILL_STEP); 300 gives 12. */
+  /** ceil(maxSkill / TIER_SKILL_STEP); the 125 craft cap gives 5. */
   pipSlots: number;
   /** Whole tiers earned, capped at pipSlots (sim skill is uncapped). */
   filledPips: number;
@@ -74,13 +76,15 @@ export function buildSkillBar(skill: number, maxSkill: number): SkillBarModel {
 export type CraftNextUnlock =
   | { kind: 'tier'; targetTier: number; pointsRemaining: number }
   | { kind: 'specialized'; pointsRemaining: number; materialDiscountPct: number }
-  | { kind: 'max' };
+  | { kind: 'mastered' };
 
 /** The nearest milestone ahead of `skill` in `craftId`: the next tier pip (the
  *  masterwork-odds step), the specialization threshold when that is the next
- *  boundary crossed (its perks), or 'max' at the display cap. */
+ *  boundary crossed (its perks), or 'mastered' at the enforced content cap
+ *  (craftMaxSkillFor): no unreachable next-tier carrot past where shipped
+ *  content ends. */
 export function craftNextUnlock(craftId: string, skill: number): CraftNextUnlock {
-  if (skill >= CRAFT_MAX_SKILL) return { kind: 'max' };
+  if (skill >= craftMaxSkillFor(craftId)) return { kind: 'mastered' };
   const threshold = perkThresholdFor(craftId);
   const nextTierBoundary = (tierForSkill(skill) + 1) * TIER_SKILL_STEP;
   if (
@@ -293,7 +297,7 @@ function buildSimplifiedCallToAction(identity: ProfessionIdentityModel): Simplif
   }
   const nextUnlock = craftNextUnlock(trending.craftId, trending.skill);
   const cta: SimplifiedCta =
-    trending.skill > 0 && nextUnlock.kind !== 'max'
+    trending.skill > 0 && nextUnlock.kind !== 'mastered'
       ? { kind: 'raise', craftId: trending.craftId, points: nextUnlock.pointsRemaining }
       : { kind: 'start' };
   return {
@@ -312,7 +316,7 @@ export function buildProfessionsView(input: ProfessionsViewInput): ProfessionsVi
   const crafts = identity.skills.map(
     (row): ProfessionsCraftRow => ({
       identity: row,
-      bar: buildSkillBar(row.skill, CRAFT_MAX_SKILL),
+      bar: buildSkillBar(row.skill, craftMaxSkillFor(row.craftId)),
       perks: craftPerks(skills, row.craftId),
       nextUnlock: craftNextUnlock(row.craftId, row.skill),
     }),

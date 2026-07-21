@@ -1,7 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { archetypeCeilingFor } from '../src/sim/professions/archetype';
 import type { StationType } from '../src/sim/professions/stations';
-import { tierCapability, tierForSkill, tierProgressMultiplier } from '../src/sim/professions/wheel';
+import {
+  MINIMAL_TIER_MULTIPLIER,
+  REDUCED_TIER_MULTIPLIER,
+  tierCapability,
+  tierForSkill,
+  tierProgressMultiplier,
+} from '../src/sim/professions/wheel';
 import type { InvSlot, ItemDef } from '../src/sim/types';
 import {
   buildCraftingView,
@@ -227,19 +233,37 @@ describe('buildCraftingView difficulty and skillReq', () => {
     expect(difficultyFor(100, { cooking: 50 })).toBe('full');
   });
 
-  it('reduced one or two tiers below capability, none three or more below (Phase 12c)', () => {
+  it('reduced one tier below, minimal two below, none three or more below (Phase 12c)', () => {
     expect(difficultyFor(75, { cooking: 100 })).toBe('reduced');
-    // Two below is the green minimal state (0.25): still 'reduced' on the
-    // view's bucket mapping (was 'none' pre-12c).
-    expect(difficultyFor(50, { cooking: 100 })).toBe('reduced');
+    // Two below is the green minimal state (MINIMAL_TIER_MULTIPLIER), its own
+    // four-state label since the Stage 5 split (was bucketed into 'reduced').
+    expect(difficultyFor(50, { cooking: 100 })).toBe('minimal');
     expect(difficultyFor(25, { cooking: 100 })).toBe('none');
   });
 
   it('the tier-0 free floor is retired (Phase 12c): common recipes ride the curve', () => {
     expect(difficultyFor(0, { cooking: 0 })).toBe('full');
     expect(difficultyFor(0, { cooking: 25 })).toBe('reduced');
+    expect(difficultyFor(0, { cooking: 50 })).toBe('minimal');
     expect(difficultyFor(0, { cooking: 300 })).toBe('none'); // was 'full' pre-12c
     expect(difficultyFor(24, { cooking: 300 })).toBe('none');
+  });
+
+  it('pins the multiplier constants and their four-state difficulty mapping', () => {
+    // Constant identity: the view compares against the SAME exported wheel.ts
+    // constants the sim gain site consumes, so a curve retune moves the label
+    // and the grant together, never one without the other.
+    expect(REDUCED_TIER_MULTIPLIER).toBe(0.5);
+    expect(MINIMAL_TIER_MULTIPLIER).toBe(0.25);
+    expect(tierProgressMultiplier(5, 4)).toBe(REDUCED_TIER_MULTIPLIER);
+    expect(tierProgressMultiplier(5, 3)).toBe(MINIMAL_TIER_MULTIPLIER);
+    // Each multiplier value drives its own state through a real skills/recipe
+    // fixture: cooking 100 is tier-4 capability against recipe tiers 4/3/2/1,
+    // multipliers 1 / 0.5 / 0.25 / 0.
+    expect(difficultyFor(100, { cooking: 100 })).toBe('full');
+    expect(difficultyFor(75, { cooking: 100 })).toBe('reduced');
+    expect(difficultyFor(50, { cooking: 100 })).toBe('minimal');
+    expect(difficultyFor(25, { cooking: 100 })).toBe('none');
   });
 
   it('a recipe tier above the ARCHETYPE ceiling is none even when the curve says full', () => {
@@ -311,9 +335,9 @@ describe('buildCraftingView difficulty and skillReq', () => {
       { skillReq: 100, skills: { cooking: 100 }, identity: majorIdentity, expected: 'full' },
       // One below capability.
       { skillReq: 75, skills: { cooking: 100 }, identity: majorIdentity, expected: 'reduced' },
-      // Two below capability: the Phase 12c green minimal state (0.25), which
-      // the two-bucket view label maps to 'reduced' (was 'none' pre-12c).
-      { skillReq: 50, skills: { cooking: 100 }, identity: majorIdentity, expected: 'reduced' },
+      // Two below capability: the Phase 12c green minimal state
+      // (MINIMAL_TIER_MULTIPLIER), its own label since the Stage 5 split.
+      { skillReq: 50, skills: { cooking: 100 }, identity: majorIdentity, expected: 'minimal' },
       // Recipe above raw capability: the ordinary climb, full.
       { skillReq: 100, skills: { cooking: 25 }, identity: majorIdentity, expected: 'full' },
       // Recipe tier 0 at a towering capability: the free floor is retired
@@ -339,7 +363,13 @@ describe('buildCraftingView difficulty and skillReq', () => {
           ? 0
           : tierProgressMultiplier(tierCapability(c.skills, 'cooking'), recipeTier);
       const simDerived: CraftDifficulty =
-        multiplier === 0 ? 'none' : multiplier === 1 ? 'full' : 'reduced';
+        multiplier === 0
+          ? 'none'
+          : multiplier === REDUCED_TIER_MULTIPLIER
+            ? 'reduced'
+            : multiplier === MINIMAL_TIER_MULTIPLIER
+              ? 'minimal'
+              : 'full';
       const viewDerived = difficultyFor(c.skillReq, c.skills, c.identity);
       expect(viewDerived, `skillReq ${c.skillReq} skills ${JSON.stringify(c.skills)}`).toBe(
         simDerived,

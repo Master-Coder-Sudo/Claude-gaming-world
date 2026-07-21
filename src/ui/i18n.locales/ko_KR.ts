@@ -7266,6 +7266,7 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.crafting.skillReqLine': '{craft} {skill} 필요',
   'hudChrome.crafting.difficultyFull': '숙련도 전량 상승',
   'hudChrome.crafting.difficultyReduced': '숙련도 상승 감소',
+  'hudChrome.crafting.difficultyMinimal': '숙련도 소폭 상승',
   'hudChrome.crafting.difficultyNone': '숙련도 상승 없음',
   'hudChrome.crafting.stationBadge': '제작 거점',
   'hudChrome.crafting.masterworkToast': '걸작! {name}',
@@ -8222,7 +8223,7 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
     '다음 티어까지 숙련도 {points} 남음: 걸작 확률이 높아집니다',
   'hudChrome.professions.nextUnlockSpecialized':
     '전문화까지 숙련도 {points} 남음: 재료 소모가 줄어듭니다',
-  'hudChrome.professions.nextUnlockMax': '최대 숙련도입니다',
+  'hudChrome.professions.nextUnlockMastered': '지금은 통달했습니다',
   'hudChrome.professions.perkSpecializedLine': '{craft}: 전문화, 재료 소모 -{pct}%',
   'hudChrome.professions.perkSpecializedAt': '숙련도 {threshold}에서 전문화됩니다',
   'hudChrome.professions.switchCost': '다음 원형 전환에는 속죄 {cost}이 필요합니다',

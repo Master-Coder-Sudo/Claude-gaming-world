@@ -17,21 +17,25 @@ import { renderProfessionIdentityCard } from './profession_identity_card';
 import type { ProfessionIdentityModel } from './profession_identity_view';
 import { svgIcon } from './ui_icons';
 
-// Skill-gain difficulty tint, reusing the static quality palette the HUD's
-// item surfaces already share (icons.ts): the classic recipe-color intuition
-// (orange = full gains, green = some, gray = none). A tint is only ever a
-// HINT here: the adjacent difficulty LABEL and the aria text carry the same
-// information, and both are identical on every graphics preset/tier
-// (docs/design/graphics-settings-fairness.md).
+// Skill-gain difficulty tint, the classic four-color recipe intuition
+// (Phase 12c): orange = full gains, yellow = reduced, green = minimal,
+// gray = none. Orange/green/gray reuse the static quality palette the HUD's
+// item surfaces already share (icons.ts); yellow is the house gold
+// (--gold in src/styles/tokens.css, the masterwork seal idiom). A tint is
+// only ever a HINT here: the adjacent difficulty LABEL and the aria text
+// carry the same information, and both are identical on every graphics
+// preset/tier (docs/design/graphics-settings-fairness.md).
 const DIFFICULTY_TINT: Record<CraftDifficulty, string> = {
   full: QUALITY_COLOR.legendary,
-  reduced: QUALITY_COLOR.uncommon,
+  reduced: '#ffd100',
+  minimal: QUALITY_COLOR.uncommon,
   none: QUALITY_COLOR.poor,
 };
 
-const DIFFICULTY_LABEL_KEY = {
+const DIFFICULTY_LABEL_KEY: Record<CraftDifficulty, TranslationKey> = {
   full: 'hudChrome.crafting.difficultyFull',
   reduced: 'hudChrome.crafting.difficultyReduced',
+  minimal: 'hudChrome.crafting.difficultyMinimal',
   none: 'hudChrome.crafting.difficultyNone',
 } as const;
 

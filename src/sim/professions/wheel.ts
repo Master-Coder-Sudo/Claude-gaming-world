@@ -113,7 +113,7 @@ export function tierCapability(skills: CraftSkills, craftId: string): number {
 }
 
 // Multiplier applied to a one-tier-below craft's skill-progress amount.
-const REDUCED_TIER_MULTIPLIER = 0.5;
+export const REDUCED_TIER_MULTIPLIER = 0.5;
 
 // Multiplier applied to a two-tiers-below craft's skill-progress amount: the
 // third state of the Phase 12c four-state mastery curve.

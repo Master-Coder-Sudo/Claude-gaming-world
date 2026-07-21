@@ -7406,6 +7406,7 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.crafting.skillReqLine': 'Требуется {craft} {skill}',
   'hudChrome.crafting.difficultyFull': 'Полный рост навыка',
   'hudChrome.crafting.difficultyReduced': 'Сниженный рост навыка',
+  'hudChrome.crafting.difficultyMinimal': 'Минимальный рост навыка',
   'hudChrome.crafting.difficultyNone': 'Без роста навыка',
   'hudChrome.crafting.stationBadge': 'Станция',
   'hudChrome.crafting.masterworkToast': 'Шедевр! {name}',
@@ -8393,7 +8394,7 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
     'До следующего ранга {points} навыка: шанс шедевра повысится',
   'hudChrome.professions.nextUnlockSpecialized':
     'До специализации {points} навыка: расход материалов снизится',
-  'hudChrome.professions.nextUnlockMax': 'Навык на максимуме',
+  'hudChrome.professions.nextUnlockMastered': 'Освоено, пока что',
   'hudChrome.professions.perkSpecializedLine': '{craft}: Специалист, расход материалов -{pct}%',
   'hudChrome.professions.perkSpecializedAt': 'Специализация при навыке {threshold}',
   'hudChrome.professions.switchCost': 'Следующая смена архетипа потребует искупления: {cost}',
