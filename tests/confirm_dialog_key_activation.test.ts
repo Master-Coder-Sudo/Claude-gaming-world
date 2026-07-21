@@ -116,6 +116,8 @@ describe('bindDialogKeyActivation (confirm-dialog family keyboard repair)', () =
     // non-file scheme, so the sibling suites' URL idiom cannot work here.
     const hud = readFileSync(join(process.cwd(), 'src/ui/hud.ts'), 'utf8');
     const calls = hud.match(/bindDialogKeyActivation\(el\)/g) ?? [];
-    expect(calls.length).toBeGreaterThanOrEqual(2);
+    // Exactly the two family dialogs (confirmDialog + inputDialog): a moved
+    // or third call site is a deliberate change, re-pin it here.
+    expect(calls.length).toBe(2);
   });
 });

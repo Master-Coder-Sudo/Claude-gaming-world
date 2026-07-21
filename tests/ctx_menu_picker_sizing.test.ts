@@ -68,6 +68,20 @@ describe('#ctx-menu picker sizing (Apply Enchant picker, Phase 13 QA)', () => {
     );
   });
 
+  it('the painter reserve mirror stays in sync with the CSS cap', () => {
+    // bag_item_action_menu.ts mirrors the desktop max-height so placement can
+    // reserve the real rendered box; a CSS cap change must move both or the
+    // reserve silently drifts.
+    const cap = block(HUD_CSS, /#ctx-menu\.ctx-menu-picker\s*\{[^}]*\}/).match(
+      /max-height:\s*min\(\s*(\d+)vh\s*,\s*(\d+)px\s*\)/,
+    );
+    expect(cap).not.toBeNull();
+    const fraction = PAINTER_TS.match(/PICKER_MAX_HEIGHT_VIEWPORT_FRACTION = (0?\.\d+)/);
+    const px = PAINTER_TS.match(/PICKER_MAX_HEIGHT_DESKTOP_PX = (\d+)/);
+    expect(Number(cap?.[1]) / 100).toBe(Number(fraction?.[1]));
+    expect(Number(cap?.[2])).toBe(Number(px?.[1]));
+  });
+
   it('the painter toggles the modifier and every plain paint site clears it', () => {
     // The picker paints set it; a plain bag action menu paint clears it (the
     // toggle runs on every paint with the picker flag).
