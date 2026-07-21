@@ -7276,6 +7276,25 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
     '이 조합 제작법에 필요한 두 제작 기술의 숙련도에 도달하지 못했습니다.',
   'hudChrome.crafting.throttled': '너무 빨리 제작하고 있습니다. 잠시 후 다시 시도하세요.',
   'hudChrome.crafting.recipeNotLearned': '아직 그 제작법을 배우지 않았습니다.',
+  // Professions 2.0 Phase 14 (M16 non-Latin fills).
+  'hudChrome.crafting.attunementReturnCost':
+    '이 조합을 떠나면 나중에 다시 돌아올 때 속죄 과제 {cost}개가 필요합니다.',
+  'hudChrome.crafting.learnMoreAtStation':
+    '{station}의 {master}이(가) 더 많은 {craft} 제작법을 가르쳐 줄 수 있습니다.',
+  'hudChrome.crafting.trendNudge':
+    '당신의 솜씨가 {archetype} 쪽으로 기울고 있습니다. 그 조율 임무는 {master}에게 있습니다.',
+  'hudChrome.crafting.trendNudgeNoMaster':
+    '당신의 솜씨가 {archetype} 쪽으로 기울고 있습니다. 그 길을 택하려면 공예 명인을 찾으세요.',
+  'hudChrome.crafting.attunedZoneLine': '{name}님이 {archetype}(으)로 조율했습니다!',
+  'hudChrome.crafting.attunedBanner': '조율 완료: {title}',
+  'hudChrome.crafting.tierTutorial.title': '첫 티어',
+  'hudChrome.crafting.tierTutorial.tierCap':
+    '기술은 숙련도 {skill}에서 첫 티어에 도달하며, 티어가 오를수록 만들 수 있는 것이 좋아집니다. 하지만 기술이 희귀 이상의 작품을 만들 수 있는 것은 그것이 당신의 두 주 전공 중 하나일 때뿐입니다.',
+  'hudChrome.crafting.tierTutorial.radar':
+    '당신의 전문 기술은 바퀴를 이룹니다. 인접한 한 쌍에 조율하면 그 두 기술은 상한 없는 주 전공이 되고, 바퀴 반대편의 한 기술은 희귀 상한의 취미가 되며, 나머지는 비활성 상태가 됩니다. 그 지식은 유지되지만 다시 택하기 전까지는 일반 상한이 적용됩니다.',
+  'hudChrome.crafting.tierTutorial.masters':
+    '마을의 공예 명인들이 조율 임무를 제공합니다. 준비가 되면 찾아가 당신의 조합을 선택하세요. 배운 것은 결코 사라지지 않습니다.',
+  'hudChrome.crafting.tierTutorial.dismiss': '알겠습니다',
   'hudChrome.crafting.skillReqLine': '{craft} {skill} 필요',
   'hudChrome.crafting.difficultyFull': '숙련도 전량 상승',
   'hudChrome.crafting.difficultyReduced': '숙련도 상승 감소',

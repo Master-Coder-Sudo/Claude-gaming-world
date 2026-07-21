@@ -7294,6 +7294,25 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
     'その組み合わせレシピに必要な両方の生産スキルの熟練度に達していません。',
   'hudChrome.crafting.throttled': '製作が速すぎます。少し待ってからもう一度お試しください。',
   'hudChrome.crafting.recipeNotLearned': 'そのレシピはまだ習得していません。',
+  // Professions 2.0 Phase 14 (M16 non-Latin fills).
+  'hudChrome.crafting.attunementReturnCost':
+    'この組み合わせを離れると、後で戻るには償いの任務が {cost} 回必要になります。',
+  'hudChrome.crafting.learnMoreAtStation':
+    '{station}の{master}が{craft}のレシピをさらに教えてくれます。',
+  'hudChrome.crafting.trendNudge':
+    'あなたの腕は{archetype}へと傾いています。その調律の依頼は{master}のもとで待っています。',
+  'hudChrome.crafting.trendNudgeNoMaster':
+    'あなたの腕は{archetype}へと傾いています。その道に進むには工芸の師匠を探しましょう。',
+  'hudChrome.crafting.attunedZoneLine': '{name}が{archetype}として調律しました！',
+  'hudChrome.crafting.attunedBanner': '調律完了：{title}',
+  'hudChrome.crafting.tierTutorial.title': '最初のティア',
+  'hudChrome.crafting.tierTutorial.tierCap':
+    '技は技能 {skill} で最初のティアに達し、ティアが上がるごとに作れる物が向上します。ただし技がレアを超える作品を作れるのは、それがあなたの二つの主専攻の一つである場合だけです。',
+  'hudChrome.crafting.tierTutorial.radar':
+    'あなたの専門は輪を成します。隣り合う一対に調律すると、その二つの技は上限のない主専攻になり、輪の反対側の一つの技はレア上限の趣味になり、残りは休眠します。その知識は保持されますが、再び手に取るまではコモン上限です。',
+  'hudChrome.crafting.tierTutorial.masters':
+    '町の工芸の師匠が調律の依頼を出しています。準備ができたら訪ねて、あなたの組み合わせを選びましょう。学んだことが失われることは決してありません。',
+  'hudChrome.crafting.tierTutorial.dismiss': '了解',
   'hudChrome.crafting.skillReqLine': '{craft} {skill} が必要',
   'hudChrome.crafting.difficultyFull': '技能上昇（全量）',
   'hudChrome.crafting.difficultyReduced': '技能上昇（減少）',

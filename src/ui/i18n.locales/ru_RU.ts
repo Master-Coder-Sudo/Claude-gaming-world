@@ -7415,6 +7415,25 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.crafting.throttled':
     'Вы создаете предметы слишком быстро. Подождите немного и попробуйте снова.',
   'hudChrome.crafting.recipeNotLearned': 'Вы еще не изучили этот рецепт.',
+  // Professions 2.0 Phase 14 (M16 non-Latin fills).
+  'hudChrome.crafting.attunementReturnCost':
+    'Если вы покинете эту пару, возвращение к ней позже обойдётся в {cost} заданий искупления.',
+  'hudChrome.crafting.learnMoreAtStation':
+    '{master} у станции «{station}» научит вас новым рецептам ремесла «{craft}».',
+  'hudChrome.crafting.trendNudge':
+    'Ваши руки склоняются к пути «{archetype}». Настройка на него ждёт у {master}.',
+  'hudChrome.crafting.trendNudgeNoMaster':
+    'Ваши руки склоняются к пути «{archetype}». Найдите мастера ремесла, чтобы встать на него.',
+  'hudChrome.crafting.attunedZoneLine': '{name} настроился как «{archetype}»!',
+  'hudChrome.crafting.attunedBanner': 'Настройка: {title}',
+  'hudChrome.crafting.tierTutorial.title': 'Ваш первый ранг',
+  'hudChrome.crafting.tierTutorial.tierCap':
+    'Ремесло достигает первого ранга при навыке {skill}, и каждый ранг улучшает то, что можно создать. Но превзойти работу редкого качества ремесло может, лишь став одним из двух ваших главных.',
+  'hudChrome.crafting.tierTutorial.radar':
+    'Ваши ремёсла образуют колесо. Настройтесь на соседнюю пару, и эти два ремесла станут главными без потолка, одно ремесло напротив станет увлечением с потолком редкого качества, а остальные уснут: их знания сохранятся, но будут ограничены обычным качеством, пока вы снова не возьмётесь за них.',
+  'hudChrome.crafting.tierTutorial.masters':
+    'Мастера ремёсел в городах дают задания настройки. Зайдите к одному из них, когда будете готовы, и выберите свою пару. Ничто из выученного не теряется.',
+  'hudChrome.crafting.tierTutorial.dismiss': 'Понятно',
   'hudChrome.crafting.skillReqLine': 'Требуется {craft} {skill}',
   'hudChrome.crafting.difficultyFull': 'Полный рост навыка',
   'hudChrome.crafting.difficultyReduced': 'Сниженный рост навыка',

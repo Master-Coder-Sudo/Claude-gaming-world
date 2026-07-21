@@ -6932,6 +6932,23 @@ export const zh_CN: Partial<Record<TranslationKey, string>> = {
   'hudChrome.crafting.comboRequirementUnmet': '你没有达到该配方所需组合的两项制造技能等级。',
   'hudChrome.crafting.throttled': '你制作得太快了，请稍等片刻后再试。',
   'hudChrome.crafting.recipeNotLearned': '你还没有学会这个配方。',
+  // Professions 2.0 Phase 14 (M16 non-Latin fills).
+  'hudChrome.crafting.attunementReturnCost':
+    '若你离开这个组合，日后想要重归需要完成 {cost} 项补偿任务。',
+  'hudChrome.crafting.learnMoreAtStation': '{station}的{master}可以教你更多{craft}配方。',
+  'hudChrome.crafting.trendNudge': '你的双手正倾向于{archetype}之道。其调谐任务在{master}处等候。',
+  'hudChrome.crafting.trendNudgeNoMaster':
+    '你的双手正倾向于{archetype}之道。去寻找一位工艺大师来踏上此道吧。',
+  'hudChrome.crafting.attunedZoneLine': '{name}已调谐为{archetype}！',
+  'hudChrome.crafting.attunedBanner': '已调谐：{title}',
+  'hudChrome.crafting.tierTutorial.title': '你的第一个阶级',
+  'hudChrome.crafting.tierTutorial.tierCap':
+    '一门技艺在技能 {skill} 时达到第一个阶级，每提升一个阶级都会改善其制作能力。但只有当某门技艺成为你两门主修之一时，才能制作超越稀有品质的作品。',
+  'hudChrome.crafting.tierTutorial.radar':
+    '你的专业构成一个环轮。调谐到相邻的一对，这两门技艺便成为无上限的主修；环轮对面的一门技艺成为上限为稀有的爱好；其余技艺则进入休眠：知识仍会保留，但在你重新拾起之前上限为普通。',
+  'hudChrome.crafting.tierTutorial.masters':
+    '各城镇的工艺大师提供调谐任务。准备好后去拜访他们，选择你的组合。你所学到的一切都不会失去。',
+  'hudChrome.crafting.tierTutorial.dismiss': '明白了',
   'hudChrome.crafting.skillReqLine': '需要{craft} {skill}',
   'hudChrome.crafting.difficultyFull': '完整技能成长',
   'hudChrome.crafting.difficultyReduced': '技能成长减少',
