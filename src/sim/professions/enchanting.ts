@@ -26,12 +26,12 @@
 // tools.ts) and the Enchanter archetype eventually engage; the archetype
 // output-quality ceiling crafting.ts's craftItem enforces is NOT wired in
 // here yet (this action has no rollable output quality to clamp), matching
-// how salvage.ts also does not participate in that half of the wheel. Not
-// yet wired onto a server WS
-// command or a dedicated UI window (same not-yet-wired status salvageItem
-// documents on PlayerMeta.lastSalvageResult): a future issue extends
-// IWorldProfessions + ClientWorld + server/game.ts the way craft_item/
-// harvest_node already are, plus adds a target-item picker.
+// how salvage.ts also does not participate in that half of the wheel. Wired
+// through the full stack in Professions 2.0 Phase 13: the disenchant_item /
+// apply_enchant WS commands, the IWorldProfessions + ClientWorld
+// disenchantItem / applyEnchant members, and the src/ui bag-item action menu
+// plus Apply Enchant picker (bag_item_action_menu.ts), the way craft_item /
+// harvest_node already are.
 //
 // This module is `src/sim`-pure: no DOM/browser/Three.js imports, no
 // Math.random/Date.now (uses ctx.rng only), host-agnostic so it runs
