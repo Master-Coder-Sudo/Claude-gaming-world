@@ -42,7 +42,10 @@ function isTradeLocked(instance: ItemInstancePayload | undefined): boolean {
 // where the bound count is simply zero and every copy is offerable.
 function boundCount(meta: PlayerMeta, itemId: string): number {
   let n = 0;
-  for (const s of meta.inventory) {
+  // `?? []`: a decoupled test ctx (tests/heroic_soulbound.test.ts's fake) may
+  // model counts elsewhere and carry NO inventory array at all; per the
+  // documented intent above, its bound count is simply zero.
+  for (const s of meta.inventory ?? []) {
     if (s.itemId === itemId && isTradeLocked(s.instance)) n += s.count;
   }
   return n;
