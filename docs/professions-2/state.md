@@ -1411,7 +1411,7 @@ tables, i18n key namespaces, files created)
     the catalog and every overlay. The gathering toast key helpers
     (gatherDeniedLineKey/gatherDowngradeLineKey) now return
     TranslationKey, so a typo'd or retired key fails tsc.
-- Phase 13 (built 2026-07-21, phase start 682df1b7b, PR TBD): enchanting,
+- Phase 13 (built 2026-07-21, phase start 682df1b7b, PR #2269): enchanting,
   disenchant, and salvage reachable in both hosts. IWorld
   (src/world_api/professions.ts): disenchantItem(itemId)/
   applyEnchant(itemId, enchantId)/salvageItem(itemId) plus
