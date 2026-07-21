@@ -8476,6 +8476,129 @@ export const ru_RU: EnTranslations = {
       "elixir_of_the_serpent": {
         "name": "Эликсир змея"
       },
+      "mosshide_vest": {
+        "name": "Жилет из мшистой кожи"
+      },
+      "thornling_grips": {
+        "name": "Перчатки Колючки"
+      },
+      "acolyte_chain_grips": {
+        "name": "Кольчужные перчатки послушника"
+      },
+      "votive_chain_belt": {
+        "name": "Кольчужный пояс обета"
+      },
+      "briarroot_staff": {
+        "name": "Посох из тернового корня"
+      },
+      "valefire_lantern": {
+        "name": "Фонарь долинного огня"
+      },
+      "fenbark_leggings": {
+        "name": "Поножи из болотной коры"
+      },
+      "mirebloom_treads": {
+        "name": "Сапоги топкого цветения"
+      },
+      "fenwarden_sabatons": {
+        "name": "Сабатоны болотного стража"
+      },
+      "marshlight_hauberk": {
+        "name": "Хауберк болотного света"
+      },
+      "duskthorn_mantle": {
+        "name": "Оплечье сумеречного терна"
+      },
+      "fenshadow_maul": {
+        "name": "Молот болотной тени"
+      },
+      "wildgrove_cinch": {
+        "name": "Пояс Дикой рощи"
+      },
+      "cragward_pauldrons": {
+        "name": "Наплечники скального стража"
+      },
+      "cragthorn_greatstaff": {
+        "name": "Большой посох скального терна"
+      },
+      "moonbark_vestments": {
+        "name": "Облачение лунной коры"
+      },
+      "peaksong_helm": {
+        "name": "Шлем песни пиков"
+      },
+      "stormchant_gauntlets": {
+        "name": "Рукавицы грозового песнопения"
+      },
+      "cragprowl_belt": {
+        "name": "Пояс скального охотника"
+      },
+      "stormroot_cowl": {
+        "name": "Капюшон грозового корня"
+      },
+      "thunderward_legguards": {
+        "name": "Набедренники грозового стража"
+      },
+      "revenantstep_treads": {
+        "name": "Сапоги шага призрака"
+      },
+      "shardfang_grips": {
+        "name": "Перчатки оскольчатого клыка"
+      },
+      "shardsong_mantle": {
+        "name": "Оплечье песни осколков"
+      },
+      "wyrmcult_spellgrips": {
+        "name": "Перчатки заклинаний культа дракона"
+      },
+      "thornpeak_wildwraps": {
+        "name": "Дикие обмотки Терновых Пиков"
+      },
+      "stormvotive_hauberk": {
+        "name": "Хауберк грозового обета"
+      },
+      "cryptbloom_shoulderguards": {
+        "name": "Наплечники склепного цветения"
+      },
+      "gravewyrm_thornmaul": {
+        "name": "Терновый молот могильного дракона"
+      },
+      "vestments_of_the_waking_grove": {
+        "name": "Облачение Пробуждающейся рощи"
+      },
+      "nightfangs_greatstaff": {
+        "name": "Большой посох Ночного клыка"
+      },
+      "maul_of_the_scourged_wilds": {
+        "name": "Молот опустошенных диких земель"
+      },
+      "tidehymn_slippers": {
+        "name": "Туфли приливного гимна"
+      },
+      "pearlward_aegis": {
+        "name": "Эгида жемчужного стража"
+      },
+      "wildgrowth_leggings": {
+        "name": "Поножи дикого роста"
+      },
+      "grovewardens_grips": {
+        "name": "Перчатки стража рощи"
+      },
+      "verdant_walkers": {
+        "name": "Сапоги зеленого странника"
+      },
+      "lunarward_cinch": {
+        "name": "Пояс лунного стража"
+      },
+      "dreamroot_boots": {
+        "name": "Сапоги корня снов"
+      },
+      "stormbark_mantle": {
+        "name": "Мантия штормовой коры"
+      },
+      "wildsoul_maul": {
+        "name": "Молот дикой души"
+      },
       "conjured_water4": {
         "name": "Сотворённая родниковая вода"
       },

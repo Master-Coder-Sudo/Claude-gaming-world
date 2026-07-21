@@ -8476,6 +8476,129 @@ export const ko_KR: EnTranslations = {
       "elixir_of_the_serpent": {
         "name": "뱀의 비약"
       },
+      "mosshide_vest": {
+        "name": "이끼가죽 조끼"
+      },
+      "thornling_grips": {
+        "name": "가시령 장갑"
+      },
+      "acolyte_chain_grips": {
+        "name": "수행자 사슬 장갑"
+      },
+      "votive_chain_belt": {
+        "name": "서원 사슬 허리띠"
+      },
+      "briarroot_staff": {
+        "name": "가시뿌리 지팡이"
+      },
+      "valefire_lantern": {
+        "name": "골짜기불 랜턴"
+      },
+      "fenbark_leggings": {
+        "name": "늪껍질 다리보호구"
+      },
+      "mirebloom_treads": {
+        "name": "수렁꽃 장화"
+      },
+      "fenwarden_sabatons": {
+        "name": "늪지기 철장화"
+      },
+      "marshlight_hauberk": {
+        "name": "습지빛 사슬갑옷"
+      },
+      "duskthorn_mantle": {
+        "name": "황혼가시 어깨망토"
+      },
+      "fenshadow_maul": {
+        "name": "늪그림자 철퇴"
+      },
+      "wildgrove_cinch": {
+        "name": "야생숲 허리띠"
+      },
+      "cragward_pauldrons": {
+        "name": "바위수비 어깨갑옷"
+      },
+      "cragthorn_greatstaff": {
+        "name": "바위가시 대지팡이"
+      },
+      "moonbark_vestments": {
+        "name": "달껍질 예복"
+      },
+      "peaksong_helm": {
+        "name": "봉우리노래 투구"
+      },
+      "stormchant_gauntlets": {
+        "name": "폭풍영창 건틀릿"
+      },
+      "cragprowl_belt": {
+        "name": "바위배회 허리띠"
+      },
+      "stormroot_cowl": {
+        "name": "폭풍뿌리 두건"
+      },
+      "thunderward_legguards": {
+        "name": "천둥수호 다리갑옷"
+      },
+      "revenantstep_treads": {
+        "name": "망령발걸음 장화"
+      },
+      "shardfang_grips": {
+        "name": "파편송곳니 장갑"
+      },
+      "shardsong_mantle": {
+        "name": "파편노래 어깨망토"
+      },
+      "wyrmcult_spellgrips": {
+        "name": "용교단 주문장갑"
+      },
+      "thornpeak_wildwraps": {
+        "name": "쏜피크 야생손싸개"
+      },
+      "stormvotive_hauberk": {
+        "name": "폭풍서원 사슬갑옷"
+      },
+      "cryptbloom_shoulderguards": {
+        "name": "무덤꽃 어깨보호구"
+      },
+      "gravewyrm_thornmaul": {
+        "name": "무덤용 가시철퇴"
+      },
+      "vestments_of_the_waking_grove": {
+        "name": "깨어나는 숲의 예복"
+      },
+      "nightfangs_greatstaff": {
+        "name": "밤송곳니의 대지팡이"
+      },
+      "maul_of_the_scourged_wilds": {
+        "name": "재앙 들판의 철퇴"
+      },
+      "tidehymn_slippers": {
+        "name": "물결찬가 슬리퍼"
+      },
+      "pearlward_aegis": {
+        "name": "진주수호 방패"
+      },
+      "wildgrowth_leggings": {
+        "name": "야생성장 다리보호구"
+      },
+      "grovewardens_grips": {
+        "name": "숲지기 장갑"
+      },
+      "verdant_walkers": {
+        "name": "신록의 장화"
+      },
+      "lunarward_cinch": {
+        "name": "달수호 허리띠"
+      },
+      "dreamroot_boots": {
+        "name": "꿈뿌리 장화"
+      },
+      "stormbark_mantle": {
+        "name": "폭풍나무 껍질 망토"
+      },
+      "wildsoul_maul": {
+        "name": "야생영혼 철퇴"
+      },
       "conjured_water4": {
         "name": "창조된 샘물"
       },

@@ -8476,6 +8476,129 @@ export const zh_TW: EnTranslations = {
       "elixir_of_the_serpent": {
         "name": "巨蛇藥劑"
       },
+      "mosshide_vest": {
+        "name": "苔皮背心"
+      },
+      "thornling_grips": {
+        "name": "棘靈護手"
+      },
+      "acolyte_chain_grips": {
+        "name": "侍僧鏈甲護手"
+      },
+      "votive_chain_belt": {
+        "name": "誓願鏈甲腰帶"
+      },
+      "briarroot_staff": {
+        "name": "棘根法杖"
+      },
+      "valefire_lantern": {
+        "name": "谷火燈籠"
+      },
+      "fenbark_leggings": {
+        "name": "沼皮護腿"
+      },
+      "mirebloom_treads": {
+        "name": "泥花軟靴"
+      },
+      "fenwarden_sabatons": {
+        "name": "沼衛鐵靴"
+      },
+      "marshlight_hauberk": {
+        "name": "沼光鎖甲"
+      },
+      "duskthorn_mantle": {
+        "name": "暮棘披肩"
+      },
+      "fenshadow_maul": {
+        "name": "沼影重錘"
+      },
+      "wildgrove_cinch": {
+        "name": "野林束帶"
+      },
+      "cragward_pauldrons": {
+        "name": "岩衛肩甲"
+      },
+      "cragthorn_greatstaff": {
+        "name": "岩棘巨杖"
+      },
+      "moonbark_vestments": {
+        "name": "月皮祭服"
+      },
+      "peaksong_helm": {
+        "name": "峰歌頭盔"
+      },
+      "stormchant_gauntlets": {
+        "name": "風暴詠唱護手"
+      },
+      "cragprowl_belt": {
+        "name": "岩行腰帶"
+      },
+      "stormroot_cowl": {
+        "name": "風根兜帽"
+      },
+      "thunderward_legguards": {
+        "name": "雷衛護腿"
+      },
+      "revenantstep_treads": {
+        "name": "亡魂行靴"
+      },
+      "shardfang_grips": {
+        "name": "片牙護手"
+      },
+      "shardsong_mantle": {
+        "name": "碎片之歌披肩"
+      },
+      "wyrmcult_spellgrips": {
+        "name": "龍教法術護手"
+      },
+      "thornpeak_wildwraps": {
+        "name": "荊峰野性裹手"
+      },
+      "stormvotive_hauberk": {
+        "name": "風暴誓願鎖甲"
+      },
+      "cryptbloom_shoulderguards": {
+        "name": "墓花護肩"
+      },
+      "gravewyrm_thornmaul": {
+        "name": "墓龍棘錘"
+      },
+      "vestments_of_the_waking_grove": {
+        "name": "甦醒林地祭服"
+      },
+      "nightfangs_greatstaff": {
+        "name": "夜牙巨杖"
+      },
+      "maul_of_the_scourged_wilds": {
+        "name": "災野重錘"
+      },
+      "tidehymn_slippers": {
+        "name": "潮詩便鞋"
+      },
+      "pearlward_aegis": {
+        "name": "珍珠守護盾"
+      },
+      "wildgrowth_leggings": {
+        "name": "荒野生長護腿"
+      },
+      "grovewardens_grips": {
+        "name": "林地守護者護手"
+      },
+      "verdant_walkers": {
+        "name": "翠綠行者長靴"
+      },
+      "lunarward_cinch": {
+        "name": "月衛束帶"
+      },
+      "dreamroot_boots": {
+        "name": "夢根長靴"
+      },
+      "stormbark_mantle": {
+        "name": "風暴樹皮披肩"
+      },
+      "wildsoul_maul": {
+        "name": "荒野之魂重錘"
+      },
       "conjured_water4": {
         "name": "魔法泉水"
       },
