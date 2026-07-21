@@ -285,10 +285,19 @@ export function tradeConfirm(ctx: SimContext, pid?: number): void {
         // (removeOffer) spares them, so the capacity model must walk the same
         // unbound instanced slots or it would mis-estimate the receiver's slots.
         if (g.itemId !== s.itemId || !g.instance || isTradeLocked(g.instance)) continue;
+        // Model the payload AS IT ARRIVES: grantOffer stamps boundTo onto an
+        // armed copy on this first trade, and a stamped payload merges
+        // differently than the giver's pre-stamp copy (#2139: a capacity
+        // pre-check that disagrees with the real grant re-opens the overflow
+        // class, in both directions).
+        const arrival =
+          g.instance.bindOnTrade === true && g.instance.boundTo === undefined
+            ? { ...g.instance, boundTo: meta.entityId }
+            : g.instance;
         const take = Math.min(g.count, remaining);
         remaining -= take;
-        if (countFit(scratch, capacity, s.itemId, take, g.instance) < take) return false;
-        addStacked(scratch, s.itemId, take, g.instance);
+        if (countFit(scratch, capacity, s.itemId, take, arrival) < take) return false;
+        addStacked(scratch, s.itemId, take, arrival);
       }
       // Stock the giver's inventory list does not surface (a stubbed store in
       // tests, or a desynced offer the final validation above already
