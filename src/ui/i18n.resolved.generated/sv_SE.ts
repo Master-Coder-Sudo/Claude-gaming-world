@@ -1445,7 +1445,7 @@ export const sv_SE: EnTranslations = {
     "corpseHarvest": {
       "title": "Skörda",
       "harvestButton": "Skörda",
-      "harvestButtonTooltip": "Skörda: samla hantverksmaterial från liket (skinn, huggtand, silke och liknande delar), separat från dess byte. Vem som helst kan skörda, men varje lik kan bara skördas av en spelare.",
+      "harvestTooltip": "Gathers the checked components. Each corpse can be harvested once, first come. Does not take the loot.",
       "concentrateHint": "Ju färre delar du väljer, desto högre kvalitetsnivå får var och en.",
       "alreadyHarvested": "Det här kadavret har redan skördats.",
       "componentAria": "Skörda {component}",
@@ -1689,7 +1689,9 @@ export const sv_SE: EnTranslations = {
     },
     "loot": {
       "chestTitle": "Kista",
-      "takeAllTooltip": "Ta allt: samla alla mynt och föremål i bytesfönstret."
+      "takeLootButton": "Take Loot",
+      "takeLootTooltip": "Takes the coins and dropped items. Does not use up the harvest.",
+      "unifiedPressHint": "The interact key loots and harvests in one press, using your town focus."
     },
     "spellbook": {
       "addToBarAria": "Lägg till {name} i handlingsfältet",
