@@ -1519,6 +1519,7 @@ export const ko_KR: EnTranslations = {
       "dragEquipHint": "캐릭터로 끌어다 놓아 장착",
       "dragDestroyHint": "세계로 끌어내어 파괴",
       "reorderNeedsRecent": "가방을 정리하려면 필터를 해제하고 최근 순으로 정렬하세요",
+      "itemAriaInstanced": "{item}, 수량 {count}, 제작자 표식이 있는 사본",
       "filterGroupAria": "가방을 분류별로 필터링",
       "filterAll": "전체",
       "filterWeapon": "무기",

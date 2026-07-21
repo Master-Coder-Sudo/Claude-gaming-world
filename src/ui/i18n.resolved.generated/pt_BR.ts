@@ -1519,6 +1519,7 @@ export const pt_BR: EnTranslations = {
       "dragEquipHint": "Arraste para seu personagem para equipar",
       "dragDestroyHint": "Arraste para fora do inventário para destruir",
       "reorderNeedsRecent": "Limpe o filtro e ordene por Recentes para reorganizar suas bolsas",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Filtrar bolsas por categoria",
       "filterAll": "Todos",
       "filterWeapon": "Armas",

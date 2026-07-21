@@ -1519,6 +1519,7 @@ export const ja_JP: EnTranslations = {
       "dragEquipHint": "キャラクターにドラッグして装備",
       "dragDestroyHint": "世界へドラッグして破壊",
       "reorderNeedsRecent": "絞り込みを解除し並び順を「最近」にすると持ち物を並べ替えられます",
+      "itemAriaInstanced": "{item}、数量 {count}、銘入りの品",
       "filterGroupAria": "バッグをカテゴリーで絞り込む",
       "filterAll": "すべて",
       "filterWeapon": "武器",

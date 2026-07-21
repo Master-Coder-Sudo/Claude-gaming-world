@@ -1515,6 +1515,10 @@ export const hudChromeStrings = {
     // that grid is a derived list, its squares hold no bag position, so honoring the drop
     // would move a stack the player never aimed at. Say so instead of doing nothing.
     reorderNeedsRecent: 'Clear the filter and sort by Recent to rearrange your bags',
+    // Accessible-name arm of the Phase 12d instanced-slot corner marker: the
+    // visual tab is aria-hidden, so the per-copy flag rides the cell's label
+    // (the tooltip on focus stays the detail surface).
+    itemAriaInstanced: '{item}, quantity {count}, maker-marked copy',
     filterGroupAria: 'Filter bags by category',
     filterAll: 'All',
     filterWeapon: 'Weapons',

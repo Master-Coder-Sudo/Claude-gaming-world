@@ -4784,6 +4784,7 @@ export type TranslationKeyFlat =
   | 'hudChrome.bags.filterMaterial'
   | 'hudChrome.bags.filterQuest'
   | 'hudChrome.bags.filterWeapon'
+  | 'hudChrome.bags.itemAriaInstanced'
   | 'hudChrome.bags.noMatch'
   | 'hudChrome.bags.reorderNeedsRecent'
   | 'hudChrome.bags.rightClickDestroy'

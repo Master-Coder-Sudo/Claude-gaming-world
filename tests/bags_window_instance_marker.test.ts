@@ -87,6 +87,11 @@ describe('bags grid instanced-slot marker (Phase 12d)', () => {
     // The marker is decorative for AT (the long-press/hover tooltip stays the
     // detail surface), so it must not add a phantom accessible node.
     expect(cells[0].querySelector('.bi-instance')?.getAttribute('aria-hidden')).toBe('true');
+    // The per-copy flag the aria-hidden tab shows sighted players rides the
+    // CELL's accessible name instead (the review's a11y arm): the instanced
+    // cell uses the maker-marked label, the plain cell keeps the pre-12d one.
+    expect(cells[0].getAttribute('aria-label')).toContain('maker-marked copy');
+    expect(cells[1].getAttribute('aria-label')).not.toContain('maker-marked copy');
   });
 
   it('a counted instanced stack renders the marker AND the standard count badge', () => {

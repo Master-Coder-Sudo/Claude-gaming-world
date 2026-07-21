@@ -1519,6 +1519,7 @@ export const tr_TR: EnTranslations = {
       "dragEquipHint": "Kuşanmak için karakterinin üzerine sürükle",
       "dragDestroyHint": "Yok etmek için dünyaya sürükle",
       "reorderNeedsRecent": "Çantalarını yeniden düzenlemek için filtreyi temizle ve Son Eklenen sıralama seçeneğini kullan",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Çantaları kategoriye göre filtrele",
       "filterAll": "Tümü",
       "filterWeapon": "Silahlar",

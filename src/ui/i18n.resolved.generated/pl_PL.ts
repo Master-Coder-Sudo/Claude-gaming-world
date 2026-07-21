@@ -1519,6 +1519,7 @@ export const pl_PL: EnTranslations = {
       "dragEquipHint": "Przeciągnij na postać, aby założyć",
       "dragDestroyHint": "Przeciągnij poza okno, aby zniszczyć",
       "reorderNeedsRecent": "Wyczyść filtr i posortuj według Ostatnich, aby zmienić kolejność w torbach",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Filtruj torby według kategorii",
       "filterAll": "Wszystko",
       "filterWeapon": "Bronie",

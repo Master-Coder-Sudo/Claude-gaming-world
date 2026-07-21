@@ -1519,6 +1519,7 @@ export const vi_VN: EnTranslations = {
       "dragEquipHint": "Kéo lên nhân vật để trang bị",
       "dragDestroyHint": "Kéo ra ngoài thế giới để hủy bỏ",
       "reorderNeedsRecent": "Xóa bộ lọc và sắp xếp theo Gần Đây để sắp xếp lại túi đồ",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Lọc túi đồ theo danh mục",
       "filterAll": "Tất cả",
       "filterWeapon": "Vũ khí",

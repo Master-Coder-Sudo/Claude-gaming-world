@@ -411,6 +411,20 @@ describe('identical-payload stacking (Professions 2.0 Phase 12d)', () => {
     expect(sim.meta(sim.playerId)!.inventory.some((s) => s.itemId === 'wolf_fang')).toBe(false);
   });
 
+  it('removeItem partial take returns a clone: the surviving stack payload is never aliased', () => {
+    // The removeEnchantableItem sibling below covers the live enchant mutator;
+    // this is the removeItem arm of the same clone-on-survival contract (the
+    // coverage audit's defensive-symmetry ask).
+    const sim = makeSim();
+    for (let i = 0; i < 3; i++) sim.addItemInstance('wolf_fang', { signer: 'Ana' }, sim.playerId);
+    const [consumed] = sim.removeItem('wolf_fang', 1, sim.playerId);
+    expect(consumed).toEqual({ signer: 'Ana' });
+    consumed.signer = 'Mallory';
+    const survivor = sim.meta(sim.playerId)!.inventory.find((s) => s.itemId === 'wolf_fang')!;
+    expect(survivor.count).toBe(2);
+    expect(survivor.instance).toEqual({ signer: 'Ana' });
+  });
+
   it('a partially-consumed stack returns deep clones: mutating them never reaches the survivor', () => {
     const sim = makeSim();
     // A masterwork payload: enchant-ELIGIBLE (isEnchantedInstance is false for

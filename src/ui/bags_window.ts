@@ -504,9 +504,12 @@ export class BagsWindow {
       const qColor = QUALITY_COLOR[bagQualityKey(item)] ?? QUALITY_DEFAULT_COLOR;
       const itemName = itemDisplayName(item);
       row.style.setProperty('--bag-slot-quality', qColor);
+      // An instanced stack's accessible name carries the per-copy flag the
+      // aria-hidden corner marker shows sighted players (the review's a11y
+      // arm); plain stacks keep the pre-12d label.
       row.setAttribute(
         'aria-label',
-        t('itemUi.bags.itemAria', {
+        t(s.instance ? 'hudChrome.bags.itemAriaInstanced' : 'itemUi.bags.itemAria', {
           item: itemName,
           count: formatNumber(s.count, { maximumFractionDigits: 0 }),
         }),

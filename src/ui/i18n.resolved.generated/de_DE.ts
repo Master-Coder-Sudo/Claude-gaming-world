@@ -1519,6 +1519,7 @@ export const de_DE: EnTranslations = {
       "dragEquipHint": "Auf deinen Charakter ziehen, um anzulegen",
       "dragDestroyHint": "In die Welt ziehen, um zu vernichten",
       "reorderNeedsRecent": "Filter aufheben und nach Zuletzt sortieren, um deine Taschen neu anzuordnen",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Taschen nach Kategorie filtern",
       "filterAll": "Alle",
       "filterWeapon": "Waffen",

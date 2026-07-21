@@ -1519,6 +1519,7 @@ export const sv_SE: EnTranslations = {
       "dragEquipHint": "Dra till din karaktär för att utrusta",
       "dragDestroyHint": "Dra ut i världen för att förstöra",
       "reorderNeedsRecent": "Rensa filtret och sortera efter Nyliga för att ordna om dina väskor",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Filtrera väskor efter kategori",
       "filterAll": "Alla",
       "filterWeapon": "Vapen",

@@ -1519,6 +1519,7 @@ export const fr_CA: EnTranslations = {
       "dragEquipHint": "Faites glisser sur votre personnage pour équiper",
       "dragDestroyHint": "Faites glisser dans le monde pour détruire",
       "reorderNeedsRecent": "Effacez le filtre et triez par Récents pour réorganiser vos sacs",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Filtrer les sacs par catégorie",
       "filterAll": "Tous",
       "filterWeapon": "Armes",

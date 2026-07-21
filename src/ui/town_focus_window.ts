@@ -6,7 +6,7 @@
 
 import { MAX_FOCUS_TIER_BONUS, POINTS_PER_TIER_BONUS } from '../sim/professions/focus';
 import { esc } from './esc';
-import { t } from './i18n';
+import { formatNumber, t } from './i18n';
 import type { TownFocusView } from './town_focus_view';
 import { svgIcon } from './ui_icons';
 
@@ -34,8 +34,8 @@ export function renderTownFocusWindow(
   const tierHint = document.createElement('div');
   tierHint.className = 'town-focus-hint';
   tierHint.textContent = t('hudChrome.townFocus.tierHint', {
-    points: POINTS_PER_TIER_BONUS,
-    steps: MAX_FOCUS_TIER_BONUS,
+    points: formatNumber(POINTS_PER_TIER_BONUS, { maximumFractionDigits: 0 }),
+    steps: formatNumber(MAX_FOCUS_TIER_BONUS, { maximumFractionDigits: 0 }),
   });
   el.appendChild(tierHint);
 

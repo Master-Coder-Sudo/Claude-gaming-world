@@ -1519,6 +1519,7 @@ export const nl_NL: EnTranslations = {
       "dragEquipHint": "Sleep naar je personage om uit te rusten",
       "dragDestroyHint": "Sleep naar buiten in de wereld om te vernietigen",
       "reorderNeedsRecent": "Verwijder het filter en sorteer op Recent om je tassen opnieuw te rangschikken",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Tassen filteren op categorie",
       "filterAll": "Alle",
       "filterWeapon": "Wapens",

@@ -7430,6 +7430,7 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.crafting.masterworkZoneLine': 'Шедевр от {crafter}: {name}!',
   'hudChrome.crafting.tierUpToast': '{craft}: достигнут ранг {tier}!',
   'hudChrome.crafting.makersMark': 'Создатель: {name}',
+  'hudChrome.bags.itemAriaInstanced': '{item}, количество {count}, копия с клеймом мастера',
   'hudChrome.crafting.gatheredBy': 'Сборщик: {name}',
   'hudChrome.crafting.masterworkSeal': 'Шедевр',
   'hudChrome.crafting.enchantedLine': 'Зачаровано',

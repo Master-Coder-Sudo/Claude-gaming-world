@@ -1519,6 +1519,7 @@ export const id_ID: EnTranslations = {
       "dragEquipHint": "Seret ke karaktermu untuk memakai",
       "dragDestroyHint": "Seret ke dunia untuk menghancurkan",
       "reorderNeedsRecent": "Hapus filter dan urutkan berdasarkan Terbaru untuk mengatur ulang tasmu",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Saring tas menurut kategori",
       "filterAll": "Semua",
       "filterWeapon": "Senjata",

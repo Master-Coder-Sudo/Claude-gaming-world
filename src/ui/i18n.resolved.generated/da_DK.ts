@@ -1519,6 +1519,7 @@ export const da_DK: EnTranslations = {
       "dragEquipHint": "Træk hen på din karakter for at udruste",
       "dragDestroyHint": "Træk ud i verden for at ødelægge",
       "reorderNeedsRecent": "Ryd filteret og sortér efter Seneste for at omarrangere dine tasker",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Filtrér tasker efter kategori",
       "filterAll": "Alle",
       "filterWeapon": "Våben",
