@@ -289,6 +289,12 @@ import {
   switchArchetype as switchArchetypeImpl,
 } from './professions/archetype';
 import {
+  type CadenceMap,
+  cadenceBlockedKeys,
+  clampCadenceOnLoad,
+  WORK_ORDER_CADENCE_TICKS,
+} from './professions/cadence';
+import {
   type AcquireRecipeResult,
   acquireRecipe as acquireRecipeImpl,
   type CraftResult,
@@ -314,23 +320,17 @@ import {
   isNodeHarvestableBy,
   normalizeGatheringProficiency,
 } from './professions/gathering';
-import {
-  type CadenceMap,
-  cadenceBlockedKeys,
-  clampCadenceOnLoad,
-  WORK_ORDER_CADENCE_TICKS,
-} from './professions/cadence';
 import { updateGuildTrendLetters } from './professions/guild_letter';
 import type { MasterworkProc } from './professions/masterwork';
 import { applyMasteryReset, updateMasteryResetNotices } from './professions/mastery_reset';
-import { updateProfNudges } from './professions/prof_nudges';
-import { normalizeTierMailOnLoad, updateTierMail } from './professions/tier_mail';
 import {
   isStationActive,
   type MobileCraftingStation,
   placeMobileStationForPlayer,
 } from './professions/mobile_station';
+import { updateProfNudges } from './professions/prof_nudges';
 import { type SalvageResult, salvageItem as salvageItemImpl } from './professions/salvage';
+import { normalizeTierMailOnLoad, updateTierMail } from './professions/tier_mail';
 import { grandfatherKnownRecipes, resolveTrain, type TrainResult } from './professions/training';
 import type { ProfessionRecipeRecord as RecipeDef } from './professions/types';
 import {
