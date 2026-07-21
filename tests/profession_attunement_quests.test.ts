@@ -6,10 +6,10 @@ import { Sim } from '../src/sim/sim';
 import { terrainHeight } from '../src/sim/world';
 import { COMMAND_NAMES } from '../src/world_api';
 
-// Phase 14 retired the single q_archetype_acceptance / q_prof_make_amends quests
-// in favor of one attune + one make-amends quest per anchor master, each pinning
-// its own canonical pair. These re-pins exercise the same behaviors against the
-// new per-pair quest ids (behavior-equivalent; new Phase 14 coverage lives in the
+// Phase 14 retired the single shared acceptance / make-amends quests in favor of
+// one attune + one make-amends quest per anchor master, each pinning its own
+// canonical pair. These re-pins exercise the same behaviors against the new
+// per-pair quest ids (behavior-equivalent; new Phase 14 coverage lives in the
 // professions_tier_mail / professions_nudges / professions_quest_cadence suites).
 const HOBBY_QUEST = 'q_prof_hobby_switch';
 // Canonical pair ids follow CRAFT_RING order (see archetypePairId); the smith and
@@ -290,6 +290,99 @@ describe('live profession attunement quests', () => {
     expect(run()).toEqual(first);
   });
 });
+
+// Phase 14 coverage: the tests above exercise the smith and outfitter as
+// exemplars, but every wave-one anchor master must attune ITS pinned pair end to
+// end and expose the same availability matrix. These table-driven suites run all
+// four so a new master, a mis-pinned pairId, or a dropped celebration emit reds a
+// row (the smith/outfitter exemplars above stay as the detailed, non-parametric
+// walkthrough). `other` is the next master in the ring, used as the wrong-pair
+// history for the amends-availability check.
+const MASTERS = [
+  {
+    master: SMITH_MASTER,
+    attuneQuest: 'q_prof_attune_smith',
+    amendsQuest: 'q_prof_amends_smith',
+    pair: WEAPON_ARMOR,
+  },
+  {
+    master: OUTFITTER_MASTER,
+    attuneQuest: 'q_prof_attune_outfitter',
+    amendsQuest: 'q_prof_amends_outfitter',
+    pair: LEATHER_TAILOR,
+  },
+  {
+    master: 'cook_marlow',
+    attuneQuest: 'q_prof_attune_apothecary',
+    amendsQuest: 'q_prof_amends_apothecary',
+    pair: 'alchemy+cooking',
+  },
+  {
+    master: 'tinker_gizzel',
+    attuneQuest: 'q_prof_attune_bombardier',
+    amendsQuest: 'q_prof_amends_bombardier',
+    pair: 'engineering+alchemy',
+  },
+] as const;
+
+const MASTERS_WITH_OTHER = MASTERS.map((m, i) => ({
+  ...m,
+  other: MASTERS[(i + 1) % MASTERS.length],
+}));
+
+describe.each(MASTERS)(
+  '$attuneQuest attunes its pinned pair end to end (Phase 14)',
+  ({ master, attuneQuest, pair }) => {
+    it('accepts, turns in, sets the pair active, and emits both celebration events', () => {
+      const sim = makeSim();
+      unlockProfessionQuests(sim);
+      sim.drainEvents(); // clear join / welcome noise before the attune
+
+      attune(sim, master, attuneQuest, pair);
+
+      // Archetype state: the pinned pair is now attuned and active. The two
+      // majors are the pair's two crafts (order-agnostic, so canonical-order
+      // changes cannot silently pass a wrong assignment).
+      const identity = sim.craftingIdentity;
+      expect(identity.attunedPairs).toContain(pair);
+      expect(new Set([identity.activeArchetype, identity.pairedMajor])).toEqual(
+        new Set(pair.split('+')),
+      );
+
+      // Celebration events emitted for THIS pair (personal + zone), the whole
+      // point of routing them through the validated turn-in effect.
+      const events = sim.drainEvents();
+      expect(events.some((e) => e.type === 'attuned' && e.pairId === pair)).toBe(true);
+      expect(events.some((e) => e.type === 'attunedZone' && e.pairId === pair)).toBe(true);
+    });
+  },
+);
+
+describe.each(MASTERS_WITH_OTHER)(
+  '$attuneQuest availability matrix (Phase 14)',
+  ({ master, attuneQuest, amendsQuest, pair, other }) => {
+    it('is available unattuned, done with amends gated when current, amends-only-with-history when wrong', () => {
+      const sim = makeSim();
+      unlockProfessionQuests(sim);
+
+      // Unattuned: the attune is offered, the make-amends is not (no history).
+      expect(sim.questState(attuneQuest)).toBe('available');
+      expect(sim.questState(amendsQuest)).toBe('unavailable');
+
+      // Attuned to this master's pair: the one-time attune is done (never
+      // repeatable), and its amends stays unavailable (it is the current pair).
+      attune(sim, master, attuneQuest, pair);
+      expect(sim.questState(attuneQuest)).toBe('done');
+      expect(sim.questState(amendsQuest)).toBe('unavailable');
+
+      // Attuned to a different master's pair, this pair now in history: the
+      // make-amends return opens, the one-time attune stays done.
+      attune(sim, other.master, other.attuneQuest, other.pair);
+      expect(sim.questState(amendsQuest)).toBe('available');
+      expect(sim.questState(attuneQuest)).toBe('done');
+    });
+  },
+);
 
 // Phase 12c appendix row: the hobby-switch quest pays no XP. It is a
 // repeatable identity toggle; any XP on it becomes a farmable trickle

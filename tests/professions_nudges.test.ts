@@ -36,6 +36,23 @@ describe('trend nudge (Professions 2.0 Phase 14)', () => {
     expect(emitted[0]).toEqual({ type: 'profTrendNudge', pid: sim.playerId, pairId: TREND_PAIR });
   });
 
+  it('reopens exactly AT the expiry tick, never one tick before', () => {
+    // The boundary the window turns on: armed at t=0 to 0 + NUDGE_CADENCE_TICKS,
+    // so it is still blocked at expiry-1 and reopens exactly AT expiry. Ticks are
+    // driven directly TO the boundary (not merely swept past it), so an off-by-one
+    // in isCadenceBlocked's strict comparison reds this.
+    const sim = makeSim();
+    const meta = sim.players.get(sim.playerId)!;
+    meta.craftSkills.weaponcrafting = 10;
+    const { ctx, raw } = nudgeCtx();
+    raw.tickCount = 0;
+    expect(maybeEmitTrendNudge(meta, ctx)).toBe(true); // window opens
+    raw.tickCount = NUDGE_CADENCE_TICKS - 1; // one tick before expiry
+    expect(maybeEmitTrendNudge(meta, ctx)).toBe(false); // still blocked
+    raw.tickCount = NUDGE_CADENCE_TICKS; // AT expiry
+    expect(maybeEmitTrendNudge(meta, ctx)).toBe(true); // reopens
+  });
+
   it('fires below the Guild letter crossing threshold (it is the lighter hint)', () => {
     const sim = makeSim();
     const meta = sim.players.get(sim.playerId)!;
