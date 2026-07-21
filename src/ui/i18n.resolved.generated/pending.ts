@@ -33,7 +33,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.nameplate.afkTag",
-    "hudChrome.professions.nextUnlockMastered"
+    "hudChrome.professions.nextUnlockMastered",
+    "hudChrome.social.hideOffline",
+    "hudChrome.social.hideOfflineTitle",
+    "hudChrome.social.offlineHeader",
+    "hudChrome.social.onlineHeader"
   ],
   "es_ES": [
     "abilityUi.cast.gathering",
@@ -59,7 +63,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.nameplate.afkTag",
-    "hudChrome.professions.nextUnlockMastered"
+    "hudChrome.professions.nextUnlockMastered",
+    "hudChrome.social.hideOffline",
+    "hudChrome.social.hideOfflineTitle",
+    "hudChrome.social.offlineHeader",
+    "hudChrome.social.onlineHeader"
   ],
   "fr_FR": [
     "abilityUi.cast.gathering",
@@ -85,7 +93,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.nameplate.afkTag",
-    "hudChrome.professions.nextUnlockMastered"
+    "hudChrome.professions.nextUnlockMastered",
+    "hudChrome.social.hideOffline",
+    "hudChrome.social.hideOfflineTitle",
+    "hudChrome.social.offlineHeader",
+    "hudChrome.social.onlineHeader"
   ],
   "fr_CA": [
     "abilityUi.cast.gathering",
@@ -111,7 +123,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.nameplate.afkTag",
-    "hudChrome.professions.nextUnlockMastered"
+    "hudChrome.professions.nextUnlockMastered",
+    "hudChrome.social.hideOffline",
+    "hudChrome.social.hideOfflineTitle",
+    "hudChrome.social.offlineHeader",
+    "hudChrome.social.onlineHeader"
   ],
   "en_CA": [],
   "it_IT": [
@@ -138,7 +154,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.nameplate.afkTag",
-    "hudChrome.professions.nextUnlockMastered"
+    "hudChrome.professions.nextUnlockMastered",
+    "hudChrome.social.hideOffline",
+    "hudChrome.social.hideOfflineTitle",
+    "hudChrome.social.offlineHeader",
+    "hudChrome.social.onlineHeader"
   ],
   "de_DE": [
     "abilityUi.cast.gathering",
@@ -164,7 +184,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.nameplate.afkTag",
-    "hudChrome.professions.nextUnlockMastered"
+    "hudChrome.professions.nextUnlockMastered",
+    "hudChrome.social.hideOffline",
+    "hudChrome.social.hideOfflineTitle",
+    "hudChrome.social.offlineHeader",
+    "hudChrome.social.onlineHeader"
   ],
   "zh_CN": [
     "hud.social.status.afk",
@@ -206,7 +230,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.nameplate.afkTag",
-    "hudChrome.professions.nextUnlockMastered"
+    "hudChrome.professions.nextUnlockMastered",
+    "hudChrome.social.hideOffline",
+    "hudChrome.social.hideOfflineTitle",
+    "hudChrome.social.offlineHeader",
+    "hudChrome.social.onlineHeader"
   ],
   "ru_RU": [
     "hud.social.status.afk",
@@ -236,7 +264,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.nameplate.afkTag",
-    "hudChrome.professions.nextUnlockMastered"
+    "hudChrome.professions.nextUnlockMastered",
+    "hudChrome.social.hideOffline",
+    "hudChrome.social.hideOfflineTitle",
+    "hudChrome.social.offlineHeader",
+    "hudChrome.social.onlineHeader"
   ],
   "nl_NL": [
     "abilityUi.cast.gathering",
@@ -262,7 +294,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.nameplate.afkTag",
-    "hudChrome.professions.nextUnlockMastered"
+    "hudChrome.professions.nextUnlockMastered",
+    "hudChrome.social.hideOffline",
+    "hudChrome.social.hideOfflineTitle",
+    "hudChrome.social.offlineHeader",
+    "hudChrome.social.onlineHeader"
   ],
   "pl_PL": [
     "abilityUi.cast.gathering",
@@ -288,7 +324,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.nameplate.afkTag",
-    "hudChrome.professions.nextUnlockMastered"
+    "hudChrome.professions.nextUnlockMastered",
+    "hudChrome.social.hideOffline",
+    "hudChrome.social.hideOfflineTitle",
+    "hudChrome.social.offlineHeader",
+    "hudChrome.social.onlineHeader"
   ],
   "id_ID": [
     "abilityUi.cast.gathering",
@@ -314,7 +354,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.nameplate.afkTag",
-    "hudChrome.professions.nextUnlockMastered"
+    "hudChrome.professions.nextUnlockMastered",
+    "hudChrome.social.hideOffline",
+    "hudChrome.social.hideOfflineTitle",
+    "hudChrome.social.offlineHeader",
+    "hudChrome.social.onlineHeader"
   ],
   "tr_TR": [
     "abilityUi.cast.gathering",
@@ -340,7 +384,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.nameplate.afkTag",
-    "hudChrome.professions.nextUnlockMastered"
+    "hudChrome.professions.nextUnlockMastered",
+    "hudChrome.social.hideOffline",
+    "hudChrome.social.hideOfflineTitle",
+    "hudChrome.social.offlineHeader",
+    "hudChrome.social.onlineHeader"
   ],
   "sv_SE": [
     "abilityUi.cast.gathering",
@@ -366,7 +414,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.nameplate.afkTag",
-    "hudChrome.professions.nextUnlockMastered"
+    "hudChrome.professions.nextUnlockMastered",
+    "hudChrome.social.hideOffline",
+    "hudChrome.social.hideOfflineTitle",
+    "hudChrome.social.offlineHeader",
+    "hudChrome.social.onlineHeader"
   ],
   "vi_VN": [
     "abilityUi.cast.gathering",
@@ -392,7 +444,11 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.nameplate.afkTag",
-    "hudChrome.professions.nextUnlockMastered"
+    "hudChrome.professions.nextUnlockMastered",
+    "hudChrome.social.hideOffline",
+    "hudChrome.social.hideOfflineTitle",
+    "hudChrome.social.offlineHeader",
+    "hudChrome.social.onlineHeader"
   ],
   "da_DK": [
     "abilityUi.cast.gathering",
@@ -418,6 +474,10 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.nameplate.afkTag",
-    "hudChrome.professions.nextUnlockMastered"
+    "hudChrome.professions.nextUnlockMastered",
+    "hudChrome.social.hideOffline",
+    "hudChrome.social.hideOfflineTitle",
+    "hudChrome.social.offlineHeader",
+    "hudChrome.social.onlineHeader"
   ]
 };

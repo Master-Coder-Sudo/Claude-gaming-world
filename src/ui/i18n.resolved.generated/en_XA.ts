@@ -2083,7 +2083,11 @@ export const en_XA: EnTranslations = {
       "blockSearchPlaceholder": "[Þļáýéŕ ñáɱé]",
       "blockAction": "[Ɓļóçķ]",
       "nowBlocking": "[Ɓļóçķéð {name}.]",
-      "stopBlockingTitle": "[Šţóþ ƀļóçķíñĝ {name}]"
+      "stopBlockingTitle": "[Šţóþ ƀļóçķíñĝ {name}]",
+      "onlineHeader": "[Óñļíñé ({n})]",
+      "offlineHeader": "[Óƒƒļíñé ({n})]",
+      "hideOffline": "[Ĥíðé óƒƒļíñé]",
+      "hideOfflineTitle": "[Ĥíðé óƒƒļíñé ĝúíļð ɱéɱƀéŕš]"
     },
     "gathering": {
       "title": "[Ĝáţĥéŕíñĝ]",
