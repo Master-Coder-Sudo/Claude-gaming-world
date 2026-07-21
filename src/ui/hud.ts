@@ -192,6 +192,7 @@ import {
 import { DeedsWindow } from './deeds_window';
 import { DevCommandWindow } from './dev_command_window';
 import { devTierByIndex, devTierDisplayName } from './dev_tier';
+import { bindDialogKeyActivation } from './dialog_key_activation';
 import { discordRoleTagLabel } from './discord_role_tag';
 import { discordStatusDisplayName } from './discord_tier';
 import { dropdownKeyNav } from './dropdown_nav';
@@ -11852,6 +11853,7 @@ export class Hud {
     // both or a purchase confirmation opens invisibly underneath.
     el.style.zIndex = String(Math.max(Number(el.style.zIndex) || 0, 95));
     this.confirmTrap = this.focusManager.open({ root: () => el });
+    bindDialogKeyActivation(el);
     el.querySelector<HTMLElement>('[data-ok]')?.focus();
     const close = () => {
       this.confirmTrap?.release();
@@ -11913,6 +11915,7 @@ export class Hud {
       `</div>`;
     document.body.appendChild(el);
     this.confirmTrap = this.focusManager.open({ root: () => el });
+    bindDialogKeyActivation(el);
     const input = el.querySelector('.cd-input') as HTMLInputElement | HTMLTextAreaElement;
     const close = () => {
       this.confirmTrap?.release();
