@@ -102,6 +102,7 @@ import {
   desktopWalletManagerView,
   disconnectDesktopWalletSession,
 } from './net/desktop_wallet_manager';
+import { shouldEnterDiscordOnboarding } from './net/discord_onboarding_gate';
 import { EconomyClient, newIdempotencyKey, startClaudiumPurchase } from './net/economy_sdk';
 // The wallet module is loaded lazily via dynamic import() in the wallet
 // controller below, so it stays out of the main entry chunk and only loads when
@@ -6288,9 +6289,15 @@ function startDiscordOAuth(mode: 'login' | 'link'): void {
     // LOGIN from the auth screen: a FULL-PAGE redirect, not a popup. The popup's
     // window.opener is severed by the cross-origin hop to Discord (COOP), so the
     // result never returns; a same-tab redirect always lands the callback, which
-    // writes the session + onboard flag and reloads us into play.
+    // writes the session + onboard flag and reloads us into play. The desktop shell
+    // opens THIS login screen at /desktop-login in the OS browser (electron/main.cjs
+    // openDesktopLogin, via shell.openExternal), never inside Electron itself, so
+    // NATIVE_APP/DESKTOP_APP are both false here: the signal that this is a desktop
+    // handoff is the page we are ON, not the runtime. Pass it through so the callback
+    // bounces back to /desktop-login (which mints the worldofclaudecraft:// deep-link
+    // code, see completeDesktopBrowserLogin) instead of the plain web '/'.
     void api
-      .discordStart('login')
+      .discordStart('login', false, '', undefined, isDesktopLoginPage())
       .then(({ url }) => {
         window.location.href = url;
       })
@@ -8452,12 +8459,13 @@ function wireStartScreens(): void {
     if (el) el.textContent = msg;
   };
   // A chooser path that minted a session: persist it and drop straight into play.
-  const finishDiscordChoice = () => {
+  const finishDiscordChoice = async () => {
     clearDiscordChoice();
     pendingDiscordChoice = null;
     discordChoiceError('');
     api.saveSession();
     enterLoggedInChrome();
+    if (await completeDesktopBrowserLogin()) return;
     void refreshWalletLinkStatus();
     void refreshGithubLinkStatus();
     void refreshSteamLinkStatus(api);
@@ -8593,7 +8601,7 @@ function wireStartScreens(): void {
             discordChoiceError(t('auth.twoFactorHint'));
             return;
           }
-          finishDiscordChoice();
+          return finishDiscordChoice();
         })
         .catch(onDiscordChoiceError)
         .finally(() => setDiscordChoiceBusy(false));
@@ -8736,8 +8744,12 @@ function wireStartScreens(): void {
     void refreshSteamLinkStatus(api);
     // (Discord status is refreshed by enterLoggedInChrome above.)
     // A just-completed Discord login lands straight in play; capture a recovery
-    // email first if the Discord grant did not provide one.
-    if (discordOnboarding) void maybePromptRecoveryEmail().then(() => enterOnlinePlayFlow());
+    // email first if the Discord grant did not provide one. The desktop-login
+    // handoff page must mint its code, never race into online play, so this arm
+    // is gated the same way the resume guard above is.
+    if (shouldEnterDiscordOnboarding(discordOnboarding, isDesktopLoginPage())) {
+      void maybePromptRecoveryEmail().then(() => enterOnlinePlayFlow());
+    }
     if (isDesktopLoginPage()) void completeDesktopBrowserLogin();
   } else {
     enterLoggedOutChrome();

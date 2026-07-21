@@ -835,9 +835,16 @@ export class Api {
     native = false,
     challenge = '',
     nativeAttestation: unknown = undefined,
+    desktop = false,
   ): Promise<{ url: string }> {
     const nativeQuery = native ? `&native=1&challenge=${encodeURIComponent(challenge)}` : '';
-    return this.post(`/api/auth/discord/start?mode=${mode}${nativeQuery}`, { nativeAttestation });
+    // `desktop` and `native` are mutually exclusive: native is the mobile-app PKCE
+    // handoff, desktop marks a login start from the Electron/Steam shell's system
+    // browser so the callback bounces back to /desktop-login instead of '/'.
+    const desktopQuery = !native && desktop ? '&desktop=1' : '';
+    return this.post(`/api/auth/discord/start?mode=${mode}${nativeQuery}${desktopQuery}`, {
+      nativeAttestation,
+    });
   }
 
   async exchangeNativeDiscordCode(
