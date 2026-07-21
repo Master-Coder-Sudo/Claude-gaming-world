@@ -47,12 +47,14 @@ describe('gathering profession proficiency (#1119)', () => {
     const pid = sim.playerId;
     sim.chat('/dev gather herbalism 4', pid);
     sim.tick();
+    // Phase 12c stage 2 appendix re-pin: the enforced per-profession caps
+    // (mining/logging/herbalism 100, fishing 200) replace the old uniform 300.
     const expected = {
       skills: [
-        { professionId: 'mining', skill: 0, maxSkill: 300 },
-        { professionId: 'logging', skill: 0, maxSkill: 300 },
-        { professionId: 'herbalism', skill: 4, maxSkill: 300 },
-        { professionId: 'fishing', skill: 0, maxSkill: 300 },
+        { professionId: 'mining', skill: 0, maxSkill: 100 },
+        { professionId: 'logging', skill: 0, maxSkill: 100 },
+        { professionId: 'herbalism', skill: 4, maxSkill: 100 },
+        { professionId: 'fishing', skill: 0, maxSkill: 200 },
       ],
     };
     expect(sim.professionsState).toEqual(expected);

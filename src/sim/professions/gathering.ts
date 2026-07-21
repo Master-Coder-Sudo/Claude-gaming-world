@@ -514,7 +514,11 @@ export function isGatheringProfessionId(id: string): id is GatheringProfessionId
 
 // Normalizes a possibly-absent, possibly-partial saved record (old character
 // saves predate this field entirely) into a full, zero-defaulted proficiency
-// record. Never throws on an absent or malformed field.
+// record. Never throws on an absent or malformed field. Phase 12c: a loaded
+// value above the profession's enforced content cap (GATHERING_PROFESSIONS
+// maxSkill) clamps DOWN to it; the sim.ts call site feeds this both the
+// current gatheringProficiency key and the legacy pre-rename `professions`
+// key, so the clamp covers both save shapes.
 export function normalizeGatheringProficiency(
   saved: Partial<Record<string, number>> | undefined | null,
 ): GatheringProficiency {
@@ -522,7 +526,8 @@ export function normalizeGatheringProficiency(
   if (!saved) return out;
   for (const id of GATHERING_PROFESSION_IDS) {
     const v = saved[id];
-    if (typeof v === 'number' && Number.isFinite(v)) out[id] = Math.max(0, v);
+    if (typeof v === 'number' && Number.isFinite(v))
+      out[id] = Math.max(0, Math.min(GATHERING_PROFESSIONS[id].maxSkill, v));
   }
   return out;
 }
@@ -546,13 +551,19 @@ export function queueGatheringGrant(
 // Drains one player's queued grants, applying each additively to that
 // profession's own counter only. Called once per player per tick (sim.ts
 // `tick()`), so a grant issued this tick is visible starting next tick, the
-// same cadence as every other per-tick system.
+// same cadence as every other per-tick system. Phase 12c: each result clamps
+// at the profession's enforced content cap (GATHERING_PROFESSIONS maxSkill),
+// the gain-time arm for harvests, catches, and the `/dev gather` cheat; at
+// cap, harvests and catches still yield, only proficiency gain stops.
 export function drainGatheringGrants(meta: PlayerMeta): void {
   if (meta.pendingGatherGrants.length === 0) return;
   for (const grant of meta.pendingGatherGrants) {
     meta.gatheringProficiency[grant.professionId] = Math.max(
       0,
-      meta.gatheringProficiency[grant.professionId] + grant.amount,
+      Math.min(
+        GATHERING_PROFESSIONS[grant.professionId].maxSkill,
+        meta.gatheringProficiency[grant.professionId] + grant.amount,
+      ),
     );
   }
   meta.pendingGatherGrants.length = 0;

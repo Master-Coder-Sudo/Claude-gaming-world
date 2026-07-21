@@ -494,7 +494,8 @@ describe('fishing proficiency accrual (pin 3)', () => {
     expect(sim.professionsStateFor(sim.playerId).skills).toContainEqual({
       professionId: 'fishing',
       skill: landed,
-      maxSkill: 300,
+      // Phase 12c stage 2 appendix re-pin: fishing's enforced cap is 200.
+      maxSkill: 200,
     });
   });
 });

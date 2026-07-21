@@ -20,6 +20,7 @@
 import {
   CRAFT_RING,
   craftById,
+  craftMaxSkillFor,
   PERK_THRESHOLDS,
   type PerkThresholdDef,
 } from '../content/professions';
@@ -36,8 +37,10 @@ export function emptyCraftSkills(): CraftSkills {
 }
 
 /** Backfill a persisted/partial record so every ring craft has an entry, without
- *  disturbing any value already present (additive back-compat: an older save with
- *  fewer or zero craft keys loads cleanly at 0 for the missing ones). */
+ *  disturbing any in-range value already present (additive back-compat: an older
+ *  save with fewer or zero craft keys loads cleanly at 0 for the missing ones).
+ *  Phase 12c: a loaded value above the craft's enforced content cap clamps DOWN
+ *  to it (the load-time arm of the maxSkill cap). */
 export function normalizeCraftSkills(
   saved: Record<string, number> | undefined | null,
 ): CraftSkills {
@@ -45,17 +48,21 @@ export function normalizeCraftSkills(
   if (!saved) return skills;
   for (const craft of CRAFT_RING) {
     const value = saved[craft.id];
-    if (typeof value === 'number' && Number.isFinite(value) && value >= 0) skills[craft.id] = value;
+    if (typeof value === 'number' && Number.isFinite(value) && value >= 0)
+      skills[craft.id] = Math.min(craft.maxSkill, value);
   }
   return skills;
 }
 
 /** Additive-only skill gain for exactly one craft. Never touches any other craft's
  *  value (each of the ten crafts is an independent counter). A non-positive amount
- *  is a no-op; skill never goes negative. */
+ *  is a no-op; skill never goes negative. Phase 12c: gain clamps at the craft's
+ *  enforced content cap (craftMaxSkillFor); this single primitive is the gain-time
+ *  arm for crafting, enchanting, AND the battlefield trickle, so at cap all of
+ *  them stop advancing skill while the actions themselves keep working. */
 export function gainCraftSkill(skills: CraftSkills, craftId: string, amount: number): void {
   if (!(craftId in skills) || !(amount > 0)) return;
-  skills[craftId] += amount;
+  skills[craftId] = Math.min(craftMaxSkillFor(craftId), skills[craftId] + amount);
 }
 
 /** Read surface: a copy of a player's ten craft skill values, keyed by craft id.
