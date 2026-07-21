@@ -252,6 +252,7 @@ import {
   stopSlowConnectionWatch,
 } from './ui/loading_slow_hint';
 import { createLoadingTipRotation, type LoadingTipRotation } from './ui/loading_tips';
+import { applyMinimapOrnamentVars } from './ui/minimap_gilded_ornament';
 import { showMobileWalletLauncher } from './ui/mobile_wallet_launcher';
 import { applyNativeDeviceLanguage } from './ui/native_language';
 import { scheduleNativeUpdateCheck } from './ui/native_update_prompt';
@@ -1075,6 +1076,7 @@ async function startGame(
     perf.setHud(hud);
     hydrateIcons(); // swap [data-icon] placeholders (micro-menu, mobile bar, meters) for inline SVG
     applyPerfOrnamentVars(); // Performance Overlay window's gilded corner/edge masks
+    applyMinimapOrnamentVars(); // minimap disc's gilded ring
   } catch (err) {
     // e.g. WebGL context creation failure: surface it instead of leaving the
     // loading screen up forever. A HANDLED failure is not a process kill, so the
