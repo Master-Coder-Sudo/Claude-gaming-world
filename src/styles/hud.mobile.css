@@ -3958,6 +3958,18 @@
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
   }
+  /* Apply Enchant picker sizing on touch (Phase 13 QA, maintainer direction):
+     the base cap above only stops OVERFLOW, so the full-list picker still
+     filled essentially the whole screen. The picker states take a tighter cap
+     (landscape play is the ~390px-tall class of viewport, so a fraction of the
+     app viewport, scaled like the base rule) and a bounded width; the box
+     scrolls within it. */
+  body.mobile-touch #ctx-menu.ctx-menu-picker {
+    max-height: calc(var(--app-vh, 100vh) / var(--ui-scale, 1) * 0.6);
+    min-width: 280px;
+    max-width: min(420px, 86vw);
+    overflow-y: auto;
+  }
   /* Phase 5 touch floors: the interactive descendants of the newly sheeted windows
      that render below the 40px tap target on desktop. Only the controls that need it
      are listed here; each window's list rows, primary buttons, and text inputs

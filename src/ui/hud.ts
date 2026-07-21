@@ -126,7 +126,7 @@ import { type AuraEffectInput, auraEffectDescriptor } from './aura_effect';
 import { AurasPainter, type AurasPainterDeps } from './auras_painter';
 import { type AurasDeps, createAurasView } from './auras_view';
 import { attachAvatarFallback } from './avatar_fallback';
-import { BagItemActionMenu } from './bag_item_action_menu';
+import { BagItemActionMenu, CTX_MENU_PICKER_CLASS } from './bag_item_action_menu';
 import { bagsWindowShown } from './bags_view';
 import { BagsWindow, dismissBagPrompts } from './bags_window';
 import { BankWindow } from './bank_window';
@@ -192,6 +192,7 @@ import {
 import { DeedsWindow } from './deeds_window';
 import { DevCommandWindow } from './dev_command_window';
 import { devTierByIndex, devTierDisplayName } from './dev_tier';
+import { bindDialogKeyActivation } from './dialog_key_activation';
 import { discordRoleTagLabel } from './discord_role_tag';
 import { discordStatusDisplayName } from './discord_tier';
 import { dropdownKeyNav } from './dropdown_nav';
@@ -11852,6 +11853,7 @@ export class Hud {
     // both or a purchase confirmation opens invisibly underneath.
     el.style.zIndex = String(Math.max(Number(el.style.zIndex) || 0, 95));
     this.confirmTrap = this.focusManager.open({ root: () => el });
+    bindDialogKeyActivation(el);
     el.querySelector<HTMLElement>('[data-ok]')?.focus();
     const close = () => {
       this.confirmTrap?.release();
@@ -11913,6 +11915,7 @@ export class Hud {
       `</div>`;
     document.body.appendChild(el);
     this.confirmTrap = this.focusManager.open({ root: () => el });
+    bindDialogKeyActivation(el);
     const input = el.querySelector('.cd-input') as HTMLInputElement | HTMLTextAreaElement;
     const close = () => {
       this.confirmTrap?.release();
@@ -12343,6 +12346,7 @@ export class Hud {
 
   private openSelfContextMenu(x: number, y: number, opener: HTMLElement | null = null): void {
     const el = $('#ctx-menu');
+    el.classList.remove(CTX_MENU_PICKER_CLASS);
     this.ctxMenuOpener = opener;
     const party = this.sim.partyInfo;
     let html = `<div class="ctx-title ctx-title-player">${portraitChipHtml({ cls: this.sim.cfg.playerClass, skin: this.sim.player.skin ?? 0, name: this.sim.player.name, variant: 'sm' })}<span class="ctx-title-name">${esc(this.sim.player.name)}</span></div>`;
@@ -12495,6 +12499,7 @@ export class Hud {
 
   openContextMenu(pid: number, name: string, x: number, y: number): void {
     const el = $('#ctx-menu');
+    el.classList.remove(CTX_MENU_PICKER_CLASS);
     const party = this.sim.partyInfo;
     const isLeader = party?.leader === this.sim.playerId;
     const isMember = !!party?.members.some((m) => m.pid === pid);
@@ -12739,6 +12744,7 @@ export class Hud {
   openMarkerMenu(entityId: number, name: string, x: number, y: number): void {
     if (!this.sim.partyInfo) return;
     const el = $('#ctx-menu');
+    el.classList.remove(CTX_MENU_PICKER_CLASS);
     const current = this.sim.markerFor(entityId);
     let html = `<div class="ctx-title">${esc(name)}</div>`;
     for (let i = 0; i < RAID_MARKER_LABEL_KEYS.length; i++) {
@@ -12773,6 +12779,7 @@ export class Hud {
 
   openPetMenu(_entityId: number, name: string, dead: boolean, x: number, y: number): void {
     const el = $('#ctx-menu');
+    el.classList.remove(CTX_MENU_PICKER_CLASS);
     const isWarlock = this.sim.cfg.playerClass === 'warlock';
     let html = `<div class="ctx-title">${esc(name)}</div>`;
     html += `<div class="ctx-item" data-act="rename">${esc(t('hud.pet.rename'))}</div>`;
@@ -12819,6 +12826,7 @@ export class Hud {
     opener?: HTMLElement,
   ): void {
     const el = $('#ctx-menu');
+    el.classList.remove(CTX_MENU_PICKER_CLASS);
     // Clicking the same name twice closes the menu. Without this branch, the
     // outside-click dismiss refuses to close a menu whose opener was clicked
     // (it treats the opener as "inside"), so the second click would silently
@@ -13059,7 +13067,9 @@ export class Hud {
   }
 
   closeContextMenu(): void {
-    $('#ctx-menu').style.display = 'none';
+    const el = $('#ctx-menu');
+    el.style.display = 'none';
+    el.classList.remove(CTX_MENU_PICKER_CLASS);
     this.ctxMenuOpener = null;
   }
 

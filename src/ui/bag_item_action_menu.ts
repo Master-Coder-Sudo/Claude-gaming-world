@@ -31,6 +31,19 @@ import { itemDisplayName } from './entity_i18n';
 import { esc } from './esc';
 import { t } from './i18n';
 
+/** Modifier class the picker states set on the shared #ctx-menu element: the
+ *  Apply Enchant pickers size differently from every other menu in the family
+ *  (wider, height-capped, scrolling), so the sizing rules are scoped to this
+ *  class alone and every plain paint site clears it (the player/chat menus and
+ *  the plain bag action menu render exactly as before). */
+export const CTX_MENU_PICKER_CLASS = 'ctx-menu-picker';
+
+/** The desktop CSS cap for a picker menu (hud.css #ctx-menu.ctx-menu-picker
+ *  max-height: min(60vh, 560px)), mirrored so placement can reserve the real
+ *  rendered box instead of the full uncapped list estimate. */
+const PICKER_MAX_HEIGHT_VIEWPORT_FRACTION = 0.6;
+const PICKER_MAX_HEIGHT_DESKTOP_PX = 560;
+
 /** The #ctx-menu seam this painter drives, wired by the HUD from the same
  *  helpers the player menus use (placePopupAt + keepPopupOnScreen, and
  *  bindContextMenuActions). */
@@ -131,6 +144,7 @@ export class BagItemActionMenu {
         y,
         () => {},
         title,
+        true,
       );
       return;
     }
@@ -156,6 +170,7 @@ export class BagItemActionMenu {
       y,
       (act) => this.openTargetPicker(act.slice('enchant:'.length), x, y),
       title,
+      true,
     );
   }
 
@@ -172,6 +187,7 @@ export class BagItemActionMenu {
         y,
         () => {},
         title,
+        true,
       );
       return;
     }
@@ -191,6 +207,7 @@ export class BagItemActionMenu {
         this.deps.afterAction();
       },
       title,
+      true,
     );
   }
 
@@ -204,8 +221,10 @@ export class BagItemActionMenu {
     y: number,
     onActivate: (act: string) => void,
     titleHtml?: string,
+    picker = false,
   ): void {
     const el = this.deps.ctxMenu.element();
+    el.classList.toggle(CTX_MENU_PICKER_CLASS, picker);
     let html = titleHtml ? `<div class="ctx-title">${titleHtml}</div>` : '';
     for (const row of rows) {
       if (row.act) html += `<div class="ctx-item" data-act="${row.act}">${row.html}</div>`;
@@ -213,8 +232,20 @@ export class BagItemActionMenu {
     }
     el.innerHTML = html;
     el.style.display = 'block';
-    const reserveBottom = 80 + rows.length * (this.deps.isMobileLayout() ? 48 : 32);
-    this.deps.ctxMenu.place(el, x, y, 190, reserveBottom);
+    const naturalReserve = 80 + rows.length * (this.deps.isMobileLayout() ? 48 : 32);
+    // A picker box is height-capped by CSS, so reserve the capped box, not the
+    // full list estimate (the estimate ignores the UI scale divisor, which only
+    // over-reserves; keepPopupOnScreen pulls back any residual overflow).
+    const cappedReserve = this.deps.isMobileLayout()
+      ? window.innerHeight * PICKER_MAX_HEIGHT_VIEWPORT_FRACTION
+      : Math.min(
+          window.innerHeight * PICKER_MAX_HEIGHT_VIEWPORT_FRACTION,
+          PICKER_MAX_HEIGHT_DESKTOP_PX,
+        );
+    const reserveBottom = picker
+      ? Math.min(naturalReserve, Math.round(cappedReserve) + 24)
+      : naturalReserve;
+    this.deps.ctxMenu.place(el, x, y, picker ? 410 : 190, reserveBottom);
     this.deps.ctxMenu.bind(onActivate);
   }
 }

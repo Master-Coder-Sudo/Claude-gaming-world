@@ -15,9 +15,10 @@ the remaining order is 12c, 12d, 13, 14, 14b, 15. Phases 12c and 12d plus
 both QA sessions are MERGED into release/v0.29.0 (12c PR #2242, 12c QA
 PR #2246, 12d PR #2264, 12d QA PR #2267 = 682df1b7b; this pointer had
 gone stale at "12c BUILT" and was corrected by the Phase 13 session).
-Phase 13 is BUILT (branch feature/professions-2-phase-13-enchanting off
-682df1b7b, 2026-07-21; as-landed surfaces below). Next: Phase 13 QA
-(phase-13-qa.md) once the PR merges; then Phase 14.
+Phase 13 is MERGED (PR #2269 = 90e502786 into release/v0.29.0,
+2026-07-21; as-landed surfaces below) and Phase 13 QA is COMPLETE
+(2026-07-21, PASS; the QA entry below the as-landed block). Next:
+Phase 14.
 
 ## Locked design decisions
 
@@ -1498,6 +1499,58 @@ tables, i18n key namespaces, files created)
   WEAPON_TYPE_BY_ITEM; persisted enchant ids have no shipped_enchant_ids
   golden (flagged as a possible follow-up, the shipped_item_ids
   precedent).
+- Phase 13 QA (2026-07-21, QA diff 682df1b7b..90e502786, fix branch
+  fix/professions-2-phase-13-qa): PASS, zero blocking; all 13 acceptance
+  criteria verified against the real code and every validation row green.
+  REAL FIX (found by the QA capacity probe, landed test-first):
+  fitsAfterSwap modeled the giver's PRE-STAMP payload while grantOffer
+  stamps boundTo on arrival, wrong in both directions: a full receiver
+  holding a byte-equal armed slot was granted OVER capacity (17/16
+  slots), and a receiver whose byte-equal slot was already stamped to
+  them was denied a trade that genuinely fits. The model now stamps armed
+  arrivals (no rng; parity goldens untouched). REAL FIX (live keyboard
+  probe of the destroy confirm): with OK focused, Enter fired the
+  chat-open edge action (focus left the aria-modal dialog, nothing
+  activated) and Space died to the jump preventDefault, so a keyboard
+  user could cancel but never confirm; bindDialogKeyActivation
+  (src/ui/dialog_key_activation.ts) repairs the whole confirm family
+  dialog-scoped (Escape, Tab trap, and movement keys unchanged).
+  MAINTAINER-DIRECTED amendment: the Apply Enchant picker takes a
+  painter-managed ctx-menu-picker modifier (wider; max-height
+  min(60vh, 560px) desktop, 60 percent of app-vh on touch; scrolling
+  with overscroll containment; capped placement reserve). Every plain
+  paint site clears the modifier (seven sites incl. the chat channel
+  picker: keyboard-activated openers fire click with no pointerdown, so
+  clearing only at the close path was insufficient); pinned by
+  tests/ctx_menu_picker_sizing.test.ts; both picker shots re-captured
+  and the mobile picker shot added. Durable suites promoted from the QA
+  probes: professions_p13_qa_arc (offline plus live-GameServer end to
+  end), professions_p13_qa_coverage (jewelry zero-draw resolve arm,
+  trade partial clamp plus deny-once, mirror negative arms, salvage
+  unknown_item, both capacity-model directions),
+  professions_p13_races (11 interleaved destroy-vs-trade/inv_move
+  scenarios, conservation pinned in each),
+  professions_p13_result_mirror (event arm alone via the real onMessage
+  path, identical-consecutive-deny delta suppression, ordering both
+  ways, reconnect full snapshot, throttled enchant attribution), and
+  professions_p13_bound_surfaces (mail/market/vendor/bank vs armed and
+  stamped resonant copies; refusal today is EMERGENT from the #1165
+  fungible-only escrow, so the #1146 instanced-listing work must
+  re-enforce the boundTo lock explicitly, these pins are the wall).
+  Doctrine notes: consumers of repeat-deny feedback ride the drainEvents
+  arm, never lastX equality (the self-delta JSON-diff suppresses an
+  identical stash); the result-mirror handlers carry no ev.pid guard
+  (the inherited applyCraftResultEvent pattern; spectate bleed is
+  possible and unprobed, add the guard family-wide if ever confirmed
+  undesirable). Deferred as maintainer calls: salvage grants no
+  craft-skill gain (reads as by design under criterion 11's inherited
+  clause; confirm); an enchant of an offered copy mid-trade does not
+  reset the accept flags (coherent, conservation holds; stricter
+  semantics would re-run the handshake when an offered item's instance
+  composition changes); the disenchant menu row shows on all-enchanted
+  holdings and ends in a safe localized deny (UX polish candidate);
+  mail and market deny copy for bound-only holdings stays the generic
+  notEnoughItems (defer to #1146).
 - Phase 14b: (planned) the commission marker, bind-on-first-trade
   enforcement, the master unbind service; the three maintainer decisions
   are RESOLVED in OPEN items (character binding, equipment-only opt-in
