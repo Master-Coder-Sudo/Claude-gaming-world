@@ -1340,9 +1340,7 @@ export const TARGETS = [
       const open = await pollForSize(page, '#quest-dialog');
       if (!open) throw new Error('quest dialog did not open');
       await page.evaluate(() => {
-        document
-          .querySelector('#quest-dialog [data-quest="q_prof_attune_smith"]')
-          ?.click();
+        document.querySelector('#quest-dialog [data-quest="q_prof_attune_smith"]')?.click();
       });
       await wait(400);
       // The detail must carry the pinned-pair preview with the return-cost
