@@ -1183,6 +1183,10 @@ export const ja_JP: EnTranslations = {
         "fiestaWin": "フィエスタ勝利"
       }
     },
+    "charSheet": {
+      "offense": "攻撃",
+      "defense": "防御"
+    },
     "statInfo": {
       "fromYour": "あなたの{stat}{value}による効果:",
       "names": {
@@ -2563,9 +2567,6 @@ export const ja_JP: EnTranslations = {
     },
     "wallet": {
       "handoff_invalid": "ウォレット認証の有効期限が切れたか、確認できませんでした。もう一度お試しください。"
-    },
-    "welcome": {
-      "invalid_input": "入力が無効です。"
     }
   },
   "guide": {
@@ -4139,6 +4140,7 @@ export const ja_JP: EnTranslations = {
   "stats": {
     "title": "ワールドステータス",
     "accountsCreated": "プレイヤー",
+    "charactersCreated": "作成済みキャラクター",
     "playersOnline": "オンラインプレイヤー数",
     "realmName": "ワールド名"
   },
@@ -4172,7 +4174,9 @@ export const ja_JP: EnTranslations = {
     "error": "更新情報を読み込めませんでした。しばらくしてからお試しください。",
     "empty": "まだ更新はありません。またのぞいてみてください。",
     "prerelease": "プレリリース",
-    "viewOnGithub": "GitHubで見る"
+    "viewOnGithub": "GitHubで見る",
+    "new": "新着",
+    "viewAll": "GitHubですべての更新を見る"
   },
   "download": {
     "title": "デスクトップランチャーのダウンロード",
@@ -5338,29 +5342,6 @@ export const ja_JP: EnTranslations = {
     "heading": "ワールドは一時的に利用できません。",
     "body": "ゲームサービスを再起動しています。Claudemoonはまもなく戻る予定です。このページは自動的に確認を続けます。",
     "status": "まもなく復帰"
-  },
-  "welcome": {
-    "back": "おかえりなさい、{name}さん",
-    "level": "レベル {level}",
-    "lastPlayed": "最終プレイ：{when}",
-    "continue": "ワールドに入る",
-    "continueHint": "Enterで続行、Escでスキップ",
-    "continueHintTouch": "タップして続行",
-    "discord": {
-      "title": "コミュニティはDiscordで活動しています",
-      "sub": "パッチプレビュー、イベント、開発者チャット、連携でボーナス銀行スロット2枠。",
-      "join": "Discordに参加する"
-    },
-    "chest": {
-      "ready": "デイリーチェストの準備ができました"
-    },
-    "armory": {
-      "cta": "武器庫を見に行く"
-    },
-    "news": {
-      "new": "新着",
-      "viewAll": "GitHubですべての更新を見る"
-    }
   },
   "hud": {
     "core": {
@@ -8501,6 +8482,129 @@ export const ja_JP: EnTranslations = {
       },
       "elixir_of_the_serpent": {
         "name": "蛇のエリクサー"
+      },
+      "mosshide_vest": {
+        "name": "苔皮のベスト"
+      },
+      "thornling_grips": {
+        "name": "茨精の篭手"
+      },
+      "acolyte_chain_grips": {
+        "name": "侍祭の鎖篭手"
+      },
+      "votive_chain_belt": {
+        "name": "誓願の鎖ベルト"
+      },
+      "briarroot_staff": {
+        "name": "茨根の杖"
+      },
+      "valefire_lantern": {
+        "name": "谷火のランタン"
+      },
+      "fenbark_leggings": {
+        "name": "沼皮の脚当て"
+      },
+      "mirebloom_treads": {
+        "name": "泥花の靴"
+      },
+      "fenwarden_sabatons": {
+        "name": "沼の番人の鉄靴"
+      },
+      "marshlight_hauberk": {
+        "name": "沼灯りの鎖帷子"
+      },
+      "duskthorn_mantle": {
+        "name": "暮棘のマント"
+      },
+      "fenshadow_maul": {
+        "name": "沼影の大槌"
+      },
+      "wildgrove_cinch": {
+        "name": "野林の締め帯"
+      },
+      "cragward_pauldrons": {
+        "name": "岩守りの肩甲"
+      },
+      "cragthorn_greatstaff": {
+        "name": "岩棘の大杖"
+      },
+      "moonbark_vestments": {
+        "name": "月皮の祭服"
+      },
+      "peaksong_helm": {
+        "name": "峰歌の兜"
+      },
+      "stormchant_gauntlets": {
+        "name": "嵐詠いの篭手"
+      },
+      "cragprowl_belt": {
+        "name": "岩歩きのベルト"
+      },
+      "stormroot_cowl": {
+        "name": "嵐根の頭巾"
+      },
+      "thunderward_legguards": {
+        "name": "雷守りの脚甲"
+      },
+      "revenantstep_treads": {
+        "name": "亡魂歩きの靴"
+      },
+      "shardfang_grips": {
+        "name": "欠片牙の篭手"
+      },
+      "shardsong_mantle": {
+        "name": "欠片歌のマント"
+      },
+      "wyrmcult_spellgrips": {
+        "name": "竜教団の呪文篭手"
+      },
+      "thornpeak_wildwraps": {
+        "name": "ソーンピークの野生手甲"
+      },
+      "stormvotive_hauberk": {
+        "name": "嵐誓願の鎖帷子"
+      },
+      "cryptbloom_shoulderguards": {
+        "name": "墓花の肩当て"
+      },
+      "gravewyrm_thornmaul": {
+        "name": "墓竜の棘槌"
+      },
+      "vestments_of_the_waking_grove": {
+        "name": "目覚める林の祭服"
+      },
+      "nightfangs_greatstaff": {
+        "name": "夜牙の大杖"
+      },
+      "maul_of_the_scourged_wilds": {
+        "name": "災いの荒野の大槌"
+      },
+      "tidehymn_slippers": {
+        "name": "潮詩の靴"
+      },
+      "pearlward_aegis": {
+        "name": "真珠守りの聖盾"
+      },
+      "wildgrowth_leggings": {
+        "name": "野生の成長のレギンス"
+      },
+      "grovewardens_grips": {
+        "name": "木立の番人の篭手"
+      },
+      "verdant_walkers": {
+        "name": "新緑の歩靴"
+      },
+      "lunarward_cinch": {
+        "name": "月守りの締め帯"
+      },
+      "dreamroot_boots": {
+        "name": "夢根の長靴"
+      },
+      "stormbark_mantle": {
+        "name": "嵐樹皮のマントル"
+      },
+      "wildsoul_maul": {
+        "name": "野生魂の大槌"
       },
       "conjured_water4": {
         "name": "魔法の湧き水"

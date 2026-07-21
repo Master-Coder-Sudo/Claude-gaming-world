@@ -1183,6 +1183,10 @@ export const en_CA: EnTranslations = {
         "fiestaWin": "Fiesta victory"
       }
     },
+    "charSheet": {
+      "offense": "Offense",
+      "defense": "Defense"
+    },
     "statInfo": {
       "fromYour": "From your {value} {stat}:",
       "names": {
@@ -2563,9 +2567,6 @@ export const en_CA: EnTranslations = {
     },
     "wallet": {
       "handoff_invalid": "That wallet authorization expired or could not be verified. Try again."
-    },
-    "welcome": {
-      "invalid_input": "Invalid input."
     }
   },
   "guide": {
@@ -4139,6 +4140,7 @@ export const en_CA: EnTranslations = {
   "stats": {
     "title": "World Status",
     "accountsCreated": "Players",
+    "charactersCreated": "Characters Created",
     "playersOnline": "Players Online",
     "realmName": "World Name"
   },
@@ -4172,7 +4174,9 @@ export const en_CA: EnTranslations = {
     "error": "Couldn't load updates. Please try again later.",
     "empty": "No updates yet — check back soon.",
     "prerelease": "Pre-release",
-    "viewOnGithub": "View on GitHub"
+    "viewOnGithub": "View on GitHub",
+    "new": "New",
+    "viewAll": "View all updates on GitHub"
   },
   "download": {
     "title": "Download Desktop Launcher",
@@ -5338,29 +5342,6 @@ export const en_CA: EnTranslations = {
     "heading": "The world is temporarily unavailable.",
     "body": "We are restarting the game service and expect Claudemoon to return shortly. This page will keep checking automatically.",
     "status": "Back soon"
-  },
-  "welcome": {
-    "back": "Welcome back, {name}",
-    "level": "Level {level}",
-    "lastPlayed": "Last played {when}",
-    "continue": "Enter World",
-    "continueHint": "Enter to continue, Esc to skip",
-    "continueHintTouch": "Tap to continue",
-    "discord": {
-      "title": "The community lives on Discord",
-      "sub": "Patch previews, events, dev chat, and 2 bonus bank slots for linking.",
-      "join": "Join our Discord"
-    },
-    "chest": {
-      "ready": "Daily chest ready"
-    },
-    "armory": {
-      "cta": "Enter and browse the Armory"
-    },
-    "news": {
-      "new": "New",
-      "viewAll": "View all updates on GitHub"
-    }
   },
   "hud": {
     "core": {
@@ -8501,6 +8482,129 @@ export const en_CA: EnTranslations = {
       },
       "elixir_of_the_serpent": {
         "name": "Elixir of the Serpent"
+      },
+      "mosshide_vest": {
+        "name": "Mosshide Vest"
+      },
+      "thornling_grips": {
+        "name": "Thornling Grips"
+      },
+      "acolyte_chain_grips": {
+        "name": "Acolyte Chain Grips"
+      },
+      "votive_chain_belt": {
+        "name": "Votive Chain Belt"
+      },
+      "briarroot_staff": {
+        "name": "Briarroot Staff"
+      },
+      "valefire_lantern": {
+        "name": "Valefire Lantern"
+      },
+      "fenbark_leggings": {
+        "name": "Fenbark Leggings"
+      },
+      "mirebloom_treads": {
+        "name": "Mirebloom Treads"
+      },
+      "fenwarden_sabatons": {
+        "name": "Fenwarden Sabatons"
+      },
+      "marshlight_hauberk": {
+        "name": "Marshlight Hauberk"
+      },
+      "duskthorn_mantle": {
+        "name": "Duskthorn Mantle"
+      },
+      "fenshadow_maul": {
+        "name": "Fenshadow Maul"
+      },
+      "wildgrove_cinch": {
+        "name": "Wildgrove Cinch"
+      },
+      "cragward_pauldrons": {
+        "name": "Cragward Pauldrons"
+      },
+      "cragthorn_greatstaff": {
+        "name": "Cragthorn Greatstaff"
+      },
+      "moonbark_vestments": {
+        "name": "Moonbark Vestments"
+      },
+      "peaksong_helm": {
+        "name": "Peaksong Helm"
+      },
+      "stormchant_gauntlets": {
+        "name": "Stormchant Gauntlets"
+      },
+      "cragprowl_belt": {
+        "name": "Cragprowl Belt"
+      },
+      "stormroot_cowl": {
+        "name": "Stormroot Cowl"
+      },
+      "thunderward_legguards": {
+        "name": "Thunderward Legguards"
+      },
+      "revenantstep_treads": {
+        "name": "Revenantstep Treads"
+      },
+      "shardfang_grips": {
+        "name": "Shardfang Grips"
+      },
+      "shardsong_mantle": {
+        "name": "Shardsong Mantle"
+      },
+      "wyrmcult_spellgrips": {
+        "name": "Wyrmcult Spellgrips"
+      },
+      "thornpeak_wildwraps": {
+        "name": "Thornpeak Wildwraps"
+      },
+      "stormvotive_hauberk": {
+        "name": "Stormvotive Hauberk"
+      },
+      "cryptbloom_shoulderguards": {
+        "name": "Cryptbloom Shoulderguards"
+      },
+      "gravewyrm_thornmaul": {
+        "name": "Gravewyrm Thornmaul"
+      },
+      "vestments_of_the_waking_grove": {
+        "name": "Vestments of the Waking Grove"
+      },
+      "nightfangs_greatstaff": {
+        "name": "Nightfang's Greatstaff"
+      },
+      "maul_of_the_scourged_wilds": {
+        "name": "Maul of the Scourged Wilds"
+      },
+      "tidehymn_slippers": {
+        "name": "Tidehymn Slippers"
+      },
+      "pearlward_aegis": {
+        "name": "Pearlward Aegis"
+      },
+      "wildgrowth_leggings": {
+        "name": "Wildgrowth Leggings"
+      },
+      "grovewardens_grips": {
+        "name": "Grovewarden's Grips"
+      },
+      "verdant_walkers": {
+        "name": "Verdant Walkers"
+      },
+      "lunarward_cinch": {
+        "name": "Lunarward Cinch"
+      },
+      "dreamroot_boots": {
+        "name": "Dreamroot Boots"
+      },
+      "stormbark_mantle": {
+        "name": "Stormbark Mantle"
+      },
+      "wildsoul_maul": {
+        "name": "Wildsoul Maul"
       },
       "conjured_water4": {
         "name": "Conjured Springwater"
