@@ -35,7 +35,7 @@ export function polarY(cy: number, r: number, deg: number): number {
   return cy + r * Math.sin((deg * Math.PI) / 180);
 }
 
-export function n(v: number): string {
+function n(v: number): string {
   return Number(v.toFixed(2)).toString();
 }
 

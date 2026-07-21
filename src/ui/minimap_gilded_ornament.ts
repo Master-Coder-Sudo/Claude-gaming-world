@@ -36,10 +36,11 @@ const SPECKLE_COUNT = 70;
 // outer band ever shows, everything inside it is covered by the opaque
 // canvas. Measured against the real rendered box (82px canvas radius + 6px
 // inset = 88px box radius), the canvas covers the inner 82/88 = 93.2% of
-// this element's own radius, so the visible band is the outer ~7%; a small
-// margin below that keeps every speckle inside the part that actually shows.
-const SPECKLE_R_MIN = 91;
-const SPECKLE_R_MAX = 100;
+// this element's own radius, so the visible band is the outer ~7%; the
+// margin has to sit ABOVE 93.2, not below, or the speckle lands under the
+// opaque canvas and never renders at all.
+export const SPECKLE_R_MIN = 94;
+export const SPECKLE_R_MAX = 100;
 const GOLD_STEPS = [300, 400, 500, 600, 700, 800, 900];
 
 function resolveGoldTones(root: HTMLElement): string[] {

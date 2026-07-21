@@ -2705,8 +2705,7 @@
   }
   #minimap {
     border-radius: 50%;
-    border: 1px solid #000;
-    outline: 1px solid #000;
+    border: 4px solid var(--border);
     box-shadow:
       0 0 14px #000c,
       inset 0 0 20px #0008;

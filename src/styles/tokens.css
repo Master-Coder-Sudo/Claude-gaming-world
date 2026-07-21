@@ -227,8 +227,9 @@
 
     /* DESIGN.md section 4.3's gold ramp (adopted 2026-07-15), the exact classic-
        preset hex values. Purely additive: no existing --gold/--border consumer is
-       retuned. Only the #options-menu.perf-wide gilded ornament (below, and
-       src/ui/perf_ornament_svg.ts) reads these today; a future repo-wide DESIGN.md
+       retuned. Two readers today: the #options-menu.perf-wide gilded ornament
+       (below, and src/ui/perf_ornament_svg.ts) and the minimap disc's gilded
+       ring (src/ui/minimap_gilded_ornament.ts); a future repo-wide DESIGN.md
        Phase 1 token pass can reuse these names verbatim. */
     --color-gold-900: #4a2f10;
     --color-gold-800: #6b4517;
