@@ -10898,9 +10898,9 @@ export const zh_TW: EnTranslations = {
         "body": "工匠：\n\n你鑽研護甲鍛造與工程學的名聲已傳到公會：鉚好甲片，校準齒輪，兩門技藝相輔相成。能同時打磨相鄰兩門技藝的手，正是準備好調諧的手。請到東溪鎮拜訪哈德倫鐵匠：眼下由他代諸位大師發言。用親手做出的成果向他證明你的技藝，他便會把這兩門技藝調諧為你的主修。\n\n謹此，\n工匠公會"
       },
       "mastery_reset_notice": {
-        "sender": "The Guildhall",
-        "subject": "Your craft, made honest",
-        "body": "Guildmate,\n\nThe guild has adopted a new reckoning of mastery. Every hand starts the climb again: your craft skills and your gathering proficiencies have been set to zero.\n\nEverything else is yours, untouched: your recipes, your tools and materials, your bank and gold, your attunements and titles, your deeds and renown, your quests and mail.\n\nThe climb is honest now. Cheap work will not carry you. Seek harder recipes, richer veins, and deeper waters.\n\nWith respect,\nThe Guildhall"
+        "sender": "公會會館",
+        "subject": "你的手藝，從此作數",
+        "body": "公會同仁：\n\n公會已啟用全新的技藝衡量之法。人人從頭攀登：你的製作技能與採集熟練度已歸零。\n\n其餘一切分毫未動，仍歸你所有：你的配方、工具與材料、銀行與金幣、調諧與頭銜、功績與名望、任務與郵件。\n\n如今的攀登童叟無欺。廉價的活計再也帶不動你。去尋求更難的配方、更富的礦脈、更深的水域吧。\n\n謹致敬意，\n公會會館"
       }
     },
     "itemSets": {

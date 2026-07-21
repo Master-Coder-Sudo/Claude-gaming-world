@@ -10898,9 +10898,9 @@ export const ja_JP: EnTranslations = {
         "body": "職人へ\n\n防具鍛冶と工作に励むあなたの評判がギルドに届いています。板金を鋲で留め、歯車を調え、二つの技が互いを高め合っていると。隣り合う技を共に磨く手は、調律の備えができた証です。イーストブルックの鍛冶師ハルドレンを訪ねてください。今は彼が親方たちの代弁を務めています。自らの手がけた仕事で腕前を示せば、彼がその二つの技をあなたの主専攻として調律してくれるでしょう。\n\n敬意を込めて、\n製作ギルド"
       },
       "mastery_reset_notice": {
-        "sender": "The Guildhall",
-        "subject": "Your craft, made honest",
-        "body": "Guildmate,\n\nThe guild has adopted a new reckoning of mastery. Every hand starts the climb again: your craft skills and your gathering proficiencies have been set to zero.\n\nEverything else is yours, untouched: your recipes, your tools and materials, your bank and gold, your attunements and titles, your deeds and renown, your quests and mail.\n\nThe climb is honest now. Cheap work will not carry you. Seek harder recipes, richer veins, and deeper waters.\n\nWith respect,\nThe Guildhall"
+        "sender": "ギルド会館",
+        "subject": "腕前に、偽りなし",
+        "body": "ギルドの同志へ\n\nギルドは熟練の新しい尺度を定めました。誰もが登り直しです。あなたの製作スキルと採集熟練度はゼロに戻されました。\n\nそれ以外はすべて、手つかずのままあなたのものです。レシピ、道具と素材、銀行と所持金、調律と称号、功績と名声、クエストと郵便。\n\nこれからの登りにごまかしは利きません。安い仕事では上へは行けません。より難しいレシピを、より豊かな鉱脈を、より深い水を求めてください。\n\n敬意を込めて、\nギルド会館"
       }
     },
     "itemSets": {

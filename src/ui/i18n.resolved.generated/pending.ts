@@ -154,26 +154,10 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.professions.nextUnlockMastered"
   ],
-  "zh_CN": [
-    "entities.letters.mastery_reset_notice.body",
-    "entities.letters.mastery_reset_notice.sender",
-    "entities.letters.mastery_reset_notice.subject"
-  ],
-  "zh_TW": [
-    "entities.letters.mastery_reset_notice.body",
-    "entities.letters.mastery_reset_notice.sender",
-    "entities.letters.mastery_reset_notice.subject"
-  ],
-  "ko_KR": [
-    "entities.letters.mastery_reset_notice.body",
-    "entities.letters.mastery_reset_notice.sender",
-    "entities.letters.mastery_reset_notice.subject"
-  ],
-  "ja_JP": [
-    "entities.letters.mastery_reset_notice.body",
-    "entities.letters.mastery_reset_notice.sender",
-    "entities.letters.mastery_reset_notice.subject"
-  ],
+  "zh_CN": [],
+  "zh_TW": [],
+  "ko_KR": [],
+  "ja_JP": [],
   "pt_BR": [
     "abilityUi.cast.gathering",
     "entities.letters.mastery_reset_notice.body",
@@ -198,11 +182,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmetCorpse",
     "hudChrome.professions.nextUnlockMastered"
   ],
-  "ru_RU": [
-    "entities.letters.mastery_reset_notice.body",
-    "entities.letters.mastery_reset_notice.sender",
-    "entities.letters.mastery_reset_notice.subject"
-  ],
+  "ru_RU": [],
   "cs_CZ": [
     "abilityUi.cast.gathering",
     "entities.letters.mastery_reset_notice.body",

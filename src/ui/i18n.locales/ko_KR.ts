@@ -7130,6 +7130,10 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
     '방어구 제작과 기계공학 솜씨에 관하여',
   'entities.letters.guild_trend_armorcrafting_engineering.body':
     '장인에게,\n\n방어구 제작과 기계공학에 힘쓰는 그대의 소문이 길드에 닿았습니다. 판금에 못을 박고 톱니를 맞추며 두 기술이 서로를 키워 주고 있다지요. 이웃한 두 기술을 함께 갈고닦는 손은 조율할 준비가 되었다는 증표입니다. 이스트브룩의 대장장이 할드렌을 찾아가십시오. 지금은 그가 장인들을 대신해 말합니다. 자신의 손으로 해낸 결과물로 솜씨를 증명하면, 그가 그 두 기술을 그대의 주 전공으로 조율해 줄 것입니다.\n\n경의를 담아,\n제작 길드',
+  'entities.letters.mastery_reset_notice.sender': '길드 회관',
+  'entities.letters.mastery_reset_notice.subject': '정직해진 장인의 길',
+  'entities.letters.mastery_reset_notice.body':
+    '길드 동료에게,\n\n길드가 숙련을 새로이 헤아리기로 했습니다. 모두가 처음부터 다시 오릅니다. 그대의 제작 기술과 채집 숙련도는 0으로 되돌아갔습니다.\n\n그 밖의 모든 것은 손대지 않은 채 그대의 것입니다. 제조법, 도구와 재료, 은행과 골드, 조율과 칭호, 업적과 명성, 퀘스트와 우편까지.\n\n이제 오르는 길에 눈속임은 없습니다. 값싼 일은 그대를 올려 주지 못합니다. 더 어려운 제조법, 더 풍부한 광맥, 더 깊은 물을 찾으십시오.\n\n경의를 담아,\n길드 회관',
   'hudChrome.calendar.title': '이벤트 달력',
   'hudChrome.calendar.close': '달력 닫기',
   'hudChrome.calendar.keybindLabel': '이벤트 달력',
