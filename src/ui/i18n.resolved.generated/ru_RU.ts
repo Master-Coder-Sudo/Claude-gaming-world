@@ -4134,6 +4134,7 @@ export const ru_RU: EnTranslations = {
   "stats": {
     "title": "Статус игрового мира",
     "accountsCreated": "Игроки",
+    "charactersCreated": "Персонажей создано",
     "playersOnline": "Игроков в сети",
     "realmName": "Название игрового мира"
   },

@@ -4134,6 +4134,7 @@ export const sv_SE: EnTranslations = {
   "stats": {
     "title": "Världsstatus",
     "accountsCreated": "Spelare",
+    "charactersCreated": "Characters Created",
     "playersOnline": "Spelare online",
     "realmName": "Världens namn"
   },

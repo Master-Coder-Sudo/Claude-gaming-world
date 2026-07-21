@@ -67,6 +67,7 @@ import { mouselookReleaseFacing } from './game/mouselook_release';
 import { diagonalMovementVisualFacing } from './game/movement_visual';
 import { music } from './game/music';
 import { tryNearbyInteraction } from './game/nearby_interaction';
+import { isOfflineModeAvailable } from './game/offline_mode_gate';
 import { createPerfMonitor } from './game/perf';
 import { startPerfReporter } from './game/perf_reporter';
 import { adaptiveSelfAlphaLead } from './game/self_alpha_lead';
@@ -5389,18 +5390,22 @@ async function changeLanguage(
 async function loadProjectStats(): Promise<void> {
   // Realm status now lives in the realm dropdown, both in the trigger sub-line
   // and inside the Online option, so update every instance by class.
-  const accountEls = document.querySelectorAll<HTMLElement>('.js-stat-accounts');
-  if (!accountEls.length) return;
+  const characterEls = document.querySelectorAll<HTMLElement>('.js-stat-characters');
+  if (!characterEls.length) return;
   const setAll = (els: NodeListOf<HTMLElement>, text: string): void => {
     els.forEach((el) => {
       el.textContent = text;
     });
   };
 
-  // 1. Try to read from localStorage first
+  // 1. Try to read from localStorage first. characters_created is optional:
+  // an entry written before the accounts-to-characters stat swap lacks it, and
+  // the freshness check below treats such an entry as a miss so we re-fetch
+  // rather than render "undefined".
   let cached: {
     realm: string;
     accounts_created: number;
+    characters_created?: number;
     players_online: number;
     timestamp: number;
   } | null = null;
@@ -5413,9 +5418,14 @@ async function loadProjectStats(): Promise<void> {
     }
   }
 
-  // If cache exists and is fresh (within TTL), use it and skip API request
-  if (cached && Date.now() - cached.timestamp < STATS_CACHE_TTL_MS) {
-    setAll(accountEls, String(cached.accounts_created));
+  // If cache exists, is fresh (within TTL), and carries the character count,
+  // use it and skip the API request
+  if (
+    cached &&
+    cached.characters_created != null &&
+    Date.now() - cached.timestamp < STATS_CACHE_TTL_MS
+  ) {
+    setAll(characterEls, String(cached.characters_created));
     return;
   }
 
@@ -5423,7 +5433,7 @@ async function loadProjectStats(): Promise<void> {
   try {
     const data = await api.projectStats();
 
-    setAll(accountEls, String(data.accounts_created));
+    setAll(characterEls, data.characters_created != null ? String(data.characters_created) : '-');
 
     // Save to cache with timestamp
     if (typeof localStorage !== 'undefined') {
@@ -5439,9 +5449,9 @@ async function loadProjectStats(): Promise<void> {
     console.error('Failed to fetch project stats:', err);
     // If API fails, fall back to cached data (even if expired)
     if (cached) {
-      setAll(accountEls, String(cached.accounts_created));
+      setAll(characterEls, String(cached.characters_created ?? '-'));
     } else {
-      setAll(accountEls, '–');
+      setAll(characterEls, '-');
     }
   }
 }
@@ -7337,6 +7347,10 @@ function wireStartScreens(): void {
   const btnStartOffline = $('#btn-start-offline') as HTMLButtonElement;
   const offlineNameInput = $('#char-name') as HTMLInputElement;
   const offlineError = $('#offline-error');
+  // Offline mode runs an unauthenticated local Sim with no server authority:
+  // a dev/local-testing convenience only. Disabled in production builds,
+  // unchanged (enabled) under `npm run dev`.
+  const offlineAvailable = isOfflineModeAvailable(import.meta.env.DEV);
 
   const goToLoggedInPlay = () => {
     void enterRealmFlow().catch((err) => {
@@ -7421,6 +7435,10 @@ function wireStartScreens(): void {
   };
 
   const handleOfflineSelect = () => {
+    // Defensive: inert no-op in production even if some caller reaches this
+    // (e.g. a stale E2E script driving the hidden #btn-offline trigger),
+    // since the dropdown option and trigger are also not wired below.
+    if (!offlineAvailable) return;
     show('#offline-select');
 
     // Select warrior by default and render details
@@ -7448,11 +7466,15 @@ function wireStartScreens(): void {
   // play.html is online-only: it ships no #btn-offline compat trigger, no
   // #offline-select panel, and no realm dropdown, so every offline / dropdown
   // hook below resolves defensively and skips wiring when the markup is absent.
+  // In production builds (offlineAvailable false) the trigger is left unwired
+  // too, so no caller (including a stale E2E script) can reach it.
   if (offlineBtn) {
-    offlineBtn.addEventListener('click', handleOfflineSelect);
-    offlineBtn.addEventListener('keydown', (e) =>
-      handleKeyboardActivation(e as KeyboardEvent, handleOfflineSelect),
-    );
+    if (offlineAvailable) {
+      offlineBtn.addEventListener('click', handleOfflineSelect);
+      offlineBtn.addEventListener('keydown', (e) =>
+        handleKeyboardActivation(e as KeyboardEvent, handleOfflineSelect),
+      );
+    }
   }
 
   // --- Play console: realm dropdown + single Play CTA -----------------------
@@ -7470,8 +7492,13 @@ function wireStartScreens(): void {
 
   if (serverSelect && serverTrigger && serverMenu && btnPlay) {
     type ServerMode = 'online' | 'offline';
+    // Production builds hide the Offline dropdown option outright, so it can
+    // neither be selected by mouse/keyboard nor land in serverOptions below.
+    if (!offlineAvailable) {
+      $('#server-opt-offline')?.setAttribute('hidden', '');
+    }
     const serverOptions = Array.from(
-      serverMenu.querySelectorAll<HTMLElement>('.server-select-option'),
+      serverMenu.querySelectorAll<HTMLElement>('.server-select-option:not([hidden])'),
     );
     const VALUE_KEY: Record<ServerMode, TranslationKey> = {
       online: 'mode.serverOnline',

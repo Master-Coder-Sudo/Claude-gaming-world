@@ -84,7 +84,8 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "stats.charactersCreated"
   ],
   "es_ES": [
     "abilityUi.cast.gathering",
@@ -161,7 +162,8 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "stats.charactersCreated"
   ],
   "fr_FR": [
     "abilityUi.cast.gathering",
@@ -238,7 +240,8 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "stats.charactersCreated"
   ],
   "fr_CA": [
     "abilityUi.cast.gathering",
@@ -315,7 +318,8 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "stats.charactersCreated"
   ],
   "en_CA": [],
   "it_IT": [
@@ -393,7 +397,8 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "stats.charactersCreated"
   ],
   "de_DE": [
     "abilityUi.cast.gathering",
@@ -470,7 +475,8 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "stats.charactersCreated"
   ],
   "zh_CN": [
     "hud.social.status.afk",
@@ -563,7 +569,8 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "stats.charactersCreated"
   ],
   "ru_RU": [
     "hud.social.status.afk",
@@ -644,7 +651,8 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "stats.charactersCreated"
   ],
   "nl_NL": [
     "abilityUi.cast.gathering",
@@ -721,7 +729,8 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "stats.charactersCreated"
   ],
   "pl_PL": [
     "abilityUi.cast.gathering",
@@ -798,7 +807,8 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "stats.charactersCreated"
   ],
   "id_ID": [
     "abilityUi.cast.gathering",
@@ -875,7 +885,8 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "stats.charactersCreated"
   ],
   "tr_TR": [
     "abilityUi.cast.gathering",
@@ -952,7 +963,8 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "stats.charactersCreated"
   ],
   "sv_SE": [
     "abilityUi.cast.gathering",
@@ -1029,7 +1041,8 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "stats.charactersCreated"
   ],
   "vi_VN": [
     "abilityUi.cast.gathering",
@@ -1106,7 +1119,8 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "stats.charactersCreated"
   ],
   "da_DK": [
     "abilityUi.cast.gathering",
@@ -1183,6 +1197,7 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "stats.charactersCreated"
   ]
 };

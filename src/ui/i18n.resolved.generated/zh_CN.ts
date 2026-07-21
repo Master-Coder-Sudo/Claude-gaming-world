@@ -4134,6 +4134,7 @@ export const zh_CN: EnTranslations = {
   "stats": {
     "title": "服务器状态",
     "accountsCreated": "玩家",
+    "charactersCreated": "已创建角色",
     "playersOnline": "在线玩家数",
     "realmName": "服务器名称"
   },

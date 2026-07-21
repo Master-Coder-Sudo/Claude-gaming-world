@@ -4134,6 +4134,7 @@ export const cs_CZ: EnTranslations = {
   "stats": {
     "title": "Stav světa",
     "accountsCreated": "Hráči",
+    "charactersCreated": "Characters Created",
     "playersOnline": "Hráči online",
     "realmName": "Název světa"
   },

@@ -4134,6 +4134,7 @@ export const tr_TR: EnTranslations = {
   "stats": {
     "title": "Dünya Durumu",
     "accountsCreated": "Oyuncular",
+    "charactersCreated": "Characters Created",
     "playersOnline": "Çevrimiçi Oyuncular",
     "realmName": "Dünya Adı"
   },

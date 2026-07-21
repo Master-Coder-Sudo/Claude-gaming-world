@@ -4134,6 +4134,7 @@ export const ja_JP: EnTranslations = {
   "stats": {
     "title": "ワールドステータス",
     "accountsCreated": "プレイヤー",
+    "charactersCreated": "作成済みキャラクター",
     "playersOnline": "オンラインプレイヤー数",
     "realmName": "ワールド名"
   },
