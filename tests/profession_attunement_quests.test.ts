@@ -1,31 +1,37 @@
 import { describe, expect, it } from 'vitest';
 import { ZONE1_QUESTS } from '../src/sim/content/zone1';
 import { GATHER_NODES } from '../src/sim/data';
-import { ARCHETYPE_PAIR_TARGETS, normalizeArchetypeState } from '../src/sim/professions/archetype';
+import { normalizeArchetypeState } from '../src/sim/professions/archetype';
 import { Sim } from '../src/sim/sim';
 import { terrainHeight } from '../src/sim/world';
 import { COMMAND_NAMES } from '../src/world_api';
 
-const LORE_QUEST = 'q_archetype_acceptance';
-const AMENDS_QUEST = 'q_prof_make_amends';
+// Phase 14 retired the single q_archetype_acceptance / q_prof_make_amends quests
+// in favor of one attune + one make-amends quest per anchor master, each pinning
+// its own canonical pair. These re-pins exercise the same behaviors against the
+// new per-pair quest ids (behavior-equivalent; new Phase 14 coverage lives in the
+// professions_tier_mail / professions_nudges / professions_quest_cadence suites).
 const HOBBY_QUEST = 'q_prof_hobby_switch';
-// Canonical pair ids follow CRAFT_RING order (see archetypePairId), so the
-// armor/weapon pair reads weaponcrafting-first since the Professions 2.0
-// ring reorder.
-const WEAPON_ARMOR = 'weaponcrafting+armorcrafting';
-const JEWEL_WEAPON = 'jewelcrafting+weaponcrafting';
+// Canonical pair ids follow CRAFT_RING order (see archetypePairId); the smith and
+// outfitter pairs are two of the four wave-one anchor masters.
+const WEAPON_ARMOR = 'weaponcrafting+armorcrafting'; // Smith (Forgemistress Darva)
+const LEATHER_TAILOR = 'leatherworking+tailoring'; // Outfitter (Weaver Ottilie)
+const SMITH_MASTER = 'forgemistress_darva';
+const OUTFITTER_MASTER = 'weaver_ottilie';
+// The hobby-switch quest is given by Smith Haldren, not an anchor master.
+const HOBBY_MASTER = 'smith_haldren';
 
 function makeSim(seed = 9042): Sim {
   return new Sim({ seed, playerClass: 'warrior', autoEquip: true });
 }
 
-function moveToSmith(sim: Sim, pid = sim.playerId): void {
-  const smith = [...sim.entities.values()].find((e) => e.templateId === 'smith_haldren');
-  if (!smith) throw new Error('smith_haldren missing');
+function moveToNpc(sim: Sim, templateId: string, pid = sim.playerId): void {
+  const npc = [...sim.entities.values()].find((e) => e.templateId === templateId);
+  if (!npc) throw new Error(`${templateId} missing`);
   const player = sim.entities.get(pid);
   if (!player) throw new Error('player missing');
-  player.pos.x = smith.pos.x + 1;
-  player.pos.z = smith.pos.z;
+  player.pos.x = npc.pos.x + 1;
+  player.pos.z = npc.pos.z;
 }
 
 function unlockProfessionQuests(sim: Sim, pid = sim.playerId): void {
@@ -34,54 +40,60 @@ function unlockProfessionQuests(sim: Sim, pid = sim.playerId): void {
   meta.questsDone.add('q_prof_intro');
 }
 
-function acceptProfessionQuest(sim: Sim, questId: string, selection: string): void {
-  moveToSmith(sim);
+function acceptAt(sim: Sim, npcTemplate: string, questId: string, selection?: string): void {
+  moveToNpc(sim, npcTemplate);
   sim.acceptQuest(questId, selection);
 }
 
-function completeAndTurnIn(sim: Sim, questId: string): void {
+function completeAndTurnInAt(sim: Sim, npcTemplate: string, questId: string): void {
   const qp = sim.questLog.get(questId);
   if (!qp) throw new Error(`${questId} was not accepted`);
   qp.counts = [...(qp.resolvedCounts ?? [])];
   qp.state = 'ready';
-  moveToSmith(sim);
+  moveToNpc(sim, npcTemplate);
   sim.turnInQuest(questId);
 }
 
-function attuneNewPair(sim: Sim, selection: string): void {
-  acceptProfessionQuest(sim, LORE_QUEST, selection);
-  completeAndTurnIn(sim, LORE_QUEST);
+function attune(sim: Sim, npcTemplate: string, questId: string, pairId: string): void {
+  acceptAt(sim, npcTemplate, questId, pairId);
+  completeAndTurnInAt(sim, npcTemplate, questId);
 }
 
 describe('live profession attunement quests', () => {
-  it('only exposes profession quests that have a legal selection target', () => {
+  it('exposes each master quest per the unattuned / matching / wrong-with-history matrix', () => {
     const sim = makeSim();
     unlockProfessionQuests(sim);
 
-    expect(sim.questState(LORE_QUEST)).toBe('available');
-    expect(sim.questState(AMENDS_QUEST)).toBe('unavailable');
+    // Unattuned: the smith's attune is available, its make-amends is not, and the
+    // hobby switch is not (there is no pair to give a hobby yet).
+    expect(sim.questState('q_prof_attune_smith')).toBe('available');
+    expect(sim.questState('q_prof_amends_smith')).toBe('unavailable');
     expect(sim.questState(HOBBY_QUEST)).toBe('unavailable');
 
-    attuneNewPair(sim, ARCHETYPE_PAIR_TARGETS[0]);
-    expect(sim.questState(AMENDS_QUEST)).toBe('unavailable');
+    attune(sim, SMITH_MASTER, 'q_prof_attune_smith', WEAPON_ARMOR);
+    // Attuned to the matching pair: the one-time smith attune is now done (never
+    // repeatable), its amends is unavailable (it is the current pair), and the
+    // hobby switch is now available.
+    expect(sim.questState('q_prof_attune_smith')).toBe('done');
+    expect(sim.questState('q_prof_amends_smith')).toBe('unavailable');
     expect(sim.questState(HOBBY_QUEST)).toBe('available');
 
-    attuneNewPair(sim, ARCHETYPE_PAIR_TARGETS[1]);
-    expect(sim.questState(AMENDS_QUEST)).toBe('available');
-
-    for (const target of ARCHETYPE_PAIR_TARGETS.slice(2)) attuneNewPair(sim, target);
-    expect(sim.questState(LORE_QUEST)).toBe('unavailable');
+    attune(sim, OUTFITTER_MASTER, 'q_prof_attune_outfitter', LEATHER_TAILOR);
+    // Attuned to a wrong pair with the smith pair in history: the smith's amends
+    // is available (return), its one-time attune stays done (the way back is
+    // make-amends, never the lore quest again).
+    expect(sim.questState('q_prof_amends_smith')).toBe('available');
+    expect(sim.questState('q_prof_attune_smith')).toBe('done');
   });
 
-  it('attunes an adjacent pair only when the persisted lore-quest selection completes', () => {
+  it('attunes a pair only when the persisted per-pair attune selection completes', () => {
     const sim = makeSim();
-    unlockProfessionQuests(sim);
 
-    acceptProfessionQuest(sim, LORE_QUEST, WEAPON_ARMOR);
+    acceptAt(sim, SMITH_MASTER, 'q_prof_attune_smith', WEAPON_ARMOR);
     expect(sim.activeArchetype).toBeNull();
-    expect(sim.questLog.get(LORE_QUEST)?.selection).toBe(WEAPON_ARMOR);
+    expect(sim.questLog.get('q_prof_attune_smith')?.selection).toBe(WEAPON_ARMOR);
 
-    completeAndTurnIn(sim, LORE_QUEST);
+    completeAndTurnInAt(sim, SMITH_MASTER, 'q_prof_attune_smith');
     expect(sim.craftingIdentity).toMatchObject({
       activeArchetype: 'weaponcrafting',
       pairedMajor: 'armorcrafting',
@@ -90,57 +102,77 @@ describe('live profession attunement quests', () => {
     expect(sim.archetypeSwitchCount).toBe(0);
   });
 
-  it('rejects malformed, non-adjacent, and already-attuned lore targets at acceptance', () => {
+  it('rejects a selection other than the quest pinned pair, and a re-attune once seen', () => {
     const sim = makeSim();
-    unlockProfessionQuests(sim);
-    moveToSmith(sim);
+    moveToNpc(sim, SMITH_MASTER);
 
-    sim.acceptQuest(LORE_QUEST, 'not-a-pair');
-    sim.acceptQuest(LORE_QUEST, 'armorcrafting+cooking');
-    expect(sim.questLog.has(LORE_QUEST)).toBe(false);
+    sim.acceptQuest('q_prof_attune_smith', 'not-a-pair');
+    sim.acceptQuest('q_prof_attune_smith', LEATHER_TAILOR); // a real pair, but not the smith's
+    expect(sim.questLog.has('q_prof_attune_smith')).toBe(false);
 
-    attuneNewPair(sim, WEAPON_ARMOR);
-    sim.acceptQuest(LORE_QUEST, WEAPON_ARMOR);
-    expect(sim.questLog.has(LORE_QUEST)).toBe(false);
+    attune(sim, SMITH_MASTER, 'q_prof_attune_smith', WEAPON_ARMOR);
+    moveToNpc(sim, SMITH_MASTER);
+    sim.acceptQuest('q_prof_attune_smith', WEAPON_ARMOR); // already attuned to it (mode 'new' seen)
+    expect(sim.questLog.has('q_prof_attune_smith')).toBe(false);
   });
 
-  it('uses lore for a new pair and escalating make-amends for a previously held pair', () => {
+  it('uses attune for a new pair and escalating make-amends for a previously held pair', () => {
     const sim = makeSim();
-    unlockProfessionQuests(sim);
-    attuneNewPair(sim, WEAPON_ARMOR);
-    attuneNewPair(sim, JEWEL_WEAPON);
+    attune(sim, SMITH_MASTER, 'q_prof_attune_smith', WEAPON_ARMOR);
+    attune(sim, OUTFITTER_MASTER, 'q_prof_attune_outfitter', LEATHER_TAILOR);
     expect(sim.archetypeSwitchCount).toBe(0);
 
-    acceptProfessionQuest(sim, AMENDS_QUEST, WEAPON_ARMOR);
-    const first = sim.questLog.get(AMENDS_QUEST);
-    expect(first?.resolvedCounts).toEqual([5]);
-    completeAndTurnIn(sim, AMENDS_QUEST);
+    acceptAt(sim, SMITH_MASTER, 'q_prof_amends_smith', WEAPON_ARMOR);
+    expect(sim.questLog.get('q_prof_amends_smith')?.resolvedCounts).toEqual([5]);
+    completeAndTurnInAt(sim, SMITH_MASTER, 'q_prof_amends_smith');
     expect(sim.craftingIdentity.activeArchetype).toBe('weaponcrafting');
     expect(sim.archetypeSwitchCount).toBe(1);
 
-    acceptProfessionQuest(sim, AMENDS_QUEST, JEWEL_WEAPON);
-    expect(sim.questLog.get(AMENDS_QUEST)?.resolvedCounts).toEqual([8]);
+    acceptAt(sim, OUTFITTER_MASTER, 'q_prof_amends_outfitter', LEATHER_TAILOR);
+    expect(sim.questLog.get('q_prof_amends_outfitter')?.resolvedCounts).toEqual([8]);
+  });
+
+  it('resolves amends availability without crashing when a non-wave-one pair is in history', () => {
+    // A player attuned before Phase 14 (via the retired un-narrowed acceptance
+    // quest) can hold any of the ten ring pairs. The four make-amends quests pin
+    // only the wave-one pairs, so a non-wave-one pair has no return path (an
+    // accepted consequence, flagged in the PR body); the masters must still
+    // resolve availability without crashing on the unrecognized history entry.
+    const sim = makeSim();
+    const meta = sim.players.get(sim.playerId);
+    if (!meta) throw new Error('player meta missing');
+    meta.archetype.activeArchetype = 'tailoring';
+    meta.archetype.pairedMajor = 'inscription';
+    meta.archetype.attunedPairs = ['tailoring+inscription'];
+
+    // None of the wave-one amends quests offers the non-wave-one pair.
+    expect(sim.questState('q_prof_amends_smith')).toBe('unavailable');
+    expect(sim.questState('q_prof_amends_outfitter')).toBe('unavailable');
+    expect(sim.questState('q_prof_amends_apothecary')).toBe('unavailable');
+    expect(sim.questState('q_prof_amends_bombardier')).toBe('unavailable');
+    // A wave-one attune is still reachable (that pair is new to this character).
+    expect(sim.questState('q_prof_attune_smith')).toBe('available');
   });
 
   it('switches the explicit hobby only to the other opposite candidate', () => {
     const sim = makeSim();
     unlockProfessionQuests(sim);
-    attuneNewPair(sim, WEAPON_ARMOR);
+    attune(sim, SMITH_MASTER, 'q_prof_attune_smith', WEAPON_ARMOR);
     expect(sim.hobbyCraft).toBe('leatherworking');
 
-    acceptProfessionQuest(sim, HOBBY_QUEST, 'tailoring');
-    completeAndTurnIn(sim, HOBBY_QUEST);
+    acceptAt(sim, HOBBY_MASTER, HOBBY_QUEST, 'tailoring');
+    completeAndTurnInAt(sim, HOBBY_MASTER, HOBBY_QUEST);
     expect(sim.hobbyCraft).toBe('tailoring');
 
-    acceptProfessionQuest(sim, HOBBY_QUEST, 'alchemy');
+    acceptAt(sim, HOBBY_MASTER, HOBBY_QUEST, 'alchemy'); // not an opposite candidate
     expect(sim.questLog.has(HOBBY_QUEST)).toBe(false);
   });
 
   it('round-trips active pair, explicit hobby, history, and an accepted quest selection', () => {
     const sim = makeSim();
     unlockProfessionQuests(sim);
-    attuneNewPair(sim, WEAPON_ARMOR);
-    acceptProfessionQuest(sim, HOBBY_QUEST, 'tailoring');
+    attune(sim, SMITH_MASTER, 'q_prof_attune_smith', WEAPON_ARMOR);
+    acceptAt(sim, HOBBY_MASTER, HOBBY_QUEST, 'tailoring');
 
     const saved = sim.serializeCharacter(sim.playerId);
     const reloaded = makeSim(9043);
@@ -233,12 +265,12 @@ describe('live profession attunement quests', () => {
         sim.tick();
       }
 
-      attuneNewPair(sim, WEAPON_ARMOR);
+      attune(sim, SMITH_MASTER, 'q_prof_attune_smith', WEAPON_ARMOR);
       sim.addItem('linen_scrap', 1, pid);
       sim.addItem('spider_leg', 1, pid);
       sim.craftItem('recipe_minor_healing_potion', pid); // masterwork proc: draws rng
-      acceptProfessionQuest(sim, HOBBY_QUEST, 'tailoring');
-      completeAndTurnIn(sim, HOBBY_QUEST);
+      acceptAt(sim, HOBBY_MASTER, HOBBY_QUEST, 'tailoring');
+      completeAndTurnInAt(sim, HOBBY_MASTER, HOBBY_QUEST);
       for (let i = 0; i < 20; i++) sim.tick();
 
       return {
