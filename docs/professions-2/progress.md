@@ -551,11 +551,17 @@ were re-run green first-hand at the head before review dispatch.
 - [x] Companion fixes landed and pinned: #2139 (verify-not-refix: the filed overflow was already guarded, now pinned + merge-aware guards) and the force-rename signer sweep
 
 ### Phase 13: Enchanting reachable
-- [ ] Disenchant + enchant-apply + salvage on IWorld, wire commands, bags context UI, both hosts
-- [ ] Enchanting skill visible in the wheel window
-- [ ] Typed disenchant reagents (hybrid): rare+ adds the type-keyed secondary; every typed material has a same-phase consumer (the wolf_fang rule); staves/wands in the WEAPON bucket per the resolved decision
-- [ ] Bind-on-trade primitive live against the typed rare+ reagents (generic enforcement arm for Phase 14b)
-- [ ] Inherited 12c pacing verified: the shared throttle and quality-tiered gains govern the newly reachable actions
+Built 2026-07-21 on feature/professions-2-phase-13-enchanting, phase-start
+682df1b7b (the 12d QA merge); QA diffs 682df1b7b..the PR head. Commit
+train: content (typed reagents + consumer enchants + bind-on-trade), seam
+(IWorld + wire + server dispatch + pins), wire-minimization docs,
+coverage suites, UI (bags menu + confirm + picker + toasts), review
+fixes, mobile ctx-menu stacking fix, screenshots, docs.
+- [x] Disenchant + enchant-apply + salvage on IWorld, wire commands, bags context UI, both hosts
+- [x] Enchanting skill visible in the wheel window (already a CRAFT_RING craft; pinned by tests/professions_enchanting_reachable.test.ts)
+- [x] Typed disenchant reagents (hybrid): rare+ adds the type-keyed secondary; every typed material has a same-phase consumer (the wolf_fang rule, referentially pinned); staves/wands in the WEAPON bucket per the resolved decision
+- [x] Bind-on-trade primitive live against the typed rare+ reagents (generic enforcement arm for Phase 14b; two-session online arc pinned)
+- [x] Inherited 12c pacing verified: the shared throttle and quality-tiered gains govern the newly reachable actions (online cross-action attribution pinned)
 
 ### Phase 14: Attunement quests and nudges
 - [ ] Acceptance lore quests at the masters for all four wave-one archetypes
