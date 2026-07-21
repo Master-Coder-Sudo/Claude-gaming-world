@@ -574,6 +574,11 @@ describe('client HTML shell', () => {
     expect(cmStart).toBeGreaterThan(-1);
     expect(cmBody).toContain("case 'char-window':");
     expect(cmBody).toContain('this.charWindow.close();');
+    // The inspect window gained its focus trap in the showcase extraction; Escape
+    // (closeAll -> closeManagedWindow) must route through the painter too, not the
+    // default inline hide, or the trap's focus-return never fires on keyboard close.
+    expect(cmBody).toContain("case 'inspect-window':");
+    expect(cmBody).toContain('this.inspectWindow.close();');
     // The sibling cold windows route the same way; lock the family so a future case is not
     // left on an inline hide that drops focus.
     expect(cmBody).toContain('this.socialWindow.close();');
@@ -908,9 +913,13 @@ describe('client HTML shell', () => {
     );
     expect(shellCss).toContain('font-size: clamp(13px, 0.72vw, 15px);');
     expect(characterPreviewTs).toContain('const LIVE_PREVIEW_X = 0;');
-    expect(characterPreviewTs).toContain('this.camera.position.set(LIVE_PREVIEW_X, 1.45, 5.1);');
+    // The self character-sheet framing (x=0, y=1.45, z=5.1, aimed at y=1.3) now
+    // lives in the pure preview_framing.ts constants and is applied on construction;
+    // the exact numbers are pinned decisively in tests/preview_framing.test.ts.
+    expect(characterPreviewTs).toContain('this.applyFraming(PREVIEW_FRAMING.sheet);');
+    expect(characterPreviewTs).toContain('this.camera.position.set(LIVE_PREVIEW_X, f.y, f.z);');
     expect(characterPreviewTs).toContain(
-      'this.camera.lookAt(new THREE.Vector3(LIVE_PREVIEW_X, 1.3, 0));',
+      'this.camera.lookAt(new THREE.Vector3(LIVE_PREVIEW_X, f.lookY, 0));',
     );
   });
 

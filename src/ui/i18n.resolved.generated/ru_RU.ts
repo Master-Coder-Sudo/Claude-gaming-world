@@ -1183,6 +1183,10 @@ export const ru_RU: EnTranslations = {
         "fiestaWin": "Победа на Фиесте"
       }
     },
+    "charSheet": {
+      "offense": "Атака",
+      "defense": "Защита"
+    },
     "statInfo": {
       "fromYour": "От вашей характеристики ({value} {stat}):",
       "names": {

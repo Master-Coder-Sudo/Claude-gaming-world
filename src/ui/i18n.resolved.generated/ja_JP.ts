@@ -1183,6 +1183,10 @@ export const ja_JP: EnTranslations = {
         "fiestaWin": "フィエスタ勝利"
       }
     },
+    "charSheet": {
+      "offense": "攻撃",
+      "defense": "防御"
+    },
     "statInfo": {
       "fromYour": "あなたの{stat}{value}による効果:",
       "names": {

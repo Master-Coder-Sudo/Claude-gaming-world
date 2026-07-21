@@ -807,6 +807,8 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.warfare.reasons.fiestaKill': '피에스타 처치',
   'hudChrome.warfare.reasons.fiestaComplete': '피에스타 완료',
   'hudChrome.warfare.reasons.fiestaWin': '피에스타 승리',
+  'hudChrome.charSheet.offense': '공격',
+  'hudChrome.charSheet.defense': '방어',
   'hudChrome.statInfo.fromYour': '당신의 {value} {stat}에서:',
   'hudChrome.statInfo.names.spellPower': '주문력',
   'hudChrome.statInfo.names.critRating': '치명타 등급',

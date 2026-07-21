@@ -1183,6 +1183,10 @@ export const tr_TR: EnTranslations = {
         "fiestaWin": "Fiesta zaferi"
       }
     },
+    "charSheet": {
+      "offense": "Offense",
+      "defense": "Defense"
+    },
     "statInfo": {
       "fromYour": "{value} {stat} değerinden:",
       "names": {

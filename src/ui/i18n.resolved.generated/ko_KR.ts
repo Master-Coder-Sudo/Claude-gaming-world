@@ -1183,6 +1183,10 @@ export const ko_KR: EnTranslations = {
         "fiestaWin": "피에스타 승리"
       }
     },
+    "charSheet": {
+      "offense": "공격",
+      "defense": "방어"
+    },
     "statInfo": {
       "fromYour": "당신의 {value} {stat}에서:",
       "names": {

@@ -1183,6 +1183,10 @@ export const en_XA: EnTranslations = {
         "fiestaWin": "[Ƒíéšţá ʋíçţóŕý]"
       }
     },
+    "charSheet": {
+      "offense": "[Óƒƒéñšé]",
+      "defense": "[Ðéƒéñšé]"
+    },
     "statInfo": {
       "fromYour": "[Ƒŕóɱ ýóúŕ {value} {stat}:]",
       "names": {

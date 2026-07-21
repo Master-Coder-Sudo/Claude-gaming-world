@@ -1183,6 +1183,10 @@ export const sv_SE: EnTranslations = {
         "fiestaWin": "Fiesta-seger"
       }
     },
+    "charSheet": {
+      "offense": "Offense",
+      "defense": "Defense"
+    },
     "statInfo": {
       "fromYour": "Från dina {value} {stat}:",
       "names": {

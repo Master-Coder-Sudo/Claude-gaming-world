@@ -1183,6 +1183,10 @@ export const zh_TW: EnTranslations = {
         "fiestaWin": "嘉年華勝利"
       }
     },
+    "charSheet": {
+      "offense": "攻擊",
+      "defense": "防禦"
+    },
     "statInfo": {
       "fromYour": "來自你的 {value} 點{stat}：",
       "names": {

@@ -1183,6 +1183,10 @@ export const vi_VN: EnTranslations = {
         "fiestaWin": "Chiến thắng Fiesta"
       }
     },
+    "charSheet": {
+      "offense": "Offense",
+      "defense": "Defense"
+    },
     "statInfo": {
       "fromYour": "Từ {value} {stat} của bạn:",
       "names": {
