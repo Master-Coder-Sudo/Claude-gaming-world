@@ -1349,6 +1349,145 @@ export const TARGETS = [
       return {};
     },
   },
+  {
+    // $WOC holder-tier badges (Ascendant Sigils reskin). Stages a row of players
+    // whose holderTier spans all four bands (coin, gem, sigil, regalia) so one
+    // frame shows the ladder on real nameplates, over a bright and a darkened
+    // scene (exposure is dropped for the dark variant; the DOM badges float over
+    // the canvas and stay bright, which is the whole legibility test), a close-up
+    // for badge detail, and the inspect/player-card surface.
+    key: 'holder-tier',
+    label: 'Ascendant Sigils badges (holder + contributor)',
+    // .ts-suffixed so the substring match does not also fire on the *.test.ts files.
+    when: ['ui/holder_tier.ts', 'ui/dev_tier.ts', 'render/nameplate_painter.ts'],
+    variants: [
+      { key: 'ladder-bright' },
+      { key: 'ladder-dark' },
+      { key: 'closeup' },
+      { key: 'card' },
+      { key: 'dev-ladder-bright' },
+      { key: 'dev-ladder-dark' },
+      { key: 'dev-card' },
+    ],
+    async capture(page, variant) {
+      const mode = variant?.key ?? 'ladder-bright';
+      const staged = await page.evaluate((mode) => {
+        const g = window.__game;
+        const sim = g?.sim;
+        const p = sim?.player;
+        if (!g || !sim || !p) return { ok: false, reason: 'offline world is unavailable' };
+        g.renderer.showDevBadges = true;
+        // A holder ladder spanning every band: Ember/Gilded (coins), Whale (gem),
+        // Titanforged/Worldforger (sigils), Worldbearer/Sovereign (regalia).
+        const HOLDER = [
+          { holderTier: 1, name: 'Emberlyn', cls: 'mage', bal: 1 },
+          { holderTier: 5, name: 'Goldwyn', cls: 'paladin', bal: 10000 },
+          { holderTier: 7, name: 'Whalimir', cls: 'warrior', bal: 1000000 },
+          { holderTier: 12, name: 'Titanys', cls: 'druid', bal: 50000000 },
+          { holderTier: 16, name: 'Forgemara', cls: 'priest', bal: 90000000 },
+          { holderTier: 17, name: 'Worlding', cls: 'hunter', bal: 100000000 },
+          { holderTier: 18, name: 'Sovryn', cls: 'rogue', bal: 1000000000 },
+        ];
+        // The contributor ladder: five merged-PR rungs (Tinkerer to Worldwright).
+        const DEV = [
+          { devTier: 1, name: 'Tinkwyn', cls: 'mage', prs: 1 },
+          { devTier: 2, name: 'Artifica', cls: 'rogue', prs: 5 },
+          { devTier: 3, name: 'Runael', cls: 'warlock', prs: 15 },
+          { devTier: 4, name: 'Archibald', cls: 'paladin', prs: 30 },
+          { devTier: 5, name: 'Wrightlynn', cls: 'druid', prs: 70 },
+        ];
+        // Verified-empty open terrain so nothing clutters the row.
+        p.pos.x = -200;
+        p.pos.z = 0;
+        let set;
+        let dark = false;
+        let camDist = 22;
+        let camPitch = 0.3;
+        let spacing = 4;
+        let zAhead = 9;
+        if (mode === 'closeup') {
+          set = HOLDER.slice(4);
+          camDist = 6.5;
+          camPitch = 0.14;
+          spacing = 3.4;
+          zAhead = 6;
+        } else if (mode === 'card') {
+          set = [HOLDER[6]]; // Sovereign holder card
+        } else if (mode === 'dev-card') {
+          set = [DEV[4]]; // Worldwright contributor card
+        } else if (mode === 'dev-ladder-bright' || mode === 'dev-ladder-dark') {
+          set = DEV;
+          dark = mode === 'dev-ladder-dark';
+        } else {
+          set = HOLDER; // ladder-bright / ladder-dark
+          dark = mode === 'ladder-dark';
+        }
+        const isCard = mode.indexOf('card') >= 0;
+        const ids = [];
+        set.forEach((row, i) => {
+          const pid = sim.addPlayer(row.cls, row.name);
+          const e = sim.entities.get(pid);
+          if (!e) return;
+          e.level = 60;
+          if (row.holderTier != null) {
+            e.holderTier = row.holderTier;
+            e.holderBalance = row.bal;
+          }
+          if (row.devTier != null) {
+            e.devTier = row.devTier;
+            e.devMergedPrs = row.prs;
+          }
+          e.hp = e.maxHp;
+          e.dead = false;
+          e.pos.x = p.pos.x + (i - (set.length - 1) / 2) * spacing;
+          e.pos.z = p.pos.z + zAhead;
+          e.pos.y = p.pos.y;
+          ids.push(pid);
+        });
+        p.facing = 0; // look +z toward the line-up
+        g.input.camYaw = 0;
+        g.input.camPitch = camPitch;
+        g.input.camDist = camDist;
+        // Darken the 3D scene for the dark variants: the DOM nameplate badges are
+        // positioned over the canvas, so they keep full brightness while the world
+        // behind them goes dark. A display-only harness tweak, not shipped code.
+        g.renderer.setBrightness(dark ? 0.1 : 1);
+        window.__ladderIds = ids;
+        window.__ladderCardPid = isCard ? ids[0] : null;
+        return { ok: true, count: ids.length };
+      }, mode);
+      if (!staged.ok) throw new Error(staged.reason);
+      await wait(1200);
+      // Re-assert pose right before the shot so no drift/fall/combat sneaks in.
+      await page.evaluate(() => {
+        const g = window.__game;
+        const p = g.sim.player;
+        (window.__ladderIds || []).forEach((id) => {
+          const e = g.sim.entities.get(id);
+          if (!e) return;
+          e.hp = e.maxHp;
+          e.dead = false;
+          e.inCombat = false;
+          e.pos.y = p.pos.y;
+        });
+      });
+      if (mode.indexOf('card') >= 0) {
+        const shown = await page.evaluate(() => {
+          const g = window.__game;
+          const pid = window.__ladderCardPid;
+          if (pid == null) return false;
+          g.hud.openInspect(pid);
+          const el = document.querySelector('#inspect-window');
+          return !!el && getComputedStyle(el).display !== 'none';
+        });
+        if (!shown) throw new Error('inspect/player-card window did not open');
+        await wait(400);
+        return { clip: '#inspect-window' };
+      }
+      await wait(300);
+      return {};
+    },
+  },
 ];
 
 // Map a list of changed file paths to the targets they imply (deduped, registry order).
