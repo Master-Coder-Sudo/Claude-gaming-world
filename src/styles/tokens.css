@@ -258,6 +258,10 @@
        needs a real paintable value before applyMinimapOrnamentVars() runs
        at boot. */
     --minimap-gilt: var(--color-gold-700);
+    /* The speckle field is a `background-image`, so an unset value must
+       compute to `none` (no image), not an invalid/empty string, the same
+       reasoning as the --perf-ornament-* mask fallbacks above. */
+    --minimap-speckle: none;
   }
 
   /* Glass is dropped WHOLE-RULE at the low effect tier: a universal removal
@@ -295,5 +299,6 @@
     /* The minimap ring is purely cosmetic too (never actionable information),
        so it is shed at the low effect tier the same way. */
     --minimap-gilt: var(--color-gold-700) !important;
+    --minimap-speckle: none !important;
   }
 }

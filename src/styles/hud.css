@@ -2878,43 +2878,40 @@
   #minimap-disc::before {
     content: "";
     position: absolute;
-    inset: -16px;
+    inset: -9px;
     z-index: -1;
     border-radius: 50%;
-    /* Three layers, each a distinct axis of variation, combined so the ring
-       reads as faceted hand-gilded metal rather than one flat painted band:
-       1) a soft directional sheen (normal blend, on top; same
+    /* Not a stack of discrete color BANDS (an earlier pass read as a
+       striped/layered ring once actually compared against the reference):
+       real hand-gilded gold leaf reads as multi-toned because countless tiny
+       flecks each catch light a little differently, not because the metal is
+       painted in rings. Three layers, each a real axis of variation:
+       1) `--minimap-gilt` (#2196's perfGiltGradientBackground(), reused
+          as-is): hand-applied, uneven tone BY ANGLE around the ring;
+       2) `--minimap-speckle` (minimap_gilded_ornament.ts,
+          minimapGiltSpeckleBackground(), reusing that same file's seeded
+          mulberry32 PRNG): a field of ~220 tiny gold speckles at random
+          positions, sizes, tones, and opacities. `hard-light` (not
+          `overlay`) blends it into (1): hard-light's multiply-vs-screen
+          choice is decided by the SOURCE (this speckle layer), so each
+          fleck's own tone consistently darkens or lightens wherever it
+          sits; overlay decides by the BACKDROP instead, which read as
+          washed out against the gilt gradient's own light/dark swings.
+          The speckles read as grain IN the metal, not decals on top of it;
+       3) a soft directional sheen on top (normal blend; the same
           `radial-gradient(circle at 50% 30%, ...)` fake-3D highlight
           convention this file already uses on #minimap-clock/#raid-lockout/
-          #minimap-zoom);
-       2) a RADIAL bevel across the ring's own cross-section (`farthest-side`
-          sizing makes percentage stops land relative to this element's own
-          radius, so 100% is exactly the visible outer rim regardless of the
-          canvas's absolute pixel size): dark-bright-mid-bright-dark bands
-          spanning several --color-gold-* tokens, the way a torus of metal
-          catches and loses light across its own width. Only the outer band
-          (past the canvas's covered radius) is ever visible; the inner
-          stops exist so the transition is never abrupt right at that edge;
-       3) `--minimap-gilt` (#2196's perfGiltGradientBackground(), reused
-          as-is): the same repeating-conic-gradient hand-applied, uneven
-          TONE-BY-ANGLE the Performance Overlay's ornament already uses.
-       `overlay` blends (2) into (3) so both axes of variation (by angle,
-       by radius) show at once instead of one flatly replacing the other. */
+          #minimap-zoom). */
     background:
-      radial-gradient(circle at 50% 20%, #fff8df70, transparent 55%),
-      radial-gradient(
-        circle farthest-side at 50% 50%,
-        var(--color-gold-900) 74%,
-        var(--color-gold-300) 84%,
-        var(--color-gold-600) 89%,
-        var(--color-gold-400) 94%,
-        var(--color-gold-900) 100%
-      ),
+      radial-gradient(circle at 50% 20%, #fff8df60, transparent 55%), var(--minimap-speckle),
       var(--minimap-gilt);
-    background-blend-mode: normal, overlay, normal;
+    background-size:
+      auto,
+      100% 100%,
+      auto;
+    background-blend-mode: normal, hard-light, normal;
     box-shadow:
       inset 0 0 0 1px #fff2c440,
-      inset 0 0 3px 1px #00000080,
       0 1px 4px #000a;
     pointer-events: none;
   }
