@@ -11,6 +11,9 @@
 export const pending: Record<string, readonly string[]> = {
   "es": [
     "abilityUi.cast.gathering",
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject",
     "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
@@ -30,6 +33,9 @@ export const pending: Record<string, readonly string[]> = {
   ],
   "es_ES": [
     "abilityUi.cast.gathering",
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject",
     "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
@@ -49,6 +55,9 @@ export const pending: Record<string, readonly string[]> = {
   ],
   "fr_FR": [
     "abilityUi.cast.gathering",
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject",
     "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
@@ -68,6 +77,9 @@ export const pending: Record<string, readonly string[]> = {
   ],
   "fr_CA": [
     "abilityUi.cast.gathering",
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject",
     "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
@@ -88,6 +100,9 @@ export const pending: Record<string, readonly string[]> = {
   "en_CA": [],
   "it_IT": [
     "abilityUi.cast.gathering",
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject",
     "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
@@ -107,6 +122,9 @@ export const pending: Record<string, readonly string[]> = {
   ],
   "de_DE": [
     "abilityUi.cast.gathering",
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject",
     "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
@@ -124,12 +142,31 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse"
   ],
-  "zh_CN": [],
-  "zh_TW": [],
-  "ko_KR": [],
-  "ja_JP": [],
+  "zh_CN": [
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject"
+  ],
+  "zh_TW": [
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject"
+  ],
+  "ko_KR": [
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject"
+  ],
+  "ja_JP": [
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject"
+  ],
   "pt_BR": [
     "abilityUi.cast.gathering",
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject",
     "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
@@ -147,9 +184,16 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.gathering.toolTierUnmet.mining",
     "hudChrome.gathering.toolTierUnmetCorpse"
   ],
-  "ru_RU": [],
+  "ru_RU": [
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject"
+  ],
   "cs_CZ": [
     "abilityUi.cast.gathering",
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject",
     "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
@@ -169,6 +213,9 @@ export const pending: Record<string, readonly string[]> = {
   ],
   "nl_NL": [
     "abilityUi.cast.gathering",
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject",
     "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
@@ -188,6 +235,9 @@ export const pending: Record<string, readonly string[]> = {
   ],
   "pl_PL": [
     "abilityUi.cast.gathering",
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject",
     "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
@@ -207,6 +257,9 @@ export const pending: Record<string, readonly string[]> = {
   ],
   "id_ID": [
     "abilityUi.cast.gathering",
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject",
     "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
@@ -226,6 +279,9 @@ export const pending: Record<string, readonly string[]> = {
   ],
   "tr_TR": [
     "abilityUi.cast.gathering",
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject",
     "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
@@ -245,6 +301,9 @@ export const pending: Record<string, readonly string[]> = {
   ],
   "sv_SE": [
     "abilityUi.cast.gathering",
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject",
     "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
@@ -264,6 +323,9 @@ export const pending: Record<string, readonly string[]> = {
   ],
   "vi_VN": [
     "abilityUi.cast.gathering",
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject",
     "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",
@@ -283,6 +345,9 @@ export const pending: Record<string, readonly string[]> = {
   ],
   "da_DK": [
     "abilityUi.cast.gathering",
+    "entities.letters.mastery_reset_notice.body",
+    "entities.letters.mastery_reset_notice.sender",
+    "entities.letters.mastery_reset_notice.subject",
     "hudChrome.gathering.biteLine",
     "hudChrome.gathering.catchLine",
     "hudChrome.gathering.fishing",

@@ -10895,6 +10895,11 @@ export const ru_RU: EnTranslations = {
         "sender": "Гильдия ремесленников",
         "subject": "О вашей работе: бронное дело и инженерное дело",
         "body": "Ремесленник!\n\nДо гильдии дошли вести о вашей работе: бронное дело и инженерное дело, пластины склёпаны, шестерни выверены, и два ремесла питают друг друга. Соседние ремесла, освоенные вместе, выдают руку, готовую к настройке. Разыщите кузнеца Халдрена в Истбруке: пока он говорит от лица мастеров. Докажите ему своё умение работой собственных рук, и он настроит эти два ремесла как ваши основные.\n\nС уважением,\nГильдия ремесленников"
+      },
+      "mastery_reset_notice": {
+        "sender": "The Guildhall",
+        "subject": "Your craft, made honest",
+        "body": "Guildmate,\n\nThe guild has adopted a new reckoning of mastery. Every hand starts the climb again: your craft skills and your gathering proficiencies have been set to zero.\n\nEverything else is yours, untouched: your recipes, your tools and materials, your bank and gold, your attunements and titles, your deeds and renown, your quests and mail.\n\nThe climb is honest now. Cheap work will not carry you. Seek harder recipes, richer veins, and deeper waters.\n\nWith respect,\nThe Guildhall"
       }
     },
     "itemSets": {

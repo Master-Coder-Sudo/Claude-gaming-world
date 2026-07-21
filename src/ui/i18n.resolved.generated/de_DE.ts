@@ -10895,6 +10895,11 @@ export const de_DE: EnTranslations = {
         "sender": "Die Handwerksgilde",
         "subject": "Ihre Arbeit im Rüstungsbau und im Ingenieurwesen",
         "body": "Handwerker,\n\nDie Nachricht erreicht die Gilde von eurer Arbeit im Rüstungsbau und im Ingenieurswesen: Platten vernietet und Zahnräder bearbeitet, die beiden Handwerke ergänzen sich gegenseitig. Benachbarte Handwerke, die zusammengearbeitet wurden, kennzeichnen eine Hand, die zur Einstimmung bereit ist. Suchen Sie Schmied Haldren auf, den Rüstungsschmied von Eastbrook: Er spricht vorerst für die Meister. Beweisen Sie ihm Ihr Können mit der Arbeit Ihrer eigenen Hände, und er wird dafür sorgen, dass Ihre beiden Hauptfächer aufeinander abgestimmt sind.\n\nIn gutem Ansehen,\nDie Handwerksgilde"
+      },
+      "mastery_reset_notice": {
+        "sender": "The Guildhall",
+        "subject": "Your craft, made honest",
+        "body": "Guildmate,\n\nThe guild has adopted a new reckoning of mastery. Every hand starts the climb again: your craft skills and your gathering proficiencies have been set to zero.\n\nEverything else is yours, untouched: your recipes, your tools and materials, your bank and gold, your attunements and titles, your deeds and renown, your quests and mail.\n\nThe climb is honest now. Cheap work will not carry you. Seek harder recipes, richer veins, and deeper waters.\n\nWith respect,\nThe Guildhall"
       }
     },
     "itemSets": {

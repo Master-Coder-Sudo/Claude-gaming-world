@@ -10895,6 +10895,11 @@ export const vi_VN: EnTranslations = {
         "sender": "Hội chế tạo",
         "subject": "Công việc của bạn trong lĩnh vực Chế tạo áo giáp và Kỹ thuật",
         "body": "nghệ nhân,\n\nHiệp hội biết đến công việc của bạn trong lĩnh vực Chế tạo áo giáp và Kỹ thuật: các tấm được tán đinh và các bánh răng được căn chỉnh, hai nghề này hỗ trợ lẫn nhau. Những nghề thủ công lân cận cùng nhau làm việc đánh dấu một bàn tay sẵn sàng hòa hợp. Hãy tìm kiếm Thợ Rèn Haldren, thợ chế tác giáp của Eastbrook: hiện tại anh ấy đang đại diện cho các bậc thầy. Hãy chứng minh kỹ năng của bạn với anh ấy bằng chính tay bạn làm, và anh ấy sẽ thấy hai chuyên ngành của bạn hòa hợp với nhau.\n\nTrân trọng,\nHội chế tạo"
+      },
+      "mastery_reset_notice": {
+        "sender": "The Guildhall",
+        "subject": "Your craft, made honest",
+        "body": "Guildmate,\n\nThe guild has adopted a new reckoning of mastery. Every hand starts the climb again: your craft skills and your gathering proficiencies have been set to zero.\n\nEverything else is yours, untouched: your recipes, your tools and materials, your bank and gold, your attunements and titles, your deeds and renown, your quests and mail.\n\nThe climb is honest now. Cheap work will not carry you. Seek harder recipes, richer veins, and deeper waters.\n\nWith respect,\nThe Guildhall"
       }
     },
     "itemSets": {
