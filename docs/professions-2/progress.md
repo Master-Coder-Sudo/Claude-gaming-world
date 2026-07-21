@@ -37,8 +37,8 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 12c QA | Verify The Mastery Curve | complete (PASS, zero blocking) | 2026-07-20 | 2026-07-20 |
 | 12d | Provenance and the harvest loop | complete (PR #2264 merged into release/v0.29.0) | 2026-07-21 | 2026-07-21 |
 | 12d QA | Verify provenance and the harvest loop | complete (PASS, zero blocking) | 2026-07-21 | 2026-07-21 |
-| 13 | Enchanting reachable | not started | | |
-| 13 QA | Verify enchanting reachable | not started | | |
+| 13 | Enchanting reachable | complete (PR #2269 merged into release/v0.29.0) | 2026-07-21 | 2026-07-21 |
+| 13 QA | Verify enchanting reachable | complete (PASS, zero blocking) | 2026-07-21 | 2026-07-21 |
 | 14 | Attunement quests and nudges | not started | | |
 | 14 QA | Verify attunement quests and nudges | not started | | |
 | 14b | Commissions and the Maker's Bond | not started | | |
@@ -1313,3 +1313,35 @@ this pass, plus the directed should-fix:
   unqualified); release-notes propagation of the DESTRUCTIVE
   sanitizeBankState rollback caveat (recorded in state.md; no v0.29.0 notes
   file exists yet, a cut-time item).
+
+Phase 13 QA (2026-07-21): PASS, zero blocking. QA phase-start 90e502786
+(the PR #2269 merge, the release/v0.29.0 tip); QA diff 682df1b7b..90e502786;
+fix branch fix/professions-2-phase-13-qa. All 13 acceptance criteria
+verified against real code; validation rows green (wire quartet 444, phase
+suites 103, i18n guard, architecture + trade, tsc, parity goldens 183,
+browser suite 66/66 with the known armory environmental red not even
+reproducing). Fan-out: STEP 1 context loader, then a 6-agent Workflow
+(correctness / coverage / dead-code audits + race, live-mirror,
+mail-market emphasis probers), then 4 dispatch-matrix reviewers plus
+qa-checklist over the fix diff; the orchestrator ran the live browser
+probes itself (confirm-dialog keyboard arc, picker captures).
+- REAL FIX (sim): fitsAfterSwap modeled the pre-stamp payload while
+  grantOffer stamps boundTo on arrival; wrong in both directions (full
+  receiver with a byte-equal armed slot granted OVER capacity 17/16;
+  already-stamped byte-equal slot denied a fitting trade). Now models the
+  stamped arrival; test-first, both directions pinned incl. the locked
+  decoy that makes the isTradeLocked walk skip discriminating.
+- REAL FIX (ui, live keyboard probe): Enter on the focused confirm OK
+  fired the chat edge (focus escaped the aria-modal dialog), Space died
+  to the jump preventDefault; keyboard users could never confirm.
+  bindDialogKeyActivation repairs the family; jsdom pins + live re-probe
+  ALL PASS.
+- MAINTAINER-DIRECTED: Apply Enchant picker sizing (ctx-menu-picker
+  modifier, both arms capped and scrolling, seven clear sites, CSS guard,
+  refreshed desktop + new mobile picker shots).
+- Promoted the five QA probe suites as durable pins (arc, coverage,
+  races, result mirror, bound surfaces); bound-surface refusal is
+  EMERGENT from the #1165 fungible-only escrow, flagged for #1146.
+- Deferred as maintainer calls: salvage skill-gain absence (by design?),
+  mid-trade enchant not resetting accept flags, all-enchanted disenchant
+  row UX, generic mail/market bound-deny copy (#1146).
