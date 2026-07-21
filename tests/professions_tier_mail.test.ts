@@ -67,6 +67,21 @@ describe('tier-crossing master mail (Professions 2.0 Phase 14)', () => {
     expect(meta.tierMailSent.get(SECONDARY)).toBe(1);
   });
 
+  it('pins the letterId derivation literal for every wave-one pair', () => {
+    // One literal per pair: a systematic id-scheme regression on any pair's
+    // tier letters must red here, not only on the smith pair.
+    expect(MASTER_TIER_LETTERS['weaponcrafting+armorcrafting'][2].letterId).toBe(
+      'prof_tier_weaponcrafting_armorcrafting_2',
+    );
+    expect(MASTER_TIER_LETTERS['leatherworking+tailoring'][3].letterId).toBe(
+      'prof_tier_leatherworking_tailoring_3',
+    );
+    expect(MASTER_TIER_LETTERS['alchemy+cooking'][1].letterId).toBe('prof_tier_alchemy_cooking_1');
+    expect(MASTER_TIER_LETTERS['engineering+alchemy'][5].letterId).toBe(
+      'prof_tier_engineering_alchemy_5',
+    );
+  });
+
   it('sends exactly one letter per crossing, then stays quiet until the next crossing', () => {
     const sim = makeSim();
     const meta = attunedMeta(sim);
