@@ -2705,7 +2705,7 @@
   }
   #minimap {
     border-radius: 50%;
-    border: 4px solid var(--border);
+    border: 1px solid #000;
     outline: 1px solid #000;
     box-shadow:
       0 0 14px #000c,
@@ -2864,6 +2864,33 @@
     position: relative;
     display: inline-block;
     line-height: 0;
+  }
+  /* Hand-gilded ring around the round minimap disc, reusing the Performance
+     Overlay's gilt-gradient technique (#2196, perf_ornament_svg.ts /
+     applyMinimapOrnamentVars, called once at boot). A circular disc needs no
+     mask geometry the way that window's straight edges/corners did: the ring
+     is simply a same-shape ::before sized a few px larger than the canvas,
+     painted BEHIND it (negative z-index), so the canvas's own fully opaque
+     pixels cover the center and only the extra outer band reads as the ring.
+     No layout change: the ring lives outside #minimap-disc's own box (which
+     stays exactly canvas-sized), so the rim badges below keep their existing
+     positions and z-index: 3 stacks safely above this ring. */
+  #minimap-disc::before {
+    content: "";
+    position: absolute;
+    inset: -10px;
+    z-index: -1;
+    border-radius: 50%;
+    /* A soft sheen layered over the gilt gradient (never replacing it): every
+       other fake-metal circle in this file (#minimap-clock, #raid-lockout,
+       #minimap-zoom) already uses a `radial-gradient(circle at 50% 30%, ...)`
+       highlight for the same reason, so this reuses that existing convention
+       to read as a convex polished ring instead of a flat printed pattern. */
+    background: radial-gradient(circle at 50% 20%, #fff2c460, transparent 65%), var(--minimap-gilt);
+    box-shadow:
+      inset 0 0 0 1px #fff2c440,
+      0 1px 4px #000a;
+    pointer-events: none;
   }
   /* raid-lockout badge: a small satellite button hugging the bottom-left rim of
      the round minimap (classic tracking-button placement). Dim when every

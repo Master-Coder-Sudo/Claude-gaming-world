@@ -252,6 +252,12 @@
     --perf-ornament-edge-left: linear-gradient(transparent, transparent);
     --perf-ornament-edge-right: linear-gradient(transparent, transparent);
     --perf-ornament-gilt: var(--color-gold-700);
+    /* Minimap disc's gilded ring (hud.css "minimap" section /
+       minimap_gilded_ornament.ts). Same fallback contract as
+       --perf-ornament-gilt above: consumed as a whole `background`, so it
+       needs a real paintable value before applyMinimapOrnamentVars() runs
+       at boot. */
+    --minimap-gilt: var(--color-gold-700);
   }
 
   /* Glass is dropped WHOLE-RULE at the low effect tier: a universal removal
@@ -286,5 +292,8 @@
     --perf-ornament-edge-left: linear-gradient(transparent, transparent) !important;
     --perf-ornament-edge-right: linear-gradient(transparent, transparent) !important;
     --perf-ornament-gilt: var(--color-gold-700) !important;
+    /* The minimap ring is purely cosmetic too (never actionable information),
+       so it is shed at the low effect tier the same way. */
+    --minimap-gilt: var(--color-gold-700) !important;
   }
 }
