@@ -525,6 +525,16 @@ export function interact(ctx: SimContext, pid?: number): void {
     const target = ctx.entities.get(p.targetId);
     if (target && dist2d(p.pos, target.pos) <= INTERACT_RANGE + 2) {
       if (target.kind === 'mob' && target.lootable) {
+        // Phase 12d unified press, targeted arm: same composition as the
+        // proximity-scan arm below (harvest while the corpse still owes its
+        // unclaimed half, omitted components = the town focus default, then
+        // loot; separate calls so neither refusal blocks the other).
+        if (
+          isHarvestableCorpse(MOBS[target.templateId]?.componentTags) &&
+          target.harvestClaimedBy === null
+        ) {
+          harvestCorpse(ctx, target.id, undefined, p.id);
+        }
         lootCorpse(ctx, target.id, p.id);
         return;
       }

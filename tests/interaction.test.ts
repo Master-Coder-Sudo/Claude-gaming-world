@@ -247,6 +247,23 @@ describe('interaction.interact dispatch', () => {
     expect(mob.corpseTimer).toBe(4);
   });
 
+  it('target-path: one press both harvests and loots a targeted eligible corpse (Phase 12d)', () => {
+    // The targeted arm must compose exactly like the proximity-scan arm above:
+    // a player who TARGETS the corpse before pressing interact gets the same
+    // unified press, not the pre-12d loot-only routing.
+    const { sim, a } = twoPlayers();
+    const mob = corpse(sim, 20, 21, a, [{ itemId: 'worn_sword', count: 1 }]);
+    mob.corpseTimer = 60;
+    (sim.entities.get(a) as AnyEntity).targetId = mob.id;
+    interaction.interact(ctxOf(sim), a);
+    expect(mob.harvestClaimedBy).toBe(a); // the harvest half claimed
+    expect(sim.countItem('worn_sword', a)).toBe(1); // the loot half delivered
+    expect(sim.countItem('rough_hide', a)).toBeGreaterThanOrEqual(1); // hide yield landed
+    expect(mob.loot).toBeNull();
+    expect(mob.lootable).toBe(false);
+    expect(mob.corpseTimer).toBe(4);
+  });
+
   it('routes a nearby quest NPC to talkToNpc via the ctx callbacks (quest accepted)', () => {
     // Single-player world at the q_wolves giver: interact's quest-entity arm fans
     // into ctx.isQuestInteractionEntity + ctx.talkToNpc, both bound to Sim.
