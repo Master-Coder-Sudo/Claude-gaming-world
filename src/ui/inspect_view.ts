@@ -16,7 +16,7 @@
 // pins every gate and the day math without a DOM or a real clock.
 
 import { CLASSES } from '../sim/data';
-import type { EquipSlot, ItemDef, PlayerClass } from '../sim/types';
+import type { EquipSlot, ItemDef, PlayerClass, SkinCatalog } from '../sim/types';
 import { buildPaperdollView, type PaperdollView } from './char_view';
 
 /** Class color as a CSS hex string (mirrors hud.ts classCss): the inspect stage
@@ -69,13 +69,15 @@ export interface InspectBadgesModel {
   dev: InspectDevModel | null;
 }
 
-/** The full inspect model: header, badges, worn-gear paperdoll, and the skin the
- *  live turntable should show. */
+/** The full inspect model: header, badges, worn-gear paperdoll, and the skin plus
+ *  its catalog the live turntable should show (the catalog picks the rig: a
+ *  mech-cosmetic player renders the mech, not their class model). */
 export interface InspectViewModel {
   header: InspectHeaderModel;
   badges: InspectBadgesModel;
   gear: PaperdollView;
   skin: number;
+  skinCatalog: SkinCatalog;
 }
 
 /** The plain inputs the painter feeds in from the inspected entity (localized
@@ -85,6 +87,8 @@ export interface InspectInput {
   level: number;
   cls: PlayerClass;
   skin: number;
+  /** Which catalog `skin` indexes into ('class' or 'mech'), from the entity mirror. */
+  skinCatalog: SkinCatalog;
   /** The active deed title text, already resolved by the painter; '' when none. */
   deedTitleText: string;
   equippedItems: Partial<Record<EquipSlot, string>>;
@@ -156,6 +160,7 @@ export function buildInspectView(
     badges: { holder, discord, dev },
     gear: buildPaperdollView(input.equippedItems, items),
     skin: input.skin,
+    skinCatalog: input.skinCatalog,
   };
 }
 

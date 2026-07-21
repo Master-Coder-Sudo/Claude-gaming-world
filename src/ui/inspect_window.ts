@@ -15,7 +15,7 @@
 // char_view's arrays via the pure core, so inspect inherits the sheet's 6/6 split.
 
 import { ITEMS } from '../sim/data';
-import type { EquipSlot, ItemInstancePayload, PlayerClass } from '../sim/types';
+import type { EquipSlot, ItemInstancePayload, PlayerClass, SkinCatalog } from '../sim/types';
 import { attachAvatarFallback } from './avatar_fallback';
 import type { PaperdollSlot } from './char_view';
 import { deedTitleText } from './deed_i18n';
@@ -57,6 +57,8 @@ export interface InspectEntity {
   name: string;
   level: number;
   skin?: number;
+  /** Which catalog `skin` indexes into (the wire `cat` identity field). */
+  skinCatalog?: SkinCatalog;
   /** Active Book of Deeds title (a deed id), if any. */
   title?: string | null;
   equippedItems: Partial<Record<EquipSlot, string>>;
@@ -98,7 +100,13 @@ export interface InspectWindowDeps extends PainterHostPresentation {
    *  pulled-back inspect framing (Hud-owned preview lifecycle). */
   mountPreview(
     container: HTMLElement,
-    params: { cls: PlayerClass; skin: number; mainhand: string | null; offhand: string | null },
+    params: {
+      cls: PlayerClass;
+      skin: number;
+      skinCatalog: SkinCatalog;
+      mainhand: string | null;
+      offhand: string | null;
+    },
   ): void;
 }
 
@@ -137,6 +145,7 @@ export class InspectWindow {
         level: e.level,
         cls,
         skin: e.skin ?? 0,
+        skinCatalog: e.skinCatalog ?? 'class',
         deedTitleText: e.title ? deedTitleText(e.title) : '',
         equippedItems: e.equippedItems,
         holderTier: e.holderTier ?? 0,
@@ -206,6 +215,7 @@ export class InspectWindow {
       this.deps.mountPreview(stage, {
         cls,
         skin: model.skin,
+        skinCatalog: model.skinCatalog,
         mainhand: e.equippedItems.mainhand ?? null,
         offhand: e.equippedItems.offhand ?? null,
       });

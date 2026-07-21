@@ -44,6 +44,14 @@ describe('inspect_window: thin painter, deps-only Hud access', () => {
     expect(painter).toContain('this.deps.mountPreview(');
   });
 
+  it('feeds the entity skin catalog to the pure core and the turntable mount (mech rigs)', () => {
+    // Remote entities carry skinCatalog on the wire (the `cat` identity field); the
+    // mount must see it or a mech-cosmetic player renders as a class rig wearing a
+    // mech-catalog skin INDEX (the wrong skin entirely).
+    expect(painter).toContain("skinCatalog: e.skinCatalog ?? 'class'");
+    expect(painter).toContain('skinCatalog: model.skinCatalog');
+  });
+
   it('reuses the shared socket-row family and quality-glow helper (no forked copies)', () => {
     expect(painter).toContain("row.className = 'equip-slot'");
     expect(painter).toContain('qualityGlowShadow(qColor)');

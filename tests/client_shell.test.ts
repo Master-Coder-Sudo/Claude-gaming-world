@@ -574,6 +574,11 @@ describe('client HTML shell', () => {
     expect(cmStart).toBeGreaterThan(-1);
     expect(cmBody).toContain("case 'char-window':");
     expect(cmBody).toContain('this.charWindow.close();');
+    // The inspect window gained its focus trap in the showcase extraction; Escape
+    // (closeAll -> closeManagedWindow) must route through the painter too, not the
+    // default inline hide, or the trap's focus-return never fires on keyboard close.
+    expect(cmBody).toContain("case 'inspect-window':");
+    expect(cmBody).toContain('this.inspectWindow.close();');
     // The sibling cold windows route the same way; lock the family so a future case is not
     // left on an inline hide that drops focus.
     expect(cmBody).toContain('this.socialWindow.close();');

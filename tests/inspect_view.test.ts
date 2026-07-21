@@ -20,6 +20,7 @@ const base: InspectInput = {
   level: 45,
   cls: 'mage',
   skin: 2,
+  skinCatalog: 'class',
   deedTitleText: '',
   equippedItems: {
     helmet: 'monarch_crown_helm',
@@ -63,6 +64,13 @@ describe('buildInspectView: header', () => {
       classColor: '#69ccf0',
     });
     expect(m.skin).toBe(2);
+  });
+
+  it('carries the skin CATALOG through for the turntable, so a mech-cosmetic player keeps their rig', () => {
+    // The turntable resolves the visual from (cls, skin, catalog); dropping the
+    // catalog would apply a mech-catalog skin INDEX to the class rig (wrong skin).
+    expect(buildInspectView(base, ITEMS).skinCatalog).toBe('class');
+    expect(buildInspectView({ ...base, skinCatalog: 'mech' }, ITEMS).skinCatalog).toBe('mech');
   });
 
   it('deed title is null when the resolved text is empty, the text when present', () => {

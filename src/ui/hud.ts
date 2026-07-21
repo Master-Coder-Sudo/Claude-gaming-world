@@ -18,7 +18,7 @@ import {
 import { voice, voiceDistanceGain } from '../game/voice';
 import type { ClaudiumStoreItem } from '../net/economy_sdk';
 import { castBarState, consumeBarState } from '../render/cast_bar';
-import { CharacterPreview } from '../render/characters';
+import { CharacterPreview, type PreviewFramingName } from '../render/characters';
 import { preloadMechAssets } from '../render/characters/assets';
 import { mechHeldWeaponOverride } from '../render/characters/manifest';
 import { onPortraitsReady } from '../render/characters/portrait';
@@ -77,6 +77,7 @@ import type {
   PetMode,
   PlayerClass,
   ResourceType,
+  SkinCatalog,
 } from '../sim/types';
 import {
   type AbilityEffect,
@@ -2547,6 +2548,10 @@ export class Hud {
         // Route through the painter so focus returns to the opener (WCAG 2.2 AA).
         this.charWindow.close();
         this.syncCharBagsPairing();
+        break;
+      case 'inspect-window':
+        // Route through the painter so focus returns to the opener (WCAG 2.2 AA).
+        this.inspectWindow.close();
         break;
       case 'trade-window':
         this.sim.tradeCancel();
@@ -11458,57 +11463,100 @@ export class Hud {
       .catch((err) => console.error('failed to load mech cosmetic preview:', err));
   }
 
-  /** Mount the shared character turntable into `container` showing `cls`/`skin`.
-   *  The single CharacterPreview canvas is moved between hosts (char sheet, the
-   *  skin-select overlay) via setContainer, so only one WebGL context exists. */
+  /** Mount the shared character turntable into `container`. The single
+   *  CharacterPreview canvas is moved between hosts (char sheet, the skin-select
+   *  overlay, the inspect stage) via setContainer, so only one WebGL context
+   *  exists; every mount re-asserts its own framing, so the sheet and the inspect
+   *  stage can trade the camera without inheriting each other's framing. */
+  private mountSharedPreview(
+    container: HTMLElement,
+    opts: {
+      cls: PlayerClass;
+      skin: number;
+      previewKey?: string;
+      mainhand: string | null;
+      offhand: string | null;
+      framing: PreviewFramingName;
+    },
+  ): void {
+    if (!this.charPreviewCanvas) this.charPreviewCanvas = document.createElement('canvas');
+    if (!this.charPreview) {
+      container.appendChild(this.charPreviewCanvas);
+      this.charPreview = new CharacterPreview(container, this.charPreviewCanvas);
+    } else {
+      this.charPreview.setContainer(container);
+    }
+    if (opts.previewKey) {
+      // Mech is class-agnostic; mirror the wearer class's hand layout so the
+      // paperdoll matches the in-world render.
+      const override = opts.previewKey === 'player_mech' ? mechHeldWeaponOverride(opts.cls) : null;
+      this.charPreview.setVisualKey(opts.previewKey, opts.mainhand, override, opts.offhand);
+    } else {
+      this.charPreview.setClass(opts.cls, opts.mainhand, opts.offhand);
+    }
+    this.charPreview.setSkin(opts.skin);
+    this.charPreview.setFraming(opts.framing);
+  }
+
+  /** Char-sheet / skin-picker mount: the SELF character with both currently
+   *  equipped hands (so the 3D model reflects shields and dual wield as well as
+   *  mainhand gear changes), in the close self-sheet framing. */
   private mountCharPreview(
     container: HTMLElement,
     cls: PlayerClass,
     skin: number,
     previewKey?: string,
   ): void {
-    if (!this.charPreviewCanvas) this.charPreviewCanvas = document.createElement('canvas');
-    if (!this.charPreview) {
-      container.appendChild(this.charPreviewCanvas);
-      this.charPreview = new CharacterPreview(container, this.charPreviewCanvas);
-    } else {
-      this.charPreview.setContainer(container);
-    }
-    // Show both currently equipped hands on the character sheet, so the 3D model
-    // reflects shields and dual wield as well as mainhand gear changes.
-    const weapon = this.sim.equipment.mainhand ?? null;
-    const offhand = this.sim.equipment.offhand ?? null;
-    if (previewKey) {
-      // Mech is class-agnostic; mirror the wearer class's hand layout so the
-      // paperdoll matches the in-world render.
-      const override = previewKey === 'player_mech' ? mechHeldWeaponOverride(cls) : null;
-      this.charPreview.setVisualKey(previewKey, weapon, override, offhand);
-    } else {
-      this.charPreview.setClass(cls, weapon, offhand);
-    }
-    this.charPreview.setSkin(skin);
-    // Re-assert the self-sheet framing on every mount, so reopening the character
-    // sheet after an inspect (which pulls the shared camera back) restores it.
-    this.charPreview.setFraming('sheet');
+    this.mountSharedPreview(container, {
+      cls,
+      skin,
+      previewKey,
+      mainhand: this.sim.equipment.mainhand ?? null,
+      offhand: this.sim.equipment.offhand ?? null,
+      framing: 'sheet',
+    });
   }
 
   /** Mount the shared turntable into the inspect stage showing the INSPECTED
-   *  player's class / skin / worn hands, with the pulled-back inspect framing.
-   *  Reuses the one shared CharacterPreview canvas (setContainer re-parents it). */
+   *  player's appearance and worn hands, with the pulled-back inspect framing.
+   *  The skin CATALOG picks the rig exactly as renderCharPreview does for self:
+   *  a mech-cosmetic player mounts after the lazy mech-asset preload resolves,
+   *  and only while this stage is still the live inspect target. */
   private mountInspectPreview(
     container: HTMLElement,
-    params: { cls: PlayerClass; skin: number; mainhand: string | null; offhand: string | null },
+    params: {
+      cls: PlayerClass;
+      skin: number;
+      skinCatalog: SkinCatalog;
+      mainhand: string | null;
+      offhand: string | null;
+    },
   ): void {
-    if (!this.charPreviewCanvas) this.charPreviewCanvas = document.createElement('canvas');
-    if (!this.charPreview) {
-      container.appendChild(this.charPreviewCanvas);
-      this.charPreview = new CharacterPreview(container, this.charPreviewCanvas);
-    } else {
-      this.charPreview.setContainer(container);
+    const preview = activeCharacterAppearancePreview(params.cls, params.skin, params.skinCatalog);
+    const mount = (): void =>
+      this.mountSharedPreview(container, {
+        cls: params.cls,
+        skin: preview.skin,
+        previewKey: preview.visualKey === 'player_mech' ? preview.visualKey : undefined,
+        mainhand: params.mainhand,
+        offhand: params.offhand,
+        framing: 'inspect',
+      });
+    if (preview.visualKey !== 'player_mech') {
+      mount();
+      return;
     }
-    this.charPreview.setClass(params.cls, params.mainhand, params.offhand);
-    this.charPreview.setSkin(params.skin);
-    this.charPreview.setFraming('inspect');
+    if (!this.mechAssetsPromise) this.mechAssetsPromise = preloadMechAssets();
+    void this.mechAssetsPromise
+      .then(() => {
+        // Mount only while the inspect window is still open AND this stage is still
+        // the painted one (a reopen replaces the innerHTML, disconnecting it), so a
+        // late resolve can never steal the canvas from the character sheet.
+        const inspectWindow = $('#inspect-window') as HTMLElement | null;
+        if (inspectWindow?.style.display !== 'block' || !container.isConnected) return;
+        mount();
+      })
+      .catch((err) => console.error('failed to load mech cosmetic preview:', err));
   }
 
   private renderCharSkinPicker(): void {
