@@ -2558,6 +2558,12 @@ export class Hud {
         this.confirmTrap = null;
         el.remove();
         break;
+      case 'profession-tutorial':
+        // Route through closeProfessionTutorial so the focus trap is released
+        // (focus returns to the opener, WCAG 2.2 AA) and the modal is removed,
+        // never left hidden with a live trap (the confirm-dialog precedent).
+        this.closeProfessionTutorial();
+        break;
       case 'options-menu':
         this.closeOptions();
         break;
@@ -10212,7 +10218,7 @@ export class Hud {
   // (the sim guarantees once-ever). Reuses the confirm-dialog modal family via
   // the profession_tutorial_window painter; the Hud owns the focus trap and the
   // z-index floor above the mobile sheet, the confirmDialog precedent.
-  openProfessionTutorial(): void {
+  private openProfessionTutorial(): void {
     this.professionTutorialTrap?.release(false);
     this.professionTutorialTrap = null;
     const el = renderProfessionTutorial(buildProfessionTutorialModel(), {
