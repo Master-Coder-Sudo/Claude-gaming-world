@@ -257,13 +257,22 @@ export const TARGETS = [
     when: ['ui/crafting_view', 'ui/crafting_window', 'sim/content/recipes', 'sim/professions'],
     // Desktop and mobile variants: the Phase 6 legibility rows (skill line,
     // difficulty label, station badge, combo reason) are actionable info and
-    // must read on both form factors.
-    variants: [{ key: 'desktop' }, { key: 'mobile', mobile: true }],
+    // must read on both form factors. The four-states variant stages a
+    // mid-skill unattuned character so one window shows the whole 12c
+    // difficulty ladder at once: commons two tiers below (minimal, green),
+    // a known rung-25 recipe one below (reduced, yellow), a known rung-50
+    // recipe at capability (full, orange), and the armorcrafting 75 row
+    // above the pre-attunement ceiling (none, gray).
+    variants: [
+      { key: 'desktop' },
+      { key: 'mobile', mobile: true },
+      { key: 'desktop-four-states', fourStates: true },
+    ],
     // Grant a spread of reagents across a few professions so several recipes read
     // craftable, force-hide then toggle so the open is deterministic, and clip to
     // the window.
     async capture(page, variant) {
-      await page.evaluate(() => {
+      await page.evaluate((fourStates) => {
         document.querySelector('#gpu-notice')?.remove();
         const sim = window.__game?.sim;
         const ids = ['bone_fragments', 'linen_scrap', 'spider_leg'];
@@ -272,18 +281,29 @@ export const TARGETS = [
             sim?.addItem(id, 10);
           } catch {}
         }
+        if (fourStates) {
+          const meta = sim?.players?.get(sim.primaryId);
+          if (meta) {
+            meta.craftSkills = { ...meta.craftSkills, weaponcrafting: 60 };
+            meta.knownRecipes.add('recipe_ironedge_longsword');
+            meta.knownRecipes.add('recipe_thorium_warblade');
+          }
+        }
         const el = document.querySelector('#crafting-window');
         if (el) el.style.display = 'none';
         window.__game?.hud?.toggleCrafting?.();
-      });
+      }, Boolean(variant?.fourStates));
       // A first-open crafting window with several icon-bearing recipe rows takes
       // noticeably longer to lay out in headless swiftshader than the plain-list
       // bags/map windows do (getBoundingClientRect can report 0x0 for 2-4s), so
       // poll for a real size instead of guessing a fixed wait.
       const open = await pollForSize(page, '#crafting-window');
-      if (open && variant?.mobile) {
-        // The short landscape viewport shows only the identity card; scroll the
-        // first recipe section into view so the legibility rows are the shot.
+      if (open && (variant?.mobile || variant?.fourStates)) {
+        // The identity card fills the top of the window (all of it on the short
+        // landscape viewport); scroll the first recipe section into view so the
+        // legibility rows, and for four-states the whole difficulty ladder
+        // (weaponcrafting green/yellow/orange plus the armorcrafting gray 75
+        // row), are the shot.
         await page.evaluate(() => {
           document
             .querySelector('#crafting-window .vendor-section-title')
