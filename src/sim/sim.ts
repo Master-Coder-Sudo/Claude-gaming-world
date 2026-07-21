@@ -324,7 +324,7 @@ import { updateGuildTrendLetters } from './professions/guild_letter';
 import type { MasterworkProc } from './professions/masterwork';
 import { applyMasteryReset, updateMasteryResetNotices } from './professions/mastery_reset';
 import { updateProfNudges } from './professions/prof_nudges';
-import { updateTierMail } from './professions/tier_mail';
+import { normalizeTierMailOnLoad, updateTierMail } from './professions/tier_mail';
 import {
   isStationActive,
   type MobileCraftingStation,
@@ -2297,7 +2297,14 @@ export class Sim {
       // field and sanitizes to an empty bank). See bank.ts sanitizeBankState.
       meta.bank = sanitizeBankState(s.bank);
       for (const q of s.questLog) {
-        if (q.state !== 'done')
+        // Prune unknown quest ids at load (normalize on load, never crash): a save
+        // mid a since-deleted quest (e.g. the Phase 14 retirement of
+        // q_archetype_acceptance / q_prof_make_amends) must not leave a live
+        // questLog entry whose id is absent from QUESTS, or the next quest-touching
+        // tick op dereferences QUESTS[qp.questId].objectives and TypeErrors inside
+        // the server tick (quest_credit.ts + interactNpcForQuests). questsDone is
+        // membership-only (never dereferenced), so it is preserved as history below.
+        if (q.state !== 'done' && QUESTS[q.questId])
           meta.questLog.set(q.questId, {
             questId: q.questId,
             counts: [...q.counts],
@@ -2363,14 +2370,7 @@ export class Sim {
       );
       // Phase 14 acknowledged tiers: valid finite non-negative entries only; a
       // missing craft re-baselines silently on the next tier-mail sweep.
-      meta.tierMailSent = new Map();
-      if (s.tierMailSent) {
-        for (const [craft, tier] of Object.entries(s.tierMailSent)) {
-          if (typeof tier === 'number' && Number.isFinite(tier) && tier >= 0) {
-            meta.tierMailSent.set(craft, tier);
-          }
-        }
-      }
+      meta.tierMailSent = normalizeTierMailOnLoad(s.tierMailSent);
       meta.profTierTutorialSent = s.profTierTutorialSent === true;
       meta.delveMarks = s.delveMarks ?? 0;
       meta.delveClears = { ...(s.delveClears ?? {}) };

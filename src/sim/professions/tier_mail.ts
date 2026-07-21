@@ -23,6 +23,23 @@ import type { SimContext } from '../sim_context';
 import { archetypePairId } from './archetype';
 import { tierForSkill } from './wheel';
 
+/** Rebuild the persisted per-craft acknowledged-tier record into a live map,
+ *  keeping only valid finite non-negative entries; a craft dropped here (or absent
+ *  from the save) re-baselines silently on the next sweep. Keeps the sim.ts load
+ *  arm thin and consistent with cadence.ts clampCadenceOnLoad. */
+export function normalizeTierMailOnLoad(
+  saved: Record<string, number> | undefined | null,
+): Map<string, number> {
+  const map = new Map<string, number>();
+  if (!saved) return map;
+  for (const [craft, tier] of Object.entries(saved)) {
+    if (typeof tier === 'number' && Number.isFinite(tier) && tier >= 0) {
+      map.set(craft, tier);
+    }
+  }
+  return map;
+}
+
 /** The active pair's two major craft ids, or null when the character is not
  *  attuned (activeArchetype/pairedMajor both null). */
 function activeMajors(meta: PlayerMeta): [string, string] | null {

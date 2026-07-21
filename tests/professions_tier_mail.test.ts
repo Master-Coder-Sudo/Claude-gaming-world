@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { type LetterDef, MASTER_TIER_LETTERS } from '../src/sim/content/letters';
-import { baselineActivePairTierMail, updateTierMailFor } from '../src/sim/professions/tier_mail';
+import {
+  baselineActivePairTierMail,
+  normalizeTierMailOnLoad,
+  updateTierMailFor,
+} from '../src/sim/professions/tier_mail';
 import type { PlayerMeta } from '../src/sim/sim';
 import { Sim } from '../src/sim/sim';
 import type { SimContext } from '../src/sim/sim_context';
@@ -176,5 +180,21 @@ describe('tier-crossing master mail (Professions 2.0 Phase 14)', () => {
     const sim = makeSim();
     const saved = sim.serializeCharacter(sim.playerId);
     expect(saved && 'tierMailSent' in saved).toBe(false);
+  });
+
+  it('normalizeTierMailOnLoad drops invalid entries and keeps valid ones', () => {
+    expect(normalizeTierMailOnLoad(undefined).size).toBe(0);
+    expect([
+      ...normalizeTierMailOnLoad({
+        [PRIMARY]: 3,
+        [SECONDARY]: 0,
+        bad: Number.NaN,
+        alsoBad: -1,
+        infinite: Infinity,
+      }).entries(),
+    ]).toEqual([
+      [PRIMARY, 3],
+      [SECONDARY, 0],
+    ]);
   });
 });
