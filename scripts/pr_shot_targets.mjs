@@ -1292,6 +1292,7 @@ export const TARGETS = [
       { key: 'quest-desktop' },
       { key: 'quest-mobile', mobile: true },
       { key: 'tutorial-desktop', tutorial: true },
+      { key: 'tutorial-mobile', tutorial: true, mobile: true },
     ],
     async capture(page, variant) {
       await page.evaluate(() => {
