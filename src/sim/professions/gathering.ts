@@ -40,6 +40,7 @@ import { gatherActionXp } from './profession_xp';
 import { proficiencyBandFor } from './proficiency_bands';
 import { BARE_HANDS_TOOL_TIER, bestOwnedGatherToolTier, canGatherTier } from './tools';
 import type { PlayerProfessionSkill } from './types';
+import { tierProgressMultiplier } from './wheel';
 
 export type GatheringProficiency = Record<GatheringProfessionId, number>;
 
@@ -188,6 +189,25 @@ export function isNodeHarvestableBy(meta: PlayerMeta, nodeId: string, now: numbe
   return readyAt === undefined || now >= readyAt;
 }
 
+// Node-tier-relative proficiency gain (Professions 2.0 Phase 12c): every
+// GATHER_GAIN_TIER_STEP points of proficiency is one gain tier, scored
+// against the node's tier through the same four-state mastery curve crafting
+// uses (wheel.ts tierProgressMultiplier). A node of tier T (1 = bare-hands)
+// maps to gain tier T - 1, so it carries the player through the band below
+// T * 25 at full-to-minimal gain: t1 nodes gray out at proficiency 75+, and
+// Thornpeak's t3 nodes are what finish the climb to 100.
+export const GATHER_GAIN_TIER_STEP = 25;
+
+// The per-harvest proficiency gain for one node harvest: deterministic
+// fractional amounts (1 / 0.5 / 0.25 / 0 by tiers below), never a skill-up
+// roll and never an rng draw.
+export function gatherNodeGainMultiplier(proficiency: number, nodeTier: number): number {
+  return tierProgressMultiplier(
+    Math.floor(Math.max(0, proficiency) / GATHER_GAIN_TIER_STEP),
+    Math.max(0, nodeTier - 1),
+  );
+}
+
 export interface HarvestResolution {
   granted: boolean;
   itemId?: string;
@@ -236,7 +256,14 @@ export function resolveHarvest(
   const material = nodeMaterialFor(node.type, node.zoneId);
   const qty = material.qtyByRarity[rarity] * (rareEvent ? GATHER_RARE_EVENT_YIELD_MULT : 1);
   const signed = rareEvent !== null || isSignableMaterialRarity(rarity);
-  queueGatheringGrant(meta, entry.professionId, 1);
+  // Phase 12c: the queued gain is node-tier-relative (gatherNodeGainMultiplier
+  // above), read off the proficiency at the moment of harvest; a gray harvest
+  // resolves to 0, which queueGatheringGrant drops, so it queues nothing.
+  queueGatheringGrant(
+    meta,
+    entry.professionId,
+    gatherNodeGainMultiplier(meta.gatheringProficiency[entry.professionId], node.tier),
+  );
   return {
     granted: true,
     itemId: material.itemId,

@@ -246,12 +246,17 @@ describe('resolveCraftForRecipe reads the archetype-gated ceiling for skill-gain
     expect(meta.craftSkills[OUTSIDE]).toBe(20); // frozen at 20: the climb itself is denied
   });
 
-  it('a common-tier (recipeTier 0) craft still produces skill progress at the free floor even when dormant', () => {
+  it('a common-tier (recipeTier 0) craft in a dormant craft rides the mastery curve, never the ceiling (Phase 12c)', () => {
+    // Pre-12c this pinned the tier-0 free floor (100 -> 101 even when
+    // dormant). The floor is retired: a common recipe now scores against raw
+    // capability like every other tier, while the common CEILING still never
+    // blocks it (recipeTier 0 is never above ceiling 0), so what stops the
+    // gain below is the curve alone.
     const sim = makeSim();
     const pid = sim.playerId;
     sim.acceptArchetypeQuest(ARMOR);
     const meta = metaOf(sim, pid);
-    meta.craftSkills[OUTSIDE] = 100;
+    meta.craftSkills[OUTSIDE] = 100; // tier-4 capability: common is gray now
 
     const recipe: ProfessionRecipeRecord = {
       id: 'test_recipe_common_outside',
@@ -259,14 +264,22 @@ describe('resolveCraftForRecipe reads the archetype-gated ceiling for skill-gain
       resultItemId: 'bone_fragments',
       resultCount: 1,
       reagents: [],
-      skillReq: 0, // recipeTier = 0 (common, the free floor)
+      skillReq: 0, // recipeTier = 0 (common)
       itemLevelBudget: 1,
       level: 1,
     };
     const result = resolveCraftForRecipe(ctxOf(sim), pid, recipe);
 
     expect(result.ok).toBe(true);
-    expect(meta.craftSkills[OUTSIDE]).toBe(101); // full progress, unaffected by the ceiling
+    expect(meta.craftSkills[OUTSIDE]).toBe(100); // gray by capability, not the ceiling
+
+    // The ceiling-independence arm the old pin carried: at tier-1 capability
+    // (one tier above common) the dormant craft still gains the yellow 0.5
+    // through the common ceiling.
+    meta.craftSkills[OUTSIDE] = 30;
+    const again = resolveCraftForRecipe(ctxOf(sim), pid, recipe);
+    expect(again.ok).toBe(true);
+    expect(meta.craftSkills[OUTSIDE]).toBe(30.5);
   });
 
   it('grants full skill progress in the title major even at very high raw skill', () => {

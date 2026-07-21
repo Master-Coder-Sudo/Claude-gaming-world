@@ -74,24 +74,22 @@ export function craftSkillsFor(ctx: SimContext, pid: number): CraftSkills {
 // and so on. Recipes bucket their skillReq the same way, so a recipe's tier
 // and a player's capability tier are directly comparable.
 //
-// Skill-progress rule on a successful craft:
-// - common tier (recipe tier 0): always the full amount, regardless of the
-//   player's capability (the free floor from #1126/#1127 holds unconditionally).
+// Skill-progress rule on a successful craft (Professions 2.0 Phase 12c, the
+// four-state mastery curve): EVERY recipe tier, tier 0 included, is scored by
+// how many tiers it sits below the player's capability. The tier-0 free floor
+// from #1126/#1127 (full gain forever on the cheapest recipe) is retired.
 // - recipe tier at or above the player's capability: full amount (this is how
 //   capability advances in the first place).
 // - recipe exactly one tier below capability: reduced amount (diminishing
 //   returns for crafting something already mastered).
-// - recipe two or more tiers below capability: zero (no progress at all).
+// - recipe exactly two tiers below capability: minimal amount (a trickle).
+// - recipe three or more tiers below capability: zero (no progress at all).
 //
-// #1148 tuning pass: this diminishing-returns shape (full at/above capability,
-// reduced one tier below, zero two-plus tiers below) matches the design doc's
-// own decided text ("crafting below your current capability gives diminishing
-// returns, and a craft two tiers under your capability gives nothing"), so it
-// is CONFIRMED, not re-tuned. The doc's own Open Questions section leaves the
-// "crafts-per-tier" step size itself open ("the example uses about 20");
-// TIER_SKILL_STEP of 25 is kept as the working value (a round number close to
-// that example, over the 1-300 classic skill scale used elsewhere in this
-// module) rather than re-guessed, pending a real number from that open item.
+// The doc's own Open Questions section leaves the "crafts-per-tier" step size
+// itself open ("the example uses about 20"); TIER_SKILL_STEP of 25 is kept as
+// the working value (a round number close to that example, over the 1-300
+// classic skill scale used elsewhere in this module) rather than re-guessed,
+// pending a real number from that open item.
 export const TIER_SKILL_STEP = 25;
 
 /** Bucket a flat skill value into a tier index. Skill 0-24 -> tier 0 (common),
@@ -110,16 +108,25 @@ export function tierCapability(skills: CraftSkills, craftId: string): number {
 // Multiplier applied to a one-tier-below craft's skill-progress amount.
 const REDUCED_TIER_MULTIPLIER = 0.5;
 
+// Multiplier applied to a two-tiers-below craft's skill-progress amount: the
+// third state of the Phase 12c four-state mastery curve.
+export const MINIMAL_TIER_MULTIPLIER = 0.25;
+
 /** The skill-progress multiplier for crafting a recipe of `recipeTier` given a
- *  player's `capabilityTier` in that craft. Common tier (recipeTier 0) is
- *  always 1 (the free floor), independent of capability. Otherwise: full (1)
- *  at or above capability, reduced (0.5) one tier below, zero two or more
- *  tiers below. */
+ *  player's `capabilityTier` in that craft: the four-state mastery curve, the
+ *  classic orange/yellow/green/gray reading, applied to EVERY recipe tier
+ *  including tier 0 (the old tier-0 free floor is retired).
+ *  - orange (recipe at or above your capability): full gain (1).
+ *  - yellow (exactly one tier below): reduced gain (0.5).
+ *  - green (exactly two tiers below): minimal gain (0.25).
+ *  - gray (three or more tiers below): nothing (0).
+ *  Gains are deterministic fractional amounts, NEVER a skill-up roll: the same
+ *  craft at the same capability always moves skill by exactly this multiple. */
 export function tierProgressMultiplier(capabilityTier: number, recipeTier: number): number {
-  if (recipeTier <= 0) return 1;
   const tiersBelow = capabilityTier - recipeTier;
   if (tiersBelow <= 0) return 1;
   if (tiersBelow === 1) return REDUCED_TIER_MULTIPLIER;
+  if (tiersBelow === 2) return MINIMAL_TIER_MULTIPLIER;
   return 0;
 }
 
