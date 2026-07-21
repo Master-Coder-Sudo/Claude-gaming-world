@@ -2123,6 +2123,8 @@ export const ko_KR: EnTranslations = {
         "herbalism": "이 군락을 채집하려면 {tier}티어 약초 낫이 필요합니다."
       },
       "toolTierUnmetCorpse": "최상급 재료를 회수하려면 {tier}티어 채집 도구가 필요합니다.",
+      "downgradeMark": "가방이 가득 찼습니다: 수확물이 채집자의 표식 없이 보관되었습니다.",
+      "downgradeFind": "가방이 가득 찼습니다: 최상급 수확물을 놓쳐 버렸습니다.",
       "stateReady": "채집 가능",
       "stateCooldown": "재생성 중"
     },
@@ -2262,6 +2264,7 @@ export const ko_KR: EnTranslations = {
       "masterworkZoneLine": "{crafter}님이 걸작 {name}을(를) 제작했습니다!",
       "tierUpToast": "{craft} 티어 {tier} 달성!",
       "makersMark": "제작자: {name}",
+      "gatheredBy": "채집자: {name}",
       "masterworkSeal": "걸작",
       "enchantedLine": "마법부여됨"
     },

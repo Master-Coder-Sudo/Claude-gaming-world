@@ -356,19 +356,30 @@ export function harvestCorpse(
   // the signed-family grant falls back to the plain fungible top-up (the
   // signature truncates, the yield does not) while a specimen truncates
   // outright, the same truncation contract harvestNode's signed grants
-  // follow.
+  // follow. Each downgrade tells the player via the text-free personal
+  // gatherDowngrade event, at most ONCE per harvest command (the
+  // toolDeniedEmitted idiom); the mark-lost arm runs first, so when both a
+  // signature and a jackpot are lost the single event reports the mark.
+  let downgradeEmitted = false;
   for (const grant of signedGrants) {
     if (grant.specimen) continue;
     if (meta.inventory.length < bagCapacity(meta.bags)) {
       ctx.addItemInstance(grant.itemId, { signer: meta.name }, meta.entityId);
     } else {
       ctx.addItem(grant.itemId, grant.plainQty, meta.entityId);
+      if (!downgradeEmitted) {
+        downgradeEmitted = true;
+        ctx.emit({ type: 'gatherDowngrade', pid: meta.entityId, surface: 'corpse', lost: 'mark' });
+      }
     }
   }
   for (const grant of signedGrants) {
     if (!grant.specimen) continue;
     if (meta.inventory.length < bagCapacity(meta.bags)) {
       ctx.addItemInstance(grant.itemId, { signer: meta.name }, meta.entityId);
+    } else if (!downgradeEmitted) {
+      downgradeEmitted = true;
+      ctx.emit({ type: 'gatherDowngrade', pid: meta.entityId, surface: 'corpse', lost: 'find' });
     }
   }
 }

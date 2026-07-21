@@ -2123,6 +2123,8 @@ export const pl_PL: EnTranslations = {
         "herbalism": "You need a tier {tier} herbalism sickle to gather this patch."
       },
       "toolTierUnmetCorpse": "You need a tier {tier} gathering tool to recover the finest materials.",
+      "downgradeMark": "Bags full: the find was stored without its gatherer's mark.",
+      "downgradeFind": "Bags full: a pristine find slipped away.",
       "stateReady": "Ready",
       "stateCooldown": "Respawning"
     },
@@ -2262,6 +2264,7 @@ export const pl_PL: EnTranslations = {
       "masterworkZoneLine": "{crafter} stworzył arcydzieło {name}!",
       "tierUpToast": "{craft} awansowany na poziom {tier}!",
       "makersMark": "Stworzone przez {name}",
+      "gatheredBy": "Gathered by {name}",
       "masterworkSeal": "Arcydzieło",
       "enchantedLine": "Zaczarowany"
     },

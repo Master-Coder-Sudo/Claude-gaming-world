@@ -296,7 +296,10 @@ describe('corpse harvest: single-use, first-come (#1141)', () => {
 describe('signed Pristine specimens (#1145, Phase 10)', () => {
   it('a rare-or-better harvest grants the signed specimen PLUS the plain component (seed 5)', () => {
     const { sim, internals, a, mob } = setup(5);
+    sim.drainEvents();
     sim.harvestCorpse(mob.id, ['hide'], a);
+    // The signed jackpot landed signed: no downgrade notice fires (Phase 12d).
+    expect(sim.drainEvents().filter((e) => e.type === 'gatherDowngrade')).toHaveLength(0);
     const meta = internals.players.get(a)!;
     // The regular component grants plain (fungible, unsigned), at its rolled
     // tier quantity: the specimen is now the signed jackpot, not the hide.
@@ -406,6 +409,7 @@ describe('signed Pristine specimens (#1145, Phase 10)', () => {
     const cap = bagCapacity(m.bags);
     m.inventory[0] = { itemId: 'wolf_fang', count: 1 };
     expect(m.inventory.length).toBe(cap);
+    sim.drainEvents();
     sim.harvestCorpse(mob.id, ['fang'], a);
     expect(mob.harvestClaimedBy).toBe(a);
     expect(m.inventory.length).toBeLessThanOrEqual(cap);
@@ -415,6 +419,11 @@ describe('signed Pristine specimens (#1145, Phase 10)', () => {
     // sequence (proven by the unfixed code overflowing here), so the count
     // above the seeded 1 proves the plain fallback delivered the yield.
     expect(sim.countItem('wolf_fang', a)).toBeGreaterThan(1);
+    // Phase 12d: the unsigned fallback tells the player, exactly once, with
+    // the mark-lost arm (the yield survived, the signature did not).
+    expect(sim.drainEvents().filter((e) => e.type === 'gatherDowngrade')).toEqual([
+      { type: 'gatherDowngrade', pid: a, surface: 'corpse', lost: 'mark' },
+    ]);
   });
 
   it('a slot-full specimen harvest truncates the specimen and keeps the plain yield (seed 5)', () => {
@@ -427,11 +436,63 @@ describe('signed Pristine specimens (#1145, Phase 10)', () => {
     const cap = bagCapacity(m.bags);
     m.inventory[0] = { itemId: 'rough_hide', count: 1 };
     expect(m.inventory.length).toBe(cap);
+    sim.drainEvents();
     sim.harvestCorpse(mob.id, ['hide'], a);
     expect(mob.harvestClaimedBy).toBe(a);
     expect(m.inventory.length).toBeLessThanOrEqual(cap);
     expect(m.inventory.some((s) => s.itemId === 'pristine_hide')).toBe(false);
     expect(sim.countItem('rough_hide', a)).toBeGreaterThan(1);
+    // Phase 12d: the dropped jackpot tells the player, exactly once, with the
+    // find-lost arm (the plain yield survived, the pure extra did not).
+    expect(sim.drainEvents().filter((e) => e.type === 'gatherDowngrade')).toEqual([
+      { type: 'gatherDowngrade', pid: a, surface: 'corpse', lost: 'find' },
+    ]);
+  });
+
+  it('one command losing a mark AND a find emits ONE downgrade, reporting the mark', () => {
+    // The dedupe pin (the toolDeniedEmitted idiom): a spread wolf harvest
+    // whose fang (no specimen: signed-or-plain) AND hide (specimen jackpot)
+    // rolls both clear the signable floor, against slot-full bags with
+    // partial stacks of both plain components, downgrades twice in one
+    // command: the fang signature falls back to the plain top-up (loop one,
+    // 'mark') and the hide jackpot truncates (loop two, 'find'). Exactly one
+    // event may fire, and the first loop runs first, so it reports 'mark'.
+    // The qualifying seed is hunted with a probe run (roomy bags: both signed
+    // grants land as instances, proving both rolls signable), then asserted
+    // on a FRESH same-seed world: the rarity draws are inventory-independent
+    // (pinned by the grant-order contract above), so the same seed reproduces
+    // the same rolls against the full bags.
+    for (let seed = 1; seed <= 200; seed++) {
+      const probe = setup(seed);
+      probe.sim.harvestCorpse(probe.mob.id, undefined, probe.a);
+      const pm = probe.internals.players.get(probe.a)!;
+      const fangSigned = pm.inventory.some((s) => s.itemId === 'wolf_fang' && s.instance?.signer);
+      const hideJackpot = pm.inventory.some((s) => s.itemId === 'pristine_hide');
+      if (!fangSigned || !hideJackpot) continue;
+      const { sim, internals, a, mob } = setup(seed);
+      fillBags(sim, internals, a);
+      const m = internals.players.get(a)!;
+      const cap = bagCapacity(m.bags);
+      m.inventory[0] = { itemId: 'wolf_fang', count: 1 };
+      m.inventory[1] = { itemId: 'rough_hide', count: 1 };
+      expect(m.inventory.length).toBe(cap);
+      sim.drainEvents();
+      sim.harvestCorpse(mob.id, undefined, a);
+      expect(mob.harvestClaimedBy).toBe(a);
+      expect(m.inventory.length).toBeLessThanOrEqual(cap);
+      // Both downgrades happened: no signed fang, no jackpot, both plain
+      // stacks absorbed their yields.
+      expect(m.inventory.some((s) => s.itemId === 'wolf_fang' && s.instance)).toBe(false);
+      expect(m.inventory.some((s) => s.itemId === 'pristine_hide')).toBe(false);
+      expect(sim.countItem('wolf_fang', a)).toBeGreaterThan(1);
+      expect(sim.countItem('rough_hide', a)).toBeGreaterThan(1);
+      // ... but exactly ONE event fired, reporting the first-loop mark loss.
+      expect(sim.drainEvents().filter((e) => e.type === 'gatherDowngrade')).toEqual([
+        { type: 'gatherDowngrade', pid: a, surface: 'corpse', lost: 'mark' },
+      ]);
+      return;
+    }
+    throw new Error('no seed with both fang and hide signable within 200');
   });
 });
 

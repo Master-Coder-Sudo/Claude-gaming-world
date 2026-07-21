@@ -2123,6 +2123,8 @@ export const zh_CN: EnTranslations = {
         "herbalism": "你需要{tier}阶草药镰才能采集这片草药丛。"
       },
       "toolTierUnmetCorpse": "你需要{tier}阶采集工具才能取得最上等的材料。",
+      "downgradeMark": "背包已满：这份收获未能留下采集者的印记。",
+      "downgradeFind": "背包已满：一件完美的收获溜走了。",
       "stateReady": "可采集",
       "stateCooldown": "恢复中"
     },
@@ -2262,6 +2264,7 @@ export const zh_CN: EnTranslations = {
       "masterworkZoneLine": "{crafter}制作出了杰作{name}！",
       "tierUpToast": "{craft}提升至阶级 {tier}！",
       "makersMark": "制作者：{name}",
+      "gatheredBy": "采集者：{name}",
       "masterworkSeal": "杰作",
       "enchantedLine": "已附魔"
     },

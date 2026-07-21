@@ -447,6 +447,8 @@ describe('grant truncation at the command boundary (full bags)', () => {
       // one free slot opened, so the windfall no longer truncates per slot
       // (the pre-12d contract granted one unit per free slot).
       expect(gather.qty).toBeGreaterThanOrEqual(GATHER_RARE_EVENT_YIELD_MULT);
+      // The signed grant landed signed: no downgrade notice fires here.
+      expect(events.filter((e) => e.type === 'gatherDowngrade')).toHaveLength(0);
       const copper = meta.inventory.filter((s) => s.itemId === 'copper_ore');
       expect(copper).toHaveLength(1);
       expect(copper[0].count).toBe(gather.qty);
@@ -484,7 +486,12 @@ describe('grant truncation at the command boundary (full bags)', () => {
       // Truncation, not overflow, on EVERY iteration (fungible rolls included).
       expect(meta.inventory.length).toBeLessThanOrEqual(capacity);
       const wouldSign = gather.rareEvent !== null || isSignableMaterialRarity(gather.rarity);
-      if (!wouldSign) continue;
+      const downgrades = events.filter((e) => e.type === 'gatherDowngrade');
+      if (!wouldSign) {
+        // A fungible roll lost no signature: the downgrade notice never fires.
+        expect(downgrades).toHaveLength(0);
+        continue;
+      }
       // The signed-roll arm: no instance landed, the stack absorbed the
       // granted count, and gatherResult.qty reports that granted count.
       expect(meta.inventory.length).toBe(capacity);
@@ -492,6 +499,9 @@ describe('grant truncation at the command boundary (full bags)', () => {
       const stack = meta.inventory.find((s) => s.itemId === 'copper_ore' && !s.instance);
       expect(gather.qty).toBeGreaterThanOrEqual(1);
       expect(stack?.count).toBe(15 + gather.qty);
+      // Phase 12d: the unsigned fallback tells the player, exactly once, with
+      // the mark-lost arm (the yield survived, the signature did not).
+      expect(downgrades).toEqual([{ type: 'gatherDowngrade', pid, surface: 'node', lost: 'mark' }]);
       return;
     }
     throw new Error('no signed roll within 3000 attempts');

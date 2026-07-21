@@ -7354,6 +7354,8 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
     'Чтобы собрать эти заросли, нужен серп травника {tier} уровня.',
   'hudChrome.gathering.toolTierUnmetCorpse':
     'Чтобы добыть лучшие материалы, нужен инструмент сбора {tier} уровня.',
+  'hudChrome.gathering.downgradeMark': 'Сумки полны: добыча сохранена без метки сборщика.',
+  'hudChrome.gathering.downgradeFind': 'Сумки полны: превосходная находка ускользнула.',
   'hudChrome.gathering.stateReady': 'Готово',
   'hudChrome.gathering.stateCooldown': 'Восстанавливается',
   'gatherEvent.pristineVein': '{finder} находит нетронутую жилу!',
@@ -7425,6 +7427,7 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.crafting.masterworkZoneLine': 'Шедевр от {crafter}: {name}!',
   'hudChrome.crafting.tierUpToast': '{craft}: достигнут ранг {tier}!',
   'hudChrome.crafting.makersMark': 'Создатель: {name}',
+  'hudChrome.crafting.gatheredBy': 'Сборщик: {name}',
   'hudChrome.crafting.masterworkSeal': 'Шедевр',
   'hudChrome.crafting.enchantedLine': 'Зачаровано',
   'hudChrome.crafting.stationRequired': 'Для изготовления нужно находиться у станции "{station}".',

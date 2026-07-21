@@ -2123,6 +2123,8 @@ export const ja_JP: EnTranslations = {
         "herbalism": "この群生地を採取するにはティア{tier}の薬草鎌が必要です。"
       },
       "toolTierUnmetCorpse": "最高の素材を回収するにはティア{tier}の採集道具が必要です。",
+      "downgradeMark": "バッグが満杯です：収穫は採集者の印なしで収納されました。",
+      "downgradeFind": "バッグが満杯です：極上の獲物を逃してしまいました。",
       "stateReady": "採集可能",
       "stateCooldown": "再生中"
     },
@@ -2262,6 +2264,7 @@ export const ja_JP: EnTranslations = {
       "masterworkZoneLine": "{crafter}が傑作{name}を作り上げました！",
       "tierUpToast": "{craft}がティア {tier} に到達しました！",
       "makersMark": "製作者：{name}",
+      "gatheredBy": "採集者：{name}",
       "masterworkSeal": "傑作",
       "enchantedLine": "エンチャント済み"
     },

@@ -467,7 +467,13 @@ export function completeGatherCast(ctx: SimContext, p: Entity, meta: PlayerMeta)
       ctx.addItemInstance(itemId, { signer: meta.name }, meta.entityId);
       grantedQty++;
     }
-    if (grantedQty === 0) grantedQty = grantFungibleFit();
+    if (grantedQty === 0) {
+      grantedQty = grantFungibleFit();
+      // Phase 12d: the yield survived as a plain top-up but its signature did
+      // not; tell the player (a text-free personal event, the gatherDenied
+      // idiom; one signed batch per harvest, so no dedupe flag is needed).
+      ctx.emit({ type: 'gatherDowngrade', pid: meta.entityId, surface: 'node', lost: 'mark' });
+    }
   } else {
     grantedQty = grantFungibleFit();
   }

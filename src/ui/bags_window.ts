@@ -511,7 +511,13 @@ export class BagsWindow {
           count: formatNumber(s.count, { maximumFractionDigits: 0 }),
         }),
       );
-      row.innerHTML = `${this.deps.itemIcon(item)}<span class="bi-count">${s.count > 1 ? esc(t('itemUi.bags.stackCount', { count: formatNumber(s.count, { maximumFractionDigits: 0 }) })) : ''}</span>`;
+      // The instanced-slot corner marker (Professions 2.0 Phase 12d): every
+      // per-copy stack (signed / enchanted / masterwork) shows a static corner
+      // tab on the cell itself, desktop and touch alike (no hover needed; the
+      // long-press tooltip stays the detail surface). Composes WITH the count
+      // badge: an instanced stack with count > 1 renders both.
+      const instanceMark = s.instance ? '<span class="bi-instance" aria-hidden="true"></span>' : '';
+      row.innerHTML = `${this.deps.itemIcon(item)}${instanceMark}<span class="bi-count">${s.count > 1 ? esc(t('itemUi.bags.stackCount', { count: formatNumber(s.count, { maximumFractionDigits: 0 }) })) : ''}</span>`;
       row.addEventListener('click', (ev) => {
         // On touch, the click that ends a long-press peek inspects the stack (its
         // tooltip is already shown) instead of running its action (use / sell /

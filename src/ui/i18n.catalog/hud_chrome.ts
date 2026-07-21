@@ -2255,6 +2255,11 @@ export const hudChromeStrings = {
     // harvest is gated by the best owned tool across ALL gathering
     // professions, so no single tool is named).
     toolTierUnmetCorpse: 'You need a tier {tier} gathering tool to recover the finest materials.',
+    // Full-bag signed-grant downgrade toasts (Phase 12d), rendered from the
+    // text-free personal gatherDowngrade SimEvent, one key per lost arm:
+    // 'mark' (the yield arrived unsigned) and 'find' (the jackpot dropped).
+    downgradeMark: "Bags full: the find was stored without its gatherer's mark.",
+    downgradeFind: 'Bags full: a pristine find slipped away.',
     // Tooltip third line: the per-viewer respawn state.
     stateReady: 'Ready',
     stateCooldown: 'Respawning',
@@ -2443,6 +2448,10 @@ export const hudChromeStrings = {
     masterworkZoneLine: '{crafter} crafted a masterwork {name}!',
     tierUpToast: '{craft} advanced to tier {tier}!',
     makersMark: 'Crafted by {name}',
+    // Phase 12d: the gathered-material sibling of makersMark, resolved by item
+    // KIND (item_instance_tooltip.ts isGatheredProvenanceKind); same signer
+    // payload, different wording.
+    gatheredBy: 'Gathered by {name}',
     masterworkSeal: 'Masterwork',
     // Generic enchanted marker: EnchantDef.name has no localized display
     // surface yet, so the tooltip marks the state without naming the enchant.

@@ -2123,6 +2123,8 @@ export const zh_TW: EnTranslations = {
         "herbalism": "你需要{tier}階草藥鐮才能採集這片草藥叢。"
       },
       "toolTierUnmetCorpse": "你需要{tier}階採集工具才能取得最上等的材料。",
+      "downgradeMark": "背包已滿：這份收穫未能留下採集者的印記。",
+      "downgradeFind": "背包已滿：一件完美的收穫溜走了。",
       "stateReady": "可採集",
       "stateCooldown": "恢復中"
     },
@@ -2262,6 +2264,7 @@ export const zh_TW: EnTranslations = {
       "masterworkZoneLine": "{crafter}製作出了傑作{name}！",
       "tierUpToast": "{craft}提升至階級 {tier}！",
       "makersMark": "製作者：{name}",
+      "gatheredBy": "採集者：{name}",
       "masterworkSeal": "傑作",
       "enchantedLine": "已附魔"
     },

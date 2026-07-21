@@ -2123,6 +2123,8 @@ export const ru_RU: EnTranslations = {
         "herbalism": "Чтобы собрать эти заросли, нужен серп травника {tier} уровня."
       },
       "toolTierUnmetCorpse": "Чтобы добыть лучшие материалы, нужен инструмент сбора {tier} уровня.",
+      "downgradeMark": "Сумки полны: добыча сохранена без метки сборщика.",
+      "downgradeFind": "Сумки полны: превосходная находка ускользнула.",
       "stateReady": "Готово",
       "stateCooldown": "Восстанавливается"
     },
@@ -2262,6 +2264,7 @@ export const ru_RU: EnTranslations = {
       "masterworkZoneLine": "Шедевр от {crafter}: {name}!",
       "tierUpToast": "{craft}: достигнут ранг {tier}!",
       "makersMark": "Создатель: {name}",
+      "gatheredBy": "Сборщик: {name}",
       "masterworkSeal": "Шедевр",
       "enchantedLine": "Зачаровано"
     },
