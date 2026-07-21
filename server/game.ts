@@ -879,8 +879,11 @@ function identityFields(e: Entity): Record<string, unknown> {
     // payload, riding the identity record (wireCacheFor diffs the identity
     // JSON, so an equip/unequip of an instanced piece re-emits automatically).
     // Data minimization: only the cosmetic inspect fields (signer, enchant,
-    // rolled) leave the server; boundTo and charges are gameplay state no
-    // inspecting client needs and never ride this key.
+    // rolled) leave the server; boundTo, charges, and the Phase 13 bindOnTrade
+    // arm are gameplay state no inspecting client needs and never ride this key.
+    // The pub allowlist below (signer/enchant/rolled ONLY) is what enforces this,
+    // so a new non-cosmetic ItemInstancePayload field is excluded by construction;
+    // the owner still sees their own payload in full via the self `inv` mirror.
     let eqi: Record<string, unknown> | undefined;
     for (const [slot, inst] of Object.entries(e.equippedInstances)) {
       if (!inst) continue;

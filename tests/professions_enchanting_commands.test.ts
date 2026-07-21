@@ -510,7 +510,12 @@ describe('enchanting commands over the live GameServer wire (event + delta routi
 
     // The loot event marks the session heavy-dirty, so the self inventory
     // refreshes (exactly like a craft): the mirrored client inventory carries the
-    // typed secondary as an instanced stack with bindOnTrade set.
+    // typed secondary as an instanced stack with bindOnTrade set. Wire data
+    // minimization is asymmetric on purpose: the OWNER must see their own payload
+    // in full (the self `inv` mirror is unfiltered), so bindOnTrade survives here.
+    // Only the FOREIGN inspect path (server/game.ts eqi allowlist) strips it, which
+    // the "strips non-cosmetic instance fields" pin in tests/snapshots.test.ts
+    // guards for boundTo/charges/bindOnTrade alike.
     broadcast(server);
     const snap = lastSnap(fc.sent);
     if (!snap) throw new Error('no snapshot');
