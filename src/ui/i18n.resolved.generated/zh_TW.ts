@@ -1459,6 +1459,8 @@ export const zh_TW: EnTranslations = {
     "townFocus": {
       "title": "城鎮專注",
       "hint": "專注點會在每種材料的基礎產出上疊加加成。未專注的材料保持基礎產出不變。",
+      "tierHint": "每在一種材料上投入{points}點專注，其採集品階就會提升一階，最多提升{steps}階；不足{points}點時仍會提高產出。",
+      "townOnlyHint": "專注只能在城鎮中調整。",
       "budgetLabel": "剩餘點數：{remaining} / {budget}",
       "saveButton": "儲存專注",
       "notInTownHint": "你必須在城鎮中才能設定專注。",

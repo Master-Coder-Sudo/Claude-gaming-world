@@ -1411,6 +1411,11 @@ export const hudChromeStrings = {
   townFocus: {
     title: 'Town Focus',
     hint: "Focus points add a bonus on top of every component's baseline yield. Unfocused components stay at baseline.",
+    // Phase 12d legibility: the tier-shift rule ({points} = POINTS_PER_TIER_BONUS,
+    // {steps} = MAX_FOCUS_TIER_BONUS) and the town-only rule, always visible.
+    tierHint:
+      'Every {points} points on a component raise its harvest tier one step, up to {steps} steps; fewer than {points} points still boost the yield.',
+    townOnlyHint: 'Focus can only be changed while you are in town.',
     budgetLabel: 'Points remaining: {remaining} / {budget}',
     saveButton: 'Save Focus',
     notInTownHint: 'You must be in town to set your focus.',

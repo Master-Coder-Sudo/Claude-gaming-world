@@ -44,7 +44,9 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "hudChrome.townFocus.tierHint",
+    "hudChrome.townFocus.townOnlyHint"
   ],
   "es_ES": [
     "abilityUi.cast.gathering",
@@ -81,7 +83,9 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "hudChrome.townFocus.tierHint",
+    "hudChrome.townFocus.townOnlyHint"
   ],
   "fr_FR": [
     "abilityUi.cast.gathering",
@@ -118,7 +122,9 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "hudChrome.townFocus.tierHint",
+    "hudChrome.townFocus.townOnlyHint"
   ],
   "fr_CA": [
     "abilityUi.cast.gathering",
@@ -155,7 +161,9 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "hudChrome.townFocus.tierHint",
+    "hudChrome.townFocus.townOnlyHint"
   ],
   "en_CA": [],
   "it_IT": [
@@ -193,7 +201,9 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "hudChrome.townFocus.tierHint",
+    "hudChrome.townFocus.townOnlyHint"
   ],
   "de_DE": [
     "abilityUi.cast.gathering",
@@ -230,7 +240,9 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "hudChrome.townFocus.tierHint",
+    "hudChrome.townFocus.townOnlyHint"
   ],
   "zh_CN": [
     "hud.social.status.afk",
@@ -283,7 +295,9 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "hudChrome.townFocus.tierHint",
+    "hudChrome.townFocus.townOnlyHint"
   ],
   "ru_RU": [
     "hud.social.status.afk",
@@ -324,7 +338,9 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "hudChrome.townFocus.tierHint",
+    "hudChrome.townFocus.townOnlyHint"
   ],
   "nl_NL": [
     "abilityUi.cast.gathering",
@@ -361,7 +377,9 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "hudChrome.townFocus.tierHint",
+    "hudChrome.townFocus.townOnlyHint"
   ],
   "pl_PL": [
     "abilityUi.cast.gathering",
@@ -398,7 +416,9 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "hudChrome.townFocus.tierHint",
+    "hudChrome.townFocus.townOnlyHint"
   ],
   "id_ID": [
     "abilityUi.cast.gathering",
@@ -435,7 +455,9 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "hudChrome.townFocus.tierHint",
+    "hudChrome.townFocus.townOnlyHint"
   ],
   "tr_TR": [
     "abilityUi.cast.gathering",
@@ -472,7 +494,9 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "hudChrome.townFocus.tierHint",
+    "hudChrome.townFocus.townOnlyHint"
   ],
   "sv_SE": [
     "abilityUi.cast.gathering",
@@ -509,7 +533,9 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "hudChrome.townFocus.tierHint",
+    "hudChrome.townFocus.townOnlyHint"
   ],
   "vi_VN": [
     "abilityUi.cast.gathering",
@@ -546,7 +572,9 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "hudChrome.townFocus.tierHint",
+    "hudChrome.townFocus.townOnlyHint"
   ],
   "da_DK": [
     "abilityUi.cast.gathering",
@@ -583,6 +611,8 @@ export const pending: Record<string, readonly string[]> = {
     "hudChrome.social.hideOffline",
     "hudChrome.social.hideOfflineTitle",
     "hudChrome.social.offlineHeader",
-    "hudChrome.social.onlineHeader"
+    "hudChrome.social.onlineHeader",
+    "hudChrome.townFocus.tierHint",
+    "hudChrome.townFocus.townOnlyHint"
   ]
 };

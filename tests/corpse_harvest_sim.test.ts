@@ -988,3 +988,45 @@ describe('corpse harvest claim over the live broadcast (delta + interest scope)'
     expect(corpseLootAvailability(cleared, sb.pid).harvestable).toBe(true);
   });
 });
+
+// The omitted-components town-focus default (Phase 12d) depends on an ABSENT
+// wire field surviving the whole trip: ClientWorld.harvestCorpse(id) serializes
+// NO components key (JSON.stringify drops undefined), and the server dispatch
+// normalizes a missing or malformed field to undefined, never [], so
+// sim.harvestCorpse sees the omission and derives the town-focus pick.
+describe('harvestCorpse omitted components over the wire (Phase 12d)', () => {
+  function wireSetup() {
+    const server = new GameServer();
+    const fc = fakeWs();
+    const session = joinServer(server, fc, 91, 'Alpha');
+    return { server, session };
+  }
+
+  // The REAL client serializer, not a hand-built envelope: a bare ClientWorld
+  // with a capturing ws socket.
+  function clientRaw(id: number, components?: string[]): string {
+    const sent: string[] = [];
+    const client = bareClient(1);
+    (client as any).ws = { readyState: 1, send: (payload: string) => sent.push(payload) };
+    client.harvestCorpse(id, components);
+    expect(sent).toHaveLength(1);
+    return sent[0];
+  }
+
+  it('an omitted pick rides with NO components key and reaches harvestCorpse as undefined', () => {
+    const { server, session } = wireSetup();
+    const raw = clientRaw(4242);
+    expect(raw).not.toContain('components');
+    const spy = vi.spyOn(server.sim, 'harvestCorpse').mockImplementation(() => {});
+    (server as any).dispatchMessage(session, JSON.parse(raw), raw, 0);
+    expect(spy).toHaveBeenCalledWith(4242, undefined, session.pid);
+  });
+
+  it('an explicit pick passes through intact', () => {
+    const { server, session } = wireSetup();
+    const raw = clientRaw(4242, ['hide']);
+    const spy = vi.spyOn(server.sim, 'harvestCorpse').mockImplementation(() => {});
+    (server as any).dispatchMessage(session, JSON.parse(raw), raw, 0);
+    expect(spy).toHaveBeenCalledWith(4242, ['hide'], session.pid);
+  });
+});

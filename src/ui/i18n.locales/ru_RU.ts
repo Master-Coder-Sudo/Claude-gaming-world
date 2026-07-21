@@ -770,6 +770,9 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.townFocus.title': 'Фокус города',
   'hudChrome.townFocus.hint':
     'Очки фокуса добавляют бонус поверх базового выхода каждого компонента. Компоненты без фокуса остаются на базовом уровне.',
+  'hudChrome.townFocus.tierHint':
+    'Каждые {points} очков на компоненте повышают уровень его добычи на одну ступень, максимум на {steps} ступени; меньше {points} очков по-прежнему увеличивают выход.',
+  'hudChrome.townFocus.townOnlyHint': 'Фокус можно менять только в городе.',
   'hudChrome.townFocus.budgetLabel': 'Осталось очков: {remaining} / {budget}',
   'hudChrome.townFocus.saveButton': 'Сохранить фокус',
   'hudChrome.townFocus.notInTownHint': 'Чтобы задать фокус, нужно находиться в городе.',

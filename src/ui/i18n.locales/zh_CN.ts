@@ -746,6 +746,9 @@ export const zh_CN: Partial<Record<TranslationKey, string>> = {
   'hudChrome.townFocus.title': '城镇专注',
   'hudChrome.townFocus.hint':
     '专注点会在每种材料的基础产出上叠加加成。未专注的材料保持基础产出不变。',
+  'hudChrome.townFocus.tierHint':
+    '每在一种材料上投入{points}点专注，其采集品阶就会提升一阶，最多提升{steps}阶；不足{points}点时仍会提高产出。',
+  'hudChrome.townFocus.townOnlyHint': '专注只能在城镇中调整。',
   'hudChrome.townFocus.budgetLabel': '剩余点数：{remaining} / {budget}',
   'hudChrome.townFocus.saveButton': '保存专注',
   'hudChrome.townFocus.notInTownHint': '你必须在城镇中才能设置专注。',
