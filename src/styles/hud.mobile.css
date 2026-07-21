@@ -3936,6 +3936,14 @@
     min-height: 40px;
     font-size: 16px;
   }
+  /* The mobile window sheet forces z-index 95 (see the managed-window override
+     above), which buries the base #ctx-menu at 90: a Phase 13 bag-item action
+     menu opened from inside the fullscreen Bags sheet rendered BEHIND it. The
+     popup is transient and always the active interaction, so on touch it sits
+     one step above the sheet. Desktop keeps the base 90 untouched. */
+  body.mobile-touch #ctx-menu {
+    z-index: 96;
+  }
   /* An Apply Enchant picker row (Professions 2.0 Phase 13) carries a dim meta
      sub-line; the flex row above would seat it inline beside the enchant name
      on a narrow menu, so a meta-bearing row stacks instead. */
