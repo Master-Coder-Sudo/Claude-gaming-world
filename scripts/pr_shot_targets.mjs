@@ -869,7 +869,10 @@ export const TARGETS = [
             version: 1,
             synced: true,
             craftSkills: {
-              weaponcrafting: 132,
+              // Post-12c-legal staging (Phase 12c QA): 125 is the enforced
+              // craft cap, staging the mastered state honestly; a live
+              // character can never exceed it, so the stub must not either.
+              weaponcrafting: 125,
               armorcrafting: 87,
               tailoring: 23,
               leatherworking: 0,
@@ -893,11 +896,14 @@ export const TARGETS = [
             configurable: true,
           });
           const gathering = {
+            // Post-12c-legal staging (Phase 12c QA): the enforced caps are
+            // 100/100/100/200 (content/professions.ts maxSkill) and skills
+            // can never exceed them; herbalism stages a mastered row at cap.
             skills: [
-              { professionId: 'mining', skill: 112, maxSkill: 300 },
-              { professionId: 'logging', skill: 45, maxSkill: 300 },
-              { professionId: 'herbalism', skill: 203, maxSkill: 300 },
-              { professionId: 'fishing', skill: 68, maxSkill: 300 },
+              { professionId: 'mining', skill: 88, maxSkill: 100 },
+              { professionId: 'logging', skill: 45, maxSkill: 100 },
+              { professionId: 'herbalism', skill: 100, maxSkill: 100 },
+              { professionId: 'fishing', skill: 68, maxSkill: 200 },
             ],
           };
           const stateIsFn = typeof game.world.professionsState === 'function';
