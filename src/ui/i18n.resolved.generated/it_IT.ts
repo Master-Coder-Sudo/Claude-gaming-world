@@ -1463,6 +1463,8 @@ export const it_IT: EnTranslations = {
     "townFocus": {
       "title": "Priorità della città",
       "hint": "I punti priorità aggiungono un bonus sopra la resa base di ogni componente. I componenti senza priorità restano alla resa base.",
+      "tierHint": "Every {points} points on a component raise its harvest tier one step, up to {steps} steps; fewer than {points} points still boost the yield.",
+      "townOnlyHint": "Focus can only be changed while you are in town.",
       "budgetLabel": "Punti rimanenti: {remaining} / {budget}",
       "saveButton": "Salva priorità",
       "notInTownHint": "Devi essere in città per impostare la priorità.",
@@ -1521,6 +1523,7 @@ export const it_IT: EnTranslations = {
       "dragEquipHint": "Trascina sul personaggio per equipaggiare",
       "dragDestroyHint": "Trascina nel mondo per distruggere",
       "reorderNeedsRecent": "Rimuovi il filtro e ordina per Recenti per riorganizzare le borse",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Filtra le borse per categoria",
       "filterAll": "Tutti",
       "filterWeapon": "Armi",
@@ -2127,6 +2130,8 @@ export const it_IT: EnTranslations = {
         "herbalism": "You need a tier {tier} herbalism sickle to gather this patch."
       },
       "toolTierUnmetCorpse": "You need a tier {tier} gathering tool to recover the finest materials.",
+      "downgradeMark": "Bags full: the find was stored without its gatherer's mark.",
+      "downgradeFind": "Bags full: a pristine find slipped away.",
       "stateReady": "Ready",
       "stateCooldown": "Respawning"
     },
@@ -2266,6 +2271,7 @@ export const it_IT: EnTranslations = {
       "masterworkZoneLine": "{crafter} ha realizzato un capolavoro {name}!",
       "tierUpToast": "{craft} è avanzato al livello {tier}!",
       "makersMark": "Realizzato da {name}",
+      "gatheredBy": "Gathered by {name}",
       "masterworkSeal": "Capolavoro",
       "enchantedLine": "Incantato"
     },

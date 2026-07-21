@@ -1463,6 +1463,8 @@ export const en_CA: EnTranslations = {
     "townFocus": {
       "title": "Town Focus",
       "hint": "Focus points add a bonus on top of every component's baseline yield. Unfocused components stay at baseline.",
+      "tierHint": "Every {points} points on a component raise its harvest tier one step, up to {steps} steps; fewer than {points} points still boost the yield.",
+      "townOnlyHint": "Focus can only be changed while you are in town.",
       "budgetLabel": "Points remaining: {remaining} / {budget}",
       "saveButton": "Save Focus",
       "notInTownHint": "You must be in town to set your focus.",
@@ -1521,6 +1523,7 @@ export const en_CA: EnTranslations = {
       "dragEquipHint": "Drag onto your character to equip",
       "dragDestroyHint": "Drag out into the world to destroy",
       "reorderNeedsRecent": "Clear the filter and sort by Recent to rearrange your bags",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Filter bags by category",
       "filterAll": "All",
       "filterWeapon": "Weapons",
@@ -2127,6 +2130,8 @@ export const en_CA: EnTranslations = {
         "herbalism": "You need a tier {tier} herbalism sickle to gather this patch."
       },
       "toolTierUnmetCorpse": "You need a tier {tier} gathering tool to recover the finest materials.",
+      "downgradeMark": "Bags full: the find was stored without its gatherer's mark.",
+      "downgradeFind": "Bags full: a pristine find slipped away.",
       "stateReady": "Ready",
       "stateCooldown": "Respawning"
     },
@@ -2266,6 +2271,7 @@ export const en_CA: EnTranslations = {
       "masterworkZoneLine": "{crafter} crafted a masterwork {name}!",
       "tierUpToast": "{craft} advanced to tier {tier}!",
       "makersMark": "Crafted by {name}",
+      "gatheredBy": "Gathered by {name}",
       "masterworkSeal": "Masterwork",
       "enchantedLine": "Enchanted"
     },

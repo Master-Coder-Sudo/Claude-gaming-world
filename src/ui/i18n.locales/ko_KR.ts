@@ -768,6 +768,9 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.townFocus.title': '마을 집중',
   'hudChrome.townFocus.hint':
     '집중 포인트는 각 재료의 기본 산출량에 보너스를 더합니다. 집중하지 않은 재료는 기본 산출량 그대로 유지됩니다.',
+  'hudChrome.townFocus.tierHint':
+    '재료 하나에 집중 {points}포인트를 투자할 때마다 채집 등급이 한 단계 오릅니다(최대 {steps}단계). {points}포인트 미만이라도 산출량은 늘어납니다.',
+  'hudChrome.townFocus.townOnlyHint': '집중은 마을 안에서만 변경할 수 있습니다.',
   'hudChrome.townFocus.budgetLabel': '남은 포인트: {remaining} / {budget}',
   'hudChrome.townFocus.saveButton': '집중 저장',
   'hudChrome.townFocus.notInTownHint': '집중을 설정하려면 마을에 있어야 합니다.',
@@ -7214,6 +7217,9 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
     '이 군락을 채집하려면 {tier}티어 약초 낫이 필요합니다.',
   'hudChrome.gathering.toolTierUnmetCorpse':
     '최상급 재료를 회수하려면 {tier}티어 채집 도구가 필요합니다.',
+  'hudChrome.gathering.downgradeMark':
+    '가방이 가득 찼습니다: 수확물이 채집자의 표식 없이 보관되었습니다.',
+  'hudChrome.gathering.downgradeFind': '가방이 가득 찼습니다: 최상급 수확물을 놓쳐 버렸습니다.',
   'hudChrome.gathering.stateReady': '채집 가능',
   'hudChrome.gathering.stateCooldown': '재생성 중',
   'gatherEvent.pristineVein': '{finder}님이 순수한 광맥을 발견했습니다!',
@@ -7288,6 +7294,8 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.crafting.masterworkZoneLine': '{crafter}님이 걸작 {name}을(를) 제작했습니다!',
   'hudChrome.crafting.tierUpToast': '{craft} 티어 {tier} 달성!',
   'hudChrome.crafting.makersMark': '제작자: {name}',
+  'hudChrome.bags.itemAriaInstanced': '{item}, 수량 {count}, 제작자 표식이 있는 사본',
+  'hudChrome.crafting.gatheredBy': '채집자: {name}',
   'hudChrome.crafting.masterworkSeal': '걸작',
   'hudChrome.crafting.enchantedLine': '마법부여됨',
   'hudChrome.crafting.stationRequired': '그것을 제작하려면 {station}에 있어야 합니다.',

@@ -1463,6 +1463,8 @@ export const ru_RU: EnTranslations = {
     "townFocus": {
       "title": "Фокус города",
       "hint": "Очки фокуса добавляют бонус поверх базового выхода каждого компонента. Компоненты без фокуса остаются на базовом уровне.",
+      "tierHint": "Каждые {points} очков на компоненте повышают уровень его добычи на одну ступень, максимум на {steps} ступени; меньше {points} очков по-прежнему увеличивают выход.",
+      "townOnlyHint": "Фокус можно менять только в городе.",
       "budgetLabel": "Осталось очков: {remaining} / {budget}",
       "saveButton": "Сохранить фокус",
       "notInTownHint": "Чтобы задать фокус, нужно находиться в городе.",
@@ -1521,6 +1523,7 @@ export const ru_RU: EnTranslations = {
       "dragEquipHint": "Перетащите на персонажа, чтобы надеть",
       "dragDestroyHint": "Перетащите в мир, чтобы уничтожить",
       "reorderNeedsRecent": "Сбросьте фильтр и выберите сортировку «Недавние», чтобы менять порядок в сумках",
+      "itemAriaInstanced": "{item}, количество {count}, копия с клеймом мастера",
       "filterGroupAria": "Фильтровать сумки по категории",
       "filterAll": "Все",
       "filterWeapon": "Оружие",
@@ -2127,6 +2130,8 @@ export const ru_RU: EnTranslations = {
         "herbalism": "Чтобы собрать эти заросли, нужен серп травника {tier} уровня."
       },
       "toolTierUnmetCorpse": "Чтобы добыть лучшие материалы, нужен инструмент сбора {tier} уровня.",
+      "downgradeMark": "Сумки полны: добыча сохранена без метки сборщика.",
+      "downgradeFind": "Сумки полны: превосходная находка ускользнула.",
       "stateReady": "Готово",
       "stateCooldown": "Восстанавливается"
     },
@@ -2266,6 +2271,7 @@ export const ru_RU: EnTranslations = {
       "masterworkZoneLine": "Шедевр от {crafter}: {name}!",
       "tierUpToast": "{craft}: достигнут ранг {tier}!",
       "makersMark": "Создатель: {name}",
+      "gatheredBy": "Сборщик: {name}",
       "masterworkSeal": "Шедевр",
       "enchantedLine": "Зачаровано"
     },

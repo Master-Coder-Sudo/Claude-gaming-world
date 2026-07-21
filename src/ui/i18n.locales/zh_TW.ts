@@ -747,6 +747,9 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'hudChrome.townFocus.title': '城鎮專注',
   'hudChrome.townFocus.hint':
     '專注點會在每種材料的基礎產出上疊加加成。未專注的材料保持基礎產出不變。',
+  'hudChrome.townFocus.tierHint':
+    '每在一種材料上投入{points}點專注，其採集品階就會提升一階，最多提升{steps}階；不足{points}點時仍會提高產出。',
+  'hudChrome.townFocus.townOnlyHint': '專注只能在城鎮中調整。',
   'hudChrome.townFocus.budgetLabel': '剩餘點數：{remaining} / {budget}',
   'hudChrome.townFocus.saveButton': '儲存專注',
   'hudChrome.townFocus.notInTownHint': '你必須在城鎮中才能設定專注。',
@@ -6874,6 +6877,8 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'hudChrome.gathering.toolTierUnmet.logging': '你需要{tier}階伐木斧才能砍伐這片林木。',
   'hudChrome.gathering.toolTierUnmet.herbalism': '你需要{tier}階草藥鐮才能採集這片草藥叢。',
   'hudChrome.gathering.toolTierUnmetCorpse': '你需要{tier}階採集工具才能取得最上等的材料。',
+  'hudChrome.gathering.downgradeMark': '背包已滿：這份收穫未能留下採集者的印記。',
+  'hudChrome.gathering.downgradeFind': '背包已滿：一件完美的收穫溜走了。',
   'hudChrome.gathering.stateReady': '可採集',
   'hudChrome.gathering.stateCooldown': '恢復中',
   'gatherEvent.pristineVein': '{finder}挖到了一條純淨的礦脈！',
@@ -6947,6 +6952,8 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'hudChrome.crafting.masterworkZoneLine': '{crafter}製作出了傑作{name}！',
   'hudChrome.crafting.tierUpToast': '{craft}提升至階級 {tier}！',
   'hudChrome.crafting.makersMark': '製作者：{name}',
+  'hudChrome.bags.itemAriaInstanced': '{item}，數量 {count}，帶工匠印記的物品',
+  'hudChrome.crafting.gatheredBy': '採集者：{name}',
   'hudChrome.crafting.masterworkSeal': '傑作',
   'hudChrome.crafting.enchantedLine': '已附魔',
   'hudChrome.crafting.stationRequired': '必須位於{station}才能製作該物品。',

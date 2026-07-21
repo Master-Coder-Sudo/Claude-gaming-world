@@ -770,6 +770,9 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.townFocus.title': 'Фокус города',
   'hudChrome.townFocus.hint':
     'Очки фокуса добавляют бонус поверх базового выхода каждого компонента. Компоненты без фокуса остаются на базовом уровне.',
+  'hudChrome.townFocus.tierHint':
+    'Каждые {points} очков на компоненте повышают уровень его добычи на одну ступень, максимум на {steps} ступени; меньше {points} очков по-прежнему увеличивают выход.',
+  'hudChrome.townFocus.townOnlyHint': 'Фокус можно менять только в городе.',
   'hudChrome.townFocus.budgetLabel': 'Осталось очков: {remaining} / {budget}',
   'hudChrome.townFocus.saveButton': 'Сохранить фокус',
   'hudChrome.townFocus.notInTownHint': 'Чтобы задать фокус, нужно находиться в городе.',
@@ -7357,6 +7360,8 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
     'Чтобы собрать эти заросли, нужен серп травника {tier} уровня.',
   'hudChrome.gathering.toolTierUnmetCorpse':
     'Чтобы добыть лучшие материалы, нужен инструмент сбора {tier} уровня.',
+  'hudChrome.gathering.downgradeMark': 'Сумки полны: добыча сохранена без метки сборщика.',
+  'hudChrome.gathering.downgradeFind': 'Сумки полны: превосходная находка ускользнула.',
   'hudChrome.gathering.stateReady': 'Готово',
   'hudChrome.gathering.stateCooldown': 'Восстанавливается',
   'gatherEvent.pristineVein': '{finder} находит нетронутую жилу!',
@@ -7428,6 +7433,8 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.crafting.masterworkZoneLine': 'Шедевр от {crafter}: {name}!',
   'hudChrome.crafting.tierUpToast': '{craft}: достигнут ранг {tier}!',
   'hudChrome.crafting.makersMark': 'Создатель: {name}',
+  'hudChrome.bags.itemAriaInstanced': '{item}, количество {count}, копия с клеймом мастера',
+  'hudChrome.crafting.gatheredBy': 'Сборщик: {name}',
   'hudChrome.crafting.masterworkSeal': 'Шедевр',
   'hudChrome.crafting.enchantedLine': 'Зачаровано',
   'hudChrome.crafting.stationRequired': 'Для изготовления нужно находиться у станции "{station}".',

@@ -1463,6 +1463,8 @@ export const vi_VN: EnTranslations = {
     "townFocus": {
       "title": "Trọng Tâm Thị Trấn",
       "hint": "Điểm trọng tâm cộng thêm một khoản trên mức sản lượng cơ bản của từng hạng mục. Hạng mục không được dồn trọng tâm giữ nguyên mức cơ bản.",
+      "tierHint": "Every {points} points on a component raise its harvest tier one step, up to {steps} steps; fewer than {points} points still boost the yield.",
+      "townOnlyHint": "Focus can only be changed while you are in town.",
       "budgetLabel": "Điểm còn lại: {remaining} / {budget}",
       "saveButton": "Lưu Trọng Tâm",
       "notInTownHint": "Bạn phải ở trong thị trấn để đặt trọng tâm.",
@@ -1521,6 +1523,7 @@ export const vi_VN: EnTranslations = {
       "dragEquipHint": "Kéo lên nhân vật để trang bị",
       "dragDestroyHint": "Kéo ra ngoài thế giới để hủy bỏ",
       "reorderNeedsRecent": "Xóa bộ lọc và sắp xếp theo Gần Đây để sắp xếp lại túi đồ",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Lọc túi đồ theo danh mục",
       "filterAll": "Tất cả",
       "filterWeapon": "Vũ khí",
@@ -2127,6 +2130,8 @@ export const vi_VN: EnTranslations = {
         "herbalism": "You need a tier {tier} herbalism sickle to gather this patch."
       },
       "toolTierUnmetCorpse": "You need a tier {tier} gathering tool to recover the finest materials.",
+      "downgradeMark": "Bags full: the find was stored without its gatherer's mark.",
+      "downgradeFind": "Bags full: a pristine find slipped away.",
       "stateReady": "Ready",
       "stateCooldown": "Respawning"
     },
@@ -2266,6 +2271,7 @@ export const vi_VN: EnTranslations = {
       "masterworkZoneLine": "{crafter} đã tạo ra một kiệt tác {name}!",
       "tierUpToast": "{craft} đã thăng cấp lên cấp {tier}!",
       "makersMark": "Được chế tạo bởi {name}",
+      "gatheredBy": "Gathered by {name}",
       "masterworkSeal": "Kiệt tác",
       "enchantedLine": "mê hoặc"
     },

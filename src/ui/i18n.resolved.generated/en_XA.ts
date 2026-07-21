@@ -1463,6 +1463,8 @@ export const en_XA: EnTranslations = {
     "townFocus": {
       "title": "[Ţóŵñ Ƒóçúš]",
       "hint": "[Ƒóçúš þóíñţš áðð á ƀóñúš óñ ţóþ óƒ éʋéŕý çóɱþóñéñţ'š ƀášéļíñé ýíéļð. Úñƒóçúšéð çóɱþóñéñţš šţáý áţ ƀášéļíñé.]",
+      "tierHint": "[Éʋéŕý {points} þóíñţš óñ á çóɱþóñéñţ ŕáíšé íţš ĥáŕʋéšţ ţíéŕ óñé šţéþ, úþ ţó {steps} šţéþš; ƒéŵéŕ ţĥáñ {points} þóíñţš šţíļļ ƀóóšţ ţĥé ýíéļð.]",
+      "townOnlyHint": "[Ƒóçúš çáñ óñļý ƀé çĥáñĝéð ŵĥíļé ýóú áŕé íñ ţóŵñ.]",
       "budgetLabel": "[Þóíñţš ŕéɱáíñíñĝ: {remaining} / {budget}]",
       "saveButton": "[Šáʋé Ƒóçúš]",
       "notInTownHint": "[Ýóú ɱúšţ ƀé íñ ţóŵñ ţó šéţ ýóúŕ ƒóçúš.]",
@@ -1521,6 +1523,7 @@ export const en_XA: EnTranslations = {
       "dragEquipHint": "[Ðŕáĝ óñţó ýóúŕ çĥáŕáçţéŕ ţó éɋúíþ]",
       "dragDestroyHint": "[Ðŕáĝ óúţ íñţó ţĥé ŵóŕļð ţó ðéšţŕóý]",
       "reorderNeedsRecent": "[Çļéáŕ ţĥé ƒíļţéŕ áñð šóŕţ ƀý Ŕéçéñţ ţó ŕéáŕŕáñĝé ýóúŕ ƀáĝš]",
+      "itemAriaInstanced": "[{item}, ɋúáñţíţý {count}, ɱáķéŕ-ɱáŕķéð çóþý]",
       "filterGroupAria": "[Ƒíļţéŕ ƀáĝš ƀý çáţéĝóŕý]",
       "filterAll": "[Áļļ]",
       "filterWeapon": "[Ŵéáþóñš]",
@@ -2127,6 +2130,8 @@ export const en_XA: EnTranslations = {
         "herbalism": "[Ýóú ñééð á ţíéŕ {tier} ĥéŕƀáļíšɱ šíçķļé ţó ĝáţĥéŕ ţĥíš þáţçĥ.]"
       },
       "toolTierUnmetCorpse": "[Ýóú ñééð á ţíéŕ {tier} ĝáţĥéŕíñĝ ţóóļ ţó ŕéçóʋéŕ ţĥé ƒíñéšţ ɱáţéŕíáļš.]",
+      "downgradeMark": "[Ɓáĝš ƒúļļ: ţĥé ƒíñð ŵáš šţóŕéð ŵíţĥóúţ íţš ĝáţĥéŕéŕ'š ɱáŕķ.]",
+      "downgradeFind": "[Ɓáĝš ƒúļļ: á þŕíšţíñé ƒíñð šļíþþéð áŵáý.]",
       "stateReady": "[Ŕéáðý]",
       "stateCooldown": "[Ŕéšþáŵñíñĝ]"
     },
@@ -2266,6 +2271,7 @@ export const en_XA: EnTranslations = {
       "masterworkZoneLine": "[{crafter} çŕáƒţéð á ɱášţéŕŵóŕķ {name}!]",
       "tierUpToast": "[{craft} áðʋáñçéð ţó ţíéŕ {tier}!]",
       "makersMark": "[Çŕáƒţéð ƀý {name}]",
+      "gatheredBy": "[Ĝáţĥéŕéð ƀý {name}]",
       "masterworkSeal": "[Ɱášţéŕŵóŕķ]",
       "enchantedLine": "[Éñçĥáñţéð]"
     },

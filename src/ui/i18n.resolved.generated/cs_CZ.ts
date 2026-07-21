@@ -1463,6 +1463,8 @@ export const cs_CZ: EnTranslations = {
     "townFocus": {
       "title": "Zaměření města",
       "hint": "Body zaměření přidávají bonus nad základní výnos každé součásti. Nezaměřené součásti zůstávají na základní hodnotě.",
+      "tierHint": "Every {points} points on a component raise its harvest tier one step, up to {steps} steps; fewer than {points} points still boost the yield.",
+      "townOnlyHint": "Focus can only be changed while you are in town.",
       "budgetLabel": "Zbývající body: {remaining} / {budget}",
       "saveButton": "Uložit zaměření",
       "notInTownHint": "Zaměření lze nastavit jen ve městě.",
@@ -1521,6 +1523,7 @@ export const cs_CZ: EnTranslations = {
       "dragEquipHint": "Přetáhni na svou postavu a předmět bude vybaven",
       "dragDestroyHint": "Přetáhni do světa a předmět bude zničen",
       "reorderNeedsRecent": "Zruš filtr a seřaď podle Nedávných, chceš-li přeuspořádat batohy",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Filtrovat batohy podle kategorie",
       "filterAll": "Vše",
       "filterWeapon": "Zbraně",
@@ -2127,6 +2130,8 @@ export const cs_CZ: EnTranslations = {
         "herbalism": "You need a tier {tier} herbalism sickle to gather this patch."
       },
       "toolTierUnmetCorpse": "You need a tier {tier} gathering tool to recover the finest materials.",
+      "downgradeMark": "Bags full: the find was stored without its gatherer's mark.",
+      "downgradeFind": "Bags full: a pristine find slipped away.",
       "stateReady": "Ready",
       "stateCooldown": "Respawning"
     },
@@ -2266,6 +2271,7 @@ export const cs_CZ: EnTranslations = {
       "masterworkZoneLine": "{crafter} vytvořil mistrovské dílo {name}!",
       "tierUpToast": "{craft} postoupilo do úrovně {tier}!",
       "makersMark": "Vytvořil {name}",
+      "gatheredBy": "Gathered by {name}",
       "masterworkSeal": "Mistrovské dílo",
       "enchantedLine": "Okouzlený"
     },

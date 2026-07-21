@@ -1463,6 +1463,8 @@ export const de_DE: EnTranslations = {
     "townFocus": {
       "title": "Stadtfokus",
       "hint": "Fokuspunkte gewähren einen Bonus auf den Grundertrag jeder Einrichtung. Einrichtungen ohne Fokus bleiben beim Grundertrag.",
+      "tierHint": "Every {points} points on a component raise its harvest tier one step, up to {steps} steps; fewer than {points} points still boost the yield.",
+      "townOnlyHint": "Focus can only be changed while you are in town.",
       "budgetLabel": "Verbleibende Punkte: {remaining} / {budget}",
       "saveButton": "Fokus speichern",
       "notInTownHint": "Du musst in der Stadt sein, um deinen Fokus festzulegen.",
@@ -1521,6 +1523,7 @@ export const de_DE: EnTranslations = {
       "dragEquipHint": "Auf deinen Charakter ziehen, um anzulegen",
       "dragDestroyHint": "In die Welt ziehen, um zu vernichten",
       "reorderNeedsRecent": "Filter aufheben und nach Zuletzt sortieren, um deine Taschen neu anzuordnen",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Taschen nach Kategorie filtern",
       "filterAll": "Alle",
       "filterWeapon": "Waffen",
@@ -2127,6 +2130,8 @@ export const de_DE: EnTranslations = {
         "herbalism": "You need a tier {tier} herbalism sickle to gather this patch."
       },
       "toolTierUnmetCorpse": "You need a tier {tier} gathering tool to recover the finest materials.",
+      "downgradeMark": "Bags full: the find was stored without its gatherer's mark.",
+      "downgradeFind": "Bags full: a pristine find slipped away.",
       "stateReady": "Ready",
       "stateCooldown": "Respawning"
     },
@@ -2266,6 +2271,7 @@ export const de_DE: EnTranslations = {
       "masterworkZoneLine": "{crafter} hat das Meisterwerk {name} hergestellt!",
       "tierUpToast": "{craft} auf Stufe {tier} aufgestiegen!",
       "makersMark": "Hergestellt von {name}",
+      "gatheredBy": "Gathered by {name}",
       "masterworkSeal": "Meisterwerk",
       "enchantedLine": "Verzaubert"
     },

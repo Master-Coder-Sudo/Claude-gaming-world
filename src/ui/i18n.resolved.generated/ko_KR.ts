@@ -1463,6 +1463,8 @@ export const ko_KR: EnTranslations = {
     "townFocus": {
       "title": "마을 집중",
       "hint": "집중 포인트는 각 재료의 기본 산출량에 보너스를 더합니다. 집중하지 않은 재료는 기본 산출량 그대로 유지됩니다.",
+      "tierHint": "재료 하나에 집중 {points}포인트를 투자할 때마다 채집 등급이 한 단계 오릅니다(최대 {steps}단계). {points}포인트 미만이라도 산출량은 늘어납니다.",
+      "townOnlyHint": "집중은 마을 안에서만 변경할 수 있습니다.",
       "budgetLabel": "남은 포인트: {remaining} / {budget}",
       "saveButton": "집중 저장",
       "notInTownHint": "집중을 설정하려면 마을에 있어야 합니다.",
@@ -1521,6 +1523,7 @@ export const ko_KR: EnTranslations = {
       "dragEquipHint": "캐릭터로 끌어다 놓아 장착",
       "dragDestroyHint": "세계로 끌어내어 파괴",
       "reorderNeedsRecent": "가방을 정리하려면 필터를 해제하고 최근 순으로 정렬하세요",
+      "itemAriaInstanced": "{item}, 수량 {count}, 제작자 표식이 있는 사본",
       "filterGroupAria": "가방을 분류별로 필터링",
       "filterAll": "전체",
       "filterWeapon": "무기",
@@ -2127,6 +2130,8 @@ export const ko_KR: EnTranslations = {
         "herbalism": "이 군락을 채집하려면 {tier}티어 약초 낫이 필요합니다."
       },
       "toolTierUnmetCorpse": "최상급 재료를 회수하려면 {tier}티어 채집 도구가 필요합니다.",
+      "downgradeMark": "가방이 가득 찼습니다: 수확물이 채집자의 표식 없이 보관되었습니다.",
+      "downgradeFind": "가방이 가득 찼습니다: 최상급 수확물을 놓쳐 버렸습니다.",
       "stateReady": "채집 가능",
       "stateCooldown": "재생성 중"
     },
@@ -2266,6 +2271,7 @@ export const ko_KR: EnTranslations = {
       "masterworkZoneLine": "{crafter}님이 걸작 {name}을(를) 제작했습니다!",
       "tierUpToast": "{craft} 티어 {tier} 달성!",
       "makersMark": "제작자: {name}",
+      "gatheredBy": "채집자: {name}",
       "masterworkSeal": "걸작",
       "enchantedLine": "마법부여됨"
     },

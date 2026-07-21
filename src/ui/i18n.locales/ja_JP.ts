@@ -770,6 +770,9 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'hudChrome.townFocus.title': '町のフォーカス',
   'hudChrome.townFocus.hint':
     'フォーカスポイントは各素材の基本産出量にボーナスを加算します。フォーカスしていない素材は基本産出量のままです。',
+  'hudChrome.townFocus.tierHint':
+    '素材にフォーカスを{points}ポイント割り振るごとに採取ティアが1段階上がります（最大{steps}段階）。{points}ポイント未満でも産出量は増えます。',
+  'hudChrome.townFocus.townOnlyHint': 'フォーカスは町の中でのみ変更できます。',
   'hudChrome.townFocus.budgetLabel': '残りポイント：{remaining} / {budget}',
   'hudChrome.townFocus.saveButton': 'フォーカスを保存',
   'hudChrome.townFocus.notInTownHint': 'フォーカスを設定するには町にいる必要があります。',
@@ -7234,6 +7237,8 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
     'この群生地を採取するにはティア{tier}の薬草鎌が必要です。',
   'hudChrome.gathering.toolTierUnmetCorpse':
     '最高の素材を回収するにはティア{tier}の採集道具が必要です。',
+  'hudChrome.gathering.downgradeMark': 'バッグが満杯です：収穫は採集者の印なしで収納されました。',
+  'hudChrome.gathering.downgradeFind': 'バッグが満杯です：極上の獲物を逃してしまいました。',
   'hudChrome.gathering.stateReady': '採集可能',
   'hudChrome.gathering.stateCooldown': '再生中',
   'gatherEvent.pristineVein': '{finder}が純粋な鉱脈を掘り当てた！',
@@ -7308,6 +7313,8 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'hudChrome.crafting.masterworkZoneLine': '{crafter}が傑作{name}を作り上げました！',
   'hudChrome.crafting.tierUpToast': '{craft}がティア {tier} に到達しました！',
   'hudChrome.crafting.makersMark': '製作者：{name}',
+  'hudChrome.bags.itemAriaInstanced': '{item}、数量 {count}、銘入りの品',
+  'hudChrome.crafting.gatheredBy': '採集者：{name}',
   'hudChrome.crafting.masterworkSeal': '傑作',
   'hudChrome.crafting.enchantedLine': 'エンチャント済み',
   'hudChrome.crafting.stationRequired': 'それを製作するには{station}にいる必要があります。',

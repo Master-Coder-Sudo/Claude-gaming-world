@@ -1463,6 +1463,8 @@ export const ja_JP: EnTranslations = {
     "townFocus": {
       "title": "町のフォーカス",
       "hint": "フォーカスポイントは各素材の基本産出量にボーナスを加算します。フォーカスしていない素材は基本産出量のままです。",
+      "tierHint": "素材にフォーカスを{points}ポイント割り振るごとに採取ティアが1段階上がります（最大{steps}段階）。{points}ポイント未満でも産出量は増えます。",
+      "townOnlyHint": "フォーカスは町の中でのみ変更できます。",
       "budgetLabel": "残りポイント：{remaining} / {budget}",
       "saveButton": "フォーカスを保存",
       "notInTownHint": "フォーカスを設定するには町にいる必要があります。",
@@ -1521,6 +1523,7 @@ export const ja_JP: EnTranslations = {
       "dragEquipHint": "キャラクターにドラッグして装備",
       "dragDestroyHint": "世界へドラッグして破壊",
       "reorderNeedsRecent": "絞り込みを解除し並び順を「最近」にすると持ち物を並べ替えられます",
+      "itemAriaInstanced": "{item}、数量 {count}、銘入りの品",
       "filterGroupAria": "バッグをカテゴリーで絞り込む",
       "filterAll": "すべて",
       "filterWeapon": "武器",
@@ -2127,6 +2130,8 @@ export const ja_JP: EnTranslations = {
         "herbalism": "この群生地を採取するにはティア{tier}の薬草鎌が必要です。"
       },
       "toolTierUnmetCorpse": "最高の素材を回収するにはティア{tier}の採集道具が必要です。",
+      "downgradeMark": "バッグが満杯です：収穫は採集者の印なしで収納されました。",
+      "downgradeFind": "バッグが満杯です：極上の獲物を逃してしまいました。",
       "stateReady": "採集可能",
       "stateCooldown": "再生中"
     },
@@ -2266,6 +2271,7 @@ export const ja_JP: EnTranslations = {
       "masterworkZoneLine": "{crafter}が傑作{name}を作り上げました！",
       "tierUpToast": "{craft}がティア {tier} に到達しました！",
       "makersMark": "製作者：{name}",
+      "gatheredBy": "採集者：{name}",
       "masterworkSeal": "傑作",
       "enchantedLine": "エンチャント済み"
     },

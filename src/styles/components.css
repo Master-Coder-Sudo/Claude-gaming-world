@@ -5175,6 +5175,21 @@
       0 0 3px #000;
     pointer-events: none;
   }
+  /* Instanced-copy marker (Professions 2.0 Phase 12d): a static gold corner
+     tab on every per-copy (signed/enchanted/masterwork) stack, always visible
+     on the cell itself on desktop and touch (information-add, identical on
+     every graphics preset, so no --fx-* gate). Top-left, clear of the
+     bottom-right count badge. */
+  .bag-item .bi-instance {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 11px;
+    height: 11px;
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    background: var(--color-accent);
+    pointer-events: none;
+  }
   .bag-item.empty {
     cursor: default;
     background: #0b0906;

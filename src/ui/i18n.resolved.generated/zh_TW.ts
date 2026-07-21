@@ -1463,6 +1463,8 @@ export const zh_TW: EnTranslations = {
     "townFocus": {
       "title": "城鎮專注",
       "hint": "專注點會在每種材料的基礎產出上疊加加成。未專注的材料保持基礎產出不變。",
+      "tierHint": "每在一種材料上投入{points}點專注，其採集品階就會提升一階，最多提升{steps}階；不足{points}點時仍會提高產出。",
+      "townOnlyHint": "專注只能在城鎮中調整。",
       "budgetLabel": "剩餘點數：{remaining} / {budget}",
       "saveButton": "儲存專注",
       "notInTownHint": "你必須在城鎮中才能設定專注。",
@@ -1521,6 +1523,7 @@ export const zh_TW: EnTranslations = {
       "dragEquipHint": "拖曳到角色身上以裝備",
       "dragDestroyHint": "拖曳到世界中以銷毀",
       "reorderNeedsRecent": "清除篩選並按「最近」排序即可整理背包",
+      "itemAriaInstanced": "{item}，數量 {count}，帶工匠印記的物品",
       "filterGroupAria": "依類別篩選背包",
       "filterAll": "全部",
       "filterWeapon": "武器",
@@ -2127,6 +2130,8 @@ export const zh_TW: EnTranslations = {
         "herbalism": "你需要{tier}階草藥鐮才能採集這片草藥叢。"
       },
       "toolTierUnmetCorpse": "你需要{tier}階採集工具才能取得最上等的材料。",
+      "downgradeMark": "背包已滿：這份收穫未能留下採集者的印記。",
+      "downgradeFind": "背包已滿：一件完美的收穫溜走了。",
       "stateReady": "可採集",
       "stateCooldown": "恢復中"
     },
@@ -2266,6 +2271,7 @@ export const zh_TW: EnTranslations = {
       "masterworkZoneLine": "{crafter}製作出了傑作{name}！",
       "tierUpToast": "{craft}提升至階級 {tier}！",
       "makersMark": "製作者：{name}",
+      "gatheredBy": "採集者：{name}",
       "masterworkSeal": "傑作",
       "enchantedLine": "已附魔"
     },

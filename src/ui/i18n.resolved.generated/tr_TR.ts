@@ -1463,6 +1463,8 @@ export const tr_TR: EnTranslations = {
     "townFocus": {
       "title": "Kasaba Odağı",
       "hint": "Odak puanları her bileşenin temel getirisinin üzerine bir bonus ekler. Odaklanılmayan bileşenler temel düzeyde kalır.",
+      "tierHint": "Every {points} points on a component raise its harvest tier one step, up to {steps} steps; fewer than {points} points still boost the yield.",
+      "townOnlyHint": "Focus can only be changed while you are in town.",
       "budgetLabel": "Kalan puan: {remaining} / {budget}",
       "saveButton": "Odağı Kaydet",
       "notInTownHint": "Odağını ayarlamak için kasabada olmalısın.",
@@ -1521,6 +1523,7 @@ export const tr_TR: EnTranslations = {
       "dragEquipHint": "Kuşanmak için karakterinin üzerine sürükle",
       "dragDestroyHint": "Yok etmek için dünyaya sürükle",
       "reorderNeedsRecent": "Çantalarını yeniden düzenlemek için filtreyi temizle ve Son Eklenen sıralama seçeneğini kullan",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Çantaları kategoriye göre filtrele",
       "filterAll": "Tümü",
       "filterWeapon": "Silahlar",
@@ -2127,6 +2130,8 @@ export const tr_TR: EnTranslations = {
         "herbalism": "You need a tier {tier} herbalism sickle to gather this patch."
       },
       "toolTierUnmetCorpse": "You need a tier {tier} gathering tool to recover the finest materials.",
+      "downgradeMark": "Bags full: the find was stored without its gatherer's mark.",
+      "downgradeFind": "Bags full: a pristine find slipped away.",
       "stateReady": "Ready",
       "stateCooldown": "Respawning"
     },
@@ -2266,6 +2271,7 @@ export const tr_TR: EnTranslations = {
       "masterworkZoneLine": "{crafter} bir şaheser {name} yarattı!",
       "tierUpToast": "{craft}, {tier} seviyesine yükseldi!",
       "makersMark": "{name} tarafından hazırlanmıştır",
+      "gatheredBy": "Gathered by {name}",
       "masterworkSeal": "Şaheser",
       "enchantedLine": "Büyülü"
     },

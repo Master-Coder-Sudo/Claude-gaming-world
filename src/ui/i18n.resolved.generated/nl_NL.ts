@@ -1463,6 +1463,8 @@ export const nl_NL: EnTranslations = {
     "townFocus": {
       "title": "Stadsfocus",
       "hint": "Focuspunten geven een bonus bovenop de basisopbrengst van elk onderdeel. Onderdelen zonder focus blijven op het basisniveau.",
+      "tierHint": "Every {points} points on a component raise its harvest tier one step, up to {steps} steps; fewer than {points} points still boost the yield.",
+      "townOnlyHint": "Focus can only be changed while you are in town.",
       "budgetLabel": "Punten over: {remaining} / {budget}",
       "saveButton": "Focus opslaan",
       "notInTownHint": "Je moet in de stad zijn om je focus in te stellen.",
@@ -1521,6 +1523,7 @@ export const nl_NL: EnTranslations = {
       "dragEquipHint": "Sleep naar je personage om uit te rusten",
       "dragDestroyHint": "Sleep naar buiten in de wereld om te vernietigen",
       "reorderNeedsRecent": "Verwijder het filter en sorteer op Recent om je tassen opnieuw te rangschikken",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Tassen filteren op categorie",
       "filterAll": "Alle",
       "filterWeapon": "Wapens",
@@ -2127,6 +2130,8 @@ export const nl_NL: EnTranslations = {
         "herbalism": "You need a tier {tier} herbalism sickle to gather this patch."
       },
       "toolTierUnmetCorpse": "You need a tier {tier} gathering tool to recover the finest materials.",
+      "downgradeMark": "Bags full: the find was stored without its gatherer's mark.",
+      "downgradeFind": "Bags full: a pristine find slipped away.",
       "stateReady": "Ready",
       "stateCooldown": "Respawning"
     },
@@ -2266,6 +2271,7 @@ export const nl_NL: EnTranslations = {
       "masterworkZoneLine": "{crafter} heeft het meesterwerk {name} gemaakt!",
       "tierUpToast": "{craft} is doorgegaan naar niveau {tier}!",
       "makersMark": "Gemaakt door {name}",
+      "gatheredBy": "Gathered by {name}",
       "masterworkSeal": "Meesterwerk",
       "enchantedLine": "Betoverd"
     },

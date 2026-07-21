@@ -1463,6 +1463,8 @@ export const da_DK: EnTranslations = {
     "townFocus": {
       "title": "Byfokus",
       "hint": "Fokuspoint lægger en bonus oven på hver komponents grundudbytte. Ufokuserede komponenter bliver på grundniveauet.",
+      "tierHint": "Every {points} points on a component raise its harvest tier one step, up to {steps} steps; fewer than {points} points still boost the yield.",
+      "townOnlyHint": "Focus can only be changed while you are in town.",
       "budgetLabel": "Point tilbage: {remaining} / {budget}",
       "saveButton": "Gem fokus",
       "notInTownHint": "Du skal være i byen for at sætte dit fokus.",
@@ -1521,6 +1523,7 @@ export const da_DK: EnTranslations = {
       "dragEquipHint": "Træk hen på din karakter for at udruste",
       "dragDestroyHint": "Træk ud i verden for at ødelægge",
       "reorderNeedsRecent": "Ryd filteret og sortér efter Seneste for at omarrangere dine tasker",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Filtrér tasker efter kategori",
       "filterAll": "Alle",
       "filterWeapon": "Våben",
@@ -2127,6 +2130,8 @@ export const da_DK: EnTranslations = {
         "herbalism": "You need a tier {tier} herbalism sickle to gather this patch."
       },
       "toolTierUnmetCorpse": "You need a tier {tier} gathering tool to recover the finest materials.",
+      "downgradeMark": "Bags full: the find was stored without its gatherer's mark.",
+      "downgradeFind": "Bags full: a pristine find slipped away.",
       "stateReady": "Ready",
       "stateCooldown": "Respawning"
     },
@@ -2266,6 +2271,7 @@ export const da_DK: EnTranslations = {
       "masterworkZoneLine": "{crafter} lavede et mesterværk {name}!",
       "tierUpToast": "{craft} avanceret til niveau {tier}!",
       "makersMark": "Udformet af {name}",
+      "gatheredBy": "Gathered by {name}",
       "masterworkSeal": "Mesterværk",
       "enchantedLine": "Fortryllet"
     },

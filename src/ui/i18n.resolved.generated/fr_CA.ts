@@ -1463,6 +1463,8 @@ export const fr_CA: EnTranslations = {
     "townFocus": {
       "title": "Priorités de la ville",
       "hint": "Les points de priorité ajoutent un bonus au rendement de base de chaque composante. Les composantes sans priorité restent au rendement de base.",
+      "tierHint": "Every {points} points on a component raise its harvest tier one step, up to {steps} steps; fewer than {points} points still boost the yield.",
+      "townOnlyHint": "Focus can only be changed while you are in town.",
       "budgetLabel": "Points restants : {remaining} / {budget}",
       "saveButton": "Enregistrer les priorités",
       "notInTownHint": "Vous devez être en ville pour définir vos priorités.",
@@ -1521,6 +1523,7 @@ export const fr_CA: EnTranslations = {
       "dragEquipHint": "Faites glisser sur votre personnage pour équiper",
       "dragDestroyHint": "Faites glisser dans le monde pour détruire",
       "reorderNeedsRecent": "Effacez le filtre et triez par Récents pour réorganiser vos sacs",
+      "itemAriaInstanced": "{item}, quantity {count}, maker-marked copy",
       "filterGroupAria": "Filtrer les sacs par catégorie",
       "filterAll": "Tous",
       "filterWeapon": "Armes",
@@ -2127,6 +2130,8 @@ export const fr_CA: EnTranslations = {
         "herbalism": "You need a tier {tier} herbalism sickle to gather this patch."
       },
       "toolTierUnmetCorpse": "You need a tier {tier} gathering tool to recover the finest materials.",
+      "downgradeMark": "Bags full: the find was stored without its gatherer's mark.",
+      "downgradeFind": "Bags full: a pristine find slipped away.",
       "stateReady": "Ready",
       "stateCooldown": "Respawning"
     },
@@ -2266,6 +2271,7 @@ export const fr_CA: EnTranslations = {
       "masterworkZoneLine": "{crafter} a créé un chef-d'œuvre {name} !",
       "tierUpToast": "{craft} a avancé au niveau {tier} !",
       "makersMark": "Fabriqué par {name}",
+      "gatheredBy": "Gathered by {name}",
       "masterworkSeal": "Chef-d'œuvre",
       "enchantedLine": "Enchanté"
     },
