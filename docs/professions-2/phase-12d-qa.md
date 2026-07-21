@@ -69,8 +69,9 @@ until green; commit with explicit paths, Conventional Commits with a body.
   - Take Loot: "Takes the coins and dropped items. Does not use up the harvest."
   - Harvest: "Gathers the checked components. Each corpse can be harvested once, first
     come. Does not take the loot."
-  Optional if the window stays uncluttered: a footer hint line "The interact key loots
-  and harvests in one press, using your town focus." The new strings are wordy (M16):
+  Plus the footer hint line (approved, not optional): "The interact key loots and
+  harvests in one press, using your town focus." on the loot window, the town-focus
+  hint-line idiom. The new strings are wordy (M16):
   English catalog rows plus the five non-Latin overlay fills each. Pin the renamed
   label and both tooltip bindings; the Harvest button id/behavior is unchanged.
 
