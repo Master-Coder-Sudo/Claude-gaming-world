@@ -1794,6 +1794,7 @@ export const TARGETS = [
       { key: 'menu-mobile', mobile: true },
       { key: 'confirm-special', confirm: true },
       { key: 'picker', picker: true },
+      { key: 'picker-mobile', picker: true, mobile: true },
     ],
     async capture(page, variant) {
       await page.evaluate(() => {
