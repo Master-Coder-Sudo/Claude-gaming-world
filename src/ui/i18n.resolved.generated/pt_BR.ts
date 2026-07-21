@@ -5714,7 +5714,8 @@ export const pt_BR: EnTranslations = {
       "tradeInProgress": "Já há uma troca em andamento.",
       "tradeTooFar": "O alvo está longe demais para trocar.",
       "tradeExpired": "A solicitação de troca expirou.",
-      "tradeFailed": "Troca falhou: itens ou dinheiro não estão mais disponíveis."
+      "tradeFailed": "Troca falhou: itens ou dinheiro não estão mais disponíveis.",
+      "tradeBound": "That item is bound and cannot be traded."
     },
     "logs": {
       "standUp": "Você se levanta.",
@@ -8607,6 +8608,21 @@ export const pt_BR: EnTranslations = {
       },
       "wildsoul_maul": {
         "name": "Wildsoul Maul"
+      },
+      "resonant_thread": {
+        "name": "Resonant Thread"
+      },
+      "resonant_hide": {
+        "name": "Resonant Hide"
+      },
+      "resonant_links": {
+        "name": "Resonant Links"
+      },
+      "resonant_steel": {
+        "name": "Resonant Steel"
+      },
+      "resonant_timber": {
+        "name": "Resonant Timber"
       },
       "conjured_water4": {
         "name": "Água de Nascente Conjurada"

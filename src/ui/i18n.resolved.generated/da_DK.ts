@@ -5714,7 +5714,8 @@ export const da_DK: EnTranslations = {
       "tradeInProgress": "En handel er allerede i gang.",
       "tradeTooFar": "Målet er for langt væk til at handle.",
       "tradeExpired": "Handelsanmodningen er udløbet.",
-      "tradeFailed": "Handel mislykkedes: genstande eller penge er ikke længere tilgængelige."
+      "tradeFailed": "Handel mislykkedes: genstande eller penge er ikke længere tilgængelige.",
+      "tradeBound": "That item is bound and cannot be traded."
     },
     "logs": {
       "standUp": "Du rejser dig op.",
@@ -8607,6 +8608,21 @@ export const da_DK: EnTranslations = {
       },
       "wildsoul_maul": {
         "name": "Wildsoul Maul"
+      },
+      "resonant_thread": {
+        "name": "Resonant Thread"
+      },
+      "resonant_hide": {
+        "name": "Resonant Hide"
+      },
+      "resonant_links": {
+        "name": "Resonant Links"
+      },
+      "resonant_steel": {
+        "name": "Resonant Steel"
+      },
+      "resonant_timber": {
+        "name": "Resonant Timber"
       },
       "conjured_water4": {
         "name": "Fremmanet kildevand"

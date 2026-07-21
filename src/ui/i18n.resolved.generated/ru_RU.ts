@@ -5714,7 +5714,8 @@ export const ru_RU: EnTranslations = {
       "tradeInProgress": "Обмен уже идет.",
       "tradeTooFar": "Цель слишком далеко для обмена.",
       "tradeExpired": "Запрос обмена истек.",
-      "tradeFailed": "Обмен не удался: предметы или деньги больше недоступны."
+      "tradeFailed": "Обмен не удался: предметы или деньги больше недоступны.",
+      "tradeBound": "Этот предмет привязан и не может быть обменян."
     },
     "logs": {
       "standUp": "Вы встаете.",
@@ -8607,6 +8608,21 @@ export const ru_RU: EnTranslations = {
       },
       "wildsoul_maul": {
         "name": "Молот дикой души"
+      },
+      "resonant_thread": {
+        "name": "Резонирующая нить"
+      },
+      "resonant_hide": {
+        "name": "Резонирующая шкура"
+      },
+      "resonant_links": {
+        "name": "Резонирующие звенья"
+      },
+      "resonant_steel": {
+        "name": "Резонирующая сталь"
+      },
+      "resonant_timber": {
+        "name": "Резонирующая древесина"
       },
       "conjured_water4": {
         "name": "Сотворённая родниковая вода"

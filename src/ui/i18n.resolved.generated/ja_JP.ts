@@ -5714,7 +5714,8 @@ export const ja_JP: EnTranslations = {
       "tradeInProgress": "すでに取引が進行中です。",
       "tradeTooFar": "対象が遠すぎて取引できません。",
       "tradeExpired": "取引リクエストは期限切れです。",
-      "tradeFailed": "取引失敗: アイテムまたは所持金が利用できません。"
+      "tradeFailed": "取引失敗: アイテムまたは所持金が利用できません。",
+      "tradeBound": "そのアイテムはバインドされているため取引できません。"
     },
     "logs": {
       "standUp": "立ち上がりました。",
@@ -8607,6 +8608,21 @@ export const ja_JP: EnTranslations = {
       },
       "wildsoul_maul": {
         "name": "野生魂の大槌"
+      },
+      "resonant_thread": {
+        "name": "共鳴の糸"
+      },
+      "resonant_hide": {
+        "name": "共鳴の獣皮"
+      },
+      "resonant_links": {
+        "name": "共鳴の鎖"
+      },
+      "resonant_steel": {
+        "name": "共鳴の鋼"
+      },
+      "resonant_timber": {
+        "name": "共鳴の木材"
       },
       "conjured_water4": {
         "name": "魔法の湧き水"

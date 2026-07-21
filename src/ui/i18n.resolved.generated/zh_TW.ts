@@ -5714,7 +5714,8 @@ export const zh_TW: EnTranslations = {
       "tradeInProgress": "已有交易正在進行。",
       "tradeTooFar": "目標太遠，無法交易。",
       "tradeExpired": "交易請求已過期。",
-      "tradeFailed": "交易失敗：物品或金錢已不可用。"
+      "tradeFailed": "交易失敗：物品或金錢已不可用。",
+      "tradeBound": "該物品已綁定，無法交易。"
     },
     "logs": {
       "standUp": "你站了起來。",
@@ -8607,6 +8608,21 @@ export const zh_TW: EnTranslations = {
       },
       "wildsoul_maul": {
         "name": "荒野之魂重錘"
+      },
+      "resonant_thread": {
+        "name": "共鳴絲線"
+      },
+      "resonant_hide": {
+        "name": "共鳴獸皮"
+      },
+      "resonant_links": {
+        "name": "共鳴鎖環"
+      },
+      "resonant_steel": {
+        "name": "共鳴鋼材"
+      },
+      "resonant_timber": {
+        "name": "共鳴木材"
       },
       "conjured_water4": {
         "name": "魔法泉水"

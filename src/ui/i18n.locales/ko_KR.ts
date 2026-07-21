@@ -8408,4 +8408,10 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'entities.items.wildgrowth_leggings.name': '야생성장 다리보호구',
   'entities.items.wildsoul_maul.name': '야생영혼 철퇴',
   'hudChrome.professions.skillValue': '{skill} / {max}',
+  'entities.items.resonant_thread.name': '공명의 실',
+  'entities.items.resonant_hide.name': '공명의 가죽',
+  'entities.items.resonant_links.name': '공명의 사슬',
+  'entities.items.resonant_steel.name': '공명의 강철',
+  'entities.items.resonant_timber.name': '공명의 목재',
+  'hud.errors.tradeBound': '그 아이템은 귀속되어 거래할 수 없습니다.',
 };

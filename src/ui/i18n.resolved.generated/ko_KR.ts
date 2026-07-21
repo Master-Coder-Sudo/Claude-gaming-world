@@ -5714,7 +5714,8 @@ export const ko_KR: EnTranslations = {
       "tradeInProgress": "이미 거래가 진행 중입니다.",
       "tradeTooFar": "대상이 너무 멀어 거래할 수 없습니다.",
       "tradeExpired": "거래 요청이 만료되었습니다.",
-      "tradeFailed": "거래 실패: 아이템이나 돈을 더 이상 사용할 수 없습니다."
+      "tradeFailed": "거래 실패: 아이템이나 돈을 더 이상 사용할 수 없습니다.",
+      "tradeBound": "그 아이템은 귀속되어 거래할 수 없습니다."
     },
     "logs": {
       "standUp": "일어섰습니다.",
@@ -8607,6 +8608,21 @@ export const ko_KR: EnTranslations = {
       },
       "wildsoul_maul": {
         "name": "야생영혼 철퇴"
+      },
+      "resonant_thread": {
+        "name": "공명의 실"
+      },
+      "resonant_hide": {
+        "name": "공명의 가죽"
+      },
+      "resonant_links": {
+        "name": "공명의 사슬"
+      },
+      "resonant_steel": {
+        "name": "공명의 강철"
+      },
+      "resonant_timber": {
+        "name": "공명의 목재"
       },
       "conjured_water4": {
         "name": "창조된 샘물"

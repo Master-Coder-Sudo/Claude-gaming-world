@@ -8578,4 +8578,10 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'entities.items.wildgrowth_leggings.name': 'Поножи дикого роста',
   'entities.items.wildsoul_maul.name': 'Молот дикой души',
   'hudChrome.professions.skillValue': '{skill} / {max}',
+  'entities.items.resonant_thread.name': 'Резонирующая нить',
+  'entities.items.resonant_hide.name': 'Резонирующая шкура',
+  'entities.items.resonant_links.name': 'Резонирующие звенья',
+  'entities.items.resonant_steel.name': 'Резонирующая сталь',
+  'entities.items.resonant_timber.name': 'Резонирующая древесина',
+  'hud.errors.tradeBound': 'Этот предмет привязан и не может быть обменян.',
 };

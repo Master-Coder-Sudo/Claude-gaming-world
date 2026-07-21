@@ -5714,7 +5714,8 @@ export const cs_CZ: EnTranslations = {
       "tradeInProgress": "Obchod už probíhá.",
       "tradeTooFar": "Cíl je příliš daleko pro obchod.",
       "tradeExpired": "Žádost o obchod vypršela.",
-      "tradeFailed": "Obchod selhal: předměty nebo peníze už nejsou dostupné."
+      "tradeFailed": "Obchod selhal: předměty nebo peníze už nejsou dostupné.",
+      "tradeBound": "That item is bound and cannot be traded."
     },
     "logs": {
       "standUp": "Vstáváš.",
@@ -8607,6 +8608,21 @@ export const cs_CZ: EnTranslations = {
       },
       "wildsoul_maul": {
         "name": "Wildsoul Maul"
+      },
+      "resonant_thread": {
+        "name": "Resonant Thread"
+      },
+      "resonant_hide": {
+        "name": "Resonant Hide"
+      },
+      "resonant_links": {
+        "name": "Resonant Links"
+      },
+      "resonant_steel": {
+        "name": "Resonant Steel"
+      },
+      "resonant_timber": {
+        "name": "Resonant Timber"
       },
       "conjured_water4": {
         "name": "Vyčarovaná pramenitá voda"

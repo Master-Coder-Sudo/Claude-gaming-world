@@ -5714,7 +5714,8 @@ export const nl_NL: EnTranslations = {
       "tradeInProgress": "Er is al een ruil aan de gang.",
       "tradeTooFar": "Het doelwit is te ver weg om mee te ruilen.",
       "tradeExpired": "Het ruilverzoek is verlopen.",
-      "tradeFailed": "Ruil mislukt: voorwerpen of geld niet langer beschikbaar."
+      "tradeFailed": "Ruil mislukt: voorwerpen of geld niet langer beschikbaar.",
+      "tradeBound": "That item is bound and cannot be traded."
     },
     "logs": {
       "standUp": "Je staat op.",
@@ -8607,6 +8608,21 @@ export const nl_NL: EnTranslations = {
       },
       "wildsoul_maul": {
         "name": "Wildsoul Maul"
+      },
+      "resonant_thread": {
+        "name": "Resonant Thread"
+      },
+      "resonant_hide": {
+        "name": "Resonant Hide"
+      },
+      "resonant_links": {
+        "name": "Resonant Links"
+      },
+      "resonant_steel": {
+        "name": "Resonant Steel"
+      },
+      "resonant_timber": {
+        "name": "Resonant Timber"
       },
       "conjured_water4": {
         "name": "Getoverd bronwater"

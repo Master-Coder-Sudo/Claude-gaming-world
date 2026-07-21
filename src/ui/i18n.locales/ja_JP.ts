@@ -8420,4 +8420,10 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'entities.items.wildgrowth_leggings.name': '野生の成長のレギンス',
   'entities.items.wildsoul_maul.name': '野生魂の大槌',
   'hudChrome.professions.skillValue': '{skill} / {max}',
+  'entities.items.resonant_thread.name': '共鳴の糸',
+  'entities.items.resonant_hide.name': '共鳴の獣皮',
+  'entities.items.resonant_links.name': '共鳴の鎖',
+  'entities.items.resonant_steel.name': '共鳴の鋼',
+  'entities.items.resonant_timber.name': '共鳴の木材',
+  'hud.errors.tradeBound': 'そのアイテムはバインドされているため取引できません。',
 };

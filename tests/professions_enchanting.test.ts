@@ -63,6 +63,11 @@ describe('disenchant', () => {
   });
 
   it('yield scales with rarity: the qualityIdx AND derived-tier terms make an epic strictly outyield a common with the same rng draw', () => {
+    // Phase 13 scope note: this pins the disenchantYield HELPER, which since
+    // the typed-reagent amendment is the SUB-RARE arm only (resolveDisenchant
+    // grants fixed counts at rare+; the resolve-level per-quality counts are
+    // pinned in professions_typed_reagents.test.ts). The helper keeps both
+    // terms protected exactly as before.
     // Same seed for both, so the rng draws (the +0/+1 bonus term) line up
     // identically; only quality differs. Both fake items have no explicit
     // requiredLevel and no derivable itemSourceLevel, so requiredLevelFor

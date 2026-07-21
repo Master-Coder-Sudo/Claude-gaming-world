@@ -914,6 +914,14 @@ export interface ItemInstancePayload {
   enchant?: string;
   /** Player id (Entity id) this specific copy is bound to. */
   boundTo?: number;
+  /** Arms the bind-on-trade lock: a copy carrying this binds to the recipient
+   *  (boundTo set) the first time it changes hands in a player trade
+   *  (social/trade.ts grantOffer), after which it can never be traded again.
+   *  Generic (Phase 13 disenchant secondaries are its first consumer; Phase 14b
+   *  commissioned gear reuses it); the trade arm keys only on this flag and
+   *  boundTo, nothing item-specific. Additive and JSONB-safe: an absent flag is
+   *  an ordinary freely-tradeable instance. */
+  bindOnTrade?: boolean;
 }
 
 export interface InvSlot {

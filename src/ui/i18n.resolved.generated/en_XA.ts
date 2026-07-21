@@ -5714,7 +5714,8 @@ export const en_XA: EnTranslations = {
       "tradeInProgress": "[Á ţŕáðé íš áļŕéáðý íñ þŕóĝŕéšš.]",
       "tradeTooFar": "[Ţáŕĝéţ íš ţóó ƒáŕ áŵáý ţó ţŕáðé.]",
       "tradeExpired": "[Ţĥé ţŕáðé ŕéɋúéšţ ĥáš éẋþíŕéð.]",
-      "tradeFailed": "[Ţŕáðé ƒáíļéð: íţéɱš óŕ ɱóñéý ñó ļóñĝéŕ áʋáíļáƀļé.]"
+      "tradeFailed": "[Ţŕáðé ƒáíļéð: íţéɱš óŕ ɱóñéý ñó ļóñĝéŕ áʋáíļáƀļé.]",
+      "tradeBound": "[Ţĥáţ íţéɱ íš ƀóúñð áñð çáññóţ ƀé ţŕáðéð.]"
     },
     "logs": {
       "standUp": "[Ýóú šţáñð úþ.]",
@@ -8607,6 +8608,21 @@ export const en_XA: EnTranslations = {
       },
       "wildsoul_maul": {
         "name": "[Ŵíļðšóúļ Ɱáúļ]"
+      },
+      "resonant_thread": {
+        "name": "[Ŕéšóñáñţ Ţĥŕéáð]"
+      },
+      "resonant_hide": {
+        "name": "[Ŕéšóñáñţ Ĥíðé]"
+      },
+      "resonant_links": {
+        "name": "[Ŕéšóñáñţ Ļíñķš]"
+      },
+      "resonant_steel": {
+        "name": "[Ŕéšóñáñţ Šţééļ]"
+      },
+      "resonant_timber": {
+        "name": "[Ŕéšóñáñţ Ţíɱƀéŕ]"
       },
       "conjured_water4": {
         "name": "[Çóñĵúŕéð Šþŕíñĝŵáţéŕ]"

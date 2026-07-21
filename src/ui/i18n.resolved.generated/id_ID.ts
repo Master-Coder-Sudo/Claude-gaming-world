@@ -5714,7 +5714,8 @@ export const id_ID: EnTranslations = {
       "tradeInProgress": "Perdagangan sudah berlangsung.",
       "tradeTooFar": "Sasaran terlalu jauh untuk berdagang.",
       "tradeExpired": "Permintaan perdagangan telah kedaluwarsa.",
-      "tradeFailed": "Perdagangan gagal: barang atau uang sudah tidak tersedia."
+      "tradeFailed": "Perdagangan gagal: barang atau uang sudah tidak tersedia.",
+      "tradeBound": "That item is bound and cannot be traded."
     },
     "logs": {
       "standUp": "Kamu berdiri.",
@@ -8607,6 +8608,21 @@ export const id_ID: EnTranslations = {
       },
       "wildsoul_maul": {
         "name": "Wildsoul Maul"
+      },
+      "resonant_thread": {
+        "name": "Resonant Thread"
+      },
+      "resonant_hide": {
+        "name": "Resonant Hide"
+      },
+      "resonant_links": {
+        "name": "Resonant Links"
+      },
+      "resonant_steel": {
+        "name": "Resonant Steel"
+      },
+      "resonant_timber": {
+        "name": "Resonant Timber"
       },
       "conjured_water4": {
         "name": "Air Mata Air Sihir"

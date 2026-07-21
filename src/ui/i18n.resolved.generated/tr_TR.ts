@@ -5714,7 +5714,8 @@ export const tr_TR: EnTranslations = {
       "tradeInProgress": "Zaten devam eden bir takas var.",
       "tradeTooFar": "Hedef takas için çok uzakta.",
       "tradeExpired": "Takas isteğinin süresi doldu.",
-      "tradeFailed": "Takas başarısız: eşyalar ya da para artık mevcut değil."
+      "tradeFailed": "Takas başarısız: eşyalar ya da para artık mevcut değil.",
+      "tradeBound": "That item is bound and cannot be traded."
     },
     "logs": {
       "standUp": "Ayağa kalkıyorsun.",
@@ -8607,6 +8608,21 @@ export const tr_TR: EnTranslations = {
       },
       "wildsoul_maul": {
         "name": "Wildsoul Maul"
+      },
+      "resonant_thread": {
+        "name": "Resonant Thread"
+      },
+      "resonant_hide": {
+        "name": "Resonant Hide"
+      },
+      "resonant_links": {
+        "name": "Resonant Links"
+      },
+      "resonant_steel": {
+        "name": "Resonant Steel"
+      },
+      "resonant_timber": {
+        "name": "Resonant Timber"
       },
       "conjured_water4": {
         "name": "Sihirle Yaratılmış Kaynak Suyu"

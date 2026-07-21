@@ -5714,7 +5714,8 @@ export const vi_VN: EnTranslations = {
       "tradeInProgress": "Một giao dịch đang diễn ra.",
       "tradeTooFar": "Mục tiêu ở quá xa để giao dịch.",
       "tradeExpired": "Yêu cầu giao dịch đã hết hạn.",
-      "tradeFailed": "Giao dịch thất bại: vật phẩm hoặc tiền không còn khả dụng."
+      "tradeFailed": "Giao dịch thất bại: vật phẩm hoặc tiền không còn khả dụng.",
+      "tradeBound": "That item is bound and cannot be traded."
     },
     "logs": {
       "standUp": "Bạn đứng dậy.",
@@ -8607,6 +8608,21 @@ export const vi_VN: EnTranslations = {
       },
       "wildsoul_maul": {
         "name": "Wildsoul Maul"
+      },
+      "resonant_thread": {
+        "name": "Resonant Thread"
+      },
+      "resonant_hide": {
+        "name": "Resonant Hide"
+      },
+      "resonant_links": {
+        "name": "Resonant Links"
+      },
+      "resonant_steel": {
+        "name": "Resonant Steel"
+      },
+      "resonant_timber": {
+        "name": "Resonant Timber"
       },
       "conjured_water4": {
         "name": "Nước Suối Được Tạo Phép"

@@ -8021,4 +8021,10 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'entities.items.wildgrowth_leggings.name': '荒野生長護腿',
   'entities.items.wildsoul_maul.name': '荒野之魂重錘',
   'hudChrome.professions.skillValue': '{skill} / {max}',
+  'entities.items.resonant_thread.name': '共鳴絲線',
+  'entities.items.resonant_hide.name': '共鳴獸皮',
+  'entities.items.resonant_links.name': '共鳴鎖環',
+  'entities.items.resonant_steel.name': '共鳴鋼材',
+  'entities.items.resonant_timber.name': '共鳴木材',
+  'hud.errors.tradeBound': '該物品已綁定，無法交易。',
 };
