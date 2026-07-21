@@ -350,9 +350,10 @@ export function harvestCorpse(
   }
   // Signed-family components first: their plain FALLBACK still owns
   // pre-gate-reserved stack room, so they outrank the specimens, which are
-  // pure extras. Signed instances never merge into stacks (bags.ts
-  // addStacked, #1165): each needs a genuinely free slot, and with none the
-  // signed-family grant falls back to the plain fungible top-up (the
+  // pure extras. A signed instance merges only into a byte-equal same-signer
+  // stack (identical-payload stacking, Phase 12d; never a plain stack, #1165),
+  // so this gate conservatively demands a genuinely free slot, and with none
+  // the signed-family grant falls back to the plain fungible top-up (the
   // signature truncates, the yield does not) while a specimen truncates
   // outright, the same truncation contract harvestNode's signed grants
   // follow.
