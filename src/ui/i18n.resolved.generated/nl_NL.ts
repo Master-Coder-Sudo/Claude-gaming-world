@@ -2557,9 +2557,6 @@ export const nl_NL: EnTranslations = {
     },
     "wallet": {
       "handoff_invalid": "Die portemonnee-autorisatie is verlopen of kon niet worden geverifieerd. Probeer het opnieuw."
-    },
-    "welcome": {
-      "invalid_input": "Ongeldige invoer."
     }
   },
   "guide": {
@@ -4166,7 +4163,9 @@ export const nl_NL: EnTranslations = {
     "error": "Kon de updates niet laden. Probeer het later opnieuw.",
     "empty": "Nog geen updates — kom binnenkort terug.",
     "prerelease": "Voorpublicatie",
-    "viewOnGithub": "Bekijk op GitHub"
+    "viewOnGithub": "Bekijk op GitHub",
+    "new": "Nieuw",
+    "viewAll": "Bekijk alle updates op GitHub"
   },
   "download": {
     "title": "Desktop-launcher downloaden",
@@ -5332,29 +5331,6 @@ export const nl_NL: EnTranslations = {
     "heading": "De wereld is tijdelijk niet beschikbaar.",
     "body": "We herstarten de gameservice en verwachten dat Claudemoon binnenkort weer terug is. Deze pagina blijft automatisch controleren.",
     "status": "Snel terug"
-  },
-  "welcome": {
-    "back": "Welkom terug, {name}",
-    "level": "Niveau {level}",
-    "lastPlayed": "Laatst gespeeld: {when}",
-    "continue": "Wereld betreden",
-    "continueHint": "Enter om door te gaan, Esc om over te slaan",
-    "continueHintTouch": "Tik om door te gaan",
-    "discord": {
-      "title": "De community leeft op Discord",
-      "sub": "Voorproefjes van patches, evenementen, chat met de ontwikkelaars en 2 bonusvakken in de bank als je je Discord-account koppelt.",
-      "join": "Word lid van onze Discord"
-    },
-    "chest": {
-      "ready": "Kist met dagelijkse beloningen staat klaar"
-    },
-    "armory": {
-      "cta": "Wereld betreden en het Arsenaal bekijken"
-    },
-    "news": {
-      "new": "Nieuw",
-      "viewAll": "Bekijk alle updates op GitHub"
-    }
   },
   "hud": {
     "core": {
