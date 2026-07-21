@@ -1236,3 +1236,15 @@ six-stage sequential workflow, one cadence commit each, plus follow-ups.
   partial instanced splits and the bags/bank split-prompt gate on counted
   instanced stacks (wave 2 polish); mail expiry has no UI countdown (the
   return letter's arrival toast is the visibility surface).
+- Mid-PR release sync (2026-07-21): the tip moved 7 commits (loot class
+  balance #2237, the character showcase redesign #2248/#2255, offline-mode
+  dev gating #2254, the unspectate resync #2253); merged in as 4b7280cdb
+  with TWO conflicts (hud.ts import block: union of the gatherDowngrade
+  import and the release's holder_tier removal; generated pending.ts by
+  regen). Release-merge-audit CLEAN: the true branch overlap was hud.ts,
+  components.css, the catalog, and the five overlays, all intents verified
+  present post-merge; loot_roll.ts and sim_context untouched by the delta
+  so the lifecycle premises stand; the release's nythraxis_full_pull golden
+  re-pin does not overlap the phase's two regens and full parity is green
+  on the merged tree; the delta's new db-mock key (getCharactersCount) is
+  release-owned, not the branch-export trap.
