@@ -2878,32 +2878,40 @@
   #minimap-disc::before {
     content: "";
     position: absolute;
-    inset: -9px;
+    /* Thin: matches a real gold ring's proportions (and this element's own
+       pre-ornament width), not a thick painted band. An earlier pass widened
+       this to make the texture easier to see and overshot into "thick single
+       color border" territory; the fix was better texture, not more width.
+       -6px (not the -5px this narrowly missed) also gives the dark tarnish
+       speckles (minimap_gilded_ornament.ts) enough visible band width to
+       render as more than sub-pixel dots. */
+    inset: -6px;
     z-index: -1;
     border-radius: 50%;
     /* Not a stack of discrete color BANDS (an earlier pass read as a
        striped/layered ring once actually compared against the reference):
-       real hand-gilded gold leaf reads as multi-toned because countless tiny
-       flecks each catch light a little differently, not because the metal is
+       real hand-gilded gold reads as textured because of slight dark
+       tarnish spotting across the surface, not because the metal is
        painted in rings. Three layers, each a real axis of variation:
        1) `--minimap-gilt` (#2196's perfGiltGradientBackground(), reused
           as-is): hand-applied, uneven tone BY ANGLE around the ring;
        2) `--minimap-speckle` (minimap_gilded_ornament.ts,
           minimapGiltSpeckleBackground(), reusing that same file's seeded
-          mulberry32 PRNG): a field of ~220 tiny gold speckles at random
-          positions, sizes, tones, and opacities. `hard-light` (not
-          `overlay`) blends it into (1): hard-light's multiply-vs-screen
-          choice is decided by the SOURCE (this speckle layer), so each
-          fleck's own tone consistently darkens or lightens wherever it
-          sits; overlay decides by the BACKDROP instead, which read as
-          washed out against the gilt gradient's own light/dark swings.
-          The speckles read as grain IN the metal, not decals on top of it;
+          mulberry32 PRNG): a sparse field of small dark tarnish spots
+          (weighted heavily toward the dark end of the gold ramp, matching
+          the reference's brass-with-dark-spotting look, not bright
+          flecks). `hard-light` (not `overlay`) blends it into (1):
+          hard-light's multiply-vs-screen choice is decided by the SOURCE
+          (this speckle layer), so a dark spot consistently darkens
+          wherever it sits; overlay decides by the BACKDROP instead, which
+          read as washed out against the gilt gradient's own swings. The
+          spots read as tarnish IN the metal, not decals on top of it;
        3) a soft directional sheen on top (normal blend; the same
           `radial-gradient(circle at 50% 30%, ...)` fake-3D highlight
           convention this file already uses on #minimap-clock/#raid-lockout/
           #minimap-zoom). */
     background:
-      radial-gradient(circle at 50% 20%, #fff8df60, transparent 55%), var(--minimap-speckle),
+      radial-gradient(circle at 50% 20%, #fff8df50, transparent 55%), var(--minimap-speckle),
       var(--minimap-gilt);
     background-size:
       auto,
@@ -2912,7 +2920,8 @@
     background-blend-mode: normal, hard-light, normal;
     box-shadow:
       inset 0 0 0 1px #fff2c440,
-      0 1px 4px #000a;
+      inset 0 0 2px 1px #00000060,
+      0 1px 3px #000a;
     pointer-events: none;
   }
   /* raid-lockout badge: a small satellite button hugging the bottom-left rim of

@@ -50,7 +50,7 @@ describe('minimap_gilded_ornament', () => {
   it('the speckle field is a real field of many distinct circles, not one flat shape', () => {
     const svg = decodeSvg(minimapGiltSpeckleBackground(document.documentElement));
     const circles = svg.match(/<circle/g) ?? [];
-    expect(circles.length).toBeGreaterThan(100);
+    expect(circles.length).toBeGreaterThan(40);
   });
 
   it('speckle fill colors are drawn from the resolved --color-gold-* tokens, not hardcoded', () => {
