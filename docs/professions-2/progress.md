@@ -45,8 +45,8 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 14b QA | Verify commissions and the Maker's Bond | complete (PASS, zero blocking) | 2026-07-21 | 2026-07-21 |
 | 15 | Deeds, tuning, and polish | complete (PR #2303 merged into release/v0.29.0 as 485e7b429d; single combined PR with 15 QA, per the 2026-07-22 process amendment) | 2026-07-21 | 2026-07-22 |
 | 15 QA | Final integration QA and packet teardown | complete (executed in the Phase 15 session on the same branch; teardown offer recorded in Notes; independently re-audited post-merge by the Phase 15 RE-QA session, see Notes) | 2026-07-22 | 2026-07-22 |
-| 16 | Enchanting stat trim (release-blocking) | planned (phase-16-enchant-trim.md) | | |
-| 17 | Interface polish (crafting + ring windows) | planned (phase-17-interface-polish.md) | | |
+| 16 | Enchanting stat trim (release-blocking) | complete (landed on fix/professions-2-phase-15-requa, commits 10fd998f9 to 9083ef8eb; see Notes) | 2026-07-22 | 2026-07-22 |
+| 17 | Interface polish (crafting + ring windows) | complete (landed on fix/professions-2-phase-15-requa; see Notes) | 2026-07-22 | 2026-07-22 |
 | 18 | Deferral burn-down | planned (phase-18-deferral-burndown.md) | | |
 | 19 | Name originality sweep + wiki truth pass | planned (phase-19-originality-and-wiki.md) | | |
 | 20 | Finish line (scrub, teardown, docs, whole-branch QA) | planned (phase-20-finish-line.md) | | |
@@ -1710,3 +1710,126 @@ class; note the fee ladder now gives it fresh economic value, a Phase
 the pre-existing masterworkSeal/soulbound convention, family-wide
 cleanup if ever); unbind rides the global command flood throttle
 (deny order makes replay free, accepted).
+
+Phase 17 (2026-07-22): interface polish, DONE on the packet branch (no PR,
+no issues; the branch is the history). STEP 0 release sync brought PR
+#2311 (the commissioned professions art set) over merge base 5ea3b8bc19
+as merge 0809df5cc; release-merge-audit clean (delta pure
+UI/styles/tests/assets, overlaps generated-only and regen-identical, no
+legacy arms or endpoints); premise correction recorded in the phase file
+(the art set retires the Phase 5 data-icon placeholder era; the rebuild
+composes profession_art/profession_image_ids/decorative_art). Study ran
+before any edit: DESIGN.md end to end, the local contracts, a six-reader
+fan-out over the exemplars (charge-pool #2276, spellbook #2102, side-rail
+#2177, mail/tooltips, showcase #2248, art #2311) plus a lose-nothing
+inventory of both windows. Finding that framed everything: the DESIGN.md
+Phase 1 token foundation has NOT landed (only the gold ramp), so the bar
+applied is the newest-windows-in-practice language: 740px-class showcase
+width, inset section cards (rgba(0,0,0,0.24) fill, #463a1c hairline, 7px
+radius), small-caps gold headers, pill chips, quality-glow sockets, the
+gold-gradient primary chip, and the mail-tab family.
+
+Landed (413b1f76a crafting, c43081302 professions, 8ba1cf6c5 tests,
+a6a7786df sweep, fbc7847a8 + 3ce18b378 re-pins, c76cb9d00 screenshots,
+4958f3d00 review round): the crafting window is a 760px tabbed book (a
+craft tab strip over pure craftingTabs/resolveSelectedCraft helpers in
+the registered crafting_view.ts core; HUD-held selection on the
+commission-set precedent, cleared on close, stale picks fall back to the
+first tab; column-flex shell with pinned title, two-column identity
+card, and tab strip over an inner-scrolling recipe pane; recipe rows
+became inset cards with a 44px quality-glow socket, wrapping
+display-font name, per-reagent shortfall tints redundant beside the
+have/required counts, tokenized difficulty labels, and the gold Craft
+chip; commission row and combo/station notes dock inside the card). The
+professions window is 720px: a hero band pairs the identity card with
+the wheel on a hazed inset stage (decorative only; the ring keeps its
+role img surface), the ten craft rows lay out as a two-column grid whose
+name line carries only the name and right-aligned value with the
+role/ceiling chips on their own line (the text-squish fix), and every
+section adopts the card idiom with small-caps gold headers. The two
+Phase 5 copy calls landed: switchCost.show in the view core hides the
+switch-cost line until attunedPairs is nonempty, and the new
+hudChrome.professions.ctaRaiseSpecialized key (five non-Latin fills)
+renders when the simplified CTA's next milestone is the specialization
+threshold; that live arm is UNREACHABLE today (simplified mode caps
+skill under tier 1 while the uniform threshold is 75), so the key
+mapping is source-pinned with the reachability argument in the test
+comment. The #ffd100 seal idiom moved to tokens: GOLD_ACCENT_COLOR
+(icons.ts) is RETIRED and the difficulty tints live as semantic
+--color-craft-* tokens (full/minimal/none in lockstep with the
+QUALITY_COLOR anchors, reduced = var(--gold)), consumed by
+data-difficulty CSS rules with the lockstep test re-pinned onto the
+token chain.
+
+REAL BUG caught by the session's own screenshots and fixed: flipping the
+crafting open checks to display !== 'none' read a never-opened window's
+empty inline style as open, so profession-surface staleness repaints
+opened the window unbidden behind other windows; fixed as a positive
+display === 'flex' test at all five hud.ts sites, live-probe-pinned on
+both the never-opened and closed arms.
+
+Consistency sweep (read-only audit agent; fixes in a6a7786df): the
+emitted-but-unstyled .vi-price.unaffordable gained its error tint (train
+and unbind), the train headers adopted small-caps and its tri-state
+label became a pill chip, the unbind intro joined the muted
+guidance-line idiom, and the deeds board harmonized chip radius and card
+hairline (gradient fills deliberately kept). DEFERRED to maintainer
+review: train/unbind rows staying on the flat vendor family vs the
+inset-card and gold-chip idiom (checked-in comments call the family
+choice deliberate), the enchant-apply picker's per-reagent shortfall
+tint (ctx-menu family, a QA-pinned surface), the commission row's
+quieter white-alpha interior hairline (deliberate), and the recurring
+#463a1c showcase hairline now repeated well past rule-of-three across
+professions/crafting/train/deed rules (a candidate
+--color-border-showcase token, but tokenizing only the new rules would
+half-migrate the char-window showcase family that established the
+literal; one coordinated pass or none). Confirmed already consistent:
+the enchant picker (ctx-menu family by design), the commission row
+including mobile floors, profession deeds crest art, and the prof-intro
+hint row (qd-req family scope).
+
+Verification: 23-suite targeted matrix plus the i18n pair green; FULL
+suite green (1489 files, 18512 tests, exit 0); tsc green; a 15/15 live
+CDP probe through real keybinds and clicks (open, tab switch with
+scroll reset, a real craft, Esc, both self-open regression arms, the
+hero/stage/grid, switch-cost hidden for never-attuned full mode, focus
+on close, Esc closes) plus a live focus-restore probe after the review
+round; three-reviewer fan-out (frontend-seam READY, qa-checklist and
+fresh-eyes NEEDS_WORK) whose findings all landed or resolved: the five
+overlay fills reformatted (the one changed-files format error), the
+tab-switch repaint now refocuses the surviving selected tab
+(source-pinned), the professions CSS banner comment corrected, and the
+two remaining NEEDS_WORK items were already-committed screenshots and
+shot tooling the reviewers snapshotted mid-flight. Accepted edges
+recorded: a vanished craft's stale HUD pick silently reactivates if the
+craft regains a recipe, and the pane scroll restores onto the fallback
+tab (rare, cosmetic). Full npm run gate under Node 26: PASS (judged by
+the log marker). Screenshots:
+docs/screenshots/professions-2-phase-17/ (before/after, desktop plus
+mobile plus staged variants; after-crafting-ceiling-state has no before
+twin because the old four-states framing carried that state, and the
+shot tooling gained the tab-click variant plus a poll-dismissal of the
+first-tier tutorial modal, which pops on a drain-window delay).
+
+RE-AUDIT EMPHASIS (for P20): styled BY JUDGMENT with no pins: the exact
+card/stage cosmetic values (rgba fills, the ring-stage haze gradient,
+drop shadows, the bar gradient), tab-strip spacing, socket sizing; these
+follow the showcase literals and can drift silently. PINNED: the tab
+model and painter DOM (crafting_window_tabs), the hero/anatomy/
+switch-cost/CTA-mapping/gathering/grid CSS (professions_window_layout),
+the difficulty token chain (profession_identity_card), the flex
+open-state (three source-pin suites plus the hud_profession_events
+staging), and the tab focus restore (source pin). Decided inline: tabs
+use the mail-family aria-pressed idiom, NOT ARIA tablist roles (single
+repainted pane, matching the mailbox); the crafting window keeps NO
+focus trap (pre-existing behavior, unchanged); tab selection resets the
+pane scroll; the identity-card nudges moved before the skill list in
+DOM order; the mobile identity card caps at 34 percent of the app
+viewport with internal scroll. Verified only by suites and probes, not
+play: the commission flow across tab switches (per-recipe set semantics
+hold by construction) and the online ClientWorld mirror rendering (the
+layout suite drives ClientWorld-shaped stubs; no facet change, so
+parity holds by construction). Worth a fresh P20 look: the negated
+display-check class anywhere else it might hide, and the mobile
+rendering of the capped identity card (reasoned from CSS plus the sheet
+screenshots, not element-probed).
