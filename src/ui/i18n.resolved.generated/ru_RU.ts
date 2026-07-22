@@ -2342,7 +2342,7 @@ export const ru_RU: EnTranslations = {
       "commissionBound": "Изделие на заказ: привязано к получателю"
     },
     "itemMenu": {
-      "use": "Use",
+      "use": "Использовать",
       "equip": "Надеть",
       "disenchant": "Распылить",
       "salvage": "Разобрать",
@@ -5978,7 +5978,7 @@ export const ru_RU: EnTranslations = {
         "combat": "В бою",
         "dungeon": "В подземелье",
         "dead": "Мертв",
-        "afk": "Away"
+        "afk": "Отошел"
       },
       "statusWithZone": "{status} - {zone}",
       "ranks": {
