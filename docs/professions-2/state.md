@@ -31,7 +31,12 @@ the RuneScape-bar wiki rewrite. PACKET COMPLETE: PR #2303 merged into
 release/v0.29.0 as 485e7b429d (2026-07-22), then independently
 re-audited by the Phase 15 RE-QA session (fresh worktree, zero trust in
 the implementing session's claims; verdict and fixes in progress.md
-Notes).
+Notes). CURRENT PHASE: the finishing packet P16 to P20 (authored
+2026-07-22, maintainer-directed, see the progress.md table and
+phase-16-enchant-trim.md's standing rules): P16 enchant stat trim
+(release-blocking, NEXT), P17 interface polish, P18 deferral burn-down,
+P19 originality and wiki, P20 finish line; one branch
+(fix/professions-2-phase-15-requa), one PR after P20, no GitHub issues.
 
 ## Locked design decisions
 

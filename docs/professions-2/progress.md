@@ -45,6 +45,19 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 14b QA | Verify commissions and the Maker's Bond | complete (PASS, zero blocking) | 2026-07-21 | 2026-07-21 |
 | 15 | Deeds, tuning, and polish | complete (PR #2303 merged into release/v0.29.0 as 485e7b429d; single combined PR with 15 QA, per the 2026-07-22 process amendment) | 2026-07-21 | 2026-07-22 |
 | 15 QA | Final integration QA and packet teardown | complete (executed in the Phase 15 session on the same branch; teardown offer recorded in Notes; independently re-audited post-merge by the Phase 15 RE-QA session, see Notes) | 2026-07-22 | 2026-07-22 |
+| 16 | Enchanting stat trim (release-blocking) | planned (phase-16-enchant-trim.md) | | |
+| 17 | Interface polish (crafting + ring windows) | planned (phase-17-interface-polish.md) | | |
+| 18 | Deferral burn-down | planned (phase-18-deferral-burndown.md) | | |
+| 19 | Name originality sweep + wiki truth pass | planned (phase-19-originality-and-wiki.md) | | |
+| 20 | Finish line (scrub, teardown, docs, whole-branch QA) | planned (phase-20-finish-line.md) | | |
+
+The finishing packet (P16 to P20, authored 2026-07-22 by the RE-QA session
+under maintainer direction): all five phases land on the ONE branch
+fix/professions-2-phase-15-requa with NO PR and NO GitHub issues until P20
+completes, no paired QA files (each phase carries a mandatory VERIFY section
+and leaves a RE-AUDIT EMPHASIS paragraph in its Notes entry; P20 runs the one
+consolidated fresh-eyes QA over the whole branch), Node 26 gate recipe, and
+the standing rules block in phase-16-enchant-trim.md binding every session.
 
 ## Per-phase deliverable checklists
 
