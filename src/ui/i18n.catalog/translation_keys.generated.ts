@@ -5452,6 +5452,7 @@ export type TranslationKeyFlat =
   | 'hudChrome.discord.roleTag.mods'
   | 'hudChrome.discord.roleTag.seniormods'
   | 'hudChrome.discord.roleTag.shill'
+  | 'hudChrome.discord.roleTagChatTitle'
   | 'hudChrome.discord.statusLabel'
   | 'hudChrome.discord.swag.chromaBlurple'
   | 'hudChrome.discord.swag.claim'
