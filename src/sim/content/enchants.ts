@@ -18,16 +18,20 @@
 //      without them a shard would be a dead-end currency with nothing to
 //      spend it on.
 // Magnitude convention (the finishing-bonus sizing, tuned against the level-20
-// BiS gear budgets): enchants are the last 15 to 25 percent on top of best
-// gear per stat axis, never a gear tier of their own. Base tier grants 2 to 4
-// per slot (it is the aggregate driver, so it carries the tightest values;
-// stamina sits at the low end because every point past 20 converts to 10 HP,
-// see hpFromStamina in ../entity.ts). Greater is exactly base+3 on the same
-// slot and axis (the arcane_shard premium has to stay a visible step or epics
-// stop being worth disenchanting). Runed sits strictly between base and
-// Greater on its slot and axis. Post-launch drift is tuned via reagent costs,
-// never by re-touching these magnitudes (applied enchants bake their bonus
-// into the item instance, so a magnitude nerf would not retro-apply).
+// BiS gear budgets): a full set of enchants is roughly the last 15 to 25
+// percent on top of best gear per stat axis, never a gear tier of its own
+// (spirit, carried by only three slot types, sits just below that band, and
+// armor rides its own point scale, halved alongside the rest). Base tier
+// grants 2 to 4 primary points per slot (it is the aggregate driver, so it
+// carries the tightest values; stamina sits at the low end because every
+// point past 20 converts to 10 HP, see hpFromStamina in ../entity.ts).
+// Greater is at least base+3 on the same slot and axis, today exactly +3
+// everywhere (the arcane_shard premium has to stay a visible step or epics
+// stop being worth disenchanting). Runed sits strictly between the base and
+// Greater values where its slot and axis has both, and never reaches the
+// Greater tier. Post-launch drift is tuned via reagent costs, never by
+// re-touching these magnitudes (applied enchants bake their bonus into the
+// item instance, so a magnitude nerf would not retro-apply).
 // tests/enchants_magnitude_invariants.test.ts pins the per-axis stacks and the
 // tier ladder shape.
 //

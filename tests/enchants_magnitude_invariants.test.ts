@@ -52,8 +52,11 @@ function bestValue(slot: string, axis: Axis, include: (e: EnchantDef) => boolean
 describe('enchant table magnitude invariants', () => {
   it('every enchant grants exactly one stat axis (the tier and stack sweeps below rely on it)', () => {
     for (const e of Object.values(ENCHANTS)) {
-      const axes = AXES.filter((a) => (e.statBonus[a] ?? 0) > 0);
+      // Nonzero, not positive: a negative side axis would slip past the
+      // positive-only filters in axisOf and bestPerSlotTotal unseen.
+      const axes = AXES.filter((a) => (e.statBonus[a] ?? 0) !== 0);
       expect(axes, e.id).toHaveLength(1);
+      expect(e.statBonus[axes[0]] ?? 0, e.id).toBeGreaterThan(0);
     }
   });
 

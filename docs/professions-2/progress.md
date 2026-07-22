@@ -689,7 +689,8 @@ Greater-beats-base-by-3 sweep, the runed strict-betweenness sweep with
 literal pins for the two ladder-less rows, and a live-sim full-sta-path
 pin: level 20 warrior, five real pieces enchanted through
 resolveApplyEnchant, exactly +24 sta and +240 HP); re-pins in
-tests/professions_enchanting.test.ts only (nine literals). The other
+tests/professions_enchanting.test.ts only (the magnitude literals; the
+fix commit body undercounts them as nine, the diff has twelve). The other
 three files the phase named to check carry no table-derived magnitude
 pins (professions_typed_reagents' relational slot checks pass
 unchanged; bag_item_context_menu's str 5 payload is synthetic). Wiki
