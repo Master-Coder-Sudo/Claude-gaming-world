@@ -1586,6 +1586,19 @@ export const TARGETS = [
       if (!setup.ok) throw new Error(`train-window setup failed: ${setup.reason}`);
       const open = await pollForSize(page, '#train-window');
       if (!open) throw new Error('train window did not open');
+      // Staging tier-1 weaponcrafting trips the once-ever first-tier explainer
+      // modal on a drain-window delay rather than synchronously (the crafting
+      // target's trap); poll-dismiss it so the frame carries the ladder.
+      for (let i = 0; i < 10; i++) {
+        const dismissed = await page.evaluate(() => {
+          const ok = document.querySelector('#profession-tutorial .cd-ok');
+          if (ok) ok.click();
+          return Boolean(ok);
+        });
+        if (dismissed) break;
+        await wait(300);
+      }
+      await wait(200);
       // Verify the ladder rendered all three states (the whole point of the shot).
       const states = await page.evaluate(() => ({
         known: document.querySelectorAll('#train-window .train-known').length,
