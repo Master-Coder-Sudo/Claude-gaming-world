@@ -1262,6 +1262,7 @@ export const TARGETS = [
             switchCount: 1,
             amendsProgress: 2,
             amendsRequired: 8,
+            knownRecipes: [],
           };
           Object.defineProperty(game.world, 'craftingIdentity', {
             value: identity,

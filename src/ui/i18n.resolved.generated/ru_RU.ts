@@ -1526,6 +1526,7 @@ export const ru_RU: EnTranslations = {
       "dragDestroyHint": "Перетащите в мир, чтобы уничтожить",
       "reorderNeedsRecent": "Сбросьте фильтр и выберите сортировку «Недавние», чтобы менять порядок в сумках",
       "itemAriaInstanced": "{item}, количество {count}, копия с клеймом мастера",
+      "itemAriaMasterwork": "{item}, количество {count}, шедевр",
       "filterGroupAria": "Фильтровать сумки по категории",
       "filterAll": "Все",
       "filterWeapon": "Оружие",

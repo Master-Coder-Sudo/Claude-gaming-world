@@ -5177,6 +5177,7 @@ export type TranslationKeyFlat =
   | 'hudChrome.bags.filterQuest'
   | 'hudChrome.bags.filterWeapon'
   | 'hudChrome.bags.itemAriaInstanced'
+  | 'hudChrome.bags.itemAriaMasterwork'
   | 'hudChrome.bags.noMatch'
   | 'hudChrome.bags.reorderNeedsRecent'
   | 'hudChrome.bags.rightClickDestroy'

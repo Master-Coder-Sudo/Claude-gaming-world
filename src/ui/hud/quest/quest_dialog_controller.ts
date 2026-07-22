@@ -11,12 +11,14 @@ import {
 } from '../../../sim/types';
 import type { IWorld } from '../../../world_api';
 import { archetypeTitleText, craftNameText } from '../../char_window';
+import { decorativeArtImg } from '../../decorative_art';
 import { markDialogRoot } from '../../dialog_root';
 import { itemDisplayName } from '../../entity_i18n';
 import { esc } from '../../esc';
 import type { FocusTrapHandle } from '../../focus_manager';
 import { t } from '../../i18n';
 import { QUALITY_COLOR } from '../../icons';
+import { archetypeImageUrl } from '../../profession_art';
 import { buildAttunementPreview } from '../../profession_identity_view';
 import { svgIcon } from '../../ui_icons';
 import { isStationMasterNpc } from '../vendor/train_view';
@@ -65,6 +67,11 @@ export interface QuestDialogControllerDeps {
     isPlaying(): boolean;
     setDistance(distance: number | null): void;
   };
+}
+
+interface ProfessionPreviewContent {
+  text: string;
+  crestUrl: string | null;
 }
 
 /** Owns gossip, quest details, shared quest links, focus, and dialogue voice state. */
@@ -405,7 +412,8 @@ export class QuestDialogController {
         .join('');
     }
     let professionTargets: string[] = [];
-    let professionPreviewText: ((target: string) => string) | null = null;
+    let professionPreviewContent: ((target: string) => ProfessionPreviewContent) | null = null;
+    let initialProfessionPreview: ProfessionPreviewContent | null = null;
     if (state === 'available' && quest.completionEffect) {
       const identity = world.craftingIdentity;
       professionTargets = professionQuestSelectionTargets(quest, {
@@ -433,12 +441,15 @@ export class QuestDialogController {
           return `<option value="${esc(target)}">${esc(label)}</option>`;
         })
         .join('');
-      professionPreviewText = (target) => {
+      professionPreviewContent = (target) => {
         if (quest.completionEffect?.type === 'switchHobby') {
-          return t('hudChrome.crafting.hobbyPreview', { hobby: craftNameText(target) });
+          return {
+            text: t('hudChrome.crafting.hobbyPreview', { hobby: craftNameText(target) }),
+            crestUrl: null,
+          };
         }
         const preview = buildAttunementPreview(target, identity.craftSkills, identity.switchCount);
-        if (!preview) return '';
+        if (!preview) return { text: '', crestUrl: null };
         // The pre-commit picture: majors, hobby, and retained-but-dormant
         // knowledge, PLUS the escalating make-amends return cost (Phase 14,
         // closing the 2039 gap). Two complete localized sentences joined, the
@@ -452,12 +463,15 @@ export class QuestDialogController {
         const returnCost = t('hudChrome.crafting.attunementReturnCost', {
           cost: this.deps.text.number(preview.returnCost),
         });
-        return `${base} ${returnCost}`;
+        return {
+          text: `${base} ${returnCost}`,
+          crestUrl: archetypeImageUrl(preview.target),
+        };
       };
-      const initialPreview = professionTargets[0]
-        ? professionPreviewText(professionTargets[0])
-        : t('hudChrome.crafting.noProfessionChoice');
-      html += `<label class="qd-profession-choice">${esc(t('hudChrome.crafting.professionChoice'))}<select data-profession-selection aria-label="${esc(t('hudChrome.crafting.professionChoice'))}">${options}</select></label><div class="qd-profession-preview" data-profession-preview aria-live="polite">${esc(initialPreview)}</div>`;
+      initialProfessionPreview = professionTargets[0]
+        ? professionPreviewContent(professionTargets[0])
+        : { text: t('hudChrome.crafting.noProfessionChoice'), crestUrl: null };
+      html += `<label class="qd-profession-choice">${esc(t('hudChrome.crafting.professionChoice'))}<select data-profession-selection aria-label="${esc(t('hudChrome.crafting.professionChoice'))}">${options}</select></label><div class="qd-profession-preview" data-profession-preview></div>`;
     }
     html += this.rewardsHtml(questId);
     this.deps.element.innerHTML = html;
@@ -467,9 +481,18 @@ export class QuestDialogController {
     const professionPreview = this.deps.element.querySelector<HTMLElement>(
       '[data-profession-preview]',
     );
-    if (professionSelect && professionPreviewText && professionPreview) {
+    if (professionPreview && initialProfessionPreview) {
+      this.paintProfessionPreview(professionPreview, initialProfessionPreview);
+      // The initial preview is already visible when the dialog opens. Enable
+      // announcements only after that first paint so it does not talk over the
+      // dialog title; subsequent select changes replace this region once.
+      professionPreview.setAttribute('aria-live', 'polite');
+      professionPreview.setAttribute('aria-atomic', 'true');
+    }
+    if (professionSelect && professionPreviewContent && professionPreview) {
       professionSelect.addEventListener('change', () => {
-        professionPreview.textContent = professionPreviewText?.(professionSelect.value) ?? '';
+        const content = professionPreviewContent?.(professionSelect.value);
+        if (content) this.paintProfessionPreview(professionPreview, content);
       });
     }
     this.attachRewardTooltip(questId);
@@ -535,6 +558,20 @@ export class QuestDialogController {
     button.type = 'button';
     button.textContent = label;
     return button;
+  }
+
+  private paintProfessionPreview(element: HTMLElement, content: ProfessionPreviewContent): void {
+    const copy = this.deps.document.createElement('span');
+    copy.className = 'qd-profession-preview-copy';
+    copy.textContent = content.text;
+    if (!content.crestUrl) {
+      element.replaceChildren(copy);
+      return;
+    }
+    element.replaceChildren(
+      decorativeArtImg(this.deps.document, 'qd-profession-crest', content.crestUrl),
+      copy,
+    );
   }
 
   private bindRoute(selector: string, open: () => void): void {
