@@ -5252,6 +5252,10 @@ export const ABILITIES: Record<string, AbilityDef> = {
     school: 'physical',
     requiresTarget: false,
     offGcd: true,
+    // The whole point of the break is escaping fear/stun, so the cast must be
+    // pressable while controlled (like Ice Block); the stun gate would
+    // otherwise make breakControl unreachable exactly when it matters.
+    usableWhileControlled: true,
     effects: [
       { type: 'breakControl' },
       // ONE aura for both halves (value = damage amp; the body scale is the
