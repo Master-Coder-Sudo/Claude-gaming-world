@@ -256,6 +256,45 @@ describe('commission opt-in at craft time', () => {
     expect(payload.rolled?.stats).toBeTruthy();
   });
 
+  it('a commissioned masterwork MULTI-COPY output arms the remainder too (synthetic recipe)', () => {
+    const recipe = {
+      id: 'qa_recipe_p14b_mw_pair',
+      professionId: 'tailoring',
+      resultItemId: VESTMENTS,
+      resultCount: 2,
+      reagents: [{ itemId: 'linen_scrap', count: 1 }],
+      skillReq: 0,
+      level: 1,
+      itemLevelBudget: 1,
+    } as unknown as ProfessionRecipeRecord;
+    const sim = makeSim(21);
+    const pid = sim.playerId;
+    sim.acceptArchetypeQuest('tailoring');
+    const meta = sim.players.get(pid)!;
+    meta.craftSkills.tailoring = 200;
+    sim.addItem('linen_scrap', 1, pid);
+    const rng = sim.ctx.rng as unknown as { next(): number };
+    const origNext = rng.next.bind(rng);
+    rng.next = () => 0;
+    try {
+      const result = resolveCraftForRecipe(sim.ctx, pid, recipe, true);
+      expect(result.ok).toBe(true);
+      expect(result.masterwork).toBe(true);
+      expect(result.commission).toBe(true);
+    } finally {
+      rng.next = origNext;
+    }
+    const slots = slotsOf(sim, pid, VESTMENTS);
+    const lead = slots.filter((s) => s.instance?.rolled?.masterwork);
+    const remainder = slots.filter((s) => !s.instance?.rolled?.masterwork);
+    expect(lead).toHaveLength(1);
+    expect(lead[0].instance?.bindOnTrade).toBe(true);
+    expect(lead[0].instance?.signer).toBe(meta.name);
+    expect(remainder).toHaveLength(1);
+    expect(remainder[0].instance).toEqual({ bindOnTrade: true });
+    expect(slots.reduce((n, s) => n + s.count, 0)).toBe(2);
+  });
+
   it('a commissioned resultCount > 1 output arms EVERY copy (synthetic multi-copy equipment recipe)', () => {
     const QA_ITEM = 'qa_p14b_paired_daggers';
     (ITEMS as Record<string, ItemDef>)[QA_ITEM] = {
@@ -467,6 +506,21 @@ describe('unbind service deny order and mutation', () => {
     expect(result.reason).toBe('unbind_cannot_afford');
     expect(result.fee).toBe(2500);
     expect(copperOf(sim, pid)).toBe(2499);
+  });
+
+  it('deny ORDER: not_bound beats cannot_afford when both conditions fail at once', () => {
+    // An armed-but-unbound copy AND an empty purse at a station: the resolver
+    // must report not_bound (the no-op arm resolves before the charge arm, so
+    // a broke player is told the true reason and a replay can never reach the
+    // affordability check first).
+    const sim = makeSim();
+    const pid = sim.playerId;
+    sim.ctx.addItemInstance(SWORD, { bindOnTrade: true }, pid);
+    standAtStation(sim, pid);
+    setCopper(sim, pid, 0);
+    const result = unbindItemMod(sim.ctx, SWORD, pid);
+    expect(result.ok).toBe(false);
+    expect(result.reason).toBe('unbind_not_bound');
   });
 
   it('success charges the fee EXACTLY once; the duplicate command re-resolves not_bound (replay safety)', () => {
@@ -810,9 +864,31 @@ describe('live GameServer: commission craft, bound trade refusal, unbind over th
     routeTick(server);
     expect(serverSlots(server, sb.pid, SWORD)).toHaveLength(1);
 
-    // 4. Unbind over the wire at a station master's station.
+    // 4. Flush the heavy self mirror BEFORE the unbind, so the step-5 pin is
+    // decisive: the step-2 trade's loot event left selfHeavyDirty set, and a
+    // broadcast both clears it and establishes a lastSent inv that still
+    // shows boundTo. The immediate second broadcast is the negative control:
+    // it must NOT re-send inv (dirty flushed, stagger not due), proving the
+    // only thing that can re-diff inv in step 5 is the unbindResult event's
+    // HEAVY_SELF_EVENTS membership.
     server.sim.players.get(sb.pid)!.copper = 10000;
     placeAt(server, sb.pid, STATIONS[0].pos);
+    broadcast(server);
+    const lastInvFrom = (fromIdx: number) => {
+      for (let i = fb.sent.length - 1; i >= fromIdx; i--) {
+        const m = fb.sent[i];
+        if (m.t === 'snap' && m.self && 'inv' in m.self) return m.self.inv as InvSlot[];
+      }
+      return null;
+    };
+    const flushed = lastInvFrom(0);
+    expect(flushed).not.toBeNull();
+    expect(flushed!.find((s) => s.itemId === SWORD)?.instance?.boundTo).toBe(sb.pid);
+    const controlFrom = fb.sent.length;
+    broadcast(server);
+    expect(lastInvFrom(controlFrom), 'negative control: no dirty, no inv re-send').toBeNull();
+
+    // Unbind over the wire at the station master's station.
     const unbindFrom = fb.sent.length;
     cmd(server, sb, { cmd: 'unbind_item', item: SWORD });
     routeTick(server);
@@ -830,17 +906,15 @@ describe('live GameServer: commission craft, bound trade refusal, unbind over th
     expect(freed[0].instance?.bindOnTrade).toBe(true);
 
     // 5. The in-place clear re-diffs the heavy self inv mirror on the NEXT
-    // snapshot (unbindResult is a HEAVY_SELF_EVENTS member): the wire copy of
-    // the slot loses boundTo without any loot event.
+    // snapshot BECAUSE unbindResult is a HEAVY_SELF_EVENTS member: with the
+    // dirty flag flushed and the stagger idle (the negative control above),
+    // removing 'unbindResult' from the set leaves this snapshot inv-less and
+    // this pin red. The wire copy of the slot loses boundTo without any loot
+    // event.
+    const afterUnbindFrom = fb.sent.length;
     broadcast(server);
-    const lastInv = (() => {
-      for (let i = fb.sent.length - 1; i >= 0; i--) {
-        const m = fb.sent[i];
-        if (m.t === 'snap' && m.self && 'inv' in m.self) return m.self.inv as InvSlot[];
-      }
-      return null;
-    })();
-    expect(lastInv).not.toBeNull();
+    const lastInv = lastInvFrom(afterUnbindFrom);
+    expect(lastInv, 'unbindResult re-diffed the heavy inv mirror').not.toBeNull();
     const wireSlot = lastInv!.find((s) => s.itemId === SWORD);
     expect(wireSlot?.instance?.bindOnTrade).toBe(true);
     expect(wireSlot?.instance?.boundTo).toBeUndefined();

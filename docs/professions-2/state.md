@@ -1687,7 +1687,26 @@ tables, i18n key namespaces, files created)
   professions_p14b_commissions(.test.ts + _ui.test.ts) plus
   instanceBindingLines arms in item_instance_tooltip.test.ts; parity
   goldens untouched (zero regen: the default path is byte-identical
-  and unbind draws no rng).
+  and unbind draws no rng). Review-pass fixes (six-reviewer fan-out):
+  the paperdoll worn tooltip routes through wornTooltipInstance
+  (item_instance_tooltip.ts), a shared projection to EXACTLY the
+  public eqi allowlist (signer/enchant/rolled), because online
+  equippedInstances decode from the stripped eqi wire and the offline
+  full payload would otherwise show the bond lines on worn gear in one
+  host only; worn identity NEVER shows the bond in either host (the
+  Phase 12d trim lineage; widening eqi would expose bond state to
+  inspectors, rejected). The mobile commission row gets a 40px
+  touch-floor rule (hud.mobile.css). The live-arc HEAVY_SELF_EVENTS
+  pin was made decisive (flush + negative control before the unbind;
+  mutation-verified: removing 'unbindResult' from the set reds it).
+  The full gate additionally caught play.html window-id parity (the
+  unbind-window div must exist in BOTH entry pages) and the
+  trainResult source-pin slice anchor (now ends at the unbindResult
+  case). Known accepted defensive arms: the stack-split path is
+  unreachable with shipped content (all eligible kinds are UNSTACKED,
+  stackSize 1) and addItemInstance has no capacity guard there; the
+  commissioned masterwork multi-copy remainder mints unsigned armed
+  copies (mirrors the plain remainder; synthetic-recipe tested).
 
 ## Tuning targets (placeholders until Phase 15 tunes against live data)
 

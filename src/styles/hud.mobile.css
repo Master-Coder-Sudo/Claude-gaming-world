@@ -3296,6 +3296,18 @@
   body.mobile-touch #unbind-window {
     overflow-y: auto;
   }
+  /* Commission opt-in row (Professions 2.0 Phase 14b): the label is the tap
+     target and the desktop 11px/2px-padding footprint sits far under the
+     40x40 touch floor (src/ui/CLAUDE.md), so on touch the whole row grows to
+     the floor and the native checkbox itself gets a finger-sized box. */
+  body.mobile-touch .crafting-commission-row {
+    min-height: 40px;
+    font-size: 13px;
+  }
+  body.mobile-touch .crafting-commission-row input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+  }
   /* Narrower size group: spellbook rows and the options form controls read fine
      at a tighter width, so these stay a compact centered card rather than
      stretching to the wider group's clamp. */
