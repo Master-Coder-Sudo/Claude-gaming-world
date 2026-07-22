@@ -26,7 +26,9 @@ STOP-AND-ASK: none. Every sheet row carries a maintainer number.
 
 Constants (src/sim/market.ts):
 
-- MARKET_CUT = 0.05 (line 30, module const, surfaced on the wire as cutPct).
+- MARKET_CUT = 0.05 (src/sim/market.ts, exported const, surfaced on the wire
+  as cutPct; exported for the wiki generator, no line-number anchor per the
+  docs anchor rule).
 - Applied once, on a COMPLETED sale only: proceeds = floor(price * (1 - MARKET_CUT))
   (market.ts, the sale-completion arm). There is NO listing deposit and no cancel
   fee anywhere in market.ts; an unsold listing returns whole after
@@ -383,3 +385,7 @@ executed state, superseding the rows above where they conflict:
 - Row 5 (time-to-master): the gathering-100 and fishing-200 fast misses are
   ACCEPTED for this release by the maintainer (data-only levers, post-release
   tuning with live data).
+- Row 3 (gland economy): the executed burn-down added a FOURTH venom_gland
+  consumer (disposition #14's volatile-flux rework) beyond the three the
+  pre-fix census lists, which strengthens the row's 'gland economy is sound'
+  conclusion (Phase 15 RE-QA correction).

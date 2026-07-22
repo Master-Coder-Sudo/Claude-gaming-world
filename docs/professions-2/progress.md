@@ -43,8 +43,8 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 14 QA | Verify attunement quests and nudges | complete (PASS with followups, PR #2286 merged into release/v0.29.0) | 2026-07-21 | 2026-07-21 |
 | 14b | Commissions and the Maker's Bond | complete (PR #2293 merged into release/v0.29.0) | 2026-07-21 | 2026-07-21 |
 | 14b QA | Verify commissions and the Maker's Bond | complete (PASS, zero blocking) | 2026-07-21 | 2026-07-21 |
-| 15 | Deeds, tuning, and polish | complete (single combined PR with 15 QA, per the 2026-07-22 process amendment) | 2026-07-21 | 2026-07-22 |
-| 15 QA | Final integration QA and packet teardown | complete (executed in the Phase 15 session on the same branch; teardown offer recorded in Notes) | 2026-07-22 | 2026-07-22 |
+| 15 | Deeds, tuning, and polish | complete (PR #2303 merged into release/v0.29.0 as 485e7b429d; single combined PR with 15 QA, per the 2026-07-22 process amendment) | 2026-07-21 | 2026-07-22 |
+| 15 QA | Final integration QA and packet teardown | complete (executed in the Phase 15 session on the same branch; teardown offer recorded in Notes; independently re-audited post-merge by the Phase 15 RE-QA session, see Notes) | 2026-07-22 | 2026-07-22 |
 
 ## Per-phase deliverable checklists
 
@@ -228,9 +228,11 @@ pin forbids; the gathering.ts header still claimed no world nodes
 exist; gatherRareEvent's spare fields named as Phase 15 forward
 payload; corpseLootAvailability's harvestStateReliable documented as a
 deliberately retained seam whose false arm stays pinned POSITIONALLY
-in tests/corpse_loot_availability.test.ts and tests/interactions.test.ts,
-which a name-only grep misses, an audit claim that dissolved exactly
-there). Verified dismissals: finderName cannot smuggle the [[i:
+in tests/corpse_loot_availability.test.ts, which a name-only grep
+misses, an audit claim that dissolved exactly there; the RE-QA docs
+audit found the interactions.test.ts half of the original two-file
+claim stale at the merged tip and corrected both doc copies).
+Verified dismissals: finderName cannot smuggle the [[i:
 item-link token (validCharNameShape forbids brackets), and all four
 phase-emphasis probes bind. Deferred with reasons: the rare-event
 windfall's per-instance loot-line/cue burst (consistent with the D1
@@ -592,8 +594,9 @@ merge of PR #2295; tip unmoved at session start). Completed 2026-07-22
 in the SAME session as Phase 15 QA per the maintainer-directed
 single-PR process amendment (recorded atop both phase-15 files); the
 whole-feature qa-checklist evidence, the review fan-out verdicts, and
-the gate result live in the Notes entry below; the merge hash is
-recorded in session memory at merge. Deferred and surfaced items:
+the gate result live in the Notes entry below; merged as PR #2303 =
+485e7b429d into release/v0.29.0 (2026-07-22, CI 12/12 green on head
+f196f3b6e3). Deferred and surfaced items:
 state.md OPEN items (all resolved or recorded), the release-tier locale
 fill (the maintainer's pre-tag batch; the wiki added a large English
 pending set incl. systemically stale profPages.faq non-Latin fills
@@ -608,11 +611,86 @@ from the wash review (PR body carries all of these).
 - [x] Legacy burn-down COMPLETE: all 14 closed (10 input reworks + 4 maintainer-approved paired sellValue arms), typed-reagent cross-check applied (plain variants chosen for 9-11), wolf_fang homed twice; the exception list is EMPTY
 - [x] SFX sweep complete via the re-file arm: all open slots on #2208 with the maintainer's 2026-07-21 audio-later sign-off (comment 5042062625); routing pins verified green; no new placeholder rows
 - [x] Wiki at the RuneScape bar: 14 per-skill detail routes, tables generated from sim, exact numbers per the transparency policy, English-only keys (M16 fills in the five non-Latin overlays), fresh-eyes accuracy audit applied; asset manifest final
-- [x] Whole-feature qa-checklist.md matrix run with evidence in the Phase 15 Notes; teardown offered (see Notes)
+- [x] Whole-feature qa-checklist.md matrix run with per-row evidence recorded
+  IN qa-checklist.md itself (backfilled 2026-07-22 by the Phase 15 RE-QA
+  session; the implementing session had recorded only summary-level evidence
+  in the Notes while the checklist rows stayed unchecked, a truthfulness gap
+  the RE-QA audit flagged as blocking and closed); teardown offered (see Notes)
 
 ## Notes
 
 (append per-phase notes, deferrals, and surprises here as sessions complete)
+
+Phase 15 RE-QA (2026-07-22, fresh session, branch
+fix/professions-2-phase-15-requa off the release/v0.29.0 tip): the
+independent fresh-eyes re-audit of merged PR #2303 (485e7b429d) that the
+single-session single-PR process amendment had traded away. Zero trust
+in the implementing session's claims; 11-agent Workflow fan-out (7 audit
+charters, architecture + test-coverage reviewers, 2 sequential
+behavioral probes) plus orchestrator-side verification of every acted-on
+claim. VERDICT: PASS WITH FIXES, no code-behavior defect in the merged
+sim/server surfaces. What held under adversarial re-audit: all burn-down
+margins recomputed correct under the reagentUnitValue rule (the count-1
+vestments spider row survives; the 13-unit chain vest is arithmetically
+forced by the flux-20c palette ceiling and accepted); both parity golden
+regens byte-identical on draws/drawDigest; the release-sync merge
+f196f3b6e3 preserved both sides of every overlap file with no
+upstream-fill staleness; the bag-truncation negative arm is
+mutation-verified decisive (both planted mutations killed by the exact
+target assertions); the hint-row veteran refinement is LIVE in both
+hosts (probe-verified on the real cprof wire); the 26 deeds map to
+behavioral arms or exact-mechanism exemplars with no untested unique
+trigger; wiki numbers sampled clean against sim ground truth. FIXED in
+this session: the market Sell tab suggested ask now clamps to 10x sell
+value (it pre-filled the four re-priced commons' preserved 1600 to 2300
+buyValues, a 20x to 29x ask; tests/market_view.test.ts re-pinned); the
+online hint pin landed permanently (tests/prof_intro_hint_online.test.ts);
+the gather_event restore round-trip arm landed (tests/deeds.test.ts);
+STALE LOCALE FILLS: six guide.professions keys whose English the wiki
+rewrite reworded still carried old-English fills in all 18 locales, and
+the five non-Latin locales' 258-key machine fill batch translated an
+OLDER mid-session English draft (the known FAQ staleness extended to
+about 40 more prose keys, including a materially wrong fishing-rod
+claim in profPages.fish.biteBody, English proper nouns contradicting
+shipped glossaries, and dropped paragraph breaks in 67 of 68 long CJK
+rows). Disposition is split by what the gates can see: the LATIN arms
+of the six reworded keys are STRIPPED so they book pending (4020 rows
+now, release-tier only), but the five NON-LATIN locales keep their
+stale fills IN PLACE because the M16 completeness gate
+(tests/i18n_completeness.test.ts) hard-fails any wordy English leaf
+shipping byte-identical on a non-Latin player surface, so English
+fallback is not a legal intermediate state there (an initial full strip
+red exactly that suite in this session's gate run and was reworked).
+CONSEQUENCE FOR THE RELEASE FILL: the non-Latin staleness can never
+appear in the pending worklist; treat the ENTIRE 2026-07-22 five-locale
+guide fill batch (the 258 guide.* keys of commit 6adc55b5a5, plus the
+six reworded guide.professions keys) as an explicit regenerate-from-
+current-English worklist item. Refill guidance for the fill batch:
+preserve English paragraph breaks, use the
+existing deed/item/zone glossaries for proper nouns, one register per
+page (ko FAQ q/a mismatched), fill FAQ q rows with a rows together
+(q6/a6 shipped incoherent), and biteBody's {rod} is per rod tier above
+the first, not a total. Docs truth fixes: qa-checklist.md backfilled
+with per-row evidence (it had shipped all-unchecked while progress.md
+claimed it run, the one blocking finding); PR number and merge hash
+recorded; the stale interactions.test.ts drift-note halves corrected;
+the typed-reagent as-landed deviation recorded in state.md; stale
+legacy-list header comments fixed in recipes.ts and
+recipe_economy.test.ts. Deferred, recorded here: the wiki generator
+hardcodes payoutPctOfVendorValue 50 and listingDepositCopper 0 (true
+today, silent-drift risk; export-and-import or a guard test when next
+touched); the HUD Sell Junk preview omits the soulbound arm the sim
+sweep applies (latent, no current poor item is soulbound); an open
+gossip dialog does not repaint when a cprof delta lands (online-only
+transient, self-heals on reopen); the Phase 15 screenshots predate the
+upstream xp-bar move (cosmetic); wolf_fang leaving the poor pool
+shrinks the col_junk_drawer pool to 21 defs (still above the 10 needed;
+earned deeds latch). Session traps for the record: a Workflow script
+that builds a parallel stage MUST await it (a missing await ran the
+mutation probe concurrently with read-only audits and died at the
+return line; the resume re-ran everything cleanly), and vitest treats a
+nonexistent test path as a silent no-match filter (tests/parity.test.ts
+vs tests/parity/), so count the files a matrix run reports.
 
 Phase 15 + Phase 15 QA (2026-07-21/22, ONE session, ONE branch, ONE PR
 per the maintainer-directed process amendment recorded atop both

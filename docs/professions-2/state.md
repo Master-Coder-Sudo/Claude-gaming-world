@@ -27,8 +27,11 @@ verification with the faucet-vs-sink evidence review
 (phase-15-tuning-evidence.md), the FULL legacy burn-down (the
 exception list is EMPTY), the maintainer-directed QA fixes (buyback
 wash closed, 2285 hardenings, Haldren hint row, Steam mappings), and
-the RuneScape-bar wiki rewrite. PACKET COMPLETE pending the single
-PR's merge; the merge hash is recorded in session memory at merge.
+the RuneScape-bar wiki rewrite. PACKET COMPLETE: PR #2303 merged into
+release/v0.29.0 as 485e7b429d (2026-07-22), then independently
+re-audited by the Phase 15 RE-QA session (fresh worktree, zero trust in
+the implementing session's claims; verdict and fixes in progress.md
+Notes).
 
 ## Locked design decisions
 
@@ -625,7 +628,9 @@ tables, i18n key namespaces, files created)
     exactly 6, refusals at 6.01 and at 90.
   - Drift notes: instance-level boundTo copies are tradeable (tradeSetOffer
     gates only def-level soulbound; carried verbatim per #1298, possible
-    design follow-up); vendor sellItem buyback still re-grants a plain copy
+    design follow-up; RESOLVED by Phases 13/14b: trade.ts isTradeLocked now
+    keeps bound copies with their owner and offerableCount excludes them,
+    so this note is historical); vendor sellItem buyback still re-grants a plain copy
     losing the payload (pre-existing, documented in the removeOffer comment
     in trade.ts, out of scope); the bareClient fixture is hand-rolled in 21
     test files repo-wide (tests/CLAUDE.md blesses the idiom; the three
@@ -700,8 +705,10 @@ tables, i18n key namespaces, files created)
     deliberately retained seam: production always uses the default
     (true) since the open-gate flip, and its false arm stays pinned
     POSITIONALLY (no named reference) in
-    tests/corpse_loot_availability.test.ts and tests/interactions.test.ts,
-    so name-greps miss it; documented at the helper. gatherEvent.* as a
+    tests/corpse_loot_availability.test.ts, so name-greps miss it
+    (the interactions.test.ts half of this note went stale during the
+    12d interact rework; corrected by the Phase 15 RE-QA audit);
+    documented at the helper. gatherEvent.* as a
     top-level catalog namespace (not hudChrome.gathering) is accepted
     as landed: the skinEvent idiom, overlays filled, moving it is
     churn without user value. finderName cannot smuggle the [[i:
@@ -1849,13 +1856,19 @@ tables, i18n key namespaces, files created)
   quality tier: uncommon 2500, rare 10000, epic 40000 copper,
   clamp-to-last above.
 - Typed-reagent yields (Phase 13), APPROVED (2026-07-20 mastery
-  amendments): uncommon disenchants to 1 to 2 arcane_dust; rare to 1
-  arcane_essence plus 1 typed secondary; epic and legendary to exactly 1
-  arcane_shard plus 1 to 2 typed secondaries. The 1-shard-per-epic rate
-  deliberately maps shard supply one to one onto the measured heroic
-  faucet (two tradeable epics per heroic final boss); Greater-tier enchant
-  recipes price at 1 to 2 shards so the sink drinks what the faucet pours.
-  Consumer costs get the evidence check in the Phase 15 review.
+  amendments): rare disenchants to 1 arcane_essence plus 1 typed
+  secondary; epic and legendary to exactly 1 arcane_shard plus 1 to 2
+  typed secondaries. The 1-shard-per-epic rate deliberately maps shard
+  supply one to one onto the measured heroic faucet (two tradeable epics
+  per heroic final boss); Greater-tier enchant recipes price at 1 to 2
+  shards so the sink drinks what the faucet pours. Consumer costs got
+  the evidence check in the Phase 15 review. AS-LANDED DEVIATION (Phase
+  15 RE-QA correction): the approved 'uncommon disenchants to 1 to 2
+  arcane_dust' retune was deliberately NOT implemented; sub-rare
+  (common/uncommon) disenchant stays byte-identical to the pre-13
+  yields (3 to 4 dust, src/sim/professions/enchanting.ts), deferred per
+  the Phase 15 evidence check, so this row sits outside the 'verified
+  as-landed' claim in the Phase 15 disposition header above.
 
 ## OPEN items
 
