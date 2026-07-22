@@ -43,8 +43,8 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 14 QA | Verify attunement quests and nudges | complete (PASS with followups, PR #2286 merged into release/v0.29.0) | 2026-07-21 | 2026-07-21 |
 | 14b | Commissions and the Maker's Bond | complete (PR #2293 merged into release/v0.29.0) | 2026-07-21 | 2026-07-21 |
 | 14b QA | Verify commissions and the Maker's Bond | complete (PASS, zero blocking) | 2026-07-21 | 2026-07-21 |
-| 15 | Deeds, tuning, and polish | not started | | |
-| 15 QA | Final integration QA and packet teardown | not started | | |
+| 15 | Deeds, tuning, and polish | complete (single combined PR with 15 QA, per the 2026-07-22 process amendment) | 2026-07-21 | 2026-07-22 |
+| 15 QA | Final integration QA and packet teardown | complete (executed in the Phase 15 session on the same branch; teardown offer recorded in Notes) | 2026-07-22 | 2026-07-22 |
 
 ## Per-phase deliverable checklists
 
@@ -585,13 +585,30 @@ routing, coverage closure), review fixes, screenshots, docs.
 - [x] Mail/market face-to-face construction pinned against the new marker
 
 ### Phase 15: Deeds, tuning, and polish
-- [ ] Universal profession deeds incl. titles + marquee renown on first attunement and first masterwork, the Specialist deed, and the rare-find deeds (plus the rare fish, verified to celebrate through the Phase 12b bite moment)
-- [ ] Mastery deed additions: fishing's first deed, prog_master_gatherer counts fishing, per-craft mastery deeds at the resolved caps with the approved titles; no 300 reference anywhere; reset re-crossings double-grant nothing
-- [ ] Economy tuning targets applied (#1301 fee/throttle live rows; the FINAL-marked rows verified byte-unchanged); faucet-vs-sink review recorded incl. the market fee, disenchant margin, and gland-to-pristine ratio rows
-- [ ] Legacy junk-recipe burn-down dispositioned, cross-checked against the typed-reagent consumers first
-- [ ] Profession SFX completion sweep over #2208: placeholders replaced or explicitly re-filed, station ambiences, per-craft success variants
-- [ ] The wiki at the RuneScape bar: per-skill pages, tables generated from sim content, exact numbers per the transparency policy, English-only keys with the guide-scoped M16 exemption; asset manifest final
-- [ ] Whole-feature qa-checklist.md matrix green; packet teardown offered
+
+Started 2026-07-21 on feature/professions-2-phase-15-deeds-polish,
+phase-start commit 560972962 (the release/v0.29.0 tip, the Phase 14b QA
+merge of PR #2295; tip unmoved at session start). Completed 2026-07-22
+in the SAME session as Phase 15 QA per the maintainer-directed
+single-PR process amendment (recorded atop both phase-15 files); the
+whole-feature qa-checklist evidence, the review fan-out verdicts, and
+the gate result live in the Notes entry below; the merge hash is
+recorded in session memory at merge. Deferred and surfaced items:
+state.md OPEN items (all resolved or recorded), the release-tier locale
+fill (the maintainer's pre-tag batch; the wiki added a large English
+pending set incl. systemically stale profPages.faq non-Latin fills
+beyond a6), the Steam partner-site registration of the three new
+achievement ids, the raw_stonescale_carp id/name mismatch content
+chore, and the sellAllJunk future-hole and armed-copy observations
+from the wash review (PR body carries all of these).
+
+- [x] Universal profession deeds incl. titles + marquee renown on first attunement and first masterwork, the Specialist deed (pre-existing prog_craft_specialist verified), and the rare-find deeds; the rare fish celebrates through the real bite-and-reel in tests/professions_deeds_playthrough.test.ts (got-away negative included)
+- [x] Mastery deed additions: prog_fishing_100, prog_master_angler, prog_master_gatherer desc names Fishing (trigger untouched), per-craft 50 milestones + Grandmaster titles at 125 for the eight earnable crafts; grep proves no 300 reference; the 12c re-crossing suite extends to the mastery ladder with a fresh-grant positive control
+- [x] Economy tuning verified as-landed and pinned (fee extension landed; craft fee/throttle unchanged per maintainer); faucet-vs-sink evidence committed as phase-15-tuning-evidence.md with the market fee, disenchant margin, and gland-ratio rows (measured 13-20:1 vs the community 50:1)
+- [x] Legacy burn-down COMPLETE: all 14 closed (10 input reworks + 4 maintainer-approved paired sellValue arms), typed-reagent cross-check applied (plain variants chosen for 9-11), wolf_fang homed twice; the exception list is EMPTY
+- [x] SFX sweep complete via the re-file arm: all open slots on #2208 with the maintainer's 2026-07-21 audio-later sign-off (comment 5042062625); routing pins verified green; no new placeholder rows
+- [x] Wiki at the RuneScape bar: 14 per-skill detail routes, tables generated from sim, exact numbers per the transparency policy, English-only keys (M16 fills in the five non-Latin overlays), fresh-eyes accuracy audit applied; asset manifest final
+- [x] Whole-feature qa-checklist.md matrix run with evidence in the Phase 15 Notes; teardown offered (see Notes)
 
 ## Notes
 
