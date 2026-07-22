@@ -393,7 +393,7 @@ export const ENCHANTS: Record<string, EnchantDef> = {
   },
   enchant_weapon_runed_focus: {
     id: 'enchant_weapon_runed_focus',
-    name: 'Enchant Weapon - Runed Focus',
+    name: 'Enchant Weapon - Runed Sigil',
     itemSlot: 'mainhand',
     reagents: [
       { itemId: 'arcane_essence', count: 2 },
@@ -403,7 +403,7 @@ export const ENCHANTS: Record<string, EnchantDef> = {
   },
   enchant_chest_runeweave: {
     id: 'enchant_chest_runeweave',
-    name: 'Enchant Chest - Runeweave',
+    name: 'Enchant Chest - Runed Weave',
     itemSlot: 'chest',
     reagents: [
       { itemId: 'arcane_essence', count: 2 },

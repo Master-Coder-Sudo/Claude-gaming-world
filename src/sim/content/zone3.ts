@@ -1274,7 +1274,7 @@ export const ZONE3_QUESTS: Record<string, QuestDef> = {
   },
   q_stalker_pelts: {
     id: 'q_stalker_pelts',
-    name: 'Winter Is Coming to Highwatch',
+    name: 'First Frost at Highwatch',
     giverNpcId: 'quartermaster_bree',
     turnInNpcId: 'quartermaster_bree',
     text: 'Winter on this mountain does not knock, $N — it kicks the door in. Eight ridge stalker pelts will line enough cloaks to see the wall through the first snows. The beasts prowl the ridges flanking the road south.',

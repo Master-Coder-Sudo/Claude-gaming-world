@@ -127,7 +127,6 @@ export const vi_VN: Partial<Record<TranslationKey, string>> = {
   'hudChrome.archetypePair.inscription+enchanting': 'Pháp Sư Học Thuật',
   'hudChrome.archetypePair.jewelcrafting+weaponcrafting': 'Thợ Rèn Kiếm',
   'hudChrome.archetypePair.leatherworking+tailoring': 'Thợ Trang Phục',
-  'hudChrome.archetypePair.tailoring+inscription': 'Thợ Dệt Phép',
   'hudChrome.archetypePair.weaponcrafting+armorcrafting': 'Thợ Rèn',
   'hudChrome.auraEffect.cheapCast': 'Phép tiếp theo của bạn tốn ít hơn {pct}%',
   'hudChrome.auraEffect.combustionCrit': 'Các phép Lửa của bạn luôn chí mạng',
@@ -1739,7 +1738,6 @@ export const vi_VN: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchantName.enchant_weapon_intellect': 'Pháp Khắc Vũ Khí - Sức Mạnh Phép Thuật',
   'hudChrome.enchantName.enchant_weapon_might': 'Pháp Khắc Vũ Khí - Dũng Mãnh',
   'hudChrome.enchantName.enchant_weapon_runed_edge': 'Pháp Khắc Vũ Khí - Lưỡi Phù Văn',
-  'hudChrome.enchantName.enchant_weapon_runed_focus': 'Pháp Khắc Vũ Khí - Tiêu Điểm Phù Văn',
   'hudChrome.enchanting.disenchantConfirmBody':
     'Thao tác này phá hủy {item} và thu được nguyên liệu huyền bí. Không thể hoàn tác.',
   'hudChrome.enchanting.disenchantConfirmBodySpecial':
@@ -3798,7 +3796,6 @@ export const vi_VN: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_stalker_pelts.objectives.0.label': 'Da Thú Rình Sườn Núi',
   'entities.quests.q_stalker_pelts.text':
     'Mùa đông trên ngọn núi này không gõ cửa, {playerName} - nó đạp tung cửa mà vào. Tám tấm da thú rình sườn núi sẽ lót đủ áo choàng để giúp bức tường thành vượt qua những đợt tuyết đầu mùa. Lũ dã thú lảng vảng trên những sườn núi hai bên con đường về phía nam.',
-  'entities.quests.q_stalker_pelts.title': 'Mùa Đông Đang Đến Với Highwatch',
   'entities.quests.q_stalkers.completion':
     'Bớt mười hai cái bóng trên sườn núi. Đêm nay các đội tuần tra sẽ dễ thở hơn.',
   'entities.quests.q_stalkers.objectives.0.label': 'Đã hạ Thú Rình Sườn Núi',

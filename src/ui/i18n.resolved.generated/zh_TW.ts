@@ -2152,7 +2152,7 @@ export const zh_TW: EnTranslations = {
       "alchemy+cooking": "藥劑師",
       "cooking+leatherworking": "捕獸人",
       "leatherworking+tailoring": "製裝師",
-      "tailoring+inscription": "織法師",
+      "tailoring+inscription": "織墨師",
       "inscription+enchanting": "秘法師",
       "enchanting+jewelcrafting": "縛晶師",
       "jewelcrafting+weaponcrafting": "鑄刃師",
@@ -2209,7 +2209,7 @@ export const zh_TW: EnTranslations = {
       "enchant_legs_greater_stamina": "附魔腿部 - 強效耐力",
       "enchant_gloves_greater_agility": "附魔手部 - 強效敏捷",
       "enchant_weapon_runed_edge": "附魔武器 - 符文鋒刃",
-      "enchant_weapon_runed_focus": "附魔武器 - 符文聚能",
+      "enchant_weapon_runed_focus": "附魔武器 - 符文印記",
       "enchant_chest_runeweave": "附魔胸部 - 符文織紋",
       "enchant_legs_runed_hide": "附魔腿部 - 符文獸皮",
       "enchant_helmet_runed_links": "附魔頭部 - 符文鎖環"
@@ -3640,7 +3640,7 @@ export const zh_TW: EnTranslations = {
       "stationsHeading": "工位與大師",
       "stationsBody": "三座主城中共設六座分類工位，常駐大師在此傳授配方並發布工作訂單。",
       "deedsHeading": "銘記旅程的功業",
-      "deedsBody": "功業之書伴隨這一切：首次調諧獲得Guildsworn，首次傑作獲得Masterwright，均可作為頭銜佩戴。八種可修行業各在技能50設有里程碑功業，並在上限125加冕Grandmaster頭銜；釣魚在100熟練獲得Old Salt，200獲得Master Angler頭銜。此外還有首次採集、首次製作、野外奇遇與拆解回收的功業。這一切皆為裝飾：只有頭銜與聲望，功業永不賦予力量。",
+      "deedsBody": "功業之書伴隨這一切：首次調諧獲得Craftsworn，首次傑作獲得Masterwright，均可作為頭銜佩戴。八種可修行業各在技能50設有里程碑功業，並在上限125加冕Grandmaster頭銜；釣魚在100熟練獲得Old Salt，200獲得Master Angler頭銜。此外還有首次採集、首次製作、野外奇遇與拆解回收的功業。這一切皆為裝飾：只有頭銜與聲望，功業永不賦予力量。",
       "startHeading": "從哪裡開始",
       "startBody": "初到Eastbrook？找Foreman Odell接下A Trade for Every Hand，他會指給你鎮西南Copper Dig一帶的礦脈。此後旅途中經過的每處礦脈、樹木與藥草都值得採集。回到鎮上按T打開製作視窗，先做人人都會的普通配方，再去鍛造坊、廚房、織布機與工坊拜訪諸位大師，順便接下他們的工作訂單換取穩定的銅板。等公會的信找到你時，你早已知道哪一對行業才是歸宿。",
       "colStation": "工位",
@@ -3693,7 +3693,7 @@ export const zh_TW: EnTranslations = {
       "craftProse": {
         "weaponcrafting": {
           "identityHeading": "人人都要買的鋒刃",
-          "identityBody": "精良一檔就涵蓋三種胃口：力量近戰的Thorium Warblade、敏捷戰士的Arcanite War Axe，以及施法者的智力精神法杖Elderwood Battle Staff。在製作之輪上它位於護甲鍛造與珠寶設計之間；鐵匠（武器鍛造與護甲鍛造）可在Forgemistress Darva處宣誓，與珠寶設計組成的Bladewright則要等後者的配方隨未來區域到來。",
+          "identityBody": "精良一檔就涵蓋三種胃口：力量近戰的Osmium Warblade、敏捷戰士的Glyphsteel War Axe，以及施法者的智力精神法杖Highpine Battle Staff。在製作之輪上它位於護甲鍛造與珠寶設計之間；鐵匠（武器鍛造與護甲鍛造）可在Forgemistress Darva處宣誓，與珠寶設計組成的Bladewright則要等後者的配方隨未來區域到來。",
           "materialsHeading": "鍛爐吞噬什麼",
           "materialsBody": "採礦是根基：銅礦出自Eastbrook Vale，鐵礦出自Mirefen Marsh，鋨礦出自Thornpeak Heights。伐木也很重要：鐵皮木做矛桿，梣木做錘柄，一根高松成杖。粗皮從狼和野豬屍體上剝取，碎骨來自日常獵殺，梯子上的配方要燒Smithing Flux（Darva處20銅一罐）。Darva賣鋨礦，Tinker Gizzel在工坊賣銘鋼錠，價格不菲。",
           "ladderHeading": "一級一級的梯子",
@@ -3703,23 +3703,23 @@ export const zh_TW: EnTranslations = {
         },
         "armorcrafting": {
           "identityHeading": "前線的鎖甲",
-          "identityBody": "梯子如同士兵的履歷：鉚接銅甲起步，ironlink一檔有了真正的屬性，精良的thoriumscale頭盔、胸甲與護腿則是工匠能敲出的最大護甲數值。還有安靜的一面：野外普通件Eastbrook Warded Leggings與技能75的Sootscale Mantle（智力精神鎖甲肩）留住法系鎖甲客戶。它位於武器鍛造與工程學之間；鐵匠對可在Darva處宣誓，Cogsmith暫無誓約任務。",
+          "identityBody": "梯子如同士兵的履歷：鉚接銅甲起步，ironlink一檔有了真正的屬性，精良的osmiumscale頭盔、胸甲與護腿則是工匠能敲出的最大護甲數值。還有安靜的一面：野外普通件Eastbrook Warded Leggings與技能75的Kilnscale Mantle（智力精神鎖甲肩）留住法系鎖甲客戶。它位於武器鍛造與工程學之間；鐵匠對可在Darva處宣誓，Gearwright暫無誓約任務。",
           "materialsHeading": "成袋的礦石",
-          "materialsBody": "沒有哪個行業吃礦更快：ironlink hauberk一件就要五塊鐵礦，每件thoriumscale要三到四塊鋨礦外加一塊銘鋼錠，認真的甲匠要麼自己挖遍Mirefen Marsh和Thornpeak Heights，要麼花錢請人。金屬之外還有軟料：粗皮、碎骨與亞麻碎布，幾乎每個配方都要一罐Smithing Flux（鍛造坊20銅）。急用時Darva櫃檯就賣鋨礦。",
+          "materialsBody": "沒有哪個行業吃礦更快：ironlink hauberk一件就要五塊鐵礦，每件osmiumscale要三到四塊鋨礦外加一塊銘鋼錠，認真的甲匠要麼自己挖遍Mirefen Marsh和Thornpeak Heights，要麼花錢請人。金屬之外還有軟料：粗皮、碎骨與亞麻碎布，幾乎每個配方都要一罐Smithing Flux（鍛造坊20銅）。急用時Darva櫃檯就賣鋨礦。",
           "ladderHeading": "在Darva的鍛爐學藝",
-          "ladderBody": "兩件野外普通件（Eastbrook Chainmail Vest與Warded Leggings）人人都會、隨處可做。訓練師梯子是Eastbrook鍛造坊的三檔九個配方：銅檔技能0免費，ironlink檔25技能每個25銀，thoriumscale檔50技能每個1金。梯子之外有兩件特例：Boundstone Helm是鐵匠組合配方（需調諧且雙技能25，不佔工位）；Kilnscale Mantle無需老師，但要技能75且綁定鍛造坊，是本行業的三層壓軸。",
+          "ladderBody": "兩件野外普通件（Eastbrook Chainmail Vest與Warded Leggings）人人都會、隨處可做。訓練師梯子是Eastbrook鍛造坊的三檔九個配方：銅檔技能0免費，ironlink檔25技能每個25銀，osmiumscale檔50技能每個1金。梯子之外有兩件特例：Boundstone Helm是鐵匠組合配方（需調諧且雙技能25，不佔工位）；Kilnscale Mantle無需老師，但要技能75且綁定鍛造坊，是本行業的三層壓軸。",
           "routeHeading": "傑作與通往125之路",
-          "routeBody": "ironlink檔及以上都擲傑作；只有護甲值的銅檔普通件不會觸發。鐵算一級材料，銘鋼算二級。路線照常：銅到25，ironlink到50，thoriumscale到75。75之後的運氣在於Sootscale Mantle：三層配方，到99全速、之後半速，最後五十點約75次而非150次；每件要七塊鋨礦五份Smithing Flux，先在Thornpeak和鍛造坊櫃檯備貨。Darva的訂單每30分鐘收八塊銅礦。技能50記下Hammer and Plate，125等著Grandmaster Armorcrafting。"
+          "routeBody": "ironlink檔及以上都擲傑作；只有護甲值的銅檔普通件不會觸發。鐵算一級材料，銘鋼算二級。路線照常：銅到25，ironlink到50，osmiumscale到75。75之後的運氣在於Kilnscale Mantle：三層配方，到99全速、之後半速，最後五十點約75次而非150次；每件要七塊鋨礦五份Smithing Flux，先在Thornpeak和鍛造坊櫃檯備貨。Darva的訂單每30分鐘收八塊銅礦。技能50記下Hammer and Plate，125等著Grandmaster Armorcrafting。"
         },
         "tailoring": {
           "identityHeading": "施法者的布衣，所有人的背包",
-          "identityBody": "梯子從homespun基礎布裝經goldweave套裝爬到精良檔：Silkbinder's Raiment與sunweave件。第二門生意人人需要：Silkspun Satchel是十格背包，沒有哪個職業或等級嫌包多。裁縫位於製皮與銘文學之間；製裝師（製皮與裁縫）在Eastbrook織布機旁的Weaver Ottilie處宣誓（先獵四隻webwood蜘蛛取絲），與銘文學組成的Mageweaver要等銘文學的第一批配方。",
+          "identityBody": "梯子從homespun基礎布裝經gildenweave套裝爬到精良檔：Silkbinder's Raiment與sunweave件。第二門生意人人需要：Silkspun Satchel是十格背包，沒有哪個職業或等級嫌包多。裁縫位於製皮與銘文學之間；製裝師（製皮與裁縫）在Eastbrook織布機旁的Weaver Ottilie處宣誓（先獵四隻webwood蜘蛛取絲），與銘文學組成的Inkweaver要等銘文學的第一批配方。",
           "materialsHeading": "線、絲，還有藥草",
-          "materialsBody": "織布機靠獵獲與田野運轉：亞麻碎布與家紡布來自人形生物，蜘蛛絲從蛛屍上採取，精良檔的核心Silkbinder's Raiment要一塊Pristine Silk（屍體採集的署名標本）。藥草餵養裁縫勝過任何裝備行業：潤光葉鑲拖鞋，金葉染goldweave，日瓣草貫穿整個精良檔。Spool of Thread在Ottilie處12銅一軸，織布機根本不用金屬，連Wardweave Cowl頂階也是用高級草藥、Pristine Silk、蛛絲與線織成。",
+          "materialsBody": "織布機靠獵獲與田野運轉：亞麻碎布與家紡布來自人形生物，蜘蛛絲從蛛屍上採取，精良檔的核心Silkbinder's Raiment要一塊Pristine Silk（屍體採集的署名標本）。藥草餵養裁縫勝過任何裝備行業：潤光葉鑲拖鞋，金葉染gildenweave，日瓣草貫穿整個精良檔。Spool of Thread在Ottilie處12銅一軸，織布機根本不用金屬，連Wardweave Cowl頂階也是用高級草藥、Pristine Silk、蛛絲與線織成。",
           "ladderHeading": "在Ottilie的織布機學藝",
-          "ladderBody": "兩件野外普通件（Eastbrook Wool Trousers與Ritual Vestments）隨處可做。訓練師梯子在Eastbrook水井南側的織布機：homespun檔技能0免費，goldweave檔（含Silkspun Satchel）技能25每個25銀，精良檔技能50每個1金。Wardweave Cowl無需訓練師：人人都會，但要技能75且綁定織布機，是本行業的三層壓軸。",
+          "ladderBody": "兩件野外普通件（Eastbrook Wool Trousers與Ritual Vestments）隨處可做。訓練師梯子在Eastbrook水井南側的織布機：homespun檔技能0免費，gildenweave檔（含Silkspun Satchel）技能25每個25銀，精良檔技能50每個1金。Wardweave Cowl無需訓練師：人人都會，但要技能75且綁定織布機，是本行業的三層壓軸。",
           "routeHeading": "傑作與通往125之路",
-          "routeBody": "長袍裡的Pristine Silk本身就補足署名材料加成，金葉與日瓣草分別算一、二級材料，精良檔因此觸發率最高；背包之類無屬性的成品永不觸發。路線：homespun到25，goldweave到50，精良檔到75；75之後靠Wardweave Cowl（三層配方，到99全速、之後半速），最後五十點約75次，每次兩塊Pristine Silk、四束蛛絲、日瓣草與金葉各兩、兩份線。背包賣給所有人，Ottilie的訂單每30分鐘收六束蛛絲。技能50記下A Fine Seam，125等著Grandmaster Tailoring。"
+          "routeBody": "長袍裡的Pristine Silk本身就補足署名材料加成，金葉與日瓣草分別算一、二級材料，精良檔因此觸發率最高；背包之類無屬性的成品永不觸發。路線：homespun到25，gildenweave到50，精良檔到75；75之後靠Wardweave Cowl（三層配方，到99全速、之後半速），最後五十點約75次，每次兩塊Pristine Silk、四束蛛絲、日瓣草與金葉各兩、兩份線。背包賣給所有人，Ottilie的訂單每30分鐘收六束蛛絲。技能50記下A Fine Seam，125等著Grandmaster Tailoring。"
         },
         "leatherworking": {
           "identityHeading": "迅捷者的皮甲",
@@ -3753,7 +3753,7 @@ export const zh_TW: EnTranslations = {
         },
         "engineering": {
           "identityHeading": "工具匠的獨門生意",
-          "identityBody": "這門手藝在Eastbrook廣場東南角的工坊操持，主人是Tinker Gizzel。每條工具線的1到3級都是尋常商店貨，4級與5級只出自工程師之手。它位於鍊金術與護甲鍛造之間，兩條命途是爆破師（工程學與鍊金術）與Cogsmith（尚不可宣誓）。最要緊的警告：工程學的兩檔配方都高於愛好與未宣誓者的精良層上限，技能只為主修包含工程學的人（今天即爆破師）增長；誰都能做這些工具，未調諧者只是學不到東西。",
+          "identityBody": "這門手藝在Eastbrook廣場東南角的工坊操持，主人是Tinker Gizzel。每條工具線的1到3級都是尋常商店貨，4級與5級只出自工程師之手。它位於鍊金術與護甲鍛造之間，兩條命途是爆破師（工程學與鍊金術）與Gearwright（尚不可宣誓）。最要緊的警告：工程學的兩檔配方都高於愛好與未宣誓者的精良層上限，技能只為主修包含工程學的人（今天即爆破師）增長；誰都能做這些工具，未調諧者只是學不到東西。",
           "materialsHeading": "材料與前置工具",
           "materialsBody": "每個工具配方都吞掉低一級的工具外加高級材料：四塊Osmium Ore加一把Skysilver Mining Pick成為Osmium Mining Pick，再用兩塊Glyphsteel Bar加鋨鎬成為Glyphsteel Mining Pick；斧與鐮兩條線以Ashwood與Highpine Log、Goldleaf與Sunpetal Herb如法炮製。Gizzel在工坊備齊全部六種高級材料，但礦、木、草都能在Mirefen Marsh與Thornpeak Heights自採，自採才有利潤；唯一例外是僅商店有售的Glyphsteel Bar，給每件銘鋼級工具墊了固定的成本底價。",
           "ladderHeading": "工具階梯",
@@ -3837,7 +3837,7 @@ export const zh_TW: EnTranslations = {
         "mining": "任意行業的第一次採集獲得Fruits of the Field，採礦100上限銘刻Ore in the Blood。採礦、伐木、藥草學與釣魚中任意三項達到100可得Master Gatherer（25聲望），鑿開純淨礦脈另有收藏印記。功業只有頭銜與聲望，永不賦予力量。",
         "logging": "任意行業的第一次採集獲得Fruits of the Field，伐木100上限銘刻Heartwood Hewer。四種採集行業中任意三項達到100可得Master Gatherer（25聲望），劈出遠古心材另有收藏印記。功業只有頭銜與聲望，永不賦予力量。",
         "herbalism": "任意行業的第一次採集獲得Fruits of the Field，藥草學100上限銘刻Master of the Meadow。四種採集行業中任意三項達到100可得Master Gatherer（25聲望），採下月光綻放另有收藏印記。功業只有頭銜與聲望，永不賦予力量。",
-        "fishing": "釣魚100熟練銘刻Old Salt，200銘刻Master Angler及其頭銜，垂釣技藝的頂點；釣魚同樣計入Master Gatherer（任意三項採集達到100）。在每個區域的水域釣起第一條魚各有其頁，釣起Glimmerfin Koi則記下Glimmer of Hope。"
+        "fishing": "釣魚100熟練銘刻Old Salt，200銘刻Master Angler及其頭銜，垂釣技藝的頂點；釣魚同樣計入Master Gatherer（任意三項採集達到100）。在每個區域的水域釣起第一條魚各有其頁，釣起Sunglint Koi則記下Glimmer of Hope。"
       },
       "fish": {
         "startHeading": "入門",
@@ -10752,7 +10752,7 @@ export const zh_TW: EnTranslations = {
         }
       },
       "q_stalker_pelts": {
-        "title": "冬日將至高望",
+        "title": "初霜降臨高望",
         "text": "{playerName}，這座山的冬天不會敲門，它會踹門。8張山脊潛獵者皮能為守牆披風加襯。",
         "completion": "厚得像我的手臂。今年守望者不會凍死。",
         "objectives": {

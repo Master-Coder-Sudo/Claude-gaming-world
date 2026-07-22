@@ -2152,7 +2152,7 @@ export const es: EnTranslations = {
       "alchemy+cooking": "Boticario",
       "cooking+leatherworking": "Trampero",
       "leatherworking+tailoring": "Pertrechador",
-      "tailoring+inscription": "Tejedormago",
+      "tailoring+inscription": "Inkweaver",
       "inscription+enchanting": "Arcanista",
       "enchanting+jewelcrafting": "Gemoencantador",
       "jewelcrafting+weaponcrafting": "Forjajoyero",
@@ -2209,7 +2209,7 @@ export const es: EnTranslations = {
       "enchant_legs_greater_stamina": "Encantar piernas - Aguante superior",
       "enchant_gloves_greater_agility": "Encantar guantes - Agilidad superior",
       "enchant_weapon_runed_edge": "Encantar arma - Filo rúnico",
-      "enchant_weapon_runed_focus": "Encantar arma - Foco rúnico",
+      "enchant_weapon_runed_focus": "Enchant Weapon - Runed Sigil",
       "enchant_chest_runeweave": "Encantar pecho - Tejido rúnico",
       "enchant_legs_runed_hide": "Encantar piernas - Piel rúnica",
       "enchant_helmet_runed_links": "Encantar yelmo - Eslabones rúnicos"
@@ -3640,7 +3640,7 @@ export const es: EnTranslations = {
       "stationsHeading": "Stations and the three hubs",
       "stationsBody": "Six typed stations serve the seven station-bound crafts, spread across the three town hubs. Eastbrook holds the forge (Weaponcrafting and Armorcrafting share it), the kitchens, the loom, and the toolworks; Fenbridge keeps the tannery, and Highwatch the apothecary. Each station has a resident master beside it who trains recipes, posts work orders, and offers the unbind service.\n\nThe working radius is 20 yards, roughly the station's own yard, so you craft standing at the anvil rather than from across town. Jewelcrafting, Inscription, and Enchanting have no station: the first two await their recipes, and Enchanting works anywhere by design.",
       "deedsHeading": "Deeds that remember the journey",
-      "deedsBody": "The Book of Deeds walks beside every step of this. Your first attunement earns Guildsworn and your first masterwork earns Masterwright, both wearable as titles. Each of the eight earnable crafts marks a milestone deed at 50 skill and crowns its cap with a Grandmaster title, while Fishing gets Old Salt at 100 proficiency and the Master Angler title at 200.\n\nThere are quieter pages too: deeds for your first harvest and first craft, for the rare finds luck turns up in the field, and for taking up salvage. All of it is cosmetic, titles and Renown only. A deed never grants power; it only proves you were there.",
+      "deedsBody": "The Book of Deeds walks beside every step of this. Your first attunement earns Craftsworn and your first masterwork earns Masterwright, both wearable as titles. Each of the eight earnable crafts marks a milestone deed at 50 skill and crowns its cap with a Grandmaster title, while Fishing gets Old Salt at 100 proficiency and the Master Angler title at 200.\n\nThere are quieter pages too: deeds for your first harvest and first craft, for the rare finds luck turns up in the field, and for taking up salvage. All of it is cosmetic, titles and Renown only. A deed never grants power; it only proves you were there.",
       "startHeading": "Where to start",
       "startBody": "Fresh off the road in Eastbrook? Find Foreman Odell and take A Trade for Every Hand: he will point you at the ore veins around the Copper Dig southwest of town and hand you your first calluses. From then on, harvest every vein, timber stand, and herb patch you pass while questing; proficiency comes naturally to travelers.\n\nBack in town, press T to open the crafting window and work the common recipes every character knows from the start. Visit the masters at the forge, kitchens, loom, and toolworks to see what they teach, and take their work orders for steady coin. By the time the Guild's letter finds you, you will already know which pair feels like home.",
       "colStation": "Station",
@@ -3703,7 +3703,7 @@ export const es: EnTranslations = {
         },
         "armorcrafting": {
           "identityHeading": "Mail for the front line",
-          "identityBody": "Armorcrafting's ladder reads like a soldier's career: the plain riveted copper girdle, sabatons, and gauntlets to start, the ironlink hauberk, legguards, and spaulders with their first real stat lines, and the rare osmiumscale greathelm, cuirass, and leggings, Strength and Stamina pieces with the biggest armor numbers a crafter can make.\n\nIt has a quieter side too: the Eastbrook Warded Leggings, a caster-statted field common, and the Kilnscale Mantle, a rare Intellect and Spirit mail shoulder at skill 75, keep the spell-minded mail wearers on the customer list. On the ring it sits between Weaponcrafting and Engineering; the Smith pair with Weaponcrafting is sworn before Forgemistress Darva, while the Cogsmith pair with Engineering is named but has no oath quest yet.",
+          "identityBody": "Armorcrafting's ladder reads like a soldier's career: the plain riveted copper girdle, sabatons, and gauntlets to start, the ironlink hauberk, legguards, and spaulders with their first real stat lines, and the rare osmiumscale greathelm, cuirass, and leggings, Strength and Stamina pieces with the biggest armor numbers a crafter can make.\n\nIt has a quieter side too: the Eastbrook Warded Leggings, a caster-statted field common, and the Kilnscale Mantle, a rare Intellect and Spirit mail shoulder at skill 75, keep the spell-minded mail wearers on the customer list. On the ring it sits between Weaponcrafting and Engineering; the Smith pair with Weaponcrafting is sworn before Forgemistress Darva, while the Gearwright pair with Engineering is named but has no oath quest yet.",
           "materialsHeading": "Ore by the sackful",
           "materialsBody": "No craft eats ore faster. The ironlink hauberk alone takes five iron ore, and every osmiumscale piece wants three or four osmium plus an glyphsteel bar, so a serious armorcrafter mines Mirefen Marsh and Thornpeak Heights or pays someone who does. Copper feeds the first rung, straight from the veins by the Copper Dig.\n\nAround the metal go the soft parts: rough hide harvested off wolf and boar corpses, bone fragments and linen scraps from ordinary hunting, and a jar of Smithing Flux (20 copper at the forge) in nearly every recipe. Darva sells osmium ore over the counter for the impatient.",
           "ladderHeading": "Learning at Darva's forge",
@@ -3713,7 +3713,7 @@ export const es: EnTranslations = {
         },
         "tailoring": {
           "identityHeading": "Cloth for the casters, bags for everyone",
-          "identityBody": "The ladder climbs from homespun basics through the gildenweave set to the rare rung: the Silkbinder's Raiment and the sunweave pieces. Its second trade is universal: the Silkspun Satchel is a ten-slot bag, and there is no class, spec, or level that does not want more bag space.\n\nOn the ring Tailoring sits between Leatherworking and Inscription. Its living pair is the Outfitter, Leatherworking and Tailoring together, sworn before Weaver Ottilie at the Eastbrook loom after culling four webwood spiders for their silk; the Mageweaver pair with Inscription is named on the ring but waits for Inscription's first recipes before it can be sworn.",
+          "identityBody": "The ladder climbs from homespun basics through the gildenweave set to the rare rung: the Silkbinder's Raiment and the sunweave pieces. Its second trade is universal: the Silkspun Satchel is a ten-slot bag, and there is no class, spec, or level that does not want more bag space.\n\nOn the ring Tailoring sits between Leatherworking and Inscription. Its living pair is the Outfitter, Leatherworking and Tailoring together, sworn before Weaver Ottilie at the Eastbrook loom after culling four webwood spiders for their silk; the Inkweaver pair with Inscription is named on the ring but waits for Inscription's first recipes before it can be sworn.",
           "materialsHeading": "Thread, silk, and, yes, herbs",
           "materialsBody": "The loom runs on what the hunt drops and what the fields grow. Linen scraps and homespun cloth come off humanoid kills, spider silk is harvested from spider corpses, and the rare rung's centerpiece, the Silkbinder's Raiment, wants a Pristine Silk, the signed specimen a lucky corpse harvest turns up.\n\nHerbalism feeds tailoring more than any other gear craft: sheenleaf trims the slippers, goldleaf colors the gildenweave set, and sunpetal threads the whole rare rung, so a tailor who picks their own herbs saves steadily. A Spool of Thread costs 12 copper from Ottilie, and the loom asks for no metal at all: even the Wardweave Cowl capstone is woven from premium herbs, Pristine Silk, spider silk, and thread.",
           "ladderHeading": "Learning at Ottilie's loom",
@@ -3753,7 +3753,7 @@ export const es: EnTranslations = {
         },
         "engineering": {
           "identityHeading": "The toolmaker's monopoly",
-          "identityBody": "The craft is worked at the toolworks in the southeast corner of Eastbrook Square, home of Tinker Gizzel, Master of the Toolworks. Tiers 1 through 3 of every tool line are ordinary vendor stock; tiers 4 and 5 exist only through an engineer.\n\nOn the ring it sits with the trial-and-error trades, next to Alchemy and Armorcrafting, giving it two pair identities: the Bombardier (Engineering and Alchemy, taken up before Gizzel himself) and the Cogsmith (Armorcrafting and Engineering, named but not yet swearable). One warning matters more here than anywhere else: both of Engineering's recipe rungs sit above the rare-tier ceiling that hobbies and undeclared crafters work under, so the skill number only moves for a crafter whose majors include Engineering, which today means the Bombardier. Anyone can still build the tools; an unattuned crafter just learns nothing from doing it.",
+          "identityBody": "The craft is worked at the toolworks in the southeast corner of Eastbrook Square, home of Tinker Gizzel, Master of the Toolworks. Tiers 1 through 3 of every tool line are ordinary vendor stock; tiers 4 and 5 exist only through an engineer.\n\nOn the ring it sits with the trial-and-error trades, next to Alchemy and Armorcrafting, giving it two pair identities: the Bombardier (Engineering and Alchemy, taken up before Gizzel himself) and the Gearwright (Armorcrafting and Engineering, named but not yet swearable). One warning matters more here than anywhere else: both of Engineering's recipe rungs sit above the rare-tier ceiling that hobbies and undeclared crafters work under, so the skill number only moves for a crafter whose majors include Engineering, which today means the Bombardier. Anyone can still build the tools; an unattuned crafter just learns nothing from doing it.",
           "materialsHeading": "Reagents and prior tools",
           "materialsBody": "Every tool recipe consumes the tool one tier below it plus a premium material: four Osmium Ore and a Skysilver Mining Pick become the Osmium Mining Pick, then two Glyphsteel Bars and that osmium pick become the Glyphsteel Mining Pick, and the axe and sickle lines mirror the same shape with Ashwood and Highpine Logs, Goldleaf and Sunpetal Herbs.\n\nGizzel stocks all six premium reagents at the toolworks if you want speed over margin, but the ore, logs, and herbs are all gatherable in Mirefen Marsh and Thornpeak Heights, and gathered stock is where the profit lives. The one exception is the Glyphsteel Bar, which is vendor-only, so every glyphsteel-tier tool carries a fixed coin floor built into its cost.",
           "ladderHeading": "The tool ladder",
@@ -3791,7 +3791,7 @@ export const es: EnTranslations = {
         "meleeWeapons": "Melee weapons",
         "timberWeapons": "Staves, wands, bows, and crossbows",
         "enchantsHeading": "Enchants",
-        "enchantsNote": "Enchants come in three tiers. The base tier runs on Chime Dust (with a little Essence at the high end) and covers the weapon slot plus every armor slot, with enough stat-axis options that every build finds something for each slot. The Greater tier costs one Chime Shard plus Essence and is the only thing Shards are for: stronger bonuses on the highest-impact slots.\n\nBetween them sit the five Runed enchants, one consumer per typed secondary, so nothing you mill is ever a dead end: Runed Edge (weapon, Strength, consumes Resonant Steel), Runed Focus (weapon, Intellect, Resonant Timber), Runeweave (chest, Spirit, Resonant Thread), Runed Hide (legs, Agility, Resonant Hide), and Runed Links (helmet, Stamina, Resonant Links). Each also takes two Chime Essence and lands between its base and Greater siblings in strength; the exact bonuses are all in the table below.",
+        "enchantsNote": "Enchants come in three tiers. The base tier runs on Chime Dust (with a little Essence at the high end) and covers the weapon slot plus every armor slot, with enough stat-axis options that every build finds something for each slot. The Greater tier costs one Chime Shard plus Essence and is the only thing Shards are for: stronger bonuses on the highest-impact slots.\n\nBetween them sit the five Runed enchants, one consumer per typed secondary, so nothing you mill is ever a dead end: Runed Edge (weapon, Strength, consumes Resonant Steel), Runed Sigil (weapon, Intellect, Resonant Timber), Runed Weave (chest, Spirit, Resonant Thread), Runed Hide (legs, Agility, Resonant Hide), and Runed Links (helmet, Stamina, Resonant Links). Each also takes two Chime Essence and lands between its base and Greater siblings in strength; the exact bonuses are all in the table below.",
         "colEnchant": "Enchant",
         "colSlot": "Slot",
         "colTier": "Tier",
@@ -10752,7 +10752,7 @@ export const es: EnTranslations = {
         }
       },
       "q_stalker_pelts": {
-        "title": "El invierno llega a Highwatch",
+        "title": "First Frost at Highwatch",
         "text": "El invierno de esta montaña derriba puertas, {playerName}. Ocho pieles de acechador forrarán capas para la muralla.",
         "completion": "Gruesas como mi brazo. La guardia no se congelará este año.",
         "objectives": {

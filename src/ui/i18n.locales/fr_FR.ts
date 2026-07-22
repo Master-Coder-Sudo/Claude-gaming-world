@@ -225,7 +225,6 @@ export const fr_FR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.archetypePair.inscription+enchanting': 'Arcaniste',
   'hudChrome.archetypePair.jewelcrafting+weaponcrafting': 'Maître-lame',
   'hudChrome.archetypePair.leatherworking+tailoring': 'Équipementier',
-  'hudChrome.archetypePair.tailoring+inscription': 'Tisserand des arcanes',
   'hudChrome.archetypePair.weaponcrafting+armorcrafting': 'Forgeron',
   'hudChrome.auraEffect.cheapCast': 'Votre prochain sort coûte {pct} % de mana en moins',
   'hudChrome.auraEffect.combustionCrit': 'Vos sorts de Feu obtiennent toujours un coup critique',
@@ -5112,7 +5111,6 @@ export const fr_FR: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_stalkers.completion':
     'Douze ombres de moins sur la crête. Les patrouilles respireront ce soir.',
   'entities.quests.q_stalkers.objectives.0.label': 'Traqueur de crête tué',
-  'entities.quests.q_stalker_pelts.title': "L'hiver vient à Highwatch",
   'entities.quests.q_stalker_pelts.text':
     "L'hiver de cette montagne n'attend pas qu'on ouvre, {playerName}. Huit peaux de traqueur doubleront les capes du mur.",
   'entities.quests.q_stalker_pelts.completion':
@@ -5766,7 +5764,6 @@ export const fr_FR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchantName.enchant_weapon_intellect': 'Enchantement Arme - Puissance des sorts',
   'hudChrome.enchantName.enchant_weapon_might': 'Enchantement Arme - Puissance',
   'hudChrome.enchantName.enchant_weapon_runed_edge': 'Enchantement Arme - Tranchant runique',
-  'hudChrome.enchantName.enchant_weapon_runed_focus': 'Enchantement Arme - Concentration runique',
   'hudChrome.enchanting.disenchantConfirmBody':
     'Cela détruit {item} et donne des matériaux arcaniques. Cette action est irréversible.',
   'hudChrome.enchanting.disenchantConfirmBodySpecial':

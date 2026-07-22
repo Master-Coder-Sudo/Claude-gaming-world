@@ -165,14 +165,14 @@ describe('audited launch totals (literals: update deliberately with the catalog)
   });
 
   it('pins the Phase 15 professions additions: renown and trigger literals', () => {
-    // The Guildsworn/Masterwright pair (marquee: renown 25 plus a title each).
+    // The Craftsworn/Masterwright pair (marquee: renown 25 plus a title each).
     expect(DEEDS.prog_guildsworn.renown).toBe(25);
     expect(DEEDS.prog_guildsworn.trigger).toEqual({
       kind: 'stat',
       stat: 'attunementsCompleted',
       count: 1,
     });
-    expect(DEEDS.prog_guildsworn.reward).toEqual({ kind: 'title', text: 'Guildsworn' });
+    expect(DEEDS.prog_guildsworn.reward).toEqual({ kind: 'title', text: 'Craftsworn' });
     expect(DEEDS.prog_masterwright.renown).toBe(25);
     expect(DEEDS.prog_masterwright.trigger).toEqual({
       kind: 'stat',
@@ -309,7 +309,7 @@ describe('frozen trigger + renown catalog (design rule 9: never retro-edit a tri
   // Re-baselined once more at the release/v0.27.0 base merge: the catalog now also
   // carries the appended pvp_card_duel_first_win deed (Card Duel).
   // Re-baselined for Professions 2.0 Phase 15: 26 appended professions deeds
-  // (Guildsworn, Masterwright, the fishing pair, the per-craft 50/125
+  // (Craftsworn, Masterwright, the fishing pair, the per-craft 50/125
   // milestones, the rare-find quartet, and the salvage pair). No shipped
   // trigger or renown changed; prog_master_gatherer had only its English desc
   // reworded, which this digest deliberately does not cover.
@@ -377,7 +377,7 @@ describe('retro fallback proof sets stay anchored to the real tables', () => {
     }
   });
 
-  it('the Guildsworn proof (attunedPairs) is written only by the archetype module', () => {
+  it('the Craftsworn proof (attunedPairs) is written only by the archetype module', () => {
     // The prog_guildsworn retro arm infers a pre-counter attunement from a
     // non-empty ArchetypeState.attunedPairs. That inference holds only while
     // every attunedPairs WRITE lives in professions/archetype.ts (the

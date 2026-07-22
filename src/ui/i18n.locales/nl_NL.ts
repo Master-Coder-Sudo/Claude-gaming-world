@@ -210,7 +210,6 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'hudChrome.archetypePair.inscription+enchanting': 'Arcaneschrijver',
   'hudChrome.archetypePair.jewelcrafting+weaponcrafting': 'Wapensmid',
   'hudChrome.archetypePair.leatherworking+tailoring': 'Uitrusser',
-  'hudChrome.archetypePair.tailoring+inscription': 'Magiërswerker',
   'hudChrome.archetypePair.weaponcrafting+armorcrafting': 'Smid',
   'hudChrome.auraEffect.cheapCast': 'Je volgende spreuk kost {pct}% minder',
   'hudChrome.auraEffect.combustionCrit': 'Je Vuurspreuken treffen altijd kritiek',
@@ -1113,7 +1112,6 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchantName.enchant_weapon_intellect': 'Wapen betoveren - Spreukkracht',
   'hudChrome.enchantName.enchant_weapon_might': 'Wapen betoveren - Kracht',
   'hudChrome.enchantName.enchant_weapon_runed_edge': 'Wapen betoveren - Gerund Snijvlak',
-  'hudChrome.enchantName.enchant_weapon_runed_focus': 'Wapen betoveren - Geruned Focus',
   'hudChrome.enchanting.disenchantConfirmBody':
     'Dit vernietigt {item} en levert arcanematerialen op. Dit kan niet ongedaan worden gemaakt.',
   'hudChrome.enchanting.disenchantConfirmBodySpecial':
@@ -3830,7 +3828,6 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_stalker_pelts.objectives.0.label': 'Richelstruiner-Huid',
   'entities.quests.q_stalker_pelts.text':
     'De winter op deze berg klopt niet aan, {playerName} - hij trapt de deur in. Acht richelstruiner-huiden voeren genoeg mantels om de muur door de eerste sneeuw te helpen. De beesten struinen de richels langs de weg naar het zuiden.',
-  'entities.quests.q_stalker_pelts.title': 'De Winter Komt naar Highwatch',
   'entities.quests.q_stalkers.completion':
     'Twaalf schaduwen minder op de richel. De patrouilles ademen vannacht rustiger.',
   'entities.quests.q_stalkers.objectives.0.label': 'Richelstruiner gedood',

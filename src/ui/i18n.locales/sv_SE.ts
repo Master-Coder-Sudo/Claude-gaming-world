@@ -174,7 +174,6 @@ export const sv_SE: Partial<Record<TranslationKey, string>> = {
   'hudChrome.archetypePair.inscription+enchanting': 'Arkanist',
   'hudChrome.archetypePair.jewelcrafting+weaponcrafting': 'Klingasmed',
   'hudChrome.archetypePair.leatherworking+tailoring': 'Utrustare',
-  'hudChrome.archetypePair.tailoring+inscription': 'Magivävare',
   'hudChrome.archetypePair.weaponcrafting+armorcrafting': 'Smed',
   'hudChrome.auraEffect.cheapCast': 'Din nästa besvärjelse kostar {pct}% mindre',
   'hudChrome.auraEffect.combustionCrit': 'Dina Eld-besvärjelser kritikträffar alltid',
@@ -3613,7 +3612,6 @@ export const sv_SE: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_stalker_pelts.objectives.0.label': 'Bergskamssmygarskinn',
   'entities.quests.q_stalker_pelts.text':
     'Vintern på det här berget knackar inte på, {playerName} - den sparkar in dörren. Åtta bergskamssmygarskinn fodrar nog med mantlar för att se muren genom de första snöfallen. Bestarna stryker omkring på bergskammarna längs vägen söderut.',
-  'entities.quests.q_stalker_pelts.title': 'Vintern kommer till Högvakten',
   'entities.quests.q_stalkers.completion':
     'Tolv färre skuggor på bergskammen. Patrullerna andas lättare i natt.',
   'entities.quests.q_stalkers.objectives.0.label': 'Bergskamssmygare dräpt',
@@ -8650,7 +8648,6 @@ export const sv_SE: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchantName.enchant_weapon_intellect': 'Förtrollning Vapen - Besvärjelsestyrka',
   'hudChrome.enchantName.enchant_weapon_might': 'Förtrollning Vapen - Kraft',
   'hudChrome.enchantName.enchant_weapon_runed_edge': 'Förtrollning Vapen - Runristad egg',
-  'hudChrome.enchantName.enchant_weapon_runed_focus': 'Förtrollning Vapen - Runristat fokus',
   'hudChrome.enchanting.disenchantConfirmBody':
     'Detta förstör {item} och ger arkanmaterial. Det kan inte ångras.',
   'hudChrome.enchanting.disenchantConfirmBodySpecial':

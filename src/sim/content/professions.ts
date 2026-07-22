@@ -195,7 +195,7 @@ export const TOOL_EFFECTS: Record<ToolEffectId, ToolEffectDef> = {
   },
   quickening_charm: {
     id: 'quickening_charm',
-    name: 'Quickening Charm',
+    name: 'Springback Charm',
     icon: 'quickening_charm',
     description: 'Slotted onto a gathering tool: shortens the node respawn timer it triggers.',
     kind: 'respawnSpeed',

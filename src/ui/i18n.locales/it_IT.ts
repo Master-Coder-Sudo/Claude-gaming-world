@@ -229,7 +229,6 @@ export const it_IT: Partial<Record<TranslationKey, string>> = {
   'hudChrome.archetypePair.inscription+enchanting': 'Arcanista',
   'hudChrome.archetypePair.jewelcrafting+weaponcrafting': 'Forgiatore di Lame',
   'hudChrome.archetypePair.leatherworking+tailoring': 'Sarto da Campo',
-  'hudChrome.archetypePair.tailoring+inscription': 'Tessitore di Magia',
   'hudChrome.archetypePair.weaponcrafting+armorcrafting': 'Fabbro',
   'hudChrome.auraEffect.cheapCast': 'Il prossimo incantesimo costa il {pct}% in meno',
   'hudChrome.auraEffect.combustionCrit':
@@ -4661,7 +4660,6 @@ export const it_IT: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_stalkers.completion':
     'Dodici ombre in meno sulla cresta. Le pattuglie respireranno stanotte.',
   'entities.quests.q_stalkers.objectives.0.label': 'Braccatore della cresta ucciso',
-  'entities.quests.q_stalker_pelts.title': 'Inverno a Highwatch',
   'entities.quests.q_stalker_pelts.text':
     "L'inverno su questa montagna sfonda le porte, {playerName}. Otto pelli di braccatore fodereranno mantelli per il muro.",
   'entities.quests.q_stalker_pelts.completion':
@@ -5303,7 +5301,6 @@ export const it_IT: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchantName.enchant_weapon_intellect': 'Incanta Arma - Potere Magico',
   'hudChrome.enchantName.enchant_weapon_might': 'Incanta Arma - Potenza',
   'hudChrome.enchantName.enchant_weapon_runed_edge': 'Incanta Arma - Filo Runico',
-  'hudChrome.enchantName.enchant_weapon_runed_focus': 'Incanta Arma - Concentrazione Runica',
   'hudChrome.enchanting.disenchantConfirmBody':
     'Questo distrugge {item} e produce materiali arcani. Questa azione non puo essere annullata.',
   'hudChrome.enchanting.disenchantConfirmBodySpecial':

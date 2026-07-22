@@ -146,7 +146,7 @@ const WIKI_PAGES = [
           if (b.getAttribute('data-cat') === 'progression') b.click();
         }
         const target = [...w.querySelectorAll('*')].find(
-          (r) => r.children.length === 0 && r.textContent.trim() === 'Guildsworn',
+          (r) => r.children.length === 0 && r.textContent.trim() === 'Craftsworn',
         );
         target?.scrollIntoView({ block: 'center' });
       })()`,

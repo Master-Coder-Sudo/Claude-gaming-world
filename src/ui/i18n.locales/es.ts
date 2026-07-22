@@ -126,7 +126,6 @@ export const es: Partial<Record<TranslationKey, string>> = {
   'hudChrome.archetypePair.inscription+enchanting': 'Arcanista',
   'hudChrome.archetypePair.jewelcrafting+weaponcrafting': 'Forjajoyero',
   'hudChrome.archetypePair.leatherworking+tailoring': 'Pertrechador',
-  'hudChrome.archetypePair.tailoring+inscription': 'Tejedormago',
   'hudChrome.archetypePair.weaponcrafting+armorcrafting': 'Herrero',
   'hudChrome.auraEffect.dmgDone': 'Aumenta el daño infligido un {pct}%',
   'hudChrome.auraEffect.dmgDoneReduce': 'Reduce el daño infligido un {pct}%',
@@ -4543,7 +4542,6 @@ export const es: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_stalkers.completion':
     'Doce sombras menos en la cresta. Las patrullas respirarán esta noche.',
   'entities.quests.q_stalkers.objectives.0.label': 'Acechador de la cresta abatido',
-  'entities.quests.q_stalker_pelts.title': 'El invierno llega a Highwatch',
   'entities.quests.q_stalker_pelts.text':
     'El invierno de esta montaña derriba puertas, {playerName}. Ocho pieles de acechador forrarán capas para la muralla.',
   'entities.quests.q_stalker_pelts.completion':
@@ -8813,7 +8811,6 @@ export const es: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchantName.enchant_weapon_intellect': 'Encantar arma - Poder de hechizo',
   'hudChrome.enchantName.enchant_weapon_might': 'Encantar arma - Poder',
   'hudChrome.enchantName.enchant_weapon_runed_edge': 'Encantar arma - Filo rúnico',
-  'hudChrome.enchantName.enchant_weapon_runed_focus': 'Encantar arma - Foco rúnico',
   'hudChrome.enchanting.disenchantConfirmBody':
     'Esto destruye {item} y produce materiales arcanos. No se puede deshacer.',
   'hudChrome.enchanting.disenchantConfirmBodySpecial':

@@ -770,7 +770,7 @@ describe('retro on join', () => {
     expect(sim.players.get(banked)!.deedsEarned.has('prog_well_rested')).toBe(true);
   });
 
-  it('Guildsworn retro arm: a non-empty attunedPairs history heals a stranded veteran, retro-flagged', () => {
+  it('Craftsworn retro arm: a non-empty attunedPairs history heals a stranded veteran, retro-flagged', () => {
     // Attunement can be once-ever for a player who never switches, so a
     // veteran attuned before the attunementsCompleted counter existed would be
     // PERMANENTLY stranded without this arm: attunedPairs (written only by
@@ -799,7 +799,7 @@ describe('retro on join', () => {
     expect(ev?.pid).toBe(pid);
   });
 
-  it('Guildsworn retro arm negative: a veteran with an empty attunement history is never healed', () => {
+  it('Craftsworn retro arm negative: a veteran with an empty attunement history is never healed', () => {
     // veteranState carries no archetype key at all (normalize fills the empty
     // state) and the second player pins the explicit empty-history shape, so
     // both the absent and the [] arm stay non-granting.
@@ -2031,7 +2031,7 @@ describe('trade completion counts only non-empty trades (soc_first_trade)', () =
 // or the live meta map plus the evaluator's own dirty sweep), with the
 // one-below negative beside every at-threshold grant.
 describe('Phase 15 profession deed families (threshold-exact, live sites)', () => {
-  it('Guildsworn: the real attunement announce site grants at the first bump, exactly once', () => {
+  it('Craftsworn: the real attunement announce site grants at the first bump, exactly once', () => {
     const sim = makeSim();
     const { meta } = primary(sim);
     sim.tick();

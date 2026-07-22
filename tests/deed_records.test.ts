@@ -579,7 +579,7 @@ describe('deedUnlocked through GameServer.detectActivity', () => {
     expect(broadcastsFlagMock).not.toHaveBeenCalled();
   });
 
-  it('a profession marquee deed (Guildsworn) broadcasts live through the authoritative tick', async () => {
+  it('a profession marquee deed (Craftsworn) broadcasts live through the authoritative tick', async () => {
     // Phase 15 instance of the generic marquee routing above: the REAL
     // attunement announce site bumps the counter on the server's own sim, the
     // tick-tail sweep grants prog_guildsworn (marquee: renown 25 plus a
@@ -610,7 +610,7 @@ describe('deedUnlocked through GameServer.detectActivity', () => {
     expect(broadcastsFlagMock).toHaveBeenCalledWith(7);
   });
 
-  it('the Guildsworn veteran heal on join records its row but NEVER broadcasts', async () => {
+  it('the Craftsworn veteran heal on join records its row but NEVER broadcasts', async () => {
     // A pre-Phase-15 attuned veteran: attunedPairs in the blob, zero counters.
     // The join retro sweep back-credits prog_guildsworn with retro: true, so
     // the drain must record the row while the marquee fan-out stays silent

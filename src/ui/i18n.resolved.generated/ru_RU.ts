@@ -2152,7 +2152,7 @@ export const ru_RU: EnTranslations = {
       "alchemy+cooking": "Аптекарь",
       "cooking+leatherworking": "Зверолов",
       "leatherworking+tailoring": "Экипировщик",
-      "tailoring+inscription": "Чароткач",
+      "tailoring+inscription": "Чернилоткач",
       "inscription+enchanting": "Чародей",
       "enchanting+jewelcrafting": "Камневяз",
       "jewelcrafting+weaponcrafting": "Клинкодел",
@@ -2209,7 +2209,7 @@ export const ru_RU: EnTranslations = {
       "enchant_legs_greater_stamina": "Зачарование поножей - Высшая выносливость",
       "enchant_gloves_greater_agility": "Зачарование перчаток - Высшая ловкость",
       "enchant_weapon_runed_edge": "Зачарование оружия - Рунная кромка",
-      "enchant_weapon_runed_focus": "Зачарование оружия - Рунное средоточие",
+      "enchant_weapon_runed_focus": "Зачарование оружия - Рунная печать",
       "enchant_chest_runeweave": "Зачарование нагрудника - Рунное плетение",
       "enchant_legs_runed_hide": "Зачарование поножей - Рунная шкура",
       "enchant_helmet_runed_links": "Зачарование шлема - Рунные звенья"
@@ -3640,7 +3640,7 @@ export const ru_RU: EnTranslations = {
       "stationsHeading": "Станки и мастера",
       "stationsBody": "Шесть типовых станков в трех городах; при них живут мастера, которые учат рецептам и выдают рабочие заказы.",
       "deedsHeading": "Деяния, что хранят память о пути",
-      "deedsBody": "Книга деяний идет рядом с каждым шагом. Первая настройка приносит Guildsworn, а первый шедевр, Masterwright, и оба носятся как титулы. Каждое из восьми зарабатываемых ремесел отмечает рубежное деяние на 50 навыке и венчает свой предел титулом Grandmaster, а Fishing дает Old Salt на 100 мастерства и титул Master Angler на 200.\n\nЕсть и более тихие страницы: деяния за первый сбор и первое изделие, за редкие находки, что удача подбрасывает в поле, и за то, что вы взялись за утилизацию. Все это чисто косметическое, только титулы и Известность. Деяние никогда не дает силы; оно лишь свидетельствует, что вы там были.",
+      "deedsBody": "Книга деяний идет рядом с каждым шагом. Первая настройка приносит Craftsworn, а первый шедевр, Masterwright, и оба носятся как титулы. Каждое из восьми зарабатываемых ремесел отмечает рубежное деяние на 50 навыке и венчает свой предел титулом Grandmaster, а Fishing дает Old Salt на 100 мастерства и титул Master Angler на 200.\n\nЕсть и более тихие страницы: деяния за первый сбор и первое изделие, за редкие находки, что удача подбрасывает в поле, и за то, что вы взялись за утилизацию. Все это чисто косметическое, только титулы и Известность. Деяние никогда не дает силы; оно лишь свидетельствует, что вы там были.",
       "startHeading": "С чего начать",
       "startBody": "Только с дороги в Eastbrook? Найдите Foreman Odell и возьмите A Trade for Every Hand: он укажет вам на рудные жилы вокруг Copper Dig к юго-западу от города и набьет вам первые мозоли. С этого момента собирайте каждую жилу, лесопосадку и грядку трав, что встречаете в странствиях; мастерство приходит к путешественникам само собой.\n\nВ городе нажмите T, чтобы открыть окно ремесла и работать над общими рецептами, которые каждый персонаж знает с самого начала. Загляните к мастерам у forge, kitchens, loom и toolworks, посмотрите, чему они учат, и берите их рабочие заказы ради устойчивого дохода. К тому времени, как вас найдет письмо Гильдии, вы уже будете знать, какая пара ощущается домом.",
       "colStation": "Станок",
@@ -3703,7 +3703,7 @@ export const ru_RU: EnTranslations = {
         },
         "armorcrafting": {
           "identityHeading": "Кольчуга для передовой",
-          "identityBody": "Лестница Armorcrafting читается как карьера солдата: простой клепаный медный girdle, sabatons и gauntlets для начала, ironlink hauberk, legguards и spaulders с первыми настоящими характеристиками, и редкие osmiumscale greathelm, cuirass и leggings, вещи на Силу и Стойкость с самыми большими показателями брони, что может сделать ремесленник.\n\nЕсть у него и более тихая сторона: Eastbrook Warded Leggings, полевой обычок с характеристиками заклинателя, и Kilnscale Mantle, редкое наплечье кольчуги на Интеллект и Дух на 75 навыке, держат в списке клиентов и носителей кольчуги, склонных к магии. На кольце оно стоит между Weaponcrafting и Engineering; пара Smith с Weaponcrafting присягается перед Forgemistress Darva, а пара Cogsmith с Engineering названа, но пока не имеет задания клятвы.",
+          "identityBody": "Лестница Armorcrafting читается как карьера солдата: простой клепаный медный girdle, sabatons и gauntlets для начала, ironlink hauberk, legguards и spaulders с первыми настоящими характеристиками, и редкие osmiumscale greathelm, cuirass и leggings, вещи на Силу и Стойкость с самыми большими показателями брони, что может сделать ремесленник.\n\nЕсть у него и более тихая сторона: Eastbrook Warded Leggings, полевой обычок с характеристиками заклинателя, и Kilnscale Mantle, редкое наплечье кольчуги на Интеллект и Дух на 75 навыке, держат в списке клиентов и носителей кольчуги, склонных к магии. На кольце оно стоит между Weaponcrafting и Engineering; пара Smith с Weaponcrafting присягается перед Forgemistress Darva, а пара Gearwright с Engineering названа, но пока не имеет задания клятвы.",
           "materialsHeading": "Руда мешками",
           "materialsBody": "Ни одно ремесло не ест руду быстрее. Один только ironlink hauberk берет пять iron ore, а каждая osmiumscale вещь хочет три-четыре osmium плюс glyphsteel bar, так что серьезный armorcrafter добывает в Mirefen Marsh и Thornpeak Heights или платит тому, кто добывает. Copper кормит первую ступень, прямо с жил у Copper Dig.\n\nВокруг металла идут мягкие части: rough hide, снятая с туш волков и вепрей, bone fragments и linen scraps с обычной охоты, и банка Smithing Flux (20 меди у горна) почти в каждом рецепте. Darva продает osmium ore через прилавок для нетерпеливых.",
           "ladderHeading": "Обучение у горна Darva",
@@ -3713,7 +3713,7 @@ export const ru_RU: EnTranslations = {
         },
         "tailoring": {
           "identityHeading": "Ткань для заклинателей, сумки для всех",
-          "identityBody": "Лестница поднимается от домотканых основ через набор gildenweave к редкой ступени: Silkbinder's Raiment и вещи sunweave. Ее второе ремесло всеобще: Silkspun Satchel, это сумка на десять ячеек, и нет класса, специализации или уровня, что не хотел бы больше места в сумках.\n\nНа кольце Tailoring сидит между Leatherworking и Inscription. Ее живая пара, это Outfitter, Leatherworking и Tailoring вместе, присягаемая перед Weaver Ottilie у loom Eastbrook после выбраковки четырех webwood spiders ради их шелка; пара Mageweaver с Inscription названа на кольце, но ждет первых рецептов Inscription, прежде чем ей можно будет присягнуть.",
+          "identityBody": "Лестница поднимается от домотканых основ через набор gildenweave к редкой ступени: Silkbinder's Raiment и вещи sunweave. Ее второе ремесло всеобще: Silkspun Satchel, это сумка на десять ячеек, и нет класса, специализации или уровня, что не хотел бы больше места в сумках.\n\nНа кольце Tailoring сидит между Leatherworking и Inscription. Ее живая пара, это Outfitter, Leatherworking и Tailoring вместе, присягаемая перед Weaver Ottilie у loom Eastbrook после выбраковки четырех webwood spiders ради их шелка; пара Inkweaver с Inscription названа на кольце, но ждет первых рецептов Inscription, прежде чем ей можно будет присягнуть.",
           "materialsHeading": "Нить, шелк и, да, травы",
           "materialsBody": "Loom работает на том, что роняет охота и растят поля. Linen scraps и homespun cloth снимаются с гуманоидных убийств, spider silk собирается с туш пауков, а центральная часть редкой ступени, Silkbinder's Raiment, хочет Pristine Silk, подписанный образец, что подбрасывает удачный сбор с туши.\n\nHerbalism кормит tailoring больше любого другого ремесла снаряжения: sheenleaf отделывает тапочки, goldleaf красит набор gildenweave, а sunpetal прошивает всю редкую ступень, так что портной, что собирает свои травы, стабильно экономит. Spool of Thread стоит 12 меди у Ottilie, а loom не просит ни капли металла: даже капстоун Wardweave Cowl соткан из премиальных трав, Pristine Silk, spider silk и нити.",
           "ladderHeading": "Обучение у loom Ottilie",
@@ -3753,7 +3753,7 @@ export const ru_RU: EnTranslations = {
         },
         "engineering": {
           "identityHeading": "Монополия мастера инструментов",
-          "identityBody": "Ремесло работается в toolworks в юго-восточном углу Eastbrook Square, доме Tinker Gizzel, Master of the Toolworks. Уровни с 1 по 3 каждой линии инструментов, это обычный товар торговца; уровни 4 и 5 существуют только через инженера.\n\nНа кольце оно сидит с ремеслами проб и ошибок, рядом с Alchemy и Armorcrafting, давая ему два лица пары: Bombardier (Engineering и Alchemy, берется перед самим Gizzel) и Cogsmith (Armorcrafting и Engineering, названа, но пока не присягаема). Одно предупреждение важнее здесь, чем где-либо: обе ступени рецептов Engineering сидят выше потолка редкого уровня, под которым работают хобби и необъявленные ремесленники, так что число навыка движется только у ремесленника, чьи основные включают Engineering, а сегодня это Bombardier. Строить инструменты может любой; ненастроенный ремесленник просто ничему не учится, делая их.",
+          "identityBody": "Ремесло работается в toolworks в юго-восточном углу Eastbrook Square, доме Tinker Gizzel, Master of the Toolworks. Уровни с 1 по 3 каждой линии инструментов, это обычный товар торговца; уровни 4 и 5 существуют только через инженера.\n\nНа кольце оно сидит с ремеслами проб и ошибок, рядом с Alchemy и Armorcrafting, давая ему два лица пары: Bombardier (Engineering и Alchemy, берется перед самим Gizzel) и Gearwright (Armorcrafting и Engineering, названа, но пока не присягаема). Одно предупреждение важнее здесь, чем где-либо: обе ступени рецептов Engineering сидят выше потолка редкого уровня, под которым работают хобби и необъявленные ремесленники, так что число навыка движется только у ремесленника, чьи основные включают Engineering, а сегодня это Bombardier. Строить инструменты может любой; ненастроенный ремесленник просто ничему не учится, делая их.",
           "materialsHeading": "Реагенты и прежние инструменты",
           "materialsBody": "Каждый рецепт инструмента потребляет инструмент на уровень ниже плюс премиальный материал: четыре Osmium Ore и Skysilver Mining Pick становятся Osmium Mining Pick, затем два Glyphsteel Bars и та осмиевая кирка становятся Glyphsteel Mining Pick, а линии axe и sickle повторяют ту же форму с Ashwood и Highpine Logs, Goldleaf и Sunpetal Herbs.\n\nGizzel держит все шесть премиальных реагентов в toolworks, если вам нужна скорость вместо маржи, но руда, бревна и травы все добываются в Mirefen Marsh и Thornpeak Heights, и именно в добытом запасе живет прибыль. Единственное исключение, это Glyphsteel Bar, что только у торговца, так что каждый инструмент уровня glyphsteel несет фиксированный монетный пол, встроенный в его цену.",
           "ladderHeading": "Лестница инструментов",
@@ -10752,7 +10752,7 @@ export const ru_RU: EnTranslations = {
         }
       },
       "q_stalker_pelts": {
-        "title": "Зима идет в Хайвотч",
+        "title": "Первые заморозки в Хайвотче",
         "text": "Зима на этой горе не стучит, {playerName}, а вышибает дверь. 8 шкур хребтовых охотников утеплят плащи для стены.",
         "completion": "Толстые, как моя рука. В этом году дозор не замерзнет.",
         "objectives": {

@@ -160,11 +160,11 @@
           "priority": 1
         },
         { "id": "archetype_trapper", "name": "The Trapper" },
-        { "id": "archetype_mageweaver", "name": "The Mageweaver" },
+        { "id": "archetype_mageweaver", "name": "The Inkweaver" },
         { "id": "archetype_arcanist", "name": "The Arcanist" },
         { "id": "archetype_gembinder", "name": "The Gembinder" },
         { "id": "archetype_bladewright", "name": "The Bladewright" },
-        { "id": "archetype_cogsmith", "name": "The Cogsmith" }
+        { "id": "archetype_cogsmith", "name": "The Gearwright" }
       ],
       "size": "512px source PNG, served 128px WebP",
       "usedIn": [
@@ -523,7 +523,7 @@
         {
           "id": "deed_prof_first_attunement",
           "deedId": "prog_guildsworn",
-          "name": "Guildsworn",
+          "name": "Craftsworn",
           "description": "Crest for the first archetype pair attunement: two interlocked guild rings over a wax seal, a guild letter broken open behind",
           "palette": "deep gold on guild crimson",
           "priority": 1

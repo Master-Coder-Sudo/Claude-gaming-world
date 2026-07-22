@@ -1756,7 +1756,7 @@ export const DEEDS: Record<string, DeedDef> = {
   },
   exp_first_ore: {
     id: 'exp_first_ore',
-    name: 'Strike the Earth',
+    name: 'Pick Meets Stone',
     desc: 'Harvest your first ore node.',
     category: 'exploration',
     renown: 5,
@@ -1996,12 +1996,12 @@ export const DEEDS: Record<string, DeedDef> = {
   // rather than shipping visible-but-unearnable.
   prog_guildsworn: {
     id: 'prog_guildsworn',
-    name: 'Guildsworn',
+    name: 'Craftsworn',
     desc: 'Attune yourself to an archetype pair and take up its trades in earnest.',
     category: 'progression',
     renown: 25,
     trigger: { kind: 'stat', stat: 'attunementsCompleted', count: 1 },
-    reward: { kind: 'title', text: 'Guildsworn' },
+    reward: { kind: 'title', text: 'Craftsworn' },
   },
   prog_masterwright: {
     id: 'prog_masterwright',

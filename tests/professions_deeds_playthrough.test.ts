@@ -92,7 +92,7 @@ describe('Phase 15 scripted playthrough (one sim, live sites only)', () => {
     expect(deedEvents(evs).some((ev) => ev.deedId === 'prog_first_craft')).toBe(true);
   });
 
-  it('beat 2: the quest-validated attunement is the Guildsworn moment (marquee, titled)', () => {
+  it('beat 2: the quest-validated attunement is the Craftsworn moment (marquee, titled)', () => {
     const renownBefore = meta.renown;
     moveToNpc(SMITH_MASTER);
     sim.acceptQuest('q_prof_attune_smith', PAIR);
@@ -111,7 +111,7 @@ describe('Phase 15 scripted playthrough (one sim, live sites only)', () => {
     expect(ev?.pid).toBe(pid);
     expect(ev?.retro).toBeUndefined(); // a live grant, not the veteran heal
     expect(meta.renown).toBe(renownBefore + 25);
-    expect(DEEDS.prog_guildsworn.reward).toEqual({ kind: 'title', text: 'Guildsworn' });
+    expect(DEEDS.prog_guildsworn.reward).toEqual({ kind: 'title', text: 'Craftsworn' });
     expect(marqueeBar('prog_guildsworn')).toBe(true);
     // The title reward is immediately selectable (the nameplate surface).
     sim.setActiveTitle('prog_guildsworn', pid);

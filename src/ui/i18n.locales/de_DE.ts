@@ -224,7 +224,6 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'hudChrome.archetypePair.inscription+enchanting': 'Arkanist',
   'hudChrome.archetypePair.jewelcrafting+weaponcrafting': 'Klingenschmied',
   'hudChrome.archetypePair.leatherworking+tailoring': 'Ausrüster',
-  'hudChrome.archetypePair.tailoring+inscription': 'Zauberweber',
   'hudChrome.archetypePair.weaponcrafting+armorcrafting': 'Schmied',
   'hudChrome.auraEffect.cheapCast': 'Dein nächster Zauber kostet {pct}% weniger',
   'hudChrome.auraEffect.combustionCrit': 'Deine Feuerzauber treffen immer kritisch',
@@ -4697,7 +4696,6 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_stalkers.completion':
     'Zwölf Schatten weniger auf dem Grat. Die Patrouillen atmen heute Nacht leichter.',
   'entities.quests.q_stalkers.objectives.0.label': 'Gratpirscher getötet',
-  'entities.quests.q_stalker_pelts.title': 'Der Winter kommt nach Highwatch',
   'entities.quests.q_stalker_pelts.text':
     'Der Winter dieser Berge klopft nicht an, {playerName}, er tritt die Tür ein. Acht Pirscherfelle füttern genug Mäntel für die Mauer.',
   'entities.quests.q_stalker_pelts.completion':
@@ -8831,7 +8829,6 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchantName.enchant_weapon_intellect': 'Waffe verzaubern - Zaubermacht',
   'hudChrome.enchantName.enchant_weapon_might': 'Waffe verzaubern - Macht',
   'hudChrome.enchantName.enchant_weapon_runed_edge': 'Waffe verzaubern - Runenschneide',
-  'hudChrome.enchantName.enchant_weapon_runed_focus': 'Waffe verzaubern - Runenfokus',
   'hudChrome.enchanting.disenchantConfirmBody':
     'Dies zerstört {item} und ergibt arkane Materialien. Dies kann nicht rückgängig gemacht werden.',
   'hudChrome.enchanting.disenchantConfirmBodySpecial':

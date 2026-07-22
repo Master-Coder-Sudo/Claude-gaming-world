@@ -213,7 +213,6 @@ export const pl_PL: Partial<Record<TranslationKey, string>> = {
   'hudChrome.archetypePair.inscription+enchanting': 'Arkanista',
   'hudChrome.archetypePair.jewelcrafting+weaponcrafting': 'Miecznik',
   'hudChrome.archetypePair.leatherworking+tailoring': 'Krawiec-Wytwórca',
-  'hudChrome.archetypePair.tailoring+inscription': 'Tkacz Many',
   'hudChrome.archetypePair.weaponcrafting+armorcrafting': 'Kowal',
   'hudChrome.auraEffect.cheapCast': 'Twój następny czar kosztuje {pct}% many mniej',
   'hudChrome.auraEffect.combustionCrit': 'Twoje czary Ognia zawsze trafiają krytycznie',
@@ -3737,7 +3736,6 @@ export const pl_PL: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_stalker_pelts.objectives.0.label': 'Skóra Łowcy z grani',
   'entities.quests.q_stalker_pelts.text':
     'Zima na tej górze nie puka, {playerName} - kopniakiem wyważa drzwi. Osiem skór łowców z grani wyściele dość płaszczy, by mur przetrwał pierwsze śniegi. Bestie grasują po graniach po obu stronach drogi na południe.',
-  'entities.quests.q_stalker_pelts.title': 'Zima nadciąga do Strażnicy',
   'entities.quests.q_stalkers.completion':
     'O dwanaście cieni mniej na grani. Patrole odetchną tej nocy lżej.',
   'entities.quests.q_stalkers.objectives.0.label': 'Łowca z grani pokonany',
@@ -5894,7 +5892,6 @@ export const pl_PL: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchantName.enchant_weapon_intellect': 'Zaklinanie broni - Moc zaklęć',
   'hudChrome.enchantName.enchant_weapon_might': 'Zaklinanie broni - Moc',
   'hudChrome.enchantName.enchant_weapon_runed_edge': 'Zaklinanie broni - Runowe ostrze',
-  'hudChrome.enchantName.enchant_weapon_runed_focus': 'Zaklinanie broni - Runowy fokus',
   'hudChrome.enchanting.disenchantConfirmBody':
     'To niszczy {item} i daje materiały arkaniczne. Nie można tego cofnąć.',
   'hudChrome.enchanting.disenchantConfirmBodySpecial':

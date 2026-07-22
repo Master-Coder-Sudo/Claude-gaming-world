@@ -259,12 +259,12 @@ describe('archetypeTitleText (#1130, pair-named): id-to-key view model', () => {
     'alchemy+cooking': 'Apothecary',
     'cooking+leatherworking': 'Trapper',
     'leatherworking+tailoring': 'Outfitter',
-    'tailoring+inscription': 'Mageweaver',
+    'tailoring+inscription': 'Inkweaver',
     'inscription+enchanting': 'Arcanist',
     'enchanting+jewelcrafting': 'Gembinder',
     'jewelcrafting+weaponcrafting': 'Bladewright',
     'weaponcrafting+armorcrafting': 'Smith',
-    'armorcrafting+engineering': 'Cogsmith',
+    'armorcrafting+engineering': 'Gearwright',
   };
 
   it('has exactly one expected title per selectable pair (test table stays in sync)', () => {

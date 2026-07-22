@@ -226,7 +226,6 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.archetypePair.inscription+enchanting': 'Arcanista',
   'hudChrome.archetypePair.jewelcrafting+weaponcrafting': 'Mestre das Lâminas',
   'hudChrome.archetypePair.leatherworking+tailoring': 'Equipador',
-  'hudChrome.archetypePair.tailoring+inscription': 'Tecelão Arcano',
   'hudChrome.archetypePair.weaponcrafting+armorcrafting': 'Ferreiro',
   'hudChrome.auraEffect.cheapCast': 'Seu próximo feitiço custa {pct}% menos',
   'hudChrome.auraEffect.combustionCrit': 'Seus feitiços de Fogo sempre causam acerto crítico',
@@ -4624,7 +4623,6 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_stalkers.completion':
     'Doze sombras a menos na crista. As patrulhas respirarão hoje à noite.',
   'entities.quests.q_stalkers.objectives.0.label': 'Rastreador da crista abatido',
-  'entities.quests.q_stalker_pelts.title': 'O inverno chega a Highwatch',
   'entities.quests.q_stalker_pelts.text':
     'O inverno desta montanha não bate, {playerName}, arromba a porta. Oito peles de rastreador forrarão capas para a muralha.',
   'entities.quests.q_stalker_pelts.completion':
@@ -8759,7 +8757,6 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchantName.enchant_weapon_intellect': 'Encantar Arma - Poder Mágico',
   'hudChrome.enchantName.enchant_weapon_might': 'Encantar Arma - Força',
   'hudChrome.enchantName.enchant_weapon_runed_edge': 'Encantar Arma - Fio Runado',
-  'hudChrome.enchantName.enchant_weapon_runed_focus': 'Encantar Arma - Foco Runado',
   'hudChrome.enchanting.disenchantConfirmBody':
     'Isso destrói {item} e produz materiais arcanos. Não pode ser desfeito.',
   'hudChrome.enchanting.disenchantConfirmBodySpecial':

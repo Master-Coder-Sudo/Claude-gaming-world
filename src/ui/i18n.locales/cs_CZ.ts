@@ -127,7 +127,6 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
   'hudChrome.archetypePair.inscription+enchanting': 'Arkanista',
   'hudChrome.archetypePair.jewelcrafting+weaponcrafting': 'Čepelář',
   'hudChrome.archetypePair.leatherworking+tailoring': 'Krejčovský kožešník',
-  'hudChrome.archetypePair.tailoring+inscription': 'Magotkalec',
   'hudChrome.archetypePair.weaponcrafting+armorcrafting': 'Kovář',
   'hudChrome.auraEffect.cheapCast': 'Tvoje příští kouzlo stojí o {pct} % méně',
   'hudChrome.auraEffect.combustionCrit': 'Tvoje ohnivá kouzla vždy kriticky zasáhnou',
@@ -5986,7 +5985,6 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_stalker_pelts.objectives.0.label': 'Kožešina hřebenového stopaře',
   'entities.quests.q_stalker_pelts.text':
     'Zima na této hoře neklepe, {playerName}, vyráží dveře. Osm kožešin hřebenových slídilů vystačí na dost plášťů, aby zeď přežila první sníh. Šelmy slídí po hřebenech lemujících jižní cestu.',
-  'entities.quests.q_stalker_pelts.title': 'Zima přichází do Highwatche',
   'entities.quests.q_stalkers.completion':
     'O dvanáct stínů na hřebeni méně. Hlídky si dnes v noci oddechnou.',
   'entities.quests.q_stalkers.objectives.0.label': 'Hřebenový slídil zabit',
@@ -8610,7 +8608,6 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchantName.enchant_weapon_intellect': 'Okouzlení zbraně - Síla kouzel',
   'hudChrome.enchantName.enchant_weapon_might': 'Okouzlení zbraně - Moc',
   'hudChrome.enchantName.enchant_weapon_runed_edge': 'Okouzlení zbraně - Runové ostří',
-  'hudChrome.enchantName.enchant_weapon_runed_focus': 'Okouzlení zbraně - Runové ohnisko',
   'hudChrome.enchanting.disenchantConfirmBody':
     'Tímto se {item} zničí a získáš arcanové materiály. Tuto akci nelze vrátit.',
   'hudChrome.enchanting.disenchantConfirmBodySpecial':

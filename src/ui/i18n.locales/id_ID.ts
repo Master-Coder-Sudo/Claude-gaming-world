@@ -126,7 +126,6 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'hudChrome.archetypePair.inscription+enchanting': 'Arkanis',
   'hudChrome.archetypePair.jewelcrafting+weaponcrafting': 'Pandai Bilah',
   'hudChrome.archetypePair.leatherworking+tailoring': 'Perajut Busana',
-  'hudChrome.archetypePair.tailoring+inscription': 'Penenun Mantra',
   'hudChrome.archetypePair.weaponcrafting+armorcrafting': 'Pandai Besi',
   'hudChrome.auraEffect.cheapCast': 'Mantra berikutmu menghabiskan {pct}% lebih sedikit mana',
   'hudChrome.auraEffect.combustionCrit': 'Mantra Api-mu selalu menghasilkan serangan kritis',
@@ -3727,7 +3726,6 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_stalker_pelts.objectives.0.label': 'Kulit Ridge Stalker',
   'entities.quests.q_stalker_pelts.text':
     'Musim dingin di gunung ini tak mengetuk, {playerName} - ia mendobrak pintu. Delapan kulit ridge stalker akan melapisi cukup jubah untuk menjaga tembok melewati salju pertama. Hewan-hewan itu berkeliaran di punggung bukit yang mengapit jalan ke selatan.',
-  'entities.quests.q_stalker_pelts.title': 'Musim Dingin Datang ke Highwatch',
   'entities.quests.q_stalkers.completion':
     'Dua belas bayangan lebih sedikit di punggung bukit. Para patroli akan bernapas lebih lega malam ini.',
   'entities.quests.q_stalkers.objectives.0.label': 'Ridge Stalker dibunuh',
@@ -7158,7 +7156,6 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchantName.enchant_weapon_intellect': 'Mantrai Senjata - Daya Mantra',
   'hudChrome.enchantName.enchant_weapon_might': 'Mantrai Senjata - Kekuatan',
   'hudChrome.enchantName.enchant_weapon_runed_edge': 'Mantrai Senjata - Tepian Bersura',
-  'hudChrome.enchantName.enchant_weapon_runed_focus': 'Mantrai Senjata - Fokus Bersura',
   'hudChrome.enchanting.disenchantConfirmBody':
     'Ini menghancurkan {item} dan menghasilkan bahan arkan. Tindakan ini tidak dapat dibatalkan.',
   'hudChrome.enchanting.disenchantConfirmBodySpecial':

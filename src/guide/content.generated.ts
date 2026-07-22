@@ -3650,7 +3650,7 @@ export const GUIDE_DEEDS: GuideDeed[] = [
   },
   {
     "id": "exp_first_ore",
-    "name": "Strike the Earth",
+    "name": "Pick Meets Stone",
     "category": "exploration",
     "renown": 5,
     "feat": false,
@@ -3753,11 +3753,11 @@ export const GUIDE_DEEDS: GuideDeed[] = [
   },
   {
     "id": "prog_guildsworn",
-    "name": "Guildsworn",
+    "name": "Craftsworn",
     "category": "progression",
     "renown": 25,
     "feat": false,
-    "rewardTitle": "Guildsworn",
+    "rewardTitle": "Craftsworn",
     "crest": "/ui/deeds/prog_guildsworn.webp"
   },
   {
@@ -8415,7 +8415,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
     },
     {
       "id": "enchant_weapon_runed_focus",
-      "name": "Enchant Weapon - Runed Focus",
+      "name": "Enchant Weapon - Runed Sigil",
       "slot": "mainhand",
       "tier": "runed",
       "reagents": [
@@ -8437,7 +8437,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
     },
     {
       "id": "enchant_chest_runeweave",
-      "name": "Enchant Chest - Runeweave",
+      "name": "Enchant Chest - Runed Weave",
       "slot": "chest",
       "tier": "runed",
       "reagents": [

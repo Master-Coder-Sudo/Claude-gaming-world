@@ -48,7 +48,7 @@ describe('attunement celebration events (Professions 2.0 Phase 14)', () => {
 
     const personal = emitted.find((e) => e.type === 'attuned');
     expect(personal).toEqual({ type: 'attuned', pid, pairId: PAIR });
-    // Phase 15: the announce site is the one bump site for the Guildsworn
+    // Phase 15: the announce site is the one bump site for the Craftsworn
     // counter, and it bumps for an overworld celebrant.
     expect(meta.deedStats.counters.attunementsCompleted).toBe(1);
     const zone = emitted.filter((e) => e.type === 'attunedZone');

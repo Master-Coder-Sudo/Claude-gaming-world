@@ -175,7 +175,6 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'hudChrome.archetypePair.inscription+enchanting': 'Arkanist',
   'hudChrome.archetypePair.jewelcrafting+weaponcrafting': 'Klingesmed',
   'hudChrome.archetypePair.leatherworking+tailoring': 'Udstyrer',
-  'hudChrome.archetypePair.tailoring+inscription': 'Trolddomsvæver',
   'hudChrome.archetypePair.weaponcrafting+armorcrafting': 'Smed',
   'hudChrome.auraEffect.cheapCast': 'Din næste trolddom koster {pct}% mindre',
   'hudChrome.auraEffect.combustionCrit': 'Dine Ild-trolddomme rammer altid kritisk',
@@ -3614,7 +3613,6 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_stalker_pelts.objectives.0.label': 'Bjergrygs-Snigjæger-Skind',
   'entities.quests.q_stalker_pelts.text':
     'Vinteren på dette bjerg banker ikke på, {playerName} - den sparker døren ind. Otte bjergryg-snigjægerskind vil fore nok kapper til at få muren gennem de første sne. Bæsterne strejfer på bjergryggene, der flankerer vejen mod syd.',
-  'entities.quests.q_stalker_pelts.title': 'Vinteren Kommer til Højvagt',
   'entities.quests.q_stalkers.completion':
     'Tolv færre skygger på bjergryggen. Patruljerne ånder lettere i nat.',
   'entities.quests.q_stalkers.objectives.0.label': 'Bjergrygs-Snigjæger dræbt',
@@ -5756,7 +5754,6 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchantName.enchant_weapon_intellect': 'Fortryl våben - Besværgelsesstyrke',
   'hudChrome.enchantName.enchant_weapon_might': 'Fortryl våben - Magt',
   'hudChrome.enchantName.enchant_weapon_runed_edge': 'Fortryl våben - Runet æg',
-  'hudChrome.enchantName.enchant_weapon_runed_focus': 'Fortryl våben - Runet fokus',
   'hudChrome.enchanting.disenchantConfirmBody':
     'Dette ødelægger {item} og giver arkan materiale. Dette kan ikke fortrydes.',
   'hudChrome.enchanting.disenchantConfirmBodySpecial':

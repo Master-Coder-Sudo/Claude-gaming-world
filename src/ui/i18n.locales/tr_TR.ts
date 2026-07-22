@@ -125,7 +125,6 @@ export const tr_TR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.archetypePair.inscription+enchanting': 'Gizemci',
   'hudChrome.archetypePair.jewelcrafting+weaponcrafting': 'Bıçakçı Usta',
   'hudChrome.archetypePair.leatherworking+tailoring': 'Teçhizatçı',
-  'hudChrome.archetypePair.tailoring+inscription': 'Büyü Dokuyucu',
   'hudChrome.archetypePair.weaponcrafting+armorcrafting': 'Demirci',
   'hudChrome.auraEffect.cheapCast': 'Bir sonraki büyün {pct}% daha az mana harcar',
   'hudChrome.auraEffect.combustionCrit': 'Ateş büyülerin her zaman kritik vurur',
@@ -3688,7 +3687,6 @@ export const tr_TR: Partial<Record<TranslationKey, string>> = {
   'entities.quests.q_stalker_pelts.objectives.0.label': 'Sırt Pusucusu Postu',
   'entities.quests.q_stalker_pelts.text':
     'Bu dağda kış kapıyı çalmaz, {playerName}; tekmeyle kırar. Sekiz sırt pusucusu postu, duvarı ilk karlardan geçirecek kadar pelerini astarlar. O canavarlar, güneye giden yolun iki yanındaki sırtlarda dolanıyor.',
-  'entities.quests.q_stalker_pelts.title': "Highwatch'a Kış Geliyor",
   'entities.quests.q_stalkers.completion':
     'Sırtta on iki gölge eksildi. Devriyeler bu gece daha rahat nefes alacak.',
   'entities.quests.q_stalkers.objectives.0.label': 'Sırt Pusucusu öldürüldü',
@@ -8703,7 +8701,6 @@ export const tr_TR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchantName.enchant_weapon_intellect': 'Silah Büyüsü - Büyü Gücü',
   'hudChrome.enchantName.enchant_weapon_might': 'Silah Büyüsü - Güç',
   'hudChrome.enchantName.enchant_weapon_runed_edge': 'Silah Büyüsü - Rünlü Ağız',
-  'hudChrome.enchantName.enchant_weapon_runed_focus': 'Silah Büyüsü - Rünlü Odak',
   'hudChrome.enchanting.disenchantConfirmBody':
     '{item} yok edilir ve arkanik malzeme verir. Bu geri alınamaz.',
   'hudChrome.enchanting.disenchantConfirmBodySpecial':
