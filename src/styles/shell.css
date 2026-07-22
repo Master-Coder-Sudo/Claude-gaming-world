@@ -5870,6 +5870,11 @@
     border-radius: 999px;
     background: rgba(0, 0, 0, 0.3);
   }
+  .char-title-text .panel-subtitle.char-archetype-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
   /* The honor chip drops its special gold to the shared muted chip color, so it
      reads as one of the header pills rather than a highlighted line. */
   .panel-title.char-title-portrait .char-honor-balance {
