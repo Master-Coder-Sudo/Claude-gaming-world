@@ -1526,6 +1526,7 @@ export const de_DE: EnTranslations = {
       "dragDestroyHint": "In die Welt ziehen, um zu vernichten",
       "reorderNeedsRecent": "Filter aufheben und nach Zuletzt sortieren, um deine Taschen neu anzuordnen",
       "itemAriaInstanced": "{item}, Menge {count}, herstellermarkierte Kopie",
+      "itemAriaMasterwork": "{item}, quantity {count}, masterwork",
       "filterGroupAria": "Taschen nach Kategorie filtern",
       "filterAll": "Alle",
       "filterWeapon": "Waffen",

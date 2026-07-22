@@ -23,6 +23,7 @@ import {
   attunementMasterForPair,
   type ProfessionEventInput,
 } from '../src/ui/profession_event_lines_core';
+import type { CraftingIdentityView } from '../src/world_api/professions';
 
 // jsdom ships no matchMedia; the handler reads only `.matches` to derive the
 // reduced-motion flag. A never-matching stub keeps motion on (the desktop
@@ -34,6 +35,9 @@ interface ProfessionEventHarness {
   log: ReturnType<typeof vi.fn>;
   showBanner: ReturnType<typeof vi.fn>;
   combatAnnouncer: { push: ReturnType<typeof vi.fn> };
+  sim: { craftingIdentity: CraftingIdentityView };
+  charWindow: { renderIfOpen: ReturnType<typeof vi.fn> };
+  renderCrafting: ReturnType<typeof vi.fn>;
   openProfessionTutorial: ReturnType<typeof vi.fn>;
   handleProfessionEvent(ev: ProfessionEventInput): void;
 }
@@ -43,6 +47,28 @@ function makeHud(): ProfessionEventHarness {
   hud.log = vi.fn();
   hud.showBanner = vi.fn();
   hud.combatAnnouncer = { push: vi.fn() };
+  hud.sim = {
+    craftingIdentity: {
+      version: 1,
+      synced: true,
+      craftSkills: {},
+      activeArchetype: 'leatherworking',
+      pairedMajor: 'tailoring',
+      hobbyCraft: null,
+      attunedPairs: ['leatherworking+tailoring'],
+      switchCount: 0,
+      amendsProgress: 0,
+      amendsRequired: 5,
+      knownRecipes: [],
+    },
+  };
+  hud.charWindow = { renderIfOpen: vi.fn() };
+  hud.renderCrafting = vi.fn();
+  document.getElementById('crafting-window')?.remove();
+  const craftingWindow = document.createElement('div');
+  craftingWindow.id = 'crafting-window';
+  craftingWindow.style.display = 'none';
+  document.body.appendChild(craftingWindow);
   // Instance stub shadows the private prototype method: the tierTutorial arm
   // only has to ROUTE here; the panel itself is pinned in
   // profession_tutorial_window.test.ts.
@@ -140,6 +166,8 @@ describe('Hud.handleProfessionEvent', () => {
     expect(hud.combatAnnouncer.push.mock.calls[0][0]).toBe(text);
     expect(achievement).toHaveBeenCalledTimes(1);
     expect(hud.log).not.toHaveBeenCalled();
+    expect(hud.charWindow.renderIfOpen).toHaveBeenCalledTimes(1);
+    expect(hud.renderCrafting).not.toHaveBeenCalled();
   });
 
   it('profTierTutorial routes to openProfessionTutorial and does nothing else', () => {

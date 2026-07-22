@@ -64,6 +64,26 @@ export interface AttunementPreview {
   returnCost: number;
 }
 
+/** Compact signature for open Character/Crafting surfaces. These cold
+ * painters need to converge when an online cprof snapshot arrives after the
+ * personal attunement event, while bystander attunedZone events must not
+ * repaint them. Enumerate craft skills in ring order and sort set-like arrays
+ * so equivalent wire payloads remain byte-stable. */
+export function professionSurfaceRefreshSig(identity: CraftingIdentityView): string {
+  return JSON.stringify([
+    identity.synced,
+    identity.activeArchetype,
+    identity.pairedMajor,
+    identity.hobbyCraft,
+    [...identity.attunedPairs].sort(),
+    identity.switchCount,
+    identity.amendsProgress,
+    identity.amendsRequired,
+    CRAFT_RING.map((craft) => identity.craftSkills[craft.id] ?? 0),
+    [...identity.knownRecipes].sort(),
+  ]);
+}
+
 export function buildProfessionIdentityView(
   identity: CraftingIdentityView,
 ): ProfessionIdentityModel {

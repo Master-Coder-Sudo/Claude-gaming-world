@@ -1526,6 +1526,7 @@ export const en_XA: EnTranslations = {
       "dragDestroyHint": "[Ðŕáĝ óúţ íñţó ţĥé ŵóŕļð ţó ðéšţŕóý]",
       "reorderNeedsRecent": "[Çļéáŕ ţĥé ƒíļţéŕ áñð šóŕţ ƀý Ŕéçéñţ ţó ŕéáŕŕáñĝé ýóúŕ ƀáĝš]",
       "itemAriaInstanced": "[{item}, ɋúáñţíţý {count}, ɱáķéŕ-ɱáŕķéð çóþý]",
+      "itemAriaMasterwork": "[{item}, ɋúáñţíţý {count}, ɱášţéŕŵóŕķ]",
       "filterGroupAria": "[Ƒíļţéŕ ƀáĝš ƀý çáţéĝóŕý]",
       "filterAll": "[Áļļ]",
       "filterWeapon": "[Ŵéáþóñš]",

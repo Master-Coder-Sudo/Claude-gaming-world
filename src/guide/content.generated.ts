@@ -3757,7 +3757,8 @@ export const GUIDE_DEEDS: GuideDeed[] = [
     "category": "progression",
     "renown": 25,
     "feat": false,
-    "rewardTitle": "Guildsworn"
+    "rewardTitle": "Guildsworn",
+    "crest": "/ui/deeds/prog_guildsworn.webp"
   },
   {
     "id": "prog_masterwright",
@@ -3765,14 +3766,16 @@ export const GUIDE_DEEDS: GuideDeed[] = [
     "category": "progression",
     "renown": 25,
     "feat": false,
-    "rewardTitle": "Masterwright"
+    "rewardTitle": "Masterwright",
+    "crest": "/ui/deeds/prog_masterwright.webp"
   },
   {
     "id": "prog_fishing_100",
     "name": "Old Salt",
     "category": "progression",
     "renown": 10,
-    "feat": false
+    "feat": false,
+    "crest": "/ui/deeds/prog_fishing_100.webp"
   },
   {
     "id": "prog_master_angler",
@@ -3780,63 +3783,72 @@ export const GUIDE_DEEDS: GuideDeed[] = [
     "category": "progression",
     "renown": 25,
     "feat": false,
-    "rewardTitle": "Master Angler"
+    "rewardTitle": "Master Angler",
+    "crest": "/ui/deeds/prog_master_angler.webp"
   },
   {
     "id": "prog_engineering_50",
     "name": "Cogs and Sprockets",
     "category": "progression",
     "renown": 5,
-    "feat": false
+    "feat": false,
+    "crest": "/ui/deeds/prog_engineering_50.webp"
   },
   {
     "id": "prog_alchemy_50",
     "name": "Strange Brews",
     "category": "progression",
     "renown": 5,
-    "feat": false
+    "feat": false,
+    "crest": "/ui/deeds/prog_alchemy_50.webp"
   },
   {
     "id": "prog_cooking_50",
     "name": "Seasoned Chef",
     "category": "progression",
     "renown": 5,
-    "feat": false
+    "feat": false,
+    "crest": "/ui/deeds/prog_cooking_50.webp"
   },
   {
     "id": "prog_leatherworking_50",
     "name": "Tanner's Trade",
     "category": "progression",
     "renown": 5,
-    "feat": false
+    "feat": false,
+    "crest": "/ui/deeds/prog_leatherworking_50.webp"
   },
   {
     "id": "prog_tailoring_50",
     "name": "A Fine Seam",
     "category": "progression",
     "renown": 5,
-    "feat": false
+    "feat": false,
+    "crest": "/ui/deeds/prog_tailoring_50.webp"
   },
   {
     "id": "prog_enchanting_50",
     "name": "A Glimmer of Arcana",
     "category": "progression",
     "renown": 5,
-    "feat": false
+    "feat": false,
+    "crest": "/ui/deeds/prog_enchanting_50.webp"
   },
   {
     "id": "prog_weaponcrafting_50",
     "name": "Edge and Temper",
     "category": "progression",
     "renown": 5,
-    "feat": false
+    "feat": false,
+    "crest": "/ui/deeds/prog_weaponcrafting_50.webp"
   },
   {
     "id": "prog_armorcrafting_50",
     "name": "Hammer and Plate",
     "category": "progression",
     "renown": 5,
-    "feat": false
+    "feat": false,
+    "crest": "/ui/deeds/prog_armorcrafting_50.webp"
   },
   {
     "id": "prog_grandmaster_engineering",
@@ -3844,7 +3856,8 @@ export const GUIDE_DEEDS: GuideDeed[] = [
     "category": "progression",
     "renown": 25,
     "feat": false,
-    "rewardTitle": "Grandmaster Engineering"
+    "rewardTitle": "Grandmaster Engineering",
+    "crest": "/ui/deeds/prog_grandmaster_engineering.webp"
   },
   {
     "id": "prog_grandmaster_alchemy",
@@ -3852,7 +3865,8 @@ export const GUIDE_DEEDS: GuideDeed[] = [
     "category": "progression",
     "renown": 25,
     "feat": false,
-    "rewardTitle": "Grandmaster Alchemy"
+    "rewardTitle": "Grandmaster Alchemy",
+    "crest": "/ui/deeds/prog_grandmaster_alchemy.webp"
   },
   {
     "id": "prog_grandmaster_cooking",
@@ -3860,7 +3874,8 @@ export const GUIDE_DEEDS: GuideDeed[] = [
     "category": "progression",
     "renown": 25,
     "feat": false,
-    "rewardTitle": "Grandmaster Cooking"
+    "rewardTitle": "Grandmaster Cooking",
+    "crest": "/ui/deeds/prog_grandmaster_cooking.webp"
   },
   {
     "id": "prog_grandmaster_leatherworking",
@@ -3868,7 +3883,8 @@ export const GUIDE_DEEDS: GuideDeed[] = [
     "category": "progression",
     "renown": 25,
     "feat": false,
-    "rewardTitle": "Grandmaster Leatherworking"
+    "rewardTitle": "Grandmaster Leatherworking",
+    "crest": "/ui/deeds/prog_grandmaster_leatherworking.webp"
   },
   {
     "id": "prog_grandmaster_tailoring",
@@ -3876,7 +3892,8 @@ export const GUIDE_DEEDS: GuideDeed[] = [
     "category": "progression",
     "renown": 25,
     "feat": false,
-    "rewardTitle": "Grandmaster Tailoring"
+    "rewardTitle": "Grandmaster Tailoring",
+    "crest": "/ui/deeds/prog_grandmaster_tailoring.webp"
   },
   {
     "id": "prog_grandmaster_enchanting",
@@ -3884,7 +3901,8 @@ export const GUIDE_DEEDS: GuideDeed[] = [
     "category": "progression",
     "renown": 25,
     "feat": false,
-    "rewardTitle": "Grandmaster Enchanting"
+    "rewardTitle": "Grandmaster Enchanting",
+    "crest": "/ui/deeds/prog_grandmaster_enchanting.webp"
   },
   {
     "id": "prog_grandmaster_weaponcrafting",
@@ -3892,7 +3910,8 @@ export const GUIDE_DEEDS: GuideDeed[] = [
     "category": "progression",
     "renown": 25,
     "feat": false,
-    "rewardTitle": "Grandmaster Weaponcrafting"
+    "rewardTitle": "Grandmaster Weaponcrafting",
+    "crest": "/ui/deeds/prog_grandmaster_weaponcrafting.webp"
   },
   {
     "id": "prog_grandmaster_armorcrafting",
@@ -3900,49 +3919,56 @@ export const GUIDE_DEEDS: GuideDeed[] = [
     "category": "progression",
     "renown": 25,
     "feat": false,
-    "rewardTitle": "Grandmaster Armorcrafting"
+    "rewardTitle": "Grandmaster Armorcrafting",
+    "crest": "/ui/deeds/prog_grandmaster_armorcrafting.webp"
   },
   {
     "id": "col_pristine_vein",
     "name": "Pristine Vein",
     "category": "collection",
     "renown": 0,
-    "feat": false
+    "feat": false,
+    "crest": "/ui/deeds/col_pristine_vein.webp"
   },
   {
     "id": "col_ancient_heartwood",
     "name": "Ancient Heartwood",
     "category": "collection",
     "renown": 0,
-    "feat": false
+    "feat": false,
+    "crest": "/ui/deeds/col_ancient_heartwood.webp"
   },
   {
     "id": "col_moonlit_bloom",
     "name": "Moonlit Bloom",
     "category": "collection",
     "renown": 0,
-    "feat": false
+    "feat": false,
+    "crest": "/ui/deeds/col_moonlit_bloom.webp"
   },
   {
     "id": "col_perfect_specimen",
     "name": "A Perfect Specimen",
     "category": "collection",
     "renown": 0,
-    "feat": false
+    "feat": false,
+    "crest": "/ui/deeds/col_perfect_specimen.webp"
   },
   {
     "id": "soc_first_salvage",
     "name": "Waste Not",
     "category": "social",
     "renown": 5,
-    "feat": false
+    "feat": false,
+    "crest": "/ui/deeds/soc_first_salvage.webp"
   },
   {
     "id": "soc_salvage_50",
     "name": "The Breaker's Yard",
     "category": "social",
     "renown": 10,
-    "feat": false
+    "feat": false,
+    "crest": "/ui/deeds/soc_salvage_50.webp"
   }
 ];
 

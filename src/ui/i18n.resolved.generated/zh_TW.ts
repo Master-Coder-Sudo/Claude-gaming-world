@@ -1526,6 +1526,7 @@ export const zh_TW: EnTranslations = {
       "dragDestroyHint": "拖曳到世界中以銷毀",
       "reorderNeedsRecent": "清除篩選並按「最近」排序即可整理背包",
       "itemAriaInstanced": "{item}，數量 {count}，帶工匠印記的物品",
+      "itemAriaMasterwork": "{item}，數量 {count}，傑作",
       "filterGroupAria": "依類別篩選背包",
       "filterAll": "全部",
       "filterWeapon": "武器",
