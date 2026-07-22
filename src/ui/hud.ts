@@ -7699,6 +7699,9 @@ export class Hud {
     if (slowHud && this.deedsWindow.isOpen) this.deedsWindow.refreshIfChanged();
     if (slowHud) this.refreshOpenProfessionSurfacesIfChanged();
     if (slowHud && this.professionsWindow.isOpen) this.professionsWindow.refreshIfChanged();
+    // The gossip dialog's intro hint row watches the same online cprof edge:
+    // attunement retires it, and no quest event fires for that flip.
+    if (slowHud) this.questDialog.refreshIfChanged();
     // The deed tracker is always-on chrome (not gated on a window): watched
     // progress climbs from normal play, and earned deeds drop off.
     if (slowHud) this.updateDeedTracker();
@@ -10383,6 +10386,7 @@ export class Hud {
         // so refresh immediately. If online cprof lands later, the slow-band
         // signature above catches that second edge and converges then.
         this.refreshOpenProfessionSurfacesIfChanged();
+        this.questDialog.refreshIfChanged();
         break;
       }
     }

@@ -78,6 +78,10 @@ interface ProfessionPreviewContent {
 export class QuestDialogController {
   private npcId: number | null = null;
   private detailQuestId: string | null = null;
+  // The profession-intro hint visibility as of the last gossip render (null =
+  // no gossip list currently painted): the one identity-driven row in this
+  // dialog, so it is the whole staleness signature refreshIfChanged watches.
+  private lastIntroHintVisible: boolean | null = null;
   private trap: FocusTrapHandle | null = null;
   private openedAt = 0;
   private voiceNpcId: number | null = null;
@@ -169,6 +173,7 @@ export class QuestDialogController {
     this.deps.element.style.display = 'none';
     this.npcId = null;
     this.detailQuestId = null;
+    this.lastIntroHintVisible = null;
     this.deps.hideTooltip();
     this.trap?.release(restoreFocus);
     this.trap = null;
@@ -183,6 +188,21 @@ export class QuestDialogController {
     const npc = this.deps.world().entities.get(this.npcId);
     if (npc) this.renderGossip(npc);
     else this.close();
+  }
+
+  /** Repaint the open gossip list only when the profession-intro hint's
+   *  visibility flipped under it: online, the cprof identity mirror can land
+   *  AFTER the dialog opened (attunement retires the hint), and no quest
+   *  event fires for that edge. The quest-detail view never shows the hint
+   *  and is left alone; everything else in the gossip list repaints through
+   *  the quest event arms, so an unchanged signature never rebuilds the DOM
+   *  (the dialog holds focus-trapped buttons). */
+  refreshIfChanged(): void {
+    if (this.npcId === null || this.deps.element.style.display !== 'block') return;
+    if (this.detailQuestId !== null || this.lastIntroHintVisible === null) return;
+    const npc = this.deps.world().entities.get(this.npcId);
+    if (!npc) return;
+    if (this.introHintVisibleFor(npc) !== this.lastIntroHintVisible) this.refresh();
   }
 
   relocalize(): void {
@@ -231,6 +251,17 @@ export class QuestDialogController {
     if (this.openState) return;
     this.openState = true;
     this.deps.onOpenChange(true);
+  }
+
+  /** The one rule for the intro hint row, shared by the gossip render and the
+   *  staleness probe so the two can never drift. */
+  private introHintVisibleFor(npc: Entity): boolean {
+    const world = this.deps.world();
+    return professionIntroHintVisible(
+      npc.templateId,
+      world.questState(PROF_INTRO_QUEST_ID),
+      world.craftingIdentity.attunedPairs.length > 0,
+    );
   }
 
   private renderGossip(npc: Entity, closeIfEmpty = false): void {
@@ -297,13 +328,9 @@ export class QuestDialogController {
     // the Guild trend letter never lands on a greeting-plus-vendor dead end.
     // Non-interactive, the qd-req hint family; both names arrive through the
     // text port so they localize like every other dialog line.
-    if (
-      professionIntroHintVisible(
-        npc.templateId,
-        world.questState(PROF_INTRO_QUEST_ID),
-        world.craftingIdentity.attunedPairs.length > 0,
-      )
-    ) {
+    const introHintVisible = this.introHintVisibleFor(npc);
+    this.lastIntroHintVisible = introHintVisible;
+    if (introHintVisible) {
       html += `<div class="qd-req" data-prof-intro-hint="1">${esc(
         t('questUi.dialog.profIntroHint', {
           name: this.deps.text.npcName(QUESTS[PROF_INTRO_QUEST_ID].giverNpcId),

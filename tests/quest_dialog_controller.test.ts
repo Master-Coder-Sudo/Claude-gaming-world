@@ -445,4 +445,35 @@ describe('QuestDialogController', () => {
     expect(test.element.style.display).toBe('none');
     expect(test.release).toHaveBeenCalledTimes(1);
   });
+
+  it('refreshIfChanged retires a lingering intro hint when attunement lands under the open dialog', () => {
+    // The online edge: the cprof identity mirror replaces craftingIdentity
+    // AFTER the gossip dialog opened, and no quest event fires for it. The
+    // stale hint self-healed only on reopen before the staleness probe.
+    const haldren = npc(51, 'smith_haldren');
+    const test = harness(haldren, 'available');
+    test.controller.open(haldren.id);
+    expect(test.element.querySelector('[data-prof-intro-hint]')).not.toBeNull();
+
+    (test.world.craftingIdentity.attunedPairs as string[]).push('weaponcrafting+armorcrafting');
+    test.controller.refreshIfChanged();
+
+    expect(test.element.querySelector('[data-prof-intro-hint]')).toBeNull();
+    expect(test.element.style.display).toBe('block');
+  });
+
+  it('refreshIfChanged never rebuilds the dialog DOM while the hint state is unchanged', () => {
+    // The dialog holds focus-trapped buttons: an unconditional slow-band
+    // rebuild would drop keyboard focus every second, so node identity must
+    // survive a no-change probe.
+    const haldren = npc(52, 'smith_haldren');
+    const test = harness(haldren, 'available');
+    test.controller.open(haldren.id);
+    const hintNode = test.element.querySelector('[data-prof-intro-hint]');
+    expect(hintNode).not.toBeNull();
+
+    test.controller.refreshIfChanged();
+
+    expect(test.element.querySelector('[data-prof-intro-hint]')).toBe(hintNode);
+  });
 });
