@@ -429,35 +429,38 @@ export const TARGETS = [
       { key: 'commission-bound', commission: true },
     ],
     async capture(page, variant) {
-      await page.evaluate((mode) => {
-        document.querySelector('#gpu-notice')?.remove();
-        document.querySelector('.camera-prompt-confirm')?.click();
-        const game = window.__game;
-        try {
-          if (mode === 'gathered') {
-            game?.sim?.addItemInstance('pristine_hide', { signer: 'Thorgar' });
-          } else if (mode === 'commission') {
-            // Phase 14b: a commissioned (bindOnTrade) copy already bound to
-            // its recipient; the tooltip composes the bound line with the
-            // maker's mark.
-            game?.sim?.addItemInstance('gravewyrm_gauntlets', {
-              signer: 'Thorgar',
-              bindOnTrade: true,
-              boundTo: game?.sim?.playerId,
-            });
-          } else {
-            // A dungeon-drop def the starter bag can never contain, so the
-            // aria-label lookup below is unambiguous.
-            game?.sim?.addItemInstance('gravewyrm_gauntlets', {
-              signer: 'Thorgar',
-              rolled: { masterwork: true, stats: { str: 2, sta: 1 } },
-            });
-          }
-        } catch {}
-        const el = document.querySelector('#bags');
-        if (el) el.style.display = 'none';
-        game?.hud?.toggleBags?.();
-      }, variant?.gathered ? 'gathered' : variant?.commission ? 'commission' : 'crafted');
+      await page.evaluate(
+        (mode) => {
+          document.querySelector('#gpu-notice')?.remove();
+          document.querySelector('.camera-prompt-confirm')?.click();
+          const game = window.__game;
+          try {
+            if (mode === 'gathered') {
+              game?.sim?.addItemInstance('pristine_hide', { signer: 'Thorgar' });
+            } else if (mode === 'commission') {
+              // Phase 14b: a commissioned (bindOnTrade) copy already bound to
+              // its recipient; the tooltip composes the bound line with the
+              // maker's mark.
+              game?.sim?.addItemInstance('gravewyrm_gauntlets', {
+                signer: 'Thorgar',
+                bindOnTrade: true,
+                boundTo: game?.sim?.playerId,
+              });
+            } else {
+              // A dungeon-drop def the starter bag can never contain, so the
+              // aria-label lookup below is unambiguous.
+              game?.sim?.addItemInstance('gravewyrm_gauntlets', {
+                signer: 'Thorgar',
+                rolled: { masterwork: true, stats: { str: 2, sta: 1 } },
+              });
+            }
+          } catch {}
+          const el = document.querySelector('#bags');
+          if (el) el.style.display = 'none';
+          game?.hud?.toggleBags?.();
+        },
+        variant?.gathered ? 'gathered' : variant?.commission ? 'commission' : 'crafted',
+      );
       // toggleBags tracks logical open state, so a shared page where an earlier
       // target left the bags logically open needs a second toggle to reopen.
       let open = await pollForSize(page, '#bags');
