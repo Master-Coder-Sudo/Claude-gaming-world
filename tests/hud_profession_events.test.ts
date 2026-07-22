@@ -42,6 +42,7 @@ interface ProfessionEventHarness {
   charWindow: { renderIfOpen: ReturnType<typeof vi.fn> };
   renderCrafting: ReturnType<typeof vi.fn>;
   openProfessionTutorial: ReturnType<typeof vi.fn>;
+  questDialog: { refreshIfChanged: ReturnType<typeof vi.fn> };
   handleProfessionEvent(ev: ProfessionEventInput): void;
 }
 
@@ -68,6 +69,10 @@ function makeHud(): ProfessionEventHarness {
   };
   hud.charWindow = { renderIfOpen: vi.fn() };
   hud.renderCrafting = vi.fn();
+  // The attuned arm also probes the gossip dialog's intro-hint staleness
+  // (attunement retires the hint); the dialog's own behavior is pinned in
+  // quest_dialog_controller.test.ts, this harness only has to ROUTE there.
+  hud.questDialog = { refreshIfChanged: vi.fn() };
   document.getElementById('crafting-window')?.remove();
   const craftingWindow = document.createElement('div');
   craftingWindow.id = 'crafting-window';
@@ -172,6 +177,9 @@ describe('Hud.handleProfessionEvent', () => {
     expect(hud.log).not.toHaveBeenCalled();
     expect(hud.charWindow.renderIfOpen).toHaveBeenCalledTimes(1);
     expect(hud.renderCrafting).not.toHaveBeenCalled();
+    // The gossip intro hint retires on attunement, so the arm probes the
+    // dialog's staleness signature alongside the profession surfaces.
+    expect(hud.questDialog.refreshIfChanged).toHaveBeenCalledTimes(1);
   });
 
   it('attuned repaints an OPEN Crafting window through the probe, then elides the repeat', () => {
