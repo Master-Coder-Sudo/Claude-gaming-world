@@ -4825,6 +4825,12 @@
     opacity: 0.45;
     cursor: default;
   }
+  /* An unaffordable fee (train and unbind rows emit .unaffordable) tints
+     like an unsatisfied cost everywhere else in the language; the row's
+     disabled opacity alone left the reason invisible. */
+  .vendor-item .vi-price.unaffordable {
+    color: var(--color-text-error);
+  }
   .vendor-item:disabled:hover {
     background: transparent;
   }
@@ -5287,10 +5293,22 @@
   #train-window {
     width: 400px;
   }
+  /* The craft section headers follow the crafting window's small-caps
+     treatment so the two teaching surfaces read as one family. */
+  #train-window .vendor-section-title {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    font-variant: small-caps;
+  }
+  /* The tri-state label rides the shared pill-chip idiom. */
   .train-state {
     font-family: var(--title-font);
     font-size: 10px;
     color: var(--gold);
+    padding: 2px 8px;
+    border: 1px solid #463a1c;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.3);
   }
   /* Locked rows stay VISIBLE (the teaching ladder): grayed like a disabled
      vendor row, with the named requirement on the .vi-sub line. The known
@@ -5309,6 +5327,9 @@
   .unbind-intro {
     display: block;
     padding: 4px 6px 6px;
+    color: var(--color-text-muted);
+    font-size: 10.5px;
+    line-height: 1.4;
   }
 
   /* Commission opt-in row in the crafting window (Professions 2.0 Phase 14b):
@@ -6146,8 +6167,8 @@
     gap: 8px;
     align-items: flex-start;
     padding: 7px;
-    border: 1px solid #4a3d26;
-    border-radius: 6px;
+    border: 1px solid #463a1c;
+    border-radius: 7px;
     background: linear-gradient(160deg, #17130c, #0c0a07);
   }
   .deed-card.earned {
@@ -6193,7 +6214,7 @@
   .deed-chip {
     font-size: 10.5px;
     padding: 1px 7px;
-    border-radius: 8px;
+    border-radius: 999px;
     font-family: var(--title-font);
     border: 1px solid #56472a;
     color: #d8c489;
