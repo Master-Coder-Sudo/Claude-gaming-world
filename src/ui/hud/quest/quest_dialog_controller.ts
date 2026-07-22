@@ -58,6 +58,7 @@ export interface QuestDialogControllerDeps {
   openDelveBoard(npcId: number): void;
   openValeCup(): void;
   openCardDuel(): void;
+  onOpenChange(open: boolean): void;
   voice: {
     play(key: string): void;
     isPlaying(): boolean;
@@ -72,8 +73,13 @@ export class QuestDialogController {
   private trap: FocusTrapHandle | null = null;
   private openedAt = 0;
   private voiceNpcId: number | null = null;
+  private openState = false;
 
   constructor(private readonly deps: QuestDialogControllerDeps) {}
+
+  get isOpen(): boolean {
+    return this.openState;
+  }
 
   open(npcId: number): void {
     const world = this.deps.world();
@@ -90,6 +96,7 @@ export class QuestDialogController {
       this.deps.openChronicles();
       return;
     }
+    this.beginOpen();
     this.openedAt = this.deps.now();
     this.ensureFocusTrap();
     this.deps.closeTransient();
@@ -101,6 +108,7 @@ export class QuestDialogController {
   openLinked(questId: string, fromPid?: number): void {
     const quest = QUESTS[questId];
     if (!quest) return;
+    this.beginOpen();
     this.npcId = null;
     this.ensureFocusTrap();
     this.deps.closeTransient();
@@ -156,6 +164,10 @@ export class QuestDialogController {
     this.deps.hideTooltip();
     this.trap?.release(restoreFocus);
     this.trap = null;
+    if (this.openState) {
+      this.openState = false;
+      this.deps.onOpenChange(false);
+    }
   }
 
   refresh(): void {
@@ -205,6 +217,12 @@ export class QuestDialogController {
     if (this.deps.element.style.display !== 'block') {
       this.trap = this.deps.openFocusTrap(() => this.deps.element);
     }
+  }
+
+  private beginOpen(): void {
+    if (this.openState) return;
+    this.openState = true;
+    this.deps.onOpenChange(true);
   }
 
   private renderGossip(npc: Entity, closeIfEmpty = false): void {
