@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { type MarketQuery, marketItemMatches } from '../src/sim/market_query';
+import { type MarketQuery, marketItemMatches, sanitizeMarketQuery } from '../src/sim/market_query';
 import {
   MARKET_ARMOR_TYPE_FILTERS,
   MARKET_ITEM_TYPE_FILTERS,
@@ -43,13 +43,16 @@ describe('World Market filters', () => {
     ]);
     expect(MARKET_ARMOR_TYPE_FILTERS).toEqual([
       'all',
+      'offhand',
       'helmet',
+      'neck',
       'shoulder',
       'chest',
       'waist',
       'legs',
       'gloves',
       'feet',
+      'ring',
     ]);
     expect(MARKET_WEAPON_TYPE_FILTERS).toEqual([
       'all',
@@ -141,6 +144,39 @@ describe('World Market filters', () => {
       'greyjaw_pelt_cloak',
     ]);
     expect(filterIds(armor, { itemType: 'armor', subtype: 'chest' })).toEqual(['recruit_tunic']);
+  });
+
+  it('narrows armor filters to the jewelry slots (neck and ring)', () => {
+    // Jewelry is kind 'armor' with slot 'ring'/'neck' (heroic vendor exemplars), so the
+    // shared slot predicate must sub-filter it like any other wearable slot.
+    const armor = ['seal_of_the_nine_oaths', 'yumis_keepsake_locket', 'recruit_tunic'];
+    expect(filterIds(armor, { itemType: 'armor', subtype: 'ring' })).toEqual([
+      'seal_of_the_nine_oaths',
+    ]);
+    expect(filterIds(armor, { itemType: 'armor', subtype: 'neck' })).toEqual([
+      'yumis_keepsake_locket',
+    ]);
+  });
+
+  it('narrows armor filters to the off-hand slot (shields and held offhands)', () => {
+    // The armor bucket admits armor-kind shields AND held_offhand items, both
+    // slot 'offhand', so the offhand subtype must return both kinds together.
+    const armor = [
+      'eastbrook_buckler',
+      'valefire_lantern',
+      'recruit_tunic',
+      'seal_of_the_nine_oaths',
+    ];
+    expect(filterIds(armor, { itemType: 'armor', subtype: 'offhand' })).toEqual([
+      'eastbrook_buckler',
+      'valefire_lantern',
+    ]);
+  });
+
+  it('keeps neck and ring subtypes through wire sanitization instead of falling back', () => {
+    expect(sanitizeMarketQuery({ itemType: 'armor', subtype: 'ring' }).subtype).toBe('ring');
+    expect(sanitizeMarketQuery({ itemType: 'armor', subtype: 'neck' }).subtype).toBe('neck');
+    expect(sanitizeMarketQuery({ itemType: 'armor', subtype: 'bogus' }).subtype).toBe('all');
   });
 
   it('narrows weapon filters by weapon family', () => {
