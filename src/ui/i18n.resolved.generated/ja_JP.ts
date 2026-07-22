@@ -609,7 +609,8 @@ export const ja_JP: EnTranslations = {
         "staff": "杖",
         "wand": "ワンド",
         "bow": "弓",
-        "crossbow": "クロスボウ"
+        "crossbow": "クロスボウ",
+        "polearm": "ポールアーム"
       },
       "badge": {
         "flagship": "フラッグシップ",
@@ -1701,7 +1702,7 @@ export const ja_JP: EnTranslations = {
     "nameplate": {
       "mobLevel": "{level}",
       "mobEliteLevel": "{level}+",
-      "afkTag": "AFK"
+      "afkTag": "退席"
     },
     "mobTooltip": {
       "levelFamily": "レベル{level} {family}",
@@ -1965,6 +1966,7 @@ export const ja_JP: EnTranslations = {
       "removeParcelAria": "手紙から{item}を取り除く",
       "parcelQtyDecreaseAria": "{item}を1つ減らして送る",
       "parcelQtyIncreaseAria": "{item}を1つ増やして送る",
+      "parcelQtyAria": "送る{item}の数量",
       "sendButton": "手紙を送る",
       "postageNote": "郵送料：{amount}。ワタリガラスの飛行時間は約{seconds}秒です。",
       "arrivedBanner": "ワタリガラスが到着：{name}からの手紙。",
@@ -2340,7 +2342,7 @@ export const ja_JP: EnTranslations = {
       "commissionBound": "受注品：受取人にバインド済み"
     },
     "itemMenu": {
-      "use": "Use",
+      "use": "使用する",
       "equip": "装備する",
       "disenchant": "魔力分解",
       "salvage": "解体",
@@ -6250,7 +6252,7 @@ export const ja_JP: EnTranslations = {
         "combat": "戦闘中",
         "dungeon": "ダンジョン内",
         "dead": "死亡",
-        "afk": "Away"
+        "afk": "退席中"
       },
       "statusWithZone": "{status} - {zone}",
       "ranks": {
@@ -6498,7 +6500,6 @@ export const ja_JP: EnTranslations = {
       "ifYouEquip": "これを装備すると",
       "damageSpeed": "{min} - {max} ダメージ 速度 {speed}",
       "dps": "（秒間 {dps} ダメージ）",
-      "dagger": "短剣",
       "armorStat": "防御力 {value}",
       "stat": "+{value} {stat}",
       "useFood": "使用: {seconds}秒かけて体力を{amount}回復します。食事中は座ったままでいる必要があります。",

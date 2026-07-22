@@ -609,7 +609,8 @@ export const ru_RU: EnTranslations = {
         "staff": "Посох",
         "wand": "Жезл",
         "bow": "Лук",
-        "crossbow": "Арбалет"
+        "crossbow": "Арбалет",
+        "polearm": "Древковое оружие"
       },
       "badge": {
         "flagship": "Флагман",
@@ -1965,6 +1966,7 @@ export const ru_RU: EnTranslations = {
       "removeParcelAria": "Убрать {item} из письма",
       "parcelQtyDecreaseAria": "Отправить на один {item} меньше",
       "parcelQtyIncreaseAria": "Отправить на один {item} больше",
+      "parcelQtyAria": "Количество {item} для отправки",
       "sendButton": "Отправить письмо",
       "postageNote": "Почтовый сбор: {amount}. Ворон летит около {seconds} с.",
       "arrivedBanner": "Ворон прилетел: письмо от {name}.",
@@ -2340,7 +2342,7 @@ export const ru_RU: EnTranslations = {
       "commissionBound": "Изделие на заказ: привязано к получателю"
     },
     "itemMenu": {
-      "use": "Use",
+      "use": "Использовать",
       "equip": "Надеть",
       "disenchant": "Распылить",
       "salvage": "Разобрать",
@@ -6250,7 +6252,7 @@ export const ru_RU: EnTranslations = {
         "combat": "В бою",
         "dungeon": "В подземелье",
         "dead": "Мертв",
-        "afk": "Away"
+        "afk": "Отошел"
       },
       "statusWithZone": "{status} - {zone}",
       "ranks": {
@@ -6498,7 +6500,6 @@ export const ru_RU: EnTranslations = {
       "ifYouEquip": "Если надеть это",
       "damageSpeed": "{min} - {max} урона Скорость {speed}",
       "dps": "({dps} урона в секунду)",
-      "dagger": "Кинжал",
       "armorStat": "{value} брони",
       "stat": "+{value} {stat}",
       "useFood": "Использование: восстанавливает {amount} здоровья за {seconds} сек. Нужно оставаться сидя во время еды.",

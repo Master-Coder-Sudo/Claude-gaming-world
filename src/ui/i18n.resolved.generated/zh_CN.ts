@@ -609,7 +609,8 @@ export const zh_CN: EnTranslations = {
         "staff": "法杖",
         "wand": "魔杖",
         "bow": "弓",
-        "crossbow": "弩"
+        "crossbow": "弩",
+        "polearm": "长柄武器"
       },
       "badge": {
         "flagship": "旗舰",
@@ -1701,7 +1702,7 @@ export const zh_CN: EnTranslations = {
     "nameplate": {
       "mobLevel": "{level}",
       "mobEliteLevel": "{level}+",
-      "afkTag": "AFK"
+      "afkTag": "暂离"
     },
     "mobTooltip": {
       "levelFamily": "等级 {level} {family}",
@@ -1965,6 +1966,7 @@ export const zh_CN: EnTranslations = {
       "removeParcelAria": "从信件中移除 {item}",
       "parcelQtyDecreaseAria": "少寄一个{item}",
       "parcelQtyIncreaseAria": "多寄一个{item}",
+      "parcelQtyAria": "要寄出的{item}数量",
       "sendButton": "寄出信件",
       "postageNote": "邮资：{amount}。渡鸦飞行约 {seconds} 秒。",
       "arrivedBanner": "渡鸦已降落：来自 {name} 的邮件。",
@@ -2340,7 +2342,7 @@ export const zh_CN: EnTranslations = {
       "commissionBound": "委托制品：已绑定给收货人"
     },
     "itemMenu": {
-      "use": "Use",
+      "use": "使用",
       "equip": "装备",
       "disenchant": "分解",
       "salvage": "拆解",
@@ -6250,7 +6252,7 @@ export const zh_CN: EnTranslations = {
         "combat": "战斗中",
         "dungeon": "地下城中",
         "dead": "死亡",
-        "afk": "Away"
+        "afk": "暂离"
       },
       "statusWithZone": "{status} - {zone}",
       "ranks": {
@@ -6498,7 +6500,6 @@ export const zh_CN: EnTranslations = {
       "ifYouEquip": "装备后",
       "damageSpeed": "{min} - {max} 伤害 速度 {speed}",
       "dps": "（每秒 {dps} 伤害）",
-      "dagger": "匕首",
       "armorStat": "{value} 护甲",
       "stat": "+{value} {stat}",
       "useFood": "使用：在 {seconds} 秒内恢复 {amount} 点生命值。进食时必须保持坐下。",

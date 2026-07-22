@@ -609,7 +609,8 @@ export const en_CA: EnTranslations = {
         "staff": "Staff",
         "wand": "Wand",
         "bow": "Bow",
-        "crossbow": "Crossbow"
+        "crossbow": "Crossbow",
+        "polearm": "Polearm"
       },
       "badge": {
         "flagship": "Flagship",
@@ -1965,6 +1966,7 @@ export const en_CA: EnTranslations = {
       "removeParcelAria": "Remove {item} from the letter",
       "parcelQtyDecreaseAria": "Send one fewer {item}",
       "parcelQtyIncreaseAria": "Send one more {item}",
+      "parcelQtyAria": "Quantity of {item} to send",
       "sendButton": "Send letter",
       "postageNote": "Postage: {amount}. The raven flies for about {seconds}s.",
       "arrivedBanner": "The raven has landed: mail from {name}.",
@@ -6498,7 +6500,6 @@ export const en_CA: EnTranslations = {
       "ifYouEquip": "If you equip this",
       "damageSpeed": "{min} - {max} Damage Speed {speed}",
       "dps": "({dps} damage per second)",
-      "dagger": "Dagger",
       "armorStat": "{value} Armour",
       "stat": "+{value} {stat}",
       "useFood": "Use: Restores {amount} health over {seconds} sec. Must remain seated while eating.",

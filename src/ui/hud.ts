@@ -35,6 +35,7 @@ import { HEROIC_MARK_ITEM_ID } from '../sim/content/dungeon_difficulty';
 import { HEROIC_VENDOR_STOCK } from '../sim/content/heroic_vendor';
 import { recipeById } from '../sim/content/recipes';
 import { FIRST_TALENT_LEVEL, type TalentAllocation, talentsFor } from '../sim/content/talents';
+import { resolveActiveWeaponSkin } from '../sim/content/weapon_skin_rules';
 import type { ZoneDef } from '../sim/data';
 import {
   ABILITIES,
@@ -265,6 +266,7 @@ import {
 import {
   applyLoadoutBar as applyLoadoutBarActions,
   assignAttackSlotAction,
+  attackDragDisposition,
   clearHotbarSlot,
   encodeHotbarAction,
   HOTBAR_ACTION_MIME,
@@ -500,6 +502,7 @@ import {
   wocBalanceVerified,
 } from './wallet_balance';
 import { type WeaponProcEffectDesc, weaponProcLines } from './weapon_proc_view';
+import { weaponTypeLabelKey } from './weapon_type_label';
 import {
   installWindowDrag,
   isWindowDragPreviewMutation,
@@ -4610,6 +4613,19 @@ export class Hud {
       qualityKindHtml += ` <span style="color:#e5cc80">${esc(t('hudChrome.itemHeroicTag'))}</span>`;
     }
     html += `<div class="tt-sub">${qualityKindHtml}</div>`;
+    // Weapon type (Sword/Dagger/Mace/...) as its own plain line under the
+    // quality/kind line and above the slot/handedness line, classic-style, so a
+    // player can tell a dagger from a sword at a glance (rogues need daggers). It
+    // is NOT colored by class the way armor weight is: any class can equip most
+    // weapon types and the class/weapon rules are archetype-based, not type-based,
+    // so a red type label would mislead. Null only for a non-weapon or
+    // unclassified id (the map is guarded), which simply shows no type line.
+    if (item.kind === 'weapon') {
+      const weaponTypeKey = weaponTypeLabelKey(item.id);
+      if (weaponTypeKey) {
+        html += `<div class="tt-sub tt-weapon-type">${esc(t(weaponTypeKey))}</div>`;
+      }
+    }
     if (item.slot) {
       // Classic layout: slot name on the left, armor subtype (Cloth/Leather/Mail)
       // right-aligned on the same line so it is clear which classes the gear suits.
@@ -4668,8 +4684,9 @@ export class Hud {
         }),
       )}</div>`;
       html += `<div class="tt-stat">${esc(t('itemUi.tooltip.dps', { dps: itemNumber(dps, 1) }))}</div>`;
-      if (item.weapon.dagger)
-        html += `<div class="tt-sub">${esc(t('itemUi.tooltip.dagger'))}</div>`;
+      // The weapon type (incl. Dagger) now appears on the slot line above like
+      // every other weapon, so the old standalone "Dagger" sub-line is gone. The
+      // item.weapon.dagger DATA field still drives Backstab; only this line went.
     }
     if (item.stats) {
       for (const [k, v] of Object.entries(item.stats)) {
@@ -5595,6 +5612,28 @@ export class Hud {
     );
   }
 
+  // Attack is accepted only by slot 0, its fixed destination. The pure disposition
+  // keeps that behavior testable and lets every other slot reject the drag truthfully.
+  private tryAcceptAttackDrag(
+    e: DragEvent,
+    btn: HTMLButtonElement,
+    slot: number,
+    phase: 'over' | 'drop',
+  ): boolean {
+    const disposition = attackDragDisposition(e.dataTransfer?.types, slot, phase);
+    if (disposition === 'ignore') return false;
+    e.preventDefault();
+    if (phase === 'over') {
+      if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+      btn.classList.toggle('drop-target', disposition === 'highlight');
+    } else {
+      btn.classList.remove('drop-target');
+      this.optionsHooks?.settings.set('showAttackButton', true);
+      this.hideTooltip();
+    }
+    return true;
+  }
+
   private buildActionBar(): void {
     const bar = $('#actionbar');
     const bar2 = $('#actionbar2');
@@ -5709,6 +5748,7 @@ export class Hud {
           this.hideTooltip();
         });
         btn.addEventListener('dragover', (e) => {
+          if (this.tryAcceptAttackDrag(e, btn, slot, 'over')) return;
           const dragged = this.dragAction?.action ?? this.readDraggedAction(e.dataTransfer);
           if (!dragged) return;
           if (!this.actionBarController.isAssignableAction(dragged)) return;
@@ -5725,6 +5765,7 @@ export class Hud {
         });
         btn.addEventListener('dragleave', () => btn.classList.remove('drop-target'));
         btn.addEventListener('drop', (e) => {
+          if (this.tryAcceptAttackDrag(e, btn, slot, 'drop')) return;
           e.preventDefault();
           btn.classList.remove('drop-target');
           const dragged = this.dragAction ?? {
@@ -5799,6 +5840,7 @@ export class Hud {
         });
         // With Attack removed, the freed slot accepts a drag like any other slot.
         btn.addEventListener('dragover', (e) => {
+          if (this.tryAcceptAttackDrag(e, btn, slot, 'over')) return;
           if (this.attackSlotIsAttack()) return;
           if (this.dragAction?.sourceAttackSlot) return;
           const dragged = this.dragAction?.action ?? this.readDraggedAction(e.dataTransfer);
@@ -5809,6 +5851,7 @@ export class Hud {
         });
         btn.addEventListener('dragleave', () => btn.classList.remove('drop-target'));
         btn.addEventListener('drop', (e) => {
+          if (this.tryAcceptAttackDrag(e, btn, slot, 'drop')) return;
           e.preventDefault();
           btn.classList.remove('drop-target');
           if (this.attackSlotIsAttack()) return;
@@ -11845,6 +11888,8 @@ export class Hud {
       previewKey?: string;
       mainhand: string | null;
       offhand: string | null;
+      /** The active Armory weapon-skin cosmetic (null = the item's own model). */
+      weaponSkinId: string | null;
       framing: PreviewFramingName;
     },
   ): void {
@@ -11866,6 +11911,7 @@ export class Hud {
       this.charPreview.setClass(opts.cls, opts.mainhand, opts.offhand);
     }
     this.charPreview.setSkin(opts.skin);
+    this.charPreview.setWeaponSkin(opts.weaponSkinId);
     this.charPreview.setFraming(opts.framing);
   }
 
@@ -11878,12 +11924,20 @@ export class Hud {
     skin: number,
     previewKey?: string,
   ): void {
+    const mainhand = this.sim.equipment.mainhand ?? null;
     this.mountSharedPreview(container, {
       cls,
       skin,
       previewKey,
-      mainhand: this.sim.equipment.mainhand ?? null,
+      mainhand,
       offhand: this.sim.equipment.offhand ?? null,
+      // The paperdoll wears the same Armory skin the world renders: resolved
+      // through the one shared rule (class + equipped mainhand + loadout).
+      weaponSkinId: resolveActiveWeaponSkin(
+        cls,
+        mainhand,
+        this.sim.accountCosmetics.weaponSkinLoadout,
+      ),
       framing: 'sheet',
     });
   }
@@ -11901,6 +11955,8 @@ export class Hud {
       skinCatalog: SkinCatalog;
       mainhand: string | null;
       offhand: string | null;
+      /** The inspected player's server-resolved active weapon skin (wire wsk). */
+      weaponSkinId: string | null;
     },
   ): void {
     const preview = activeCharacterAppearancePreview(params.cls, params.skin, params.skinCatalog);
@@ -11911,6 +11967,7 @@ export class Hud {
         previewKey: preview.visualKey === 'player_mech' ? preview.visualKey : undefined,
         mainhand: params.mainhand,
         offhand: params.offhand,
+        weaponSkinId: params.weaponSkinId,
         framing: 'inspect',
       });
     if (preview.visualKey !== 'player_mech') {

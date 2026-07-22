@@ -609,7 +609,8 @@ export const ko_KR: EnTranslations = {
         "staff": "지팡이",
         "wand": "마법봉",
         "bow": "활",
-        "crossbow": "석궁"
+        "crossbow": "석궁",
+        "polearm": "장창"
       },
       "badge": {
         "flagship": "플래그십",
@@ -1701,7 +1702,7 @@ export const ko_KR: EnTranslations = {
     "nameplate": {
       "mobLevel": "{level}",
       "mobEliteLevel": "{level}+",
-      "afkTag": "AFK"
+      "afkTag": "자리비움"
     },
     "mobTooltip": {
       "levelFamily": "{level}레벨 {family}",
@@ -1965,6 +1966,7 @@ export const ko_KR: EnTranslations = {
       "removeParcelAria": "편지에서 {item} 제거",
       "parcelQtyDecreaseAria": "{item} 하나 적게 보내기",
       "parcelQtyIncreaseAria": "{item} 하나 더 보내기",
+      "parcelQtyAria": "보낼 {item} 수량",
       "sendButton": "편지 보내기",
       "postageNote": "우편 요금: {amount}. 까마귀가 약 {seconds}초 동안 날아갑니다.",
       "arrivedBanner": "까마귀가 도착했습니다: {name}의 우편.",
@@ -2340,7 +2342,7 @@ export const ko_KR: EnTranslations = {
       "commissionBound": "주문 제작품: 수령인에게 귀속되어 있습니다"
     },
     "itemMenu": {
-      "use": "Use",
+      "use": "사용",
       "equip": "장착",
       "disenchant": "마력 추출",
       "salvage": "분해",
@@ -6250,7 +6252,7 @@ export const ko_KR: EnTranslations = {
         "combat": "전투 중",
         "dungeon": "던전 안",
         "dead": "죽음",
-        "afk": "Away"
+        "afk": "자리 비움"
       },
       "statusWithZone": "{status} - {zone}",
       "ranks": {
@@ -6498,7 +6500,6 @@ export const ko_KR: EnTranslations = {
       "ifYouEquip": "이것을 착용하면",
       "damageSpeed": "{min} - {max} 피해 속도 {speed}",
       "dps": "(초당 피해 {dps})",
-      "dagger": "단검",
       "armorStat": "방어도 {value}",
       "stat": "+{value} {stat}",
       "useFood": "사용 효과: {seconds}초에 걸쳐 생명력 {amount} 회복. 먹는 동안 앉아 있어야 합니다.",
