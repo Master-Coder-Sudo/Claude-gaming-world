@@ -9,6 +9,8 @@
 // scoped to the selected craft, and an empty book keeps the vendor-empty
 // state with no strip at all.
 
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 import { ALL_RECIPES } from '../src/sim/content/recipes';
 import { ITEMS } from '../src/sim/data';
@@ -224,6 +226,20 @@ describe('renderCraftingWindow tab strip', () => {
       new Map([['weaponcrafting', hint]]),
     );
     expect(el2.querySelectorAll('.crafting-learn-hint')).toHaveLength(1);
+  });
+
+  it('the HUD refocuses the surviving selected tab after a tab-switch repaint (source pin)', () => {
+    // A tab click triggers a full innerHTML rebuild that destroys the button
+    // the keyboard just activated; without a refocus, focus falls to body and
+    // the next Tab press hits the game's target key instead of the window.
+    // The wiring lives in Hud's onSelectCraft closure, so it is source-pinned
+    // beside the render and scroll-reset steps it must follow.
+    const hud = readFileSync(join(__dirname, '../src/ui/hud.ts'), 'utf8');
+    const onSelect = hud.slice(hud.indexOf('onSelectCraft: (professionId) =>'));
+    const closure = onSelect.slice(0, onSelect.indexOf('},'));
+    expect(closure).toContain('this.renderCrafting();');
+    expect(closure).toContain("querySelector('.crafting-tab.sel')");
+    expect(closure).toContain('?.focus();');
   });
 
   it('an empty book paints no tab strip and keeps the vendor-empty state', () => {

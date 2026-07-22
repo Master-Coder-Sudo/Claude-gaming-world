@@ -6402,7 +6402,10 @@
      gathering rows) over IWorldProfessions. Bar widths and ring node
      positions are build-time inline writes; ring strokes carry
      vector-effect="non-scaling-stroke" so these pixel widths survive the
-     unit-circle viewBox; every colour in this section is a token. */
+     unit-circle viewBox. Semantic colours come from tokens; the showcase
+     inset-card cosmetics (the #463a1c hairline, rgba card fills, the ring
+     stage haze) are deliberate literals shared with the char-window
+     showcase family. */
   #professions-window {
     width: 720px;
     max-height: calc(var(--app-vh, 100vh) * 0.85 / var(--window-scale) - 24px);

@@ -11607,6 +11607,10 @@ export class Hud {
           // the previous craft's scroll happened to rest.
           const scroller = $('#crafting-window').querySelector('.crafting-body');
           if (scroller) scroller.scrollTop = 0;
+          // The repaint destroyed the tab button the keyboard just activated;
+          // refocus its successor so focus never falls out of the window onto
+          // body (where the next Tab would hit the game's target key).
+          ($('#crafting-window').querySelector('.crafting-tab.sel') as HTMLElement | null)?.focus();
         },
       },
       buildProfessionIdentityView(this.sim.craftingIdentity),
