@@ -992,6 +992,7 @@ export const TARGETS = [
     variants: [
       { key: 'chat', charClass: 'warrior', charName: 'Thorgar' },
       { key: 'party', charClass: 'priest', charName: 'Lumina' },
+      { key: 'raid', charClass: 'warrior', charName: 'Thorgar' },
       { key: 'model', charClass: 'priest', charName: 'Lumina' },
     ],
     async capture(page, variant) {
@@ -1082,6 +1083,57 @@ export const TARGETS = [
         await wait(1200);
         // Becoming leader auto-opens Loot Settings; close it after the HUD
         // noticed the party so the scene stays clean.
+        await page.evaluate(() => window.__game.hud.closeLootSettings?.());
+        await wait(600);
+        return {};
+      }
+      if (variant.key === 'raid') {
+        // Two-group raid covering all nine classes (me = warrior makes ten), so
+        // the raid-style frames show every class accent at once; same
+        // PartyMachine struct as the party variant with raid: true and each
+        // member placed into a raid group.
+        await page.evaluate(() => {
+          const sim = window.__game.sim;
+          const me = sim.primaryId;
+          const p = sim.player;
+          const pm = sim.party;
+          const roster = [
+            ['Aurelius', 'paladin'],
+            ['Fletcher', 'hunter'],
+            ['Nightblade', 'rogue'],
+            ['Selene', 'priest'],
+            ['Stormcaller', 'shaman'],
+            ['Emberlyn', 'mage'],
+            ['Morgatha', 'warlock'],
+            ['Brightoak', 'druid'],
+            ['Ironhide', 'warrior'],
+          ];
+          const pids = roster.map(([name, cls], i) => {
+            const pid = sim.addPlayer(cls, name);
+            const e = sim.entities.get(pid);
+            if (e) {
+              e.pos = {
+                x: p.pos.x + (i % 5) * 2 - 4,
+                y: p.pos.y,
+                z: p.pos.z + 2 + Math.floor(i / 5) * 2,
+              };
+              e.prevPos = { ...e.pos };
+            }
+            return pid;
+          });
+          const members = [me, ...pids];
+          const party = {
+            id: pm.nextPartyId++,
+            leader: me,
+            members,
+            raid: true,
+            raidGroups: new Map(members.map((pid, i) => [pid, i < 5 ? 1 : 2])),
+            lootStrategies: {},
+          };
+          pm.parties.set(party.id, party);
+          for (const q of members) pm.partyByPid.set(q, party.id);
+        });
+        await wait(1200);
         await page.evaluate(() => window.__game.hud.closeLootSettings?.());
         await wait(600);
         return {};

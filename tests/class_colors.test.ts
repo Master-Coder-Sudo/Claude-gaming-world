@@ -16,10 +16,10 @@ import type { PlayerClass } from '../src/sim/types';
 // The approved palette, pinned as literals so a silent revert of any single
 // color fails loudly. Do not derive these from CLASSES: the pin IS the spec.
 const PALETTE: Record<PlayerClass, number> = {
-  warrior: 0xbd6448,
+  warrior: 0xd67a54,
   mage: 0x33c1f1,
   rogue: 0xfcee58,
-  paladin: 0xf26fae,
+  paladin: 0xf58ca0,
   hunter: 0xa6d84f,
   priest: 0xc6d4f0,
   shaman: 0x4e8aea,

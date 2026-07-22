@@ -272,7 +272,7 @@ export interface GuideProfStations { radius: number; stations: GuideProfStation[
 export const GUIDE_CLASSES: GuideClassInfo[] = [
   {
     "id": "warrior",
-    "color": "#bd6448",
+    "color": "#d67a54",
     "resource": "rage",
     "roles": [
       "tank",
@@ -487,7 +487,7 @@ export const GUIDE_CLASSES: GuideClassInfo[] = [
   },
   {
     "id": "paladin",
-    "color": "#f26fae",
+    "color": "#f58ca0",
     "resource": "mana",
     "roles": [
       "tank",

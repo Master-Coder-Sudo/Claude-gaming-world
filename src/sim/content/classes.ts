@@ -119,7 +119,7 @@ export const CLASSES: Record<PlayerClass, ClassDef> = {
       'deep_wounds',
       'enrage_passive',
     ],
-    color: 0xbd6448,
+    color: 0xd67a54,
   },
   mage: {
     id: 'mage',
@@ -280,7 +280,7 @@ export const CLASSES: Record<PlayerClass, ClassDef> = {
       'rebuke',
       'sacred_bulwark',
     ],
-    color: 0xf26fae,
+    color: 0xf58ca0,
   },
   hunter: {
     id: 'hunter',

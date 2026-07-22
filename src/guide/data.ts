@@ -15,8 +15,8 @@ export interface ClassChip {
 
 // Order groups the three pure archetypes first, then the hybrids, for a calm grid.
 export const CLASS_CHIPS: ClassChip[] = [
-  { id: 'warrior', nameKey: 'classes.warrior', color: '#bd6448' },
-  { id: 'paladin', nameKey: 'classes.paladin', color: '#f26fae' },
+  { id: 'warrior', nameKey: 'classes.warrior', color: '#d67a54' },
+  { id: 'paladin', nameKey: 'classes.paladin', color: '#f58ca0' },
   { id: 'hunter', nameKey: 'classes.hunter', color: '#a6d84f' },
   { id: 'rogue', nameKey: 'classes.rogue', color: '#fcee58' },
   { id: 'priest', nameKey: 'classes.priest', color: '#c6d4f0' },

@@ -2675,10 +2675,10 @@
     margin-left: 0;
   }
   .mini-class[data-class="warrior"] {
-    --class-color: #bd6448;
+    --class-color: #d67a54;
   }
   .mini-class[data-class="paladin"] {
-    --class-color: #f26fae;
+    --class-color: #f58ca0;
   }
   .mini-class[data-class="hunter"] {
     --class-color: #a6d84f;
@@ -5744,10 +5744,10 @@
 
   /* Class color tokens, any element with data-class exposes --class-color */
   [data-class="warrior"] {
-    --class-color: #bd6448;
+    --class-color: #d67a54;
   }
   [data-class="paladin"] {
-    --class-color: #f26fae;
+    --class-color: #f58ca0;
   }
   [data-class="hunter"] {
     --class-color: #a6d84f;

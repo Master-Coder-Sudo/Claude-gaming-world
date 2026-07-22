@@ -43,10 +43,10 @@ const base: InspectInput = {
 
 describe('classColorCss', () => {
   it('mirrors hud.ts classCss: the mage class color as a #rrggbb string', () => {
-    // Pinned literals (CLASSES[mage].color === 0x33c1f1, warrior === 0xbd6448), the
+    // Pinned literals (CLASSES[mage].color === 0x33c1f1, warrior === 0xd67a54), the
     // exact hue the inspect stage border / glow / haze take.
     expect(classColorCss('mage')).toBe('#33c1f1');
-    expect(classColorCss('warrior')).toBe('#bd6448');
+    expect(classColorCss('warrior')).toBe('#d67a54');
   });
 
   it('falls back to the shared blue for an unknown class id', () => {
