@@ -2565,6 +2565,34 @@
     max-height: none;
     overflow: hidden;
   }
+  /* Crafting window on touch: the mailbox "tall list window" shape. The sheet
+     shell stops scrolling (overflow hidden) so the inner .crafting-body pane
+     keeps the touch scroll without the two fighting; the identity card
+     stacks its two columns; the tab strip becomes one horizontally scrolling
+     row of 40px-floor tabs. */
+  body.mobile-touch #crafting-window {
+    height: auto;
+    max-height: calc(var(--app-vh) / var(--ui-scale, 1) - 20px);
+    overflow: hidden;
+  }
+  body.mobile-touch .profession-identity-card {
+    flex-direction: column;
+    gap: 8px;
+    /* The stacked card would otherwise eat the short landscape viewport and
+       starve the recipe pane; cap it and let it scroll internally (every row
+       stays reachable, the tab strip and recipes keep the screen). */
+    max-height: calc(var(--app-vh) * 0.34 / var(--ui-scale, 1));
+    overflow-y: auto;
+  }
+  body.mobile-touch .crafting-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  body.mobile-touch .crafting-tab {
+    min-height: 40px;
+    white-space: nowrap;
+  }
   /* The LIST owns the tracks (rows subgrid into it, see components.css), so the
      tighter mobile template lands on the list; the cap column wraps below. */
   body.mobile-touch .profession-skill-list {

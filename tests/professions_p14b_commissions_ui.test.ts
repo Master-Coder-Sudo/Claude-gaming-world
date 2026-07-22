@@ -35,6 +35,8 @@ function craftingDeps() {
     attachTooltip: vi.fn(),
     commissionChecked: vi.fn((_recipeId: string) => false),
     onToggleCommission: vi.fn(),
+    selectedCraft: () => null as string | null,
+    onSelectCraft: vi.fn(),
   };
 }
 

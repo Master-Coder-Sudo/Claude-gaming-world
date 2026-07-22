@@ -219,6 +219,51 @@ export function buildCraftingView(
   return { recipes: rows };
 }
 
+// ---------------------------------------------------------------------------
+// Craft tabs: the window shows one craft at a time behind a tab strip, so a
+// ten-craft recipe book stays scannable. The tab list and the selection
+// fallback are model decisions (they change what renders), so they live here
+// where both hosts' tests pin them; the painter only paints the result.
+// ---------------------------------------------------------------------------
+
+export interface CraftingTab {
+  professionId: string;
+  /** How many known recipes the tab holds (its badge and its right to exist). */
+  recipeCount: number;
+}
+
+/** The tab strip for a built view: one tab per craft with at least one known
+ *  recipe, in order of first appearance in the recipe list (the same order the
+ *  window's sections have always used, so tab order never jumps between
+ *  repaints of the same content). */
+export function craftingTabs(view: CraftingView): CraftingTab[] {
+  const tabs: CraftingTab[] = [];
+  const byId = new Map<string, CraftingTab>();
+  for (const row of view.recipes) {
+    const existing = byId.get(row.professionId);
+    if (existing) {
+      existing.recipeCount += 1;
+    } else {
+      const tab = { professionId: row.professionId, recipeCount: 1 };
+      byId.set(row.professionId, tab);
+      tabs.push(tab);
+    }
+  }
+  return tabs;
+}
+
+/** Resolve which craft the window actually shows: the requested craft when it
+ *  still owns a tab, else the first tab (a craft can vanish from the strip
+ *  when its last recipe stops being known, e.g. across a language-agnostic
+ *  data refresh), else null for an empty book. */
+export function resolveSelectedCraft(
+  tabs: readonly CraftingTab[],
+  requested: string | null,
+): string | null {
+  if (requested !== null && tabs.some((tab) => tab.professionId === requested)) return requested;
+  return tabs.length > 0 ? tabs[0].professionId : null;
+}
+
 /** One craft's "learnable at a master" pointer: the station type that serves it
  *  and the resident master's NPC template id (the painter localizes the master
  *  name through entity i18n and the station name through the station-name

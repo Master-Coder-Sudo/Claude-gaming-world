@@ -4863,16 +4863,114 @@
     font-family: var(--title-font);
     font-size: 12px;
   }
+  /* Crafting window shell: a wide showcase-format window (the char/inspect
+     740px generation; 760px matches the spellbook). Column flex with the
+     title, identity card, and tab strip pinned while .crafting-body scrolls
+     (the mailbox inner-scroll model); the painter opens it with
+     display: flex, so the base .window overflow never fights the body pane. */
+  #crafting-window {
+    width: 760px;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  /* relative, not sticky: the shell no longer scrolls (the body pane does),
+     and the absolutely pinned close button needs its containing block to stay
+     the title bar. */
+  #crafting-window > .panel-title {
+    position: relative;
+    top: 0;
+    flex: none;
+    margin-bottom: 0;
+  }
+  /* The craft tab strip (the mail-tabs family, one tab per craft with known
+     recipes): art icon, craft name, and a muted recipe count. Selected state
+     is gold text over a gold underline; the strip wraps on narrow widths. */
+  .crafting-tabs {
+    flex: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 10px 0 0;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #463a1c;
+  }
+  .crafting-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-family: var(--title-font);
+    font-size: 12px;
+    cursor: var(--cursor-point);
+  }
+  .crafting-tab:hover {
+    background: #ffffff0e;
+    color: var(--color-text-light);
+  }
+  .crafting-tab:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 1px;
+  }
+  .crafting-tab.sel {
+    border-color: #463a1c;
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--gold);
+    box-shadow: inset 0 -2px 0 #cc9a3c;
+  }
+  .crafting-tab-icon {
+    flex: 0 0 22px;
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    filter: drop-shadow(var(--art-shadow-sm));
+  }
+  .crafting-tab-count {
+    padding: 1px 6px;
+    border: 1px solid #463a1c;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.3);
+    font-family: var(--ui-font);
+    font-size: 10px;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-muted);
+  }
+  .crafting-tab.sel .crafting-tab-count {
+    color: var(--color-text-light);
+  }
+  /* The scrolling recipe pane: the selected craft's header, learn hint, and
+     recipe cards, breathing on an 8px rhythm. */
+  .crafting-body {
+    flex: 1 1 auto;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+    padding: 10px 2px 2px 0;
+  }
+  .crafting-body > .vendor-section-title {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
   .crafting-section-title {
     display: flex;
     align-items: center;
     gap: 7px;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    font-variant: small-caps;
   }
   .crafting-section-icon {
     flex: 0 0 28px;
     width: 28px;
     height: 28px;
     object-fit: contain;
+    filter: drop-shadow(var(--art-shadow-sm));
   }
   .qd-profession-choice {
     display: grid;
@@ -4909,18 +5007,39 @@
   .qd-profession-preview-copy {
     min-width: 0;
   }
+  /* The crafting identity card, restyled to the showcase inset-card idiom
+     (char-window stat panels): dark inset fill, gold-brown hairline, 7px
+     radius. Two columns beside each other (narrative left, skill table
+     right) so the card reads as a compact hero, not a tall stack. */
   .profession-identity-card {
-    margin: 8px 0 10px;
-    padding: 10px;
-    border: 1px solid var(--color-border-default);
-    border-radius: 4px;
-    background: var(--color-bg-input);
+    flex: none;
+    display: flex;
+    gap: 16px;
+    margin: 10px 0 0;
+    padding: 10px 12px;
+    border: 1px solid #463a1c;
+    border-radius: 7px;
+    background: rgba(0, 0, 0, 0.24);
+  }
+  .profession-identity-main {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .profession-identity-card .profession-skill-list {
+    flex: 1 1 0;
+    min-width: 0;
+    align-self: start;
   }
   .profession-identity-card h3 {
     margin: 0 0 8px;
     color: var(--gold);
     font-family: var(--title-font);
     font-size: 13px;
+    letter-spacing: 0.06em;
+    font-variant: small-caps;
+  }
+  .profession-archetype-crest {
+    filter: drop-shadow(var(--art-shadow-lg));
   }
   .profession-identity-heading {
     display: flex;
@@ -4991,26 +5110,106 @@
     font-size: 10px;
     line-height: 1.35;
   }
+  /* One recipe card (the showcase inset-card idiom): the whole first row stays
+     the Craft button (big target), with a quality-glow socket, a wrapping
+     display-font name, the reagent and skill lines, and the gold Craft chip
+     at the right; combo/station reasons and the commission opt-in dock under
+     it inside the same card. */
   .crafting-recipe-item {
     flex-wrap: wrap;
+    gap: 0;
+    padding: 0;
+    border: 1px solid #463a1c;
+    border-radius: 7px;
+    background: rgba(0, 0, 0, 0.24);
+    overflow: hidden;
   }
   .crafting-recipe-item > .vendor-item {
     flex: 1 0 100%;
+    gap: 10px;
+    padding: 9px 10px;
+    align-items: center;
+    border-radius: 0;
+  }
+  .crafting-recipe-socket {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    background: var(--color-bg-input);
+  }
+  .crafting-recipe-socket .item-icon {
+    width: 38px;
+    height: 38px;
+  }
+  .crafting-recipe-name {
+    display: block;
+    margin-bottom: 2px;
+    font-family: var(--title-font);
+    font-size: 13px;
+    color: var(--color-text-light);
+    overflow-wrap: anywhere;
+  }
+  .crafting-reagent-line {
+    line-height: 1.4;
+  }
+  /* Unsatisfied reagents tint toward the error red; the have/required counts
+     in the text are the actual signal (the tint is a redundant hint). */
+  .crafting-reagent.unsat {
+    color: var(--color-text-error);
+  }
+  /* The Craft affordance chip: the gold-gradient primary the mailbox send
+     button established. It is decoration inside the row-button (the whole row
+     is the target); disabled rows desaturate it through the button opacity. */
+  .crafting-craft-chip {
+    flex: none;
+    align-self: center;
+    padding: 7px 16px;
+    border: 1px solid #6a5320;
+    border-radius: 5px;
+    background: linear-gradient(180deg, #e9c064, #b98a2e);
+    color: #1c1206;
+    font-family: var(--title-font);
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .crafting-recipe-btn:hover:not(:disabled) .crafting-craft-chip {
+    filter: brightness(1.1);
+  }
+  .crafting-recipe-btn:disabled .crafting-craft-chip {
+    filter: grayscale(0.7);
   }
   .crafting-recipe-item > .crafting-combo-requirement {
     flex: 1 0 100%;
-    margin-top: 3px;
+    margin: 0;
+    padding: 4px 10px 7px;
     color: var(--color-text-muted);
-    font-size: 10px;
+    font-size: 10.5px;
     line-height: 1.35;
   }
   /* Phase 6 legibility: the skill-req / difficulty / station line inside the
-     recipe button. The difficulty tint is set inline from the shared quality
-     palette (icons.ts) with its text label always adjacent, so the info is
-     never color-only; no new tap targets (the whole row stays the button). */
+     recipe button. The difficulty tint comes from the --color-craft-* tokens
+     via the data attribute (never an inline color) with its text label always
+     adjacent, so the info is never color-only; no new tap targets (the whole
+     row stays the button). */
   .crafting-skill-line {
     display: block;
     margin-top: 2px;
+  }
+  .crafting-difficulty[data-difficulty="full"] {
+    color: var(--color-craft-full);
+  }
+  .crafting-difficulty[data-difficulty="reduced"] {
+    color: var(--color-craft-reduced);
+  }
+  .crafting-difficulty[data-difficulty="minimal"] {
+    color: var(--color-craft-minimal);
+  }
+  .crafting-difficulty[data-difficulty="none"] {
+    color: var(--color-craft-none);
   }
   .crafting-station-badge {
     display: inline-block;
@@ -5116,10 +5315,12 @@
      a per-recipe label-wrapped checkbox under the Craft button, reusing the
      combo-note footprint so the recipe card keeps its rhythm. */
   .crafting-commission-row {
+    flex: 1 0 100%;
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 2px 6px 4px;
+    padding: 5px 10px 6px;
+    border-top: 1px solid #ffffff0d;
     font-size: 11px;
     color: var(--gold);
     cursor: pointer;

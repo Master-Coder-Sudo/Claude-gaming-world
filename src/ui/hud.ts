@@ -1308,6 +1308,11 @@ export class Hud {
   // painter) so the crafting window's staleness repaints never untick a
   // checked box; consumed on craft, cleared on window close.
   private readonly craftCommissionOptIn = new Set<string>();
+  // The crafting window's selected craft tab. Held here (the commission-set
+  // precedent) so staleness repaints keep the player's tab; null means "no
+  // pick yet" and the painter falls back to the first tab. Cleared on close
+  // so reopening always starts at the front of the book.
+  private selectedCraftTab: string | null = null;
   private readonly delveBoard: DelveBoardController;
   private readonly delveTracker: DelveTrackerController;
   private readonly lockpickController: LockpickController;
@@ -7104,7 +7109,7 @@ export class Hud {
       // checks on the slow band; the server re-validates the gate on every
       // craft regardless.
       if (
-        $('#crafting-window').style.display === 'block' &&
+        $('#crafting-window').style.display !== 'none' &&
         stationTypesSignature(inRangeStationTypes(sim.player.pos, sim.activeMobileStationCraft)) !==
           this.lastCraftingStationSig
       )
@@ -9037,7 +9042,7 @@ export class Hud {
               '#ff6b6b',
             );
           }
-          if ($('#crafting-window').style.display === 'block') this.renderCrafting();
+          if ($('#crafting-window').style.display !== 'none') this.renderCrafting();
           break;
         }
         case 'trainResult': {
@@ -9084,7 +9089,7 @@ export class Hud {
           // known recipes) without waiting for a manual reopen.
           if (this.openTrainNpcId !== null && $('#train-window').style.display === 'block')
             this.renderTrain();
-          if ($('#crafting-window').style.display === 'block') this.renderCrafting();
+          if ($('#crafting-window').style.display !== 'none') this.renderCrafting();
           break;
         }
         case 'unbindResult': {
@@ -11534,7 +11539,7 @@ export class Hud {
   // -------------------------------------------------------------------------
 
   toggleCrafting(): void {
-    if ($('#crafting-window').style.display === 'block') {
+    if ($('#crafting-window').style.display !== 'none') {
       this.closeCrafting();
       return;
     }
@@ -11594,6 +11599,15 @@ export class Hud {
           if (on) this.craftCommissionOptIn.add(recipeId);
           else this.craftCommissionOptIn.delete(recipeId);
         },
+        selectedCraft: () => this.selectedCraftTab,
+        onSelectCraft: (professionId) => {
+          this.selectedCraftTab = professionId;
+          this.renderCrafting();
+          // A fresh tab starts at the top of its recipe list, not wherever
+          // the previous craft's scroll happened to rest.
+          const scroller = $('#crafting-window').querySelector('.crafting-body');
+          if (scroller) scroller.scrollTop = 0;
+        },
       },
       buildProfessionIdentityView(this.sim.craftingIdentity),
       // Per-section "learnable at a master" hints: crafts with unlearned
@@ -11607,8 +11621,9 @@ export class Hud {
     this.hideTooltip();
     // Commission opt-ins are per-session-of-the-window: closing it drops any
     // armed-but-uncrafted checkboxes, so reopening always starts clean (the
-    // off-by-default rule).
+    // off-by-default rule). The selected tab resets with them.
     this.craftCommissionOptIn.clear();
+    this.selectedCraftTab = null;
   }
   // -------------------------------------------------------------------------
   // The World Market — the Merchant's auction house
@@ -11864,7 +11879,7 @@ export class Hud {
     if (sig === this.lastProfessionSurfaceSig) return;
     this.lastProfessionSurfaceSig = sig;
     this.charWindow.renderIfOpen();
-    if ($('#crafting-window').style.display === 'block') this.renderCrafting();
+    if ($('#crafting-window').style.display !== 'none') this.renderCrafting();
   }
 
   renderBags(): void {

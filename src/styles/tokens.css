@@ -86,6 +86,18 @@
        raw hex). Exact pre-existing value. */
     --color-quality-default: #fff;
 
+    /* Crafting skill-gain difficulty tints (consumer: components.css
+       .crafting-difficulty[data-difficulty], painted by crafting_window.ts as
+       a data attribute, never an inline color). The classic four-color recipe
+       intuition (Professions 2.0): full/minimal/none reuse the item-quality
+       palette literals (icons.ts QUALITY_COLOR legendary/uncommon/poor, a
+       classic-fidelity anchor), reduced is the house gold. The tint is always
+       a redundant hint beside the text label (fairness). */
+    --color-craft-full: #ff8000;
+    --color-craft-reduced: var(--gold);
+    --color-craft-minimal: #1eff00;
+    --color-craft-none: #9d9d9d;
+
     /* Empty paperdoll slot greys (char_window.ts uses these so the painter carries
        no raw hex): the muted "Empty" label and the dimmed placeholder-icon border.
        Exact pre-existing values. */

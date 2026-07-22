@@ -92,6 +92,10 @@ export function renderProfessionIdentityCard(
     )
     .join('');
 
-  card.innerHTML = `${headingHtml}${summaryHtml}${returnCostHtml}${tutorial}<ul class="profession-skill-list" role="list">${skillHeader}${skillRows}</ul>${nudges ? `<ul class="profession-identity-nudges" role="list">${nudges}</ul>` : ''}`;
+  // Two-column card: the narrative half (heading, summary, return cost,
+  // tutorial, nudges) beside the skill table, so the card reads as a compact
+  // hero instead of a tall stack (the wrapper is layout-only; every child
+  // keeps its class and semantics).
+  card.innerHTML = `<div class="profession-identity-main">${headingHtml}${summaryHtml}${returnCostHtml}${tutorial}${nudges ? `<ul class="profession-identity-nudges" role="list">${nudges}</ul>` : ''}</div><ul class="profession-skill-list" role="list">${skillHeader}${skillRows}</ul>`;
   parent.appendChild(card);
 }

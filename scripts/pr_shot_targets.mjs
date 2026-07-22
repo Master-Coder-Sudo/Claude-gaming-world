@@ -353,16 +353,18 @@ export const TARGETS = [
     when: ['ui/crafting_view', 'ui/crafting_window', 'sim/content/recipes', 'sim/professions'],
     // Desktop and mobile variants: the Phase 6 legibility rows (skill line,
     // difficulty label, station badge, combo reason) are actionable info and
-    // must read on both form factors. The four-states variant stages a
-    // mid-skill unattuned character so one window shows the whole 12c
-    // difficulty ladder at once: commons two tiers below (minimal, green),
-    // a known rung-25 recipe one below (reduced, yellow), a known rung-50
-    // recipe at capability (full, orange), and the armorcrafting 75 row
-    // above the pre-attunement ceiling (none, gray).
+    // must read on both form factors. The window shows one craft per tab, so
+    // the 12c difficulty ladder splits across two framings: four-states
+    // stages a mid-skill unattuned character whose weaponcrafting tab shows
+    // the gain ladder (commons two tiers below = minimal green, a known
+    // rung-25 recipe = reduced yellow, a known rung-50 recipe = full orange),
+    // and ceiling-state switches to the armorcrafting tab where the 75 row
+    // sits above the pre-attunement ceiling (none, gray).
     variants: [
       { key: 'desktop' },
       { key: 'mobile', mobile: true },
       { key: 'desktop-four-states', fourStates: true },
+      { key: 'desktop-ceiling-state', fourStates: true, selectTab: 'armorcrafting' },
     ],
     // Grant a spread of reagents across a few professions so several recipes read
     // craftable, force-hide then toggle so the open is deterministic, and clip to
@@ -394,6 +396,23 @@ export const TARGETS = [
       // bags/map windows do (getBoundingClientRect can report 0x0 for 2-4s), so
       // poll for a real size instead of guessing a fixed wait.
       const open = await pollForSize(page, '#crafting-window');
+      if (open && variant?.fourStates) {
+        // Staging mid-tier craft skills trips the once-ever first-tier
+        // explainer modal over the window; dismiss it so the shot frames the
+        // recipe pane, not the tutorial.
+        await page.evaluate(() => {
+          document.querySelector('#profession-tutorial .cd-ok')?.click();
+        });
+        await wait(200);
+      }
+      if (open && variant?.selectTab) {
+        // The window shows one craft per tab; a variant that frames another
+        // craft clicks its tab (the real control, not a state poke).
+        await page.evaluate((craft) => {
+          document.querySelector(`#crafting-window .crafting-tab[data-craft="${craft}"]`)?.click();
+        }, variant.selectTab);
+        await wait(300);
+      }
       if (open && (variant?.mobile || variant?.fourStates)) {
         // The identity card fills the top of the window (all of it on the short
         // landscape viewport); scroll the first recipe section into view so the
