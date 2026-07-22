@@ -5854,7 +5854,7 @@ const AURA_NAME_KEY: Record<string, SimMessageKey> = {
   // Phase 10 crafted alchemy elixir auras (content/profession_items.ts): the
   // buff_sta aura display name each crafted elixir pushes on use.
   'Might of the Boar': 'aura.elixirBoar',
-  'Venomfire Vigor': 'aura.elixirVenomfire',
+  'Vipersear Vigor': 'aura.elixirVenomfire',
   'Might of the Serpent': 'aura.elixirSerpent',
   Summoned: 'aura.summoned',
   Fed: 'aura.fed',

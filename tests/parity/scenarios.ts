@@ -4436,7 +4436,7 @@ function professionsGather(seed = 1): Scenario {
       // at an undrained proficiency 0 anyway), and the retention filter
       // sheds the accumulating common stacks while keeping the NEWEST eight
       // signed instances, so a hunted hit's forced-signed x5 yield (all
-      // moonlit-bloom silverleaf) survives into the final inventory sample
+      // moonlit-bloom sheenleaf) survives into the final inventory sample
       // even when the window hits more than once. The hunted seed's FIRST
       // rare event lands inside this window (gatherRareEvent + x5 yield).
       teleport(sim, p, -86, 90); // herb_eastbrook_1

@@ -1297,3 +1297,31 @@ describe('S3 meta-guard: quest_commands.ts stays on the simSrc scan list', () =>
     ).toBe(true);
   });
 });
+
+// --- Elixir aura names must round-trip the AURA_NAME_KEY reverse map. The
+// aura string is authored twice (the item def's elixir.aura and the sim_i18n
+// map row); a rename that touches only one side silently un-localizes the
+// buff-bar aura for every non-English player, with no other gate noticing. ---
+describe('elixir aura names stay wired to the sim aura matcher', () => {
+  it('every authored elixir aura resolves through localizeSimAuraName', async () => {
+    const { ITEMS } = await import('../src/sim/data');
+    const auras = Object.values(ITEMS)
+      .map((item) => (item as { elixir?: { aura?: string } }).elixir?.aura)
+      .filter((aura): aura is string => typeof aura === 'string');
+    expect(auras.length).toBeGreaterThanOrEqual(4);
+    setLanguage('en');
+    for (const aura of auras) {
+      expect(localizeSimAuraName(aura), `aura "${aura}" missing from AURA_NAME_KEY`).not.toBeNull();
+    }
+  });
+
+  it('the renamed Vipersear Vigor aura localizes on a non-Latin surface', async () => {
+    await ensureLocaleLoaded('zh_CN');
+    setLanguage('zh_CN');
+    try {
+      expect(localizeSimAuraName('Vipersear Vigor')).toBe('蝰灼之力');
+    } finally {
+      setLanguage('en');
+    }
+  });
+});

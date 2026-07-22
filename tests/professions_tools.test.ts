@@ -379,14 +379,14 @@ describe('crafted higher-tier base tools and monster-material gating (#1135)', (
   });
 
   it('a crafted tier-4/5 tool gates monster materials the same way a vendor tier-1/2/3 tool gates nodes', () => {
-    const thorium = gatherToolTier(ITEMS.thorium_mining_pick, 'mining') ?? -1;
-    const arcanite = gatherToolTier(ITEMS.arcanite_mining_pick, 'mining') ?? -1;
-    expect(thorium).toBe(4);
-    expect(arcanite).toBe(5);
-    expect(canHarvestMonsterMaterial(thorium, 3)).toBe(true);
-    expect(canHarvestMonsterMaterial(thorium, 4)).toBe(true);
-    expect(canHarvestMonsterMaterial(thorium, 5)).toBe(false);
-    expect(canHarvestMonsterMaterial(arcanite, 5)).toBe(true);
+    const osmiumPick = gatherToolTier(ITEMS.thorium_mining_pick, 'mining') ?? -1;
+    const glyphsteelPick = gatherToolTier(ITEMS.arcanite_mining_pick, 'mining') ?? -1;
+    expect(osmiumPick).toBe(4);
+    expect(glyphsteelPick).toBe(5);
+    expect(canHarvestMonsterMaterial(osmiumPick, 3)).toBe(true);
+    expect(canHarvestMonsterMaterial(osmiumPick, 4)).toBe(true);
+    expect(canHarvestMonsterMaterial(osmiumPick, 5)).toBe(false);
+    expect(canHarvestMonsterMaterial(glyphsteelPick, 5)).toBe(true);
   });
 
   it('infinite durability holds for crafted tiers too, not just vendor tiers', () => {

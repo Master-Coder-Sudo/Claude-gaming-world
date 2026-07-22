@@ -942,7 +942,7 @@ describe('fishing deeds through the extracted module path (pin 9)', () => {
     expect(meta.deedsEarned.has('prog_master_gatherer')).toBe(true);
   });
 
-  it('a fished glimmerfin koi logs the rare-catch line and completes col_glimmerfin', () => {
+  it('a fished sunglint koi logs the rare-catch line and completes col_glimmerfin', () => {
     // Acceptance criterion 3: the rare catch and its deed complete unchanged
     // through the extracted module path. col_glimmerfin is a collectItems
     // trigger riding the addItem collection path, so a real completeFishing

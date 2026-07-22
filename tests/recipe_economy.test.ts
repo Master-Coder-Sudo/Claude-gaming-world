@@ -250,7 +250,7 @@ describe('LADDER SHAPE PINS', () => {
   // Material bands (Phase 10 ladder design): a rung-50 (rare) recipe must not be
   // craftable from ONLY the top rare-band inputs; it must still consume something
   // below that tier so the low/mid gathering economy keeps its demand. The
-  // rare-band is the tier-3 gathered materials, the arcanite bar, and the rare
+  // rare-band is the tier-3 gathered materials, the glyphsteel bar, and the rare
   // specimens. NOTE the check is phrased as "not solely rare-band" rather than
   // "contains a low/mid material": recipe_anglers_feast_platter (a shipped rung-50
   // cooking recipe) consumes only mid-tier fish, sunpetal_herb, and cooking_salt,

@@ -159,7 +159,7 @@ describe('caster-stat (int/spi) crafting recipes', () => {
     const pid = sim.playerId;
     const recipe = recipeById('recipe_sootscale_mantle')!;
     placeAtStationFor(sim, pid, recipe.id);
-    // Phase 15 QA directed burn-down reagents (thorium plus flux volume).
+    // Reagent volume rework outcome (osmium plus flux volume).
     grantItem(sim, 'thorium_ore', 7, pid);
     grantItem(sim, 'smithing_flux', 5, pid);
 
