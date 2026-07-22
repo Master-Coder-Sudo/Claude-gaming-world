@@ -1461,7 +1461,7 @@ export const GUIDE_CLASSES: GuideClassInfo[] = [
   },
   {
     "id": "druid",
-    "color": "#ff6a1f",
+    "color": "#ff8c1a",
     "resource": "mana",
     "roles": [
       "tank",

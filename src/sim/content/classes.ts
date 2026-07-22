@@ -463,7 +463,7 @@ export const CLASSES: Record<PlayerClass, ClassDef> = {
       'skull_bash',
       'primal_reflexes',
     ],
-    color: 0xff6a1f,
+    color: 0xff8c1a,
   },
 };
 

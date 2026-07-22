@@ -1,17 +1,20 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { CLASS_COLOR as AVATAR_CLASS_COLOR } from '../server/avatar';
 import { CLASS_CHIPS } from '../src/guide/data';
 import { CLASSES } from '../src/sim/content/classes';
 import type { PlayerClass } from '../src/sim/types';
 
-// The class color lives in three places: CLASSES[cls].color (the shared source,
-// driving chat names, party/raid frame accents, minimap/delve dots, the 3D model
-// tint, and the Player Card), the two --class-color token blocks in shell.css
-// (char-select chips, class detail panels, skin swatches), and the guide's
-// CLASS_CHIPS. The CSS and guide copies are MANUAL parallels that do not read
-// CLASSES, and they have drifted before (priest was #ffffff vs #fffff0), so this
-// suite pins the shared palette to literals and guards all three sites against
-// each other.
+// The class color lives in several places: CLASSES[cls].color (the shared
+// source, driving chat names, party/raid frame accents, minimap/delve dots, the
+// 3D model tint, and the Player Card), the two --class-color token blocks in
+// shell.css (char-select chips, class detail panels, skin swatches), the guide's
+// CLASS_CHIPS, and the server avatar emblem tint (public profile pages and
+// og:image unfurls). The CSS and guide copies are MANUAL parallels that do not
+// read CLASSES, and copies have drifted before (priest was #ffffff in CSS vs
+// #fffff0 in the sim, and the avatar table shipped a whole palette generation
+// behind), so this suite pins the shared palette to literals and guards every
+// site against it.
 
 // The approved palette, pinned as literals so a silent revert of any single
 // color fails loudly. Do not derive these from CLASSES: the pin IS the spec.
@@ -24,7 +27,7 @@ const PALETTE: Record<PlayerClass, number> = {
   priest: 0xc6d4f0,
   shaman: 0x4e8aea,
   warlock: 0xa785e6,
-  druid: 0xff6a1f,
+  druid: 0xff8c1a,
 };
 const CLASS_IDS = Object.keys(PALETTE) as PlayerClass[];
 
@@ -44,7 +47,14 @@ describe('class color palette', () => {
   });
 
   it('covers every class exactly once', () => {
-    expect(CLASS_IDS.sort()).toEqual(Object.keys(CLASSES).sort());
+    expect([...CLASS_IDS].sort()).toEqual(Object.keys(CLASSES).sort());
+  });
+
+  it('the server avatar emblem tint matches the shared value per class', () => {
+    for (const cls of CLASS_IDS) {
+      const [r, g, b] = AVATAR_CLASS_COLOR[cls];
+      expect((r << 16) | (g << 8) | b, `avatar color for ${cls}`).toBe(PALETTE[cls]);
+    }
   });
 
   it('both shell.css --class-color token blocks match the shared value per class', () => {
@@ -71,5 +81,22 @@ describe('class color palette', () => {
         toCssHex(PALETTE[chip.id as PlayerClass]),
       );
     }
+  });
+
+  it('the char-select badge literals track their 1:1 class colors', () => {
+    // The energy and rage resource badges and the ranged role label render on
+    // the SAME class-details card as the class-colored name, and each is 1:1
+    // with a single class (rogue, warrior, hunter), so they must track the
+    // palette exactly or the card shows two near-miss shades of one identity.
+    // Mana is shared by five classes and deliberately NOT class-pinned.
+    expect(shellCss).toContain(
+      `.badge-resource.resource-energy { background: rgba(252, 238, 88, 0.12); border-color: rgba(252, 238, 88, 0.4); color: ${toCssHex(PALETTE.rogue)}; }`,
+    );
+    expect(shellCss).toContain(
+      `.badge-resource.resource-rage { background: rgba(214, 122, 84, 0.15); border-color: rgba(214, 122, 84, 0.4); color: ${toCssHex(PALETTE.warrior)}; }`,
+    );
+    expect(shellCss).toContain(
+      `.class-details-role.role-ranged { color: ${toCssHex(PALETTE.hunter)}; }`,
+    );
   });
 });
