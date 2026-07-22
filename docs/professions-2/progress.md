@@ -634,6 +634,89 @@ from the wash review (PR body carries all of these).
 
 (append per-phase notes, deferrals, and surprises here as sessions complete)
 
+Phase 16 (2026-07-22): the release-blocking enchanting stat trim, landed
+on this branch per the finishing-packet process (no PR). STEP 0: release
+delta was two commits (the dungeon finder scroll fix, PR #2215), merged
+as b47e430f5, release-merge audit clean (zero branch-owned overlap, no
+premise touched). RE-VERIFIED at tip before sizing: the per-axis stacks
+matched the phase file exactly (int 48, sta 39 base to 49 best, agi 50,
+str 37, spi 23, armor 70), and the BiS budgets were recomputed from the
+live tables (best item per equip slot via canEquipItemInSlot with
+requiredLevelFor at the level-20 cap, warrior fury dual wield included,
+masterwork variants included though they move no slot maximum): str 125,
+agi 130, sta 113, int 120, spi 93, armor 2560 plate to 604 cloth. The
+maintainer's ~111 int claim was close but low; percentages below use the
+recomputed budgets. THE TRIM: base tier is floor(old/2) on every enchant
+except neck spirit (3, see deviations) and the three sta bases; Greater
+is exactly base+3 on its slot and axis; Runed lands at weapon 3,
+helmet links 5, chest runeweave 5, legs hide 4; armor is halved per the
+worked example. Before/after best-path stacks per axis (the PR-body
+table):
+
+| Axis  | Before | After | Share of BiS budget | After picks (best path) |
+|-------|--------|-------|---------------------|-------------------------|
+| int   | 48     | 24    | 20 percent of 120   | Greater weapon 5, helmet 4, legs 4, gloves 3, neck 2, shoulder 2, ring 2 x2 |
+| sta   | 49     | 24    | 21 percent of 113 (+240 HP) | Greater helmet 6, Greater chest 7, Greater legs 6, waist 3, feet 2 |
+| agi   | 50     | 25    | 19 percent of 130   | Greater gloves 6, runed legs 4, waist 3, weapon 2, neck 2, shoulder 2, feet 2, ring 2 x2 |
+| str   | 37     | 19    | 15 percent of 125   | Greater weapon 5, waist 3, gloves 3, shoulder 2, feet 2, ring 2 x2 |
+| spi   | 23     | 12    | 13 percent of 93    | runeweave chest 5, neck 3, ring 2 x2 |
+| armor | 70     | 35    | (no example target) | helmet 15, chest 20 |
+
+No-shard paths after: int 22, sta 17, agi 22, str 17. Tier-aggregate
+shape: the base tier keeps 45.6 percent of its old sum (trimmed
+hardest), runed 50 percent, Greater 55.6 percent (the shard premium
+kept the most), exactly the intended ordering. WORKED-EXAMPLE
+DEVIATIONS (rules preferred per the phase tie-break, all three recorded
+as tensions, not new rules): (1) sta bases landed one lower than the
+example sketch (helmet 3, chest 4, legs 3 vs 4/5/4) because the
+example's own bases plus the Greater-step rule force a 27-point path
+(270 HP), overshooting both the stated 230 to 250 HP target and the
+sta-hardest rule; one point lower restores 24 points / 240 HP inside
+the band with every Greater still exactly base+3. (2) Gloves Greater
+Agility is 6, above the example's "Greater 8 to 9 becomes 4 to 5",
+because 5 would be only +2 over the base 3, the exact collapse rule 2
+forbids. (3) Neck spirit is 3 (inside the example's stated 2 to 3
+range, not the uniform floor-half 2) so stamina stays strictly the
+hardest-trimmed axis (sta keeps 49.0 percent of its old stack, every
+other axis keeps 50.0 or more). BAND TENSIONS recorded, not fixed: spi
+12 is 12.9 percent of its 93 budget, below the 15 to 25 band, because
+spirit rides only neck, chest, and rings; padding the axis with new
+enchants was out of scope. Armor (35 total) has no percentage target in
+the example and is 1.4 percent of a plate budget, 5.8 percent of cloth.
+TESTS: new tests/enchants_magnitude_invariants.test.ts (single-axis
+guard, exact per-axis stack pins with budget-share comments, the
+Greater-beats-base-by-3 sweep, the runed strict-betweenness sweep with
+literal pins for the two ladder-less rows, and a live-sim full-sta-path
+pin: level 20 warrior, five real pieces enchanted through
+resolveApplyEnchant, exactly +24 sta and +240 HP); re-pins in
+tests/professions_enchanting.test.ts only (nine literals). The other
+three files the phase named to check carry no table-derived magnitude
+pins (professions_typed_reagents' relational slot checks pass
+unchanged; bag_item_context_menu's str 5 payload is synthetic). Wiki
+regenerated. Parity: 183 green, zero golden diffs (no scenario
+enchants). The spawn-worn recruit_tunic trap resurfaced in the HP test
+(equipping a bag copy swaps with the worn one); apprentice_robe used
+instead, comment in the test.
+
+Phase 16 RE-AUDIT EMPHASIS (for P20): the exact chosen numbers are
+pinned in tests/enchants_magnitude_invariants.test.ts (per-axis totals
+19/25/24/24/12/35 and the two runed literals) and the full table is in
+src/sim/content/enchants.ts; re-verify the four trim-shape rules
+against the table directly, not against this note. Decided inline this
+session, worth fresh eyes: the three worked-example deviations above
+(especially sta bases below the maintainer's sketch and Greater gloves
+agility at 6); tier identity in the invariant tests is DERIVED from
+reagents (arcane_shard means Greater, resonant_* means Runed), so a
+future enchant with a novel reagent mix silently lands in the base
+bucket of those sweeps; the spi under-band shortfall was accepted
+without maintainer sign-off (flag it in the single PR body); the
+convention comment atop enchants.ts now cites the invariant test file
+by name (rename hazard). Verified only by suites, not by hand: the
+claim that no OTHER test pins enchant magnitudes rests on the full
+vitest run plus targeted greps; the i18n no-impact claim rests on
+enchant NAMES being unchanged (the diff touches only statBonus values
+and comments).
+
 Phase 15 RE-QA (2026-07-22, fresh session, branch
 fix/professions-2-phase-15-requa off the release/v0.29.0 tip): the
 independent fresh-eyes re-audit of merged PR #2303 (485e7b429d) that the
