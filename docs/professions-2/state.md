@@ -1612,7 +1612,19 @@ tables, i18n key namespaces, files created)
   acceptArchetypeQuest/switchArchetype (no UI caller, ClientWorld
   no-ops) do not celebrate or baseline-arm; they stay on the Phase 15
   retirement list. #1295's described arms are complete (the issue was
-  already closed administratively).
+  already closed administratively). Phase 14 QA addition (branch
+  fix/professions-2-phase-14-qa): computeQuestState gained the
+  one-pending-identity-transition gate: while any attunePair-effect
+  quest is active, every OTHER attunePair-effect quest reports
+  'unavailable' in both hosts (the shared function; the server accept
+  path rides questState). Closes the banked-amends escalation dodge:
+  resolvedCounts is stamped at accept and turn-in never re-resolves it,
+  and new-pair attunes leave switchCount untouched, so banking two open
+  amends quests completed the second at a stale cheaper count. Pinned in
+  tests/profession_attunement_quests.test.ts (live path, abandon reopen,
+  escalated re-resolve at 8) and tests/quest_state_optimistic.test.ts
+  (mirror arm); switchHobby and plain quests stay outside the gate. QA
+  deferrals live in #2285.
 - Phase 14b: (planned) the commission marker, bind-on-first-trade
   enforcement, the master unbind service; the three maintainer decisions
   are RESOLVED in OPEN items (character binding, equipment-only opt-in

@@ -1374,3 +1374,47 @@ in-memory nudge cadence restart reset, and the letterId derivation.
 Deferred: nothing. #1295's arms are complete (issue already closed);
 #2058's quests arm lands here (close by hand at merge if the maintainer
 agrees the stations parent is satisfied by Phases 8+9+14).
+
+Phase 14 QA (2026-07-21): PASS with followups, one real fix. QA diff
+8b7bd4596..3219f69cd (build phase-start to the PR #2280 merge, the
+release/v0.29.0 tip); fix branch fix/professions-2-phase-14-qa. Every
+deliverable and STEP 5 acceptance criterion verified against real code;
+validation rows green (tsc, the content and sim matrix rows, the 2039
+attunement suites, the S3 guard with all four new sim modules plus
+quest_commands.ts on the scan list, i18n completeness, wiki:content and
+i18n:gen freshness, ci:changed, parity goldens unchanged). Fan-out:
+STEP 1 context loader, a 10-agent audit Workflow (correctness, test
+coverage, dead code, plus architecture, cross-platform-sync,
+frontend-seam, migration-safety, privacy-security,
+database-performance, qa-checklist), then 5 parallel test writers; the
+correctness agent walked a live offline Sim through nudge, attune,
+celebration, cheap switch, escalating amends, whitelist rejection, and
+a real repeated work-order turn-in at the exact boundary tick.
+- REAL FIX (sim, test-first): the amends escalation could be dodged by
+  banking. resolvedCounts is stamped at accept and turn-in never
+  re-resolves it, and new-pair attunes are free (switchCount stays 0),
+  so a player with three pairs in history could hold both open amends
+  quests at counts [5] and turn the second in after the first return
+  raised switchCount, paying 5 where a fresh accept resolves 8. The
+  shared computeQuestState now hides every OTHER attunePair-effect
+  quest while one is active (one pending identity transition at a
+  time), on both hosts and the server accept gate alike.
+- Coverage arms closed test-first by the audit: the online cprof
+  UNBLOCK arm (a lapsed window empties cadenceBlockedQuests on a set
+  SHRINK re-emit, end to end into the bareClient mirror), a second full
+  work-order accept-and-turn-in cycle, cadence load-clamp and arm
+  boundaries, the single-cadence-constant catalog pin (a second
+  repeatCadenceTicks value would silently mis-clamp on tick-reset
+  load), tier-mail over-cap and skill-drop re-cross negatives, the
+  above-threshold trend nudge (deliberate lower-bar semantics), the
+  optimistic-state cadence and busy-gate cases, the mid-quest 'active'
+  matrix arm, the HUD render sink for all four text-free events (raw
+  pairId can never leak to chat), and tutorial Esc reachability.
+- Deferred to #2285 (all cosmetic/hygiene): the veteran first-tier
+  tutorial baseline decision, a work-order cooldown legibility line,
+  tier-mail unknown-key load hardening, serialize-time cadence pruning.
+- Verified-not-refixed accepted consequences: zone celebration
+  broadcast noise (the masterworkZone precedent), the in-memory nudge
+  cadence restart reset, the v0.29.0 rollback key-drop caveat, the
+  non-wave-one no-return-path pin, and the ClientWorld no-op legacy
+  members awaiting Phase 15 retirement.
