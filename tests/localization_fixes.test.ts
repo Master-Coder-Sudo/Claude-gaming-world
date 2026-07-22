@@ -1311,17 +1311,33 @@ describe('elixir aura names stay wired to the sim aura matcher', () => {
     expect(auras.length).toBeGreaterThanOrEqual(4);
     setLanguage('en');
     for (const aura of auras) {
-      expect(localizeSimAuraName(aura), `aura "${aura}" missing from AURA_NAME_KEY`).not.toBeNull();
+      // Identity round-trip, not just non-null: the EN DICT value must equal
+      // the item def's aura string, or the matcher resolves a stale name.
+      expect(localizeSimAuraName(aura), `aura "${aura}" out of sync with AURA_NAME_KEY`).toBe(aura);
     }
   });
 
-  it('the renamed Vipersear Vigor aura localizes on a non-Latin surface', async () => {
-    await ensureLocaleLoaded('zh_CN');
-    setLanguage('zh_CN');
+  it('the renamed Vipersear Vigor aura localizes on every non-Latin surface', async () => {
+    const expected: Record<string, string> = {
+      zh_CN: '蝰灼之力',
+      zh_TW: '蝰灼之力',
+      ko_KR: '살무사 작열의 활력',
+      ja_JP: '蝮灼の活力',
+      ru_RU: 'Мощь Гадючьего Жара',
+    };
     try {
-      expect(localizeSimAuraName('Vipersear Vigor')).toBe('蝰灼之力');
+      for (const [locale, value] of Object.entries(expected)) {
+        await ensureLocaleLoaded(locale as Parameters<typeof ensureLocaleLoaded>[0]);
+        setLanguage(locale as Parameters<typeof setLanguage>[0]);
+        expect(localizeSimAuraName('Vipersear Vigor'), locale).toBe(value);
+      }
     } finally {
       setLanguage('en');
     }
+  });
+
+  it('the pre-rename aura string keeps a legacy alias for the deploy window', () => {
+    setLanguage('en');
+    expect(localizeSimAuraName('Venomfire Vigor')).toBe('Vipersear Vigor');
   });
 });

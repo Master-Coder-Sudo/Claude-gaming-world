@@ -2112,6 +2112,35 @@ semantic-regressions suite, VITEST_EXIT=0 TSC_EXIT=0 (543 tests). The
 i18n_semantic_regressions pins were checked against every renamed key
 FIRST (none pinned; the reword-staleness trap did not arm).
 
+### P19 review round (appended after the three-reviewer fan-out)
+
+qa-checklist PASS (0 blocking), test-coverage-auditor PASS (0 blocking),
+fresh-eyes PASS with ONE blocking finding, confirmed and fixed: three
+Latin deed fills for exp_first_ore literally rendered the Dwarf Fortress
+motto (cs_CZ "Uder do zeme", pt_BR "Golpeie a Terra", id_ID "Belah
+Bumi") and are now stripped to pending; the fills with pick imagery
+(fr "Premier coup de pioche", pl "Kilofem w ziemie!", tr, and the
+es/it/de/da/sv/nl/vi renderings) remain, and the locale-policy line
+above was corrected to match. Also landed from the round: the deployed
+public/ui/items/mapping.json and public/ui/professions/mapping.json
+display-name fields now carry the new coins (public/ deploys verbatim;
+ids, paths, and hashes untouched), AURA_NAME_KEY gained a one-release
+legacy alias for the pre-rename aura string (mixed-fleet deploy window;
+drop after v0.29.0), the raw_stonescale_carp comment lost its sweep
+jargon, the aura guard was hardened from non-null to EN round-trip
+identity (now catches the EN-DICT third side) plus all five non-Latin
+fills and the alias, and tests/originality_renames.test.ts pins every
+renamed literal that had no owning-suite pin (enchant names, quest name,
+deed name, tool effect, and six item names, plus the deliberate carp
+divergence and the Bree keep). Reviewer notes accepted WITHOUT action:
+the master-spec.md em dash is that table's pre-existing empty-cell
+convention (a table-wide chore, not this diff), Springback Charm remains
+dormant with no i18n surface until tool effects ship a UI, and
+GEARWRIGHT gains a judgment row: BoardGameGeek lists small tabletop
+games named Gearwright (id 43021) and Gearwrights (id 396342); ruled
+KEEP (obscure tabletop properties outside the major-property bar, and a
+generic -wright compound), flagged here for the P20 re-audit.
+
 ### P19 RE-AUDIT EMPHASIS (for P20)
 
 - Judgment-call classifications to re-weigh: the KEEP rulings on Master
@@ -2161,8 +2190,9 @@ FIRST (none pinned; the reword-staleness trap did not arm).
   in place (the de-IP precedent, 7cb388883f) rather than stripped; Latin
   fills whose existing translation already renders the NEW English were
   KEPT (the gear-smith pair titles, the runed-weave chest enchant, the
-  localized pick-strikes-stone deed names, none of which carry the source
-  coin); Latin fills whose semantics changed were stripped to pending
+  localized exp_first_ore deed names that carry pick imagery: see the
+  review-round correction below); Latin fills whose semantics changed
+  were stripped to pending
   (runed_focus, the Inkweaver pair, the quest title, the item names, the
   koi deed desc). The five non-Latin enchantsNote fills are deliberate
   condensed summaries that never asserted either stale claim, so the

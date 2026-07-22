@@ -41,7 +41,7 @@
     },
     {
       "id": "archetype_cogsmith",
-      "name": "The Cogsmith",
+      "name": "The Gearwright",
       "batch": "batch-4",
       "acceptedVersion": "v2",
       "source": "batch-4/masters/archetype_cogsmith.png",
@@ -59,7 +59,7 @@
     },
     {
       "id": "archetype_mageweaver",
-      "name": "The Mageweaver",
+      "name": "The Inkweaver",
       "batch": "batch-4",
       "acceptedVersion": "v3",
       "source": "batch-4/masters/archetype_mageweaver.png",

@@ -818,7 +818,7 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
   },
   // The id/name divergence here is permanent: the id shipped in v0.28.0 (ids
   // in live saves are frozen API, see tests/shipped_item_ids.test.ts) while
-  // the display name had already been de-IP'd to the original Slatefin coin.
+  // the display name already carried the original Slatefin coin.
   // Ids are never player-visible, so the display name is the one that matters.
   raw_stonescale_carp: {
     id: 'raw_stonescale_carp',

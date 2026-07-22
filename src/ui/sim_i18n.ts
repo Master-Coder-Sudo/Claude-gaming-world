@@ -5855,6 +5855,9 @@ const AURA_NAME_KEY: Record<string, SimMessageKey> = {
   // buff_sta aura display name each crafted elixir pushes on use.
   'Might of the Boar': 'aura.elixirBoar',
   'Vipersear Vigor': 'aura.elixirVenomfire',
+  // Legacy alias for mixed-fleet deploy windows: a not-yet-restarted server
+  // still emits the pre-rename aura string. Drop after v0.29.0 ships.
+  'Venomfire Vigor': 'aura.elixirVenomfire',
   'Might of the Serpent': 'aura.elixirSerpent',
   Summoned: 'aura.summoned',
   Fed: 'aura.fed',

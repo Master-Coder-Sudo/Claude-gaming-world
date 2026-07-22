@@ -619,7 +619,7 @@ export const table: DeedLocaleTable = {
     title: 'o Andarilho',
   },
   exp_something_shiny: { name: 'Algo Brilhante', desc: 'Pegue um objeto cintilante do chão.' },
-  exp_first_ore: { name: 'Golpeie a Terra', desc: 'Colete seu primeiro veio de minério.' },
+  exp_first_ore: { desc: 'Colete seu primeiro veio de minério.' },
   exp_first_timber: { name: 'Madeira!', desc: 'Colete seu primeiro ponto de madeira.' },
   exp_first_herb: { name: 'Dedo Verde', desc: 'Colha seu primeiro ponto de ervas.' },
   feat_era_cap: {

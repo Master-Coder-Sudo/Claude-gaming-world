@@ -616,7 +616,7 @@ export const table: DeedLocaleTable = {
     name: 'Sesuatu yang Berkilau',
     desc: 'Pungut sebuah benda berkilauan dari tanah.',
   },
-  exp_first_ore: { name: 'Belah Bumi', desc: 'Panen titik bijih pertamamu.' },
+  exp_first_ore: { desc: 'Panen titik bijih pertamamu.' },
   exp_first_timber: { name: 'Awas, Tumbang!', desc: 'Panen titik kayu pertamamu.' },
   exp_first_herb: { name: 'Tangan Dingin', desc: 'Panen titik herba pertamamu.' },
   feat_era_cap: {
