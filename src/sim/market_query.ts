@@ -20,6 +20,7 @@ export const MARKET_ITEM_TYPE_FILTERS = [
 ] as const;
 export const MARKET_ARMOR_TYPE_FILTERS = [
   'all',
+  'offhand',
   'helmet',
   'neck',
   'shoulder',

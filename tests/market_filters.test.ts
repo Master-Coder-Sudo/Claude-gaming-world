@@ -43,6 +43,7 @@ describe('World Market filters', () => {
     ]);
     expect(MARKET_ARMOR_TYPE_FILTERS).toEqual([
       'all',
+      'offhand',
       'helmet',
       'neck',
       'shoulder',
@@ -154,6 +155,21 @@ describe('World Market filters', () => {
     ]);
     expect(filterIds(armor, { itemType: 'armor', subtype: 'neck' })).toEqual([
       'yumis_keepsake_locket',
+    ]);
+  });
+
+  it('narrows armor filters to the off-hand slot (shields and held offhands)', () => {
+    // The armor bucket admits armor-kind shields AND held_offhand items, both
+    // slot 'offhand', so the offhand subtype must return both kinds together.
+    const armor = [
+      'eastbrook_buckler',
+      'valefire_lantern',
+      'recruit_tunic',
+      'seal_of_the_nine_oaths',
+    ];
+    expect(filterIds(armor, { itemType: 'armor', subtype: 'offhand' })).toEqual([
+      'eastbrook_buckler',
+      'valefire_lantern',
     ]);
   });
 
