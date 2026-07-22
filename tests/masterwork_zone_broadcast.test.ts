@@ -67,6 +67,8 @@ function runScenario(opts?: { crafterInInstanceSpace?: boolean }) {
   meta.craftSkills.tailoring = 200;
   for (let i = 0; i < 3; i++) sim.addItem('linen_scrap', 1, crafter);
   sim.addItem('spider_leg', 1, crafter);
+  sim.addItem('homespun_cloth', 3, crafter);
+  sim.addItem('spool_of_thread', 5, crafter);
 
   const crafterE = sim.entities.get(crafter)!;
   const zoneId = zoneAt(crafterE.pos.z).id;

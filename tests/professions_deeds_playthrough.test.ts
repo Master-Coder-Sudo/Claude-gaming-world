@@ -78,6 +78,9 @@ describe('Phase 15 scripted playthrough (one sim, live sites only)', () => {
     expect(meta.deedsEarned.has('prog_first_craft')).toBe(false);
     sim.addItem('linen_scrap', 3, pid);
     sim.addItem('spider_leg', 1, pid);
+    // Phase 15 burn-down: the vestments recipe gained cloth and thread volume.
+    sim.addItem('homespun_cloth', 3, pid);
+    sim.addItem('spool_of_thread', 5, pid);
     sim.craftItem(VESTMENTS_RECIPE, false, pid);
     expect(sim.lastCraftResult?.ok).toBe(true);
     // Hunted precondition of the whole run: seed 4242's FIRST craft does not
@@ -155,6 +158,8 @@ describe('Phase 15 scripted playthrough (one sim, live sites only)', () => {
       sim.addItemInstance('linen_scrap', { signer: meta.name }, pid);
       sim.addItem('linen_scrap', 1, pid);
       sim.addItem('spider_leg', 1, pid);
+      sim.addItem('homespun_cloth', 3, pid);
+      sim.addItem('spool_of_thread', 5, pid);
       sim.craftItem(VESTMENTS_RECIPE, false, pid);
       if (!sim.lastCraftResult?.ok)
         throw new Error(`craft ${i} denied: ${sim.lastCraftResult?.reason}`);
