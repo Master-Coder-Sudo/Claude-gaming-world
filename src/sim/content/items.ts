@@ -1125,8 +1125,9 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
     stats: { armor: 30, int: 2, spi: 1 },
     // Phase 15 QA directed burn-down (paired arm): re-priced below the
     // reworked craft input (85); this also retires the piece as the cheapest
-    // disenchant fodder (the evidence review's dust-mill row). Not vendored,
-    // so buyValue is inert and keeps its historical figure.
+    // disenchant fodder (the evidence review's dust-mill row). Not vendored;
+    // buyValue keeps its historical figure, and its one live reader (the
+    // market suggested ask, market_view.ts) clamps to 10x sellValue.
     sellValue: 72,
     buyValue: 2100,
   },
@@ -1139,7 +1140,8 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
     quality: 'uncommon',
     stats: { armor: 52, int: 2, spi: 1 },
     // Phase 15 QA directed burn-down (paired arm): re-priced below the
-    // reworked craft input (93). Not vendored; buyValue inert, kept.
+    // reworked craft input (93). Not vendored; buyValue kept, read only by
+    // the market suggested ask, which clamps to 10x sellValue.
     sellValue: 84,
     buyValue: 2300,
   },
@@ -1152,7 +1154,8 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
     quality: 'uncommon',
     stats: { armor: 50, int: 2, spi: 1 },
     // Phase 15 QA directed burn-down (paired arm): re-priced below the
-    // reworked craft input (117). Not vendored; buyValue inert, kept.
+    // reworked craft input (117). Not vendored; buyValue kept, read only by
+    // the market suggested ask, which clamps to 10x sellValue.
     sellValue: 105,
     buyValue: 2200,
   },
