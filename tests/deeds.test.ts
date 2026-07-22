@@ -1431,12 +1431,24 @@ describe('fixpoint across the authored order', () => {
 
 describe('bounded sets on load', () => {
   it('restoreDeedStats drops marks outside the authored namespaces and unknown item ids', () => {
+    // gather_event is the Phase 15 load-drop regression pin: the marks always
+    // serialized fine but were dropped on load while the namespace was missing
+    // from VISITED_MARK_NAMESPACES, so a mid-hunt save silently lost rare-event
+    // deed progress. The mark must survive the round trip.
     const stats = restoreDeedStats({
       itemsDiscovered: ['glimmerfin_koi', 'not_a_real_item'],
-      visited: ['poi:eastbrook_vale:eastbrook', 'garbage', 'evil:namespace'],
+      visited: [
+        'poi:eastbrook_vale:eastbrook',
+        'gather_event:perfect_specimen',
+        'garbage',
+        'evil:namespace',
+      ],
     });
     expect([...stats.itemsDiscovered]).toEqual(['glimmerfin_koi']);
-    expect([...stats.visited]).toEqual(['poi:eastbrook_vale:eastbrook']);
+    expect([...stats.visited]).toEqual([
+      'poi:eastbrook_vale:eastbrook',
+      'gather_event:perfect_specimen',
+    ]);
   });
 });
 
