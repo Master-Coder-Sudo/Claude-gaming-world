@@ -399,6 +399,7 @@ describe('i18n Localization Key Coverage', () => {
     price: '1g 20s',
     proceeds: '95s',
     quality: 'Rare',
+    quest: 'A Trade for Every Hand',
     rating: 1513,
     range: 30,
     rank: 2,

@@ -36,6 +36,18 @@ export function sectionPair(headingKey: TranslationKey, bodyKey: TranslationKey)
 export function p(key: TranslationKey): string {
   return `<p>${esc(t(key))}</p>`;
 }
+/** One or more paragraphs from a single catalog key. The English value may carry
+ * several paragraphs separated by a blank line ('\n\n'); each renders as its own
+ * <p>. A locale fill without blank lines renders as one paragraph, so condensed
+ * fills stay structurally valid. Interpolation params pass straight to t(). */
+export function paras(key: TranslationKey, values?: Parameters<typeof t>[1]): string {
+  return t(key, values)
+    .split(/\n\s*\n/)
+    .map((chunk) => chunk.trim())
+    .filter((chunk) => chunk.length > 0)
+    .map((chunk) => `<p>${esc(chunk)}</p>`)
+    .join('');
+}
 export function pText(text: string): string {
   return `<p>${esc(text)}</p>`;
 }
