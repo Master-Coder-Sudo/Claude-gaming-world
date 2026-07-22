@@ -196,6 +196,13 @@ describe('renderUnbindWindow painter', () => {
     expect(el.textContent).toContain('Unbinding: Forgemistress Darva');
     const row = el.querySelector('.unbind-row') as HTMLButtonElement;
     expect(row.disabled).toBe(false);
+    // The card treatment: an affordable fee rides the gold action chip (never
+    // the plain price), and the icon sits in the shared quality-glow socket.
+    const chip = row.querySelector('.vi-price-chip');
+    expect(chip).not.toBeNull();
+    expect(chip?.textContent).toContain('25');
+    expect(row.querySelector('.vi-price')).toBeNull();
+    expect(row.querySelector('.crafting-recipe-socket')).not.toBeNull();
     row.click();
     expect(deps.onUnbind).toHaveBeenCalledWith(SWORD, 2500);
   });
@@ -209,7 +216,11 @@ describe('renderUnbindWindow painter', () => {
       items: ITEMS,
     });
     renderUnbindWindow(el, 'Darva', broke, deps);
-    expect((el.querySelector('.unbind-row') as HTMLButtonElement).disabled).toBe(true);
+    const brokeRow = el.querySelector('.unbind-row') as HTMLButtonElement;
+    expect(brokeRow.disabled).toBe(true);
+    // The unaffordable arm keeps the plain error-tint price, never the chip.
+    expect(brokeRow.querySelector('.vi-price-chip')).toBeNull();
+    expect(brokeRow.querySelector('.vi-price')?.classList.contains('unaffordable')).toBe(true);
 
     const el2 = document.createElement('div');
     renderUnbindWindow(el2, 'Darva', { rows: [] }, deps);

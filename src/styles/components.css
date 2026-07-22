@@ -5319,6 +5319,19 @@
     border-radius: 7px;
     background: rgba(0, 0, 0, 0.24);
   }
+  /* The vendor family's hover rules predate the card migration: on the old
+     transparent rows they were a light wash or a no-op, but on a card they
+     REPLACE the inset fill (blanking it via .vendor-item:disabled:hover, or
+     swapping it via .vendor-item:hover), so the card restates its fill at
+     matching specificity, layering the hover wash over it on live rows. */
+  .train-row:hover:not(:disabled),
+  .unbind-row:hover:not(:disabled) {
+    background: linear-gradient(0deg, #ffffff10, #ffffff10), rgba(0, 0, 0, 0.24);
+  }
+  .train-row:disabled:hover,
+  .unbind-row:disabled:hover {
+    background: rgba(0, 0, 0, 0.24);
+  }
   /* The shared quality-glow socket, sized down for the narrower service
      windows (the crafting book's 44px socket crowds a 400px card). */
   #train-window .crafting-recipe-socket,
@@ -5437,7 +5450,9 @@
     cursor: default;
   }
   .train-row.train-known:hover {
-    background: transparent;
+    /* Keep the card fill, no hover wash: the known row is informational and
+       must not imply interactivity (transparent here would blank the card). */
+    background: rgba(0, 0, 0, 0.24);
   }
   .train-row.train-known .train-state {
     opacity: 0.7;

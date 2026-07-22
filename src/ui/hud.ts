@@ -4672,7 +4672,7 @@ export class Hud {
     if (isItemLevelEligible(item) && this.optionsHooks?.settings.get('showItemLevel')) {
       const level = itemLevel(item);
       if (level !== undefined) {
-        html += `<div class="tt-stat" style="color:#ffd100">${esc(
+        html += `<div class="tt-stat" style="color:var(--gold)">${esc(
           t('hudChrome.options.itemLevelLine', { level: itemNumber(level) }),
         )}</div>`;
         html += `<div class="tt-sub">${esc(
@@ -4683,7 +4683,7 @@ export class Hud {
     // Bound-to-owner marker (marks and other soulbound tokens): shown like the
     // classic "Soulbound" line so a player can see it cannot be traded or destroyed.
     if (item.soulbound) {
-      html += `<div class="tt-sub" style="color:#ffd100">${esc(t('hudChrome.itemSoulbound'))}</div>`;
+      html += `<div class="tt-sub" style="color:var(--gold)">${esc(t('hudChrome.itemSoulbound'))}</div>`;
     }
     // Maker's Bond lines (Professions 2.0 Phase 14b): the commission
     // binds-on-first-trade warning or the bound lock, beside the def-level
