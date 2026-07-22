@@ -1966,6 +1966,7 @@ export const en_XA: EnTranslations = {
       "removeParcelAria": "[Ŕéɱóʋé {item} ƒŕóɱ ţĥé ļéţţéŕ]",
       "parcelQtyDecreaseAria": "[Šéñð óñé ƒéŵéŕ {item}]",
       "parcelQtyIncreaseAria": "[Šéñð óñé ɱóŕé {item}]",
+      "parcelQtyAria": "[Ɋúáñţíţý óƒ {item} ţó šéñð]",
       "sendButton": "[Šéñð ļéţţéŕ]",
       "postageNote": "[Þóšţáĝé: {amount}. Ţĥé ŕáʋéñ ƒļíéš ƒóŕ áƀóúţ {seconds}š.]",
       "arrivedBanner": "[Ţĥé ŕáʋéñ ĥáš ļáñðéð: ɱáíļ ƒŕóɱ {name}.]",
