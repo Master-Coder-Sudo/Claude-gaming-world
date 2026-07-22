@@ -92,7 +92,7 @@ describe('hud.ts trainResult event arm (source pins)', () => {
     const arm = trainResultArm();
     expect(arm).toContain('this.renderTrain();');
     expect(arm).toContain('this.renderCrafting();');
-    expect(arm).toContain("$('#crafting-window').style.display === 'block'");
+    expect(arm).toContain("$('#crafting-window').style.display === 'flex'");
   });
 });
 
