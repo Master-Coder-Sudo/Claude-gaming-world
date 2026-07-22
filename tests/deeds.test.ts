@@ -2,12 +2,11 @@
 // the meta fixpoint, Fiesta standardization safety, retro-on-join credit,
 // milestone unification, persistence round-trips, and determinism.
 import { describe, expect, it } from 'vitest';
+import { bagCapacity } from '../src/sim/bags';
 import { dealDamage } from '../src/sim/combat/damage';
 import { DEED_ORDER, DEEDS } from '../src/sim/content/deeds';
 import { emptyAllocation, type TalentAllocation } from '../src/sim/content/talents';
 import { ITEMS, MOBS, QUESTS, ZONES } from '../src/sim/data';
-import { bagCapacity } from '../src/sim/bags';
-import { createMob } from '../src/sim/entity';
 import {
   bumpDeedStat,
   checkDeedTrigger,
@@ -22,6 +21,7 @@ import {
   restoreDeedStats,
   updateDeeds,
 } from '../src/sim/deeds';
+import { createMob } from '../src/sim/entity';
 import { announceAttunement } from '../src/sim/professions/attunement_events';
 import { BATTLEFIELD_XP_TRICKLE } from '../src/sim/professions/battlefield_xp';
 import { queueGatheringGrant } from '../src/sim/professions/gathering';
@@ -2198,7 +2198,9 @@ describe('Phase 15 profession deed families (threshold-exact, live sites)', () =
     // A specimen ROLLED and was truncated (the hunt found the downgrade), yet
     // nothing landed: no signed instance, no mark, and after a tick no deed.
     expect(truncatedFindAt).toBeGreaterThanOrEqual(0);
-    expect(meta.inventory.some((s: { itemId: string }) => s.itemId === 'pristine_hide')).toBe(false);
+    expect(meta.inventory.some((s: { itemId: string }) => s.itemId === 'pristine_hide')).toBe(
+      false,
+    );
     expect(meta.deedStats.visited.has('gather_event:perfect_specimen')).toBe(false);
     sim.tick();
     expect(meta.deedsEarned.has('col_perfect_specimen')).toBe(false);

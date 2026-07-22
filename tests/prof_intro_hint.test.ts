@@ -19,7 +19,9 @@ import { questStrings } from '../src/ui/i18n.catalog/quests';
 // key the row renders.
 describe('profession intro hint row', () => {
   it('shows for Smith Haldren before q_prof_intro is completed', () => {
-    expect(professionIntroHintVisible(GUILD_LETTER_SPOKESMAN_NPC_ID, 'available', false)).toBe(true);
+    expect(professionIntroHintVisible(GUILD_LETTER_SPOKESMAN_NPC_ID, 'available', false)).toBe(
+      true,
+    );
     expect(GUILD_LETTER_SPOKESMAN_NPC_ID).toBe('smith_haldren');
   });
 
@@ -48,9 +50,10 @@ describe('profession intro hint row', () => {
   it('hides after q_prof_intro is completed', () => {
     expect(professionIntroHintVisible('smith_haldren', 'done', false)).toBe(false);
     for (const station of STATIONS) {
-      expect(professionIntroHintVisible(station.masterNpcId, 'done', false), station.masterNpcId).toBe(
-        false,
-      );
+      expect(
+        professionIntroHintVisible(station.masterNpcId, 'done', false),
+        station.masterNpcId,
+      ).toBe(false);
     }
   });
 
