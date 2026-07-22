@@ -285,8 +285,8 @@
       "tick": 0,
       "time": 0,
       "nextId": 416,
-      "state": "5d3edfe6",
-      "events": "c3a1794c",
+      "state": "d892533f",
+      "events": "017bbe40",
       "rng": {
         "draws": 1,
         "digest": "fff65987"
@@ -327,6 +327,7 @@
               "linen_scrap",
               "minor_healing_potion",
               "recruit_tunic",
+              "silverleaf_herb",
               "spider_leg",
               "worn_sword"
             ]
@@ -440,8 +441,8 @@
       "tick": 0,
       "time": 0,
       "nextId": 416,
-      "state": "e5bbfee9",
-      "events": "a39a1866",
+      "state": "fec08f3c",
+      "events": "c6dd8553",
       "rng": {
         "draws": 2,
         "digest": "d6442b50"
@@ -489,10 +490,13 @@
               "baked_bread",
               "eastbrook_buckler",
               "eastbrook_ritual_vestments",
+              "homespun_cloth",
               "linen_scrap",
               "minor_healing_potion",
               "recruit_tunic",
+              "silverleaf_herb",
               "spider_leg",
+              "spool_of_thread",
               "worn_sword"
             ]
           },
@@ -515,6 +519,14 @@
             {
               "count": 1,
               "itemId": "minor_healing_potion"
+            },
+            {
+              "count": 1,
+              "itemId": "homespun_cloth"
+            },
+            {
+              "count": 1,
+              "itemId": "spool_of_thread"
             },
             {
               "count": 1,
@@ -626,8 +638,8 @@
       "tick": 0,
       "time": 0,
       "nextId": 416,
-      "state": "d462a5ec",
-      "events": "c3a1794c",
+      "state": "ea39b8bf",
+      "events": "017bbe40",
       "rng": {
         "draws": 3,
         "digest": "07bdddf8"
@@ -675,10 +687,13 @@
               "baked_bread",
               "eastbrook_buckler",
               "eastbrook_ritual_vestments",
+              "homespun_cloth",
               "linen_scrap",
               "minor_healing_potion",
               "recruit_tunic",
+              "silverleaf_herb",
               "spider_leg",
+              "spool_of_thread",
               "worn_sword"
             ]
           },
@@ -701,6 +716,14 @@
             {
               "count": 2,
               "itemId": "minor_healing_potion"
+            },
+            {
+              "count": 1,
+              "itemId": "homespun_cloth"
+            },
+            {
+              "count": 1,
+              "itemId": "spool_of_thread"
             },
             {
               "count": 1,
@@ -810,7 +833,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 416,
-      "state": "d462a5ec",
+      "state": "ea39b8bf",
       "events": "741638a5",
       "rng": {
         "draws": 3,
@@ -859,10 +882,13 @@
               "baked_bread",
               "eastbrook_buckler",
               "eastbrook_ritual_vestments",
+              "homespun_cloth",
               "linen_scrap",
               "minor_healing_potion",
               "recruit_tunic",
+              "silverleaf_herb",
               "spider_leg",
+              "spool_of_thread",
               "worn_sword"
             ]
           },
@@ -885,6 +911,14 @@
             {
               "count": 2,
               "itemId": "minor_healing_potion"
+            },
+            {
+              "count": 1,
+              "itemId": "homespun_cloth"
+            },
+            {
+              "count": 1,
+              "itemId": "spool_of_thread"
             },
             {
               "count": 1,
