@@ -930,6 +930,7 @@ export class Hud {
     keybindEl: HTMLSpanElement;
     cdOverlay: HTMLDivElement;
     cdText: HTMLDivElement;
+    rechargeOverlay: HTMLDivElement;
   }[] = [];
   // The action bar's pure core + thin painter. Built in buildActionBar once
   // the slot buttons exist; tick(world) -> ActionBarState, painted via the shared
@@ -5620,7 +5621,9 @@ export class Hud {
       cdOverlay.className = 'cd-overlay';
       const cdText = document.createElement('div');
       cdText.className = 'cdtext';
-      btn.append(label, countEl, kb, cdOverlay, cdText);
+      const rechargeOverlay = document.createElement('div');
+      rechargeOverlay.className = 'recharge-overlay';
+      btn.append(label, countEl, kb, cdOverlay, rechargeOverlay, cdText);
       const slot = i;
       btn.dataset.hotbarSlot = String(slot);
       // slot 0 is Attack for every class (auto-attack toggle — players
@@ -5841,6 +5844,7 @@ export class Hud {
         keybindEl: kb,
         cdOverlay,
         cdText,
+        rechargeOverlay,
       });
     }
 
@@ -5888,6 +5892,7 @@ export class Hud {
           keybindEl: ab.keybindEl,
           cdOverlay: ab.cdOverlay,
           cdText: ab.cdText,
+          rechargeOverlay: ab.rechargeOverlay,
         })),
       },
       (iconKey) => this.actionBarIconBg(iconKey),
@@ -5927,8 +5932,10 @@ export class Hud {
       cdOverlay.className = 'cd-overlay';
       const cdText = document.createElement('div');
       cdText.className = 'cdtext';
-      btn.append(label, countEl, keybindEl, cdOverlay, cdText);
-      return { btn, label, countEl, keybindEl, cdOverlay, cdText };
+      const rechargeOverlay = document.createElement('div');
+      rechargeOverlay.className = 'recharge-overlay';
+      btn.append(label, countEl, keybindEl, cdOverlay, rechargeOverlay, cdText);
+      return { btn, label, countEl, keybindEl, cdOverlay, cdText, rechargeOverlay };
     });
 
     // Wire clicks: attack -> the classic fixed control while the
@@ -6078,8 +6085,10 @@ export class Hud {
       cdOverlay.className = 'cd-overlay';
       const cdText = document.createElement('div');
       cdText.className = 'cdtext';
-      btn.append(label, countEl, keybindEl, cdOverlay, cdText);
-      return { btn, label, countEl, keybindEl, cdOverlay, cdText };
+      const rechargeOverlay = document.createElement('div');
+      rechargeOverlay.className = 'recharge-overlay';
+      btn.append(label, countEl, keybindEl, cdOverlay, rechargeOverlay, cdText);
+      return { btn, label, countEl, keybindEl, cdOverlay, cdText, rechargeOverlay };
     });
 
     // bindTouchTap, not 'click', for the same reason as the ring: the browser

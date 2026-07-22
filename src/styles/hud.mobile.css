@@ -819,6 +819,32 @@
     text-shadow: 1px 1px 2px #000;
     pointer-events: none;
   }
+  /* The recharge veil (charge-pool abilities): the faint bottom-up curtain,
+     clipped by the ring button's own circle like the cd-overlay sweep above. */
+  body.mobile-touch #mobile-action-ring button .recharge-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 0;
+    background: #0008;
+    pointer-events: none;
+  }
+  /* Charge counts read as charges (gold, outlined, no plate), mirroring the
+     desktop .action-btn .item-count.charge-count treatment. */
+  body.mobile-touch #mobile-action-ring button .item-count.charge-count {
+    right: 4px;
+    bottom: 2px;
+    font-size: 13px;
+    color: var(--gold);
+    text-shadow:
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000,
+      0 0 3px #000;
+    z-index: 1;
+  }
   body.mobile-touch #mobile-action-ring button .keybind {
     display: none;
   }
