@@ -105,8 +105,8 @@ export interface GuideDeed {
 }
 
 // ---------------------------------------------------------------- professions
-// Professions 2.0 reference data (Phase 15 wiki arm). TRANSPARENCY POLICY,
-// maintainer-resolved: the professions sections publish EXACT numbers (skill
+// Professions 2.0 reference data (wiki arm). TRANSPARENCY POLICY:
+// the professions sections publish EXACT numbers (skill
 // requirements, gain boundaries, band thresholds, caps, fees, odds, vendor
 // prices), all derived from the sim source; tests/guide.test.ts guards every
 // row against the live defs. Display names are baked English proper nouns
