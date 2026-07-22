@@ -78,10 +78,10 @@ export function instanceBindingLines(
 ): string {
   if (!instance || !isCommissionEligibleKind(kind)) return '';
   if (instance.boundTo !== undefined) {
-    return `<div class="tt-sub" style="color:#ffd100">${esc(t('hudChrome.crafting.commissionBound'))}</div>`;
+    return `<div class="tt-sub" style="color:var(--gold)">${esc(t('hudChrome.crafting.commissionBound'))}</div>`;
   }
   if (instance.bindOnTrade === true) {
-    return `<div class="tt-sub" style="color:#ffd100">${esc(t('hudChrome.crafting.commissionUnbound'))}</div>`;
+    return `<div class="tt-sub" style="color:var(--gold)">${esc(t('hudChrome.crafting.commissionUnbound'))}</div>`;
   }
   return '';
 }
@@ -94,7 +94,7 @@ export function instanceBadgeLines(instance?: ItemInstancePayload): string {
   if (!instance) return '';
   let html = '';
   if (instance.rolled?.masterwork) {
-    html += `<div class="tt-sub tt-masterwork-seal" style="color:#ffd100"><img class="tt-masterwork-seal-icon" src="${MASTERWORK_SEAL_IMAGE_URL}" alt="" aria-hidden="true" draggable="false"><span>${esc(t('hudChrome.crafting.masterworkSeal'))}</span></div>`;
+    html += `<div class="tt-sub tt-masterwork-seal" style="color:var(--gold)"><img class="tt-masterwork-seal-icon" src="${MASTERWORK_SEAL_IMAGE_URL}" alt="" aria-hidden="true" draggable="false"><span>${esc(t('hudChrome.crafting.masterworkSeal'))}</span></div>`;
   }
   if (isEnchantedInstance(instance)) {
     html += `<div class="tt-sub" style="color:${QUALITY_COLOR.uncommon}">${esc(t('hudChrome.crafting.enchantedLine'))}</div>`;

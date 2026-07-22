@@ -30,7 +30,7 @@ describe('item_instance_tooltip', () => {
       rolled: { masterwork: true, stats: { str: 2 } },
     });
     expect(html).toContain('Masterwork');
-    expect(html).toContain('#ffd100');
+    expect(html).toContain('color:var(--gold)');
     expect(html).toContain('class="tt-masterwork-seal-icon"');
     expect(html).toContain('src="/ui/professions/masterwork_seal.webp"');
     expect(html).toContain('alt="" aria-hidden="true"');
@@ -134,7 +134,7 @@ describe('instanceBindingLines (Phase 14b commission lines)', () => {
   it('an armed-unbound equipment copy warns it binds to the first recipient', () => {
     const html = instanceBindingLines({ bindOnTrade: true }, 'weapon');
     expect(html).toContain('Commission piece: binds to the first recipient');
-    expect(html).toContain('#ffd100');
+    expect(html).toContain('color:var(--gold)');
   });
 
   it('a bound equipment copy states the lock (and never the unbound warning)', () => {

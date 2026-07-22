@@ -296,30 +296,34 @@ export function renderCraftingWindow(
           `<div class="tt-profession-header">${sectionImageUrl ? `<img src="${esc(sectionImageUrl)}" alt="" draggable="false">` : ''}<span>${esc(sectionName)}</span></div>${row.result ? deps.itemTooltip(row.result) : ''}<div class="tt-sub">${esc(t('hudChrome.crafting.reagentsNeeded'))} ${esc(reagentLines)}</div><div class="tt-sub">${esc(skillLine)} ${esc(difficultyLabel)}</div>${row.station ? `<div class="tt-sub">${esc(stationLabel)}${stationOutOfRange ? ` ${esc(stationOutOfRange)}` : ''}</div>` : ''}${comboLine ? `<div class="tt-sub">${esc(comboLine)} ${esc(comboStatus)}</div>` : ''}`,
       );
       item.appendChild(craftBtn);
-      // Commission opt-in (Professions 2.0 Phase 14b): a per-craft checkbox,
-      // off by default, rendered ONLY for the ruled-in equipment output kinds
-      // (crafting_view.ts commissionEligible, the sim's own predicate). A
-      // real <label>-wrapped <input> so the accessible name is free and the
-      // whole line is the tap target; checked state lives with the HUD
-      // (deps.commissionChecked) so a staleness repaint never unticks it.
+      // Commission opt-in (the Maker's Bond): a per-recipe pill toggle-chip
+      // in the card's chip language, right-aligned in the card footer so it
+      // stacks under the gold Craft chip as one action column. Rendered ONLY
+      // for the ruled-in equipment output kinds (crafting_view.ts
+      // commissionEligible, the sim's own predicate). An aria-pressed toggle
+      // button: the accessible name stays the commission label and the state
+      // rides the toggle semantics. Armed state lives with the HUD
+      // (deps.commissionChecked) so a staleness repaint never unticks it;
+      // the click handler mirrors the flip locally instead of repainting.
       if (row.commissionEligible) {
-        const commissionLabel = document.createElement('label');
-        commissionLabel.className = 'crafting-commission-row';
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.checked = deps.commissionChecked(row.recipeId);
-        checkbox.addEventListener('change', () =>
-          deps.onToggleCommission(row.recipeId, checkbox.checked),
-        );
-        commissionLabel.appendChild(checkbox);
-        commissionLabel.appendChild(
-          document.createTextNode(` ${t('hudChrome.crafting.commissionToggle')}`),
-        );
+        const commissionRow = document.createElement('div');
+        commissionRow.className = 'crafting-commission-row';
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'crafting-commission-chip';
+        chip.setAttribute('aria-pressed', deps.commissionChecked(row.recipeId) ? 'true' : 'false');
+        chip.innerHTML = `<span class="crafting-commission-pip" aria-hidden="true"></span>${esc(t('hudChrome.crafting.commissionToggle'))}`;
+        chip.addEventListener('click', () => {
+          const next = chip.getAttribute('aria-pressed') !== 'true';
+          deps.onToggleCommission(row.recipeId, next);
+          chip.setAttribute('aria-pressed', next ? 'true' : 'false');
+        });
         deps.attachTooltip(
-          commissionLabel,
+          chip,
           () => `<div class="tt-sub">${esc(t('hudChrome.crafting.commissionToggleHint'))}</div>`,
         );
-        item.appendChild(commissionLabel);
+        commissionRow.appendChild(chip);
+        item.appendChild(commissionRow);
       }
       if (comboLine) {
         // Keep the reason outside the disabled button's whole-element opacity so

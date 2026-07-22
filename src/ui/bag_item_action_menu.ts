@@ -149,17 +149,23 @@ export class BagItemActionMenu {
       return;
     }
     const rows = picks.map((pick) => {
-      const reagents = pick.reagents
-        .map((reagent) =>
-          t('hudChrome.crafting.reagentLine', {
-            name: itemDisplayName(ITEMS[reagent.itemId]),
-            have: reagent.have,
-            required: reagent.required,
-          }),
+      // Each unsatisfied reagent carries a class the CSS tints (the crafting
+      // window's reagent-line idiom): redundant beside the have/required
+      // counts the text already carries, so the color is a hint, never the
+      // only signal (fairness).
+      const reagentsHtml = pick.reagents
+        .map(
+          (reagent) =>
+            `<span class="ctx-reagent${reagent.have >= reagent.required ? '' : ' unsat'}">${esc(
+              t('hudChrome.crafting.reagentLine', {
+                name: itemDisplayName(ITEMS[reagent.itemId]),
+                have: reagent.have,
+                required: reagent.required,
+              }),
+            )}</span>`,
         )
         .join(', ');
-      const meta = `${this.deps.slotName(pick.itemSlot as ItemSlot)}: ${reagents}`;
-      const html = `${esc(t(enchantNameKey(pick.enchantId)))}<span class="ctx-item-meta">${esc(meta)}</span>`;
+      const html = `${esc(t(enchantNameKey(pick.enchantId)))}<span class="ctx-item-meta">${esc(this.deps.slotName(pick.itemSlot as ItemSlot))}: ${reagentsHtml}</span>`;
       return pick.affordable
         ? { act: `enchant:${pick.enchantId}`, html }
         : { html, disabled: true };

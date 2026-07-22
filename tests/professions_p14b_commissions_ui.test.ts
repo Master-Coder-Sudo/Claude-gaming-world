@@ -1,15 +1,15 @@
 // @vitest-environment jsdom
 
 // Professions 2.0 Phase 14b UI: the commission opt-in control in the crafting
-// window (pure-core eligibility flag + painter checkbox + Hud-held state
-// contract), and the Maker's Bond unbind window (unbind_view pure core +
-// unbind_window painter). The sim-side arcs live in
+// window (pure-core eligibility flag + the painter's pill toggle-chip + the
+// Hud-held state contract), and the Maker's Bond unbind window (unbind_view
+// pure core + unbind_window painter). The sim-side arcs live in
 // tests/professions_p14b_commissions.test.ts.
 
 import { describe, expect, it, vi } from 'vitest';
 import { ALL_RECIPES } from '../src/sim/content/recipes';
 import { ITEMS } from '../src/sim/data';
-import type { InvSlot, ItemDef } from '../src/sim/types';
+import type { InvSlot } from '../src/sim/types';
 import { buildCraftingView } from '../src/ui/crafting_view';
 import { renderCraftingWindow } from '../src/ui/crafting_window';
 import { buildUnbindView } from '../src/ui/hud/vendor/unbind_view';
@@ -77,8 +77,8 @@ describe('crafting_view commissionEligible (the sim predicate on the row)', () =
   });
 });
 
-describe('renderCraftingWindow commission checkbox', () => {
-  it('renders the label-wrapped checkbox ONLY on eligible rows, checked from the HUD state', () => {
+describe('renderCraftingWindow commission toggle-chip', () => {
+  it('renders the pill toggle ONLY on eligible rows, pressed from the HUD state', () => {
     const el = document.createElement('div');
     const deps = craftingDeps();
     deps.commissionChecked = vi.fn((recipeId: string) => recipeId === SWORD_RECIPE);
@@ -86,25 +86,44 @@ describe('renderCraftingWindow commission checkbox', () => {
     renderCraftingWindow(el, view, deps);
     const rows = el.querySelectorAll('.crafting-commission-row');
     expect(rows).toHaveLength(1);
-    const checkbox = rows[0].querySelector('input[type="checkbox"]') as HTMLInputElement;
-    expect(checkbox.checked).toBe(true);
-    expect(rows[0].textContent).toContain('Commission piece');
+    const chip = rows[0].querySelector('button.crafting-commission-chip') as HTMLButtonElement;
+    // A real toggle button: the accessible name is the commission label and
+    // the armed state rides aria-pressed, seeded from the HUD-held set.
+    expect(chip.getAttribute('aria-pressed')).toBe('true');
+    expect(chip.textContent).toContain('Commission piece');
+    // The state pip is a decorative doubling of the pressed signal, never an
+    // accessible surface of its own.
+    expect(chip.querySelector('.crafting-commission-pip')?.getAttribute('aria-hidden')).toBe(
+      'true',
+    );
   });
 
-  it('toggling the checkbox reports through onToggleCommission with the recipe id', () => {
+  it('defaults off and reports toggles through onToggleCommission, mirroring aria-pressed', () => {
     const el = document.createElement('div');
     const deps = craftingDeps();
     const view = buildCraftingView(recipeRows([SWORD_RECIPE]), [], ITEMS);
     renderCraftingWindow(el, view, deps);
-    const checkbox = el.querySelector(
-      '.crafting-commission-row input[type="checkbox"]',
-    ) as HTMLInputElement;
-    checkbox.checked = true;
-    checkbox.dispatchEvent(new Event('change'));
+    const chip = el.querySelector('.crafting-commission-chip') as HTMLButtonElement;
+    expect(chip.getAttribute('aria-pressed')).toBe('false');
+    chip.click();
     expect(deps.onToggleCommission).toHaveBeenCalledWith(SWORD_RECIPE, true);
-    checkbox.checked = false;
-    checkbox.dispatchEvent(new Event('change'));
+    expect(chip.getAttribute('aria-pressed')).toBe('true');
+    chip.click();
     expect(deps.onToggleCommission).toHaveBeenCalledWith(SWORD_RECIPE, false);
+    expect(chip.getAttribute('aria-pressed')).toBe('false');
+  });
+
+  it('docks the chip in the card footer after the craft button, hint tooltip on the chip', () => {
+    const el = document.createElement('div');
+    const deps = craftingDeps();
+    const view = buildCraftingView(recipeRows([SWORD_RECIPE]), [], ITEMS);
+    renderCraftingWindow(el, view, deps);
+    const card = el.querySelector('.crafting-recipe-item') as HTMLElement;
+    const classes = [...card.children].map((child) => child.className);
+    expect(classes[0]).toContain('crafting-recipe-btn');
+    expect(classes[1]).toBe('crafting-commission-row');
+    const chip = card.querySelector('.crafting-commission-chip');
+    expect(deps.attachTooltip.mock.calls.some((call) => call[0] === chip)).toBe(true);
   });
 });
 

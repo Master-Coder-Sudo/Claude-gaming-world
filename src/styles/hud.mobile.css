@@ -3389,17 +3389,17 @@
   body.mobile-touch #unbind-window {
     overflow-y: auto;
   }
-  /* Commission opt-in row (Professions 2.0 Phase 14b): the label is the tap
-     target and the desktop 11px/2px-padding footprint sits far under the
-     40x40 touch floor (src/ui/CLAUDE.md), so on touch the whole row grows to
-     the floor and the native checkbox itself gets a finger-sized box. */
-  body.mobile-touch .crafting-commission-row {
+  /* Commission opt-in chip: the pill toggle IS the whole control, so on
+     touch it grows to the 40px tap floor (src/ui/CLAUDE.md) with a
+     finger-sized state pip. */
+  body.mobile-touch .crafting-commission-chip {
     min-height: 40px;
+    padding: 8px 16px;
     font-size: 13px;
   }
-  body.mobile-touch .crafting-commission-row input[type="checkbox"] {
-    width: 22px;
-    height: 22px;
+  body.mobile-touch .crafting-commission-pip {
+    width: 10px;
+    height: 10px;
   }
   /* Narrower size group: spellbook rows and the options form controls read fine
      at a tighter width, so these stay a compact centered card rather than

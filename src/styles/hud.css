@@ -2668,7 +2668,7 @@
   }
   .mt-tab {
     background: #1a1410;
-    border: 1px solid #463a1c;
+    border: 1px solid var(--color-border-showcase);
     border-radius: 3px;
     color: var(--color-text-muted);
     font-size: 11px;
@@ -5026,7 +5026,7 @@
     color: var(--gold);
     font-size: 13px;
     padding: 3px 8px;
-    border-bottom: 1px solid #463a1c;
+    border-bottom: 1px solid var(--color-border-showcase);
     margin-bottom: 4px;
   }
   #ctx-menu .ctx-item {
@@ -5065,6 +5065,12 @@
     margin-top: 2px;
     font-size: 11px;
     color: var(--color-text-muted);
+  }
+  /* Per-reagent shortfall tint in the picker meta line (the crafting
+     window's reagent idiom): redundant beside the have/required counts the
+     text carries, so the tint is a hint, never the only signal. */
+  #ctx-menu .ctx-item-meta .ctx-reagent.unsat {
+    color: var(--color-text-error);
   }
   #ctx-menu .ctx-item[aria-disabled="true"] {
     color: var(--color-text-muted);
@@ -5284,7 +5290,7 @@
   }
   .trade-items {
     min-height: 120px;
-    border: 1px solid #463a1c;
+    border: 1px solid var(--color-border-showcase);
     border-radius: 4px;
     padding: 4px;
     background: #0c0c12;
