@@ -277,7 +277,8 @@ describe('masterworkZone over the live GameServer wire (session routing)', () =>
     farE.prevPos = { ...farE.prevPos, z };
     // Park the delver in instance space (same overworld z as the crafter, so
     // ONLY the x-arm of the emitToZonePlayers exclusion keeps them out): the
-    // Phase 4 deferral's missing live arm, previously unit-level only.
+    // exclusion was previously proven at the unit level only, never over the
+    // live wire.
     const delverE = entities.get(sd.pid)!;
     delverE.pos.x = DUNGEON_X_THRESHOLD + 100;
     delverE.prevPos = { ...delverE.prevPos, x: delverE.pos.x };
