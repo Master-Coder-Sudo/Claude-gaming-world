@@ -2675,31 +2675,31 @@
     margin-left: 0;
   }
   .mini-class[data-class="warrior"] {
-    --class-color: #c79c6e;
+    --class-color: #bd6448;
   }
   .mini-class[data-class="paladin"] {
-    --class-color: #f58cba;
+    --class-color: #f26fae;
   }
   .mini-class[data-class="hunter"] {
-    --class-color: #abd473;
+    --class-color: #a6d84f;
   }
   .mini-class[data-class="rogue"] {
-    --class-color: #fff569;
+    --class-color: #fcee58;
   }
   .mini-class[data-class="priest"] {
-    --class-color: #ffffff;
+    --class-color: #c6d4f0;
   }
   .mini-class[data-class="shaman"] {
-    --class-color: #0070de;
+    --class-color: #4e8aea;
   }
   .mini-class[data-class="mage"] {
-    --class-color: #69ccf0;
+    --class-color: #33c1f1;
   }
   .mini-class[data-class="warlock"] {
-    --class-color: #9482c9;
+    --class-color: #a785e6;
   }
   .mini-class[data-class="druid"] {
-    --class-color: #ff7d0a;
+    --class-color: #ff6a1f;
   }
 
   .mini-class {
@@ -5744,31 +5744,31 @@
 
   /* Class color tokens, any element with data-class exposes --class-color */
   [data-class="warrior"] {
-    --class-color: #c79c6e;
+    --class-color: #bd6448;
   }
   [data-class="paladin"] {
-    --class-color: #f58cba;
+    --class-color: #f26fae;
   }
   [data-class="hunter"] {
-    --class-color: #abd473;
+    --class-color: #a6d84f;
   }
   [data-class="rogue"] {
-    --class-color: #fff569;
+    --class-color: #fcee58;
   }
   [data-class="priest"] {
-    --class-color: #ffffff;
+    --class-color: #c6d4f0;
   }
   [data-class="shaman"] {
-    --class-color: #0070de;
+    --class-color: #4e8aea;
   }
   [data-class="mage"] {
-    --class-color: #69ccf0;
+    --class-color: #33c1f1;
   }
   [data-class="warlock"] {
-    --class-color: #9482c9;
+    --class-color: #a785e6;
   }
   [data-class="druid"] {
-    --class-color: #ff7d0a;
+    --class-color: #ff6a1f;
   }
 
   /* Portrait chip, a class-ringed headshot rendered from the 3D model.
