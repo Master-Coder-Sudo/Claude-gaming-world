@@ -1967,6 +1967,15 @@ receive localization runtime path is source-pinned plus S3-validated
 rather than fed end to end, a same-stack fungible-plus-instanced gray
 slot would double-fire the idempotent quest hook (unreachable content),
 and the stale world_api_parity it-titles were de-counted per the anchor
-rule instead of re-counted. Release sync note: the merge 94f44360a
-arrived mid-phase window; if the tip moves again before P19/P20, re-run
-the audit.
+rule instead of re-counted. VERIFY: full npm run gate under Node 26,
+judged by the log markers. The FIRST run FAILED at the full suite (the
+recurring full-gate-only class): the Object.create staging harness in
+tests/hud_profession_events.test.ts models only the Hud fields
+handleProfessionEvent touches, and the new attunement-arm gossip probe
+threw on the missing questDialog; fixed by staging the routed stub plus
+a called-once assertion (84360b733, mutation-checked). The SECOND run
+PASSED all 11 steps (browser job 66/66 included; the background task
+notification claimed exit 0 on the FAILED first run too, so the
+log-markers-only rule remains binding). Release sync note: the merge
+94f44360a arrived mid-phase window; if the tip moves again before
+P19/P20, re-run the audit.
