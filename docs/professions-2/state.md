@@ -487,11 +487,18 @@ tables, i18n key namespaces, files created)
     quests, the rare/common ceilings, the combo attunement requirement).
     The full page rewrite remains a Phase 15 deliverable; non-Latin
     overlays hold pre-reword translations until the release locale fill.
-  - Legacy IWorldProfessions members (acceptArchetypeQuest,
-    advanceAmendsProgress, switchArchetype, and the scalar mirrors) have
-    zero UI consumers after Phase 1; kept per deprecate-not-delete. Retire
-    them together with their world_api_parity pins in a later phase
-    (candidate: Phase 15 teardown).
+  - Legacy IWorldProfessions members: RETIRED by the deferral burn-down
+    (2026-07-22) for the three transition methods (acceptArchetypeQuest,
+    advanceAmendsProgress, switchArchetype) and the four scalar
+    projections (activeArchetype, archetypeSwitchCount,
+    archetypeAmendsProgress, archetypeAmendsRequired): facet rows,
+    ClientWorld fields/no-ops/assignments, and the world_api_parity pins
+    all removed in one change; the Sim keeps its implementations as
+    Sim-only extras (the parity gate allows world extras), so the staging
+    tests and scripts/archetype_title_shot.mjs still drive them. NOTE the
+    original "zero UI consumers" claim had gone stale for the two DERIVED
+    scalars: archetypeTitle and hobbyCraft are consumed by the character
+    window title rows (src/ui/char_window.ts) and STAY facet members.
   - ClientWorld.questState's identity guard in src/net/online.ts looks
     dead (the field initializes at declaration) but is load-bearing for
     the bareClient test idiom, which builds instances via

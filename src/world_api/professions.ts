@@ -149,9 +149,11 @@ export interface ApplyEnchantResultView {
 // a player can craft a common-tier recipe if they have required materials.
 //
 // `craftingIdentity` is the atomic craft-skill and attunement read surface used
-// by both offline Sim and online ClientWorld. The legacy scalar properties and
-// transition methods remain for API compatibility, while live transitions are
-// authoritative quest completion effects rather than client commands.
+// by both offline Sim and online ClientWorld; the scalar identity reads that
+// once mirrored it member-by-member are retired in its favor. The two derived
+// scalars below (`archetypeTitle`, `hobbyCraft`) remain: the character-window
+// title rows consume them. Live transitions are authoritative quest completion
+// effects rather than client commands.
 export interface IWorldProfessions {
   professionsState: PlayerProfessionsView;
   nodeHarvestableByMe(nodeId: string): boolean;
@@ -168,14 +170,6 @@ export interface IWorldProfessions {
   // a wire message byte-identical to the pre-phase form.
   craftItem(recipeId: string, commission?: boolean): void;
   craftingIdentity: CraftingIdentityView;
-  // Active archetype identity (#1129). null before the acceptance quest.
-  activeArchetype: string | null;
-  // Total successful switches this character has ever made.
-  archetypeSwitchCount: number;
-  // Progress accrued toward the CURRENT switch's amends requirement, and that
-  // requirement itself (scales with archetypeSwitchCount; see archetype.ts).
-  archetypeAmendsProgress: number;
-  archetypeAmendsRequired: number;
   // The title granted by the CURRENTLY-ACTIVE pair attunement (#1130, pair-named
   // under Professions 2.0 Phase 1): the CANONICAL PAIR ID (see
   // src/sim/professions/archetype.ts archetypePairId / ARCHETYPE_PAIR_TARGETS)
@@ -193,13 +187,6 @@ export interface IWorldProfessions {
   // craft display name lives in src/ui/i18n.catalog/hud_chrome.ts
   // (`craftName.<craftId>`, the per-craft display-name table).
   hobbyCraft: string | null;
-  // Legacy direct transition entry points kept for compatibility. Online
-  // ClientWorld does not send these as commands; live changes use quests.
-  acceptArchetypeQuest(craftId: string): void;
-  advanceAmendsProgress(): void;
-  // Attempt to switch the active archetype; blocked unless enough amends
-  // progress has accrued for the current switchCount.
-  switchArchetype(craftId: string): void;
   // Mobile crafting station (Professions 2.0 Phase 8, wiring the inert #1134
   // mechanic): place the viewer's own temporary station for `craftId`.
   // Specialization-gated server-side (mobile_station.ts

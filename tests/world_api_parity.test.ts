@@ -293,15 +293,8 @@ export const IWORLD_MEMBERS = [
   { name: 'lastCraftResult', kind: 'data' },
   { name: 'lastMasterwork', kind: 'data' },
   { name: 'craftItem', kind: 'method' },
-  { name: 'activeArchetype', kind: 'data' },
-  { name: 'archetypeSwitchCount', kind: 'data' },
-  { name: 'archetypeAmendsProgress', kind: 'data' },
-  { name: 'archetypeAmendsRequired', kind: 'data' },
   { name: 'archetypeTitle', kind: 'data' },
   { name: 'hobbyCraft', kind: 'data' },
-  { name: 'acceptArchetypeQuest', kind: 'method' },
-  { name: 'advanceAmendsProgress', kind: 'method' },
-  { name: 'switchArchetype', kind: 'method' },
   { name: 'placeMobileStation', kind: 'method' },
   { name: 'trainRecipe', kind: 'method' },
   { name: 'activeMobileStationCraft', kind: 'data' },
@@ -471,9 +464,9 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
     // plus the release's Card Duel facet, the Professions 2.0 identity
     // surface, Phase 8's mobile-station pair (placeMobileStation +
     // activeMobileStationCraft), and Phase 14b's unbindItem command.
-    expect(IWORLD_MEMBERS.length).toBe(260);
-    expect(DATA_MEMBERS.length).toBe(71);
-    expect(METHOD_MEMBERS.length).toBe(189);
+    expect(IWORLD_MEMBERS.length).toBe(253);
+    expect(DATA_MEMBERS.length).toBe(67);
+    expect(METHOD_MEMBERS.length).toBe(186);
   });
   it('has no duplicate member names', () => {
     const names = IWORLD_MEMBERS.map((m) => m.name);
@@ -486,24 +479,18 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
     expect(IWORLD_MEMBERS.map((m) => m.name).sort()).toEqual([
       'abandonPet',
       'abandonQuest',
-      'acceptArchetypeQuest',
       'acceptLinkedQuest',
       'acceptQuest',
       'accountCosmetics',
       'accountFlair',
-      'activeArchetype',
       'activeFrostRings',
       'activeLoadout',
       'activeLootRolls',
       'activeMobileStationCraft',
       'activeTemporalHourglasses',
       'activeTitle',
-      'advanceAmendsProgress',
       'applyEnchant',
       'applyTalents',
-      'archetypeAmendsProgress',
-      'archetypeAmendsRequired',
-      'archetypeSwitchCount',
       'archetypeTitle',
       'arenaAugmentPick',
       'arenaInfo',
@@ -710,7 +697,6 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'startAutoAttack',
       'stopAutoAttack',
       'submitLootRoll',
-      'switchArchetype',
       'switchLoadout',
       'tabTarget',
       'takeActionBarLayoutRestore',
@@ -750,15 +736,11 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
   it('the sorted data-kind set is exactly the pinned 68', () => {
     expect(DATA_MEMBERS.map((m) => m.name).sort()).toEqual([
       'accountCosmetics',
-      'activeArchetype',
       'activeFrostRings',
       'activeLoadout',
       'activeMobileStationCraft',
       'activeTemporalHourglasses',
       'activeTitle',
-      'archetypeAmendsProgress',
-      'archetypeAmendsRequired',
-      'archetypeSwitchCount',
       'archetypeTitle',
       'arenaInfo',
       'bagCapacity',
@@ -827,12 +809,10 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
     expect(METHOD_MEMBERS.map((m) => m.name).sort()).toEqual([
       'abandonPet',
       'abandonQuest',
-      'acceptArchetypeQuest',
       'acceptLinkedQuest',
       'acceptQuest',
       'accountFlair',
       'activeLootRolls',
-      'advanceAmendsProgress',
       'applyEnchant',
       'applyTalents',
       'arenaAugmentPick',
@@ -988,7 +968,6 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'startAutoAttack',
       'stopAutoAttack',
       'submitLootRoll',
-      'switchArchetype',
       'switchLoadout',
       'tabTarget',
       'takeActionBarLayoutRestore',
@@ -1428,15 +1407,8 @@ const FACET_PROFESSIONS = [
   'lastCraftResult',
   'lastMasterwork',
   'craftItem',
-  'activeArchetype',
-  'archetypeSwitchCount',
-  'archetypeAmendsProgress',
-  'archetypeAmendsRequired',
   'archetypeTitle',
   'hobbyCraft',
-  'acceptArchetypeQuest',
-  'advanceAmendsProgress',
-  'switchArchetype',
   'placeMobileStation',
   'trainRecipe',
   'activeMobileStationCraft',
@@ -1534,8 +1506,8 @@ describe('W1: aggregate IWorld member set equals the disjoint union of the 28 fa
 
   it('the union of the 28 facets equals the pinned 251-member IWORLD_MEMBERS set', () => {
     const union = Object.values(FACET_MEMBER_ARRAYS).flatMap((arr) => [...arr]);
-    expect(union.length, 'union size before dedup (catches a duplicated member)').toBe(260);
-    expect(new Set(union).size, 'union size after dedup (catches a duplicated member)').toBe(260);
+    expect(union.length, 'union size before dedup (catches a duplicated member)').toBe(253);
+    expect(new Set(union).size, 'union size after dedup (catches a duplicated member)').toBe(253);
     const sortedUnion = [...union].sort();
     const pinned = IWORLD_MEMBERS.map((m) => m.name).sort();
     expect(sortedUnion).toEqual(pinned);

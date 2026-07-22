@@ -1443,16 +1443,6 @@ export class ClientWorld implements IWorld {
   // locally (net/ optimism rules), the delta lands after the server accepts
   // the specialization-gated command, and it flips back to null on expiry.
   activeMobileStationCraft: string | null = null;
-  // Compatibility scalar projections of the atomic `cprof` identity mirror.
-  // Quest acceptance is the only online transition path, so these direct legacy
-  // methods deliberately send no wire commands.
-  activeArchetype: string | null = null;
-  archetypeSwitchCount = 0;
-  archetypeAmendsProgress = 0;
-  archetypeAmendsRequired = 0;
-  acceptArchetypeQuest(_craftId: string): void {}
-  advanceAmendsProgress(): void {}
-  switchArchetype(_craftId: string): void {}
   // Title granted by the active pair attunement (#1130, pair-named under
   // Professions 2.0): the canonical pair id, derived live from the cprof
   // mirror (applySnapshot replaces craftingIdentity wholesale on every cprof
@@ -1461,11 +1451,13 @@ export class ClientWorld implements IWorld {
     const identity = this.craftingIdentity;
     return getArchetypeTitle(identity.activeArchetype, identity.pairedMajor);
   }
-  // Explicit hobby from cprof. The fallback supports pre-cprof servers.
+  // Explicit hobby from cprof. The fallback supports pre-cprof servers (the
+  // mirror's activeArchetype is null until the first cprof lands, matching
+  // the retired scalar projection it replaces byte-for-byte).
   get hobbyCraft(): string | null {
     return this.craftingIdentity.synced
       ? this.craftingIdentity.hobbyCraft
-      : getHobbyCraft(this.activeArchetype);
+      : getHobbyCraft(this.craftingIdentity.activeArchetype);
   }
   // --- IWorldParty: raid-target marker mirror, from the self-wire `marks` (markerFor
   // reads it, no send). ---
@@ -2873,10 +2865,6 @@ export class ClientWorld implements IWorld {
           // keeps a pre-Phase-14 server's payload loading cleanly.
           cadenceBlockedQuests: [...(cprof.cadenceBlockedQuests ?? [])],
         };
-        this.activeArchetype = this.craftingIdentity.activeArchetype;
-        this.archetypeSwitchCount = this.craftingIdentity.switchCount;
-        this.archetypeAmendsProgress = this.craftingIdentity.amendsProgress;
-        this.archetypeAmendsRequired = this.craftingIdentity.amendsRequired;
       }
       // camera follows server-side facing changes when not mouselooking
       if (prevSelfFacing !== undefined && this.mouselookFacing === null) {
