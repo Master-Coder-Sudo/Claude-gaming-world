@@ -114,9 +114,6 @@
   body.mobile-touch.game-active #ui {
     z-index: 80;
   }
-  body.mobile-touch.mobile-more-open #mobile-controls {
-    z-index: 140;
-  }
   body.mobile-touch.game-active #ui,
   body.mobile-touch.game-active #nameplates,
   body.mobile-touch.game-active #mobile-controls {
