@@ -28,6 +28,7 @@ import { ClientWorld } from '../src/net/online';
 import { bagCapacity, stackSizeOf } from '../src/sim/bags';
 import {
   HARVEST_COMPONENT_ITEMS,
+  HARVEST_COMPONENT_SPECIMENS,
   MONSTER_MATERIAL_TIERS,
   monsterMaterialTierFor,
 } from '../src/sim/content/professions';
@@ -564,6 +565,24 @@ describe('two-specimen-family harvest capacity contract (Phase 10 QA)', () => {
 // canGrantItemInstance), and only a bag with NEITHER merge room NOR a free
 // slot downgrades to the plain fallback and its gatherDowngrade notice.
 describe('corpse signed-guard capacity vs merge room (#2139, Phase 12d)', () => {
+  it('no corpse tags two specimen-less harvest families together (the capacity pre-gate premise)', () => {
+    // The fitsAll pre-gate reserves plain-stack room only, and a specimen-less
+    // family's signed grant falls back to an UNCAPPED plain top-up when the
+    // signed unit does not fit. With at most ONE specimen-less family per
+    // corpse that fallback always lands inside its own reservation; a second
+    // such family on one corpse could have its reservation consumed by the
+    // first family's signed land and push one slot past capacity. This guard
+    // makes that content shape a loud failure instead of a silent overflow.
+    const specimenless = new Set(
+      Object.keys(HARVEST_COMPONENT_ITEMS).filter((tag) => !(tag in HARVEST_COMPONENT_SPECIMENS)),
+    );
+    expect(specimenless.size).toBeGreaterThan(0);
+    for (const mob of Object.values(MOBS)) {
+      const tags = (mob.componentTags ?? []).filter((tag) => specimenless.has(tag));
+      expect(tags.length, `${mob.id} tags ${tags.join('+')}`).toBeLessThanOrEqual(1);
+    }
+  });
+
   it('the filed crossing case: zero free slots + a partial plain stack tops up, never overflows', () => {
     // Hunted seed, the dedupe-pin idiom: probe on roomy bags proves the fang
     // roll clears the signable floor, then a FRESH same-seed world reproduces

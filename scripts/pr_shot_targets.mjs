@@ -1491,9 +1491,11 @@ export const TARGETS = [
               { professionId: 'fishing', skill: 68, maxSkill: 200 },
             ],
           };
-          const stateIsFn = typeof game.world.professionsState === 'function';
+          // professionsState is a data read on BOTH world shapes (a getter on
+          // Sim, a field on ClientWorld), so typeof never yields 'function'
+          // and a plain-object value shadows either shape correctly.
           Object.defineProperty(game.world, 'professionsState', {
-            value: stateIsFn ? () => gathering : gathering,
+            value: gathering,
             configurable: true,
           });
         }

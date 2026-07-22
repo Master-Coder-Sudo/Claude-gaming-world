@@ -162,6 +162,22 @@ describe('ring layout', () => {
     expect(arc && arc.endAngle > arc.startAngle).toBe(true);
   });
 
+  it('arc endpoints land exactly on their nodes (chord-parameterization symmetry)', () => {
+    // The chord carries node x/y while the arc carries angles; this proves
+    // the two parameterizations describe the same ring points, including the
+    // wrap arc whose endAngle 2*PI must land back on node 0, so a painter
+    // drawing arc caps and node dots can never misalign them.
+    const nodes = ringNodePositions();
+    const arc = buildRingLayout(['armorcrafting', 'weaponcrafting'], null).pairArc;
+    expect(Math.cos(arc!.startAngle)).toBeCloseTo(nodes[arc!.aIndex].x, 12);
+    expect(Math.sin(arc!.startAngle)).toBeCloseTo(nodes[arc!.aIndex].y, 12);
+    expect(Math.cos(arc!.endAngle)).toBeCloseTo(nodes[arc!.bIndex].x, 12);
+    expect(Math.sin(arc!.endAngle)).toBeCloseTo(nodes[arc!.bIndex].y, 12);
+    const wrap = buildRingLayout(['armorcrafting', 'engineering'], null).pairArc;
+    expect(Math.cos(wrap!.endAngle)).toBeCloseTo(nodes[wrap!.bIndex].x, 12);
+    expect(Math.sin(wrap!.endAngle)).toBeCloseTo(nodes[wrap!.bIndex].y, 12);
+  });
+
   it('yields no arc for non-adjacent majors and no chord without a hobby', () => {
     expect(buildRingLayout(['engineering', 'cooking'], null).pairArc).toBeNull();
     expect(buildRingLayout(null, null).pairArc).toBeNull();

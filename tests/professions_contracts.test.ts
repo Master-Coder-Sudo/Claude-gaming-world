@@ -6,6 +6,7 @@
 import { describe, expect, it } from 'vitest';
 import { ClientWorld } from '../src/net/online';
 import type { ProfessionRecord } from '../src/sim/professions';
+import { emptyCraftSkills } from '../src/sim/professions/wheel';
 import { Sim } from '../src/sim/sim';
 import type { PlayerClass } from '../src/sim/types';
 
@@ -69,6 +70,20 @@ describe('professions contracts (#1164)', () => {
   it('IWorldProfessions.professionsState is a stub empty view on ClientWorld (not yet mirrored from a snapshot)', () => {
     const client = makeClientWorld();
     expect(client.professionsState).toEqual({ skills: [] });
+  });
+
+  it('a fresh pre-sync ClientWorld exposes empty-but-well-formed craft skills', () => {
+    // The real field initializers, not the bareClient Object.create idiom
+    // (which skips them): before any cprof snapshot the identity is unsynced
+    // and every CRAFT_RING craft reads exactly 0, so pre-sync consumers can
+    // index the record without existence checks on either read path.
+    // emptyCraftSkills mints a fresh object per call, so these expectations
+    // are never the aliased live reference.
+    const client = makeClientWorld();
+    expect(client.craftingIdentity.synced).toBe(false);
+    expect(client.craftSkills).toEqual(emptyCraftSkills());
+    expect(Object.values(client.craftSkills).every((v) => v === 0)).toBe(true);
+    expect(client.craftingIdentity.craftSkills).toEqual(emptyCraftSkills());
   });
 
   it('shared professions types are importable from the barrel', () => {
