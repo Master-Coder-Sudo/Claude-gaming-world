@@ -47,7 +47,7 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 15 QA | Final integration QA and packet teardown | complete (executed in the Phase 15 session on the same branch; teardown offer recorded in Notes; independently re-audited post-merge by the Phase 15 RE-QA session, see Notes) | 2026-07-22 | 2026-07-22 |
 | 16 | Enchanting stat trim (release-blocking) | complete (landed on fix/professions-2-phase-15-requa, commits 10fd998f9 to 9083ef8eb; see Notes) | 2026-07-22 | 2026-07-22 |
 | 17 | Interface polish (crafting + ring windows) | complete (landed on fix/professions-2-phase-15-requa; see Notes) | 2026-07-22 | 2026-07-22 |
-| 18 | Deferral burn-down | planned (phase-18-deferral-burndown.md) | | |
+| 18 | Deferral burn-down | complete | 2026-07-22 | 2026-07-22 |
 | 19 | Name originality sweep + wiki truth pass | planned (phase-19-originality-and-wiki.md) | | |
 | 20 | Finish line (scrub, teardown, docs, whole-branch QA) | planned (phase-20-finish-line.md) | | |
 
@@ -1833,3 +1833,129 @@ parity holds by construction). Worth a fresh P20 look: the negated
 display-check class anywhere else it might hide, and the mobile
 rendering of the capped identity card (reasoned from CSS plus the sheet
 screenshots, not element-probed).
+
+### Phase 18: Deferral burn-down (2026-07-22)
+
+COMPLETE, on-branch only (no PR, per the packet rules). STEP 0 absorbed
+release/v0.29.0 at 55af0ae9be (class-color refresh, Avatar break
+control, market subtype filters; merge 94f44360a) with a clean
+release-merge-audit: ten overlap files, only src/guide/content.generated.ts
+genuinely branch-edited, regen zero-drift, the RE-QA market sell-ask cap
+untouched by the delta, the slotName EquipSlot-to-ItemSlot widening
+typechecks against the branch HUD, no new endpoints, no db-mock traps.
+The complete deferral inventory was rebuilt from state.md, progress.md,
+the tuning-evidence addendum, the PR #2303 body, and the program memory
+(384 raw extractions deduplicated), every candidate re-verified against
+the current tree by a read-only verification fan-out plus my own
+spot-checks, then the actionable set fixed test-first. Commits:
+b37da31b1 (wiki payout/deposit constants plus recompute guards),
+00603365c (mixed-stack sell notice plus junk-sweep bound gate),
+508113626 (gossip dialog intro-hint repaint), 620bc9114 + ce2505c57
+(windfall batch grant plus the events-only golden regen), 54c97c7da
+(legacy facet member retirement), 294e11e98 (small coverage pins).
+Every new negative arm was mutation-checked (17 planted mutations, all
+red, tree restored porcelain-clean each time).
+
+The inventory table (P20's checklist). Sources: S = state.md,
+P = progress.md, T = phase-15-tuning-evidence.md, B = PR #2303 body,
+M = program memory, R = a Phase 18 phase-file ruling.
+
+| # | Src | Item | Still applies at P18 start? | Disposition |
+|---|-----|------|-----------------------------|-------------|
+| 1 | R1/P/B | Mixed bound/unbound stack sell was a silent partial | yes: sellItem clamped with no notice | FIXED 00603365c: one "Kept N bound copies." info line (sim English + hud.logs.keptBound pair + five non-Latin fills), fires on mixed, silent on clean, full-deny arm untouched, both arms pinned |
+| 2 | R2/S/T/B | Unbind fee clamp-to-first-below interpretation, open since PR #2293 | no: already implemented AND pinned (unbindFeeFor clamps both ends; poor/common pay 2500, pinned per-quality in professions_p14b_commissions.test.ts) | CLOSED by the P18 ruling: the maintainer ratifies clamp-to-first-below; all three principles (never free, monotonic, mirrors clamp-above) verified against live code; the "called out for review" flag is retired, no code change |
+| 3 | R3/S/P | #2139 corpse focus-harvest bag overflow | no: dead since the Phase 10 QA grant-order fix; canGrantItemInstance merge-aware guards and the hunted crossing-case pins live in corpse_harvest_sim.test.ts; no reachable overflow state exists | MOOT (verify-not-refix re-confirmed); the one LATENT corner (a future corpse tagging two specimen-less families) hardened with a content-shape guard test, 294e11e98 |
+| 4 | R4/P | Overlay stale-refill guard | guidance block verified complete (five checklist points plus rationale plus the regenerate-from-current-English worklist item, progress.md Phase 15 RE-QA note) | CLOSED by ruling: no mechanical guard; P20 MUST carry the block verbatim into the consolidated doc |
+| 5 | P/S | Wiki generator hardcoded payoutPctOfVendorValue 50 and listingDepositCopper 0 | yes: build_content.mjs literals confirmed | FIXED b37da31b1: WORK_ORDER_PAYOUT_FRACTION + MARKET_LISTING_DEPOSIT_COPPER exported from sim, generator imports, per-order copperReward recompute guards with the fraction literal-pinned; regen byte-identical |
+| 6 | P | HUD Sell Junk preview omits the soulbound arm | yes: hud.ts junk predicate lacked !soulbound... superseded mid-verify: the REAL residual risk was the sim-side sweep itself | FIXED 00603365c: sellAllJunk gains the boundTo slot filter plus skip-aware removal (the sellItem gate mirrored); the HUD preview's soulbound arm rode along in the same predicate review; junk-sweep bound-skip pinned |
+| 7 | P | Gossip dialog does not repaint on a cprof identity delta | yes: P17 wired only the char/crafting/professions surfaces; the quest dialog had no identity repaint path | FIXED 508113626: hint-visibility signature recorded at gossip render, refreshIfChanged on the slow band plus the personal attunement arm, liveness and no-DOM-rebuild pins |
+| 8 | S/P | Legacy IWorldProfessions member retirement | partially: 3 methods + 4 scalar projections had zero live consumers; the note's claim was STALE for archetypeTitle/hobbyCraft (char-window title rows consume both) | FIXED 54c97c7da: the seven retired from facet + ClientWorld + parity pins (253/67/186); Sim keeps implementations as parity-legal extras; archetypeTitle/hobbyCraft STAY; state.md note corrected |
+| 9 | P/S | Windfall per-instance loot-line and cue burst | yes: the signed loop called the grant hub per unit | FIXED 620bc9114: addItemInstance count param, one xN line, clone-per-forced-slot; receive matcher xN arm (also fixes the pre-existing fungible-path name-localization gap); professions_gather golden regen ce2505c57, 8 lines all events hashes, draws byte-identical |
+| 10 | P | Station copy omits the level arm | no: CRAFTING_HUB_MIN_LEVEL has zero code references (retired Phase 8) | MOOT |
+| 11 | P | RingArc endpoint symmetry pin | yes: unpinned | FIXED 294e11e98: arc caps pinned onto node positions including the wrap arc |
+| 12 | P | Professions window open-while-open branch pins | yes: unpinned | FIXED 294e11e98: bookkeeping-never-reruns pin (opener-focus capture survives) |
+| 13 | P | Real-ClientWorld pre-sync empty-craftSkills pin | yes: absent; bareClient skips initializers so only professions_contracts' real construction can attest it | FIXED 294e11e98 |
+| 14 | P | pr_shot_targets stateIsFn dead guard | yes: professionsState is a getter on Sim and a field on ClientWorld, typeof never 'function' | FIXED 294e11e98: dead arm removed |
+| 15 | P | Live-server instance-exclusion broadcast arm | yes: live suites had no DUNGEON_X_THRESHOLD recipient; unit pins covered | FIXED 294e11e98: instanced session in the live masterworkZone routing suite (x-arm isolated: same overworld z) |
+| 16 | B | sellAllJunk future hole (a future poor bind-on-trade item reopens the wash) | yes, latent: def-level filter only | FIXED 00603365c (see row 6) |
+| 17 | B | Armed-but-unstamped copies vendor-sell, stripping dormant bindOnTrade | yes | ACCEPTED per the standing ruling: boundTo IS the lock; an armed copy has no bond to launder; recorded |
+| 18 | P | Two procs in one drain coalesce to one masterworkToast log line | yes: single overwritten accumulator, second proc's log swallowed | DEFERRED with reason: reachable only in online batched drains; the fix is a celebration plan-contract change (accumulator list, plan array, craft_celebration_view re-pins); banner and sound coalescing are by design; exact shape recorded here for a future polish pass |
+| 19 | P | eqi interest-scope and live rolled reference | still true: identityFields aliases the live rolled object inside one synchronous build-then-JSON.stringify step per broadcast (server/game.ts wireCacheFor); only strings leave the process | VERIFIED, record-only |
+| 20 | S/P | #2285 residue | (a) tierMailSent unknown-key hardening and (b) serialize-time cadence prune LANDED with pins (normalizeTierMailOnLoad, serializeCadence); (c) cooldown legibility line absent BUT the hidden-quest cooldown idiom was REAFFIRMED kept-as-is and (d) the veteran tutorial KEPT (PR #2303 decisions) | MOOT (a, b) and CLOSED BY DECISION (c, d); cadenceBlockedQuests already grays the quest row |
+| 21 | S/P | Enchant display names have no localized surface | no: hudChrome.enchantName covers all 41 ENCHANTS ids 1:1 with the picker consumer and a per-id pin | MOOT (landed Phase 13) |
+| 22 | S | Vendor buyback re-grants a plain copy for UNBOUND instanced items (payload loss: signer/enchant/masterwork drop on buyback) | yes, pre-existing; the bound wash arm is closed (P15), the economic exploit gone | DEFERRED, maintainer design call: whether buyback should record and re-grant the exact payload (tuning-evidence row 4 option b); self-inflicted-loss class, not a wash |
+| 23 | S/T | Sub-rare disenchant "1 to 2 dust" approved row | deliberately unimplemented; sub-rare byte-identical | DEFERRED by design, gated on live dust-supply data (the dust-mill vector died with the vestments rework) |
+| 24 | S/P/M | Sound and SFX, all slots incl. the #2208 ledger | open by design | CLOSED BY RULING: another engineer owns audio |
+| 25 | R/M | #2156 giveaway feature request | n/a | CLOSED BY RULING: ignore |
+| 26 | M/B | Enchanting depth (gems, jewelcrafting, inscription content) | deferred by design | CLOSED BY RULING: post-level-20 zone expansion; no-admission-gate LOCKED |
+| 27 | S/P/B | Pacing acceptance (gathering-100, fishing-200 fast) | accepted | CLOSED BY RULING: data-only levers post-launch |
+| 28 | P/B | Steam partner-site registration of the three achievement ids | open | CLOSED BY RULING: maintainer wires it later in a separate PR |
+| 29 | S/P | #2088 bareClient 22-copy extraction | open | CLOSED BY RULING: separate repo chore |
+| 30 | S | Tool effects/charges/recharge parked in tools.ts | parked | DEFERRED by locked decision (return as enchanting-era content) |
+| 31 | S | Commission ORDER workflow | wave 2 | DEFERRED on #1298 |
+| 32 | S | Offline professions persistence | low priority | DEFERRED by maintainer call (offline is the documented taster) |
+| 33 | S | Rare-event cadence per-family split | one shared knob | DEFERRED: revisit with zone-expansion data |
+| 34 | S/P | #1146 instanced listings must re-enforce the boundTo lock; generic mail/market bound-deny copy | emergent wall pinned (professions_p13_bound_surfaces) | DEFERRED to #1146 |
+| 35 | S/P | Battlefield-XP trickle cluster: recipeForResultItem widening (live gameplay switch), the 0.25-at-cap return contract chore, the trickle share | dormant in shipped content | DEFERRED, maintainer call recorded |
+| 36 | S/P | Zone-1 signed starter instances design confirm | still unconfirmed; NOTE the 12d identical-payload stacking changed the "signed units never merge" mitigation premise (same-signer copies now merge) | DEFERRED, maintainer confirm with the updated premise |
+| 37 | S/P | Eastbrook loom-toolworks radius overlap (13.6 vs 20) | accepted town-square density | DEFERRED, record stands |
+| 38 | S/P | MobileCraftingStation.pos/placedAtTick/playerId consumer-less | yes | DEFERRED (the prop remains the natural consumer) |
+| 39 | S | Two anvils at the Eastbrook forge | accepted | DEFERRED, maintainer visual call |
+| 40 | S/P | Shared battle-elixir exclusivity slot | distinct elixirs stack | DEFERRED, maintainer call |
+| 41 | S/P | Cooking buff food (rungs are sit-heal only) | yes | DEFERRED, maintainer glance |
+| 42 | S/B | Deed desc wording: prog_master_gatherer reworded (P15); prog_first_harvest still says "gathering node" while completing on a first CATCH | partially | DEFERRED, cosmetic maintainer copy call |
+| 43 | S/P | SWIM_DEPTH alias at four copies | yes | DEFERRED: the extraction touches player/mob motion, outside packet scope |
+| 44 | S | Corpse deny advertises the FIRST failing family's tier; rods count toward corpse owned-best | inert through wave-one content (all tiers 1) | DEFERRED to tier-2+ corpse content |
+| 45 | S/P | Spectators receive personal toasts; result-mirror handlers lack an ev.pid guard | inherited generic contract | DEFERRED: add the guard family-wide only if confirmed undesirable |
+| 46 | S/P/B | Release-notes items: v0.27 attunement rollback, masterwork enchantability rollback, Phase 9 fee-free combo re-grant, 12c reset strip-refire (DESTRUCTIVE), 12d sanitizeBankState count clamp (DESTRUCTIVE) plus the mail returned-flag arm, v0.29 silent band cap retroactivity, the pacing acceptance note, the release-tier i18n fill budget | no v0.29.0 notes file exists yet | DEFERRED to the release cut; P20 verifies the notes file carries every arm |
+| 47 | S/P | Mixed-fleet transients (unstamped bind-on-trade crossings during rolling deploy; stale-client gathering sentinel) | bounded windows | record-only |
+| 48 | S | prof_nudges in-memory cadence resets on restart | by design | record-only |
+| 49 | S | Non-wave-one pairs have no attunement return path | accepted and pinned | DEFERRED to later archetype phases |
+| 50 | S/P | Rename sweep leaves foreign-held copies with the stale signer | by scope | DEFERRED, flagged maintainer surface |
+| 51 | S/P | Salvage grants no craft-skill gain; mid-trade enchant does not reset accept flags; all-enchanted disenchant row deny UX | yes | DEFERRED, maintainer calls recorded |
+| 52 | S | No shipped_enchant_ids golden; bow/crossbow resonant_timber unreachable | yes | DEFERRED until such content arrives |
+| 53 | B | raw_stonescale_carp id/name mismatch | yes | DEFERRED TO P19 (the originality and wiki-truth sweep is the natural home) |
+| 54 | P/B | Guide non-Latin regenerate-from-current-English worklist plus the release locale fill batch | yes | DEFERRED to release fill time; the worklist item and refill checklist live in the Phase 15 RE-QA note (row 4 carries them to P20) |
+| 55 | S | Design-system restyle of professions UI under root DESIGN.md | DESIGN.md phase 1 tokens still not landed | DEFERRED to the design-language program |
+| 56 | P/M | P17 round-two directives (commission opt-in control, breathing room) plus the P17 sweep deferrals (train/unbind flat family, enchant-picker tint, #463a1c tokenization, the three item_instance_tooltip #ffd100 literals) | yes | DEFERRED to the maintainer-scheduled round-two pass (after P18/P19, before P20) |
+| 57 | P | Production-copy reset rehearsal (RESET_REHEARSAL_INPUT) | pending | DEFERRED: maintainer pre-deploy step |
+| 58 | S/P | 12c display caveats (raw-blob readers stale until login; pre-curve deed retro-grants on next action) | still true | record-only |
+| 59 | S/P | Wave-2 and accepted inventory classes: partial instanced splits and the split-prompt gate, fitsAfterSwap payload-blind scratch, rename-save TOCTOU, components length unbounded, marker a11y overclaim, unified-press hint on loot-only corpses, mail expiry has no UI countdown, bank window instanced marker bags-only | yes | DEFERRED as recorded (wave 2 or accepted) |
+| 60 | P | Mobile fishing E2E | desktop probe plus committed shots stand | DEFERRED |
+| 61 | P | 12b INFO bundle (observer bobber owner-only, nameplate per-frame localize, raw hex log colors) | pre-existing idioms | record-only |
+| 62 | P | Phase 12 QA declined set (main.ts wiring source pin, isGatherToolUse swap, toolTierUnmet dup, tooltip listener tests, minimap memo alloc) | declined with reasons | stands |
+| 63 | P | Phase 11 QA declined set (char_window DOM gathering, vale fallback, catchLine unknown-item; accrual past maxSkill superseded by the 12c caps) | declined or superseded | stands |
+| 64 | P | Phase 3 QA declined set (bandwidth claimed-corpse scenario, distinct-itemId slot-order pin) and Phase 2 QA declined 0.15-cap hunted pin | declined with reasons | stands |
+| 65 | P | Phase 9 family declined set (visualKeyFor pins, minimap token pin, train_recipe rate limit, unknown-deny-reason fallback rendering) | declined or maintainer call | stands |
+| 66 | P | Phase 7 QA NITs and the unknown-letterId resolver fallback nicety | recorded | stands |
+| 67 | S/P | Observation ledger, no action: COMBO_RECIPES field order, syncing combo-button optimism, offline arrival banner loss, trade prefers fungible (specific-instance offer UX), arming sword never masterworks, zone-1 pristine copper feeds no recipe, Highwatch apothecary forward content, expired mobileStation slot lingers, content/professions.ts module-init zone read, reagent stocking economy INFO, guild letter wave-one titles, duplicate letter on rollback round-trip, golden caution for scenario authors, no-loot tagged corpses never open, fish are never signed, RL env corpse-interact draw expansion, castStop reflects the cast not the grant, tool gate held at cast start only, codfather single draw, two-banner online corner, bounded-window delayed toast, pre-cprof transients, crafter third-person zone line, bags/bank def-only painter rows, tt-instance-bonus rule-less hook class, archetypeCeilingFor computed twice, Phase 15 screenshots predate the xp-bar move | verified still accurate where checked | record-only, P20 need not re-verify individually |
+
+RE-AUDIT EMPHASIS (for P20). Judgment calls this session: (1) the
+sellAllJunk hardening went beyond the literal "mirror the clause" ask,
+swapping the sweep's removal to the skip-aware walk; behavior changes
+only for bound gray copies (none exist in shipped content) and the
+parity golden holds because the sweep's final inventory is identical.
+(2) The windfall batching changes the wire-visible event stream: the
+professions_gather regen is events-only (8 lines, draws byte-identical)
+and old clients render the xN line through the addItem shape they
+already handle. (3) The facet retirement keeps the Sim implementations
+as parity-legal extras instead of deleting them, so twelve staging test
+files and the archetype title shot script run unchanged; P20 may choose
+the full delete plus test migration as a separate call. (4) The
+kept-notice English and its five non-Latin fills are fresh prose
+matched to the junk-line register and the shipped bound-terminology
+glossaries; a reword needs the M16 same-change refresh. (5) #2139
+closed on the verifier's evidence chain plus my spot-checks of the pins
+rather than a fresh live repro; the latent two-family corner got a
+content-shape guard instead of a code change (reachability argument
+recorded in the guard's comment). (6) The gossip repaint watches ONLY
+the intro-hint visibility boolean by design; quest-list changes keep
+riding the quest event arms, so an identity flip that changes nothing
+visible never rebuilds focus-trapped DOM. Declared moot on evidence:
+rows 2, 3, 10, 20(a, b), 21. Verified only by suites, not live play:
+the batched grant online (loot events ride the generic personal event
+path; no new wire key, snapshots suites green), the retirement's
+ClientWorld surface (tsc plus world_api_parity plus the net suites).
+The 12b pin-cost appendix gained a burn-down re-inventory row (the
+standing rule). Release sync note: the merge 94f44360a arrived mid-phase
+window; if the tip moves again before P19/P20, re-run the audit.

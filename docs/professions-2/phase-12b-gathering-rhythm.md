@@ -409,7 +409,16 @@ this list closed.
   decisive on the reduction in both directions); tests/game_audio.test.ts gained the six
   cue ROUTING pins (five feedback-gated, fishBite on the always-audible arm);
   tests/cast_bar.test.ts pins fishing fill 1 under broadcast decay plus the gather
-  honest fill; tests/gather_event_i18n.test.ts re-tightened the fishingResult arm to
+  honest fill (see also the deferral burn-down row below for the later
+  gather_event_i18n and gather_rare_events additions); tests/gather_event_i18n.test.ts re-tightened the fishingResult arm to
   exactly one cue (exact-set form); tests/sim.test.ts re-pinned castTotal/castRemaining/
   castStart.time to the literal 15 (constant-self-comparison removal); and
   tests/gather_node_interact.test.ts pinned the 2.5 s base-duration literal.
+- (post-inventory, deferral burn-down, 2026-07-22) Additive rows in the blast
+  radius, mutation-verified: tests/gather_rare_events.test.ts gained the
+  windfall single-loot-line pin (the x5 grant is ONE batched "You receive:
+  Copper Ore x5." event, never five; the grant hub gained a count parameter
+  and the professions_gather golden regenerated events-only, draws
+  byte-identical), and tests/gather_event_i18n.test.ts gained the
+  receive-matcher xN source arm (the optional suffix routes through
+  itemStackDisplayName so the item name still localizes). Nothing weakened.
