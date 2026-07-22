@@ -500,7 +500,11 @@ export const table: DeedLocaleTable = {
     title: '旅人',
   },
   exp_something_shiny: { name: 'きらりと光るもの', desc: '地面できらめく物を拾い上げる。' },
-  prog_guildsworn: { name: '技巧に誓いし者', desc: '生業の対に調律し、その二つの生業を本式に修める。', title: '技巧に誓いし者' },
+  prog_guildsworn: {
+    name: '技巧に誓いし者',
+    desc: '生業の対に調律し、その二つの生業を本式に修める。',
+    title: '技巧に誓いし者',
+  },
   exp_first_ore: { name: 'つるはしが石を打つ', desc: '初めての鉱脈から鉱石を採掘する。' },
   exp_first_timber: { name: '倒れるぞーっ！', desc: '初めての立ち木を伐採する。' },
   exp_first_herb: { name: '緑の指', desc: '初めての薬草を摘み取る。' },

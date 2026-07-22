@@ -545,7 +545,11 @@ export const table: DeedLocaleTable = {
     title: '길손',
   },
   exp_something_shiny: { name: '반짝이는 무언가', desc: '땅에 떨어진 반짝이는 물건을 주우십시오.' },
-  prog_guildsworn: { name: '기예에 맹세한 자', desc: '생업 짝에 조율하고 그 두 생업을 본격적으로 익히십시오.', title: '기예에 맹세한 자' },
+  prog_guildsworn: {
+    name: '기예에 맹세한 자',
+    desc: '생업 짝에 조율하고 그 두 생업을 본격적으로 익히십시오.',
+    title: '기예에 맹세한 자',
+  },
   exp_first_ore: { name: '곡괭이가 돌을 만나다', desc: '처음으로 광맥을 캐내십시오.' },
   exp_first_timber: { name: '나무 넘어간다!', desc: '처음으로 나무를 베어 목재를 거두십시오.' },
   exp_first_herb: { name: '약초 캐는 손', desc: '처음으로 약초를 캐십시오.' },

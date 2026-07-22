@@ -324,7 +324,11 @@ export const table: DeedLocaleTable = {
   exp_peaks_wayfarer: { name: '高地远行者', desc: '造访荆峰高地的全部10处具名之地。' },
   exp_world_traveler: { name: '周游世界', desc: '赢得全部三个区域的远行者功绩。', title: '远行者' },
   exp_something_shiny: { name: '闪光之物', desc: '从地上捡起一件闪闪发光的物品。' },
-  prog_guildsworn: { name: '誓艺者', desc: '调谐一对原型生业，正式操持它的两门手艺。', title: '誓艺者' },
+  prog_guildsworn: {
+    name: '誓艺者',
+    desc: '调谐一对原型生业，正式操持它的两门手艺。',
+    title: '誓艺者',
+  },
   exp_first_ore: { name: '一镐见石', desc: '采集你的第一处矿石点。' },
   exp_first_timber: { name: '顺山倒！', desc: '采集你的第一处木材点。' },
   exp_first_herb: { name: '绿手指', desc: '采集你的第一处草药点。' },
