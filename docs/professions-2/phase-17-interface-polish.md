@@ -33,6 +33,20 @@ windows should be built on it. This feature must look absolutely beautiful.
 4. Capture BEFORE screenshots (desktop and mobile) of every surface you will
    touch, first thing, before any edit.
 
+> Release-sync premise correction (2026-07-22, recorded at the P17 session's
+> STEP 0): the commissioned professions art set (PR #2311) landed on
+> release/v0.29.0 AFTER this file was authored and touches every P17 target
+> surface. The Phase 5 "data-icon=target until designer crest art" era is
+> over: profession and archetype art now ships via src/ui/profession_art.ts,
+> profession_image_ids.ts, and decorative_art.ts, with crest headers in the
+> identity card and professions window, section icons and tooltip profession
+> headers in the crafting window, and the shared
+> professionSurfaceRefreshSig repaint signature. The rebuilds MUST compose
+> these modules and preserve the art insertions (pinned by
+> tests/profession_art.test.ts, profession_surface_refresh.test.ts,
+> decorative_art.test.ts, and the updated window suites). Add #2311 to the
+> exemplar study list; its styles landed in tokens.css and components.css.
+
 ## Scope
 
 Deep rebuilds (the two named targets):
