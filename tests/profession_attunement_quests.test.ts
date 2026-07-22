@@ -429,6 +429,23 @@ describe('attunePair quests block concurrent identity transitions (Phase 14 QA)'
     expect(sim.questState('q_prof_attune_outfitter')).toBe('available');
   });
 
+  it('leaves switchHobby quests outside the gate (attunePair-only scope)', () => {
+    // The work-order control above has NO completionEffect, so it cannot catch
+    // a regression that broadens the gate from attunePair to any effect; the
+    // hobby switch carries the OTHER effect type and must stay offered while
+    // an identity transition is pending.
+    const sim = makeSim();
+    unlockProfessionQuests(sim);
+    attune(sim, SMITH_MASTER, 'q_prof_attune_smith', WEAPON_ARMOR);
+    attune(sim, OUTFITTER_MASTER, 'q_prof_attune_outfitter', LEATHER_TAILOR);
+
+    acceptAt(sim, SMITH_MASTER, 'q_prof_amends_smith', WEAPON_ARMOR);
+    // The gated control: a fresh attunePair quest hides while amends is active.
+    expect(sim.questState('q_prof_attune_apothecary')).toBe('unavailable');
+    // The scope boundary: the switchHobby quest is untouched by the gate.
+    expect(sim.questState(HOBBY_QUEST)).toBe('available');
+  });
+
   it('refuses a banked second amends so escalation can never be dodged', () => {
     const sim = makeSim();
     unlockProfessionQuests(sim);

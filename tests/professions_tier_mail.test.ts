@@ -102,6 +102,24 @@ describe('tier-crossing master mail (Professions 2.0 Phase 14)', () => {
     expect(second.booked).toEqual([]);
   });
 
+  it('mails a SECONDARY major crossing too (both majors watched, not just the archetype)', () => {
+    // Every other crossing test raises PRIMARY (activeArchetype), so a
+    // regression that watched only that craft on the mailing path would
+    // stay green; this arm crosses pairedMajor upward and demands its letter.
+    const sim = makeSim();
+    const meta = attunedMeta(sim);
+    meta.craftSkills[PRIMARY] = tierSkill(1);
+    meta.craftSkills[SECONDARY] = tierSkill(1);
+    baselineActivePairTierMail(meta);
+
+    meta.craftSkills[SECONDARY] = tierSkill(2);
+    const { ctx, booked } = recordingCtx();
+    expect(updateTierMailFor(meta, ctx)).toBe(true);
+    expect(booked).toEqual([MASTER_TIER_LETTERS[PAIR][2]]);
+    expect(meta.tierMailSent.get(SECONDARY)).toBe(2);
+    expect(meta.tierMailSent.get(PRIMARY)).toBe(1); // untouched
+  });
+
   it('sends only the top tier letter on a multi-tier jump', () => {
     const sim = makeSim();
     const meta = attunedMeta(sim);
