@@ -38,12 +38,17 @@ import { cloneItemInstancePayload, type ItemDef } from '../types';
 import { MASTERWORK_QUALITY_LADDER } from './masterwork';
 import { isAtAnyStation } from './stations';
 
-/** The opt-in item classes (2026-07-20 maintainer ruling: equipment only).
- *  Everything else ignores the commission flag at craft time. */
+/** The opt-in item classes (2026-07-20 maintainer ruling: equipment only),
+ *  as a kind-level predicate so presentation code holding only a kind (the
+ *  tooltip module) shares the ONE rule. */
+export function isCommissionEligibleKind(kind: ItemDef['kind'] | undefined): boolean {
+  return kind === 'weapon' || kind === 'armor' || kind === 'held_offhand';
+}
+
+/** The def-level form of the opt-in rule. Everything ineligible ignores the
+ *  commission flag at craft time. */
 export function isCommissionEligible(def: ItemDef | undefined): boolean {
-  return (
-    !!def && (def.kind === 'weapon' || def.kind === 'armor' || def.kind === 'held_offhand')
-  );
+  return !!def && isCommissionEligibleKind(def.kind);
 }
 
 // The unbind fee ladder, in copper, indexed from the uncommon rung of

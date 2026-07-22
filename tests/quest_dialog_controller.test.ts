@@ -82,6 +82,7 @@ function harness(entity = npc(10, ordinaryNpcId()), questState = 'available') {
   const openValeCup = vi.fn();
   const openCardDuel = vi.fn();
   const openTrain = vi.fn();
+  const openUnbind = vi.fn();
   const controller = new QuestDialogController({
     element,
     document,
@@ -115,6 +116,7 @@ function harness(entity = npc(10, ordinaryNpcId()), questState = 'available') {
     openValeCup,
     openCardDuel,
     openTrain,
+    openUnbind,
     voice,
   });
   return {
@@ -141,6 +143,7 @@ function harness(entity = npc(10, ordinaryNpcId()), questState = 'available') {
     openValeCup,
     openCardDuel,
     openTrain,
+    openUnbind,
   };
 }
 

@@ -319,6 +319,8 @@ import { buildHeroicVendorView } from './hud/vendor/heroic_vendor_view';
 import { renderHeroicVendorWindow } from './hud/vendor/heroic_vendor_window';
 import { buildTrainView, isRecipeKnownForViewer } from './hud/vendor/train_view';
 import { renderTrainWindow } from './hud/vendor/train_window';
+import { buildUnbindView } from './hud/vendor/unbind_view';
+import { renderUnbindWindow } from './hud/vendor/unbind_window';
 import { buildVendorView } from './hud/vendor/vendor_view';
 import { renderVendorWindow } from './hud/vendor/vendor_window';
 import {
@@ -340,6 +342,7 @@ import { itemStatDeltas } from './item_compare';
 import { ItemDragState } from './item_drag_state';
 import {
   instanceBadgeLines,
+  instanceBindingLines,
   instanceBonusStatLines,
   instanceMakersMarkLine,
   itemNumber,
@@ -1254,6 +1257,11 @@ export class Hud {
   // at open, return focus on close (src/ui/CLAUDE.md focus contract).
   private readonly trainWindowFocus = this.windowFocus('#train-window');
   private trainOpenerFocus: HTMLElement | null = null;
+  // Maker's Bond unbind window (Professions 2.0 Phase 14b): the same
+  // standalone trapping-window shape as the train window above.
+  private openUnbindNpcId: number | null = null;
+  private readonly unbindWindowFocus = this.windowFocus('#unbind-window');
+  private unbindOpenerFocus: HTMLElement | null = null;
   // Craft tier-up snapshot (Professions 2.0 Phase 6): the last SYNCED
   // craftSkills observation handleEvents diffs for tier crossings. null until
   // the first synced observation, which initializes silently (no toasts for
@@ -1268,6 +1276,11 @@ export class Hud {
   // (walking into/out of a station, or the own mobile station expiring); the
   // server re-validates the gate on every craft anyway.
   private lastCraftingStationSig = '';
+  // Commission opt-in state (Professions 2.0 Phase 14b): recipe ids whose
+  // NEXT craft goes out with the commission flag. Held here (not in the
+  // painter) so the crafting window's staleness repaints never untick a
+  // checked box; consumed on craft, cleared on window close.
+  private readonly craftCommissionOptIn = new Set<string>();
   private readonly delveBoard: DelveBoardController;
   private readonly delveTracker: DelveTrackerController;
   private readonly lockpickController: LockpickController;
@@ -1545,6 +1558,7 @@ export class Hud {
       openVendor: (npcId) => this.openVendor(npcId),
       openHeroicVendor: (npcId) => this.openHeroicVendor(npcId),
       openTrain: (npcId) => this.openTrain(npcId),
+      openUnbind: (npcId) => this.openUnbind(npcId),
       openMarket: () => this.openMarket(),
       openDelveBoard: (npcId) => this.openDelveBoard(npcId),
       openValeCup: () => this.toggleValeCup(),
@@ -2634,6 +2648,9 @@ export class Hud {
         break;
       case 'train-window':
         this.closeTrain();
+        break;
+      case 'unbind-window':
+        this.closeUnbind();
         break;
       case 'town-focus-window':
         this.closeTownFocus();
@@ -4605,6 +4622,11 @@ export class Hud {
     if (item.soulbound) {
       html += `<div class="tt-sub" style="color:#ffd100">${esc(t('hudChrome.itemSoulbound'))}</div>`;
     }
+    // Maker's Bond lines (Professions 2.0 Phase 14b): the commission
+    // binds-on-first-trade warning or the bound lock, beside the def-level
+    // soulbound line it parallels (item_instance_tooltip.ts owns the copy
+    // rules, incl. the equipment-kind scope and the no-name doctrine).
+    html += instanceBindingLines(instance, item.kind);
     // Per-copy instance badges (Professions 2.0 Phase 2/6): the masterwork
     // seal and the enchanted marker (item_instance_tooltip.ts owns the copy
     // rules, incl. never claiming a quality-rank upgrade).
@@ -4922,6 +4944,8 @@ export class Hud {
       this.renderHeroicVendor();
     if (this.openTrainNpcId !== null && $('#train-window').style.display === 'block')
       this.renderTrain();
+    if (this.openUnbindNpcId !== null && $('#unbind-window').style.display === 'block')
+      this.renderUnbind();
     if (this.marketWindow.isOpen) this.marketWindow.render();
     if (this.bankWindow.isOpen) this.bankWindow.render();
     if (this.deedsWindow.isOpen) this.deedsWindow.render();
@@ -7530,6 +7554,10 @@ export class Hud {
         const npc = sim.entities.get(this.openTrainNpcId);
         if (!npc || dist2d(p.pos, npc.pos) > 8) this.closeTrain();
       }
+      if (this.openUnbindNpcId !== null) {
+        const npc = sim.entities.get(this.openUnbindNpcId);
+        if (!npc || dist2d(p.pos, npc.pos) > 8) this.closeUnbind();
+      }
       this.questDialog.updateProximity();
     }
 
@@ -8964,6 +8992,45 @@ export class Hud {
           if (this.openTrainNpcId !== null && $('#train-window').style.display === 'block')
             this.renderTrain();
           if ($('#crafting-window').style.display === 'block') this.renderCrafting();
+          break;
+        }
+        case 'unbindResult': {
+          // Maker's Bond unbind outcome (Professions 2.0 Phase 14b). The
+          // event is text-free: the item name derives from itemId plus static
+          // content and the fee formats locally, identical in both worlds.
+          // ONE chat line either way (the trainResult single-surface rule:
+          // no toast, no extra sound cue).
+          const unboundItem = ITEMS[ev.itemId];
+          const unboundName = unboundItem ? itemDisplayName(unboundItem) : ev.itemId;
+          if (ev.ok) {
+            this.log(
+              t('hudChrome.unbind.unbound', {
+                name: unboundName,
+                fee: formatLocalizedMoney(ev.fee),
+              }),
+              '#7fdc4f',
+            );
+          } else if (ev.reason) {
+            // A reason-less deny is the malformed-item-id probe arm
+            // (resolveUnbind's silent arm): nothing legible to render.
+            this.log(
+              t(
+                ev.reason === 'unbind_not_eligible'
+                  ? 'hudChrome.unbind.notEligible'
+                  : ev.reason === 'unbind_not_bound'
+                    ? 'hudChrome.unbind.notBound'
+                    : ev.reason === 'unbind_cannot_afford'
+                      ? 'hudChrome.unbind.cannotAfford'
+                      : 'hudChrome.unbind.outOfRange',
+              ),
+              '#ff6b6b',
+            );
+          }
+          // Refresh the service rows and the bags (the single-copy unbind
+          // clears boundTo in place, so no loot event repaints them for us).
+          if (this.openUnbindNpcId !== null && $('#unbind-window').style.display === 'block')
+            this.renderUnbind();
+          if ($('#bags').style.display !== 'none') this.renderBags();
           break;
         }
         case 'masterwork': {
@@ -11221,6 +11288,62 @@ export class Hud {
   }
 
   // -------------------------------------------------------------------------
+  // Maker's Bond unbind service (Professions 2.0 Phase 14b): the station
+  // master's second gossip service beside training, same standalone
+  // trapping-window family. The fee confirm rides the ONE confirmDialog
+  // family (keyboard activation included); the sim re-validates everything.
+  // -------------------------------------------------------------------------
+
+  openUnbind(npcId: number): void {
+    this.closeOtherWindows('#unbind-window');
+    this.openUnbindNpcId = npcId;
+    this.renderUnbind();
+    this.unbindOpenerFocus = this.unbindWindowFocus.captureFocus();
+  }
+
+  private renderUnbind(): void {
+    if (this.openUnbindNpcId === null) return;
+    const npc = this.sim.entities.get(this.openUnbindNpcId);
+    if (!npc) return;
+    renderUnbindWindow(
+      $('#unbind-window'),
+      entityDisplayName(npc),
+      buildUnbindView({
+        inventory: this.sim.inventory,
+        copper: this.sim.copper,
+        items: ITEMS,
+      }),
+      {
+        ...this.presentationBag,
+        hideTooltip: () => this.hideTooltip(),
+        onUnbind: (itemId, feeCopper) => {
+          const item = ITEMS[itemId];
+          this.confirmDialog(
+            t('hudChrome.unbind.confirmTitle'),
+            t('hudChrome.unbind.confirmBody', {
+              name: item ? itemDisplayName(item) : itemId,
+              fee: formatLocalizedMoney(feeCopper),
+            }),
+            t('hudChrome.unbind.confirmOk'),
+            t('hudChrome.unbind.confirmCancel'),
+            () => this.sim.unbindItem(itemId),
+          );
+        },
+        onClose: () => this.closeUnbind(),
+      },
+    );
+  }
+
+  closeUnbind(): void {
+    if (this.openUnbindNpcId === null) return;
+    $('#unbind-window').style.display = 'none';
+    this.openUnbindNpcId = null;
+    this.hideTooltip();
+    this.unbindWindowFocus.restoreFocus(this.unbindOpenerFocus);
+    this.unbindOpenerFocus = null;
+  }
+
+  // -------------------------------------------------------------------------
   // Town Focus (#1143): persistent per-player harvest-component focus,
   // settable only while standing in the current zone's town hub (the
   // lightweight town-tag stand-in; see professions/focus.ts). The panel shows
@@ -11335,11 +11458,21 @@ export class Hud {
         ...this.presentationBag,
         hideTooltip: () => this.hideTooltip(),
         onCraft: (recipeId) => {
-          this.sim.craftItem(recipeId);
+          // Commission opt-in (Phase 14b): per-craft semantics, the checkbox
+          // arms exactly ONE craft. Consume the opt-in before sending so the
+          // repaint below renders it cleared; the server re-validates
+          // eligibility either way.
+          const commission = this.craftCommissionOptIn.delete(recipeId);
+          this.sim.craftItem(recipeId, commission);
           this.renderCrafting();
           if ($('#bags').style.display !== 'none') this.renderBags();
         },
         onClose: () => this.closeCrafting(),
+        commissionChecked: (recipeId) => this.craftCommissionOptIn.has(recipeId),
+        onToggleCommission: (recipeId, on) => {
+          if (on) this.craftCommissionOptIn.add(recipeId);
+          else this.craftCommissionOptIn.delete(recipeId);
+        },
       },
       buildProfessionIdentityView(this.sim.craftingIdentity),
       // Per-section "learnable at a master" hints: crafts with unlearned
@@ -11351,6 +11484,10 @@ export class Hud {
   closeCrafting(): void {
     $('#crafting-window').style.display = 'none';
     this.hideTooltip();
+    // Commission opt-ins are per-session-of-the-window: closing it drops any
+    // armed-but-uncrafted checkboxes, so reopening always starts clean (the
+    // off-by-default rule).
+    this.craftCommissionOptIn.clear();
   }
   // -------------------------------------------------------------------------
   // The World Market — the Merchant's auction house
