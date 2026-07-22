@@ -7,6 +7,7 @@ import {
 } from '../sim/professions/archetype';
 import { TIER_SKILL_STEP, tierForSkill } from '../sim/professions/wheel';
 import type { CraftingIdentityView } from '../world_api/professions';
+import type { GatheringProficiencyRow } from './gathering_view';
 
 export type ProfessionIdentityState = 'syncing' | 'unattuned' | 'attuned';
 export type ProfessionRole = 'major' | 'hobby' | 'dormant' | 'unattuned';
@@ -67,9 +68,16 @@ export interface AttunementPreview {
 /** Compact signature for open Character/Crafting surfaces. These cold
  * painters need to converge when an online cprof snapshot arrives after the
  * personal attunement event, while bystander attunedZone events must not
- * repaint them. Enumerate craft skills in ring order and sort set-like arrays
- * so equivalent wire payloads remain byte-stable. */
-export function professionSurfaceRefreshSig(identity: CraftingIdentityView): string {
+ * repaint them. The Character sheet's Gathering section reads a second facet
+ * (IWorldProfessions#professionsState via buildGatheringProficiencyRows), so
+ * its rows ride the same signature: a delayed gathering snapshot converges
+ * through the identical edge. Enumerate craft skills in ring order and sort
+ * set-like arrays so equivalent wire payloads remain byte-stable (the
+ * gathering rows already arrive in fixed GATHERING_PROFESSION_IDS order). */
+export function professionSurfaceRefreshSig(
+  identity: CraftingIdentityView,
+  gathering: readonly GatheringProficiencyRow[],
+): string {
   return JSON.stringify([
     identity.synced,
     identity.activeArchetype,
@@ -81,6 +89,7 @@ export function professionSurfaceRefreshSig(identity: CraftingIdentityView): str
     identity.amendsRequired,
     CRAFT_RING.map((craft) => identity.craftSkills[craft.id] ?? 0),
     [...identity.knownRecipes].sort(),
+    gathering.map((row) => [row.professionId, row.value]),
   ]);
 }
 

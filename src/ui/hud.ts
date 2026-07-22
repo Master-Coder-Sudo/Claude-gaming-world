@@ -175,6 +175,7 @@ import { buildCraftingView, craftLearnHints } from './crafting_view';
 import { renderCraftingWindow, stationNameText } from './crafting_window';
 import { shouldRefreshDailyRewardsLauncher } from './daily_rewards_launcher_core';
 import { DailyRewardsWindow } from './daily_rewards_window';
+import { decorativeArtImg } from './decorative_art';
 import {
   deedBroadcastLine,
   deedName,
@@ -224,7 +225,11 @@ import {
   resetFramePositionsOnce,
   TARGET_FRAME_POS_KEY,
 } from './frame_pos_reset';
-import { gatherDeniedLineKey, gatherDowngradeLineKey } from './gathering_view';
+import {
+  buildGatheringProficiencyRows,
+  gatherDeniedLineKey,
+  gatherDowngradeLineKey,
+} from './gathering_view';
 import { isSelfOnlyAbility } from './hud/action_bar/ability_self_only';
 import { ActionBarController } from './hud/action_bar/action_bar_controller';
 import {
@@ -1294,8 +1299,9 @@ export class Hud {
   // server re-validates the gate on every craft anyway.
   private lastCraftingStationSig = '';
   // Character and Crafting are cold painters. Diff the local crafting
-  // identity on the slow band so a late online cprof snapshot replaces stale
-  // archetype art/title without repainting for attunedZone bystanders.
+  // identity plus the gathering proficiency rows on the slow band so a late
+  // online cprof or professions snapshot replaces stale archetype art/title
+  // and Gathering numbers without repainting for attunedZone bystanders.
   private lastProfessionSurfaceSig = '';
   // Commission opt-in state (Professions 2.0 Phase 14b): recipe ids whose
   // NEXT craft goes out with the commission flag. Held here (not in the
@@ -11065,13 +11071,7 @@ export class Hud {
       this.hideIfFiltered(div, chan);
     }
     if (decorativeIconUrl) {
-      const icon = document.createElement('img');
-      icon.className = 'chat-masterwork-seal';
-      icon.src = decorativeIconUrl;
-      icon.alt = '';
-      icon.setAttribute('aria-hidden', 'true');
-      icon.draggable = false;
-      div.append(icon);
+      div.append(decorativeArtImg(document, 'chat-masterwork-seal', decorativeIconUrl));
     }
     // Loot lines carry name-free item tokens ([[i:id]]); render those as clickable
     // links via the shared chat item-link renderer. Plain system/combat lines keep
@@ -11142,13 +11142,10 @@ export class Hud {
     copy.className = 'banner-copy';
     copy.textContent = text;
     if (decorativeIconUrl) {
-      const icon = document.createElement('img');
-      icon.className = 'banner-art';
-      icon.src = decorativeIconUrl;
-      icon.alt = '';
-      icon.setAttribute('aria-hidden', 'true');
-      icon.draggable = false;
-      this.bannerEl.replaceChildren(icon, copy);
+      this.bannerEl.replaceChildren(
+        decorativeArtImg(document, 'banner-art', decorativeIconUrl),
+        copy,
+      );
     } else {
       this.bannerEl.replaceChildren(copy);
     }
@@ -11855,7 +11852,15 @@ export class Hud {
   }
 
   private refreshOpenProfessionSurfacesIfChanged(): void {
-    const sig = professionSurfaceRefreshSig(this.sim.craftingIdentity);
+    // Unlike the isOpen-gated siblings on the slow band, the signature is
+    // computed even with both surfaces closed: at the 2 Hz slow cadence the
+    // stringify is negligible, and keeping the signature warm means reopening
+    // a surface (which always paints fresh) is not followed by a redundant
+    // signature-diff repaint on the next slow tick.
+    const sig = professionSurfaceRefreshSig(
+      this.sim.craftingIdentity,
+      buildGatheringProficiencyRows(this.sim),
+    );
     if (sig === this.lastProfessionSurfaceSig) return;
     this.lastProfessionSurfaceSig = sig;
     this.charWindow.renderIfOpen();

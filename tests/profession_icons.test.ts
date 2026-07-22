@@ -319,8 +319,11 @@ describe('profession webp icons', () => {
       expect(entry.name.trim(), `${entry.id} must retain a human-readable name`).not.toBe('');
       expect(entry.batch, `${entry.id} batch`).toMatch(/^batch-\d+$/);
       expect(entry.acceptedVersion, `${entry.id} accepted version`).toMatch(/^v\d+$/);
+      // Batch-relative like the items mapping's sourceFile: the masters are
+      // maintainer-held (not in the repo), and this file deploys verbatim to
+      // the live site, so it never publishes a local working path.
       expect(entry.source, `${entry.id} source master`).toBe(
-        `tmp/professions-art/${entry.batch}/masters/${entry.id}.png`,
+        `${entry.batch}/masters/${entry.id}.png`,
       );
       expect(entry.sourceSha256, `${entry.id} source master SHA-256`).toMatch(/^[0-9a-f]{64}$/);
       expect(entry.license, `${entry.id} license`).toBe(

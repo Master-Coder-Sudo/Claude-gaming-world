@@ -1,5 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { GATHERING_PROFESSION_IDS } from '../src/sim/content/professions';
+import type { GatheringProficiencyRow } from '../src/ui/gathering_view';
 import { professionSurfaceRefreshSig } from '../src/ui/profession_identity_view';
 import type { CraftingIdentityView } from '../src/world_api/professions';
 
@@ -20,6 +22,16 @@ function identity(overrides: Partial<CraftingIdentityView> = {}): CraftingIdenti
   };
 }
 
+// The rows arrive in the fixed GATHERING_PROFESSION_IDS order from
+// buildGatheringProficiencyRows; deriving the fixture from the SAME sim list
+// keeps the per-row coverage below growing with any future fifth profession.
+function gathering(values: Partial<Record<string, number>> = {}): GatheringProficiencyRow[] {
+  return GATHERING_PROFESSION_IDS.map((professionId) => ({
+    professionId,
+    value: values[professionId] ?? 0,
+  }));
+}
+
 describe('professionSurfaceRefreshSig', () => {
   it('is stable for equivalent set and record ordering', () => {
     const a = identity();
@@ -28,12 +40,14 @@ describe('professionSurfaceRefreshSig', () => {
       attunedPairs: ['engineering+alchemy', 'weaponcrafting+armorcrafting'],
       knownRecipes: ['iron_helm', 'copper_sword'],
     });
-    expect(professionSurfaceRefreshSig(b)).toBe(professionSurfaceRefreshSig(a));
+    expect(professionSurfaceRefreshSig(b, gathering())).toBe(
+      professionSurfaceRefreshSig(a, gathering()),
+    );
   });
 
   it('moves for every identity dimension painted by Character or Crafting', () => {
     const base = identity();
-    const baseSig = professionSurfaceRefreshSig(base);
+    const baseSig = professionSurfaceRefreshSig(base, gathering());
     const changed = [
       identity({ synced: false }),
       identity({ activeArchetype: 'engineering' }),
@@ -46,14 +60,26 @@ describe('professionSurfaceRefreshSig', () => {
       identity({ craftSkills: { weaponcrafting: 76, armorcrafting: 50 } }),
       identity({ knownRecipes: ['copper_sword', 'iron_helm', 'silver_ring'] }),
     ];
-    expect(changed.map(professionSurfaceRefreshSig)).not.toContain(baseSig);
+    expect(changed.map((next) => professionSurfaceRefreshSig(next, gathering()))).not.toContain(
+      baseSig,
+    );
+  });
+
+  it('moves for every gathering proficiency row on the same Character surface', () => {
+    const base = professionSurfaceRefreshSig(identity(), gathering());
+    for (const professionId of GATHERING_PROFESSION_IDS) {
+      expect(
+        professionSurfaceRefreshSig(identity(), gathering({ [professionId]: 25 })),
+        `${professionId} proficiency must claim a repaint edge`,
+      ).not.toBe(base);
+    }
   });
 
   it('detects the delayed online snapshot rather than the preceding stale event state', () => {
     const stale = identity();
-    let last = professionSurfaceRefreshSig(stale);
-    const changed = (next: CraftingIdentityView): boolean => {
-      const sig = professionSurfaceRefreshSig(next);
+    let last = professionSurfaceRefreshSig(stale, gathering());
+    const changed = (next: CraftingIdentityView, rows = gathering()): boolean => {
+      const sig = professionSurfaceRefreshSig(next, rows);
       if (sig === last) return false;
       last = sig;
       return true;
@@ -71,6 +97,11 @@ describe('professionSurfaceRefreshSig', () => {
     });
     expect(changed(returned)).toBe(true);
     expect(changed(returned)).toBe(false);
+
+    // A late gathering snapshot converges through the identical edge, and
+    // subsequent identical polls elide again.
+    expect(changed(returned, gathering({ fishing: 40 }))).toBe(true);
+    expect(changed(returned, gathering({ fishing: 40 }))).toBe(false);
   });
 });
 
@@ -81,7 +112,15 @@ describe('Hud profession-surface convergence wiring', () => {
 
   it('refreshes both cold surfaces from the identity signature on the slow band', () => {
     expect(hud).toContain('if (slowHud) this.refreshOpenProfessionSurfacesIfChanged();');
-    expect(method).toContain('professionSurfaceRefreshSig(this.sim.craftingIdentity)');
+    // The exact call shape, not three loose substrings: both facets must feed
+    // the ONE signature call, so a refactor that decouples an argument from
+    // the call while keeping the names in the method body still fails here.
+    expect(method).toContain(
+      'professionSurfaceRefreshSig(\n' +
+        '      this.sim.craftingIdentity,\n' +
+        '      buildGatheringProficiencyRows(this.sim),\n' +
+        '    )',
+    );
     expect(method).toContain('this.charWindow.renderIfOpen()');
     expect(method).toContain("$('#crafting-window').style.display === 'block'");
     expect(method).toContain('this.renderCrafting()');

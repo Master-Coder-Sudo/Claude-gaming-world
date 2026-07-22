@@ -114,5 +114,10 @@ describe('convert_profession_icons_webp', () => {
 
     expect(readdirSync(professions)).toEqual(['archetype_smith.webp', 'prof_tailoring.webp']);
     expect(generatedRegistry()).toContain("  'archetype_smith',\n  'prof_tailoring',");
+    // The "without re-encoding" half of the contract, asserted on the bytes:
+    // a re-encode of these deliberately undecodable stubs could not reproduce
+    // them, so byte equality proves the no-op left the tree untouched.
+    expect(readFileSync(path.join(professions, 'prof_tailoring.webp'))).toEqual(webp);
+    expect(readFileSync(path.join(professions, 'archetype_smith.webp'))).toEqual(webp);
   });
 });

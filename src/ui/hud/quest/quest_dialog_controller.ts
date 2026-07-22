@@ -11,6 +11,7 @@ import {
 } from '../../../sim/types';
 import type { IWorld } from '../../../world_api';
 import { archetypeTitleText, craftNameText } from '../../char_window';
+import { decorativeArtImg } from '../../decorative_art';
 import { markDialogRoot } from '../../dialog_root';
 import { itemDisplayName } from '../../entity_i18n';
 import { esc } from '../../esc';
@@ -567,12 +568,10 @@ export class QuestDialogController {
       element.replaceChildren(copy);
       return;
     }
-    const crest = this.deps.document.createElement('img');
-    crest.className = 'qd-profession-crest';
-    crest.src = content.crestUrl;
-    crest.alt = '';
-    crest.draggable = false;
-    element.replaceChildren(crest, copy);
+    element.replaceChildren(
+      decorativeArtImg(this.deps.document, 'qd-profession-crest', content.crestUrl),
+      copy,
+    );
   }
 
   private bindRoute(selector: string, open: () => void): void {

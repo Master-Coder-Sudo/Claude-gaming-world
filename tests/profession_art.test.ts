@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { ARCHETYPE_PAIR_TARGETS } from '../src/sim/professions/archetype';
 import {
   ARCHETYPE_IMAGE_ID_BY_PAIR,
   archetypeImageUrl,
@@ -41,6 +42,13 @@ describe('profession painted-art registry', () => {
   });
 
   it('maps every canonical adjacent pair to its commissioned archetype crest', () => {
+    // The literal pin below guards accidental edits; this guard ties the key
+    // set to the sim's canonical ring-derived pair ids (the char_window title
+    // idiom), so a ring reorder or an eleventh craft cannot silently strip
+    // every crest via archetypeImageUrl's null arm.
+    expect(Object.keys(ARCHETYPE_IMAGE_ID_BY_PAIR).sort()).toEqual(
+      [...ARCHETYPE_PAIR_TARGETS].sort(),
+    );
     expect(ARCHETYPE_IMAGE_ID_BY_PAIR).toEqual({
       'alchemy+cooking': 'archetype_apothecary',
       'armorcrafting+engineering': 'archetype_cogsmith',
