@@ -133,6 +133,15 @@ describe('item-instance payload (#1165)', () => {
     expect(slots[0].instance?.signer).toBe('Aldric');
   });
 
+  it('a zero-count grant is a full no-op: no slot, no loot line', () => {
+    const sim = new Sim({ seed: 42, playerClass: 'warrior', autoEquip: false });
+    sim.drainEvents();
+    sim.addItemInstance('wolf_fang', { signer: 'Aldric' }, sim.playerId, 0);
+
+    expect(sim.drainEvents().filter((e) => e.type === 'loot')).toHaveLength(0);
+    expect(sim.meta(sim.playerId)!.inventory.some((s) => s.itemId === 'wolf_fang')).toBe(false);
+  });
+
   it('a batch forced across slots never shares one mutable payload object', () => {
     // charges payloads are one-per-slot by the merge carve-out, so a count-2
     // grant must mint two slots holding DISTINCT payload objects: charges

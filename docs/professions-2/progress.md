@@ -1867,7 +1867,7 @@ M = program memory, R = a Phase 18 phase-file ruling.
 | 3 | R3/S/P | #2139 corpse focus-harvest bag overflow | no: dead since the Phase 10 QA grant-order fix; canGrantItemInstance merge-aware guards and the hunted crossing-case pins live in corpse_harvest_sim.test.ts; no reachable overflow state exists | MOOT (verify-not-refix re-confirmed); the one LATENT corner (a future corpse tagging two specimen-less families) hardened with a content-shape guard test, 294e11e98 |
 | 4 | R4/P | Overlay stale-refill guard | guidance block verified complete (five checklist points plus rationale plus the regenerate-from-current-English worklist item, progress.md Phase 15 RE-QA note) | CLOSED by ruling: no mechanical guard; P20 MUST carry the block verbatim into the consolidated doc |
 | 5 | P/S | Wiki generator hardcoded payoutPctOfVendorValue 50 and listingDepositCopper 0 | yes: build_content.mjs literals confirmed | FIXED b37da31b1: WORK_ORDER_PAYOUT_FRACTION + MARKET_LISTING_DEPOSIT_COPPER exported from sim, generator imports, per-order copperReward recompute guards with the fraction literal-pinned; regen byte-identical |
-| 6 | P | HUD Sell Junk preview omits the soulbound arm | yes: hud.ts junk predicate lacked !soulbound... superseded mid-verify: the REAL residual risk was the sim-side sweep itself | FIXED 00603365c: sellAllJunk gains the boundTo slot filter plus skip-aware removal (the sellItem gate mirrored); the HUD preview's soulbound arm rode along in the same predicate review; junk-sweep bound-skip pinned |
+| 6 | P | HUD Sell Junk preview omits the soulbound arm | yes: hud.ts junk predicate lacked !soulbound, and the fresh-eyes review round caught that the first fix widened the divergence (the sim sweep gained the boundTo arm the preview also lacked) | FIXED 00603365c + the review round: the eligibility rule extracted as the shared junkSellableSlot (src/sim/items.ts), consumed by BOTH sellAllJunk and the hud.ts renderVendor preview; per-arm unit pins plus a hud consumption source pin make a re-divergence loud |
 | 7 | P | Gossip dialog does not repaint on a cprof identity delta | yes: P17 wired only the char/crafting/professions surfaces; the quest dialog had no identity repaint path | FIXED 508113626: hint-visibility signature recorded at gossip render, refreshIfChanged on the slow band plus the personal attunement arm, liveness and no-DOM-rebuild pins |
 | 8 | S/P | Legacy IWorldProfessions member retirement | partially: 3 methods + 4 scalar projections had zero live consumers; the note's claim was STALE for archetypeTitle/hobbyCraft (char-window title rows consume both) | FIXED 54c97c7da: the seven retired from facet + ClientWorld + parity pins (253/67/186); Sim keeps implementations as parity-legal extras; archetypeTitle/hobbyCraft STAY; state.md note corrected |
 | 9 | P/S | Windfall per-instance loot-line and cue burst | yes: the signed loop called the grant hub per unit | FIXED 620bc9114: addItemInstance count param, one xN line, clone-per-forced-slot; receive matcher xN arm (also fixes the pre-existing fungible-path name-localization gap); professions_gather golden regen ce2505c57, 8 lines all events hashes, draws byte-identical |
@@ -1957,5 +1957,16 @@ the batched grant online (loot events ride the generic personal event
 path; no new wire key, snapshots suites green), the retirement's
 ClientWorld surface (tsc plus world_api_parity plus the net suites).
 The 12b pin-cost appendix gained a burn-down re-inventory row (the
-standing rule). Release sync note: the merge 94f44360a arrived mid-phase
-window; if the tip moves again before P19/P20, re-run the audit.
+standing rule). Review round (five reviewers, zero blocking): the
+fresh-eyes pass caught the row 6 preview gap (fixed via the shared
+predicate) and an inventory overclaim (corrected in place); accepted
+nits recorded here rather than fixed: sellAllJunk deliberately emits NO
+kept notice when it spares a bound gray copy (the summary line reports
+what sold; revisit only if content ever mints bound grays), the xN
+receive localization runtime path is source-pinned plus S3-validated
+rather than fed end to end, a same-stack fungible-plus-instanced gray
+slot would double-fire the idempotent quest hook (unreachable content),
+and the stale world_api_parity it-titles were de-counted per the anchor
+rule instead of re-counted. Release sync note: the merge 94f44360a
+arrived mid-phase window; if the tip moves again before P19/P20, re-run
+the audit.

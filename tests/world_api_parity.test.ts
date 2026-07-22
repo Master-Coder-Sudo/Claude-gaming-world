@@ -475,7 +475,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
 
   // Sorted-name `toEqual` snapshots: a dropped, renamed, or kind-flipped member reddens
   // these deliberately, forcing a reviewed edit. NOT length-only.
-  it('the full sorted member set is exactly the pinned 251', () => {
+  it('the full sorted member set is exactly the pinned list', () => {
     expect(IWORLD_MEMBERS.map((m) => m.name).sort()).toEqual([
       'abandonPet',
       'abandonQuest',
@@ -733,7 +733,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
     ]);
   });
 
-  it('the sorted data-kind set is exactly the pinned 68', () => {
+  it('the sorted data-kind set is exactly the pinned list', () => {
     expect(DATA_MEMBERS.map((m) => m.name).sort()).toEqual([
       'accountCosmetics',
       'activeFrostRings',
@@ -805,7 +805,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
     ]);
   });
 
-  it('the sorted method-kind set is exactly the pinned 183', () => {
+  it('the sorted method-kind set is exactly the pinned list', () => {
     expect(METHOD_MEMBERS.map((m) => m.name).sort()).toEqual([
       'abandonPet',
       'abandonQuest',
@@ -1504,7 +1504,7 @@ describe('W1: aggregate IWorld member set equals the disjoint union of the 28 fa
     expect(overlaps, `members filed in more than one facet:\n${overlaps.join('\n')}`).toEqual([]);
   });
 
-  it('the union of the 28 facets equals the pinned 251-member IWORLD_MEMBERS set', () => {
+  it('the union of the facets equals the pinned IWORLD_MEMBERS set', () => {
     const union = Object.values(FACET_MEMBER_ARRAYS).flatMap((arr) => [...arr]);
     expect(union.length, 'union size before dedup (catches a duplicated member)').toBe(253);
     expect(new Set(union).size, 'union size after dedup (catches a duplicated member)').toBe(253);

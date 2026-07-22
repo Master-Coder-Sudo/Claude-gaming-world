@@ -60,6 +60,7 @@ import { specialRoleColor } from '../sim/discord_roles';
 import { canEquipItem, weaponHand } from '../sim/equipment_rules';
 import { isItemLevelEligible, itemLevel, itemScore } from '../sim/item_level';
 import { requiredLevelFor } from '../sim/item_level_req';
+import { junkSellableSlot } from '../sim/items';
 import type { Ante, PickAction } from '../sim/lockpick';
 import { FOCUS_POINT_BUDGET, isInTownZone } from '../sim/professions/focus';
 import { inRangeStationTypes, stationTypesSignature } from '../sim/professions/stations';
@@ -11275,16 +11276,10 @@ export class Hud {
     if (this.openVendorNpcId === null) return;
     const npc = this.sim.entities.get(this.openVendorNpcId);
     if (!npc) return;
-    const junk = this.sim.inventory.filter((slot) => {
-      const item = ITEMS[slot.itemId];
-      return (
-        !!item &&
-        item.quality === 'poor' &&
-        item.kind !== 'quest' &&
-        !item.noVendorSell &&
-        slot.count > 0
-      );
-    });
+    // The ONE sweep-eligibility rule, shared with the sim's sellAllJunk: the
+    // preview and the sweep must agree on soulbound defs and bound copies or
+    // the button can promise coin the sweep will not pay.
+    const junk = this.sim.inventory.filter((slot) => junkSellableSlot(ITEMS[slot.itemId], slot));
     const junkProceeds = junk.reduce(
       (sum, slot) => sum + ITEMS[slot.itemId]?.sellValue * slot.count,
       0,

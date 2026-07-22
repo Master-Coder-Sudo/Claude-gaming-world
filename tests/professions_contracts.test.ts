@@ -84,6 +84,10 @@ describe('professions contracts (#1164)', () => {
     expect(client.craftSkills).toEqual(emptyCraftSkills());
     expect(Object.values(client.craftSkills).every((v) => v === 0)).toBe(true);
     expect(client.craftingIdentity.craftSkills).toEqual(emptyCraftSkills());
+    // The derived scalars read the same pre-sync mirror: null until cprof
+    // lands (the retired member-by-member projections behaved identically).
+    expect(client.hobbyCraft).toBeNull();
+    expect(client.archetypeTitle).toBeNull();
   });
 
   it('shared professions types are importable from the barrel', () => {

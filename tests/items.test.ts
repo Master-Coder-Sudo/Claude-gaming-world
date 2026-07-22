@@ -1,9 +1,11 @@
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { ITEMS } from '../src/sim/data';
 import * as items from '../src/sim/items';
 import { Sim } from '../src/sim/sim';
 import type { SimContext } from '../src/sim/sim_context';
-import { type Entity, POTION_COOLDOWN, type SimEvent } from '../src/sim/types';
+import { type Entity, type ItemDef, POTION_COOLDOWN, type SimEvent } from '../src/sim/types';
 
 // Direct tests for the extracted inventory/vendor module (W2). They call the module
 // functions with the real SimContext the Sim built in its ctor (the same seam the thin
@@ -378,6 +380,26 @@ describe('items vendor: buy / sell / sellAllJunk / buyBack', () => {
       .drainEvents()
       .filter((e) => e.type === 'loot' && /^Sold \d+ junk item/.test((e as { text: string }).text));
     expect(summary).toHaveLength(1);
+  });
+
+  it('junkSellableSlot is the one sweep rule: every arm decides, and the HUD preview consumes it', () => {
+    // The predicate is shared by sellAllJunk and the vendor preview in
+    // hud.ts renderVendor; per-arm decisiveness here plus the source pin
+    // below keep the two surfaces from ever drifting apart again.
+    const gray: ItemDef = ITEMS.mudfin_scale;
+    const slot = { count: 1 };
+    expect(items.junkSellableSlot(gray, slot)).toBe(true);
+    expect(items.junkSellableSlot(undefined, slot)).toBe(false);
+    expect(items.junkSellableSlot(ITEMS.wolf_fang, slot)).toBe(false); // common, not poor
+    expect(items.junkSellableSlot({ ...gray, kind: 'quest' } as ItemDef, slot)).toBe(false);
+    expect(items.junkSellableSlot({ ...gray, noVendorSell: true }, slot)).toBe(false);
+    expect(items.junkSellableSlot({ ...gray, soulbound: true }, slot)).toBe(false);
+    expect(items.junkSellableSlot(gray, { count: 0 })).toBe(false);
+    expect(items.junkSellableSlot(gray, { count: 1, instance: { boundTo: 7 } })).toBe(false);
+    expect(items.junkSellableSlot(gray, { count: 1, instance: { signer: 'Ana' } })).toBe(true);
+
+    const hud = readFileSync(path.resolve(process.cwd(), 'src/ui/hud.ts'), 'utf8');
+    expect(hud).toContain('junkSellableSlot(ITEMS[slot.itemId], slot)');
   });
 
   it('buyBackItem repurchases via the silent add, spends copper, and clears the buyback slot', () => {

@@ -42,6 +42,7 @@ import {
   type Entity,
   type EquipSlot,
   INTERACT_RANGE,
+  type ItemDef,
   type ItemInstancePayload,
   isNonSpellCast,
   POTION_COOLDOWN,
@@ -655,6 +656,28 @@ export function sellItem(ctx: SimContext, itemId: string, count = 1, pid?: numbe
   }
 }
 
+// The junk-sweep eligibility rule for ONE bag slot, shared by the sim sweep
+// (sellAllJunk below) and the HUD vendor preview (hud.ts renderVendor) so the
+// two surfaces can never drift: gray quality, a sellable kind, and never a
+// soulbound def or a bound copy (instance payload carrying boundTo, the same
+// Maker's Bond gate sellItem applies). No poor-quality def binds or is
+// soulbound in shipped content; the instance arm closes the recorded future
+// hole before content can reopen the buyback wash.
+export function junkSellableSlot(
+  def: ItemDef | undefined,
+  slot: { count: number; instance?: ItemInstancePayload },
+): boolean {
+  return (
+    !!def &&
+    def.quality === 'poor' &&
+    def.kind !== 'quest' &&
+    !def.noVendorSell &&
+    !def.soulbound &&
+    slot.instance?.boundTo === undefined &&
+    slot.count > 0
+  );
+}
+
 // Bulk-sell every gray (poor-quality) item in the bags in one action, applying the
 // same rules as the per-item sellItem path: quest items and noVendorSell items are
 // left untouched and each sold stack is recorded for buyback. One summary loot line
@@ -672,22 +695,7 @@ export function sellAllJunk(ctx: SimContext, pid?: number): void {
     return;
   }
   const junk = meta.inventory
-    .filter((s) => {
-      const def = ITEMS[s.itemId];
-      return (
-        !!def &&
-        def.quality === 'poor' &&
-        def.kind !== 'quest' &&
-        !def.noVendorSell &&
-        !def.soulbound &&
-        // A bound copy (instance payload carrying boundTo) is never
-        // vendor-sellable: the same Maker's Bond gate sellItem applies. No
-        // poor-quality def binds in shipped content, so this arm closes the
-        // recorded future hole before content can reopen the buyback wash.
-        s.instance?.boundTo === undefined &&
-        s.count > 0
-      );
-    })
+    .filter((s) => junkSellableSlot(ITEMS[s.itemId], s))
     .map((s) => ({ itemId: s.itemId, count: s.count }));
   if (junk.length === 0) return; // nothing gray to sell; the vendor UI keeps the button disabled here
   let total = 0;
