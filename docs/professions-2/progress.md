@@ -46,9 +46,9 @@ Update this file at the end of every implementation and QA session. Statuses:
 | 15 | Deeds, tuning, and polish | complete (PR #2303 merged into release/v0.29.0 as 485e7b429d; single combined PR with 15 QA, per the 2026-07-22 process amendment) | 2026-07-21 | 2026-07-22 |
 | 15 QA | Final integration QA and packet teardown | complete (executed in the Phase 15 session on the same branch; teardown offer recorded in Notes; independently re-audited post-merge by the Phase 15 RE-QA session, see Notes) | 2026-07-22 | 2026-07-22 |
 | 16 | Enchanting stat trim (release-blocking) | complete (landed on fix/professions-2-phase-15-requa, commits 10fd998f9 to 9083ef8eb; see Notes) | 2026-07-22 | 2026-07-22 |
-| 17 | Interface polish (crafting + ring windows) | complete (landed on fix/professions-2-phase-15-requa; see Notes) | 2026-07-22 | 2026-07-22 |
+| 17 | Interface polish (crafting + ring windows) | complete (landed on fix/professions-2-phase-15-requa; round-two polish pass also complete 2026-07-22, see Notes) | 2026-07-22 | 2026-07-22 |
 | 18 | Deferral burn-down | complete | 2026-07-22 | 2026-07-22 |
-| 19 | Name originality sweep + wiki truth pass | planned (phase-19-originality-and-wiki.md) | | |
+| 19 | Name originality sweep + wiki truth pass | complete (landed on fix/professions-2-phase-15-requa, commits c55bf057c to d8ba7401dc; see Notes) | 2026-07-22 | 2026-07-22 |
 | 20 | Finish line (scrub, teardown, docs, whole-branch QA) | planned (phase-20-finish-line.md) | | |
 
 The finishing packet (P16 to P20, authored 2026-07-22 by the RE-QA session
@@ -1917,7 +1917,7 @@ M = program memory, R = a Phase 18 phase-file ruling.
 | 53 | B | raw_stonescale_carp id/name mismatch | yes | DEFERRED TO P19 (the originality and wiki-truth sweep is the natural home) |
 | 54 | P/B | Guide non-Latin regenerate-from-current-English worklist plus the release locale fill batch | yes | DEFERRED to release fill time; the worklist item and refill checklist live in the Phase 15 RE-QA note (row 4 carries them to P20) |
 | 55 | S | Design-system restyle of professions UI under root DESIGN.md | DESIGN.md phase 1 tokens still not landed | DEFERRED to the design-language program |
-| 56 | P/M | P17 round-two directives (commission opt-in control, breathing room) plus the P17 sweep deferrals (train/unbind flat family, enchant-picker tint, #463a1c tokenization, the three item_instance_tooltip #ffd100 literals) | yes | DEFERRED to the maintainer-scheduled round-two pass (after P18/P19, before P20) |
+| 56 | P/M | P17 round-two directives (commission opt-in control, breathing room) plus the P17 sweep deferrals (train/unbind flat family, enchant-picker tint, #463a1c tokenization, the three item_instance_tooltip #ffd100 literals) | yes | LANDED in the round-two pass 2026-07-22 (commission pill toggle-chip, breathing room, train/unbind cards, enchant-picker tint, the full --color-border-showcase pass, the tooltip gold literals; see the P17 round-two Note) |
 | 57 | P | Production-copy reset rehearsal (RESET_REHEARSAL_INPUT) | pending | DEFERRED: maintainer pre-deploy step |
 | 58 | S/P | 12c display caveats (raw-blob readers stale until login; pre-curve deed retro-grants on next action) | still true | record-only |
 | 59 | S/P | Wave-2 and accepted inventory classes: partial instanced splits and the split-prompt gate, fitsAfterSwap payload-blind scratch, rename-save TOCTOU, components length unbounded, marker a11y overclaim, unified-press hint on loot-only corpses, mail expiry has no UI countdown, bank window instanced marker bags-only | yes | DEFERRED as recorded (wave 2 or accepted) |
@@ -2201,3 +2201,138 @@ generic -wright compound), flagged here for the P20 re-audit.
   behavior (names ride the entity/i18n paths; snapshots and parity green)
   and the Steam title surface (ACH mapping untouched; the Craftsworn
   partner-site display name is the maintainer's manual follow-up).
+
+### P17 round two: the maintainer-directed polish pass (2026-07-22)
+
+The short round-two pass from the "Maintainer review of the landed phase"
+block in phase-17-interface-polish.md, executed after P18 and P19 and before
+P20 as scheduled (no PR, no issues; the branch is the history). STEP 0:
+release tip 55af0ae9be unmoved (it is the branch's merge base), tree clean at
+d8ba7401dc. Commits: cf2a89a74 (the polish), ddfc0f5d7 (a clip fix the
+session's own shots caught), a95cd4b80 (shot tooling), 72d05fbc9
+(screenshots), 1675541aa (review round), plus this note.
+
+Directed item 1, the commission control: the raw native checkbox became a
+game-styled pill toggle-chip (a real button with aria-pressed, the visible
+"Commission piece" label as its accessible name, a small state pip that
+doubles the pressed signal so armed is never colour-only), deliberately
+repositioned: right-aligned in the recipe card's footer directly under the
+gold Craft chip, so the pair reads as one action column. Every behavior
+contract held: HUD-held per-recipe state survives repaints (the click
+handler mirrors aria-pressed locally instead of repainting; the HUD set
+stays the only authority and reseeds on every paint), off by default,
+cleared on window close, the whole control carries the 40px mobile floor
+(hud.mobile.css), and the attachTooltip hint moved onto the chip itself.
+The quieter white-alpha interior hairline on the footer was NOT named by
+the round-two block and stays (deliberate). Suite re-pinned with new arms:
+off-by-default, aria-pressed mirroring, footer placement, pip aria-hidden,
+tooltip-on-chip.
+
+Directed item 2, breathing room: spacing-only pass over the professions
+window (section card padding 8/12/10 to 10/14/12 with gap 8, scroll gap 12,
+hero gap 12, grid gutters 8x16, row padding 8x10, row stack gap 5, chips
+gap 6 with pill padding 4x9, bar gap 8, pip gap 4, perk/nudge gap 7,
+header underline clearance 6). No relayout: the structure pins in
+professions_window_layout were untouched and stayed green.
+
+The sweep deferrals, all four ruled in (the round-two block names three;
+P18 inventory row 56 adds the tooltip literals):
+- Train/unbind flat-row family: rows became inset cards (tokenized
+  hairline, 7px radius, rgba(0,0,0,0.24) fill, 8px card rhythm) with the
+  shared .crafting-recipe-socket quality-glow socket (a 36px size variant
+  for the 400px windows) and a .vi-price-chip gold-gradient fee chip on
+  AFFORDABLE rows only; an unaffordable fee keeps the plain error-tint
+  price (readable under the disabled opacity, the P17 sweep's own rule),
+  locked rows keep the muted plain price, known rows stay price-free.
+- Enchant-apply picker: per-reagent shortfall tint through the crafting
+  reagent idiom (painter computes have >= required per reagent, ctx-menu
+  family CSS); pinned decisively in bag_item_action_menu_paint with both
+  arms live in one paint and the class keyed to each span's own numbers.
+- The #463a1c hairline tokenization, caveat re-weighed: since the item is
+  ruled in, the ONLY coherent scope is the full coordinated pass, so
+  --color-border-showcase landed in tokens.css and every game-styles site
+  migrated (components 60, shell 7, hud 3, base 2, index.extra 3,
+  including the two 1px background-drawn hairlines and the shell
+  color-mix), char-window family included: the half-migration concern is
+  resolved by doing all of it. The admin bundle keeps its own --border-soft
+  (separate entry, untouched). Values are byte-identical everywhere.
+- The three item_instance_tooltip #ffd100 literals moved to var(--gold)
+  (theme.test.ts anchors the chain), and the review round extended the
+  same swap to the two sibling hud.ts tooltip sites (item-level line,
+  soulbound line) so the tooltip gold family is one token end to end.
+NOT taken: the gold-gradient chip family (now five literal sites: two mail
+buttons, cal-add, the Craft chip, the new fee chip) is a candidate for its
+own coordinated token pass but was not ruled in; left as family-consistent
+literals, flagged for the maintainer.
+
+REAL BUG, caught by this session's own after-shots (second phase running):
+.crafting-body is a flex column, so once the recipe list overflowed, the
+default-shrink cards compressed below their content height and the card's
+overflow:hidden clipped the commission footer (the old checkbox row was
+short enough to hide this; the taller pill exposed it). Fixed with an
+explicit .crafting-body > * flex-shrink guard plus a source pin. TRAP
+CLASS for P20: a flex-column scroll pane whose children carry
+overflow:hidden needs a shrink guard, or the children clip instead of
+scrolling (overflow:hidden zeroes the flex-item automatic minimum size;
+overflow-visible children are immune, which is why the professions
+window's sections never showed it).
+
+Three-reviewer fan-out (frontend-seam-reviewer READY, qa-checklist and
+fresh-eyes NEEDS_WORK), 3/3 structured reports first try, every
+consequential claim re-verified against the cascade before acting:
+- CONFIRMED and fixed: hovering a disabled train/unbind row blanked the
+  new card fill (.vendor-item:disabled:hover at (0,3,0) beats the card
+  rule at (0,1,0)), and the known row's old transparent wash suppressor
+  did the same; the cards now restate their fill at matching specificity
+  with the hover wash layered over live rows (and the known row keeps the
+  fill wash-free, so a dead row no longer implies interactivity).
+- CONFIRMED and fixed: the chip lost the tokenized :focus-visible ring the
+  native checkbox had (the shared base.css group never listed it); it
+  joined the group. Noted: focus_visible_guard only audits existing rules,
+  it cannot see a missing one.
+- CONFIRMED and closed: the train/unbind fee-chip and socket arms shipped
+  unpinned; a new train_window_painter suite pins the two-arm fee
+  rendering, the socket, and the hover-restore rules, and the unbind pins
+  gained the same arms.
+- Recorded, no action: the empty-socket arm on an unresolvable item def
+  matches the crafting window's own idiom (deliberate row alignment); the
+  aria-pressed local mirror is the documented no-repaint optimization and
+  cannot desync (onToggleCommission cannot decline); the shrink-guard
+  source pin is formatting-sensitive by jsdom necessity.
+
+Shot tooling: the train target gained the crafting target's first-tier
+tutorial poll-dismissal (staging tier-1 weaponcrafting trips the modal
+there too). Process note: the professions shot target fires only on its
+two TS files and the breathing-room pass is CSS-only, so the capture diff
+carried two extra professions_window.ts path lines purely to fire that
+target (widening its when-list to components.css would over-fire every
+styles change); recorded here deliberately. The enchant picker has no shot
+target and did not gain one (a ctx-menu bring-up recipe was judged not
+worth the tooling risk for a meta-line tint); the tint is pin-verified
+only.
+
+Screenshots: docs/screenshots/professions-2-phase-17-round-two/, twelve
+before/after pairs (crafting in four framings, professions
+full/gathering/mobile, train and unbind desktop and mobile, and the
+commission-bound tooltip pair proving the gold line held through the token
+swap). Before shots were captured from d8ba7401dc (current head, so P19's
+renamed copy is in both sides), after shots from the polished commits.
+
+VERIFY: 26-suite targeted matrix green at the untouched tip (286 tests)
+and green after the change (312, plus the new painter suite); tsc clean;
+biome clean on every changed file; full npm run gate under Node 26 PASS (all 11 steps green, judged by the log marker, exit 0; the environmental armory browser red did not strike).
+
+RE-AUDIT EMPHASIS (for P20): styled BY JUDGMENT with no pins: the chip
+pill cosmetics (pip sizing, the rgb(200 163 74 / 12%) armed wash, pill
+padding), the fee-chip proportions, and every breathing-room spacing value
+(spacing polish is deliberately unpinned; only structure is pinned). Worth
+a fresh look: (1) the shrink-guard trap class anywhere else a flex-column
+scroll pane holds overflow-hidden children; (2) the tokenization is a
+75-site value swap whose only tooth is "grep -rn 463a1c src/styles" equals
+the tokens.css definition alone, worth re-running once at P20 since a
+missed site would be an invisible 1px drift no test reds on; (3) the
+enchant-picker tint has no screenshot, eyeball it once in play; (4) the
+aria-pressed toggle semantics are pin-verified, not screen-reader-run;
+(5) the vendor-family hover cascade over the new cards was fixed for the
+three arms found, but any FUTURE vendor-family rule with a pseudo-class
+outranks the card rule silently, same class of bug.
