@@ -74,6 +74,21 @@ describe('hud event switch stays wired to the ids', () => {
     }
   });
 
+  it('the receive matcher accepts the xN batch suffix and still localizes the name', () => {
+    // Both grant hubs emit "You receive: X xN." for a multi-unit grant (the
+    // batched windfall). A greedy single-capture arm would feed "Copper Ore
+    // x5" to the exact-name lookup and silently render the item name in raw
+    // English for every non-English locale.
+    const source = readFileSync(path.resolve(process.cwd(), 'src/ui/hud.ts'), 'utf8');
+    const armStart = source.indexOf('/^You receive: (.+?)( x\\d+)?\\.$/');
+    expect(armStart).toBeGreaterThan(-1);
+    const arm = source.slice(
+      armStart,
+      source.indexOf(';', source.indexOf('lootReceiveItem', armStart)),
+    );
+    expect(arm).toContain('itemStackDisplayName(match[1], match[2])');
+  });
+
   it('each flavor maps to its own broadcast key in the hud switch', () => {
     // A swapped flavor-to-key mapping would pass the mere-existence pin above;
     // bind each slug to its key through the conditional chain in the

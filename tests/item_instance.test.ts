@@ -117,6 +117,40 @@ describe('item-instance payload (#1165)', () => {
     expect(slots.some((s) => !s.instance && s.count === 1)).toBe(true);
   });
 
+  it('a batched multi-unit grant emits one xN loot line and lands units as usual', () => {
+    const sim = new Sim({ seed: 42, playerClass: 'warrior', autoEquip: false });
+    sim.drainEvents();
+    sim.addItemInstance('wolf_fang', { signer: 'Aldric' }, sim.playerId, 3);
+
+    const loot = sim
+      .drainEvents()
+      .filter((e) => e.type === 'loot')
+      .map((e) => (e as unknown as { text: string }).text);
+    expect(loot).toEqual(['You receive: Cracked Wolf Fang x3.']);
+    const slots = sim.meta(sim.playerId)!.inventory.filter((s) => s.itemId === 'wolf_fang');
+    expect(slots).toHaveLength(1);
+    expect(slots[0].count).toBe(3);
+    expect(slots[0].instance?.signer).toBe('Aldric');
+  });
+
+  it('a batch forced across slots never shares one mutable payload object', () => {
+    // charges payloads are one-per-slot by the merge carve-out, so a count-2
+    // grant must mint two slots holding DISTINCT payload objects: charges
+    // mutate in place, and a shared reference would drain both copies.
+    const sim = new Sim({ seed: 42, playerClass: 'warrior', autoEquip: false });
+    sim.addItemInstance(
+      'apprentice_staff',
+      { signer: 'Aldric', charges: { zap: 2 } },
+      sim.playerId,
+      2,
+    );
+
+    const slots = sim.meta(sim.playerId)!.inventory.filter((s) => s.itemId === 'apprentice_staff');
+    expect(slots).toHaveLength(2);
+    expect(slots[0].instance).toEqual(slots[1].instance);
+    expect(slots[0].instance).not.toBe(slots[1].instance);
+  });
+
   it('the bag display view-core renders an instanced slot without crashing', () => {
     const model = buildBagGrid(
       [

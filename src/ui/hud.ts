@@ -10960,8 +10960,13 @@ export class Hud {
   }
 
   private localizeLootText(text: string): string {
-    let match = /^You receive: (.+)\.$/.exec(text);
-    if (match) return t('hud.logs.lootReceiveItem', { item: itemDisplayNameFromSource(match[1]) });
+    // The optional xN suffix (multi-unit grants, both grant hubs emit it)
+    // routes through itemStackDisplayName so the item NAME still localizes;
+    // a greedy single capture would feed "Copper Ore x3" to the exact-name
+    // lookup and silently degrade to raw English.
+    let match = /^You receive: (.+?)( x\d+)?\.$/.exec(text);
+    if (match)
+      return t('hud.logs.lootReceiveItem', { item: itemStackDisplayName(match[1], match[2]) });
     match = /^You receive (.+)\.$/.exec(text);
     if (match) return t('hud.logs.lootReceiveMoney', { money: this.localizeSimMoney(match[1]) });
     match = /^You loot (.+)\.$/.exec(text);

@@ -260,14 +260,14 @@ describe('rare events through Sim.harvestNode (all three flavors)', () => {
       if (rare && rare.type === 'gatherRareEvent') {
         const gather = events.find((e) => e.type === 'gatherResult');
         if (gather?.type !== 'gatherResult') throw new Error('expected gatherResult on the hit');
-        return { sim, pid, meta, node, rare, gather, iteration: i };
+        return { sim, pid, meta, node, rare, gather, events, iteration: i };
       }
     }
     throw new Error(`no rare event within 2000 harvests of ${nodeId}`);
   }
 
   it('an ore node hit is a pristine vein: zone event, x5 yield, all units signed', () => {
-    const { pid, meta, rare, gather, node } = huntHit('ore_eastbrook_1');
+    const { pid, meta, rare, gather, node, events } = huntHit('ore_eastbrook_1');
     expect(rare.flavor).toBe('pristine_vein');
     expect(rare.nodeType).toBe('ore');
     expect(rare.itemId).toBe('copper_ore');
@@ -290,6 +290,13 @@ describe('rare events through Sim.harvestNode (all three flavors)', () => {
     expect(slots).toHaveLength(1);
     expect(slots[0].count).toBe(GATHER_RARE_EVENT_YIELD_MULT);
     expect(slots[0].instance?.signer).toBe('Finder');
+
+    // The whole windfall is ONE batched loot line with the x5 suffix, never
+    // one line and cue per unit (the recorded loot-burst polish).
+    const lootLines = events
+      .filter((e) => e.type === 'loot')
+      .map((e) => (e as { text: string }).text);
+    expect(lootLines).toEqual(['You receive: Copper Ore x5.']);
 
     // The dormant per-flavor deed mark (Phase 15 registers the deed).
     expect(meta.deedStats.visited.has('gather_event:pristine_vein')).toBe(true);

@@ -463,9 +463,11 @@ export function completeGatherCast(ctx: SimContext, p: Entity, meta: PlayerMeta)
     // tests/gather_rare_events.test.ts).
     const capacity = bagCapacity(meta.bags);
     const fit = countFit(meta.inventory, capacity, itemId, qty, { signer: meta.name });
-    for (let i = 0; i < fit; i++) {
-      ctx.addItemInstance(itemId, { signer: meta.name }, meta.entityId);
-      grantedQty++;
+    if (fit > 0) {
+      // One batched grant: a x5 windfall lands as ONE "You receive: X x5."
+      // line and cue instead of five (the recorded loot-burst polish).
+      ctx.addItemInstance(itemId, { signer: meta.name }, meta.entityId, fit);
+      grantedQty = fit;
     }
     if (grantedQty === 0) {
       grantedQty = grantFungibleFit();

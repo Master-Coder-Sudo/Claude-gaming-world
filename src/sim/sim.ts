@@ -4053,7 +4053,8 @@ export class Sim {
       partyMembersForKey: (key) => sim.partyMembersForKey(key),
       grantXp: (amount, meta, opts) => sim.grantXp(amount, meta, opts),
       addItem: (itemId, count, pid) => sim.addItem(itemId, count, pid),
-      addItemInstance: (itemId, instance, pid) => sim.addItemInstance(itemId, instance, pid),
+      addItemInstance: (itemId, instance, pid, count) =>
+        sim.addItemInstance(itemId, instance, pid, count),
       // L2's World Market escrow (marketList) also consumes removeItem; it is bound once
       // above (P1b inventory-hub helper, points-at Sim) - deduped, not re-added here.
       spawnBossAdds: (boss, mobId, count) => sim.spawnBossAdds(boss, mobId, count),
@@ -6687,30 +6688,46 @@ export class Sim {
     }
   }
 
-  // Grant a single non-fungible copy of `itemId` carrying an instance payload
+  // Grant `count` non-fungible copies of `itemId` carrying an instance payload
   // (#1165: signer/charges/rolled/boundTo). Identical-payload stacking (Phase
-  // 12d): the copy merges into an existing slot whose payload is byte-equal
+  // 12d): each copy merges into an existing slot whose payload is byte-equal
   // under canStackInstancePayloads (so a charge-bearing payload stays
   // one-per-slot) with stack room; otherwise it takes its own slot entry. It
-  // never merges with a plain or differently-instanced stack.
-  addItemInstance(itemId: string, instance: ItemInstancePayload, pid?: number): void {
+  // never merges with a plain or differently-instanced stack. A multi-unit
+  // grant (a rare-event windfall) emits ONE loot line with the xN suffix
+  // instead of one line and cue per unit; discovery and quest hooks fire once
+  // per grant, matching addItem's per-call semantics.
+  addItemInstance(itemId: string, instance: ItemInstancePayload, pid?: number, count = 1): void {
     const r = this.resolve(pid);
     if (!r) return;
+    if (count < 1) return;
     const { meta } = r;
     const def = ITEMS[itemId];
     const stack = stackSizeOf(def);
-    const mergeTarget = meta.inventory.find(
-      (s) =>
-        s.itemId === itemId && s.count < stack && canStackInstancePayloads(s.instance, instance),
-    );
-    if (mergeTarget) mergeTarget.count += 1;
-    else meta.inventory.push({ itemId, count: 1, instance });
+    for (let i = 0; i < count; i++) {
+      const mergeTarget = meta.inventory.find(
+        (s) =>
+          s.itemId === itemId && s.count < stack && canStackInstancePayloads(s.instance, instance),
+      );
+      if (mergeTarget) mergeTarget.count += 1;
+      // The first pushed slot holds the caller's payload object (the shipped
+      // single-unit contract); any further slot a stack-cap crossing forces
+      // gets its own clone, so two slots never share one mutable payload
+      // (charges mutate in place, unbind clears boundTo on one slot).
+      else
+        meta.inventory.push({
+          itemId,
+          count: 1,
+          instance: i === 0 ? instance : cloneItemInstancePayload(instance),
+        });
+    }
     // Discovery ledger: the instance's rolled quality (gathered rares) beats
     // the static def quality for the quality-first marks.
     deedsMod.markItemDiscovered(this.ctx, meta, itemId, instance.rolled?.quality);
     this.emit({
       type: 'loot',
-      text: `You receive: ${def?.name ?? itemId}.`,
+      // biome-ignore lint/style/useTemplate: keep this scanner-friendly shape for i18n extraction.
+      text: `You receive: ${def?.name ?? itemId}${count > 1 ? ' x' + count : ''}.`,
       pid: meta.entityId,
     });
     this.ctx.onInventoryChangedForQuests(meta);
