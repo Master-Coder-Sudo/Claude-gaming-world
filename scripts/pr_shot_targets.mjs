@@ -398,11 +398,18 @@ export const TARGETS = [
       const open = await pollForSize(page, '#crafting-window');
       if (open && variant?.fourStates) {
         // Staging mid-tier craft skills trips the once-ever first-tier
-        // explainer modal over the window; dismiss it so the shot frames the
-        // recipe pane, not the tutorial.
-        await page.evaluate(() => {
-          document.querySelector('#profession-tutorial .cd-ok')?.click();
-        });
+        // explainer modal over the window, on a drain-window delay rather
+        // than synchronously; poll-dismiss it so the shot frames the recipe
+        // pane, not the tutorial.
+        for (let i = 0; i < 10; i++) {
+          const dismissed = await page.evaluate(() => {
+            const ok = document.querySelector('#profession-tutorial .cd-ok');
+            if (ok) ok.click();
+            return Boolean(ok);
+          });
+          if (dismissed) break;
+          await wait(300);
+        }
         await wait(200);
       }
       if (open && variant?.selectTab) {
