@@ -137,7 +137,7 @@ export const COMMON_RECIPES: ProfessionRecipeRecord[] = [
     professionId: 'alchemy',
     resultItemId: 'minor_healing_potion',
     resultCount: 1,
-    // Phase 15 QA directed burn-down: silverleaf (the zone-1 healing herb)
+    // Phase 15 QA directed burn-down: sheenleaf (the zone-1 healing herb)
     // joins the brew. glass_vial was rejected here: its only vendor is in
     // zone 3 and this is the level-1 field alchemy entry. Input 15 vs output 8.
     reagents: [
@@ -316,7 +316,7 @@ export const TOOL_RECIPES: ProfessionRecipeRecord[] = [
 
 // Station-tier caster-stat (int/spi) recipes (crafting content follow-up to
 // the COMMON_RECIPES caster pieces above): one per tailoring/leatherworking/
-// armorcrafting, at the same thorium tier as TOOL_RECIPES, each bound to its
+// armorcrafting, at the same osmium tier as TOOL_RECIPES, each bound to its
 // own craft's station type (loom/tannery/forge).
 // Phase 15 QA directed burn-down: all three caster-hub reagent lists were
 // reworked gold-negative (input above output under the recipe_economy rule).
@@ -328,8 +328,8 @@ export const CASTER_HUB_RECIPES: ProfessionRecipeRecord[] = [
     professionId: 'tailoring',
     resultItemId: 'wardweave_cowl',
     resultCount: 1,
-    // Silk volume warded with premium herbs (the ladder's sunweave/goldweave
-    // idiom); the odd thorium padding is gone. Input 534 vs output 440.
+    // Silk volume warded with premium herbs (the ladder's sunweave/gildenweave
+    // idiom); the odd osmium padding is gone. Input 534 vs output 440.
     reagents: [
       { itemId: 'sunpetal_herb', count: 2 },
       { itemId: 'goldleaf_herb', count: 2 },
@@ -347,7 +347,7 @@ export const CASTER_HUB_RECIPES: ProfessionRecipeRecord[] = [
     professionId: 'leatherworking',
     resultItemId: 'duskhide_wraps',
     resultCount: 1,
-    // Hide volume (pristine plus rough) tanned at the vats; thorium studs
+    // Hide volume (pristine plus rough) tanned at the vats; osmium studs
     // carry the value (tanner_hesk sells both reagents at the tannery).
     // Input 461 vs output 420.
     reagents: [
@@ -413,7 +413,7 @@ export const COMBO_RECIPES: ProfessionRecipeRecord[] = [
     professionId: 'weaponcrafting',
     resultItemId: 'gravewyrm_gauntlets',
     resultCount: 1,
-    // Same combo family as the helm: thorium volume fluxed around an iron
+    // Same combo family as the helm: osmium volume fluxed around an iron
     // core. Input 424 vs output 390.
     reagents: [
       { itemId: 'thorium_ore', count: 6 },

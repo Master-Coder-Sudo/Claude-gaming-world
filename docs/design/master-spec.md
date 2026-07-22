@@ -444,7 +444,7 @@ Economy continuity: zone-2 quests pay 2–25s (total ≈ 1g31s + ~1g+ mob copper
 | icevein_dirk | Icevein Dirk | weapon (10–16 spd 1.8, dagger) | common | 6000 | 600 |
 | highwatch_breastplate | Highwatch Breastplate | armor/chest, armor 160 | common | 7000 | 700 |
 | peakwool_robe | Peakwool Robe | armor/chest, armor 50 | common | 5000 | 500 |
-| stalkerhide_jerkin | Stalkerhide Jerkin | armor/chest, armor 95 | common | 6000 | 600 |
+| stalkerhide_jerkin | Prowlhide Jerkin | armor/chest, armor 95 | common | 6000 | 600 |
 | cragwalker_boots | Cragwalker Boots | armor/feet, armor 55 | common | 4000 | 400 |
 | windguard_leggings | Windguard Leggings | armor/legs, armor 70 | common | 4500 | 450 |
 

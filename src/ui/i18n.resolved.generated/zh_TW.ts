@@ -3681,8 +3681,8 @@ export const zh_TW: EnTranslations = {
       "colNodeTier": "節點階級",
       "colToolNeeded": "所需工具",
       "craftIntro": {
-        "weaponcrafting": "武器鍛造在東溪的鍛造坊打造斧、錘、刃與法杖，從銅製入門武器一路到精良的釷金與奧金之作。",
-        "armorcrafting": "護甲鍛造在東溪的鍛造坊打造鎖甲，從鉚接銅甲到精良的釷鱗重甲。",
+        "weaponcrafting": "武器鍛造在東溪的鍛造坊打造斧、錘、刃與法杖，從銅製入門武器一路到精良的鋨金與銘鋼之作。",
+        "armorcrafting": "護甲鍛造在東溪的鍛造坊打造鎖甲，從鉚接銅甲到精良的鋨鱗重甲。",
         "tailoring": "裁縫在東溪的織布機旁織造施法者布甲與一只寬敞的背包，從家紡基礎款到精良的日織系列。",
         "leatherworking": "製皮在芬橋的製革坊鞣製靈巧的皮甲，從獸皮基礎款到精良的澤守系列。",
         "cooking": "烹飪在東溪的廚房把魚、野味和草藥做成坐下享用的餐食，最高可達精良的盛宴佳餚。",
@@ -3695,27 +3695,27 @@ export const zh_TW: EnTranslations = {
           "identityHeading": "人人都要買的鋒刃",
           "identityBody": "精良一檔就涵蓋三種胃口：力量近戰的Thorium Warblade、敏捷戰士的Arcanite War Axe，以及施法者的智力精神法杖Elderwood Battle Staff。在製作之輪上它位於護甲鍛造與珠寶設計之間；鐵匠（武器鍛造與護甲鍛造）可在Forgemistress Darva處宣誓，與珠寶設計組成的Bladewright則要等後者的配方隨未來區域到來。",
           "materialsHeading": "鍛爐吞噬什麼",
-          "materialsBody": "採礦是根基：銅礦出自Eastbrook Vale，鐵礦出自Mirefen Marsh，釷礦出自Thornpeak Heights。伐木也很重要：鐵皮木做矛桿，梣木做錘柄，一根古木成杖。粗皮從狼和野豬屍體上剝取，碎骨來自日常獵殺，梯子上的配方要燒Smithing Flux（Darva處20銅一罐）。Darva賣釷礦，Tinker Gizzel在工坊賣奧金錠，價格不菲。",
+          "materialsBody": "採礦是根基：銅礦出自Eastbrook Vale，鐵礦出自Mirefen Marsh，鋨礦出自Thornpeak Heights。伐木也很重要：鐵皮木做矛桿，梣木做錘柄，一根高松成杖。粗皮從狼和野豬屍體上剝取，碎骨來自日常獵殺，梯子上的配方要燒Smithing Flux（Darva處20銅一罐）。Darva賣鋨礦，Tinker Gizzel在工坊賣銘鋼錠，價格不菲。",
           "ladderHeading": "一級一級的梯子",
-          "ladderBody": "野外配方Eastbrook Arming Sword人人都會、隨處可做。真正的梯子是三檔九個訓練師配方，全部綁定鍛造坊：銅檔技能0免費，鐵檔技能25每個25銀，釷檔技能50每個1金；你的層級一到，Darva就會教。另有一件組合配方Gravewyrm Gauntlets：只有武器鍛造與護甲鍛造都到25的調諧鐵匠能做，且不需要任何工位。",
+          "ladderBody": "野外配方Eastbrook Arming Sword人人都會、隨處可做。真正的梯子是三檔九個訓練師配方，全部綁定鍛造坊：銅檔技能0免費，鐵檔技能25每個25銀，鋨檔技能50每個1金；你的層級一到，Darva就會教。另有一件組合配方Gravewyrm Gauntlets：只有武器鍛造與護甲鍛造都到25的調諧鐵匠能做，且不需要任何工位。",
           "routeHeading": "傑作與通往125之路",
-          "routeBody": "有屬性的成品（鐵檔及以上）才可能出傑作；無屬性的銅檔普通件永遠不會觸發。鐵算一級材料（加成1%），古木與奧金算二級（2%）。路線：銅檔到25，鐵檔到50，釷檔到75；此後暫無更高配方，釷檔衰減為半速再到四分之一，到125上限約需再做150次，注意每分鐘十次的共享節流。Darva的工作訂單每30分鐘收八塊銅礦。功業之書在技能50記下Edge and Temper，125加冕Grandmaster Weaponcrafting。"
+          "routeBody": "有屬性的成品（鐵檔及以上）才可能出傑作；無屬性的銅檔普通件永遠不會觸發。鐵算一級材料（加成1%），高松與銘鋼算二級（2%）。路線：銅檔到25，鐵檔到50，鋨檔到75；此後暫無更高配方，鋨檔衰減為半速再到四分之一，到125上限約需再做150次，注意每分鐘十次的共享節流。Darva的工作訂單每30分鐘收八塊銅礦。功業之書在技能50記下Edge and Temper，125加冕Grandmaster Weaponcrafting。"
         },
         "armorcrafting": {
           "identityHeading": "前線的鎖甲",
           "identityBody": "梯子如同士兵的履歷：鉚接銅甲起步，ironlink一檔有了真正的屬性，精良的thoriumscale頭盔、胸甲與護腿則是工匠能敲出的最大護甲數值。還有安靜的一面：野外普通件Eastbrook Warded Leggings與技能75的Sootscale Mantle（智力精神鎖甲肩）留住法系鎖甲客戶。它位於武器鍛造與工程學之間；鐵匠對可在Darva處宣誓，Cogsmith暫無誓約任務。",
           "materialsHeading": "成袋的礦石",
-          "materialsBody": "沒有哪個行業吃礦更快：ironlink hauberk一件就要五塊鐵礦，每件thoriumscale要三到四塊釷礦外加一塊奧金錠，認真的甲匠要麼自己挖遍Mirefen Marsh和Thornpeak Heights，要麼花錢請人。金屬之外還有軟料：粗皮、碎骨與亞麻碎布，幾乎每個配方都要一罐Smithing Flux（鍛造坊20銅）。急用時Darva櫃檯就賣釷礦。",
+          "materialsBody": "沒有哪個行業吃礦更快：ironlink hauberk一件就要五塊鐵礦，每件thoriumscale要三到四塊鋨礦外加一塊銘鋼錠，認真的甲匠要麼自己挖遍Mirefen Marsh和Thornpeak Heights，要麼花錢請人。金屬之外還有軟料：粗皮、碎骨與亞麻碎布，幾乎每個配方都要一罐Smithing Flux（鍛造坊20銅）。急用時Darva櫃檯就賣鋨礦。",
           "ladderHeading": "在Darva的鍛爐學藝",
-          "ladderBody": "兩件野外普通件（Eastbrook Chainmail Vest與Warded Leggings）人人都會、隨處可做。訓練師梯子是Eastbrook鍛造坊的三檔九個配方：銅檔技能0免費，ironlink檔25技能每個25銀，thoriumscale檔50技能每個1金。梯子之外有兩件特例：Boundstone Helm是鐵匠組合配方（需調諧且雙技能25，不佔工位）；Sootscale Mantle無需老師，但要技能75且綁定鍛造坊，是本行業的三層壓軸。",
+          "ladderBody": "兩件野外普通件（Eastbrook Chainmail Vest與Warded Leggings）人人都會、隨處可做。訓練師梯子是Eastbrook鍛造坊的三檔九個配方：銅檔技能0免費，ironlink檔25技能每個25銀，thoriumscale檔50技能每個1金。梯子之外有兩件特例：Boundstone Helm是鐵匠組合配方（需調諧且雙技能25，不佔工位）；Kilnscale Mantle無需老師，但要技能75且綁定鍛造坊，是本行業的三層壓軸。",
           "routeHeading": "傑作與通往125之路",
-          "routeBody": "ironlink檔及以上都擲傑作；只有護甲值的銅檔普通件不會觸發。鐵算一級材料，奧金算二級。路線照常：銅到25，ironlink到50，thoriumscale到75。75之後的運氣在於Sootscale Mantle：三層配方，到99全速、之後半速，最後五十點約75次而非150次；每件要七塊釷礦五份Smithing Flux，先在Thornpeak和鍛造坊櫃檯備貨。Darva的訂單每30分鐘收八塊銅礦。技能50記下Hammer and Plate，125等著Grandmaster Armorcrafting。"
+          "routeBody": "ironlink檔及以上都擲傑作；只有護甲值的銅檔普通件不會觸發。鐵算一級材料，銘鋼算二級。路線照常：銅到25，ironlink到50，thoriumscale到75。75之後的運氣在於Sootscale Mantle：三層配方，到99全速、之後半速，最後五十點約75次而非150次；每件要七塊鋨礦五份Smithing Flux，先在Thornpeak和鍛造坊櫃檯備貨。Darva的訂單每30分鐘收八塊銅礦。技能50記下Hammer and Plate，125等著Grandmaster Armorcrafting。"
         },
         "tailoring": {
           "identityHeading": "施法者的布衣，所有人的背包",
           "identityBody": "梯子從homespun基礎布裝經goldweave套裝爬到精良檔：Silkbinder's Raiment與sunweave件。第二門生意人人需要：Silkspun Satchel是十格背包，沒有哪個職業或等級嫌包多。裁縫位於製皮與銘文學之間；製裝師（製皮與裁縫）在Eastbrook織布機旁的Weaver Ottilie處宣誓（先獵四隻webwood蜘蛛取絲），與銘文學組成的Mageweaver要等銘文學的第一批配方。",
           "materialsHeading": "線、絲，還有藥草",
-          "materialsBody": "織布機靠獵獲與田野運轉：亞麻碎布與家紡布來自人形生物，蜘蛛絲從蛛屍上採取，精良檔的核心Silkbinder's Raiment要一塊Pristine Silk（屍體採集的署名標本）。藥草餵養裁縫勝過任何裝備行業：銀葉鑲拖鞋，金葉染goldweave，日瓣草貫穿整個精良檔。Spool of Thread在Ottilie處12銅一軸，織布機根本不用金屬，連Wardweave Cowl頂階也是用高級草藥、Pristine Silk、蛛絲與線織成。",
+          "materialsBody": "織布機靠獵獲與田野運轉：亞麻碎布與家紡布來自人形生物，蜘蛛絲從蛛屍上採取，精良檔的核心Silkbinder's Raiment要一塊Pristine Silk（屍體採集的署名標本）。藥草餵養裁縫勝過任何裝備行業：潤光葉鑲拖鞋，金葉染goldweave，日瓣草貫穿整個精良檔。Spool of Thread在Ottilie處12銅一軸，織布機根本不用金屬，連Wardweave Cowl頂階也是用高級草藥、Pristine Silk、蛛絲與線織成。",
           "ladderHeading": "在Ottilie的織布機學藝",
           "ladderBody": "兩件野外普通件（Eastbrook Wool Trousers與Ritual Vestments）隨處可做。訓練師梯子在Eastbrook水井南側的織布機：homespun檔技能0免費，goldweave檔（含Silkspun Satchel）技能25每個25銀，精良檔技能50每個1金。Wardweave Cowl無需訓練師：人人都會，但要技能75且綁定織布機，是本行業的三層壓軸。",
           "routeHeading": "傑作與通往125之路",
@@ -3725,11 +3725,11 @@ export const zh_TW: EnTranslations = {
           "identityHeading": "迅捷者的皮甲",
           "identityBody": "梯子從樸素的Fenbridge硬皮件經優秀的marshstalker件爬到精良的mirewarden套裝，工匠能裁出的最好皮甲。兩件法系皮件補全陣容：野外普通件Eastbrook Druid's Hide與技能75的Duskhide Wraps。製皮位於烹飪與裁縫之間；製裝師在Eastbrook的Weaver Ottilie處宣誓，與烹飪組成的Trapper暫無誓約任務。",
           "materialsHeading": "狩獵即收穫",
-          "materialsBody": "在製皮這裡，練級路線與供應線是同一條：粗皮直接從帶皮屍體上剝取（狼和野豬最多），每具屍體只服務先到的一人。精良及以上的採集還會給出Pristine Hide，Mirewarden Jerkin正需要這種署名標本，見一塊存一塊。配角不多：蛛腿與蛛絲、人形生物的家紡布、每件mirewarden精良品一塊釷礦（Duskhide Wraps頂階要六塊），以及製革坊櫃檯16銅的Tanning Agent。不想挖礦的話Tanner Hesk也賣釷礦。",
+          "materialsBody": "在製皮這裡，練級路線與供應線是同一條：粗皮直接從帶皮屍體上剝取（狼和野豬最多），每具屍體只服務先到的一人。精良及以上的採集還會給出Pristine Hide，Mirewarden Jerkin正需要這種署名標本，見一塊存一塊。配角不多：蛛腿與蛛絲、人形生物的家紡布、每件mirewarden精良品一塊鋨礦（Duskhide Wraps頂階要六塊），以及製革坊櫃檯16銅的Tanning Agent。不想挖礦的話Tanner Hesk也賣鋨礦。",
           "ladderHeading": "在Fenbridge受訓",
           "ladderBody": "特別之處：製革坊在Mirefen Marsh路上的Fenbridge，這是唯一在Eastbrook之外受訓的深度行業。Tanner Hesk在他的鞣池邊授課：硬皮檔技能0免費，marshstalker檔技能25每個25銀，mirewarden檔技能50每個1金。兩件配方跳過訓練師：野外普通件（Tanned Leather Jerkin與Druid's Hide）隨處可做，Duskhide Wraps人人都會但要技能75且綁定製革坊。注意製裝師誓約本身在Eastbrook的Ottilie處宣誓，只有授課在沼澤。",
           "routeHeading": "傑作與通往125之路",
-          "routeBody": "marshstalker檔及以上都擲傑作，Mirewarden Jerkin裡的Pristine Hide自動提供署名材料加成；釷礦算一級材料。無屬性的硬皮普通件不會觸發。自然而然地練：從一級起剝下每隻狼和野豬，硬皮檔隨地做到25，隨任務進沼澤時順路受訓；marshstalker到50，mirewarden到75，此後Duskhide Wraps（三層配方，六塊釷礦、三塊Pristine Hide、兩塊粗皮、一份Tanning Agent）帶你走完最後五十點（約75次）。75專精後移動製革坊尤其寶貴：營火邊就能把一袋皮子變成成品。Hesk的訂單每30分鐘收八張粗皮。技能50記下Tanner's Trade，上限處是Grandmaster Leatherworking。"
+          "routeBody": "marshstalker檔及以上都擲傑作，Mirewarden Jerkin裡的Pristine Hide自動提供署名材料加成；鋨礦算一級材料。無屬性的硬皮普通件不會觸發。自然而然地練：從一級起剝下每隻狼和野豬，硬皮檔隨地做到25，隨任務進沼澤時順路受訓；marshstalker到50，mirewarden到75，此後Duskhide Wraps（三層配方，六塊鋨礦、三塊Pristine Hide、兩塊粗皮、一份Tanning Agent）帶你走完最後五十點（約75次）。75專精後移動製革坊尤其寶貴：營火邊就能把一袋皮子變成成品。Hesk的訂單每30分鐘收八張粗皮。技能50記下Tanner's Trade，上限處是Grandmaster Leatherworking。"
         },
         "cooking": {
           "identityHeading": "餵飽隊伍的鍋",
@@ -3745,17 +3745,17 @@ export const zh_TW: EnTranslations = {
           "identityHeading": "贏下戰鬥的瓶子",
           "identityBody": "這門手藝在Highwatch的藥坊操持，主人是Alchemist Verane：教配方、賣12銅的Glass Vial、以工作訂單收藥草。鍊金術位於工程學與烹飪之間，因此有兩條命途：爆破師（工程學與鍊金術，在Eastbrook的Tinker Gizzel處受誓）與藥劑師（鍊金術與烹飪，在Cook Marlow處宣誓）。調諧任一對即可讓鍊金成為主修直至上限；此前它像所有未宣誓行業一樣練到精良層。",
           "materialsHeading": "藥草、毒腺與玻璃",
-          "materialsBody": "每瓶藥劑要一個Glass Vial外加對應檔位的藥草：銀葉生於Eastbrook Vale，金葉生於Mirefen Marsh，日瓣草生於Thornpeak Heights，一區一藥，瓶子隨世界一起攀升。藥草學是天然的夥伴技能；深區的高階草叢需要更好的鐮刀。強化藥劑一線另需獵手的材料：從帶毒屍體採集的Venom Gland，頂級藥劑還要一塊Pristine Venom Gland（署名標本）。",
+          "materialsBody": "每瓶藥劑要一個Glass Vial外加對應檔位的藥草：潤光葉生於Eastbrook Vale，金葉生於Mirefen Marsh，日瓣草生於Thornpeak Heights，一區一藥，瓶子隨世界一起攀升。藥草學是天然的夥伴技能；深區的高階草叢需要更好的鐮刀。強化藥劑一線另需獵手的材料：從帶毒屍體採集的Venom Gland，頂級藥劑還要一塊Pristine Venom Gland（署名標本）。",
           "ladderHeading": "配方階梯",
-          "ladderBody": "Minor Healing Potion人人初始即會、隨處可調。真正的梯子是Verane在藥坊教的九個配方，每檔三個：技能0免費，25檔每個25銀，50檔每個1金；每檔都是治療藥劑、法力藥劑與耐力強化劑，從普通銀葉瓶（120生命、160法力）經優秀金葉（200、260）到精良日瓣（280、360）。強化劑同樣攀升：Elixir of the Boar給6耐力10分鐘，Venomfire Elixir給9耐力15分鐘，Elixir of the Serpent給12耐力15分鐘且一次兩瓶。旁邊還有組合配方Elixir of the Bear：鍊金25時Verane以25銀傳授，隨處可調，但只有雙技能25的調諧爆破師能做。",
+          "ladderBody": "Minor Healing Potion人人初始即會、隨處可調。真正的梯子是Verane在藥坊教的九個配方，每檔三個：技能0免費，25檔每個25銀，50檔每個1金；每檔都是治療藥劑、法力藥劑與耐力強化劑，從普通潤光葉瓶（120生命、160法力）經優秀金葉（200、260）到精良日瓣（280、360）。強化劑同樣攀升：Elixir of the Boar給6耐力10分鐘，Vipersear Elixir給9耐力15分鐘，Elixir of the Serpent給12耐力15分鐘且一次兩瓶。旁邊還有組合配方Elixir of the Bear：鍊金25時Verane以25銀傳授，隨處可調，但只有雙技能25的調諧爆破師能做。",
           "routeHeading": "釀藥師的125之路",
-          "routeBody": "藥劑永不出傑作，那屬於有屬性的裝備；但名字仍會流傳：精良的日瓣藥劑單瓶釀造、出瓶即署名，雙瓶的Elixir of the Serpent則是無名的。75專精後每個配方省20%材料。早學藥草邊練邊採：銀葉遍布山谷，到了Verane的工作檯，免費檔就能靠順手採的藥草乾淨地推到25；25檔一開就學，採藥轉往沼澤，Verane的訂單（六株Goldleaf Herb換45銅，每30分鐘一次）順路回本。50以後用Thornpeak的藥草釀日瓣與蛇藥；100到125是刻意的涓流，釀能賣的，別為數字燒草。技能50記下Strange Brews，上限處是Grandmaster Alchemy。"
+          "routeBody": "藥劑永不出傑作，那屬於有屬性的裝備；但名字仍會流傳：精良的日瓣藥劑單瓶釀造、出瓶即署名，雙瓶的Elixir of the Serpent則是無名的。75專精後每個配方省20%材料。早學藥草邊練邊採：潤光葉遍布山谷，到了Verane的工作檯，免費檔就能靠順手採的藥草乾淨地推到25；25檔一開就學，採藥轉往沼澤，Verane的訂單（六株Goldleaf Herb換45銅，每30分鐘一次）順路回本。50以後用Thornpeak的藥草釀日瓣與蛇藥；100到125是刻意的涓流，釀能賣的，別為數字燒草。技能50記下Strange Brews，上限處是Grandmaster Alchemy。"
         },
         "engineering": {
           "identityHeading": "工具匠的獨門生意",
           "identityBody": "這門手藝在Eastbrook廣場東南角的工坊操持，主人是Tinker Gizzel。每條工具線的1到3級都是尋常商店貨，4級與5級只出自工程師之手。它位於鍊金術與護甲鍛造之間，兩條命途是爆破師（工程學與鍊金術）與Cogsmith（尚不可宣誓）。最要緊的警告：工程學的兩檔配方都高於愛好與未宣誓者的精良層上限，技能只為主修包含工程學的人（今天即爆破師）增長；誰都能做這些工具，未調諧者只是學不到東西。",
           "materialsHeading": "材料與前置工具",
-          "materialsBody": "每個工具配方都吞掉低一級的工具外加高級材料：四塊Thorium Ore加一把Mithril Mining Pick成為Thorium Mining Pick，再用兩塊Arcanite Bar加釷鎬成為Arcanite Mining Pick；斧與鐮兩條線以Ashwood與Elderwood Log、Goldleaf與Sunpetal Herb如法炮製。Gizzel在工坊備齊全部六種高級材料，但礦、木、草都能在Mirefen Marsh與Thornpeak Heights自採，自採才有利潤；唯一例外是僅商店有售的Arcanite Bar，給每件奧金級工具墊了固定的成本底價。",
+          "materialsBody": "每個工具配方都吞掉低一級的工具外加高級材料：四塊Osmium Ore加一把Skysilver Mining Pick成為Osmium Mining Pick，再用兩塊Glyphsteel Bar加鋨鎬成為Glyphsteel Mining Pick；斧與鐮兩條線以Ashwood與Highpine Log、Goldleaf與Sunpetal Herb如法炮製。Gizzel在工坊備齊全部六種高級材料，但礦、木、草都能在Mirefen Marsh與Thornpeak Heights自採，自採才有利潤；唯一例外是僅商店有售的Glyphsteel Bar，給每件銘鋼級工具墊了固定的成本底價。",
           "ladderHeading": "工具階梯",
           "ladderBody": "整條梯子只有六個配方，全部綁定工坊且自動學會、永不收費：技能75的4級鎬、斧、鐮，與技能150的5級版本。150不是筆誤，故意高於當前125上限：技能需求從不阻止製作，只影響成長，材料與前置工具到手當天就能做出5級工具。每件成品都是精良或史詩品質且出廠署名。工程學還撐起一件組合配方的一半：Elixir of the Bear，由雙技能25的調諧爆破師調製。",
           "routeHeading": "工程師的125之路",
@@ -3856,8 +3856,8 @@ export const zh_TW: EnTranslations = {
         "colOdds": "機率",
         "pctFmt": "{pct}%",
         "emptyHook": "無魚上鉤",
-        "koiHeading": "Glimmerfin Koi",
-        "koiBody": "全世界的每片水域都藏著同一份大獎：Glimmerfin Koi，一尾優秀品質的閃光錦鯉，賣給商人值75銅，對你的自豪感則遠不止此。牠的機率固定為每次起竿3%（Thornpeak的冷水中為4%），不隨技能變化，因此碼頭上的新手與Master Angler機會均等。釣起牠會在功業之書記下Glimmer of Hope（零聲望的收藏印記）。"
+        "koiHeading": "Sunglint Koi",
+        "koiBody": "全世界的每片水域都藏著同一份大獎：Sunglint Koi，一尾優秀品質的閃光錦鯉，賣給商人值75銅，對你的自豪感則遠不止此。牠的機率固定為每次起竿3%（Thornpeak的冷水中為4%），不隨技能變化，因此碼頭上的新手與Master Angler機會均等。釣起牠會在功業之書記下Glimmer of Hope（零聲望的收藏印記）。"
       },
       "econ": {
         "title": "製作經濟",
@@ -3911,7 +3911,7 @@ export const zh_TW: EnTranslations = {
         "q5": "什麼是傑作？",
         "a5": "每次製作都有一個小機率（3%起，上限15%）產出品質高一層的成品，但絕不會超過團隊副本的底線。",
         "q6": "「由某某製作」是什麼意思？",
-        "a6": "九種通用的野外配方與工具配方人人從一開始便已知曉，三種綁定作業台的上級配方（灰鱗披肩、織衛兜帽、暮影裹手）也是如此，它們無需訓練師，只需對應的作業台。其餘一切都由三座樞紐城鎮中各作業台旁的常駐師傅傳授：多數在東溪，製革師守著芬橋的製革場，煉金師守著高望的藥房。\n\n訓練師配方分為技能0、25、50三檔，作為一次性費用分別是免費、25銀和1金。當你在該行業的檔位達到配方自身的檔位時，師傅便會傳授，而且學習時你必須站在其作業台旁：移動作業台不算數。",
+        "a6": "九種通用的野外配方與工具配方人人從一開始便已知曉，三種綁定作業台的上級配方（窯鱗披肩、織衛兜帽、暮影裹手）也是如此，它們無需訓練師，只需對應的作業台。其餘一切都由三座樞紐城鎮中各作業台旁的常駐師傅傳授：多數在東溪，製革師守著芬橋的製革場，煉金師守著高望的藥房。\n\n訓練師配方分為技能0、25、50三檔，作為一次性費用分別是免費、25銀和1金。當你在該行業的檔位達到配方自身的檔位時，師傅便會傳授，而且學習時你必須站在其作業台旁：移動作業台不算數。",
         "q7": "什麼是製作者之約？",
         "a7": "委託製品會綁定給交易中收到它的人，而任意工位大師都可按層級費用為其解綁。",
         "q8": "我能更換命途嗎？",
@@ -8015,7 +8015,7 @@ export const zh_TW: EnTranslations = {
         "name": "暮影裹手"
       },
       "sootscale_mantle": {
-        "name": "灰鱗披肩"
+        "name": "窯鱗披肩"
       },
       "gravecaller_blade": {
         "name": "喚墓者寬刃劍"
@@ -8090,13 +8090,13 @@ export const zh_TW: EnTranslations = {
         "name": "亞麻碎布"
       },
       "arcane_dust": {
-        "name": "奧術之塵"
+        "name": "鈴音之塵"
       },
       "arcane_essence": {
-        "name": "奧術精華"
+        "name": "鈴音精華"
       },
       "arcane_shard": {
-        "name": "奧術碎片"
+        "name": "鈴音碎片"
       },
       "fen_muster_order": {
         "name": "芬橋集結令"
@@ -8345,7 +8345,7 @@ export const zh_TW: EnTranslations = {
         "name": "峰羊毛長袍"
       },
       "stalkerhide_jerkin": {
-        "name": "潛獵者皮甲"
+        "name": "巡獵皮甲"
       },
       "cragwalker_boots": {
         "name": "岩行者長靴"
@@ -8486,7 +8486,7 @@ export const zh_TW: EnTranslations = {
         "name": "鐵製採礦鎬"
       },
       "mithril_mining_pick": {
-        "name": "秘銀採礦鎬"
+        "name": "天銀採礦鎬"
       },
       "handaxe": {
         "name": "手斧"
@@ -8504,19 +8504,19 @@ export const zh_TW: EnTranslations = {
         "name": "青銅鐮刀"
       },
       "silverleaf_sickle": {
-        "name": "銀葉鐮刀"
+        "name": "潤光葉鐮刀"
       },
       "thorium_mining_pick": {
-        "name": "釷礦採礦鎬"
+        "name": "鋨金採礦鎬"
       },
       "arcanite_mining_pick": {
-        "name": "秘法採礦鎬"
+        "name": "銘鋼採礦鎬"
       },
       "ashwood_axe": {
         "name": "白蠟木斧"
       },
       "elderwood_axe": {
-        "name": "古木斧"
+        "name": "高松斧"
       },
       "goldleaf_sickle": {
         "name": "金葉鐮刀"
@@ -8525,16 +8525,16 @@ export const zh_TW: EnTranslations = {
         "name": "陽瓣鐮刀"
       },
       "thorium_ore": {
-        "name": "瑟銀礦石"
+        "name": "鋨礦石"
       },
       "arcanite_bar": {
-        "name": "秘銀錠"
+        "name": "銘鋼錠"
       },
       "ashwood_log": {
         "name": "灰木原木"
       },
       "elderwood_log": {
-        "name": "古老接骨木原木"
+        "name": "高松原木"
       },
       "goldleaf_herb": {
         "name": "金葉草"
@@ -8672,7 +8672,7 @@ export const zh_TW: EnTranslations = {
         "name": "鐵皮木原木"
       },
       "silverleaf_herb": {
-        "name": "銀葉草"
+        "name": "潤光葉草"
       },
       "rough_hide": {
         "name": "粗糙的獸皮"
@@ -8735,13 +8735,13 @@ export const zh_TW: EnTranslations = {
         "name": "磨利鐵匕首"
       },
       "thorium_warblade": {
-        "name": "瑟銀戰刃"
+        "name": "鋨金戰刃"
       },
       "arcanite_war_axe": {
-        "name": "秘銀戰斧"
+        "name": "銘鋼戰斧"
       },
       "elderwood_battle_staff": {
-        "name": "古老接骨木戰棍"
+        "name": "高松戰棍"
       },
       "riveted_copper_girdle": {
         "name": "鉚釘銅腰帶"
@@ -8762,13 +8762,13 @@ export const zh_TW: EnTranslations = {
         "name": "鐵鏈肩甲"
       },
       "thoriumscale_greathelm": {
-        "name": "瑟銀鱗巨盔"
+        "name": "鋨鱗巨盔"
       },
       "thoriumscale_cuirass": {
-        "name": "瑟銀鱗胸甲"
+        "name": "鋨鱗胸甲"
       },
       "thoriumscale_leggings": {
-        "name": "瑟銀鱗腿甲"
+        "name": "鋨鱗腿甲"
       },
       "homespun_hood": {
         "name": "手織兜帽"
@@ -8777,13 +8777,13 @@ export const zh_TW: EnTranslations = {
         "name": "手織連指手套"
       },
       "silverthread_slippers": {
-        "name": "銀線便鞋"
+        "name": "素線便鞋"
       },
       "goldweave_robe": {
-        "name": "金織長袍"
+        "name": "鎏金織長袍"
       },
       "goldweave_leggings": {
-        "name": "金織護腿"
+        "name": "鎏金織護腿"
       },
       "silkspun_satchel": {
         "name": "絲紡挎包"
@@ -8852,10 +8852,10 @@ export const zh_TW: EnTranslations = {
         "name": "馬洛的盛大烤肉"
       },
       "silverleaf_healing_draught": {
-        "name": "銀葉治療藥水"
+        "name": "潤光葉治療藥水"
       },
       "silverleaf_mana_draught": {
-        "name": "銀葉法力藥水"
+        "name": "潤光葉法力藥水"
       },
       "elixir_of_the_boar": {
         "name": "野豬藥劑"
@@ -8867,7 +8867,7 @@ export const zh_TW: EnTranslations = {
         "name": "金葉法力藥水"
       },
       "venomfire_elixir": {
-        "name": "毒火藥劑"
+        "name": "蝰灼藥劑"
       },
       "sunpetal_healing_draught": {
         "name": "陽瓣治療藥水"
@@ -9170,7 +9170,7 @@ export const zh_TW: EnTranslations = {
         "name": "夜牙足墊"
       },
       "glimmerfin_koi": {
-        "name": "微光鰭錦鯉"
+        "name": "日輝錦鯉"
       },
       "raw_bog_eel": {
         "name": "生沼澤鰻魚"

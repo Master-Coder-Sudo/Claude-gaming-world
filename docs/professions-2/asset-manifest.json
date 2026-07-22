@@ -209,28 +209,28 @@
       "assets": [
         {
           "id": "arcane_dust",
-          "name": "Arcane Dust",
+          "name": "Chime Dust",
           "family": "enchanting reagents",
           "batch": "batch-11",
           "acceptedVersion": "v2"
         },
         {
           "id": "arcane_essence",
-          "name": "Arcane Essence",
+          "name": "Chime Essence",
           "family": "enchanting reagents",
           "batch": "batch-11",
           "acceptedVersion": "v3"
         },
         {
           "id": "arcane_shard",
-          "name": "Arcane Shard",
+          "name": "Chime Shard",
           "family": "enchanting reagents",
           "batch": "batch-11",
           "acceptedVersion": "v1"
         },
         {
           "id": "arcanite_bar",
-          "name": "Arcanite Bar",
+          "name": "Glyphsteel Bar",
           "family": "ores and bars",
           "batch": "batch-6",
           "acceptedVersion": "v2"
@@ -258,7 +258,7 @@
         },
         {
           "id": "elderwood_log",
-          "name": "Elderwood Log",
+          "name": "Highpine Log",
           "family": "logs and lumber",
           "batch": "batch-7",
           "acceptedVersion": "v1"
@@ -377,7 +377,7 @@
         },
         {
           "id": "silverleaf_herb",
-          "name": "Silverleaf Herb",
+          "name": "Sheenleaf Herb",
           "family": "herbs",
           "batch": "batch-7",
           "acceptedVersion": "v1"
@@ -426,7 +426,7 @@
         },
         {
           "id": "thorium_ore",
-          "name": "Thorium Ore",
+          "name": "Osmium Ore",
           "family": "ores and bars",
           "batch": "batch-6",
           "acceptedVersion": "v3"
@@ -532,7 +532,7 @@
           "id": "deed_prof_rare_catch",
           "deedId": "col_glimmerfin",
           "name": "Glimmer of Hope",
-          "description": "An iridescent Glimmerfin Koi mid-leap over moonlit water",
+          "description": "An iridescent Sunglint Koi mid-leap over moonlit water",
           "palette": "iridescent scale on moonlit blue",
           "priority": 2
         },

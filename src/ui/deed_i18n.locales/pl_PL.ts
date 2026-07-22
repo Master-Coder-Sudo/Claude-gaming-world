@@ -428,7 +428,7 @@ export const table: DeedLocaleTable = {
     name: 'Stały klient',
     desc: 'Odkryj wszystkie dziesięć przedmiotów z zapasów Kwatermistrza Vexa.',
   },
-  col_glimmerfin: { name: 'Promyk nadziei', desc: 'Złów Lśniącopłetwego karpia koi.' },
+  col_glimmerfin: { name: 'Promyk nadziei' },
   col_full_creel: {
     name: 'Pełen kosz',
     desc: 'Odkryj wszystkie sześć pospolitych ryb z wód Doliny, Trzęsawiska i Wyżyn.',

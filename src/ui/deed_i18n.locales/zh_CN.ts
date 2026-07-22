@@ -255,7 +255,7 @@ export const table: DeedLocaleTable = {
   col_true_colors: { name: '真我本色', desc: '穿着你职业默认之外的任意外观登场。' },
   col_all_slots: { name: '十一分讲究', desc: '让全部十一个装备栏位同时都有装备。' },
   col_quartermaster_buyout: { name: '老主顾', desc: '发现军需官维克斯所售的全部十件货品。' },
-  col_glimmerfin: { name: '一线微光', desc: '钓起一条微光鳍锦鲤。' },
+  col_glimmerfin: { name: '一线微光', desc: '钓起一条日辉锦鲤。' },
   col_full_creel: { name: '满载鱼篓', desc: '发现来自溪谷、湿地与高地水域的全部六种常见渔获。' },
   col_junk_drawer: { name: '杂物抽屉', desc: '发现 10 件不同的粗糙品质物品。' },
   pvp_arena_first_match: { name: '靴中黄沙', desc: '在灰烬竞技场打一场评级赛，任一组别皆可。' },

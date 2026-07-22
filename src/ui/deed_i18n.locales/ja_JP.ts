@@ -363,7 +363,7 @@ export const table: DeedLocaleTable = {
     name: 'お得意様',
     desc: '補給係ヴェックスの品揃え全10点を発見する。',
   },
-  col_glimmerfin: { name: '希望のきらめき', desc: 'きらめきヒレの錦鯉を釣り上げる。' },
+  col_glimmerfin: { name: '希望のきらめき', desc: '日映えの錦鯉を釣り上げる。' },
   col_full_creel: {
     name: '満杯の魚籠',
     desc: '渓谷、湿地、高地の水辺で釣れるコモンの獲物6種をすべて発見する。',

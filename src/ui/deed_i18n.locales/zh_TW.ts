@@ -258,7 +258,7 @@ export const table: DeedLocaleTable = {
   col_true_colors: { name: '本色登場', desc: '穿上職業預設以外的任一外觀上場。' },
   col_all_slots: { name: '十一分體面', desc: '同時在全部十一個裝備欄位裝上物品。' },
   col_quartermaster_buyout: { name: '老主顧', desc: '發現軍需官維克斯所販售的全部十件貨品。' },
-  col_glimmerfin: { name: '一線微光', desc: '釣起一條微光鰭錦鯉。' },
+  col_glimmerfin: { name: '一線微光', desc: '釣起一條日輝錦鯉。' },
   col_full_creel: { name: '滿簍而歸', desc: '發現溪谷、沼澤與高地水域的全部六種常見漁獲。' },
   col_junk_drawer: { name: '雜物抽屜', desc: '發現 10 種不同的粗糙品質物品。' },
   pvp_arena_first_match: { name: '靴中之沙', desc: '在灰燼競技場打一場積分賽，任一組別皆可。' },

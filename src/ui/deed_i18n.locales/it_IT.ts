@@ -449,10 +449,7 @@ export const table: DeedLocaleTable = {
     name: 'Cliente di Riguardo',
     desc: 'Scopri tutti e dieci i pezzi della mercanzia del Quartiermastro Vex.',
   },
-  col_glimmerfin: {
-    name: 'Un Barlume di Speranza',
-    desc: 'Pesca un Koi dalle pinne scintillanti.',
-  },
+  col_glimmerfin: { name: 'Un Barlume di Speranza' },
   col_full_creel: {
     name: 'Cesta Piena',
     desc: 'Scopri tutte e sei le prede comuni delle acque della Valle, della Palude e delle Alture.',

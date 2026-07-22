@@ -196,7 +196,7 @@ describe('the four new material defs (Phase 4)', () => {
     });
     expect(ITEMS.silverleaf_herb).toEqual({
       id: 'silverleaf_herb',
-      name: 'Silverleaf Herb',
+      name: 'Sheenleaf Herb',
       kind: 'junk',
       quality: 'common',
       sellValue: 4,

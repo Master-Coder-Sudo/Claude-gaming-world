@@ -434,7 +434,7 @@ export const table: DeedLocaleTable = {
     name: 'Pelanggan Kesayangan',
     desc: 'Temukan kesepuluh barang dagangan Kepala Perbekalan Vex.',
   },
-  col_glimmerfin: { name: 'Kilau Harapan', desc: 'Pancing seekor Koi Sirip Kilau.' },
+  col_glimmerfin: { name: 'Kilau Harapan' },
   col_full_creel: {
     name: 'Keranjang Ikan Penuh',
     desc: 'Temukan keenam tangkapan umum dari perairan Lembah, Rawa, dan Dataran Tinggi.',

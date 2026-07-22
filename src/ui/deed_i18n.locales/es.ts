@@ -437,7 +437,7 @@ export const table: DeedLocaleTable = {
     name: 'Cliente preferente',
     desc: 'Descubre las diez piezas del inventario del Intendente Vex.',
   },
-  col_glimmerfin: { name: 'Un destello de esperanza', desc: 'Pesca un Koi de aletas brillantes.' },
+  col_glimmerfin: { name: 'Un destello de esperanza' },
   col_full_creel: {
     name: 'Nasa llena',
     desc: 'Descubre las seis capturas comunes de las aguas del Valle, la Ciénaga y las Alturas.',

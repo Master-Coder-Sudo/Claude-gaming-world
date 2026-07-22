@@ -404,7 +404,7 @@ export const table: DeedLocaleTable = {
     name: 'Stamkund',
     desc: 'Upptäck alla tio delar av den heroiska kvartersmästarens utbud.',
   },
-  col_glimmerfin: { name: 'Ett skimmer av hopp', desc: 'Fånga en skimmerfenad koi.' },
+  col_glimmerfin: { name: 'Ett skimmer av hopp' },
   col_full_creel: {
     name: 'Full fiskekorg',
     desc: 'Upptäck alla sex vanliga fångster ur dalens, träskets och höjdernas vatten.',

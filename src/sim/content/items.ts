@@ -522,7 +522,7 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
   },
   mithril_mining_pick: {
     id: 'mithril_mining_pick',
-    name: 'Mithril Mining Pick',
+    name: 'Skysilver Mining Pick',
     kind: 'tool',
     quality: 'uncommon',
     use: { type: 'gatherTool', professionId: 'mining', tier: 3 },
@@ -576,7 +576,7 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
   },
   silverleaf_sickle: {
     id: 'silverleaf_sickle',
-    name: 'Silverleaf Sickle',
+    name: 'Sheenleaf Sickle',
     kind: 'tool',
     quality: 'uncommon',
     use: { type: 'gatherTool', professionId: 'herbalism', tier: 3 },
@@ -597,7 +597,7 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
   // `use.tier` value is read by the gate.
   thorium_mining_pick: {
     id: 'thorium_mining_pick',
-    name: 'Thorium Mining Pick',
+    name: 'Osmium Mining Pick',
     kind: 'tool',
     quality: 'rare',
     use: { type: 'gatherTool', professionId: 'mining', tier: 4 },
@@ -605,7 +605,7 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
   },
   arcanite_mining_pick: {
     id: 'arcanite_mining_pick',
-    name: 'Arcanite Mining Pick',
+    name: 'Glyphsteel Mining Pick',
     kind: 'tool',
     quality: 'epic',
     use: { type: 'gatherTool', professionId: 'mining', tier: 5 },
@@ -621,7 +621,7 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
   },
   elderwood_axe: {
     id: 'elderwood_axe',
-    name: 'Elderwood Axe',
+    name: 'Highpine Axe',
     kind: 'tool',
     quality: 'epic',
     use: { type: 'gatherTool', professionId: 'logging', tier: 5 },
@@ -661,7 +661,7 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
   // rarity color. Enforced by tests/crafting_materials_quality.test.ts.
   thorium_ore: {
     id: 'thorium_ore',
-    name: 'Thorium Ore',
+    name: 'Osmium Ore',
     kind: 'junk',
     quality: 'common',
     sellValue: 15,
@@ -669,7 +669,7 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
   },
   arcanite_bar: {
     id: 'arcanite_bar',
-    name: 'Arcanite Bar',
+    name: 'Glyphsteel Bar',
     kind: 'junk',
     quality: 'common',
     sellValue: 40,
@@ -685,7 +685,7 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
   },
   elderwood_log: {
     id: 'elderwood_log',
-    name: 'Elderwood Log',
+    name: 'Highpine Log',
     kind: 'junk',
     quality: 'common',
     sellValue: 40,
@@ -735,7 +735,7 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
   },
   silverleaf_herb: {
     id: 'silverleaf_herb',
-    name: 'Silverleaf Herb',
+    name: 'Sheenleaf Herb',
     kind: 'junk',
     quality: 'common',
     sellValue: 4,
@@ -816,6 +816,10 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
     foodHp: 117,
     sellValue: 10,
   },
+  // The id/name divergence here is permanent: the id shipped in v0.28.0 (ids
+  // in live saves are frozen API, see tests/shipped_item_ids.test.ts) while
+  // the display name had already been de-IP'd to the original Slatefin coin.
+  // Ids are never player-visible, so the display name is the one that matters.
   raw_stonescale_carp: {
     id: 'raw_stonescale_carp',
     name: 'Raw Slatefin Carp',
@@ -834,7 +838,7 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
   // The prized rare catch, reelable from any water, a lucky hook.
   glimmerfin_koi: {
     id: 'glimmerfin_koi',
-    name: 'Glimmerfin Koi',
+    name: 'Sunglint Koi',
     kind: 'food',
     quality: 'uncommon',
     foodHp: 117,
@@ -1160,7 +1164,7 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
     buyValue: 2200,
   },
   // Hub-tier (level-20, crafting-hub-gated) caster pieces, one per craft,
-  // mirroring TOOL_RECIPES' thorium tier. Budgeted at the recipe's resulting ITEM
+  // mirroring TOOL_RECIPES' osmium tier. Budgeted at the recipe's resulting ITEM
   // level (source level 20 + the rare QUALITY_ILVL_BONUS of 3 = 23, see
   // item_budget.ts and item_level.ts), matching the level-20 rares in the same
   // slots (boundstone_helm, gravewyrm_gauntlets, gravewyrm_mantle; pinned by
@@ -1187,7 +1191,7 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
   },
   sootscale_mantle: {
     id: 'sootscale_mantle',
-    name: 'Sootscale Mantle',
+    name: 'Kilnscale Mantle',
     kind: 'armor',
     armorType: 'mail',
     slot: 'shoulder',
@@ -1653,21 +1657,21 @@ export const BASE_ITEMS: Record<string, ItemDef> = {
   // material kind).
   arcane_dust: {
     id: 'arcane_dust',
-    name: 'Arcane Dust',
+    name: 'Chime Dust',
     kind: 'junk',
     quality: 'common',
     sellValue: 6,
   },
   arcane_essence: {
     id: 'arcane_essence',
-    name: 'Arcane Essence',
+    name: 'Chime Essence',
     kind: 'junk',
     quality: 'uncommon',
     sellValue: 18,
   },
   arcane_shard: {
     id: 'arcane_shard',
-    name: 'Arcane Shard',
+    name: 'Chime Shard',
     kind: 'junk',
     quality: 'rare',
     sellValue: 55,

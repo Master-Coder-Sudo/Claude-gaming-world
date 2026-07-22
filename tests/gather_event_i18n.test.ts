@@ -160,8 +160,8 @@ describe('hudChrome.gathering catch line (Professions 2.0 Phase 11)', () => {
   // notification the grant hub already owns (the double-log trap).
   it('the catch-line key exists and splices the name', () => {
     expect(hasTranslation('hudChrome.gathering.catchLine')).toBe(true);
-    expect(t('hudChrome.gathering.catchLine', { name: 'Glimmerfin Koi' })).toBe(
-      'You reel in: Glimmerfin Koi',
+    expect(t('hudChrome.gathering.catchLine', { name: 'Sunglint Koi' })).toBe(
+      'You reel in: Sunglint Koi',
     );
   });
 

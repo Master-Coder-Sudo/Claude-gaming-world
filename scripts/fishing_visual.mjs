@@ -56,7 +56,7 @@ await new Promise((r) => setTimeout(r, 1200));
 await page.screenshot({ path: 'tmp/fishing_01_cast.png' });
 
 // Reel in a generous variety of catches so the log + bags show the new content.
-// Keep rolling until the rare Glimmerfin Koi appears so the log shows it.
+// Keep rolling until the rare Sunglint Koi appears so the log shows it.
 await page.evaluate(() => {
   const sim = window.__game.sim;
   const meta = sim.meta(sim.player.id);

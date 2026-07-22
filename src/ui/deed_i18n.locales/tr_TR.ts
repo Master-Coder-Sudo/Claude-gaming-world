@@ -412,7 +412,7 @@ export const table: DeedLocaleTable = {
     name: 'Gedikli Müşteri',
     desc: "Kahramanca Levazımcısı'nın tezgâhındaki on parçanın tamamını keşfet.",
   },
-  col_glimmerfin: { name: 'Umut Pırıltısı', desc: 'Bir Pırıltıyüzgeç Koi tut.' },
+  col_glimmerfin: { name: 'Umut Pırıltısı' },
   col_full_creel: {
     name: 'Dolu Sepet',
     desc: "Vadi'nin, Bataklık'ın ve Tepeler'in sularındaki altı yaygın avın tümünü keşfet.",

@@ -1243,7 +1243,7 @@ describe('Guide professions generated content accuracy', () => {
     // gain fading at 75 / 100 / 125 (tier 2 recipe, TIER_SKILL_STEP 25).
     const wc = GUIDE_PROF_CRAFTS.find((c) => c.id === 'weaponcrafting');
     const warblade = wc?.recipes.find((r) => r.id === 'recipe_thorium_warblade');
-    expect(warblade?.name).toBe('Thorium Warblade');
+    expect(warblade?.name).toBe('Osmium Warblade');
     expect(warblade?.skillReq).toBe(50);
     expect(warblade?.station).toBe('forge');
     expect(warblade?.acquisition).toBe('trainer');
@@ -1346,7 +1346,7 @@ describe('Guide professions gathering accuracy', () => {
       tier: 3,
       toolTier: 3,
       count: 1,
-      material: 'Thorium Ore',
+      material: 'Osmium Ore',
     });
   });
 
@@ -1407,7 +1407,7 @@ describe('Guide professions gathering accuracy', () => {
       { below: 200, gain: 0.02 },
     ]);
     expect(f.junkCutoff).toBe(100);
-    expect(f.rareCatch).toBe('Glimmerfin Koi');
+    expect(f.rareCatch).toBe('Sunglint Koi');
     // Band tables mirror the sim tables row for row; weights sum to exactly
     // 100 per table, so the published pct IS the real probability; band b
     // needs rod tier b + 1.
@@ -1434,7 +1434,7 @@ describe('Guide professions gathering accuracy', () => {
     // 4 in Thornpeak (its odds never scale with skill).
     for (const band of f.bandTables) {
       for (const zone of band.zones) {
-        const koi = zone.rows.find((r) => r.name === 'Glimmerfin Koi');
+        const koi = zone.rows.find((r) => r.name === 'Sunglint Koi');
         expect(koi?.pct).toBe(zone.zone === 'Thornpeak Heights' ? 4 : 3);
       }
     }
@@ -1515,11 +1515,11 @@ describe('Guide professions enchanting and economy accuracy', () => {
       })),
     );
     expect(e.disenchantByQuality).toEqual([
-      { quality: 'common', material: 'Arcane Dust' },
-      { quality: 'uncommon', material: 'Arcane Dust' },
-      { quality: 'rare', material: 'Arcane Essence' },
-      { quality: 'epic', material: 'Arcane Shard' },
-      { quality: 'legendary', material: 'Arcane Shard' },
+      { quality: 'common', material: 'Chime Dust' },
+      { quality: 'uncommon', material: 'Chime Dust' },
+      { quality: 'rare', material: 'Chime Essence' },
+      { quality: 'epic', material: 'Chime Shard' },
+      { quality: 'legendary', material: 'Chime Shard' },
     ]);
     expect(e.typedSecondaries.armor).toEqual(
       Object.entries(ARMOR_SECONDARY_BY_TYPE).map(([armorType, m]) => ({
@@ -1637,18 +1637,18 @@ describe('Guide professions pages and routes', () => {
     }
     // The craft page really renders its recipe rows.
     const weapon = professionsPage.render(ctx(['weaponcrafting']));
-    expect(weapon).toContain('Thorium Warblade');
+    expect(weapon).toContain('Osmium Warblade');
     expect((weapon.match(/class="guide-prof-recipe/g) ?? []).length).toBe(
       GUIDE_PROF_CRAFTS.find((c) => c.id === 'weaponcrafting')?.recipes.length,
     );
     // The enchanting route rides the craft module with its own sections.
     const ench = professionsPage.render(ctx(['enchanting']));
     expect(ench).toContain('Enchant Weapon - Runed Edge');
-    expect(ench).toContain('Arcane Shard');
+    expect(ench).toContain('Chime Shard');
     expect(ench).toContain('id="prof-disenchant"');
     // The fishing page renders all three band tables and the koi.
     const fishing = professionsPage.render(ctx(['fishing']));
-    expect(fishing).toContain('Glimmerfin Koi');
+    expect(fishing).toContain('Sunglint Koi');
     expect(fishing).toContain('id="fish-band-2"');
     // The economy page renders the work orders.
     const econ = professionsPage.render(ctx(['economy']));

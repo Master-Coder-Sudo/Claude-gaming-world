@@ -2369,7 +2369,7 @@ const mergeEntitiesEn = {
       'Nightfang Harness',
       'Nightfang Legguards',
       'Nightfang Treads',
-      'Glimmerfin Koi',
+      'Sunglint Koi',
       'Raw Bog Eel',
       'Raw Frostgill Trout',
       'Raw Marsh Pike',

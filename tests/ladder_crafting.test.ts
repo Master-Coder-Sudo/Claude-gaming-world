@@ -138,7 +138,7 @@ describe('crafted elixir defs and the live use path', () => {
   // MECHANISM is pinned via elixir_of_the_bear in tests/elixir.test.ts).
   const EXPECTED: Record<string, { aura: string; value: number; duration: number }> = {
     elixir_of_the_boar: { aura: 'Might of the Boar', value: 6, duration: 600 },
-    venomfire_elixir: { aura: 'Venomfire Vigor', value: 9, duration: 900 },
+    venomfire_elixir: { aura: 'Vipersear Vigor', value: 9, duration: 900 },
     elixir_of_the_serpent: { aura: 'Might of the Serpent', value: 12, duration: 900 },
   };
 

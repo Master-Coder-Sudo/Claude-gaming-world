@@ -197,7 +197,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
   },
   thorium_warblade: {
     id: 'thorium_warblade',
-    name: 'Thorium Warblade',
+    name: 'Osmium Warblade',
     kind: 'weapon',
     slot: 'mainhand',
     quality: 'rare',
@@ -207,7 +207,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
   },
   arcanite_war_axe: {
     id: 'arcanite_war_axe',
-    name: 'Arcanite War Axe',
+    name: 'Glyphsteel War Axe',
     kind: 'weapon',
     slot: 'mainhand',
     quality: 'rare',
@@ -217,7 +217,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
   },
   elderwood_battle_staff: {
     id: 'elderwood_battle_staff',
-    name: 'Elderwood Battle Staff',
+    name: 'Highpine Battle Staff',
     kind: 'weapon',
     slot: 'mainhand',
     quality: 'rare',
@@ -294,7 +294,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
   },
   thoriumscale_greathelm: {
     id: 'thoriumscale_greathelm',
-    name: 'Thoriumscale Greathelm',
+    name: 'Osmiumscale Greathelm',
     kind: 'armor',
     armorType: 'mail',
     slot: 'helmet',
@@ -304,7 +304,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
   },
   thoriumscale_cuirass: {
     id: 'thoriumscale_cuirass',
-    name: 'Thoriumscale Cuirass',
+    name: 'Osmiumscale Cuirass',
     kind: 'armor',
     armorType: 'mail',
     slot: 'chest',
@@ -314,7 +314,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
   },
   thoriumscale_leggings: {
     id: 'thoriumscale_leggings',
-    name: 'Thoriumscale Leggings',
+    name: 'Osmiumscale Leggings',
     kind: 'armor',
     armorType: 'mail',
     slot: 'legs',
@@ -352,7 +352,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
   },
   silverthread_slippers: {
     id: 'silverthread_slippers',
-    name: 'Silverthread Slippers',
+    name: 'Palethread Slippers',
     kind: 'armor',
     armorType: 'cloth',
     slot: 'feet',
@@ -362,7 +362,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
   },
   goldweave_robe: {
     id: 'goldweave_robe',
-    name: 'Goldweave Robe',
+    name: 'Gildenweave Robe',
     kind: 'armor',
     armorType: 'cloth',
     slot: 'chest',
@@ -372,7 +372,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
   },
   goldweave_leggings: {
     id: 'goldweave_leggings',
-    name: 'Goldweave Leggings',
+    name: 'Gildenweave Leggings',
     kind: 'armor',
     armorType: 'cloth',
     slot: 'legs',
@@ -608,7 +608,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
   // as 'Might of the Bear'. Never vendor-stocked (no buyValue).
   silverleaf_healing_draught: {
     id: 'silverleaf_healing_draught',
-    name: 'Silverleaf Healing Draught',
+    name: 'Sheenleaf Healing Draught',
     kind: 'potion',
     quality: 'common',
     potionHp: 120,
@@ -616,7 +616,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
   },
   silverleaf_mana_draught: {
     id: 'silverleaf_mana_draught',
-    name: 'Silverleaf Mana Draught',
+    name: 'Sheenleaf Mana Draught',
     kind: 'potion',
     quality: 'common',
     potionMana: 160,
@@ -648,10 +648,10 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
   },
   venomfire_elixir: {
     id: 'venomfire_elixir',
-    name: 'Venomfire Elixir',
+    name: 'Vipersear Elixir',
     kind: 'elixir',
     quality: 'uncommon',
-    elixir: { aura: 'Venomfire Vigor', kind: 'buff_sta', value: 9, duration: 900 },
+    elixir: { aura: 'Vipersear Vigor', kind: 'buff_sta', value: 9, duration: 900 },
     sellValue: 15,
   },
   sunpetal_healing_draught: {

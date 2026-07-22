@@ -1266,7 +1266,7 @@ export const DEEDS: Record<string, DeedDef> = {
   col_glimmerfin: {
     id: 'col_glimmerfin',
     name: 'Glimmer of Hope',
-    desc: 'Catch a Glimmerfin Koi.',
+    desc: 'Catch a Sunglint Koi.',
     category: 'collection',
     renown: 0,
     trigger: { kind: 'collectItems', itemIds: ['glimmerfin_koi'] },

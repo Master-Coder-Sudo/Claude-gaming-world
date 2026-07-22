@@ -415,7 +415,7 @@ export const table: DeedLocaleTable = {
     name: 'Věrný zákazník',
     desc: 'Objev všech deset kusů z nabídky Zásobovače Vexe.',
   },
-  col_glimmerfin: { name: 'Třpyt naděje', desc: 'Chyť Koi se třpytivou ploutví.' },
+  col_glimmerfin: { name: 'Třpyt naděje' },
   col_full_creel: {
     name: 'Plný košík',
     desc: 'Objev všech šest běžných úlovků z vod Údolí, Močálu a Výšin.',

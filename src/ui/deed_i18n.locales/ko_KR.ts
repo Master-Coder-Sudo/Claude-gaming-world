@@ -387,7 +387,7 @@ export const table: DeedLocaleTable = {
     name: '단골 손님',
     desc: '병참장교 벡스의 취급 물품 열 가지를 모두 발견하십시오.',
   },
-  col_glimmerfin: { name: '희망의 반짝임', desc: '반짝이는 지느러미 코이를 낚으십시오.' },
+  col_glimmerfin: { name: '희망의 반짝임', desc: '윤슬 코이를 낚으십시오.' },
   col_full_creel: {
     name: '가득 찬 어망',
     desc: '골짜기, 습지, 고지의 물에서 나는 여섯 가지 흔한 어획물을 모두 발견하십시오.',

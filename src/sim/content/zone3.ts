@@ -3285,7 +3285,7 @@ export const ZONE3_ITEMS: Record<string, ItemDef> = {
   },
   stalkerhide_jerkin: {
     id: 'stalkerhide_jerkin',
-    name: 'Stalkerhide Jerkin',
+    name: 'Prowlhide Jerkin',
     kind: 'armor',
     armorType: 'leather',
     slot: 'chest',

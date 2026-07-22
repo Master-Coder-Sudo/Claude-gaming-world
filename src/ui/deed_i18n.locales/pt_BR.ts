@@ -437,10 +437,7 @@ export const table: DeedLocaleTable = {
     name: 'Cliente Preferencial',
     desc: 'Descubra todas as dez peças do estoque heroico do Intendente Vex.',
   },
-  col_glimmerfin: {
-    name: 'Lampejo de Esperança',
-    desc: 'Pesque um Koi de nadadeiras cintilantes.',
-  },
+  col_glimmerfin: { name: 'Lampejo de Esperança' },
   col_full_creel: {
     name: 'Cesto Cheio',
     desc: 'Descubra todos os seis pescados comuns das águas do Vale, do Pântano e das Alturas.',

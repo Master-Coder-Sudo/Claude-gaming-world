@@ -2326,7 +2326,7 @@ export const TARGETS = [
             // affordability lines show a mix of ready and short rows.
             sim.addItem('arcane_dust', 6);
             sim.addItem('arcane_essence', 1);
-            return { ok: true, itemName: 'Arcane Dust' };
+            return { ok: true, itemName: 'Chime Dust' };
           }
           if (wantsConfirm) {
             // The ONLY held copy is a signed masterwork instance, so the confirm
