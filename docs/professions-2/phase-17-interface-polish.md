@@ -154,3 +154,36 @@ the wrap-up duties including the RE-AUDIT EMPHASIS paragraph for P20. NO PR,
 no GitHub issues; the branch is the history. The bar is: beautiful, spacious,
 consistent with the newest windows in the game.
 ```
+
+## Maintainer review of the landed phase (2026-07-22): round-two directives
+
+The maintainer reviewed the landed rebuilds and loves the result overall.
+Two directed polish items remain, to be executed as their OWN short
+round-two pass near the end of the packet (after P18 and P19 land, before
+P20's whole-branch QA, so the churn from those phases cannot undo it and
+the final QA covers the polished state):
+
+1. The commission opt-in component ("Commission piece"): the raw native
+   checkbox reads as an unstyled web component, does not match the game's
+   style, and its placement inside the recipe card is off. It needs better
+   UI AND better UX, not just a reskin: rethink the control as a
+   game-styled affordance (candidates: a pill toggle-chip in the card's
+   chip language, or an integrated affordance beside the Craft chip),
+   repositioned deliberately within the card. Behavior contracts that must
+   survive whatever shape it takes: per-recipe HUD-held state that
+   survives repaints and clears on close, off by default, whole-control
+   tap target with the 40px mobile floor, the accessible name carrying the
+   commission semantics, and the attachTooltip hint. Suites to re-pin:
+   tests/professions_p14b_commissions_ui.test.ts (and the mobile rules in
+   hud.mobile.css).
+2. The professions window is still visually tight in places: a
+   breathing-room pass adding padding around the progress bars, the round
+   labels (the role/ceiling pill chips, and the tier pips), and similar
+   crowded spots. This is spacing polish over the landed structure, not a
+   relayout.
+
+Pair this round with the sweep deferrals already recorded in the Phase 17
+progress note where the maintainer rules them in (train/unbind row family,
+enchant-picker reagent tint, the #463a1c hairline tokenization), so all
+directed visual polish lands in one reviewed pass with fresh before/after
+screenshots.
