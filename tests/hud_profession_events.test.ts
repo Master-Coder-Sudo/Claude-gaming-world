@@ -178,7 +178,9 @@ describe('Hud.handleProfessionEvent', () => {
     vi.spyOn(audio, 'achievement').mockImplementation(() => {});
     const hud = makeHud();
     const craftingWindow = document.getElementById('crafting-window') as HTMLElement;
-    craftingWindow.style.display = 'block';
+    // 'flex' is the painter's open state (the column-flex shell); the repaint
+    // gate tests display === 'flex', so staging anything else reads closed.
+    craftingWindow.style.display = 'flex';
 
     hud.handleProfessionEvent({ type: 'attuned', pairId: 'leatherworking+tailoring' });
     expect(hud.charWindow.renderIfOpen).toHaveBeenCalledTimes(1);
