@@ -21,6 +21,7 @@ import { buildAttunementPreview } from '../../profession_identity_view';
 import { svgIcon } from '../../ui_icons';
 import { isStationMasterNpc } from '../vendor/train_view';
 import { gossipMenuIsEmpty } from './gossip_menu';
+import { PROF_INTRO_QUEST_ID, professionIntroHintVisible } from './prof_intro_hint_core';
 
 export interface QuestDialogTextPort {
   npcName(templateId: string): string;
@@ -284,6 +285,19 @@ export class QuestDialogController {
     const npcTitle = definition ? this.deps.text.npcTitle(definition.id) : '';
     let html = `<div class="panel-title"><span id="quest-dialog-title">${esc(npcName)}<span class="quest-muted"> &lt;${esc(npcTitle)}&gt;</span></span><button type="button" class="x-btn" data-close aria-label="${esc(t('questUi.dialog.close'))}">${svgIcon('close')}</button></div>`;
     html += `<div class="qd-text">"${esc(definition ? this.deps.text.npcGreeting(definition.id, world.cfg.playerClass, world.player.name) : t('questUi.dialog.greetingFallback'))}"</div>`;
+    // Locked-quest hint row (Phase 15 QA directed fix): a profession master's
+    // dialog points a pre-q_prof_intro viewer at the intro quest's giver, so
+    // the Guild trend letter never lands on a greeting-plus-vendor dead end.
+    // Non-interactive, the qd-req hint family; both names arrive through the
+    // text port so they localize like every other dialog line.
+    if (professionIntroHintVisible(npc.templateId, world.questState(PROF_INTRO_QUEST_ID))) {
+      html += `<div class="qd-req" data-prof-intro-hint="1">${esc(
+        t('questUi.dialog.profIntroHint', {
+          name: this.deps.text.npcName(QUESTS[PROF_INTRO_QUEST_ID].giverNpcId),
+          quest: this.deps.text.questTitle(PROF_INTRO_QUEST_ID),
+        }),
+      )}</div>`;
+    }
     for (const questId of interesting) {
       const state = world.questState(questId);
       const icon =
