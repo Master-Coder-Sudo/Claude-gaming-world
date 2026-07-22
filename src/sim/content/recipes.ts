@@ -53,9 +53,12 @@ import type { ProfessionRecipeRecord } from '../professions/types';
 // and acquisition are untouched. Every material on a rung-0 common is
 // obtainable by a fresh zone-1 character (starter mob drops, tier-1 nodes,
 // Eastbrook vendor staples); tanning_agent (zone-2 vendor) and glass_vial
-// (zone-3 vendor) are deliberately NOT used at rung 0. Four members could not
-// clear the invariant with sane, obtainable counts and stay on the frozen
-// legacy list unchanged (see tests/recipe_economy.test.ts).
+// (zone-3 vendor) are deliberately NOT used at rung 0. Four members (the
+// jerkin, vestments, druids hide, and warded leggings) could not clear the
+// invariant through inputs alone and closed through the maintainer-approved
+// paired arm instead: an input rework plus an output sellValue re-priced
+// below it in items.ts. The frozen legacy list is EMPTY (see
+// tests/recipe_economy.test.ts).
 export const COMMON_RECIPES: ProfessionRecipeRecord[] = [
   {
     id: 'recipe_eastbrook_arming_sword',

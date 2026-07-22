@@ -26,7 +26,7 @@ const MARKET_RANGE = INTERACT_RANGE + 2; // you must stand at the Merchant to de
 // so it is the one const exported back to sim.ts; the rest are market-internal.
 export const MARKET_MAX_LISTINGS = 12; // active player listings per seller
 const MARKET_MIN_PRICE = 1; // copper
-const MARKET_MAX_PRICE = 5_000_000; // 500g ceiling — guards against overflow / fat-finger
+const MARKET_MAX_PRICE = 5_000_000; // 500g ceiling, guards against overflow / fat-finger
 // Exported for the wiki generator (scripts/wiki/build_content.mjs) and its
 // accuracy guard: the published cut percent derives from this one constant.
 export const MARKET_CUT = 0.05; // the Merchant's cut on a completed sale (a gold sink)

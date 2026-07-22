@@ -5,8 +5,9 @@
 // PRE-Phase-10 recipes were grossly gold-positive, so the invariant carries a
 // FROZEN legacy exception list (never an escape hatch for new content). The
 // Phase 15 QA directed burn-down reworked the reagent lists of 10 of the 14
-// members gold-negative; the 4 residual members whose outputs cannot be
-// covered by sane, accessible inputs remain frozen below.
+// members gold-negative; the last 4 (jerkin, vestments, druids hide, warded
+// leggings) closed through the maintainer-approved paired arm (input rework
+// plus an output sellValue re-price), so the frozen list below is EMPTY.
 import { describe, expect, it } from 'vitest';
 import { STATION_TYPE_BY_CRAFT } from '../src/sim/content/professions';
 import { ALL_RECIPES, COMBO_RECIPES, LADDER_RECIPES, recipeById } from '../src/sim/content/recipes';
