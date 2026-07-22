@@ -4417,7 +4417,7 @@ export function iconDataUrl(kind: IconKind, id: string, size: number = DEFAULT_I
 // Profession icons (Professions 2.0): the ten craft-wheel crafts plus the
 // gathering skills, consumed by the professions window via professionIconUrl.
 // Ids follow the prof_<craftId> / gather_<skill> convention (see
-// docs/design/professions.md). Committed painted art under public/ui/professions/
+// docs/design/professions-asset-manifest.json). Committed painted art under public/ui/professions/
 // (PROFESSION_IMAGE_IDS, normalized by scripts/convert_profession_icons_webp.mjs)
 // wins over the procedural recipe, mirroring the item/deed image sets.
 // ---------------------------------------------------------------------------

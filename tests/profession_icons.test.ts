@@ -29,7 +29,7 @@ const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'
 const publicDir = path.join(repoRoot, 'public');
 const professionsDir = path.join(publicDir, 'ui/professions');
 
-// The full icon id set of docs/professions-2/asset-manifest.json wave one: the ten
+// The full icon id set of docs/design/professions-asset-manifest.json wave one: the ten
 // craft-wheel crafts plus the gathering skills. Derived from the sim content tables so a
 // renamed craft fails loudly here; gather_fishing now derives from the sim content like the
 // other gathering skills (fishing joined GATHERING_PROFESSION_IDS).
@@ -189,7 +189,7 @@ describe('profession webp icons', () => {
     // commissioned profession, gathering, archetype, and masterwork set cannot drift.
     // Deed crest ids are deed_prof_*, a different namespace, and stay out by prefix.
     const manifest = JSON.parse(
-      readFileSync(path.join(repoRoot, 'docs/professions-2/asset-manifest.json'), 'utf8'),
+      readFileSync(path.join(repoRoot, 'docs/design/professions-asset-manifest.json'), 'utf8'),
     ) as unknown;
     const declared: string[] = [];
     const collect = (node: unknown): void => {
