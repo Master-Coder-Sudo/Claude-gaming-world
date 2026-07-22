@@ -614,6 +614,46 @@ from the wash review (PR body carries all of these).
 
 (append per-phase notes, deferrals, and surprises here as sessions complete)
 
+Phase 15 + Phase 15 QA (2026-07-21/22, ONE session, ONE branch, ONE PR
+per the maintainer-directed process amendment recorded atop both
+phase-15 files): phase-start 560972962, code-final commit 6e4eb9e82.
+Built via four Workflow fan-outs (deeds content+tests chain parallel to
+the tuning audit; the wiki skeleton, five prose writers, integrator,
+accuracy audit; the three directed fixes; the burn-down rework plus
+adversarial verify) with two inline orchestrator closures (the last-4
+paired arm after an agent stall; the review-pass fixes). Deliverables:
+26 deeds (catalog 219, renown 2710, 30 titles; the gather_event
+namespace load-drop bug fixed en route), the seed-4242 scripted
+playthrough (koi through the real bite-and-reel), tuning verified with
+the fee-table extension and the faucet-vs-sink evidence doc plus
+as-executed addendum, the FULL burn-down (exception list EMPTY; ten
+input reworks, four maintainer-approved paired sellValue arms;
+IUX-probed against q_prof_intro as a fresh level-1), the six directed
+QA fixes (wash close, tier-mail and cadence hygiene, hint row with the
+veteran refinement, Steam mappings at 75/100), the RuneScape-bar wiki
+(14 detail routes, generated numeric tables under the transparency
+carve-out, M16 fills in the five non-Latin overlays), asset-manifest
+final, SFX sweep re-filed on #2208 with the audio-later sign-off.
+QA evidence: nine-agent review fan-out ZERO blocking (all should-fixes
+applied or dispositioned); qa-checklist READY (0 blocking, 0
+should-fix); gate contract green under Node 24 as i18n gen+freshness
+plus malware scan via npm run gate (aborted at the changed-files biome
+step by the KNOWN local-baseline sweep of release-side files vs
+origin/main; error-level biome over exactly this branch diff is clean),
+then manually: sfx:check green, the FULL suite 18379 passed / 1477 files (43 skipped), tsc
+clean, and all builds green; the known armory browser red stays the
+environmental item with PR CI as arbiter. Screenshots under
+docs/screenshots/professions-2-phase-15/. Deferrals carried: the
+release-tier locale fill before tagging (large guide.* pending batch;
+profPages FAQ non-Latin fills beyond a6 are systemically stale), Steam
+partner-site registration of the three new achievement ids, the
+raw_stonescale_carp id/name mismatch chore, the sellAllJunk
+future-hole and armed-copy wash observations, pacing acceptance
+(gathering-100/fishing-200 fast; data-only levers), the
+clamp-to-first-below unbind interpretation (open since PR #2293).
+Teardown: offered to the maintainer at session end per the house rule;
+decision recorded in memory with the merge hash.
+
 2026-07-20 timing and economy amendments: a second maintainer-approved
 amendment pass (community feedback on gathering feel and the crafted-goods
 economy) restructured the remaining packet to 12, 12b, 13, 14, 14b, 15.
