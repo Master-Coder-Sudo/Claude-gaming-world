@@ -5252,6 +5252,10 @@ export const ABILITIES: Record<string, AbilityDef> = {
     school: 'physical',
     requiresTarget: false,
     offGcd: true,
+    // The whole point of the break is escaping fear/stun, so the cast must be
+    // pressable while controlled (like Ice Block); the stun gate would
+    // otherwise make breakControl unreachable exactly when it matters.
+    usableWhileControlled: true,
     effects: [
       { type: 'breakControl' },
       // ONE aura for both halves (value = damage amp; the body scale is the
@@ -5260,7 +5264,7 @@ export const ABILITIES: Record<string, AbilityDef> = {
       { type: 'selfBuff', kind: 'buff_avatar', value: 0.2, duration: 20 },
     ],
     description:
-      'Transform into a colossus for 20 sec, breaking all control on you and increasing your damage dealt by 20%.',
+      'Transform into a colossus for 20 sec, breaking enemy control effects on you (boss control is unaffected) and increasing your damage dealt by 20%.',
   },
   sanguine_aura: {
     id: 'sanguine_aura',
