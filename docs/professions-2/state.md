@@ -1625,10 +1625,69 @@ tables, i18n key namespaces, files created)
   escalated re-resolve at 8) and tests/quest_state_optimistic.test.ts
   (mirror arm); switchHobby and plain quests stay outside the gate. QA
   deferrals live in #2285.
-- Phase 14b: (planned) the commission marker, bind-on-first-trade
-  enforcement, the master unbind service; the three maintainer decisions
-  are RESOLVED in OPEN items (character binding, equipment-only opt-in
-  classes, the tier-scaled unbind ladder), so STEP 0's gate is satisfied.
+- Phase 14b (built 2026-07-21, phase start 9453ff8d8, branch
+  feature/professions-2-phase-14b-commissions): Commissions and the
+  Maker's Bond (#2207; #1298 stays open for the ORDER workflow). The
+  commission marker IS the Phase 13 bindOnTrade arm, never a parallel
+  field: the craft command grew an optional BOOLEAN `commission`
+  (widened craftItem across facet/Sim/ClientWorld/dispatch, NO census
+  change; sent only when true so a non-commission wire message is
+  byte-identical), honored server-side only for the ruled-in equipment
+  kinds via commission.ts isCommissionEligible (weapon/armor/
+  held_offhand; jewelry rides the armor kind by taxonomy). All three
+  grant arms compose the arm onto their payload (masterwork, signed,
+  and the plain arm FORCES the instance path for commissioned sub-rare
+  outputs; a multi-copy output arms every copy); signing rules are
+  untouched (commission never adds signer); CraftResult grew
+  `commission?: true`. Bind-on-first-trade and the bound-trade refusal
+  are UNCHANGED Phase 13 arms, now pinned against commissioned
+  equipment. Master unbind service: new module
+  src/sim/professions/commission.ts (S3 scan list same change) with
+  resolveUnbind on the resolveTrain deny-order doctrine
+  (silent-unknown, unbind_not_eligible, unbind_not_bound BEFORE the
+  charge arm for replay safety, unbind_out_of_range via the new
+  type-agnostic stations.ts isAtAnyStation, unbind_cannot_afford), fee
+  ladder UNBIND_FEE_BY_QUALITY_TIER [2500, 10000, 40000] indexed from
+  the uncommon rung of MASTERWORK_QUALITY_LADDER over DEF quality only
+  (clamp-to-last above per the ruling, clamp-to-FIRST below: a
+  commissioned common piece pays the uncommon fee, a free unbind would
+  leak the sink; legacy rolled.quality never moves the fee, the
+  masterwork-deed DEF-quality doctrine). unbindItem clears boundTo
+  ONLY on the EARLIEST bound slot (presence-clear, never a
+  value-compare: entity ids are not stable cross-session identities);
+  a byte-equal bound stack SPLITS (one copy re-granted unbound via
+  addItemInstance, the rest stay bound at full price each);
+  bindOnTrade survives so the piece RE-BINDS on its next trade; every
+  other marker (signer/rolled/enchant/charges) survives, pinned. New
+  command unbind_item (census 163 send / 172 dispatch, untagged in
+  COMMAND_FACETS like its cluster) and facet member unbindItem
+  (IWORLD_MEMBERS 260, methods 189). New personal text-free SimEvent
+  unbindResult {ok,itemId,reason?,fee}, a HEAVY_SELF_EVENTS member ON
+  PURPOSE: the single-copy unbind clears boundTo in place with no loot
+  event, so the result event itself re-diffs the heavy self inv mirror
+  (pinned in the live-server arc). No new delta key, no persistence
+  change (bindOnTrade/boundTo predate the phase, so NO rollback caveat
+  arises). UI: per-recipe commission checkbox in the crafting window
+  (crafting_view commissionEligible off the sim predicate; checked
+  state on the Hud so staleness repaints never untick; consumed per
+  craft, cleared on close), tooltip lines via
+  item_instance_tooltip.ts instanceBindingLines gated to the eligible
+  kinds (Phase 13 reagents stay line-free) with the bound line naming
+  NO ONE (deliberate deviation from the phase file's 'Bound to {name}'
+  sketch: the payload carries no name and ids are not stable, so
+  presence is the only honest fact); unbind window as a second gossip
+  option on every station master (unbind_view pure core in
+  UI_PURE_CORES + thin painter in the vendor family, #unbind-window in
+  the four mobile-sheet CSS groups), fee-confirm through the ONE
+  confirmDialog family. i18n: hudChrome.crafting.commission* +
+  hudChrome.unbind.* (21 keys), M16 fills in all five non-Latin
+  overlays. Deny reasons ride the text-free event (no matcher rows
+  needed). Vendor-sell laundering (sell a bound piece, buy back plain)
+  stays open BY SCOPE, the pre-existing Phase 13 class. Tests:
+  professions_p14b_commissions(.test.ts + _ui.test.ts) plus
+  instanceBindingLines arms in item_instance_tooltip.test.ts; parity
+  goldens untouched (zero regen: the default path is byte-identical
+  and unbind draws no rng).
 
 ## Tuning targets (placeholders until Phase 15 tunes against live data)
 
