@@ -199,7 +199,7 @@ Ground sparkles: highwatch_summons ×2 at (1,654),(-2,657); ogre_war_totem ×7 a
 |---|---|---|---|---|---|---|---|
 | q_highwatch_summons | The Watch on the Peaks | brother_aldric_fen → captain_thessaly | collect 1 highwatch_summons (sparkle, Highwatch gate) | 500 | 500 | — | minLevel 12 (breadcrumb; NOT gated on the 5-man Bastion) |
 | q_stalkers | Stalkers on the Ridge | captain_thessaly | kill 12 ridge_stalker | 2200 | 1000 | — | — |
-| q_stalker_pelts | First Frost at Highwatch | quartermaster_bree | collect 8 ridge_stalker_pelt | 2300 | 1000 | ridgestalker_treads (all) | — |
+| q_stalker_pelts | First Frost at Highwatch | quartermaster_bree | collect 8 ridge_stalker_pelt | 2300 | 1000 | ridgestalker_treads (all) | none |
 | q_kobold_tunnels | Deeprock Trouble | loremaster_caddis | kill 12 deeprock_kobold | 2500 | 1200 | — | minLevel 14 |
 | q_glowing_wax | Strange Wax | quartermaster_bree | collect 6 glowing_wax | 2500 | 1200 | — | requires q_kobold_tunnels |
 | q_ogre_edges | Ogres at the Foothills | scout_maren_highwatch | kill 12 thornpeak_ogre | 2900 | 1400 | — | minLevel 15 |
