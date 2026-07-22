@@ -6,6 +6,8 @@ import { dealDamage } from '../src/sim/combat/damage';
 import { DEED_ORDER, DEEDS } from '../src/sim/content/deeds';
 import { emptyAllocation, type TalentAllocation } from '../src/sim/content/talents';
 import { ITEMS, MOBS, QUESTS, ZONES } from '../src/sim/data';
+import { bagCapacity } from '../src/sim/bags';
+import { createMob } from '../src/sim/entity';
 import {
   bumpDeedStat,
   checkDeedTrigger,
@@ -2153,5 +2155,53 @@ describe('Phase 15 profession deed families (threshold-exact, live sites)', () =
     }
     // Luck-based finds are renown 0 by doctrine: four grants, zero renown.
     expect(meta.renown).toBe(renownBefore);
+  });
+
+  it('a bag-truncated specimen jackpot grants NO mark and no deed (the find got away)', () => {
+    // The interaction.ts hook fires on the LANDED addItemInstance arm only;
+    // with every bag slot full the signed jackpot cannot land, the harvest
+    // emits gatherDowngrade lost:'find', and col_perfect_specimen must not
+    // grant. Decisive against a mutant that marks before the capacity check.
+    const sim = makeSim();
+    const { meta, e: player } = primary(sim);
+    const pid = meta.entityId;
+    // Occupy every slot BUT keep stack room in a rough_hide stack: the plain
+    // grant then lands by top-up (the harvest pre-gate passes) while the
+    // SIGNED specimen needs a fresh slot and cannot (an instance never merges
+    // into a plain stack), which is exactly the truncation branch.
+    sim.addItem('rough_hide', 1, pid);
+    while (meta.inventory.length < bagCapacity(meta.bags)) sim.addItem('recruit_tunic', 1, pid);
+    const template = MOBS.forest_wolf;
+    const mob = createMob(987001, template, template.maxLevel, {
+      x: player.pos.x,
+      y: player.pos.y,
+      z: player.pos.z,
+    });
+    mob.dead = true;
+    mob.aiState = 'dead';
+    mob.corpseTimer = 9999;
+    mob.respawnTimer = 9999;
+    sim.entities.set(mob.id, mob);
+    let truncatedFindAt = -1;
+    for (let i = 0; i < 400 && truncatedFindAt < 0; i++) {
+      mob.harvestClaimedBy = null;
+      // Drain the top-up stack back to a single unit so the pre-gate keeps
+      // passing while every slot stays occupied.
+      const hideSlot = meta.inventory.find((s: { itemId: string }) => s.itemId === 'rough_hide');
+      if (hideSlot) hideSlot.count = 1;
+      sim.harvestCorpse(mob.id, ['hide'], pid);
+      const downgrade = sim
+        .drainEvents()
+        .some((e) => e.type === 'gatherDowngrade' && e.surface === 'corpse' && e.lost === 'find');
+      if (downgrade) truncatedFindAt = i;
+    }
+    // A specimen ROLLED and was truncated (the hunt found the downgrade), yet
+    // nothing landed: no signed instance, no mark, and after a tick no deed.
+    expect(truncatedFindAt).toBeGreaterThanOrEqual(0);
+    expect(meta.inventory.some((s: { itemId: string }) => s.itemId === 'pristine_hide')).toBe(false);
+    expect(meta.deedStats.visited.has('gather_event:perfect_specimen')).toBe(false);
+    sim.tick();
+    expect(meta.deedsEarned.has('col_perfect_specimen')).toBe(false);
+    sim.entities.delete(mob.id);
   });
 });

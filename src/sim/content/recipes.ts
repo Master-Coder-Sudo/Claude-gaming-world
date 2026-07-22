@@ -148,13 +148,10 @@ export const COMMON_RECIPES: ProfessionRecipeRecord[] = [
   },
   // Caster-stat (int/spi) common-tier recipes: one per
   // tailoring/leatherworking/armorcrafting, alongside the armor-only pieces
-  // above. Reuses the same harvested reagents as the rest of COMMON_RECIPES.
-  // Phase 15 QA directed burn-down RESIDUAL: all three stay on the frozen
-  // legacy list. Their uncommon outputs sell for 210/230/220 (inputs would
-  // need 220.5/241.5/231), and the zone-1-accessible palette a rung-0 common
-  // may demand tops out at smithing_flux (20c): even a 12-unit all-flux list
-  // reaches only 240, so no sane, thematic, accessible reagent list clears
-  // the invariant. See tests/recipe_economy.test.ts.
+  // above. All three cleared the economy invariant in the Phase 15 QA
+  // directed burn-down via the maintainer-approved paired arm (zone-1
+  // thematic input rework plus an output sellValue re-priced below input in
+  // items.ts); the frozen legacy list is empty. See tests/recipe_economy.test.ts.
   {
     id: 'recipe_eastbrook_ritual_vestments',
     professionId: 'tailoring',

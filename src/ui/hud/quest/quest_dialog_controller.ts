@@ -290,7 +290,13 @@ export class QuestDialogController {
     // the Guild trend letter never lands on a greeting-plus-vendor dead end.
     // Non-interactive, the qd-req hint family; both names arrive through the
     // text port so they localize like every other dialog line.
-    if (professionIntroHintVisible(npc.templateId, world.questState(PROF_INTRO_QUEST_ID))) {
+    if (
+      professionIntroHintVisible(
+        npc.templateId,
+        world.questState(PROF_INTRO_QUEST_ID),
+        world.craftingIdentity.attunedPairs.length > 0,
+      )
+    ) {
       html += `<div class="qd-req" data-prof-intro-hint="1">${esc(
         t('questUi.dialog.profIntroHint', {
           name: this.deps.text.npcName(QUESTS[PROF_INTRO_QUEST_ID].giverNpcId),

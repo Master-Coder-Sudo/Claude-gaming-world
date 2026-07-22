@@ -11,9 +11,12 @@
 // since renderGossip is shared and the gate is one template-id check.
 //
 // Semantics, pinned by tests/prof_intro_hint.test.ts: the row shows in EVERY
-// q_prof_intro state except 'done' (available, active, ready, unavailable).
-// While the intro is merely accepted or ready it still points home to the
-// giver/turn-in NPC; only completion retires it.
+// q_prof_intro state except 'done' (available, active, ready, unavailable),
+// UNLESS the viewer already holds any archetype attunement: an attuned
+// veteran who leveled past (or skipped) the intro has provably found the
+// guild, and a permanent "go meet the guild" line on every master would read
+// as a bug (the Phase 15 review's veteran refinement). Completion or
+// attunement retires it; nothing else does.
 
 import type { QuestState } from '../../../sim/types';
 import { isStationMasterNpc } from '../vendor/train_view';
@@ -35,8 +38,13 @@ export function isProfessionMasterNpc(templateId: string): boolean {
 }
 
 /** Whether the hint row renders for this NPC given the viewer's q_prof_intro
- *  state (IWorld.questState, so it holds in both the offline Sim and the
- *  online ClientWorld). */
-export function professionIntroHintVisible(templateId: string, introState: QuestState): boolean {
-  return isProfessionMasterNpc(templateId) && introState !== 'done';
+ *  state (IWorld.questState) and whether they hold any archetype attunement
+ *  (IWorld.craftingIdentity attunedPairs; both reads exist on both hosts, so
+ *  the decision holds in the offline Sim and the online ClientWorld). */
+export function professionIntroHintVisible(
+  templateId: string,
+  introState: QuestState,
+  hasAnyAttunement: boolean,
+): boolean {
+  return isProfessionMasterNpc(templateId) && introState !== 'done' && !hasAnyAttunement;
 }

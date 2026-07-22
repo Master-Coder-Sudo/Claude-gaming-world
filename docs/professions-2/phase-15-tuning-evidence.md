@@ -356,3 +356,30 @@ Cross-cutting notes for the maintainer:
   noted in row 4, unchanged.
 - Sheet completeness: every constant on the resolved sheet carries a maintainer
   number; nothing found lacking one (no STOP-AND-ASK).
+
+## As-executed addendum (2026-07-22, the Phase 15 QA directed pass)
+
+This file above is the PRE-FIX evidence snapshot: its Deliverable B margins
+describe the recipes as they stood BEFORE the maintainer-directed burn-down,
+and its recommendations were subsequently ACTED ON in the same session. The
+executed state, superseding the rows above where they conflict:
+
+- Deliverable B: ALL 14 members are closed and LEGACY_GOLD_POSITIVE_RECIPE_IDS
+  is EMPTY. Ten closed via input-only reworks (materials-changed table in the
+  chore(professions) burn-down commit); the four zone-1 commons the input
+  arithmetic could not clear (jerkin, vestments, druids hide, warded leggings)
+  closed via the maintainer-approved PAIRED arm: thematic zone-1 input rework
+  plus output sellValue re-priced below input (80 / 72 / 84 / 105; vendor
+  buyValue untouched). The pin mechanism and three-way proof survive with an
+  empty set.
+- Row 4 (buyback wash): recommendation (a) LANDED (sellItem denies boundTo
+  copies, the trade-gate mirror; the 14b vendor-sell-allowed pins re-pinned
+  under the recorded direction).
+- Row 2 (dust mill): retired by the vestments rework; the sub-rare disenchant
+  arm stays byte-identical as recommended.
+- Open items: the letter-to-Haldren dead-end is RESOLVED (option a, the
+  locked-quest hint row); the clamp-to-first-below unbind interpretation
+  remains the one open flag, carried in the Phase 15 PR body.
+- Row 5 (time-to-master): the gathering-100 and fishing-200 fast misses are
+  ACCEPTED for this release by the maintainer (data-only levers, post-release
+  tuning with live data).

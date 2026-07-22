@@ -52,7 +52,7 @@ async function metrics(page, w, h, dsf) {
   return cdp;
 }
 
-async function shoot(page, cdp, name) {
+async function shoot(cdp, name) {
   const { data } = await cdp.send('Page.captureScreenshot', { format: 'png' });
   fs.writeFileSync(`${OUT}/${MODE}-${name}.png`, Buffer.from(data, 'base64'));
   console.log(`shot ${MODE}-${name}.png`);
@@ -79,13 +79,13 @@ const WIKI_PAGES = [
       continue;
     }
     log(resolved, `${w.path} renders content`);
-    await shoot(page, cdp, w.name);
+    await shoot(cdp, w.name);
   }
   // one mobile portrait shot of the overview (content surface, portrait ok)
   await metrics(page, 390, 844, 3);
   await page.goto(`${BASE}/wiki/professions`, { waitUntil: 'networkidle2', timeout: 60000 });
   await sleep(800);
-  await shoot(page, await metrics(page, 390, 844, 3), 'wiki-overview-mobile');
+  await shoot(await metrics(page, 390, 844, 3), 'wiki-overview-mobile');
   await page.close();
 }
 
@@ -154,7 +154,7 @@ const WIKI_PAGES = [
   }
   log(deedsOpen, 'Book of Deeds opens on Shift+KeyZ (progression tab)');
   await sleep(400);
-  await shoot(page, cdp, 'deeds-progression');
+  await shoot(cdp, 'deeds-progression');
   await page.evaluate(
     `(() => { const w = document.querySelector('#deeds-window'); if (w) w.style.display = 'none'; })()`,
   );
@@ -206,7 +206,7 @@ const WIKI_PAGES = [
   log(dialogOk, 'Haldren dialog opens after teleport-and-interact');
   if (MODE === 'after') log(hintOk, 'the locked-quest hint row is present pre-q_prof_intro');
   else console.log(`before-run hint presence (expected false): ${hintOk}`);
-  await shoot(page, cdp, 'haldren-dialog');
+  await shoot(cdp, 'haldren-dialog');
   await page.close();
 }
 
