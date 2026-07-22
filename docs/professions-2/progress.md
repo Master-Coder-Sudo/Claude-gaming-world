@@ -1979,3 +1979,195 @@ notification claimed exit 0 on the FAILED first run too, so the
 log-markers-only rule remains binding). Release sync note: the merge
 94f44360a arrived mid-phase window; if the tip moves again before
 P19/P20, re-run the audit.
+
+
+### P19: name originality sweep + wiki truth pass (2026-07-22)
+
+STEP 0: release/v0.29.0 tip unmoved past the P18 merge base (55af0ae9be);
+no merge needed. Untouched-tip matrix recorded first (five convention
+suites, deeds, deed_i18n, guide, i18n completeness/coverage, parity, tsc):
+VITEST_EXIT=0 TSC_EXIT=0, 475 tests green.
+
+Method: enumerated every profession-related player-visible name from
+src/sim/content via a throwaway tsx script (160 items, 41 enchants, 53
+profession deeds, the master/vendor NPCs, 22 quests, letters, archetype
+titles, tool effects, stations, brand coins); determined
+shipped-vs-unshipped per id against the v0.28.0 TAG (not the branch); ran
+a 12-batch web-search collision fan-out (110 verdicts) plus a 5-batch
+adversarial verify round covering every proposed replacement coin and
+every load-bearing collision claim (all 11 claims CONFIRMED; two proposed
+coin families KILLED by verification and replaced before landing).
+
+### The P19 rename table (the maintainer's review surface)
+
+Classification rule applied: real words and generic fantasy compounds are FINE;
+distinctive invented coins matching another property's distinctive coin are
+COLLISIONS (renamed); arguable cases are JUDGMENT with the ruling recorded.
+Save-safety class: every applied rename is DISPLAY-ONLY (all affected ids
+shipped in v0.28.0 or earlier; the two never-launched fishing rods and the five
+Resonant materials needed no rename, so the golden hand-swap recipe was never
+exercised). Deed ids, item ids, enchant ids, quest ids, and the Steam ACH
+mapping are all unchanged. Every new coin was adversarially verified clean by
+web search (one Fable-authored exception noted inline).
+
+| # | Old name | Class | Verdict | Collides with (evidence) | New name |
+|---|---|---|---|---|---|
+| 1 | Silverleaf Herb (+Sickle, Healing/Mana Draught) | item x4, shipped | COLLISION (high) | WoW herb Silverleaf (item 765), iconic vanilla starter herb in the identical gathered-herb-for-potions role | Sheenleaf * |
+| 2 | Arcanite Bar / War Axe / Mining Pick | item x3, shipped | COLLISION (high) | WoW coined transmuted metal Arcanite (Arcanite Bar item 12360; Arcanite Reaper); invented word, name-for-name role match | Glyphsteel * |
+| 3 | Thorium Ore / Mining Pick / Warblade | item x3, shipped | JUDGMENT, renamed (high) | Real element, but WoW's endgame classic mining tier with the identical item name and smelt context; with Arcanite adjacent the ladder read as lifted; prefer-rename directive applied | Osmium * |
+| 4 | Thoriumscale Greathelm / Cuirass / Leggings | item x3, shipped | JUDGMENT, renamed (medium) | Compound itself original but embeds the Thorium tier name; renamed with the base metal | Osmiumscale * |
+| 5 | Mithril Mining Pick | item, shipped | JUDGMENT, renamed (high) | Tolkien coined word; genericized (RuneScape, EQ) but D&D still deliberately respells it mithral after 1970s rights assertions | Skysilver * |
+| 6 | Arcane Dust / Essence / Shard | item x3, shipped | COLLISION on Dust (high), family renamed | WoW Arcane Dust (TBC enchanting dust, item 22445) and Hearthstone's crafting currency; Essence/Shard individually obscure WoW items but the Arcane-prefixed dust/essence/shard ladder duplicates WoW's disenchant taxonomy | Chime Dust / Essence / Shard ** |
+| 7 | Glimmerfin Koi | item, shipped | COLLISION (high) | WoW Glimmerfin murloc tribe (NPC family), confirmed | Sunglint Koi * |
+| 8 | Sootscale Mantle | item, shipped | COLLISION (high) | Pathfinder Kingmaker Sootscale kobold tribe and Chief Sootscale, confirmed | Kilnscale Mantle * |
+| 9 | Stalkerhide Jerkin | item, shipped | COLLISION (high) | WoW Reinforced Stalkerhide Vest (TWW leather, item confirmed) plus the Stalker Hide family | Prowlhide Jerkin * |
+| 10 | Venomfire Elixir (+ aura Venomfire Vigor) | item + aura, shipped | COLLISION (high) | D&D Forgotten Realms spell Venomfire (Serpent Kingdoms), confirmed; also a Grim Dawn coin | Vipersear Elixir / Vipersear Vigor * |
+| 11 | Elderwood Log / Axe / Battle Staff | item x3, shipped | COLLISION (high) | GW2 material tier Elder Wood Log (same phrase, same role) and the LoL Elderwood skin universe | Highpine * |
+| 12 | Goldweave Robe / Leggings | item x2, shipped | JUDGMENT, renamed (high) | WoW Goldweave Tunic (item 28052); fused compound match in the cloth-family role; prefer-rename applied | Gildenweave * |
+| 13 | Silverthread Slippers | item, shipped | JUDGMENT, renamed (high) | WoW classic Silver-thread cloth set (Robe/Amice/Armor), same words in the same role | Palethread Slippers * |
+| 14 | Enchant Chest - Runeweave | enchant display name | COLLISION (high) | FFXI item Runeweave, confirmed; also one step from WoW Runecloth | Enchant Chest - Runed Weave (rejoins the Runed family; the fan-out's first suggestion, Wardweave, was rejected as OUR OWN existing cloth coin) |
+| 15 | Enchant Weapon - Runed Focus | enchant display name | JUDGMENT, renamed (high) | Path of Exile 2 base item type Runed Focus, confirmed | Enchant Weapon - Runed Sigil * |
+| 16 | Mageweaver (archetype title, tailoring+inscription) | title | COLLISION (high) | WoW Mageweave Cloth (iconic coined cloth) plus literal WoW NPCs named Mageweaver | Inkweaver * (ink for inscription, weaver for tailoring) |
+| 17 | Cogsmith (archetype title, armorcrafting+engineering) | title | COLLISION (high) | Warhammer official Duardin engineer hero unit Cogsmith, confirmed; WoW gnome NPCs | Gearwright * |
+| 18 | Guildsworn (deed name + nameplate title, prog_guildsworn) | deed text, id frozen | COLLISION (high) | The Elder Scrolls: Legends class archetype The Guildsworn, confirmed | Craftsworn * (MARQUEE: Steam partner-site display name needs the maintainer's update; ACH id mapping unchanged) |
+| 19 | Strike the Earth (deed name, exp_first_ore) | deed text, id frozen | COLLISION (high) | Dwarf Fortress's iconic motto Strike the earth!, confirmed | Pick Meets Stone * |
+| 20 | Winter Is Coming to Highwatch (quest q_stalker_pelts) | quest name, id frozen | COLLISION (high) | A Song of Ice and Fire / Game of Thrones House Stark motto embedded whole | First Frost at Highwatch * |
+| 21 | Quickening Charm (tool effect, dormant data) | tool effect name | COLLISION (high) | Dota 2 neutral item Quickening Charm, exact match, confirmed | Springback Charm * (name field currently has no UI consumer; renamed before it ever ships) |
+| 22 | raw_stonescale_carp (internal id only) | item id, shipped | NO ACTION POSSIBLE | Stonescale Eel/Oil are iconic WoW coins, but the id shipped in the v0.28.0 golden and ids are frozen API; the display name already carries the original Slatefin coin (the phase file's "v0.29.0-only, either side may move" premise was WRONG: the fish shipped in the v0.28.0 tag, verified against the tag itself) | id stays; divergence documented in items.ts |
+
+`*` = verified clean by the adversarial verify round (no distinctive existing
+use found). `**` = Chime was chosen after the verify round KILLED the first
+replacement family (Gleam: WoW TWW's live enchanting shard is literally
+"Gleaming Shard") and the first candidate before that (Whisper: our own chat
+whisper vocabulary); Chime was verified against the WoW wiki via direct fetch
+(no Chime-named enchanting material exists; the session's web-search budget was
+exhausted by then, noted for the re-audit).
+
+### Judgment calls resolved as KEEP (no rename)
+
+| Name | Ruling |
+|---|---|
+| Thorium (as a word) | n/a, renamed above; listed for completeness |
+| Master Angler (fishing title) | KEEP: generic descriptor; ESO's identical title is pattern-sharing of plain English; the title family here is deliberately plain (Master Gatherer, Grandmaster X) |
+| Tools of the Trade (deed) | KEEP: generic idiom; WoW's uses are idiom uses |
+| Arcanist (archetype title) | KEEP: generic fantasy occupation used across dozens of properties (FFXIV/ESO class names notwithstanding); the pair-title family is mostly real words |
+| Silkbinder's Raiment | KEEP: generic silk+binder compound; the WoW/EQ matches are adjectival mob-type names (Sureki Silkbinder), not coins; symmetric with our Gembinder ruling |
+| Frostgill (trout/chowder) | KEEP: generic frost+gill compound; the only named match is a mob in Hytale, an unreleased/cancelled non-major property |
+| Silverstream Fishing Rod | KEEP: generic silver+stream compound; the Warriors novels character is a different medium and role; the id is unshipped so a future rename stays cheap if the maintainer disagrees |
+| Mirewarden | KEEP: generic mire+warden compound, internally derived from our Mirefen; the colliding property (Witchspire) is minor |
+| Brightwood Venison | KEEP: Brightwood is OUR OWN retired zone-1 lore ("the old Brightwood", removed_zone1_content.ts, memorialized by the deed Brightwood Remembered); the New World zone and WoW lore overlaps are generic bright+wood; renaming would orphan in-game lore |
+| Ironbark / Ashwood | KEEP: real trees (ironbark eucalyptus; ash); WoW's Ironbark is an ability name in a different category |
+| Gravewyrm | KEEP: our own boss coin (Korzul the Gravewyrm, pinned original in the ip_scrub fixture); D&D 3.5e epic monster match is obscure |
+| Resonant Steel/Hide/Links/Thread/Timber | KEEP: generic adjective family; WoW's Resonant Crystal is a different compound |
+| Forgemistress Darva | KEEP: Darva is a minor ESO NPC name only; Forgemistress is a generic role compound; renaming would touch quests, letters, and the recorded NPC voice program for a weak case |
+| Quartermaster Bree | KEEP: real given name; Tolkien's Bree is a PLACE (category mismatch); rename would touch 28 files including recorded NPC voice prompts; flagged for the maintainer as the closest keep call |
+| The Crafting Guild / The Guildhall (letter senders) | KEEP: generic descriptors; RuneScape's Crafting Guild is a location using the same plain words |
+| Cloaks for the Watch (quest) | KEEP: "the Watch" for a town guard is generic fantasy (Discworld et al) |
+| Gatherer's Cache / Artisan's Eye (tool effects) | KEEP: generic possessive compounds, verified clean |
+| Runed Edge / Runed Hide / Runed Links (enchants) | KEEP: generic runed+noun descriptors with no distinctive external coin |
+| Elixir of the Bear / Boar / Serpent | KEEP: generic elixir-of-the-animal pattern; no famous named recipe matched (WoW's famous elixirs are Mongoose/Giants/Sages) |
+| Enchant <Slot> - <Stat> naming format | KEEP with FLAG: the format matches WoW's enchant spell convention and several generic strings match verbatim (WoW classic has Enchant Gloves - Strength and Enchant Boots - Agility among others, confirmed); ruled generic descriptors under the classification rule (verb+slot+stat carries no invented coin); the distinctive members of the family (Runeweave, Runed Focus) were renamed; flagged for the maintainer in case they want a format-level departure |
+| Homespun / Coppermail / Ironlink / Goldleaf / Sunpetal / Sunweave / Wardweave / Valespun / Peakwool / Silkspun / Marshstalker / Duskhide / Cragwalker / Windguard / Boundstone / Masterwright / Ironedge / Ironshod / Bronzework / Slatefin / Mirror Trout / Ironreel / food names / NPC personal names (Haldren, Marlow, Ottilie, Gizzel, Hesk, Verane, Odell, Wilkes, Brandt, Hale) / quest and deed phrase names / Ravenpost | FINE: real words, generic compounds, or verified-clean in-house coins (110-row sweep verdicts on file) |
+
+
+Landed as: c55bf057c (item coins, both English copies, non-Latin
+refreshes, Latin strips, re-pins, shot scripts, asset manifest),
+c6f8d5ccf (isolated parity golden regen: professions_craft 2 and
+professions_gather 11 eventDigest deltas, ZERO rng/draw/state diffs,
+verified frame by frame), 708cf13c2 (enchant/title/deed/quest/tool
+renames plus locale work incl. new prog_guildsworn deed fills),
+139c69587 (CJK-boundary residue, the AURA_NAME_KEY desync fix, the new
+elixir-aura matcher guard, dead-array English fills), ebfd2a8c9 (wiki
+truth pass).
+
+Wiki truth pass: six read-only verifiers checked the professions guide
+prose against sim ground truth: 97 claims TRUE, 2 STALE (both in
+ench.enchantsNote: "every armor slot" ignored the enchantless off hand,
+per src/sim/content/enchants.ts ENCHANTS vs types.ts EquipSlot; "lands
+between its base and Greater siblings" holds only where both siblings
+exist, per tests/enchants_magnitude_invariants.test.ts), 1 UNVERIFIABLE
+within budget (the "one press opens both" loot/harvest claim; the sim
+side is consistent and pinned by the interactions suites, the client
+input binding was not traced). Both stale sentences now state the exact
+shape. Table sampling for the citation duty, all TRUE against the
+generated wiki data: recipe rows recipe_eastbrook_arming_sword
+(recipes.ts: wolf_fang x2 + bone_fragments x4 + smithing_flux x6, skill
+0), recipe_volatile_flux_elixir (linen_scrap x2 + spider_leg x2 +
+venom_gland x2 + glass_vial x1, skill 25, trainer, combo
+alchemy+engineering minTier 1), recipe_eastbrook_wool_trousers
+(homespun_cloth x3 + spool_of_thread x9, skill 0); enchant rows
+enchant_weapon_might (Chime Dust x5, str +2), enchant_weapon_greater_might
+(Chime Shard x1 + Chime Essence x2, str +5), enchant_weapon_runed_edge
+(Chime Essence x2 + Resonant Steel x1, str +3), all per
+src/sim/content/enchants.ts; fee rows trainingFeeCopperByTier [0, 2500,
+10000, 40000, 160000] (training.ts TRAINING_FEE_BY_TIER), unbindFeeCopper
+uncommon 2500 / rare 10000 / epic 40000 (commission.ts
+UNBIND_FEE_BY_QUALITY_TIER), market cut 5 percent with zero deposit
+(market.ts MARKET_CUT, MARKET_LISTING_DEPOSIT_COPPER) and work orders at
+30 minutes / 50 percent payout (cadence.ts WORK_ORDER_CADENCE_TICKS,
+WORK_ORDER_PAYOUT_FRACTION).
+
+After-side matrix: same batch as the untouched tip plus S3 and the
+semantic-regressions suite, VITEST_EXIT=0 TSC_EXIT=0 (543 tests). The
+i18n_semantic_regressions pins were checked against every renamed key
+FIRST (none pinned; the reword-staleness trap did not arm).
+
+### P19 RE-AUDIT EMPHASIS (for P20)
+
+- Judgment-call classifications to re-weigh: the KEEP rulings on Master
+  Angler, Arcanist, Silkbinder's Raiment, Frostgill, Silverstream,
+  Mirewarden, Quartermaster Bree (the closest call: LotRO's Bree town,
+  kept as a real given name in a different category, with recorded NPC
+  voice assets raising the rename cost), Brightwood Venison (kept on OUR
+  OWN retired-Brightwood lore, see the Brightwood Remembered deed), and
+  the Enchant <Slot> - <Stat> FORMAT (several strings match WoW classic
+  verbatim, at least Enchant Gloves - Strength and Enchant Boots -
+  Agility; ruled generic descriptors under the classification rule, but a
+  format-level departure is the maintainer's call to make).
+- Renames without a perfect substitute: Chime Dust/Essence/Shard was the
+  THIRD candidate family (Whisper collided with our chat-whisper
+  vocabulary, Gleam with WoW TWW's live Gleaming Shard in the identical
+  slot); Chime was verified against the WoW wiki by direct page fetch
+  AFTER the session's 200-search budget ran dry, so a fresh-budget
+  re-verify of Chime (plus Highpine, Osmium-as-a-tier, Inkweaver) is
+  cheap P20 insurance.
+- Out-of-scope flag from the verify round: HIGHWATCH itself is the exact
+  coined name of TERA's endgame hub city. Our Highwatch is a shipped town
+  far beyond profession scope; surfaced for the maintainer, not touched.
+- The phase file's raw_stonescale_carp premise was WRONG: the fish
+  shipped in the v0.28.0 tag (verified against the tag and its golden),
+  so the id is frozen API and only the documenting comment landed. Id/name
+  alignment would need a save-migration program, not a rename.
+- Dead-data wart: the non-en positional entity arrays in
+  src/ui/i18n.catalog/items.ts and merge.ts are consumed by nothing (the
+  resolver reads locale overlays only; traced through i18n_build.mjs and
+  a consumer grep). Renamed rows were English-filled to purge the coins
+  (Blizzard official localizations Silberblatt, 瑟银, 奥金, and 비전 were
+  lurking there and in live non-Latin fills, now gone). P20 may want a
+  chore to delete the arrays outright.
+- CJK word-boundary trap (new memory: cjk-word-boundary-rename-trap):
+  regex \b treats CJK as word characters, so English coins glued to CJK
+  prose escape ASCII \b passes AND \b-based residual scans; the landed
+  sweep used (?<![A-Za-z0-9_])coin(?![A-Za-z0-9_]) for both the replacer
+  and the detector. Any future rename sweep must do the same.
+- The AURA_NAME_KEY reverse-map desync was found by the residual sweep,
+  NOT by any gate: renaming a sim-emitted aura string requires the EN
+  DICT row, the reverse map row, and the item def aura field to move
+  together. The new guard in tests/localization_fixes.test.ts pins every
+  authored elixir aura through localizeSimAuraName plus the renamed
+  aura's zh_CN surface, mutation-checked decisive both ways.
+- Locale-policy rulings made inline (verify in re-audit): pure coin swaps
+  inside otherwise-unchanged reviewed fills were surgically retranslated
+  in place (the de-IP precedent, 7cb388883f) rather than stripped; Latin
+  fills whose existing translation already renders the NEW English were
+  KEPT (the gear-smith pair titles, the runed-weave chest enchant, the
+  localized pick-strikes-stone deed names, none of which carry the source
+  coin); Latin fills whose semantics changed were stripped to pending
+  (runed_focus, the Inkweaver pair, the quest title, the item names, the
+  koi deed desc). The five non-Latin enchantsNote fills are deliberate
+  condensed summaries that never asserted either stale claim, so the
+  truth-pass reword did not touch them.
+- Verified only by suites, not live play: renamed strings' online wire
+  behavior (names ride the entity/i18n paths; snapshots and parity green)
+  and the Steam title surface (ACH mapping untouched; the Craftsworn
+  partner-site display name is the maintainer's manual follow-up).
