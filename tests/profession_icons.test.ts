@@ -32,7 +32,7 @@ const professionsDir = path.join(publicDir, 'ui/professions');
 // The full icon id set of docs/professions-2/asset-manifest.json wave one: the ten
 // craft-wheel crafts plus the gathering skills. Derived from the sim content tables so a
 // renamed craft fails loudly here; gather_fishing now derives from the sim content like the
-// other gathering skills (fishing joined GATHERING_PROFESSION_IDS in Phase 11).
+// other gathering skills (fishing joined GATHERING_PROFESSION_IDS).
 const CRAFT_ICON_IDS = CRAFT_RING.map((c) => `prof_${c.id}`);
 const GATHER_ICON_IDS = GATHERING_PROFESSION_IDS.map((id) => `gather_${id}`);
 const RECIPE_ICON_IDS = [...CRAFT_ICON_IDS, ...GATHER_ICON_IDS];

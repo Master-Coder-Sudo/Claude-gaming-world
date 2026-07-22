@@ -1,4 +1,4 @@
-// Thin DOM consumer for the recipe-training window (Professions 2.0 Phase 9).
+// Thin DOM consumer for the recipe-training window (Professions 2.0).
 //
 // The consumer half of the pure-core + thin-consumer split (reference
 // vendor_window.ts): paints the station master's teaching ladder from the

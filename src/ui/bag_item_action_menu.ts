@@ -1,9 +1,9 @@
-// Thin DOM consumer for the bag-item action menu (Professions 2.0 Phase 13).
+// Thin DOM consumer for the bag-item action menu (Professions 2.0).
 // Composes the shared #ctx-menu popup family (the same element, .ctx-item rows,
 // placement, and bindContextMenuActions the player context menu uses; never a
-// second bespoke menu pattern) to surface the Phase 13 actions on a bag stack:
+// second bespoke menu pattern) to surface the enchanting actions on a bag stack:
 //
-//   - Right-click / touch tap on an item with a Phase 13 action opens the menu.
+//   - Right-click / touch tap on an item with an enchanting action opens the menu.
 //     Row one is the classic left-click action (so that binding survives), then
 //     Disenchant / Salvage / Apply Enchant as eligible.
 //   - Disenchant and Salvage route through the ONE canonical destroy-confirm

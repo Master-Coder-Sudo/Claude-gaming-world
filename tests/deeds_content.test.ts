@@ -89,7 +89,7 @@ describe('audited launch totals (literals: update deliberately with the catalog)
       'dgn_nythraxis_crypt',
       'chr_marsh_first_cast',
       'pvp_card_duel_first_win',
-      // Professions 2.0 Phase 15 tail (order-pinned like the block above).
+      // Professions 2.0 tail (order-pinned like the block above).
       'prog_guildsworn',
       'prog_masterwright',
       'prog_fishing_100',
@@ -164,7 +164,7 @@ describe('audited launch totals (literals: update deliberately with the catalog)
     });
   });
 
-  it('pins the Phase 15 professions additions: renown and trigger literals', () => {
+  it('pins the professions additions: renown and trigger literals', () => {
     // The Craftsworn/Masterwright pair (marquee: renown 25 plus a title each).
     expect(DEEDS.prog_guildsworn.renown).toBe(25);
     expect(DEEDS.prog_guildsworn.trigger).toEqual({
@@ -253,7 +253,7 @@ describe('audited launch totals (literals: update deliberately with the catalog)
       expect(DEEDS[id].hidden ?? false, id).toBe(false);
       expect(DEEDS[id].trigger.kind, id).toBe('visit');
     }
-    // The formerly deferred salvage pair, now that Phase 13 wired salvage on
+    // The formerly deferred salvage pair, now that salvage is wired on
     // every host; prog_ringwright stays deferred (see docs/design/deeds.md).
     expect(DEEDS.soc_first_salvage.renown).toBe(5);
     expect(DEEDS.soc_first_salvage.trigger).toEqual({
@@ -308,7 +308,7 @@ describe('frozen trigger + renown catalog (design rule 9: never retro-edit a tri
   // This new digest freezes that release contract; it is not permission for later edits.
   // Re-baselined once more at the release/v0.27.0 base merge: the catalog now also
   // carries the appended pvp_card_duel_first_win deed (Card Duel).
-  // Re-baselined for Professions 2.0 Phase 15: 26 appended professions deeds
+  // Re-baselined for Professions 2.0: 26 appended professions deeds
   // (Craftsworn, Masterwright, the fishing pair, the per-craft 50/125
   // milestones, the rare-find quartet, and the salvage pair). No shipped
   // trigger or renown changed; prog_master_gatherer had only its English desc
@@ -444,7 +444,7 @@ describe('table shape', () => {
     // DEED_ORDER derives from the table keys, so covering DEEDS is inherent;
     // what CAN drift is the authored order itself. Pin the endpoints as
     // literals: prog_first_steps opens the catalog and soc_salvage_50
-    // closes the Phase 15 tail, and either moving would signal a reorder
+    // closes the tail, and either moving would signal a reorder
     // (forbidden: the order is an append-only determinism contract; new
     // deeds append). hid_codfather's index is pinned in the refresh test.
     expect(DEED_ORDER[0]).toBe('prog_first_steps');

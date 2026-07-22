@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 
 // Online-host liveness pin for the profession intro hint row's veteran
-// refinement (Phase 15). The pure core (tests/prof_intro_hint.test.ts) and the
+// refinement. The pure core (tests/prof_intro_hint.test.ts) and the
 // generic cprof mirror pins (tests/snapshots.test.ts) each cover one hop; this
 // suite closes the wire-to-decision splice end to end: the real server cprof
 // wire (game.ts maybe('cprof', craftingIdentityFor)) lands in a real

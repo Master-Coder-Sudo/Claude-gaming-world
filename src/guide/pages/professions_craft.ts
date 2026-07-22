@@ -140,7 +140,7 @@ function factsHtml(c: GuideProfCraft): string {
 // ------------------------------------------------ per-craft prose sections
 // Craft-specific narrative (identity, materials, ladder, route; enchanting:
 // identity, leveling, market) from guide.profPages.craftProse.<craftId>.*,
-// the Phase 15 wiki-arm prose the shared sections cannot carry.
+// the craft-specific prose the shared sections cannot carry.
 function proseSection(craftId: string, slot: string, sectionId: string): string {
   return `<section class="guide-block" id="${esc(sectionId)}">
       <h2>${esc(t(`guide.profPages.craftProse.${craftId}.${slot}Heading` as TranslationKey))}</h2>

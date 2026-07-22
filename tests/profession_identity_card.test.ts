@@ -46,7 +46,7 @@ describe('profession identity card painter contract', () => {
     // armorcrafting is the Smith pair); the skill rows render craft names.
     expect(card?.textContent).toContain('Smith');
     expect(card?.textContent).toContain('Armorcrafting');
-    // Phase 14: the attuned card surfaces the make-amends return cost
+    // The attuned card surfaces the make-amends return cost
     // (requiredAmendsProgress(1) = 8, the switch-cost-at-rest figure).
     const returnCost = card?.querySelector('.profession-identity-returncost');
     expect(returnCost?.textContent).toContain('make-amends');
@@ -164,7 +164,7 @@ describe('profession identity card painter contract', () => {
     expect(button?.contains(note ?? null)).toBe(false);
     expect(note?.parentElement?.classList.contains('crafting-recipe-item')).toBe(true);
 
-    // Phase 6 legibility on the same row: the skill-req line and the
+    // Legibility on the same row: the skill-req line and the
     // difficulty LABEL render inside the button, and the difficulty is never
     // color-only (the tinted span carries the localized text, and the aria
     // name repeats both).
@@ -223,7 +223,7 @@ describe('profession identity card painter contract', () => {
     expect(badge?.classList.contains('out-of-range')).toBe(true);
     // Never a bare disabled button: the reason text sits ADJACENT, outside the
     // button's :disabled opacity (the combo-note pattern), and the aria name
-    // carries the same sentence for non-visual users. Phase 8 re-pin: the
+    // carries the same sentence for non-visual users. The
     // note now NAMES the station type (stationOutOfRangeNamed + stationName).
     expect(stationNote?.textContent).toBe('Move to the Toolworks to craft this.');
     expect(button?.contains(stationNote ?? null)).toBe(false);
@@ -232,7 +232,7 @@ describe('profession identity card painter contract', () => {
     expect(button?.querySelector('.crafting-difficulty')?.textContent).toBe('Full skill gain');
   });
 
-  it('renders the Phase 14 learn-at-master hint under a hinted craft section only', () => {
+  it('renders the learn-at-master hint under a hinted craft section only', () => {
     const parent = document.createElement('div');
     renderCraftingWindow(
       parent,
@@ -326,7 +326,7 @@ describe('profession identity card painter contract', () => {
   });
 });
 
-describe('crafting window Phase 6 QA pins', () => {
+describe('crafting window pins', () => {
   const deps = () => ({
     hideTooltip: vi.fn(),
     onCraft: vi.fn(),
@@ -418,7 +418,7 @@ describe('crafting window Phase 6 QA pins', () => {
     expect(difficulty?.textContent).toBe('No skill gain');
   });
 
-  it('maps the four difficulty states to the classic tints with their labels (Phase 12c)', () => {
+  it('maps the four difficulty states to the classic tints with their labels', () => {
     // The classic four-color read: orange (QUALITY_COLOR.legendary), the
     // house gold yellow (--gold in styles/tokens.css, the masterwork seal
     // idiom), green (QUALITY_COLOR.uncommon), gray (QUALITY_COLOR.poor).
@@ -543,7 +543,7 @@ describe('crafting window Phase 6 QA pins', () => {
   });
 });
 
-describe('crafting difficulty token lockstep (Phase 12c QA, retuned to tokens)', () => {
+describe('crafting difficulty token lockstep (retuned to tokens)', () => {
   it('the --color-craft-* tokens carry the classic palette and the house gold', () => {
     // The successor to the retired GOLD_ACCENT_COLOR TS twin: the difficulty
     // tints live as semantic tokens in tokens.css. full/minimal/none must

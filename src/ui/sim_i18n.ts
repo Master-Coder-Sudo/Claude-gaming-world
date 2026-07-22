@@ -67,7 +67,7 @@ const baseEnTable = {
   'error.notForSale': 'That item is not for sale.',
   'error.noMerchant': 'There is no merchant nearby.',
   'error.noSellQuest': 'You cannot sell quest items.',
-  // Phase 15 QA directed fix: sellItem refuses a bound (boundTo-stamped) copy so
+  // Bind invariant: sellItem refuses a bound (boundTo-stamped) copy so
   // the vendor can never launder the Maker's Bond into a plain buyback copy.
   'error.sellBound': 'That item is bound and cannot be sold.',
   'error.noBuyback': 'That item is not available for buyback.',
@@ -221,7 +221,7 @@ const baseEnTable = {
   'aura.tamed': 'Tamed',
   'aura.causticSpores': 'Caustic Spores',
   'aura.elixirBear': 'Might of the Bear',
-  // Phase 10 crafted alchemy elixir auras (content/profession_items.ts): the
+  // Crafted alchemy elixir auras (content/profession_items.ts): the
   // buff_sta aura name shown on the buff bar / combat log when the crafted elixir
   // is quaffed, localized the same way as elixirBear.
   'aura.elixirBoar': 'Might of the Boar',
@@ -5851,7 +5851,7 @@ const AURA_NAME_KEY: Record<string, SimMessageKey> = {
   'Temporal Exhaustion': 'aura.temporalExhaustion',
   'Cauterize Fatigue': 'aura.cauterizeFatigue',
   'Might of the Bear': 'aura.elixirBear',
-  // Phase 10 crafted alchemy elixir auras (content/profession_items.ts): the
+  // Crafted alchemy elixir auras (content/profession_items.ts): the
   // buff_sta aura display name each crafted elixir pushes on use.
   'Might of the Boar': 'aura.elixirBoar',
   'Vipersear Vigor': 'aura.elixirVenomfire',

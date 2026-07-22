@@ -3506,7 +3506,7 @@ function itemFallback(id: string): IconRecipe | null {
       : r('drink', 'sky', ['waterskin']);
   }
   if (it.kind === 'potion' || it.kind === 'elixir') {
-    // Crafted consumables without curated art (the Phase 10 draughts and
+    // Crafted consumables without curated art (the trained-ladder draughts and
     // elixirs) render the flask, tinted by function, instead of falling
     // through to the trinket arm below.
     const pal: PaletteName = has(name, ['healing'])
@@ -4416,8 +4416,8 @@ export function iconDataUrl(kind: IconKind, id: string, size: number = DEFAULT_I
 // ---------------------------------------------------------------------------
 // Profession icons (Professions 2.0): the ten craft-wheel crafts plus the
 // gathering skills, consumed by the professions window via professionIconUrl.
-// Ids follow docs/professions-2/asset-manifest.json (prof_<craftId>,
-// gather_<skill>). Committed painted art under public/ui/professions/
+// Ids follow the prof_<craftId> / gather_<skill> convention (see
+// docs/design/professions.md). Committed painted art under public/ui/professions/
 // (PROFESSION_IMAGE_IDS, normalized by scripts/convert_profession_icons_webp.mjs)
 // wins over the procedural recipe, mirroring the item/deed image sets.
 // ---------------------------------------------------------------------------

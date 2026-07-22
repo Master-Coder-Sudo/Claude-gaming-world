@@ -1,8 +1,7 @@
-// Phase 13 QA: the INTERLEAVED race arm the build session left unpinned.
-// Added by the QA session. Destroy commands (disenchant_item/salvage_item/
+// The INTERLEAVED race arm. Destroy commands (disenchant_item/salvage_item/
 // apply_enchant) racing a concurrent trade of the same item, and racing
 // concurrent inv_move reorders, over the REAL online dispatch path (live
-// in-process GameServer, the tests/professions_p13_coverage.test.ts recipe).
+// in-process GameServer, the tests/professions_bind_on_trade_online.test.ts recipe).
 // Every scenario asserts CONSERVATION: total copies across both players plus
 // destructions balances exactly; no dupe, no double-destroy, coherent lastX.
 import { describe, expect, it, vi } from 'vitest';

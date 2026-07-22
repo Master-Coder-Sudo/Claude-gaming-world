@@ -1,4 +1,4 @@
-// Phase 13 QA coverage closures, added by the QA session. Closes the
+// Enchanting and salvage edge coverage closures. Closes the
 // decisive-pin gaps the shipped suites left open:
 //   1. The rare+ NO-typed-material (jewelry) resolve arm: primary only, ZERO
 //      rng draws, even at epic where a typed secondary WOULD ride a draw. The
@@ -251,8 +251,8 @@ describe('salvage unknown_item reason (Sim delegate)', () => {
 });
 
 // ---------------------------------------------------------------------------
-// 5. tradeConfirm's capacity model vs the bind-on-trade stamp (found by this
-//    QA session's capacity probe): grantOffer stamps boundTo onto an armed
+// 5. tradeConfirm's capacity model vs the bind-on-trade stamp (the capacity
+//    probe): grantOffer stamps boundTo onto an armed
 //    copy as it arrives, and a stamped payload merges differently than the
 //    giver's pre-stamp copy, so fitsAfterSwap must model the STAMPED arrival
 //    (#2139: a capacity pre-check that disagrees with the real grant re-opens

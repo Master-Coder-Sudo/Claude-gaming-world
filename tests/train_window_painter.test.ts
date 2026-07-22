@@ -7,7 +7,7 @@
 // every row, and the card-fill hover restores in CSS (jsdom runs no layout,
 // so the cascade arms are pinned at the source). The pure ladder model is
 // tests/train_view.test.ts; the unbind window's matching arms are pinned in
-// tests/professions_p14b_commissions_ui.test.ts.
+// tests/professions_commissions_ui.test.ts.
 
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';

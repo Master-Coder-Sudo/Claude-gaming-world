@@ -1,10 +1,10 @@
 // @vitest-environment jsdom
 
-// Professions 2.0 Phase 14b UI: the commission opt-in control in the crafting
+// Professions 2.0 UI: the commission opt-in control in the crafting
 // window (pure-core eligibility flag + the painter's pill toggle-chip + the
 // Hud-held state contract), and the Maker's Bond unbind window (unbind_view
 // pure core + unbind_window painter). The sim-side arcs live in
-// tests/professions_p14b_commissions.test.ts.
+// tests/professions_commissions.test.ts.
 
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';

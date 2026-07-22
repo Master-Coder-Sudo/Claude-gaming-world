@@ -5203,7 +5203,7 @@
     font-size: 10.5px;
     line-height: 1.35;
   }
-  /* Phase 6 legibility: the skill-req / difficulty / station line inside the
+  /* Legibility: the skill-req / difficulty / station line inside the
      recipe button. The difficulty tint comes from the --color-craft-* tokens
      via the data attribute (never an inline color) with its text label always
      adjacent, so the info is never color-only; no new tap targets (the whole
@@ -5238,7 +5238,7 @@
   .crafting-station-badge.out-of-range {
     border-style: dashed;
   }
-  /* Phase 14 discoverability: the per-section "learnable at a master" hint,
+  /* Discoverability: the per-section "learnable at a master" hint,
      shown under a craft section when the viewer has unlearned trainer recipes
      for that craft. Muted guidance text, informational only (no tap target),
      identical on every graphics preset. */
@@ -5261,7 +5261,7 @@
     padding-top: 6px;
   }
 
-  /* ---------- profession first-tier tutorial (Phase 14) ---------- */
+  /* ---------- profession first-tier tutorial ---------- */
   /* The once-ever explainer modal (profession_tutorial_window.ts), reusing the
      confirm-dialog modal family (.window.panel shell, .cd-body/.cd-actions). A
      bounded, centered modal; body-appended (see the layout.css --window-scale:1
@@ -5383,7 +5383,7 @@
     opacity: 0.45;
   }
 
-  /* ---------- Maker's Bond unbind window (Professions 2.0 Phase 14b) ---------- */
+  /* ---------- Maker's Bond unbind window (Professions 2.0) ---------- */
   /* The station master's unbind service: shares the train window's card rules
      above (.unbind-row rides the same inset-card, socket, and fee-chip
      treatment); only the intro line lives here. */
@@ -5634,7 +5634,7 @@
       0 0 3px #000;
     pointer-events: none;
   }
-  /* Instanced-copy marker (Professions 2.0 Phase 12d): a static gold corner
+  /* Instanced-copy marker (Professions 2.0): a static gold corner
      tab on every per-copy (signed/enchanted/masterwork) stack, always visible
      on the cell itself on desktop and touch (information-add, identical on
      every graphics preset, so no --fx-* gate). Top-left, clear of the

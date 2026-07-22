@@ -1,5 +1,4 @@
-// Thin DOM consumer for the Maker's Bond unbind window (Professions 2.0
-// Phase 14b).
+// Thin DOM consumer for the Maker's Bond unbind window (Professions 2.0).
 //
 // The consumer half of the pure-core + thin-consumer split (reference
 // train_window.ts): paints the station master's unbind service from the

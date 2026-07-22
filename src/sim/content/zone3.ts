@@ -1211,7 +1211,7 @@ export const ZONE3_NPCS: Record<string, NpcDef> = {
     questIds: [],
     greeting: 'The mountain forgets nothing, $N, and neither do I. Let us see what you have done.',
   },
-  // Crafting-station master (Professions 2.0 Phase 8): stands beside the
+  // Crafting-station master (Professions 2.0): stands beside the
   // Highwatch apothecary (content/professions.ts STATIONS), east of the
   // well with a guard-safe camp margin.
   alchemist_verane: {
@@ -1221,7 +1221,7 @@ export const ZONE3_NPCS: Record<string, NpcDef> = {
     pos: { x: 8.5, z: 658 },
     facing: -0.4,
     color: 0x58b09c,
-    // Professions 2.0 Phase 14: the Highwatch apothecary master runs the
+    // Professions 2.0: the Highwatch apothecary master runs the
     // repeatable alchemy work order.
     questIds: ['q_prof_workorder_apothecary'],
     vendorItems: [
@@ -1890,7 +1890,7 @@ export const ZONE3_QUESTS: Record<string, QuestDef> = {
     minLevel: 20,
     suggestedPlayers: 10,
   },
-  // Repeatable craft work order (Professions 2.0 Phase 14): Alchemist Verane
+  // Repeatable craft work order (Professions 2.0): Alchemist Verane
   // buys goldleaf on the shared cadence (WORK_ORDER_CADENCE_TICKS); the collect
   // turn-in consumes the herbs. copperReward is floor(0.5 * summed sell value of
   // the requested herbs); xpReward matches the make-amends repeatable band.

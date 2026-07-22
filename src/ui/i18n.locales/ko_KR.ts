@@ -7252,7 +7252,7 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
     '이 조합 제작법에 필요한 두 제작 기술의 숙련도에 도달하지 못했습니다.',
   'hudChrome.crafting.throttled': '너무 빨리 제작하고 있습니다. 잠시 후 다시 시도하세요.',
   'hudChrome.crafting.recipeNotLearned': '아직 그 제작법을 배우지 않았습니다.',
-  // Professions 2.0 Phase 14 (M16 non-Latin fills).
+  // Professions 2.0 (M16 non-Latin fills).
   'hudChrome.crafting.attunementReturnCost':
     '이 조합을 떠나면 나중에 다시 돌아올 때 속죄 과제 {cost}개가 필요합니다.',
   'hudChrome.crafting.learnMoreAtStation':
@@ -8473,7 +8473,7 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchanting.targetTitle': '마법부여할 아이템을 선택하세요',
   'hudChrome.enchanting.noEnchants': '이 재료를 사용하는 마법부여가 없습니다.',
   'hudChrome.enchanting.noTargets': '마법부여할 수 있는 아이템이 없습니다.',
-  // Professions 2.0 Phase 14 attunement quests + master tier letters (ko_KR M16 fills).
+  // Professions 2.0 attunement quests + master tier letters (ko_KR M16 fills).
   'entities.quests.q_prof_attune_smith.title': '대장장이의 약속',
   'entities.quests.q_prof_attune_smith.text':
     '강철은 흔들리는 손을 용서하지 않지. 그러니 무엇을 맹세하기 전에 분명히 일러 두겠다. 내 화로에 몸을 맡기면 무기 제작과 방어구 제작이 네 두 주 전공이 되고, 희귀 등급 작업 너머로 끌고 갈 수 있는 기술은 그 둘뿐이다. 수레바퀴 반대편의 기술은 취미로 곁에 남아 희귀 등급까지만 닿고 더는 못 간다. 나머지 생업이 불타 사라지는 것은 아니다, {playerName}. 그저 조용히 잠들어, 네가 다시 부를 때까지 잠든 채로 있을 뿐이다. 그리고 망치가 떨어지기 전에 알아 두어라. 이 짝을 버리고 다른 짝으로 옮겼다가 돌아오려면 정직한 노동으로 기어 돌아와야 한다. 처음 돌아올 땐 적 다섯을 쓰러뜨리고, 다음엔 여덟, 그다음엔 열하나, 벗어날수록 매번 더 무거워진다. 아직 여기 서 있느냐? 그렇다면 베일에서 네 손으로 직접 캐낸 광맥 셋을 가져오너라. 그러면 약속이 맺어진 것으로 하겠다.',
@@ -8619,7 +8619,7 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'entities.letters.prof_tier_engineering_alchemy_5.subject': '통달이야, 콰광',
   'entities.letters.prof_tier_engineering_alchemy_5.body':
     '네 주 전공 하나가 통달을 찍었어, 바로 그 꼭대기, 콰광, 사다리 통째로, 끝. 나는 칭찬 같은 거 안 나눠 줘, 도화선을 나눠 주지, 그런데 여기, 둘 다 받아. 넌 눈부시고 살짝 무서워. 가서 산들이 조마조마하게 만들어.',
-  // Professions 2.0 Phase 14 master tier-letter senders (localized NPC names).
+  // Professions 2.0 master tier-letter senders (localized NPC names).
   'entities.letters.prof_tier_weaponcrafting_armorcrafting_1.sender': '단조사 다르바',
   'entities.letters.prof_tier_weaponcrafting_armorcrafting_2.sender': '단조사 다르바',
   'entities.letters.prof_tier_weaponcrafting_armorcrafting_3.sender': '단조사 다르바',
@@ -8640,7 +8640,7 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'entities.letters.prof_tier_engineering_alchemy_3.sender': '땜장이 기즐',
   'entities.letters.prof_tier_engineering_alchemy_4.sender': '땜장이 기즐',
   'entities.letters.prof_tier_engineering_alchemy_5.sender': '땜장이 기즐',
-  // Commissions and the Maker's Bond (Professions 2.0 Phase 14b).
+  // Commissions and the Maker's Bond (Professions 2.0).
   'hudChrome.crafting.commissionToggle': '주문 제작품으로 제작',
   'hudChrome.crafting.commissionToggleHint': '거래로 처음 받는 캐릭터에게 귀속됩니다.',
   'hudChrome.crafting.commissionUnbound': '주문 제작품: 첫 수령인에게 귀속됩니다',
@@ -8663,7 +8663,7 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.unbind.notBound': '그 아이템은 귀속되어 있지 않습니다.',
   'hudChrome.unbind.cannotAfford': '귀속 해제 수수료를 지불할 수 없습니다.',
   'hudChrome.unbind.outOfRange': '귀속을 해제하려면 작업대 옆에 있어야 합니다.',
-  // Professions 2.0 Phase 15 wiki arm: the professions hub rewrite and the
+  // Professions 2.0 wiki arm: the professions hub rewrite and the
   // /wiki/professions detail pages (M16 non-Latin fills, added with the keys).
   'guide.professions.ringHeading': '제작의 원환',
   'guide.professions.ringBody':
@@ -8891,7 +8891,7 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'guide.profPages.faq.q8': '원형을 바꿀 수 있나요?',
   'guide.profPages.faq.a8':
     '한 번도 지니지 않았던 짝은 새 조율 퀘스트 하나면 되고, 예전에 지녔던 짝으로 돌아가려면 대가가 점점 커지는 속죄 심부름을 마쳐야 한다.',
-  // Professions 2.0 Phase 15 wiki arm, final prose sections (M16 non-Latin
+  // Professions 2.0 wiki arm, final prose sections (M16 non-Latin
   // fills for the NEW keys; item, NPC, and deed names stay English, the baked
   // proper-noun precedent).
   'guide.professions.whatHeading': '검 곁의 생업',

@@ -29,7 +29,7 @@ import { qualityGlowShadow } from './quality_glow';
 import { svgIcon } from './ui_icons';
 
 // Skill-gain difficulty labels, the classic four-color recipe intuition
-// (Phase 12c): orange = full gains, yellow = reduced, green = minimal,
+// orange = full gains, yellow = reduced, green = minimal,
 // gray = none. The tints live in CSS (`.crafting-difficulty[data-difficulty]`
 // over the --color-craft-* tokens in tokens.css), keyed by the data attribute
 // painted here. A tint is only ever a HINT: the adjacent difficulty LABEL and
@@ -42,7 +42,7 @@ const DIFFICULTY_LABEL_KEY: Record<CraftDifficulty, TranslationKey> = {
   none: 'hudChrome.crafting.difficultyNone',
 } as const;
 
-// Station display names (Professions 2.0 Phase 8): StationType id -> the
+// Station display names (Professions 2.0): StationType id -> the
 // localized station name, same id-to-key table shape as craftNameText
 // (char_window.ts) so the deny toast (hud.ts) and the window rows below
 // never drift. Full literal keys on purpose (the key scanner reads them).
@@ -64,7 +64,7 @@ export interface CraftingWindowDeps extends PainterHostPresentation {
   hideTooltip(): void;
   onCraft(recipeId: string): void;
   onClose(): void;
-  /** Commission opt-in state (Professions 2.0 Phase 14b), held by the HUD so
+  /** Commission opt-in state (Professions 2.0), held by the HUD so
    *  it survives the window's staleness repaints: whether `recipeId` is
    *  currently opted in, and the toggle callback the per-row checkbox fires.
    *  The painter renders the control only on commissionEligible rows. */
@@ -77,7 +77,7 @@ export interface CraftingWindowDeps extends PainterHostPresentation {
   onSelectCraft(professionId: string): void;
 }
 
-/** Paint the crafting panel from a prepared view. `learnHints` (Phase 14) maps a
+/** Paint the crafting panel from a prepared view. `learnHints` maps a
  *  craft id to the station + master where the viewer can learn recipes they have
  *  not learned; the selected craft renders its "learnable at a master" hint iff
  *  its craft is present. */
@@ -162,7 +162,7 @@ export function renderCraftingWindow(
     section.appendChild(sectionLabel);
     body.appendChild(section);
 
-    // Phase 14 "learnable at a master" hint: shown once under the craft header
+    // The "learnable at a master" hint: shown once under the craft header
     // when the viewer has unlearned trainer recipes for this craft, naming the
     // resident master (entity i18n) and their station. Informational text (no
     // tap target), identical on every graphics preset (never tier-gated).
@@ -239,7 +239,7 @@ export function renderCraftingWindow(
         : '';
       const comboAccessible = comboLine ? `. ${comboLine} ${comboStatus}` : '';
 
-      // Phase 6 legibility: the skill-req line, the skill-gain difficulty
+      // Legibility: the skill-req line, the skill-gain difficulty
       // label, and the hub-station badge. All three are actionable info, so
       // each is TEXT (tint is a redundant hint), folded into the aria name,
       // and identical on every graphics preset/tier.

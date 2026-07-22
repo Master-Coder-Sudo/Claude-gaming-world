@@ -1,12 +1,12 @@
-// Typed disenchant secondaries (Professions 2.0 Phase 13): the rare-or-better
+// Typed disenchant secondaries (Professions 2.0): the rare-or-better
 // disenchant secondary material, keyed by the disenchanted piece's own material
 // so an armor set and a weapon set feed distinct reagent lines. Armor keys off
 // its armor class (cloth/leather/mail); a weapon keys off its family (a melee
 // bucket yields steel, a caster/ranged haft-or-stock bucket yields timber).
 // Below `rare` (and for a piece with no typed material, e.g. jewelry, which
 // carries no armor class) there is no typed secondary, so the caller grants
-// only the universal ladder material and stays byte-identical to the pre-Phase
-// 13 yield.
+// only the universal ladder material and stays byte-identical to the
+// pre-typed-secondary yield.
 //
 // A pure `src/sim` leaf: no SimContext, no rng, no clock, no DOM/Three/render/
 // ui/game/net imports (enforced by tests/architecture.test.ts). The

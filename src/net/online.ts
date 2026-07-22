@@ -1423,11 +1423,11 @@ export class ClientWorld implements IWorld {
   // Craft-result surface (#1127), mirrored from the server's `craftResult`
   // event (applyEvent below). Null until this session's first craft attempt.
   lastCraftResult: CraftResultView | null = null;
-  // Masterwork proc surface (Professions 2.0 Phase 2), mirrored LIVE from the
+  // Masterwork proc surface (Professions 2.0), mirrored LIVE from the
   // server's `masterwork` event (applyMasterworkEvent below), exactly like
   // lastCraftResult above. Null until this session's first masterwork proc.
   lastMasterwork: MasterworkView | null = null;
-  // Enchanting-action outcome surfaces (Professions 2.0 Phase 13), each mirrored
+  // Enchanting-action outcome surfaces (Professions 2.0), each mirrored
   // from BOTH the server's pid-scoped disenchantResult/enchantResult/salvageResult
   // event (applyDisenchantResultEvent/applyEnchantResultEvent/applySalvageResultEvent
   // below, the immediacy arm) AND the denc/ench/salv self-delta (applySnapshot, the
@@ -1436,7 +1436,7 @@ export class ClientWorld implements IWorld {
   lastDisenchantResult: DisenchantResultView | null = null;
   lastEnchantResult: ApplyEnchantResultView | null = null;
   lastSalvageResult: SalvageResultView | null = null;
-  // The viewer's own active mobile crafting station (Professions 2.0 Phase 8),
+  // The viewer's own active mobile crafting station (Professions 2.0),
   // mirrored from the server's `mst` self-delta (applySnapshot below). The
   // server computes the active/expired state against its own tickCount, so
   // this is always a server-authoritative value: placement is never predicted
@@ -2829,7 +2829,7 @@ export class ClientWorld implements IWorld {
       // mst -> activeMobileStationCraft: a nullable scalar, so the delta's
       // explicit null (station expired or never placed) must overwrite.
       if (s.mst !== undefined) this.activeMobileStationCraft = (s.mst as string | null) ?? null;
-      // Enchanting-action outcome mirrors (Professions 2.0 Phase 13): the
+      // Enchanting-action outcome mirrors (Professions 2.0): the
       // convergence arm for lastDisenchantResult/lastEnchantResult/lastSalvageResult
       // (the event mirror above is the immediacy arm; both feed the same field).
       // Server-diffed per tick, so two identical consecutive deny results produce
@@ -2853,16 +2853,16 @@ export class ClientWorld implements IWorld {
           switchCount: cprof.switchCount ?? 0,
           amendsProgress: cprof.amendsProgress ?? 0,
           amendsRequired: cprof.amendsRequired ?? 0,
-          // Phase 9: the learned-recipe mirror. The identity is replaced
+          // The learned-recipe mirror. The identity is replaced
           // wholesale on every cprof delta (see the comment above), so a
           // train_recipe grant goes live the tick the server re-emits cprof
           // (its JSON diff fires on the sorted array changing). The ?? []
-          // keeps a pre-Phase-9 server's payload loading cleanly.
+          // keeps an older server's payload (without the field) loading cleanly.
           knownRecipes: [...(cprof.knownRecipes ?? [])],
-          // Phase 14: the server-computed work-order cooldown set (against ITS
+          // The server-computed work-order cooldown set (against ITS
           // tickCount). questState() feeds it into computeQuestState so a work
           // order on cooldown shows unavailable on the client too. The ?? []
-          // keeps a pre-Phase-14 server's payload loading cleanly.
+          // keeps an older server's payload (without the field) loading cleanly.
           cadenceBlockedQuests: [...(cprof.cadenceBlockedQuests ?? [])],
         };
       }
@@ -2937,7 +2937,7 @@ export class ClientWorld implements IWorld {
 
   questState(questId: string): QuestState {
     const identity = this.craftingIdentity;
-    // Phase 14: the server-computed work-order cooldown set rides cprof and gates
+    // The server-computed work-order cooldown set rides cprof and gates
     // computeQuestState here exactly as it does server-side (the offline Sim
     // re-derives the same set from live PlayerMeta.questCadence).
     const cadenceBlocked =
@@ -3184,7 +3184,7 @@ export class ClientWorld implements IWorld {
   harvestNode(nodeId: string): Promise<boolean> {
     return this.cmdWithOutcome({ cmd: 'harvest_node', node: nodeId });
   }
-  // `commission` (Professions 2.0 Phase 14b): the boolean Maker's Bond
+  // `commission` (Professions 2.0): the boolean Maker's Bond
   // opt-in, sent ONLY when true so a non-commission craft's wire message
   // stays byte-identical to the pre-phase form. The server mints the
   // bindOnTrade arm itself; no payload ever rides the command.
@@ -3198,13 +3198,13 @@ export class ClientWorld implements IWorld {
   placeMobileStation(craftId: string): void {
     this.cmd({ cmd: 'place_mobile_station', craft: craftId });
   }
-  // Recipe training (Professions 2.0 Phase 9): command only, never predicted.
+  // Recipe training (Professions 2.0): command only, never predicted.
   // The server resolves resolveTrain and answers with the personal
   // trainResult event; the learned set mirrors back via the cprof delta.
   trainRecipe(recipeId: string): void {
     this.cmd({ cmd: 'train_recipe', recipe: recipeId });
   }
-  // Enchanting profession commands (Professions 2.0 Phase 13): command only,
+  // Enchanting profession commands (Professions 2.0): command only,
   // never predicted. The server re-validates ownership/eligibility/throttle in
   // the sim resolvers and answers with the personal disenchantResult/
   // enchantResult/salvageResult event plus the denc/ench/salv self-delta.
@@ -3217,7 +3217,7 @@ export class ClientWorld implements IWorld {
   salvageItem(itemId: string): void {
     this.cmd({ cmd: 'salvage_item', item: itemId });
   }
-  // Maker's Bond unbind service (Professions 2.0 Phase 14b): command only,
+  // Maker's Bond unbind service (Professions 2.0): command only,
   // never predicted. The server re-validates eligibility/bound-ness/station
   // range/fee in src/sim/professions/commission.ts and answers with the
   // personal unbindResult event; the cleared payload mirrors back via the
@@ -3883,15 +3883,15 @@ export class ClientWorld implements IWorld {
     };
   }
   // Mirror the authoritative masterwork event into lastMasterwork
-  // (Professions 2.0 Phase 2), modeled exactly on applyCraftResultEvent
+  // (Professions 2.0), modeled exactly on applyCraftResultEvent
   // above. The event still flows to the HUD (drainEvents) for a future
-  // Phase 6 toast.
+  // toast.
   private applyMasterworkEvent(ev: SimEvent): void {
     if (ev.type !== 'masterwork') return;
     this.lastMasterwork = { recipeId: ev.recipeId, itemId: ev.itemId, crafter: ev.crafter };
   }
   // Mirror the authoritative enchanting-action outcomes into their lastX field
-  // (Professions 2.0 Phase 13), each modeled exactly on applyCraftResultEvent
+  // (Professions 2.0), each modeled exactly on applyCraftResultEvent
   // above (the immediacy arm; the denc/ench/salv self-delta is the convergence
   // arm in applySnapshot). The events still flow to the HUD (drainEvents) for a
   // toast/log line.

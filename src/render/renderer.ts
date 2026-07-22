@@ -3650,7 +3650,7 @@ export class Renderer {
         this.prebuildDelveInteriors(ev.delveId);
         break;
       case 'fishingBite': {
-        // Personal bite signal (Professions 2.0 Phase 12b): only the angler's
+        // Personal bite signal (Professions 2.0): only the angler's
         // own client receives it, so flipping their bobber into the bite
         // state here is correct (bystanders keep the idle float).
         this.fishingBobbers.bite(ev.pid);

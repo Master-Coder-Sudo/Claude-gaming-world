@@ -1,4 +1,4 @@
-// Per-copy item-instance tooltip lines (Professions 2.0 Phase 6): the
+// Per-copy item-instance tooltip lines (Professions 2.0): the
 // ItemInstancePayload additions the item tooltip composes around its def-driven
 // card, as pure string builders so every instance variant is Node-testable.
 // Composition order in the tooltip: badge lines (masterwork seal, enchanted
@@ -42,8 +42,8 @@ export function itemNumber(value: number, fractionDigits = 0): string {
   });
 }
 
-/** The WORN-slot tooltip payload (Professions 2.0 Phase 14b): exactly the
- *  fields the public eqi wire carries (signer/enchant/rolled, the Phase 12d
+/** The WORN-slot tooltip payload (Professions 2.0): exactly the
+ *  fields the public eqi wire carries (signer/enchant/rolled, the
  *  worn-identity trim), so the offline paperdoll and the online mirror
  *  render identical worn tooltips. Online, equippedInstances is decoded from
  *  the stripped eqi allowlist and never carries bindOnTrade/boundTo/charges;
@@ -62,11 +62,11 @@ export function wornTooltipInstance(
   return worn;
 }
 
-/** The Maker's Bond lines (Professions 2.0 Phase 14b), rendered in the def
+/** The Maker's Bond lines (Professions 2.0), rendered in the def
  *  soulbound line's gold beside it: a commissioned-but-unbound piece warns it
  *  binds to its first trade recipient, a bound piece states the lock. Scoped
  *  to the commission-eligible equipment kinds ONLY (commission.ts), so the
- *  Phase 13 bind-on-trade reagents (kind 'junk') keep their line-free
+ *  bind-on-trade reagents (kind 'junk') keep their line-free
  *  tooltips. The bound line deliberately names NO one: boundTo is an entity
  *  id, not a stable cross-session identity, so a name lookup (or a "you"
  *  compare) could silently lie after a relog; presence alone is the fact the
@@ -119,7 +119,7 @@ export function instanceBonusStatLines(instance?: ItemInstancePayload): string {
 }
 
 /** Whether a signed copy of this item KIND reads as a gathered material
- *  (Professions 2.0 Phase 12d). Every signable gathered item (node materials,
+ *  (Professions 2.0). Every signable gathered item (node materials,
  *  corpse components, Pristine specimens) is kind 'junk', while every crafted
  *  recipe output lands on the equip/consume kinds (weapon, armor, food,
  *  potion, elixir, tool, bag), so the signed universe partitions cleanly on
@@ -131,7 +131,7 @@ export function isGatheredProvenanceKind(kind: ItemDef['kind'] | undefined): boo
 }
 
 /** The classic "Crafted by X" flavor line for a signed copy, or "Gathered by
- *  X" when the item's kind marks it as a gathered material (Phase 12d). No
+ *  X" when the item's kind marks it as a gathered material. No
  *  payload change: the same eqi signer field feeds both wordings. Legacy
  *  signed instances (signer without the masterwork flag) render the mark
  *  alone. */

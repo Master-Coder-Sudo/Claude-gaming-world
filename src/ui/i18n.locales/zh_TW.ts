@@ -6909,7 +6909,7 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'hudChrome.crafting.comboRequirementUnmet': '你尚未達到該配方所需組合的兩項製造技能等級。',
   'hudChrome.crafting.throttled': '你製作得太快了，請稍等片刻後再試。',
   'hudChrome.crafting.recipeNotLearned': '你還沒有學會這個配方。',
-  // Professions 2.0 Phase 14 (M16 non-Latin fills).
+  // Professions 2.0 (M16 non-Latin fills).
   'hudChrome.crafting.attunementReturnCost':
     '若你離開這個組合，日後想要重歸需要完成 {cost} 項補償任務。',
   'hudChrome.crafting.learnMoreAtStation': '{station}的{master}可以教你更多{craft}配方。',
@@ -8080,7 +8080,7 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchanting.targetTitle': '選擇要附魔的物品',
   'hudChrome.enchanting.noEnchants': '沒有附魔會用到此材料。',
   'hudChrome.enchanting.noTargets': '沒有可附魔的合適物品。',
-  // Professions 2.0 Phase 14 attunement quests + master tier letters (zh_TW M16 fills).
+  // Professions 2.0 attunement quests + master tier letters (zh_TW M16 fills).
   'entities.quests.q_prof_attune_smith.title': '鐵匠的誓約',
   'entities.quests.q_prof_attune_smith.text':
     '鋼鐵不寬待三心二意的手，所以在你立下任何誓言之前，我把話說明白。把自己託付給我的鍛爐，武器鍛造與護甲鍛造便成為你的兩門主修，也是唯一能讓你推進到稀有品質以上的技藝。與它們在技藝之輪對面的那一門，會安頓為你的嗜好，最多做到稀有便不再前進。你其餘的手藝不會就此燒盡，{playerName}：它們只是靜下來，陷入沉睡，直到你重新喚醒。趁鐵鎚落下之前記住這一點：拋下這一對去追別的，將來就得靠踏實的勞作一步步爬回來，第一次回頭得放倒五名敵人，第二次八名，再一次十一名，你越是遊移，代價越重。還站在這裡？那就親手從谷地開採三條礦脈的礦石帶來，這誓約便算締結。',
@@ -8223,7 +8223,7 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'entities.letters.prof_tier_engineering_alchemy_5.subject': '精通，轟',
   'entities.letters.prof_tier_engineering_alchemy_5.body':
     '你的一門主修撞上了精通，最頂端，轟，整道梯子，登頂了。我不發誇獎，我發引信，不過這回，兩樣都拿去：你才華橫溢，還有點嚇人。去讓群山也緊張緊張吧。',
-  // Professions 2.0 Phase 14 master tier-letter senders (localized NPC names).
+  // Professions 2.0 master tier-letter senders (localized NPC names).
   'entities.letters.prof_tier_weaponcrafting_armorcrafting_1.sender': '達爾瓦鍛造師',
   'entities.letters.prof_tier_weaponcrafting_armorcrafting_2.sender': '達爾瓦鍛造師',
   'entities.letters.prof_tier_weaponcrafting_armorcrafting_3.sender': '達爾瓦鍛造師',
@@ -8244,7 +8244,7 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'entities.letters.prof_tier_engineering_alchemy_3.sender': '吉澤爾修補匠',
   'entities.letters.prof_tier_engineering_alchemy_4.sender': '吉澤爾修補匠',
   'entities.letters.prof_tier_engineering_alchemy_5.sender': '吉澤爾修補匠',
-  // Commissions and the Maker's Bond (Professions 2.0 Phase 14b).
+  // Commissions and the Maker's Bond (Professions 2.0).
   'hudChrome.crafting.commissionToggle': '委託製品',
   'hudChrome.crafting.commissionToggleHint': '將綁定給交易中第一個收到它的角色。',
   'hudChrome.crafting.commissionUnbound': '委託製品：將綁定給第一位收貨人',
@@ -8266,7 +8266,7 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'hudChrome.unbind.notBound': '該物品未綁定。',
   'hudChrome.unbind.cannotAfford': '你付不起解綁費用。',
   'hudChrome.unbind.outOfRange': '你必須站在對應的工作臺旁才能解綁。',
-  // Professions 2.0 Phase 15 wiki arm: the professions hub rewrite and the
+  // Professions 2.0 wiki arm: the professions hub rewrite and the
   // /wiki/professions detail pages (M16 non-Latin fills, added with the keys).
   'guide.professions.ringHeading': '製作之輪',
   'guide.professions.ringBody':
@@ -8487,7 +8487,7 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'guide.profPages.faq.q8': '我能更換命途嗎？',
   'guide.profPages.faq.a8':
     '從未持有過的組合只需一次全新的調諧任務，而回到曾經持有的組合則需要完成代價遞增的贖罪差事。',
-  // Professions 2.0 Phase 15 wiki arm, final prose sections (M16 non-Latin
+  // Professions 2.0 wiki arm, final prose sections (M16 non-Latin
   // fills for the NEW keys; item, NPC, and deed names stay English, the baked
   // proper-noun precedent).
   'guide.professions.whatHeading': '劍之外的一門手藝',

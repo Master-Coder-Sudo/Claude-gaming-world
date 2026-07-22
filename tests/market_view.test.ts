@@ -233,7 +233,7 @@ describe('market_view: sell states', () => {
 
   it('caps the buyValue suggestion at 10x sell value for re-priced items', () => {
     // tanned_leather_jerkin kept its historical shop buyValue (1600c) when the
-    // Phase 15 burn-down re-priced its sellValue to 80c, so a raw buyValue read
+    // sellValue was re-priced to 80c, so a raw buyValue read
     // would suggest a 20x ask. The cap clamps to sellValue * 10 = 800c (8s);
     // convention-priced items (buyValue exactly 10x sell) are unaffected, which
     // the healing_potion pin above proves (170c < its 320c cap, taken as-is).

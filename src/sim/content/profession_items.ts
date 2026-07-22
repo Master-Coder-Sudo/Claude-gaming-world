@@ -1,4 +1,4 @@
-// Phase 10 profession materials: dedicated corpse-harvest components, their
+// Profession materials: dedicated corpse-harvest components, their
 // rare Pristine specimen counterparts, and the cheap master-stocked craft
 // reagents. Merged into ITEMS by data.ts (mergeItems), same pattern as
 // ZONE2_ITEMS.
@@ -130,7 +130,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
     buyValue: 12,
   },
 
-  // --- Phase 10 crafted weapon ladder (weaponcrafting) ---------------------
+  // --- Crafted weapon ladder (weaponcrafting) ------------------------------
   // Trainer-taught outputs of LADDER_RECIPES (content/recipes.ts), three rungs
   // at skillReq 0/25/50. Stats and values were budgeted against real weapon
   // comparables; never vendor-stocked (no buyValue), and every crafted output's
@@ -226,7 +226,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
     sellValue: 285,
   },
 
-  // --- Phase 10 crafted armor ladder (armorcrafting) -----------------------
+  // --- Crafted armor ladder (armorcrafting) --------------------------------
   // Trainer-taught outputs of LADDER_RECIPES, three rungs at skillReq 0/25/50.
   // All mail. Armor and primary stats sit on the repo budget formula
   // (src/sim/item_budget.ts) per the ladder design notes; common-rung pieces
@@ -323,7 +323,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
     sellValue: 350,
   },
 
-  // --- Phase 10 crafted cloth ladder (tailoring) ---------------------------
+  // --- Crafted cloth ladder (tailoring) ------------------------------------
   // Trainer-taught outputs of LADDER_RECIPES (content/recipes.ts), three rungs
   // at skillReq 0/25/50, loom-bound at weaver_ottilie. Caster cloth (int/spi)
   // plus one bag upgrade; common-rung pieces are armor-only (common quality
@@ -419,7 +419,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
     sellValue: 260,
   },
 
-  // --- Phase 10 crafted leather ladder (leatherworking) --------------------
+  // --- Crafted leather ladder (leatherworking) -----------------------------
   // Trainer-taught outputs of LADDER_RECIPES, three rungs at skillReq 0/25/50,
   // tannery-bound at tanner_hesk. Agi/sta melee leather, complementing the
   // existing int/spi leather pieces. Common-rung pieces are armor-only. Never
@@ -516,7 +516,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
     sellValue: 78,
   },
 
-  // --- Phase 10 crafted cooking ladder (cooking) ---------------------------
+  // --- Crafted cooking ladder (cooking) ------------------------------------
   // Trainer-taught outputs of LADDER_RECIPES (content/recipes.ts), three rungs
   // at skillReq 0/25/50, kitchens-bound at cook_marlow. kind 'food' + foodHp
   // (an 18s sit heal); no new effect machinery. Every foodHp/sellValue reuses
@@ -596,7 +596,7 @@ export const PROFESSION_ITEMS: Record<string, ItemDef> = {
     sellValue: 150,
   },
 
-  // --- Phase 10 crafted alchemy ladder (alchemy) ---------------------------
+  // --- Crafted alchemy ladder (alchemy) ------------------------------------
   // Trainer-taught outputs of LADDER_RECIPES (content/recipes.ts), three rungs
   // at skillReq 0/25/50, apothecary-bound at alchemist_verane. Potions reuse the
   // vendor potionHp/potionMana machinery (instant, in-combat, shared cooldown);

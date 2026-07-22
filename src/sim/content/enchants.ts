@@ -373,7 +373,7 @@ export const ENCHANTS: Record<string, EnchantDef> = {
     statBonus: { agi: 6 },
   },
 
-  // --- Runed tier (Professions 2.0 Phase 13): the ONLY sink for the typed
+  // --- Runed tier (Professions 2.0): the ONLY sink for the typed
   // disenchant secondaries (resonant_steel/timber/thread/hide/links,
   // src/sim/professions/disenchant_reagents.ts), so no typed material is a
   // dead-end currency. Each costs arcane_essence x2 plus one typed reagent and

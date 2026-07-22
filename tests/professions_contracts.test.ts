@@ -55,7 +55,7 @@ function makeClientWorld(): ClientWorld {
 describe('professions contracts (#1164)', () => {
   it('IWorldProfessions.professionsState carries the four all-zero gathering skills on a fresh Sim', () => {
     const sim = new Sim({ seed: SIM_SEED, playerClass: PROBE_CLASS });
-    // Phase 12c stage 2 appendix re-pin: the enforced per-profession caps
+    // Pins the enforced per-profession caps
     // (mining/logging/herbalism 100, fishing 200) replace the old uniform 300.
     expect(sim.professionsState).toEqual({
       skills: [

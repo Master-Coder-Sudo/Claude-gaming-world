@@ -298,14 +298,14 @@ export const IWORLD_MEMBERS = [
   { name: 'placeMobileStation', kind: 'method' },
   { name: 'trainRecipe', kind: 'method' },
   { name: 'activeMobileStationCraft', kind: 'data' },
-  // Enchanting profession commands + result reads (Professions 2.0 Phase 13).
+  // Enchanting profession commands + result reads (Professions 2.0).
   { name: 'disenchantItem', kind: 'method' },
   { name: 'applyEnchant', kind: 'method' },
   { name: 'salvageItem', kind: 'method' },
   { name: 'lastDisenchantResult', kind: 'data' },
   { name: 'lastEnchantResult', kind: 'data' },
   { name: 'lastSalvageResult', kind: 'data' },
-  // Maker's Bond unbind service (Professions 2.0 Phase 14b).
+  // Maker's Bond unbind service (Professions 2.0).
   { name: 'unbindItem', kind: 'method' },
   { name: 'raidLockouts', kind: 'method' }, // read-returning (5/6)
   { name: 'dungeonDifficulty', kind: 'method' }, // read-returning
@@ -462,8 +462,8 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
     // The merged Talent V2 + mage-line surface (selectTalentRow supersedes
     // pickRowTalent; rowPicks stays off the seam, rows live on the allocation)
     // plus the release's Card Duel facet, the Professions 2.0 identity
-    // surface, Phase 8's mobile-station pair (placeMobileStation +
-    // activeMobileStationCraft), and Phase 14b's unbindItem command.
+    // surface, the mobile-station pair (placeMobileStation +
+    // activeMobileStationCraft), and the commissions unbindItem command.
     expect(IWORLD_MEMBERS.length).toBe(253);
     expect(DATA_MEMBERS.length).toBe(67);
     expect(METHOD_MEMBERS.length).toBe(186);

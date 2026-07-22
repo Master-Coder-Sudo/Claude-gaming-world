@@ -7391,7 +7391,7 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.crafting.throttled':
     'Вы создаете предметы слишком быстро. Подождите немного и попробуйте снова.',
   'hudChrome.crafting.recipeNotLearned': 'Вы еще не изучили этот рецепт.',
-  // Professions 2.0 Phase 14 (M16 non-Latin fills).
+  // Professions 2.0 (M16 non-Latin fills).
   'hudChrome.crafting.attunementReturnCost':
     'Если вы покинете эту пару, возвращение к ней позже обойдётся в {cost} заданий искупления.',
   'hudChrome.crafting.learnMoreAtStation':
@@ -8645,7 +8645,7 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchanting.targetTitle': 'Выберите предмет для зачарования',
   'hudChrome.enchanting.noEnchants': 'Нет чар, использующих этот реагент.',
   'hudChrome.enchanting.noTargets': 'Нет подходящего предмета для зачарования.',
-  // Professions 2.0 Phase 14 attunement quests + master tier letters (ru_RU M16 fills).
+  // Professions 2.0 attunement quests + master tier letters (ru_RU M16 fills).
   'entities.quests.q_prof_attune_smith.title': 'Обещание кузнеца',
   'entities.quests.q_prof_attune_smith.text':
     'Сталь не прощает блуждающей руки, потому скажу прямо, прежде чем ты дашь клятву. Скрепи себя с моей кузней, и оружейное дело с бронным делом станут твоими двумя основными ремёслами, единственными, что ты сможешь вести дальше работы редкого качества. Ремесло напротив них по кругу осядет как твоё увлечение, доведённое до редкого качества и не выше. Остальные твои ремёсла не сгорают, {playerName}: они просто затихают, дремлют, пока ты не позовёшь их обратно. И знай ещё до того, как падёт молот: бросишь эту пару ради другой, и возвращаться придётся честным трудом, пять врагов повержены в первый раз по возвращении, восемь в следующий, одиннадцать после, и всё больше с каждым уходом. Всё ещё стоишь тут? Тогда принеси мне три рудные жилы, добытые в Долине собственными руками, и будем считать обещание скреплённым.',
@@ -8796,7 +8796,7 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'entities.letters.prof_tier_engineering_alchemy_5.subject': 'МАСТЕРСТВО, бабах',
   'entities.letters.prof_tier_engineering_alchemy_5.body':
     'Одно из твоих основных ремёсел достигло мастерства, самой ВЕРХУШКИ, бабах, вся лестница, готово. Я не раздаю похвалу, я раздаю фитили, но вот, бери и то и другое: ты блистателен и слегка пугающ. Иди, заставь горы понервничать.',
-  // Professions 2.0 Phase 14 master tier-letter senders (localized NPC names).
+  // Professions 2.0 master tier-letter senders (localized NPC names).
   'entities.letters.prof_tier_weaponcrafting_armorcrafting_1.sender': 'Мастерица кузни Дарва',
   'entities.letters.prof_tier_weaponcrafting_armorcrafting_2.sender': 'Мастерица кузни Дарва',
   'entities.letters.prof_tier_weaponcrafting_armorcrafting_3.sender': 'Мастерица кузни Дарва',
@@ -8817,7 +8817,7 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'entities.letters.prof_tier_engineering_alchemy_3.sender': 'Механик Гиззел',
   'entities.letters.prof_tier_engineering_alchemy_4.sender': 'Механик Гиззел',
   'entities.letters.prof_tier_engineering_alchemy_5.sender': 'Механик Гиззел',
-  // Commissions and the Maker's Bond (Professions 2.0 Phase 14b).
+  // Commissions and the Maker's Bond (Professions 2.0).
   'hudChrome.crafting.commissionToggle': 'Изделие на заказ',
   'hudChrome.crafting.commissionToggleHint':
     'Привязывается к первому персонажу, получившему его при обмене.',
@@ -8841,7 +8841,7 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.unbind.notBound': 'Этот предмет не привязан.',
   'hudChrome.unbind.cannotAfford': 'Вам не хватает денег на снятие привязки.',
   'hudChrome.unbind.outOfRange': 'Для снятия привязки нужно стоять у мастерской.',
-  // Professions 2.0 Phase 15 wiki arm: the professions hub rewrite and the
+  // Professions 2.0 wiki arm: the professions hub rewrite and the
   // /wiki/professions detail pages (M16 non-Latin fills, added with the keys).
   'guide.professions.ringHeading': 'Кольцо ремесел',
   'guide.professions.ringBody':

@@ -170,7 +170,7 @@ export function buildMarketSell(sellItemId: string | null, sellHave: number): Ma
   if (item.kind === 'quest' || item.noMarketList || item.soulbound)
     return { state: 'cannot-market' };
   // A gentle starting ask: the vendor shop price when the item has one, but
-  // never more than 10x its vendor sell value (the Phase 15 burn-down re-priced
+  // never more than 10x its vendor sell value (the recipe-economy rework re-priced
   // four commons' sellValues while deliberately keeping their historical shop
   // buyValues, so a raw buyValue read would suggest a 20x-29x ask); items with
   // no shop price suggest a few times sell value. Never below 1c.

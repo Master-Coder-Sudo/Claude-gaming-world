@@ -1,4 +1,4 @@
-// Pure-core tests for the Apply Enchant picker (Professions 2.0 Phase 13):
+// Pure-core tests for the Apply Enchant picker (Professions 2.0):
 // the enchants a reagent unlocks with their per-reagent affordability, the
 // eligible-target list (slot match, already-enchanted exclusion, the
 // masterwork-still-enchantable case, grouping by item id), and the enchant

@@ -1,15 +1,15 @@
-// Professions 2.0 Phase 14b: Commissions and the Maker's Bond (#2207).
+// Professions 2.0: Commissions and the Maker's Bond (#2207).
 //
 // The commission opt-in at craft time (crafting.ts + commission.ts), the
-// bind-on-first-trade arc it rides (the Phase 13 primitive: trade.ts stamps
+// bind-on-first-trade arc it rides (the bind-on-first-trade primitive: trade.ts stamps
 // boundTo on arrival, tradeSetOffer refuses bound copies with ONE English
 // deny), the master unbind service (resolveUnbind deny order, the single
 // charge, the field-clear-only mutation), the face-to-face-by-construction
 // pins (mail/market fungible-only escrow vs commissioned equipment), payload
 // persistence, and the live-GameServer wire arc including the
 // HEAVY_SELF_EVENTS inv re-diff. Harness modeled on
-// tests/professions_p13_qa_coverage.test.ts / professions_p13_qa_arc.test.ts /
-// professions_p13_bound_surfaces.test.ts.
+// tests/professions_enchant_salvage_edges.test.ts / professions_enchant_salvage_arc.test.ts /
+// professions_bind_on_trade_surfaces.test.ts.
 
 import { describe, expect, it, vi } from 'vitest';
 
@@ -60,7 +60,7 @@ const VESTMENTS = 'eastbrook_ritual_vestments'; // armor
 const POTION_RECIPE = 'recipe_minor_healing_potion';
 const POTION = 'minor_healing_potion'; // potion kind: commission-INELIGIBLE
 const BOUND_DENY = 'That item is bound and cannot be traded.';
-// Phase 15 QA directed fix: the vendor-side sibling of BOUND_DENY (items.ts sellItem).
+// The vendor-side sibling of BOUND_DENY (items.ts sellItem).
 const SELL_BOUND_DENY = 'That item is bound and cannot be sold.';
 
 function recipeOf(id: string): ProfessionRecipeRecord {
@@ -143,7 +143,7 @@ function unbindEvents(events: SimEvent[]) {
   }>;
 }
 
-/** Trade `itemId` x1 from a to b through the REAL trade module (the Phase 3
+/** Trade `itemId` x1 from a to b through the REAL trade module (the
  *  two-phase confirm), returning the error texts the run emitted. */
 function runTrade(sim: Sim, a: number, b: number, itemId: string): string[] {
   tradeMod.tradeRequest(sim.ctx, b, a);
@@ -169,7 +169,7 @@ describe('commission eligibility (the 2026-07-20 equipment-only ruling)', () => 
     expect(isCommissionEligible(undefined)).toBe(false);
     expect(isCommissionEligible(ITEMS[SWORD])).toBe(true);
     expect(isCommissionEligible(ITEMS[POTION])).toBe(false);
-    // The Phase 13 reagents stay OUT of the service by kind.
+    // The enchanting reagents stay OUT of the service by kind.
     expect(isCommissionEligible(ITEMS.resonant_steel)).toBe(false);
   });
 });
@@ -375,7 +375,7 @@ describe('commission opt-in at craft time', () => {
 });
 
 // ---------------------------------------------------------------------------
-// 3. The bind-on-first-trade arc (the Phase 13 primitive, second consumer).
+// 3. The bind-on-first-trade arc (the bind-on-first-trade primitive, second consumer).
 // ---------------------------------------------------------------------------
 describe('bind on first trade, refuse on the second, re-bind after unbind', () => {
   it('the first trade stamps boundTo = the receiving pid; the arm survives alongside it', () => {
@@ -498,7 +498,7 @@ describe('unbind service deny order and mutation', () => {
     expect(result.fee).toBe(0);
   });
 
-  it('a bound copy of an INELIGIBLE kind (a Phase 13 reagent) denies unbind_not_eligible', () => {
+  it('a bound copy of an INELIGIBLE kind (an enchanting reagent) denies unbind_not_eligible', () => {
     const sim = makeSim();
     const pid = sim.playerId;
     sim.ctx.addItemInstance('resonant_steel', { bindOnTrade: true, boundTo: pid }, pid);
@@ -1048,7 +1048,7 @@ describe('live GameServer: commission craft, bound trade refusal, unbind over th
 // ---------------------------------------------------------------------------
 // 11. The bound holder keeps every non-transfer right (equip, unequip, and
 //     bank all stay open, payload intact). Vendor sell is CLOSED for bound
-//     copies since the Phase 15 QA directed fix: selling minted a plain
+//     copies: selling minted a plain
 //     buyback copy, laundering the bond for a 0 copper spread.
 // ---------------------------------------------------------------------------
 describe('bound holder lifecycle: every non-transfer right survives the bond', () => {
@@ -1124,8 +1124,7 @@ describe('bound holder lifecycle: every non-transfer right survives the bond', (
   });
 
   it('vendor sell of a bound piece is refused: the bond gates the vendor too', () => {
-    // Phase 15 QA directed fix, maintainer-approved 2026-07-22, closes the
-    // buyback-plain wash: this arm previously pinned vendor sell ALLOWED for a
+    // Closes the buyback-plain wash: this arm previously pinned vendor sell ALLOWED for a
     // bound copy, but selling recorded a PLAIN buyback row, so sell + buyback
     // stripped boundTo AND bindOnTrade for a 0 copper spread, bypassing the
     // 2500 to 40000 copper unbind ladder. The bond now gates the vendor.
@@ -1151,8 +1150,8 @@ describe('bound holder lifecycle: every non-transfer right survives the bond', (
 
 // ---------------------------------------------------------------------------
 // 12. Trade-gate slot accuracy: mixed bound and unbound copies of the SAME
-//     item id (the Phase 3 same-itemId cross-contamination class, now pinned
-//     on a commission equipment kind, not only the Phase 13 reagent).
+//     item id (the same-itemId cross-contamination class, now pinned
+//     on a commission equipment kind, not only the enchanting reagent).
 // ---------------------------------------------------------------------------
 describe('mixed bound + unbound copies of one equipment itemId trade slot-accurately', () => {
   it('the offer clamps to the unbound count and completing it moves ONLY the free copy', () => {
@@ -1184,14 +1183,13 @@ describe('mixed bound + unbound copies of one equipment itemId trade slot-accura
 });
 
 // ---------------------------------------------------------------------------
-// 12b. Phase 15 QA directed fix (maintainer-approved 2026-07-22): the vendor
-//      buyback-plain wash is closed end to end. sellItem now excludes bound
+// 12b. The vendor buyback-plain wash is closed end to end. sellItem now excludes bound
 //      (boundTo-stamped) copies from the sellable count, mirroring the trade
 //      gate: plain and unbound copies of the same itemId remain sellable, a
 //      bound-only request is refused, and buyback can never mint a plain copy
 //      of a bound piece.
 // ---------------------------------------------------------------------------
-describe('Phase 15: the vendor buyback-plain wash is closed', () => {
+describe('the vendor buyback-plain wash is closed', () => {
   function vendorSetup(): { sim: Sim; pid: number } {
     const sim = makeSim();
     const pid = sim.playerId;

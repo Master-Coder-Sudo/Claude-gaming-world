@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 //
-// Phase 13 QA: pins the picker placement math in BagItemActionMenu.paint,
+// Pins the picker placement math in BagItemActionMenu.paint,
 // the one fix surface the CSS guard (tests/ctx_menu_picker_sizing.test.ts)
 // cannot see: the picker states reserve the CAPPED box (mirroring the CSS
 // max-height min(60vh, 560px)) plus the wider right reserve, while a plain
@@ -46,7 +46,7 @@ function harness(innerHeight: number) {
   return { el, placed, openPlain, openPicker };
 }
 
-describe('BagItemActionMenu.paint placement reserves (Phase 13 QA)', () => {
+describe('BagItemActionMenu.paint placement reserves', () => {
   it('a plain menu keeps the narrow reserve and the natural estimate, no modifier', () => {
     const h = harness(768);
     h.openPlain();

@@ -7270,7 +7270,7 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
     'その組み合わせレシピに必要な両方の生産スキルの熟練度に達していません。',
   'hudChrome.crafting.throttled': '製作が速すぎます。少し待ってからもう一度お試しください。',
   'hudChrome.crafting.recipeNotLearned': 'そのレシピはまだ習得していません。',
-  // Professions 2.0 Phase 14 (M16 non-Latin fills).
+  // Professions 2.0 (M16 non-Latin fills).
   'hudChrome.crafting.attunementReturnCost':
     'この組み合わせを離れると、後で戻るには償いの任務が {cost} 回必要になります。',
   'hudChrome.crafting.learnMoreAtStation':
@@ -8485,7 +8485,7 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'hudChrome.enchanting.targetTitle': 'エンチャントするアイテムを選択',
   'hudChrome.enchanting.noEnchants': 'この素材を使うエンチャントはありません。',
   'hudChrome.enchanting.noTargets': 'エンチャントできるアイテムがありません。',
-  // Professions 2.0 Phase 14 attunement quests + master tier letters (ja_JP M16 fills).
+  // Professions 2.0 attunement quests + master tier letters (ja_JP M16 fills).
   'entities.quests.q_prof_attune_smith.title': '鍛冶師の約定',
   'entities.quests.q_prof_attune_smith.text':
     '鋼は迷う手を許さん。だから誓いを立てる前に、はっきり言っておく。私の鍛冶場に身を捧げれば、武器鍛冶と防具鍛冶がお前の二つの主専攻になる。レアを超えて磨けるのはこの二つだけだ。輪の向かい側にある技は趣味として収まり、レアまで、それ以上は伸びん。ほかの技が焼き尽くされるわけではない、{playerName}。ただ静かになるだけ、お前が呼び戻すまで休眠するのだ。そして槌が振り下ろされる前に、これも覚えておけ。この組を捨てて別へ移れば、戻るときはまっとうな労苦を這って乗り越えることになる。最初に帰るときは敵を五体、次は八体、その次は十一体、迷うたびに増えていく。まだそこに立っているか。ならば渓谷の鉱脈を、自らの手で三か所掘り出して持ってこい。それで約定は成ったとしよう。',
@@ -8629,7 +8629,7 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'entities.letters.prof_tier_engineering_alchemy_5.subject': 'マスター、ドカン',
   'entities.letters.prof_tier_engineering_alchemy_5.body':
     'お前の主専攻の一つがマスターに到達した、まさに頂点、ドカン、梯子まるごと、登り切りだ。俺は褒め言葉なんて配らん、配るのは導火線だ、だがほら、両方持っていけ。お前は見事だし、ちょっとばかり恐ろしい。山々を怯えさせてこい。',
-  // Professions 2.0 Phase 14 master tier-letter senders (localized NPC names).
+  // Professions 2.0 master tier-letter senders (localized NPC names).
   'entities.letters.prof_tier_weaponcrafting_armorcrafting_1.sender': '鍛冶長ダルヴァ',
   'entities.letters.prof_tier_weaponcrafting_armorcrafting_2.sender': '鍛冶長ダルヴァ',
   'entities.letters.prof_tier_weaponcrafting_armorcrafting_3.sender': '鍛冶長ダルヴァ',
@@ -8650,7 +8650,7 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'entities.letters.prof_tier_engineering_alchemy_3.sender': 'からくり師ギッゼル',
   'entities.letters.prof_tier_engineering_alchemy_4.sender': 'からくり師ギッゼル',
   'entities.letters.prof_tier_engineering_alchemy_5.sender': 'からくり師ギッゼル',
-  // Commissions and the Maker's Bond (Professions 2.0 Phase 14b).
+  // Commissions and the Maker's Bond (Professions 2.0).
   'hudChrome.crafting.commissionToggle': '受注品として制作',
   'hudChrome.crafting.commissionToggleHint':
     '取引で最初に受け取ったキャラクターにバインドされます。',
@@ -8674,7 +8674,7 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'hudChrome.unbind.notBound': 'そのアイテムはバインドされていません。',
   'hudChrome.unbind.cannotAfford': 'バインド解除の手数料を支払えません。',
   'hudChrome.unbind.outOfRange': 'バインド解除するには作業台のそばにいる必要があります。',
-  // Professions 2.0 Phase 15 wiki arm: the professions hub rewrite and the
+  // Professions 2.0 wiki arm: the professions hub rewrite and the
   // /wiki/professions detail pages (M16 non-Latin fills, added with the keys).
   'guide.professions.ringHeading': '製作の輪',
   'guide.professions.ringBody':
@@ -8901,7 +8901,7 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'guide.profPages.faq.q8': '生き方は変えられますか？',
   'guide.profPages.faq.a8':
     '一度も持ったことのない組み合わせは新しい調律クエストひとつで済み、かつて持っていた組み合わせに戻るには、代償が増えていく償いの用事が必要です。',
-  // Professions 2.0 Phase 15 wiki arm, final prose sections (M16 non-Latin
+  // Professions 2.0 wiki arm, final prose sections (M16 non-Latin
   // fills for the NEW keys; item, NPC, and deed names stay English, the baked
   // proper-noun precedent).
   'guide.professions.whatHeading': '剣のかたわらの生業',

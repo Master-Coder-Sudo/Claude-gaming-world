@@ -1,4 +1,4 @@
-// Professions 2.0 Phase 13 (Enchanting reachable) COVERAGE arms: the gaps the
+// Professions 2.0 (Enchanting reachable) COVERAGE arms: the gaps the
 // two shipped suites (tests/professions_typed_reagents.test.ts and
 // tests/professions_enchanting_commands.test.ts) leave open.
 //
@@ -66,7 +66,7 @@ const COMMON_WEAPON = 'eastbrook_arming_sword';
 // Chosen over an epic precisely for that determinism: an epic's 1-or-2 secondary
 // count rides an rng draw, so two epic disenchants would grant a seed-dependent
 // total. Two rare disenchants grant exactly two byte-equal armed copies, which
-// stack (Phase 12d) into one slot of count 2, the clean "trade one, keep one"
+// stack into one slot of count 2, the clean "trade one, keep one"
 // shape arm 1 needs.
 const RARE_WEAPON = 'moggers_copper_cudgel';
 const SECONDARY = 'resonant_steel';
@@ -210,7 +210,7 @@ function applySnap(client: ClientWorld, snap: unknown): void {
 // ---------------------------------------------------------------------------
 // Arm 1: the two-session bind-on-trade arc over a live GameServer.
 // ---------------------------------------------------------------------------
-describe('Phase 13 online bind-on-trade arc (two sessions, live GameServer)', () => {
+describe('online bind-on-trade arc (two sessions, live GameServer)', () => {
   it('first trade stamps the recipient, the reverse trade is refused, and A keeps an offerable copy', () => {
     const server = new GameServer();
     const fcA = fakeWs();
@@ -221,7 +221,7 @@ describe('Phase 13 online bind-on-trade arc (two sessions, live GameServer)', ()
     placeAt(server, b.pid, FIELD_B);
 
     // A disenchants two rares -> two armed, unstamped resonant_steel copies that
-    // stack into one slot of count 2 (byte-equal payloads, Phase 12d).
+    // stack into one slot of count 2 (byte-equal payloads).
     server.sim.addItem(RARE_WEAPON, 2, a.pid);
     cmd(server, a, { cmd: 'disenchant_item', item: RARE_WEAPON });
     cmd(server, a, { cmd: 'disenchant_item', item: RARE_WEAPON });
@@ -309,7 +309,7 @@ function freshSim(seed = 5): Sim {
   return new Sim({ seed, playerClass: 'warrior', autoEquip: false, noPlayer: true });
 }
 
-describe('Phase 13 bindOnTrade persistence round-trip (serialize -> JSONB -> load)', () => {
+describe('bindOnTrade persistence round-trip (serialize -> JSONB -> load)', () => {
   it('an armed-unstamped and a stamped payload both survive a serialize/load round-trip byte-identically', () => {
     const src = freshSim();
     const pid = src.addPlayer('warrior', 'Src');
@@ -370,7 +370,7 @@ describe('Phase 13 bindOnTrade persistence round-trip (serialize -> JSONB -> loa
 // live GameServer; no sim.tick runs during the burn, so sim.time (and the
 // window) never advances until the deny is observed.
 // ---------------------------------------------------------------------------
-describe('Phase 13 online shared-throttle deny surfacing (live GameServer)', () => {
+describe('online shared-throttle deny surfacing (live GameServer)', () => {
   it('a throttled disenchant surfaces reason "throttled" over the event AND the denc delta, consuming nothing', () => {
     const server = new GameServer();
     const fc = fakeWs();

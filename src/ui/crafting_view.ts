@@ -29,7 +29,7 @@ export interface RecipeDefLike {
   resultCount: number;
   reagents: readonly { itemId: string; count: number }[];
   skillReq: number;
-  // Station-bound recipe (Professions 2.0 Phase 8): craftable only at a
+  // Station-bound recipe (Professions 2.0): craftable only at a
   // station of this type (see src/sim/professions/stations.ts).
   stationType?: StationType;
   // Combo-recipe gate (#1132): present only on a recipe exclusive to one
@@ -44,7 +44,7 @@ export interface RecipeDefLike {
 
 /** The skill-GAIN outlook for crafting a recipe, mirroring the sim's
  *  tier-progress multiplier at the gainCraftSkill call site in
- *  src/sim/professions/crafting.ts: the Phase 12c four-state mastery curve.
+ *  src/sim/professions/crafting.ts: the four-state mastery curve.
  *  'full' (multiplier 1), 'reduced' (REDUCED_TIER_MULTIPLIER, one tier under
  *  capability), 'minimal' (MINIMAL_TIER_MULTIPLIER, two tiers under),
  *  'none' (0: three-plus tiers under capability, or the recipe tier is above
@@ -81,7 +81,7 @@ export interface CraftingRecipeRow {
   /** Skill-gain outlook (see CraftDifficulty). Actionable info: identical on
    *  every graphics preset, and the painter must never carry it color-only. */
   difficulty: CraftDifficulty;
-  /** Station gate (Phase 8, formerly #1297's hub boolean): null when the
+  /** Station gate (formerly #1297's hub boolean): null when the
    *  recipe has no stationType; otherwise WHICH station type it needs and
    *  whether the player is currently in range of one (a physical station or
    *  their own active mobile station, folded into the in-range set the HUD
@@ -92,7 +92,7 @@ export interface CraftingRecipeRow {
    *  (for a station-bound recipe) the player is in station range: the "Craft"
    *  action is enabled. The server re-validates every gate on craft. */
   craftable: boolean;
-  /** Commission opt-in visibility (Professions 2.0 Phase 14b): true iff the
+  /** Commission opt-in visibility (Professions 2.0): true iff the
    *  result def is one of the ruled-in equipment kinds (weapon, armor,
    *  held_offhand; src/sim/professions/commission.ts, the SAME predicate the
    *  sim's craft resolver honors, so the control can never show where the
@@ -124,7 +124,7 @@ function countInInventory(inventory: readonly InvSlot[], itemId: string): number
  * quality), and the local player's flat craft skills (for the combo-recipe
  * gate, #1132; defaults to empty so existing common-tier-only callers, e.g.
  * tests, need not pass it), and the set of station types the player is
- * currently in range of (Phase 8 station-bound recipes: physical stations
+ * currently in range of (station-bound recipes: physical stations
  * plus the own active mobile station, precomputed once per repaint by the
  * HUD via stations.ts inRangeStationTypes; defaults to empty, i.e. out of
  * range of everything, so station-free callers need not pass it). Read-only:
@@ -277,8 +277,8 @@ export interface CraftLearnHint {
  * Crafts that have at least one trainer-taught recipe the viewer has NOT
  * learned, mapped to the station type serving that craft (stationTypeForCraft)
  * and the resident master (the station registry). Drives the crafting window's
- * per-section "learnable at a master" discoverability hint (Professions 2.0
- * Phase 14): a section renders the hint iff its craft is in this map.
+ * per-section "learnable at a master" discoverability hint: a section renders
+ * the hint iff its craft is in this map.
  *
  * Uses the SHARED isRecipeKnownForViewer predicate (train_view.ts), never a
  * second knownness rule, so the hint can never disagree with the train ladder

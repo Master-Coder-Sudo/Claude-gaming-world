@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-// The HUD render sink for the four Professions 2.0 Phase 14 text-free
+// The HUD render sink for the four Professions 2.0 text-free
 // SimEvents (profTrendNudge, profTierTutorial, attuned, attunedZone). The sim
 // emits ids and names only; handleProfessionEvent must resolve the LOCALIZED
 // archetype title and master name (never leak the raw pairId, whose '+'
@@ -226,7 +226,7 @@ describe('Hud.handleProfessionEvent', () => {
 
 // No test instantiates the full Hud event loop, so the sim-event switch wiring
 // is held by a source pin (the craft_celebration_view.test.ts precedent): all
-// four Phase 14 event types must fall through to the ONE handler above, so a
+// four profession event types must fall through to the ONE handler above, so a
 // new arm cannot silently drop one of them.
 describe('sim-event switch routing (source pin)', () => {
   // join(process.cwd()) rather than import.meta.url: under jsdom the module

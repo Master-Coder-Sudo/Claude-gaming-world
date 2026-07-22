@@ -361,7 +361,7 @@ describe('items vendor: buy / sell / sellAllJunk / buyBack', () => {
     const { pid, meta } = vendorPlayer(sim);
     const ctx = ctxOf(sim);
     meta.copper = 0;
-    // Phase 15: wolf_fang is a crafting reagent now (quality common, never
+    // wolf_fang is a crafting reagent now (quality common, never
     // swept), so this sweep uses mudfin_scale as its gray fodder.
     sim.addItem('mudfin_scale', 2, pid); // poor, sellValue 5 -> 10
     sim.addItem('bandit_bandana', 1, pid); // poor, sellValue 6

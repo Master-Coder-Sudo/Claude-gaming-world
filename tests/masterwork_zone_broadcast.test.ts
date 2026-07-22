@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-// Masterwork zone broadcast (Professions 2.0 Phase 6): a masterwork proc in
+// Masterwork zone broadcast (Professions 2.0): a masterwork proc in
 // the overworld emits one pid-scoped `masterworkZone` copy per player in the
 // crafter's zone, the crafter included, next to (never instead of) the
 // personal `masterwork` event. Instanced players never receive the copy, and
@@ -218,7 +218,7 @@ describe('online ClientWorld host', () => {
   });
 });
 
-// Live GameServer wire routing (Phase 6 QA): the emit suite above pins the
+// Live GameServer wire routing: the emit suite above pins the
 // craft -> announceMasterworkZone integration (hunted seed) and the parity
 // golden pins the crafter's own copy, but nothing pinned that each pid-scoped
 // zone copy actually reaches ITS session, and only that session, over the

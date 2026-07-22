@@ -1,7 +1,7 @@
-// Phase 13 QA: the real-behavior end-to-end arc, added by the QA session.
+// The real-behavior end-to-end arc.
 // Exercises the three commands through the surfaces a player reaches:
 // offline Sim through the IWorld surface, then online through a live in-process
-// GameServer (harness modeled on tests/professions_p13_coverage.test.ts).
+// GameServer (harness modeled on tests/professions_bind_on_trade_online.test.ts).
 import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('../server/db', () => ({
@@ -153,7 +153,7 @@ function applySnap(client: ClientWorld, snap: unknown): void {
   (client as unknown as { applySnapshot(s: unknown): void }).applySnapshot(snap);
 }
 
-describe('QA13 offline Sim end-to-end (IWorld surface)', () => {
+describe('offline Sim end-to-end (IWorld surface)', () => {
   it('disenchants a rare (typed secondary), applies a Runed enchant, salvages, with lastX mirrors', () => {
     const sim = new Sim({ seed: 20260721, playerClass: 'warrior', autoEquip: false });
     const inv = () => sim.ctx.resolve()?.meta.inventory ?? [];
@@ -211,7 +211,7 @@ describe('QA13 offline Sim end-to-end (IWorld surface)', () => {
   });
 });
 
-describe('QA13 online end-to-end (live GameServer, wire commands + self-deltas)', () => {
+describe('online end-to-end (live GameServer, wire commands + self-deltas)', () => {
   it('resolves the three commands server-side and mirrors denc/ench/salv into a real ClientWorld', () => {
     const server = new GameServer();
     const fc = fakeWs();

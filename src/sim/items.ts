@@ -95,7 +95,7 @@ function desiredEquipSlot(meta: PlayerMeta, itemId: string): EquipSlot | null {
 // ctx.removeItem there would eat the enchanted copy first when both exist.
 // sellItem/discardItem below and trade.ts's drop arm route through this instead
 // so "sell/discard/trade one" prefers the plain copy a player almost always means.
-// The optional `skip` predicate (Professions 2.0 Phase 13) spares any instanced
+// The optional `skip` predicate (Professions 2.0) spares any instanced
 // copy it matches from removal: the trade swap passes it to never consume a
 // trade-locked (boundTo-set) copy. Absent, the function is byte-identical to
 // before: fungible first, then ctx.removeItem for the remainder. Only the
@@ -260,7 +260,7 @@ export function equipItem(
     // Return the piece that was worn: if it carried an enchant, give it back
     // its own instanced slot (never merged into a plain stack, which would
     // silently drop the enchant; worn kinds are 1-per-slot, so the
-    // identical-payload merge arm addItemInstance grew in Phase 12d could
+    // identical-payload merge arm of addItemInstance could
     // never apply here anyway).
     if (oldInstance) meta.inventory.push({ itemId: old, count: 1, instance: oldInstance });
     else addItemSilent(old, 1, meta);
@@ -363,7 +363,7 @@ export function useItem(ctx: SimContext, itemId: string, pid?: number): ItemUseR
     ctx.startFishing(p, meta);
     return;
   }
-  // Phase 12: the tiered fishing rods are gatherTool items (their tier caps
+  // The tiered fishing rods are gatherTool items (their tier caps
   // the catch band, professions/fishing.ts) but must still CAST like the
   // simple pole, so a fishing-profession gatherTool use routes to the same
   // startFishing (which owns the dead/combat/busy/water gates, exactly as the
@@ -601,7 +601,7 @@ export function sellItem(ctx: SimContext, itemId: string, count = 1, pid?: numbe
     ctx.error(meta.entityId, 'You cannot sell quest items.');
     return;
   }
-  // Phase 15 QA directed fix (maintainer-approved 2026-07-22): a bound copy
+  // Vendor-sell bind guard: a bound copy
   // (instance payload carrying boundTo, the Maker's Bond trade lock) is never
   // vendor-sellable. Selling one recorded a PLAIN buyback row, so sell + buyback
   // laundered the piece into an unbound copy for a 0 copper spread, bypassing

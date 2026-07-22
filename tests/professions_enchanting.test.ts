@@ -63,7 +63,7 @@ describe('disenchant', () => {
   });
 
   it('yield scales with rarity: the qualityIdx AND derived-tier terms make an epic strictly outyield a common with the same rng draw', () => {
-    // Phase 13 scope note: this pins the disenchantYield HELPER, which since
+    // Scope note: this pins the disenchantYield HELPER, which since
     // the typed-reagent amendment is the SUB-RARE arm only (resolveDisenchant
     // grants fixed counts at rare+; the resolve-level per-quality counts are
     // pinned in professions_typed_reagents.test.ts). The helper keeps both
@@ -438,13 +438,13 @@ describe('applyEnchant', () => {
   });
 });
 
-// Phase 2 (Professions 2.0 masterwork model): a masterwork proc copy carries
+// Professions 2.0 masterwork model: a masterwork proc copy carries
 // rolled.masterwork + baked rolled.stats WITHOUT an enchant, so the old
 // bare-stats-presence guard would have wrongly locked it out of enchanting.
 // The authoritative predicate is now isEnchantedInstance (the explicit
 // `enchant` marker, or the legacy bare-stats arm), the enchant merges stats
 // ADDITIVELY, and double-enchant stays blocked for old and new copies alike.
-describe('isEnchantedInstance (the Phase 2 guard predicate)', () => {
+describe('isEnchantedInstance (the masterwork guard predicate)', () => {
   it('distinguishes enchanted copies from masterwork and plain crafted copies', () => {
     // Marker-carrying (new) enchanted copy.
     expect(isEnchantedInstance({ enchant: 'enchant_weapon_might' })).toBe(true);
@@ -462,7 +462,7 @@ describe('isEnchantedInstance (the Phase 2 guard predicate)', () => {
   });
 });
 
-describe('applyEnchant on a Phase 2 masterwork copy', () => {
+describe('applyEnchant on a masterwork copy', () => {
   // The exact crafting.ts masterwork grant shape: signer + rolled.masterwork +
   // baked bonus stats, no rolled.quality, no enchant marker.
   const MASTERWORK_PAYLOAD = {
@@ -493,7 +493,7 @@ describe('applyEnchant on a Phase 2 masterwork copy', () => {
     expect(slot?.instance?.signer).toBe('Tester');
     expect(slot?.instance?.enchant).toBe('enchant_weapon_might');
     // The masterwork copy never carried rolled.quality and the enchant must
-    // not invent one (Phase 2 retired rolled.quality for new writes).
+    // not invent one (the masterwork model retired rolled.quality for new writes).
     expect(slot?.instance?.rolled?.quality).toBeUndefined();
   });
 
@@ -646,13 +646,13 @@ describe('ENCHANTS table integrity', () => {
   });
 });
 
-// Phase 12c: enchanting gains are quality-tiered under the SOFT archetype
+// Enchanting gains are quality-tiered under the SOFT archetype
 // ceiling (archetype.ts enchantingGainMultiplier). The flat-1-per-action rule
 // is retired: ENCHANTING_SKILL_GAIN stays 1 but is now the BASE, multiplied
 // by the four-state curve over min(input tier, archetype ceiling). The pure
 // min()/curve arms live in archetype_ceiling.test.ts; these pin the resolver
 // wiring and the content maps.
-describe('quality-tiered enchanting gains (Phase 12c)', () => {
+describe('quality-tiered enchanting gains', () => {
   it('pins the base gain and the quality-to-tier map to literals', () => {
     expect(ENCHANTING_SKILL_GAIN).toBe(1);
     expect(ENCHANTING_GAIN_TIER_BY_QUALITY).toEqual({

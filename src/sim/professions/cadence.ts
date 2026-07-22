@@ -1,4 +1,4 @@
-// Ticks-based per-key cooldown windows (Professions 2.0 Phase 14): the shared
+// Ticks-based per-key cooldown windows (Professions 2.0): the shared
 // timing primitive behind repeatable work-order quests (persisted per character)
 // and the in-memory trend-nudge cadence. A pure leaf: no SimContext, no rng, no
 // wall clock, no mutation beyond the passed map. Every window is expressed in
@@ -61,7 +61,7 @@ export function cadenceBlockedKeys(map: CadenceMap, now: number): string[] {
 /** Whether a stored availableAt has already lapsed at tick `now` (the key is
  *  available again, so it carries no state worth keeping). The ONE elapsed
  *  predicate shared by the load-time drop (clampCadenceOnLoad) and the
- *  serialize-time prune (serializeCadence, Phase 15 QA directed fix); both
+ *  serialize-time prune (serializeCadence); both
  *  arms sit on it so a serialize-load-serialize round trip is a fixed point. */
 export function isCadenceElapsed(availableAt: number, now: number): boolean {
   return availableAt <= now;
@@ -89,7 +89,7 @@ export function clampCadenceOnLoad(
   return map;
 }
 
-/** Serialize-time counterpart of clampCadenceOnLoad (Phase 15 QA directed fix):
+/** Serialize-time counterpart of clampCadenceOnLoad:
  *  the still-live entries of a cadence map as a plain persistable record, or
  *  null when nothing live remains so the save field omits (zero-default
  *  omission). Load-only pruning let a long-running session autosave past-due

@@ -474,7 +474,7 @@ describe('retro on join', () => {
       delveClears: { 'collapsed_reliquary:normal': 2 },
       craftSkills: { cooking: 3 },
       gatheringProficiency: { mining: 1 },
-      // A curve-era blob (Professions 2.0 Phase 12c): without this flag the
+      // A curve-era blob (Professions 2.0): without this flag the
       // one-time mastery reset zeroes both skill maps at load, BEFORE the
       // retro sweep runs, and the skill-proof inferences under test would
       // (correctly) see nothing. The pre-curve arm is pinned in
@@ -621,7 +621,7 @@ describe('retro on join', () => {
   });
 
   it('a masterwork bag instance seeds at the item DEF quality on join (no bump inflation)', () => {
-    // Professions 2.0 Phase 2: a masterwork copy carries rolled.masterwork +
+    // Professions 2.0: a masterwork copy carries rolled.masterwork +
     // rolled.stats and NO rolled.quality, so the join seed reads the def
     // quality. eastbrook_ritual_vestments' def is uncommon: the gameplay bump
     // to rare is a stat-budget fact, never a discovery fact.
@@ -648,7 +648,7 @@ describe('retro on join', () => {
   });
 
   it('a legacy bag instance with rolled.quality rare still seeds the quality:rare mark on join', () => {
-    // Legacy crafted instances (pre-Phase 2) persist rolled.quality; their
+    // Legacy crafted instances (pre-masterwork) persist rolled.quality; their
     // exact old read is unchanged: the rolled quality beats the def.
     const sim = makeSim();
     const pid = sim.addPlayer('warrior', 'LegacyVet', {
@@ -823,12 +823,12 @@ describe('retro on join', () => {
   });
 });
 
-// Professions 2.0 Phase 2: a live masterwork grant (sim.addItemInstance, the
+// Professions 2.0: a live masterwork grant (sim.addItemInstance, the
 // exact hub the craft path's masterwork arm calls) carries rolled.masterwork
 // and NO rolled.quality, so the discovery ledger reads the item DEF quality,
 // identical to a plain grant of the same item; the one-tier gameplay bump
 // never inflates the quality-first marks.
-describe('masterwork instance discovery (Professions 2.0 Phase 2)', () => {
+describe('masterwork instance discovery (Professions 2.0)', () => {
   it('a rare-DEF masterwork instance marks discovery exactly like a plain grant of the item', () => {
     // Rare DEF (boundstone_helm): the def quality itself lands quality:rare on
     // both paths, and the masterwork bump (rare to epic in stats) lands epic
@@ -1431,7 +1431,7 @@ describe('fixpoint across the authored order', () => {
 
 describe('bounded sets on load', () => {
   it('restoreDeedStats drops marks outside the authored namespaces and unknown item ids', () => {
-    // gather_event is the Phase 15 load-drop regression pin: the marks always
+    // gather_event is the load-drop regression pin: the marks always
     // serialized fine but were dropped on load while the namespace was missing
     // from VISITED_MARK_NAMESPACES, so a mid-hunt save silently lost rare-event
     // deed progress. The mark must survive the round trip.
@@ -2026,11 +2026,11 @@ describe('trade completion counts only non-empty trades (soc_first_trade)', () =
   });
 });
 
-// Professions 2.0 Phase 15: threshold-exact behavioral arms for the new deed
+// Professions 2.0: threshold-exact behavioral arms for the new deed
 // families, each driven through a live site (the real announce/command path,
 // or the live meta map plus the evaluator's own dirty sweep), with the
 // one-below negative beside every at-threshold grant.
-describe('Phase 15 profession deed families (threshold-exact, live sites)', () => {
+describe('profession deed families (threshold-exact, live sites)', () => {
   it('Craftsworn: the real attunement announce site grants at the first bump, exactly once', () => {
     const sim = makeSim();
     const { meta } = primary(sim);

@@ -1,4 +1,4 @@
-// Phase 15 evidence screenshots: the rewritten professions wiki (overview,
+// Evidence screenshots: the rewritten professions wiki (overview,
 // one craft page, the fishing page; desktop 1600x900 dsf1 plus one mobile
 // portrait 390x844 dsf3: the guide is a content surface and allows portrait),
 // the Book of Deeds progression tab showing the new profession deeds, and the
@@ -12,7 +12,7 @@
 //
 // Needs `npm run dev` (GAME_URL, default http://localhost:5199). Writes PNGs
 // to SHOTS_DIR (default docs/screenshots/professions-2-phase-15/).
-//   BROWSER_PATH=... GAME_URL=http://localhost:5199 node scripts/professions_p15_shots.mjs
+//   BROWSER_PATH=... GAME_URL=http://localhost:5199 node scripts/professions_wiki_deeds_shots.mjs
 
 import fs from 'node:fs';
 import puppeteer from 'puppeteer-core';

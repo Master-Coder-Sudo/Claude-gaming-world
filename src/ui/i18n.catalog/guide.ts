@@ -1352,7 +1352,7 @@ export const guideStrings = {
       'Beyond combat and quests, the world rewards you for working the land and the forge: gathering raw materials, turning them into gear and goods across ten crafting trades, and settling into an identity as one of the ten archetypes those trades represent.',
 
     // Corpse component harvesting: open to every character, no profession gate.
-    // (Phase 15 wiki arm: rendered on the gathering detail pages.)
+    // (Rendered on the gathering detail pages.)
     harvestTitle: 'Harvesting the hunt itself',
     harvestBody:
       'Gathering does not stop at nodes. Many slain beasts can be harvested once each, first come first served, for hides, fangs, silk, and meat, straight from the corpse alongside its ordinary loot; one press opens both. The choice is yours each time, too: strip everything the corpse offers, or concentrate on fewer components and take a measurably finer grade of what you do take.\n\nA rare or better harvest roll on a specimen-bearing family also grants a signed perfect specimen (a Pristine Hide, Pristine Silk, Pristine Venom Gland, or Prime Cut) on top of the ordinary yield, and records A Perfect Specimen in your Book of Deeds. Any character can harvest, no training required, and any gathering tool you own counts toward the premium arm, whichever trade it belongs to.',
@@ -1362,13 +1362,13 @@ export const guideStrings = {
 
     craftHowTitle: 'The crafting window',
 
-    // Phase 15 wiki arm: repurposed from the old "Skill and mastery" section
+    // Repurposed from the old "Skill and mastery" section
     // into the overview's honest-pacing section (same mastery topic).
     craftMasteryTitle: 'How long mastery takes',
     craftMasteryBody:
       "Honest expectations: the climb to a craft's 125 cap is at least 125 successful crafts, since each full-gain craft moves you exactly one point, and in practice somewhat more as recipes fade between trainer rungs. The crafting itself is quick; feeding it is the real journey, so budget a few dedicated evenings of gathering and crafting per trade.\n\nThe gathering trades reach their 100 cap over a normal leveling journey if you harvest as you travel, though the last stretch wants the high-tier nodes of the far north. Fishing is the long road by design: by its own gain schedule, 200 proficiency is more than three thousand catches. Master Angler is a title earned over a season of quiet evenings, not a weekend.",
 
-    // Phase 15 wiki arm: this pair of keys now backs the overview's "Guild
+    // This pair of keys backs the overview's "Guild
     // letter and changing your mind" section (same choose/switch topic).
     archetypeChooseTitle: 'The Guild letter, and changing your mind',
     archetypeChooseBody:
@@ -1377,7 +1377,7 @@ export const guideStrings = {
     archetypeSwitchBody:
       'A declaration is not a life sentence, either. A pair you have never held is simply a fresh attunement quest, while returning to a pair you walked away from asks you to make amends first: five tasks the first time, and three more added for every switch you have already made. The choice stays meaningful without ever locking a door for good.',
 
-    // Professions hub (Professions 2.0 Phase 15 wiki arm, final prose): the
+    // Professions hub (Professions 2.0 wiki arm, final prose): the
     // overview page renders the generated ring/gathering/archetype data and
     // links every detail page. The maintainer-resolved transparency policy
     // lets these sections carry exact numbers. Multi-paragraph bodies use
@@ -1475,7 +1475,7 @@ export const guideStrings = {
       enchanting:
         'Enchanting takes gear apart and puts the power back in: break unwanted pieces into arcane materials, then spend them on a permanent stat bonus for a piece you mean to keep. No station, no trainer, and anyone can start on day one.',
     },
-    // Per-craft prose sections (Phase 15 wiki arm): craft-specific identity,
+    // Per-craft prose sections: craft-specific identity,
     // materials, ladder, and route text the shared sections cannot carry.
     // Item, NPC, and deed names are baked English proper nouns (the
     // GUIDE_DEEDS precedent); numbers follow the transparency policy.

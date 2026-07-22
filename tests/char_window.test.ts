@@ -342,7 +342,7 @@ describe('hobbyCraftText (#1294): id-to-key view model', () => {
   });
 });
 
-describe('char_window: own-paperdoll per-copy tooltip threading (Phase 6)', () => {
+describe('char_window: own-paperdoll per-copy tooltip threading', () => {
   it('resolves the worn instance from the self entity mirror inside the tooltip closure', () => {
     // Both worlds mirror the own worn set on the self entity
     // (equippedInstances), so the paperdoll tooltip must read it per slot at

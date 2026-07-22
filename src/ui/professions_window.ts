@@ -53,7 +53,7 @@ const CEILING_LABEL_KEYS: Record<EmpowermentCeiling, TranslationKey> = {
 
 // Gathering display-name keys (the char-window gathering section family).
 // Every GATHERING_PROFESSION_IDS id adds its id here alongside its catalog
-// key (fishing landed with Phase 11); an id with no key renders no row (the
+// key; an id with no key renders no row (the
 // view core passes every row through).
 const GATHERING_NAME_KEYS: Record<string, TranslationKey> = {
   mining: 'hudChrome.gathering.mining',
@@ -190,8 +190,8 @@ export class ProfessionsWindow {
       model.identity.state === 'syncing'
         ? t('hudChrome.professions.syncing')
         : t('hudChrome.professions.unattunedIdentity');
-    // The specialized-corner copy call (maintainer, closing the Phase 5
-    // deferral): when the next milestone ahead of the trending craft is the
+    // The specialized-corner copy call: when the next milestone ahead of
+    // the trending craft is the
     // specialization threshold rather than a plain tier, the CTA names what
     // the crossing actually unlocks instead of "the next tier".
     const cta =

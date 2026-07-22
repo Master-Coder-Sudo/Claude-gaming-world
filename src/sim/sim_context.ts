@@ -670,7 +670,7 @@ export interface SimContextCallbacks {
   startAutoAttack(pid?: number): void;
   revivePet(pid?: number): void;
   completeFishing(p: Entity, meta: PlayerMeta): void;
-  // Gather cast completion (Professions 2.0 Phase 12b): updateCasting routes a
+  // Gather cast completion (Professions 2.0): updateCasting routes a
   // finished GATHER_CAST_ID cast here, exactly like completeFishing above.
   completeGatherCast(p: Entity, meta: PlayerMeta): void;
   applyDemonHealTick(owner: Entity): void;
@@ -756,7 +756,7 @@ export interface SimContextCallbacks {
   // dispatches to. W2 owns these declarations; each is a thin late-bound delegate,
   // to a still-on-Sim method or (for fishing) to the professions module.
   // startFishing now routes to the fishing module (src/sim/professions/fishing.ts,
-  // Professions 2.0 Phase 11), called with the live ctx the same way runEffects is;
+  // Professions 2.0), called with the live ctx the same way runEffects is;
   // its body no longer lives on Sim (completeFishing, declared above, moved with it).
   // unlockMechChromaFromItem / openSkinSelect are cosmetics internals (facet W7);
   // isSwimming is a shared terrain predicate. unlockMechChromaFromItem's return value

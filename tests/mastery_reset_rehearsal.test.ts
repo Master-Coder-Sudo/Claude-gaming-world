@@ -157,7 +157,7 @@ function rehearse(state: CharacterState, seed: number, playerClass = 'warrior'):
     violations.push('output blob is missing masteryResetApplied: true');
   }
 
-  // Arm 3 (completeness, Phase 12c QA): the two allowlist arms above only
+  // Arm 3 (completeness): the two allowlist arms above only
   // classify deltas that HAPPENED, so a partial reset (one map missed) sails
   // through them: the untouched map produces no delta at all. For a row the
   // reset should have applied to, require every craft-skill and gathering

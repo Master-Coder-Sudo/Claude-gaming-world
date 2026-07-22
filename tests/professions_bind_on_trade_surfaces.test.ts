@@ -1,6 +1,6 @@
-// Phase 13 QA, added by the QA session: the five
-// bind-on-trade resonant reagents vs every item-transfer surface OUTSIDE the
-// player trade: player mail (post_office.ts), World Market listing (market.ts),
+// The five bind-on-trade resonant reagents vs every item-transfer surface
+// OUTSIDE the player trade: player mail (post_office.ts), World Market
+// listing (market.ts),
 // vendor buy/sell/sellAllJunk/buyback (items.ts), and the character bank
 // (bank.ts). Probes the REAL Sim delegates, never internals.
 //
@@ -269,9 +269,8 @@ describe('vendor: plain and armed copies sell, stamped copies are refused (wash 
   }
 
   it('selling a stamped copy (the only copy) IS refused: the bond gates the vendor too', () => {
-    // Phase 15 QA directed fix, maintainer-approved 2026-07-22, closes the
-    // buyback-plain wash: this arm previously pinned the stamped sell ALLOWED
-    // (the laundering class was left open in scope), but sell + buyback
+    // Closes the buyback-plain wash: this arm previously pinned the stamped
+    // sell ALLOWED, but sell + buyback
     // stripped boundTo AND bindOnTrade for a 0 copper spread. The bond now
     // gates the vendor exactly like the trade.
     const { sim, pid } = vendorSetup();

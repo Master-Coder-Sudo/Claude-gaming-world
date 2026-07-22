@@ -1,4 +1,4 @@
-// Phase 13 QA, added by the QA session: proves the
+// Proves the
 // ClientWorld lastDisenchantResult/lastEnchantResult/lastSalvageResult reads are
 // LIVE over the real wire path, closing what the shipped suites leave open:
 //   A. The FULL onMessage wire path for the event arm (the shipped suites call
@@ -108,7 +108,7 @@ function eventFrames(sent: WireMsg[], fromIdx = 0): WireMsg[] {
   return sent.slice(fromIdx).filter((m) => m.t === 'events');
 }
 
-// The tests/snapshots.test.ts bareClient shape (identical to the shipped Phase 13
+// The tests/snapshots.test.ts bareClient shape (identical to the shipped
 // suites): a ClientWorld without WebSocket plumbing.
 function bareClient(pid: number, playerClass: PlayerClass = 'warrior'): ClientWorld {
   const c: any = Object.create(ClientWorld.prototype);
@@ -178,7 +178,7 @@ function feed(client: ClientWorld, frame: WireMsg): void {
 // ---------------------------------------------------------------------------
 // A. Event arm ALONE over the real onMessage wire path (no snapshot at all).
 // ---------------------------------------------------------------------------
-describe('QA13 mirror: event arm alone through the real onMessage path', () => {
+describe('result mirror: event arm alone through the real onMessage path', () => {
   it('real server events frames drive all three lastX mirrors and the eventQueue with NO snapshot', () => {
     const server = new GameServer();
     const fc = fakeWs();
@@ -224,7 +224,7 @@ describe('QA13 mirror: event arm alone through the real onMessage path', () => {
 // ---------------------------------------------------------------------------
 // B. Identical consecutive denies: the delta suppresses, the event arm surfaces.
 // ---------------------------------------------------------------------------
-describe('QA13 mirror: second identical deny rides the event arm alone', () => {
+describe('result mirror: second identical deny rides the event arm alone', () => {
   it('two not_held salvage denies: no second salv delta, but a second salvageResult event lands', () => {
     const server = new GameServer();
     const fc = fakeWs();
@@ -277,7 +277,7 @@ describe('QA13 mirror: second identical deny rides the event arm alone', () => {
 // ---------------------------------------------------------------------------
 // C. Ordering both ways in one client frame + the no-clear guarantee.
 // ---------------------------------------------------------------------------
-describe('QA13 mirror: event/snapshot ordering never regresses the mirror', () => {
+describe('result mirror: event/snapshot ordering never regresses the mirror', () => {
   it('event-then-snap and snap-then-event both settle on the authoritative value; a keyless snap preserves it', () => {
     const server = new GameServer();
     const fc = fakeWs();
@@ -327,7 +327,7 @@ describe('QA13 mirror: event/snapshot ordering never regresses the mirror', () =
 // ---------------------------------------------------------------------------
 // D. Reconnect-style full snapshot: fresh lastSent re-ships every key.
 // ---------------------------------------------------------------------------
-describe('QA13 mirror: reconnect full snapshot converges the mirror', () => {
+describe('result mirror: reconnect full snapshot converges the mirror', () => {
   it('after resetting session.lastSent (the fresh-session shape) the next snap carries salv, ench, and an explicit denc null', () => {
     const server = new GameServer();
     const fc = fakeWs();
@@ -363,7 +363,7 @@ describe('QA13 mirror: reconnect full snapshot converges the mirror', () => {
 // ---------------------------------------------------------------------------
 // E. Throttled apply_enchant attribution (the missing third direction).
 // ---------------------------------------------------------------------------
-describe('QA13 mirror: throttled apply_enchant surfaces via enchantResult/ench only', () => {
+describe('result mirror: throttled apply_enchant surfaces via enchantResult/ench only', () => {
   it('a valid enchant attempt on a spent window denies with enchantResult throttled, sibling surfaces untouched', () => {
     const server = new GameServer();
     const fc = fakeWs();

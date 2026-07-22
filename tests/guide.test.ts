@@ -1115,9 +1115,9 @@ describe('Guide corrected-prose pins', () => {
 });
 
 // ============================================================================
-// Professions reference accuracy (Professions 2.0 Phase 15 wiki arm).
+// Professions reference accuracy (Professions 2.0 wiki arm).
 //
-// NUMERIC-TRANSPARENCY CARVE-OUT, maintainer-resolved (the Phase 15 charter):
+// NUMERIC-TRANSPARENCY CARVE-OUT (a maintainer ruling):
 // the professions sections of the wiki publish EXACT numbers, skill
 // requirements, gain-state boundaries, band thresholds, caps, fees,
 // rare-event odds, and vendor prices, because a crafting reference that hides

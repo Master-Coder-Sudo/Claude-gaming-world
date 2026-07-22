@@ -467,7 +467,7 @@ const deeds = DEED_ORDER.map((id) => DEEDS[id])
   }));
 
 // ---------------------------------------------------------------- professions
-// Professions 2.0 (Phase 15 wiki arm). TRANSPARENCY POLICY, maintainer-resolved:
+// Professions 2.0 (wiki arm). TRANSPARENCY POLICY:
 // unlike the delve/bestiary sections above, the professions sections publish
 // EXACT numbers (skill requirements, gain-state boundaries, band thresholds,
 // caps, fees, rare-event odds, vendor prices). Every value below is derived
@@ -961,8 +961,8 @@ export interface GuideDeed {
 }
 
 // ---------------------------------------------------------------- professions
-// Professions 2.0 reference data (Phase 15 wiki arm). TRANSPARENCY POLICY,
-// maintainer-resolved: the professions sections publish EXACT numbers (skill
+// Professions 2.0 reference data (wiki arm). TRANSPARENCY POLICY:
+// the professions sections publish EXACT numbers (skill
 // requirements, gain boundaries, band thresholds, caps, fees, odds, vendor
 // prices), all derived from the sim source; tests/guide.test.ts guards every
 // row against the live defs. Display names are baked English proper nouns
