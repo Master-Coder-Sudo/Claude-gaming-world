@@ -4958,6 +4958,13 @@
     overflow-y: auto;
     padding: 10px 2px 2px 0;
   }
+  /* A scroll pane's children must never flex-shrink: once the recipe list
+     overflows, a default-shrink card compresses below its content height and
+     its overflow:hidden clips the footer (the commission chip lost its
+     bottom half this way). Overflow belongs to the pane's scrollbar. */
+  .crafting-body > * {
+    flex-shrink: 0;
+  }
   .crafting-body > .vendor-section-title {
     margin-top: 0;
     padding-top: 0;

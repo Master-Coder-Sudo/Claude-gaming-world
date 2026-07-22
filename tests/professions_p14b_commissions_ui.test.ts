@@ -6,6 +6,8 @@
 // pure core + unbind_window painter). The sim-side arcs live in
 // tests/professions_p14b_commissions.test.ts.
 
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 import { ALL_RECIPES } from '../src/sim/content/recipes';
 import { ITEMS } from '../src/sim/data';
@@ -111,6 +113,18 @@ describe('renderCraftingWindow commission toggle-chip', () => {
     chip.click();
     expect(deps.onToggleCommission).toHaveBeenCalledWith(SWORD_RECIPE, false);
     expect(chip.getAttribute('aria-pressed')).toBe('false');
+  });
+
+  it('the recipe scroll pane never shrink-clips a card (the commission footer stays whole)', () => {
+    // jsdom does no layout, so the flex behavior is pinned at the source: the
+    // scroll pane's children carry an explicit shrink guard, else an
+    // overflowing list compresses each card below its content height and the
+    // card's overflow:hidden clips the commission chip.
+    const css = readFileSync(join(__dirname, '../src/styles/components.css'), 'utf8');
+    const start = css.indexOf('.crafting-body > * {');
+    expect(start).toBeGreaterThanOrEqual(0);
+    const rule = css.slice(start, css.indexOf('}', start));
+    expect(rule).toContain('flex-shrink: 0');
   });
 
   it('docks the chip in the card footer after the craft button, hint tooltip on the chip', () => {
