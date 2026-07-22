@@ -8674,7 +8674,8 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'entities.letters.prof_tier_engineering_alchemy_5.sender': 'からくり師ギッゼル',
   // Commissions and the Maker's Bond (Professions 2.0 Phase 14b).
   'hudChrome.crafting.commissionToggle': '受注品として制作',
-  'hudChrome.crafting.commissionToggleHint': '取引で最初に受け取ったキャラクターにバインドされます。',
+  'hudChrome.crafting.commissionToggleHint':
+    '取引で最初に受け取ったキャラクターにバインドされます。',
   'hudChrome.crafting.commissionUnbound': '受注品：最初の受取人にバインドされる',
   'hudChrome.crafting.commissionBound': '受注品：受取人にバインド済み',
   'hudChrome.unbind.title': 'バインド解除：{name}',
@@ -8689,7 +8690,8 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'hudChrome.unbind.confirmBody': '{fee}で{name}のバインドを解除しますか？',
   'hudChrome.unbind.confirmOk': 'バインド解除',
   'hudChrome.unbind.confirmCancel': 'キャンセル',
-  'hudChrome.unbind.unbound': '{fee}で{name}のバインドを解除しました。次の取引で再びバインドされます。',
+  'hudChrome.unbind.unbound':
+    '{fee}で{name}のバインドを解除しました。次の取引で再びバインドされます。',
   'hudChrome.unbind.notEligible': 'そのアイテムはバインド解除できません。',
   'hudChrome.unbind.notBound': 'そのアイテムはバインドされていません。',
   'hudChrome.unbind.cannotAfford': 'バインド解除の手数料を支払えません。',

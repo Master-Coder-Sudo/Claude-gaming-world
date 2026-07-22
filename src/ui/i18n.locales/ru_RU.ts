@@ -8841,7 +8841,8 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'entities.letters.prof_tier_engineering_alchemy_5.sender': 'Механик Гиззел',
   // Commissions and the Maker's Bond (Professions 2.0 Phase 14b).
   'hudChrome.crafting.commissionToggle': 'Изделие на заказ',
-  'hudChrome.crafting.commissionToggleHint': 'Привязывается к первому персонажу, получившему его при обмене.',
+  'hudChrome.crafting.commissionToggleHint':
+    'Привязывается к первому персонажу, получившему его при обмене.',
   'hudChrome.crafting.commissionUnbound': 'Изделие на заказ: привяжется к первому получателю',
   'hudChrome.crafting.commissionBound': 'Изделие на заказ: привязано к получателю',
   'hudChrome.unbind.title': 'Снятие привязки: {name}',
@@ -8856,7 +8857,8 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.unbind.confirmBody': 'Снять привязку с {name} за {fee}?',
   'hudChrome.unbind.confirmOk': 'Снять привязку',
   'hudChrome.unbind.confirmCancel': 'Отмена',
-  'hudChrome.unbind.unbound': 'Привязка с {name} снята за {fee}. При следующем обмене изделие привяжется снова.',
+  'hudChrome.unbind.unbound':
+    'Привязка с {name} снята за {fee}. При следующем обмене изделие привяжется снова.',
   'hudChrome.unbind.notEligible': 'С этого предмета нельзя снять привязку.',
   'hudChrome.unbind.notBound': 'Этот предмет не привязан.',
   'hudChrome.unbind.cannotAfford': 'Вам не хватает денег на снятие привязки.',

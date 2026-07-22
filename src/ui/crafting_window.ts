@@ -250,8 +250,9 @@ export function renderCraftingWindow(
         commissionLabel.appendChild(
           document.createTextNode(` ${t('hudChrome.crafting.commissionToggle')}`),
         );
-        deps.attachTooltip(commissionLabel, () =>
-          `<div class="tt-sub">${esc(t('hudChrome.crafting.commissionToggleHint'))}</div>`,
+        deps.attachTooltip(
+          commissionLabel,
+          () => `<div class="tt-sub">${esc(t('hudChrome.crafting.commissionToggleHint'))}</div>`,
         );
         item.appendChild(commissionLabel);
       }

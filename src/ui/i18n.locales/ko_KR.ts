@@ -8679,7 +8679,8 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.unbind.confirmBody': '{fee}(으)로 {name}의 귀속을 해제하시겠습니까?',
   'hudChrome.unbind.confirmOk': '귀속 해제',
   'hudChrome.unbind.confirmCancel': '취소',
-  'hudChrome.unbind.unbound': '{fee}(으)로 {name}의 귀속을 해제했습니다. 다음 거래에서 다시 귀속됩니다.',
+  'hudChrome.unbind.unbound':
+    '{fee}(으)로 {name}의 귀속을 해제했습니다. 다음 거래에서 다시 귀속됩니다.',
   'hudChrome.unbind.notEligible': '그 아이템은 귀속을 해제할 수 없습니다.',
   'hudChrome.unbind.notBound': '그 아이템은 귀속되어 있지 않습니다.',
   'hudChrome.unbind.cannotAfford': '귀속 해제 수수료를 지불할 수 없습니다.',

@@ -12,11 +12,11 @@
 
 import { ALL_RECIPES } from '../sim/content/recipes';
 import { craftSkillGainMultiplier } from '../sim/professions/archetype';
-import { isCommissionEligible } from '../sim/professions/commission';
 import {
   type ComboEligibilityReason,
   comboEligibility,
 } from '../sim/professions/combo_eligibility';
+import { isCommissionEligible } from '../sim/professions/commission';
 import { type StationType, stationsOfType, stationTypeForCraft } from '../sim/professions/stations';
 import { MINIMAL_TIER_MULTIPLIER, REDUCED_TIER_MULTIPLIER } from '../sim/professions/wheel';
 import type { InvSlot, ItemDef } from '../sim/types';

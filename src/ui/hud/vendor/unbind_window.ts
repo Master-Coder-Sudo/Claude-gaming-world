@@ -65,9 +65,7 @@ export function renderUnbindWindow(
     button.disabled = !row.affordable;
     button.setAttribute('aria-label', t('hudChrome.unbind.unbindAria', { name, fee }));
     const countSuffix =
-      row.boundCount > 1
-        ? ` x${formatNumber(row.boundCount, { maximumFractionDigits: 0 })}`
-        : '';
+      row.boundCount > 1 ? ` x${formatNumber(row.boundCount, { maximumFractionDigits: 0 })}` : '';
     const iconHtml = row.item ? deps.itemIcon(row.item) : '';
     button.innerHTML = `${iconHtml}<span class="vi-name">${esc(name)}${esc(countSuffix)}<span class="vi-sub">${esc(t('hudChrome.unbind.rowSub'))}</span></span><span class="vi-price${row.affordable ? '' : ' unaffordable'}">${esc(fee)}</span>`;
     button.addEventListener('click', () => deps.onUnbind(row.itemId, row.feeCopper));

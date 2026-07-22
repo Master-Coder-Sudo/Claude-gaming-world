@@ -63,10 +63,7 @@ export const UNBIND_FEE_BY_QUALITY_TIER: readonly number[] = Object.freeze([2500
 export function unbindFeeFor(def: ItemDef): number {
   const quality = def.quality === undefined || def.quality === 'poor' ? 'common' : def.quality;
   const ladderIdx = (MASTERWORK_QUALITY_LADDER as readonly string[]).indexOf(quality);
-  const feeIdx = Math.min(
-    Math.max(ladderIdx - 1, 0),
-    UNBIND_FEE_BY_QUALITY_TIER.length - 1,
-  );
+  const feeIdx = Math.min(Math.max(ladderIdx - 1, 0), UNBIND_FEE_BY_QUALITY_TIER.length - 1);
   return UNBIND_FEE_BY_QUALITY_TIER[feeIdx];
 }
 

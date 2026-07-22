@@ -4166,8 +4166,7 @@ export class GameServer {
         // check (the dispatch type-guard rule); anything else reads as false.
         // The sim honors it only for eligible equipment outputs and mints the
         // bindOnTrade arm itself, so nothing here trusts client data.
-        if (typeof msg.recipe === 'string')
-          sim.craftItem(msg.recipe, msg.commission === true, pid);
+        if (typeof msg.recipe === 'string') sim.craftItem(msg.recipe, msg.commission === true, pid);
         break;
       // Enchanting profession commands (Professions 2.0 Phase 13): the sim
       // resolvers re-validate ownership/eligibility/throttle (nothing trusted
