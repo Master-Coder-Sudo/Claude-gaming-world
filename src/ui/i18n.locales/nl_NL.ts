@@ -744,14 +744,6 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'entities.zones.eastbrook_vale.pois.10.label': 'Het Zeugveld',
   'guide.nav.professions': 'Beroepen',
   'guide.nav.valeCup': 'Dalbeker',
-  'guide.professions.archetypeChooseBody':
-    'Een archetype uitroepen wordt een verhaalmoment: een quest die je formeel in die identiteit opneemt. Die weg wordt nog gebouwd, dus voorlopig loopt elk personage door de wereld met de keuze nog vóór zich, en elk ambacht vordert ondertussen tot de kwaliteitsrang Zeldzaam.',
-  'guide.professions.archetypeChooseTitle': 'Je archetype kiezen',
-  'guide.professions.archetypeSwitchBody':
-    'Een uitroeping is evenmin een levenslange gevangenisstraf. Het plan is een herhaalbare daad van goedmaken tegenover je oude vak voor je een nieuw vak opneemt, waarbij het goedmaken elke keer dat je wisselt steiler wordt, zodat de keuze betekenisvol blijft in plaats van gratis. Net als de uitroeping zelf is ook dit nog onderweg.',
-  'guide.professions.craftMasteryBody':
-    'Succesvol iets maken bouwt vaardigheid op in dat vak, en vaardigheid houdt de recepten van een ambacht nooit achter slot: als je een recept kent en de materialen ervan bezit, kun je het proberen. Wat vaardigheid je in plaats daarvan oplevert, is kwaliteit: een geoefende hand levert fijner werk af. De enige uitzondering zijn combinatierecepten, die vragen dat je jezelf in beide ambachten hebt bewezen voordat ze opengaan.',
-  'guide.professions.craftMasteryTitle': 'Vaardigheid en meesterschap',
   'guide.professions.intro':
     'Naast gevecht en quests beloont de wereld je voor het bewerken van het land en de smidse: grondstoffen verzamelen, ze in tien ambachtsvakken tot uitrusting en goederen maken, en een identiteit aannemen als een van de tien archetypen die deze vakken vertegenwoordigen.',
   'guide.valeCupPage.heading': 'De Dalbeker',
@@ -7811,8 +7803,6 @@ export const nl_NL: Partial<Record<TranslationKey, string>> = {
   'guide.professions.focusBody':
     'Elke hoofdplaats heeft een Stadsfocus-paneel voor oogsters op bezoek: sta in de stad, open het naast de minimap, en richt een klein budget aan focuspunten op de componenttypen die je belangrijk vindt. Hoe meer focus je aan een component geeft, hoe fijner en rijker het van elk later lijk komt; je toewijzing volgt je personage waar het ook zwerft, en je kunt haar gratis herzien bij elk later bezoek aan de stad.',
   'guide.professions.focusTitle': 'Stadsfocus',
-  'guide.professions.harvestBody':
-    'Verzamelen stopt niet bij grondstofbronnen. Sommige gedode beesten kun je oogsten voor componenten, huiden, hoektanden, zijde en vreemdere zaken, rechtstreeks van het lijk naast de gewone buit. Eén oogster per kill: wie het eerst oogst, claimt alles. De keuze is ook elke keer aan jou: stroop alles wat het lijk biedt, of concentreer je op één component en neem er een fijnere kwaliteit van. Elk personage kan oogsten, geen vak of training vereist, en een bijzonder fijne component draagt zelfs de naam van wie hem heeft geoogst.',
   'guide.professions.harvestTitle': 'De jacht zelf oogsten',
   'guide.search.typeAbility': 'Vaardigheid',
   'guide.search.typeDeed': 'Daad',

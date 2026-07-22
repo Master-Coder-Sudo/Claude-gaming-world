@@ -712,14 +712,6 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'entities.zones.eastbrook_vale.pois.10.label': 'Das Saufeld',
   'guide.nav.professions': 'Berufe',
   'guide.nav.valeCup': 'Talpokal',
-  'guide.professions.archetypeChooseBody':
-    'Einen Archetyp zu erklären wird ein Story-Moment sein: eine Quest, die dich förmlich in diese Identität aufnimmt. Dieser Weg wird noch gebaut, daher zieht vorerst jeder Charakter mit der noch offenen Wahl durch die Welt, und jedes Handwerk steigt in der Zwischenzeit bis zur Qualitätsstufe Selten auf.',
-  'guide.professions.archetypeChooseTitle': 'Deinen Archetyp wählen',
-  'guide.professions.archetypeSwitchBody':
-    'Eine Erklärung wird auch keine lebenslange Bindung sein. Der Plan ist ein wiederholbarer Akt der Wiedergutmachung gegenüber deinem alten Gewerbe, bevor du ein neues aufnimmst, wobei die Wiedergutmachung mit jedem Wechsel steiler ausfällt, damit die Wahl bedeutsam bleibt statt kostenlos. Wie die Erklärung selbst ist auch er noch unterwegs.',
-  'guide.professions.craftMasteryBody':
-    'Erfolgreiches Herstellen steigert deine Fertigkeit in diesem Gewerbe, und Fertigkeit sperrt niemals die Rezepte eines Handwerks weg: Kennst du ein Rezept und hältst seine Materialien, kannst du es versuchen. Was Fertigkeit dir stattdessen einbringt, ist Güte, eine geübte Hand liefert feinere Arbeit. Die eine Ausnahme sind Kombinationsrezepte, die verlangen, dass du dich in beiden ihrer Handwerke bewährt hast, bevor sie sich öffnen.',
-  'guide.professions.craftMasteryTitle': 'Fertigkeit und Meisterschaft',
   'guide.professions.intro':
     'Jenseits von Kampf und Quests belohnt dich die Welt für die Arbeit an Land und Esse: Rohstoffe sammeln, sie über zehn Handwerksgewerbe hinweg zu Ausrüstung und Waren verarbeiten und in eine Identität als einer der zehn Archetypen hineinwachsen, für die diese Gewerbe stehen.',
   'guide.valeCupPage.heading': 'Der Talpokal',
@@ -7787,8 +7779,6 @@ export const de_DE: Partial<Record<TranslationKey, string>> = {
   'guide.professions.focusBody':
     'Jede größere Stadt hält ein Stadtfokus-Panel für vorbeikommende Sammler bereit: Stell dich in die Stadt, öffne es neben der Minikarte und richte ein kleines Budget an Fokuspunkten auf die Komponententypen, die dir wichtig sind. Je mehr Fokus du einer Komponente gibst, desto feiner und reicher fällt sie von jeder späteren Leiche ab; deine Verteilung folgt deinem Charakter, wohin er auch zieht, und du kannst sie bei jedem späteren Besuch in der Stadt kostenlos umarbeiten.',
   'guide.professions.focusTitle': 'Stadtfokus',
-  'guide.professions.harvestBody':
-    'Das Sammeln hört nicht bei den Vorkommen auf. Manche erschlagenen Bestien lassen sich nach Komponenten ausnehmen, nach Häuten, Fängen, Seide und seltsameren Dingen, direkt von der Leiche neben ihrer gewöhnlichen Beute. Ein Sammler je Tötung: Wer zuerst ausnimmt, bekommt alles. Auch die Wahl liegt jedes Mal bei dir: Nimm der Leiche alles ab, was sie bietet, oder konzentriere dich auf eine einzelne Komponente und erhalte eine feinere Güte davon. Jeder Charakter kann ausnehmen, ohne Gewerbe oder Ausbildung, und eine besonders feine Komponente trägt sogar den Namen dessen, der sie ausgenommen hat.',
   'guide.professions.harvestTitle': 'Die Jagd selbst ernten',
   'guide.search.typeAbility': 'Fähigkeit',
   'guide.search.typeDeed': 'Tat',

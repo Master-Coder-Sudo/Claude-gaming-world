@@ -724,14 +724,6 @@ export const it_IT: Partial<Record<TranslationKey, string>> = {
   'entities.zones.eastbrook_vale.pois.10.label': 'Il Campo della Scrofa',
   'guide.nav.professions': 'Professioni',
   'guide.nav.valeCup': 'Coppa della Valle',
-  'guide.professions.archetypeChooseBody':
-    "Dichiarare un archetipo sarà un momento di trama: una missione che ti accoglie formalmente in quell'identità. Quella strada è ancora in costruzione, perciò per ora ogni personaggio percorre il mondo con la scelta ancora davanti a sé, e nel frattempo ogni mestiere avanza fino al grado di qualità raro.",
-  'guide.professions.archetypeChooseTitle': 'Scegliere il tuo archetipo',
-  'guide.professions.archetypeSwitchBody':
-    "Né una dichiarazione sarà una condanna a vita. Il piano è un atto ripetibile di fare ammenda verso il tuo vecchio mestiere prima di intraprenderne uno nuovo, con l'ammenda che si fa più esigente a ogni cambio, così che la scelta resti significativa anziché gratuita. Come la dichiarazione stessa, è ancora in arrivo.",
-  'guide.professions.craftMasteryBody':
-    "Creare con successo accresce l'abilità in quel mestiere, e l'abilità non blocca mai le ricette di un mestiere: se conosci una ricetta e ne possiedi i materiali, puoi tentarla. Ciò che l'abilità ti dà è invece la qualità, una mano esperta produce lavori più fini. L'unica eccezione sono le ricette combinate, che ti chiedono di esserti dimostrato valido in entrambi i loro mestieri prima di aprirsi.",
-  'guide.professions.craftMasteryTitle': 'Abilità e maestria',
   'guide.professions.intro':
     "Oltre al combattimento e alle missioni, il mondo ti ricompensa per il lavoro della terra e della forgia: raccogliere materie prime, trasformarle in equipaggiamento e beni attraverso dieci mestieri artigiani e assumere un'identità come uno dei dieci archetipi che quei mestieri rappresentano.",
   'guide.valeCupPage.heading': 'La Coppa della Valle',
@@ -7834,8 +7826,6 @@ export const it_IT: Partial<Record<TranslationKey, string>> = {
   'guide.professions.focusBody':
     'Ogni città principale tiene un pannello Focus Cittadino per i raccoglitori di passaggio: fermati in città, aprilo da accanto alla minimappa e indirizza un piccolo budget di punti focus verso i tipi di componente che ti interessano. Più focus dai a un componente, più fine e ricco esce da ogni cadavere successivo; la tua ripartizione segue il personaggio ovunque vada, e puoi rielaborarla, gratis, a ogni successiva visita in città.',
   'guide.professions.focusTitle': 'Focus Cittadino',
-  'guide.professions.harvestBody':
-    'La raccolta non si ferma ai nodi. Da alcune bestie abbattute si possono raccogliere componenti, pelli, zanne, seta e cose più strane, direttamente dal cadavere insieme al suo bottino ordinario. Un raccoglitore per uccisione: chi raccoglie per primo si prende tutto. Anche qui ogni volta la scelta è tua: spoglia il cadavere di tutto ciò che offre, oppure concentrati su un singolo componente e ottienine un grado più fine. Qualsiasi personaggio può raccogliere, senza mestiere né addestramento, e un componente particolarmente fine porta persino il nome di chi lo ha raccolto.',
   'guide.professions.harvestTitle': 'Raccogliere dalla caccia stessa',
   'guide.search.typeAbility': 'Abilità',
   'guide.search.typeDeed': 'Impresa',

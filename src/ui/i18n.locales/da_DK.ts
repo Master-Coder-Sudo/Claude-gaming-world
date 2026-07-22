@@ -659,14 +659,6 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'entities.zones.eastbrook_vale.pois.10.label': 'Somarken',
   'guide.nav.professions': 'Professioner',
   'guide.nav.valeCup': 'Dalpokalen',
-  'guide.professions.archetypeChooseBody':
-    'At erklære en arketype vil blive et historieøjeblik: et opdrag, der formelt optager dig i den identitet. Den vej er stadig under opbygning, så indtil videre vandrer hver karakter gennem verden med valget foran sig, og hvert håndværk avancerer til den sjældne kvalitetsgrad i mellemtiden.',
-  'guide.professions.archetypeChooseTitle': 'Valg af din arketype',
-  'guide.professions.archetypeSwitchBody':
-    'En erklæring vil heller ikke være en livstidsdom. Planen er en gentagelig handling, hvor du gør bod over for dit gamle fag, før du tager et nyt op, og boden bliver stejlere for hver gang du skifter, så valget forbliver meningsfuldt frem for omkostningsfrit. Ligesom selve erklæringen er den stadig på vej.',
-  'guide.professions.craftMasteryBody':
-    'Vellykket håndværk opbygger færdighed i faget, og færdighed låser aldrig et håndværks opskrifter væk: kender du en opskrift og har dens materialer, kan du forsøge dig. Hvad færdighed i stedet giver dig, er kvalitet, en øvet hånd frembringer finere arbejde. Den ene undtagelse er kombinationsopskrifter, der beder dig bevise dig selv i begge deres håndværk, før de åbner sig.',
-  'guide.professions.craftMasteryTitle': 'Færdighed og mesterskab',
   'guide.professions.intro':
     'Ud over kamp og opdrag belønner verden dig for at arbejde med jorden og essen: at samle råmaterialer, forvandle dem til udstyr og varer på tværs af ti håndværksfag og finde sig til rette i en identitet som en af de ti arketyper, fagene står for.',
   'guide.valeCupPage.heading': 'Dalpokalen',
@@ -7752,8 +7744,6 @@ export const da_DK: Partial<Record<TranslationKey, string>> = {
   'guide.professions.focusBody':
     'Hver hjemmebase har et Byfokus-panel for besøgende høstere: stå i byen, åbn det ved siden af minikortet, og ret et lille budget af fokuspoint mod de komponenttyper, du bryder dig om. Jo mere fokus du giver en komponent, jo finere og rigere kommer den af hvert senere lig; din fordeling følger din karakter, hvor end den færdes, og du kan omarbejde den, gratis, ved ethvert senere besøg i byen.',
   'guide.professions.focusTitle': 'Byfokus',
-  'guide.professions.harvestBody':
-    'Indsamling stopper ikke ved forekomster. Nogle dræbte bæster kan høstes for komponenter, skind, hugtænder, silke og mærkeligere ting, direkte fra liget ved siden af dets almindelige bytte. Én høster pr. drab: den, der høster først, får det hele. Valget er også dit hver gang: strip alt, hvad liget tilbyder, eller koncentrer dig om en enkelt komponent og tag en finere grad af den. Enhver karakter kan høste, uden fag eller oplæring, og en særligt fin komponent bærer endda navnet på den, der høstede den.',
   'guide.professions.harvestTitle': 'At høste selve jagten',
   'guide.search.typeAbility': 'Evne',
   'guide.search.typeDeed': 'Bedrift',

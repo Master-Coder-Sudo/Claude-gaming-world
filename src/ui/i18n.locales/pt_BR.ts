@@ -717,14 +717,6 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'entities.zones.eastbrook_vale.pois.10.label': 'O Sowfield',
   'guide.nav.professions': 'Profissões',
   'guide.nav.valeCup': 'Copa do Vale',
-  'guide.professions.archetypeChooseBody':
-    'Declarar um arquétipo será um momento de história: uma missão que o aceita formalmente naquela identidade. Esse caminho ainda está sendo construído, então, por ora, cada personagem percorre o mundo com a escolha ainda pela frente, e cada ofício avança até o grau de qualidade raro nesse meio-tempo.',
-  'guide.professions.archetypeChooseTitle': 'Escolhendo seu arquétipo',
-  'guide.professions.archetypeSwitchBody':
-    'Uma declaração também não será uma sentença perpétua. O plano é um ato repetível de fazer as pazes com o seu antigo ofício antes de assumir um novo, com a reparação ficando mais exigente a cada troca, para que a escolha continue significativa em vez de gratuita. Assim como a própria declaração, ele ainda está a caminho.',
-  'guide.professions.craftMasteryBody':
-    'Criar com sucesso desenvolve a perícia naquele ofício, e a perícia nunca tranca as receitas de um ofício longe de você: se você conhece uma receita e tem seus materiais, pode tentá-la. O que a perícia lhe compra, em vez disso, é qualidade, uma mão treinada produz um trabalho mais fino. A única exceção são as receitas combinadas, que pedem que você tenha se provado nos dois ofícios delas antes de se abrirem.',
-  'guide.professions.craftMasteryTitle': 'Perícia e maestria',
   'guide.professions.intro':
     'Além do combate e das missões, o mundo recompensa quem trabalha a terra e a forja: coletando matérias-primas, transformando-as em equipamento e bens ao longo de dez ofícios de criação e assumindo uma identidade como um dos dez arquétipos que esses ofícios representam.',
   'guide.valeCupPage.heading': 'A Copa do Vale',
@@ -7680,8 +7672,6 @@ export const pt_BR: Partial<Record<TranslationKey, string>> = {
   'guide.professions.focusBody':
     'Toda cidade principal mantém um painel de Foco da Cidade para os coletores de passagem: fique na cidade, abra-o ao lado do minimapa e direcione um pequeno orçamento de pontos de foco aos tipos de componente que lhe interessam. Quanto mais foco você dá a um componente, mais fino e rico ele sai de cada corpo dali em diante; sua distribuição acompanha seu personagem por onde ele andar, e você pode reajustá-la, de graça, em qualquer visita posterior à cidade.',
   'guide.professions.focusTitle': 'Foco da Cidade',
-  'guide.professions.harvestBody':
-    'A coleta não para nos nós. Algumas feras abatidas podem ser colhidas em busca de componentes, couros, presas, seda e coisas mais estranhas, direto do corpo, junto de seu saque comum. Um coletor por abate: quem colhe primeiro leva tudo. A escolha também é sua a cada vez: retire tudo o que o corpo oferece, ou concentre-se em um único componente e leve um grau mais fino dele. Qualquer personagem pode colher, sem exigir ofício ou treinamento, e um componente especialmente fino chega a carregar o nome de quem o colheu.',
   'guide.professions.harvestTitle': 'Colhendo a própria caçada',
   'guide.search.typeAbility': 'Habilidade',
   'guide.search.typeDeed': 'Feito',

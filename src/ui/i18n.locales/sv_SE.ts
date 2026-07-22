@@ -655,14 +655,6 @@ export const sv_SE: Partial<Record<TranslationKey, string>> = {
   'entities.zones.eastbrook_vale.pois.10.label': 'Suggfältet',
   'guide.nav.professions': 'Yrken',
   'guide.nav.valeCup': 'Dalcupen',
-  'guide.professions.archetypeChooseBody':
-    'Att förklara en arketyp kommer att bli ett berättelseögonblick: ett uppdrag som formellt tar upp dig i den identiteten. Den vägen håller fortfarande på att byggas, så för tillfället vandrar varje karaktär genom världen med valet framför sig, och varje hantverk avancerar under tiden till kvalitetsnivån Sällsynt.',
-  'guide.professions.archetypeChooseTitle': 'Att välja arketyp',
-  'guide.professions.archetypeSwitchBody':
-    'Inte heller kommer en förklaring att bli ett livstidsstraff. Planen är en upprepningsbar gottgörelse till ditt gamla yrke innan du tar upp ett nytt, där gottgörelsen blir brantare för varje gång du byter, så att valet förblir meningsfullt i stället för kostnadsfritt. Liksom själva förklaringen är den fortfarande på väg.',
-  'guide.professions.craftMasteryBody':
-    'Lyckade hantverk bygger skicklighet i det yrket, och skicklighet låser aldrig bort ett hantverks recept: kan du ett recept och har dess material, kan du försöka dig på det. Vad skicklighet i stället köper dig är kvalitet, en övad hand gör finare arbete. Det enda undantaget är kombinationsrecept, som ber dig ha bevisat dig i båda sina hantverk innan de öppnas.',
-  'guide.professions.craftMasteryTitle': 'Skicklighet och mästerskap',
   'guide.professions.intro':
     'Bortom strider och uppdrag belönar världen dig för att bruka jorden och smedjan: samla råmaterial, förvandla dem till utrustning och varor genom tio hantverksyrken, och slå dig till ro i en identitet som en av de tio arketyper yrkena representerar.',
   'guide.valeCupPage.heading': 'Dalcupen',
@@ -7594,8 +7586,6 @@ export const sv_SE: Partial<Record<TranslationKey, string>> = {
   'guide.professions.focusBody':
     'Varje huvudort har en Stadsfokus-panel för besökande skördare: stå i staden, öppna den bredvid minikartan, och rikta en liten budget av fokuspoäng mot de komponenttyper du bryr dig om. Ju mer fokus du ger en komponent, desto finare och rikare kommer den av varje senare kropp; din fördelning följer din karaktär vart den än vandrar, och du kan göra om den, gratis, vid vilket senare besök i staden som helst.',
   'guide.professions.focusTitle': 'Stadsfokus',
-  'guide.professions.harvestBody':
-    'Insamling stannar inte vid fyndplatser. Vissa fällda bestar kan skördas på komponenter, skinn, huggtänder, silke och märkligare ting, direkt från kroppen jämte dess vanliga byte. En skördare per dråp: den som skördar först tar allt. Valet är också ditt varje gång: skala av allt kroppen erbjuder, eller koncentrera dig på en enda komponent och ta en finare kvalitet av den. Vilken karaktär som helst kan skörda, inget yrke eller ingen träning krävs, och en särskilt fin komponent bär till och med namnet på den som skördade den.',
   'guide.professions.harvestTitle': 'Att skörda själva jakten',
   'guide.search.typeAbility': 'Förmåga',
   'guide.search.typeDeed': 'Bedrift',

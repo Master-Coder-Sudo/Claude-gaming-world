@@ -1127,14 +1127,6 @@ export const fr_FR: Partial<Record<TranslationKey, string>> = {
   'entities.zones.eastbrook_vale.pois.10.label': 'Le Pré de la Truie',
   'guide.nav.professions': 'Métiers',
   'guide.nav.valeCup': 'Coupe du Val',
-  'guide.professions.archetypeChooseBody':
-    "Déclarer un archétype sera un moment d'histoire : une quête qui vous accueille officiellement dans cette identité. Cette voie est encore en construction, si bien que pour l'instant chaque personnage parcourt le monde avec ce choix devant lui, et chaque métier progresse jusqu'à la qualité rare en attendant.",
-  'guide.professions.archetypeChooseTitle': 'Choisir son archétype',
-  'guide.professions.archetypeSwitchBody':
-    "Une déclaration ne sera pas non plus une condamnation à perpétuité. Le principe prévu est un acte répétable où vous faites amende honorable envers votre ancien métier avant d'en embrasser un nouveau, l'amende devenant plus lourde à chaque changement, pour que le choix garde du sens au lieu d'être gratuit. Comme la déclaration elle-même, cela reste à venir.",
-  'guide.professions.craftMasteryBody':
-    "Réussir une fabrication fait progresser votre compétence dans ce métier, et la compétence ne verrouille jamais les recettes d'un métier : si vous connaissez une recette et en détenez les matériaux, vous pouvez la tenter. Ce que la compétence vous apporte, c'est la qualité, une main exercée produit un ouvrage plus fin. La seule exception, ce sont les recettes combinées, qui exigent que vous ayez fait vos preuves dans leurs deux métiers avant de s'ouvrir.",
-  'guide.professions.craftMasteryTitle': 'Compétence et maîtrise',
   'guide.professions.intro':
     "Au-delà des combats et des quêtes, le monde vous récompense de travailler la terre et la forge : récolter des matières premières, les transformer en équipement et en biens à travers dix métiers d'artisanat, et vous installer dans une identité, celle de l'un des dix archétypes que ces métiers incarnent.",
   'guide.valeCupPage.heading': 'La Coupe du Val',
@@ -8279,8 +8271,6 @@ export const fr_FR: Partial<Record<TranslationKey, string>> = {
   'guide.models.formTravel': 'Forme de Fleet',
   'guide.models.groupForms': 'Formes de druide',
   'guide.nav.sidebarLabel': 'Rubriques du guide',
-  'guide.professions.harvestBody':
-    "La récolte ne s'arrête pas aux gisements. Certaines bêtes abattues peuvent être dépecées pour des composants, cuirs, crocs, soie et choses plus étranges encore, directement sur le cadavre en plus de son butin ordinaire. Un seul récolteur par proie : le premier à dépecer rafle tout. Le choix vous appartient à chaque fois : prélevez tout ce que le cadavre offre, ou concentrez-vous sur un seul composant pour en tirer une qualité plus fine. N'importe quel personnage peut récolter, sans métier ni apprentissage requis, et un composant particulièrement fin porte même le nom de celui qui l'a récolté.",
   'guide.professions.harvestTitle': 'Dépecer la chasse elle-même',
   'guide.search.typeAbility': 'Capacité',
   'guide.search.typeDeed': 'Haut fait',

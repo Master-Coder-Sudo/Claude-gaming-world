@@ -621,14 +621,6 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
   'entities.zones.eastbrook_vale.pois.10.label': 'Prasečí pole',
   'guide.nav.professions': 'Profese',
   'guide.nav.valeCup': 'Pohár údolí',
-  'guide.professions.archetypeChooseBody':
-    'Vyhlášení archetypu bude příběhový okamžik: úkol, který tě do dané identity formálně přijme. Tato cesta se teprve buduje, takže prozatím každá postava chodí světem s volbou před sebou a každé řemeslo mezitím postupuje až po vzácnou úroveň kvality.',
-  'guide.professions.archetypeChooseTitle': 'Volba archetypu',
-  'guide.professions.archetypeSwitchBody':
-    'Ani vyhlášení nebude doživotní ortel. V plánu je opakovatelné odčinění vůči tvému starému oboru, než se chopíš nového, přičemž s každou další změnou je odčinění strmější, takže volba zůstává smysluplná, ne bezplatná. Stejně jako samotné vyhlášení je i tohle teprve na cestě.',
-  'guide.professions.craftMasteryBody':
-    'Úspěšná výroba zvyšuje dovednost v daném řemesle a dovednost nikdy nezamyká recepty řemesla: pokud recept znáš a máš jeho materiály, můžeš se o něj pokusit. Co ti dovednost místo toho kupuje, je kvalita, zkušená ruka odvede jemnější práci. Jedinou výjimkou jsou kombinované recepty, které tě žádají, aby ses osvědčil v obou jejich řemeslech, než se otevřou.',
-  'guide.professions.craftMasteryTitle': 'Dovednost a mistrovství',
   'guide.professions.intro':
     'Kromě boje a úkolů tě svět odměňuje i za práci na poli a u výhně: za sběr surovin, jejich proměnu ve výbavu a zboží napříč deseti výrobními řemesly a za přijetí identity jednoho z deseti archetypů, které tato řemesla představují.',
   'guide.valeCupPage.heading': 'Pohár údolí',
@@ -7704,8 +7696,6 @@ export const cs_CZ: Partial<Record<TranslationKey, string>> = {
   'guide.professions.focusBody':
     'Každé větší město drží panel Zaměření města pro přicházející sběrače: postav se ve městě, otevři ho vedle minimapy a namiř malý rozpočet bodů zaměření na typy komponent, na kterých ti záleží. Čím víc zaměření dáš dané komponentě, tím jemnější a bohatší padá z každého dalšího těla; tvé rozdělení následuje postavu, ať se toulá kamkoli, a můžeš ho zdarma přepracovat při každé pozdější návštěvě města.',
   'guide.professions.focusTitle': 'Zaměření města',
-  'guide.professions.harvestBody':
-    'Sběr nekončí u nalezišť. Některé skolené šelmy lze sklidit pro komponenty, kůže, tesáky, hedvábí i podivnější věci, přímo z těla vedle jeho běžné kořisti. Jeden sběrač na zabití: kdo sklidí první, bere vše. Volba je pokaždé na tobě: strhni z těla všechno, co nabízí, nebo se soustřeď na jedinou komponentu a vezmi si její jemnější stupeň. Sklízet umí každá postava, žádné řemeslo ani výcvik není třeba, a obzvlášť jemná komponenta dokonce nese jméno toho, kdo ji sklidil.',
   'guide.professions.harvestTitle': 'Sklizeň ze samotného lovu',
   'guide.search.typeAbility': 'Schopnost',
   'guide.search.typeDeed': 'Skutek',

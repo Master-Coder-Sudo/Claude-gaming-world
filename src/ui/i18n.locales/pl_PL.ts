@@ -752,14 +752,6 @@ export const pl_PL: Partial<Record<TranslationKey, string>> = {
   'entities.zones.eastbrook_vale.pois.10.label': 'Maciorowe Błonie',
   'guide.nav.professions': 'Profesje',
   'guide.nav.valeCup': 'Puchar Doliny',
-  'guide.professions.archetypeChooseBody':
-    'Zadeklarowanie archetypu będzie momentem fabularnym: zadaniem, które formalnie przyjmuje cię do tej tożsamości. Ta droga wciąż powstaje, więc na razie każda postać przemierza świat z tym wyborem wciąż przed sobą, a każde rzemiosło w międzyczasie rozwija się do poziomu rzadkiej jakości.',
-  'guide.professions.archetypeChooseTitle': 'Wybór archetypu',
-  'guide.professions.archetypeSwitchBody':
-    'Deklaracja nie będzie też dożywotnim wyrokiem. W planach jest powtarzalny akt zadośćuczynienia twojemu dawnemu fachowi, zanim podejmiesz nowy, przy czym zadośćuczynienie robi się coraz surowsze z każdą zmianą, dzięki czemu wybór pozostaje znaczący, a nie darmowy. Podobnie jak sama deklaracja, wciąż jest w drodze.',
-  'guide.professions.craftMasteryBody':
-    'Udane wytwarzanie buduje umiejętność w danym fachu, a umiejętność nigdy nie zamyka przepisów rzemiosła: jeśli znasz przepis i masz jego materiały, możesz spróbować. To, co daje ci umiejętność, to jakość, wprawna ręka wykonuje lepszą robotę. Jedynym wyjątkiem są przepisy łączone, które wymagają, byś wykazał się w obu ich fachach, zanim się otworzą.',
-  'guide.professions.craftMasteryTitle': 'Umiejętność i biegłość',
   'guide.professions.intro':
     'Poza walką i zadaniami świat nagradza pracę na roli i przy kuźni: zbieranie surowców, przekuwanie ich w ekwipunek i towary w dziesięciu rzemiosłach oraz wrastanie w tożsamość jednego z dziesięciu archetypów, które te fachy reprezentują.',
   'guide.valeCupPage.heading': 'Puchar Doliny',
@@ -7782,8 +7774,6 @@ export const pl_PL: Partial<Record<TranslationKey, string>> = {
   'guide.professions.focusBody':
     'W każdym głównym mieście działa panel Priorytetów miasta dla odwiedzających zbieraczy: stań w mieście, otwórz go obok minimapy i skieruj niewielki budżet punktów priorytetu na interesujące cię rodzaje komponentów. Im więcej priorytetu przydzielisz komponentowi, tym lepszej i bogatszej jakości schodzi on z każdego późniejszego ciała; twój przydział podąża za postacią, gdziekolwiek się uda, a możesz go przerobić za darmo przy każdej kolejnej wizycie w mieście.',
   'guide.professions.focusTitle': 'Priorytety miasta',
-  'guide.professions.harvestBody':
-    'Zbieractwo nie kończy się na węzłach. Z niektórych ubitych bestii można pozyskać komponenty, skóry, kły, jedwab i dziwniejsze rzeczy, prosto z ciała, obok zwykłego łupu. Jeden zbieracz na jedno zabójstwo: kto zbierze pierwszy, bierze wszystko. Za każdym razem wybór należy do ciebie: zdejmij wszystko, co ciało oferuje, albo skup się na jednym komponencie i weź jego lepszy gatunek. Zbierać może każda postać, bez fachu czy szkolenia, a szczególnie okazały komponent nosi nawet imię tego, kto go pozyskał.',
   'guide.professions.harvestTitle': 'Pozyskiwanie z samego łowu',
   'guide.search.typeAbility': 'Zdolność',
   'guide.search.typeDeed': 'Czyn',

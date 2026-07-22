@@ -749,14 +749,6 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'entities.zones.eastbrook_vale.pois.10.label': 'Sowfield',
   'guide.nav.professions': 'Profesi',
   'guide.nav.valeCup': 'Piala Lembah',
-  'guide.professions.archetypeChooseBody':
-    'Menyatakan sebuah arketipe akan menjadi momen cerita: sebuah misi yang secara resmi menerimamu ke dalam identitas itu. Jalan itu masih dibangun, jadi untuk saat ini setiap karakter menjelajahi dunia dengan pilihan itu masih di depannya, dan setiap kerajinan berkembang hingga tingkat kualitas Langka untuk sementara.',
-  'guide.professions.archetypeChooseTitle': 'Memilih arketipemu',
-  'guide.professions.archetypeSwitchBody':
-    'Pernyataan pun tak akan menjadi hukuman seumur hidup. Rencananya adalah tindakan menebus kesalahan yang dapat diulang kepada kerajinan lamamu sebelum menekuni yang baru, dengan tebusan yang semakin berat setiap kali kamu berpindah, sehingga pilihan itu tetap bermakna, bukan tanpa harga. Seperti pernyataan itu sendiri, ini pun masih dalam perjalanan.',
-  'guide.professions.craftMasteryBody':
-    'Berhasil membuat barang menumbuhkan keahlianmu di kerajinan itu, dan keahlian tak pernah mengunci resep sebuah kerajinan: jika kamu mengetahui sebuah resep dan memegang bahannya, kamu bisa mencobanya. Yang justru dibeli keahlian untukmu adalah mutu, tangan yang terlatih menghasilkan karya yang lebih halus. Satu pengecualiannya adalah resep kombinasi, yang mengharuskanmu membuktikan diri di kedua kerajinannya sebelum ia terbuka.',
-  'guide.professions.craftMasteryTitle': 'Keahlian dan penguasaan',
   'guide.professions.intro':
     'Di luar pertempuran dan misi, dunia mengganjarmu karena menggarap tanah dan tempaan: mengumpulkan bahan mentah, mengolahnya menjadi perlengkapan dan barang lewat sepuluh kerajinan, dan menetap dalam identitas sebagai salah satu dari sepuluh arketipe yang diwakili kerajinan-kerajinan itu.',
   'guide.valeCupPage.heading': 'Piala Lembah',
@@ -7734,8 +7726,6 @@ export const id_ID: Partial<Record<TranslationKey, string>> = {
   'guide.professions.focusBody':
     'Setiap kota pusat menyimpan panel Fokus Kota bagi para pemanen yang berkunjung: berdirilah di kota, buka dari samping minimap, dan arahkan sedikit anggaran poin fokus pada jenis komponen yang kamu pedulikan. Makin banyak fokus yang kamu berikan pada sebuah komponen, makin halus dan kaya ia keluar dari tiap mayat berikutnya; alokasimu mengikuti karaktermu ke mana pun mereka menjelajah, dan kamu bisa mengubahnya, gratis, pada kunjungan berikutnya ke kota.',
   'guide.professions.focusTitle': 'Fokus Kota',
-  'guide.professions.harvestBody':
-    'Pengumpulan tak berhenti di simpul. Beberapa binatang buas yang dibunuh bisa dipanen untuk komponen, kulit, taring, sutra, dan hal-hal yang lebih aneh, langsung dari mayat bersama jarahan biasanya. Satu pemanen per bunuhan: siapa yang memanen lebih dulu mengklaim semuanya. Pilihannya ada padamu tiap kali, pula: kupas semua yang ditawarkan mayat itu, atau berkonsentrasi pada satu komponen dan ambil mutu yang lebih halus darinya. Karakter mana pun bisa memanen, tanpa perlu profesi atau pelatihan, dan komponen yang teramat halus bahkan membawa nama siapa pun yang memanennya.',
   'guide.professions.harvestTitle': 'Memanen dari hasil buruan',
   'guide.search.typeAbility': 'Kemampuan',
   'guide.search.typeDeed': 'Jasa',

@@ -770,14 +770,6 @@ export const vi_VN: Partial<Record<TranslationKey, string>> = {
   'entities.zones.eastbrook_vale.pois.10.label': 'Sân Heo Nái',
   'guide.nav.professions': 'Nghề Nghiệp',
   'guide.nav.valeCup': 'Cúp Thung Lũng',
-  'guide.professions.archetypeChooseBody':
-    'Tuyên bố một hình mẫu sẽ là một khoảnh khắc cốt truyện: một nhiệm vụ chính thức đón nhận bạn vào danh phận đó. Con đường ấy vẫn đang được xây dựng, nên hiện giờ mọi nhân vật đều bước đi trong thế giới với lựa chọn còn ở phía trước, và trong lúc chờ đợi, mọi nghề chế tác đều thăng tiến tới phẩm cấp Hiếm.',
-  'guide.professions.archetypeChooseTitle': 'Chọn hình mẫu của bạn',
-  'guide.professions.archetypeSwitchBody':
-    'Một lời tuyên bố cũng sẽ không phải là bản án chung thân. Kế hoạch là một hành động chuộc lỗi lặp lại được với nghề cũ trước khi bạn nhận lấy nghề mới, với phần chuộc lỗi càng lúc càng nặng hơn mỗi lần bạn đổi, để lựa chọn luôn có ý nghĩa thay vì không mất gì. Giống như chính lời tuyên bố, nó vẫn đang trên đường tới.',
-  'guide.professions.craftMasteryBody':
-    'Chế tác thành công sẽ tích lũy kỹ năng trong nghề đó, và kỹ năng không bao giờ khóa các công thức của một nghề lại: nếu bạn biết một công thức và có nguyên liệu của nó, bạn có thể thử làm. Thứ mà kỹ năng mang lại cho bạn thay vào đó là phẩm chất, một đôi tay lành nghề cho ra sản phẩm tinh xảo hơn. Ngoại lệ duy nhất là các công thức kết hợp, vốn đòi hỏi bạn phải chứng tỏ mình trong cả hai nghề của chúng trước khi chúng mở ra.',
-  'guide.professions.craftMasteryTitle': 'Kỹ năng và tinh thông',
   'guide.professions.intro':
     'Ngoài chiến đấu và nhiệm vụ, thế giới còn tưởng thưởng cho bạn khi cày cuốc và rèn đúc: thu thập nguyên liệu thô, biến chúng thành trang bị và hàng hóa qua mười nghề chế tác, và an cư trong một danh phận là một trong mười hình mẫu mà các nghề ấy đại diện.',
   'guide.valeCupPage.heading': 'Cúp Thung Lũng',
@@ -7685,8 +7677,6 @@ export const vi_VN: Partial<Record<TranslationKey, string>> = {
   'guide.professions.focusBody':
     'Mỗi thị trấn trung tâm đều có một bảng Trọng Tâm Thị Trấn dành cho những người thu hoạch ghé qua: đứng trong thị trấn, mở nó từ cạnh bản đồ nhỏ, và nhắm một khoản nhỏ điểm trọng tâm vào những loại thành phần bạn quan tâm. Bạn dồn càng nhiều trọng tâm vào một thành phần, nó ra càng tinh và càng dồi dào từ mỗi cái xác về sau; phân bổ của bạn đi theo nhân vật dù họ rong ruổi đến đâu, và bạn có thể sắp xếp lại nó, miễn phí, trong bất kỳ lần ghé thị trấn nào sau này.',
   'guide.professions.focusTitle': 'Trọng Tâm Thị Trấn',
-  'guide.professions.harvestBody':
-    'Việc thu thập không dừng lại ở các điểm tài nguyên. Một số dã thú bị hạ có thể được thu hoạch để lấy thành phần, da, nanh, tơ, và những thứ lạ lùng hơn, ngay từ cái xác cùng với chiến lợi phẩm thông thường của nó. Mỗi cú hạ chỉ một người thu hoạch: ai thu hoạch trước giành lấy tất cả. Lựa chọn cũng nằm ở bạn mỗi lần: lột sạch mọi thứ cái xác có, hoặc dồn vào một thành phần duy nhất và lấy một phẩm cấp tinh hơn của nó. Bất kỳ nhân vật nào cũng có thể thu hoạch, không cần nghề hay huấn luyện gì, và một thành phần đặc biệt tinh xảo còn mang tên của người đã thu hoạch nó.',
   'guide.professions.harvestTitle': 'Thu hoạch chính cuộc đi săn',
   'guide.search.typeAbility': 'Kỹ Năng',
   'guide.search.typeDeed': 'Kỳ Công',

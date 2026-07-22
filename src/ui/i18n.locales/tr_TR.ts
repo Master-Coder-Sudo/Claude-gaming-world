@@ -751,14 +751,6 @@ export const tr_TR: Partial<Record<TranslationKey, string>> = {
   'entities.zones.eastbrook_vale.pois.10.label': 'Domuz Tarlası',
   'guide.nav.professions': 'Meslekler',
   'guide.nav.valeCup': 'Vadi Kupası',
-  'guide.professions.archetypeChooseBody':
-    'Bir arketip ilan etmek bir hikaye anı olacak: seni o kimliğe resmen kabul eden bir görev. Ama o yol henüz inşa ediliyor, bu yüzden şimdilik her karakter bu seçim önünde dururken dünyayı dolaşır ve bu arada her zanaat Ender kalite kademesine dek ilerler.',
-  'guide.professions.archetypeChooseTitle': 'Arketipini seçmek',
-  'guide.professions.archetypeSwitchBody':
-    'Bir ilan aynı zamanda ömür boyu bir hüküm de olmayacak. Plan şu: yeni bir zanaata başlamadan önce eski zanaatının gönlünü almak için tekrarlanabilir bir görevi yerine getirmek; her geçişte bu gönül alma biraz daha ağırlaşır, böylece seçim bedelsiz değil, anlamlı kalır. Tıpkı ilanın kendisi gibi, bu da hâlâ yolda.',
-  'guide.professions.craftMasteryBody':
-    'Başarılı her üretim o zanaattaki becerini geliştirir ve beceri bir zanaatın tariflerini asla kilit altında tutmaz: bir tarifi biliyor ve malzemelerine sahipsen onu deneyebilirsin. Becerinin sana kazandırdığı şey bunun yerine kalitedir; usta bir el daha iyi işler çıkarır. Tek istisna birleşim tarifleridir; bunlar açılmadan önce her iki zanaatta da kendini kanıtlamış olmanı ister.',
-  'guide.professions.craftMasteryTitle': 'Beceri ve ustalık',
   'guide.professions.intro':
     'Dünya seni savaşın ve görevlerin ötesinde, toprağı ve ocağı işlediğin için de ödüllendirir: ham madde toplamak, on ayrı zanaat kolunda onları teçhizata ve mallara dönüştürmek ve bu zanaatların temsil ettiği on arketipten birinin kimliğine yerleşmek.',
   'guide.valeCupPage.heading': 'Vadi Kupası',
@@ -7572,8 +7564,6 @@ export const tr_TR: Partial<Record<TranslationKey, string>> = {
   'guide.professions.focusBody':
     'Her merkez kasaba, uğrayan toplayıcılar için bir Kasaba Odağı paneli tutar: kasabada dur, onu mini haritanın yanından aç ve küçük bir odak puanı bütçesini önemsediğin bileşen türlerine yönelt. Bir bileşene ne kadar çok odak verirsen, sonraki her cesetten o kadar ince ve zengin çıkar; dağılımın karakterini nereye giderse takip eder ve kasabaya sonraki her uğrayışında onu ücretsiz yeniden düzenleyebilirsin.',
   'guide.professions.focusTitle': 'Kasaba Odağı',
-  'guide.professions.harvestBody':
-    'Toplayıcılık kaynak noktalarında bitmez. Kimi öldürülmüş hayvanlar bileşenler, deriler, dişler, ipek ve daha tuhaf şeyler için doğrudan cesetten, sıradan ganimetinin yanı sıra hasat edilebilir. Öldürme başına tek toplayıcı: ilk kim hasat ederse hepsini o alır. Seçim her seferinde senin: cesedin sunduğu her şeyi sıyır ya da tek bir bileşene yoğunlaş ve onun daha ince bir derecesini al. Herhangi bir karakter hasat edebilir, hiçbir zanaat ya da eğitim gerekmez ve özellikle ince bir bileşen, hasat edenin adını bile taşır.',
   'guide.professions.harvestTitle': 'Avın kendisini hasat etmek',
   'guide.search.typeAbility': 'Yetenek',
   'guide.search.typeDeed': 'Yiğitlik',

@@ -612,14 +612,6 @@ export const es: Partial<Record<TranslationKey, string>> = {
   'entities.zones.eastbrook_vale.pois.10.label': 'El Sembradal',
   'guide.nav.professions': 'Oficios',
   'guide.nav.valeCup': 'Copa del Valle',
-  'guide.professions.archetypeChooseBody':
-    'Declarar un arquetipo será un momento de historia: una misión que te acepta formalmente en esa identidad. Ese camino aún se está construyendo, así que por ahora cada personaje recorre el mundo con la elección todavía por delante, y mientras tanto cada oficio avanza hasta el nivel de calidad Raro.',
-  'guide.professions.archetypeChooseTitle': 'Elegir tu arquetipo',
-  'guide.professions.archetypeSwitchBody':
-    'Tampoco será una declaración una condena de por vida. El plan es un acto repetible de enmendar las cosas con tu antiguo oficio antes de adoptar uno nuevo, y la enmienda se vuelve más exigente cada vez que cambias, de modo que la elección siga teniendo peso en lugar de salir gratis. Como la propia declaración, aún está en camino.',
-  'guide.professions.craftMasteryBody':
-    'Fabricar con éxito aumenta tu habilidad en ese oficio, y la habilidad nunca deja bajo llave las recetas de un oficio: si conoces una receta y tienes sus materiales, puedes intentarla. Lo que la habilidad te compra, en cambio, es calidad: una mano experta produce un trabajo más fino. La única excepción son las recetas combinadas, que te piden haberte probado en ambos oficios antes de abrirse.',
-  'guide.professions.craftMasteryTitle': 'Habilidad y maestría',
   'guide.professions.intro':
     'Más allá del combate y las misiones, el mundo te recompensa por trabajar la tierra y la fragua: recolectar materias primas, convertirlas en equipo y bienes a lo largo de diez oficios de artesanía, y asentarte en una identidad como uno de los diez arquetipos que esos oficios representan.',
   'guide.valeCupPage.heading': 'La Copa del Valle',
@@ -7704,8 +7696,6 @@ export const es: Partial<Record<TranslationKey, string>> = {
   'guide.professions.focusBody':
     'Cada pueblo principal mantiene un panel de Enfoque del pueblo para los recolectores de paso: párate en el pueblo, ábrelo junto al minimapa y dirige un pequeño presupuesto de puntos de enfoque hacia los tipos de componente que te interesan. Cuanto más enfoque des a un componente, más fino y rico saldrá de cada cadáver posterior; tu asignación acompaña a tu personaje dondequiera que vaya, y puedes reajustarla, gratis, en cualquier visita posterior al pueblo.',
   'guide.professions.focusTitle': 'Enfoque del pueblo',
-  'guide.professions.harvestBody':
-    'La recolección no se detiene en los nodos. De algunas bestias abatidas se pueden cosechar componentes, pieles, colmillos, seda y cosas más extrañas, directamente del cadáver junto a su botín corriente. Un solo recolector por muerte: la cosecha entera es de quien coseche primero. La elección es tuya cada vez, además: despoja cuanto ofrece el cadáver, o concéntrate en un único componente y toma un grado más fino de él. Cualquier personaje puede cosechar, sin necesidad de oficio ni entrenamiento, y un componente especialmente fino incluso lleva el nombre de quien lo cosechó.',
   'guide.professions.harvestTitle': 'Cosechar la propia cacería',
   'guide.search.typeAbility': 'Habilidad',
   'guide.search.typeDeed': 'Gesta',
