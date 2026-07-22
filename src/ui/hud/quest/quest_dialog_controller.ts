@@ -53,6 +53,7 @@ export interface QuestDialogControllerDeps {
   openVendor(npcId: number): void;
   openHeroicVendor(npcId: number): void;
   openTrain(npcId: number): void;
+  openUnbind(npcId: number): void;
   openMarket(): void;
   openDelveBoard(npcId: number): void;
   openValeCup(): void;
@@ -303,6 +304,10 @@ export class QuestDialogController {
     }
     if (hasTraining) {
       html += `<button type="button" class="qd-list-item" data-train="1" aria-label="${esc(t('hudChrome.training.dialogOptionAria', { name: npcName }))}"><span class="gold">${svgIcon('crafting')}</span> ${esc(t('hudChrome.training.dialogOption'))}</button>`;
+      // Maker's Bond unbind service (Professions 2.0 Phase 14b): every
+      // station master offers it beside training (the same isStationMasterNpc
+      // gate, so the empty-menu check needs no new arm).
+      html += `<button type="button" class="qd-list-item" data-unbind="1" aria-label="${esc(t('hudChrome.unbind.dialogOptionAria', { name: npcName }))}"><span class="gold">${svgIcon('crafting')}</span> ${esc(t('hudChrome.unbind.dialogOption'))}</button>`;
     }
     if (hasMarket) {
       html += `<button type="button" class="qd-list-item" data-market="1" aria-label="${esc(t('questUi.dialog.worldMarketAria'))}"><span class="gold">${svgIcon('market')}</span> ${esc(t('questUi.dialog.worldMarket'))}</button>`;
@@ -336,6 +341,7 @@ export class QuestDialogController {
     this.bindRoute('[data-vendor]', () => this.deps.openVendor(npc.id));
     this.bindRoute('[data-heroic-shop]', () => this.deps.openHeroicVendor(npc.id));
     this.bindRoute('[data-train]', () => this.deps.openTrain(npc.id));
+    this.bindRoute('[data-unbind]', () => this.deps.openUnbind(npc.id));
     this.bindRoute('[data-market]', this.deps.openMarket);
     this.bindRoute('[data-delve-board]', () => this.deps.openDelveBoard(npc.id));
     this.bindRoute('[data-vcup]', this.deps.openValeCup);

@@ -268,7 +268,7 @@ describe('live profession attunement quests', () => {
       attune(sim, SMITH_MASTER, 'q_prof_attune_smith', WEAPON_ARMOR);
       sim.addItem('linen_scrap', 1, pid);
       sim.addItem('spider_leg', 1, pid);
-      sim.craftItem('recipe_minor_healing_potion', pid); // masterwork proc: draws rng
+      sim.craftItem('recipe_minor_healing_potion', false, pid); // masterwork proc: draws rng
       acceptAt(sim, HOBBY_MASTER, HOBBY_QUEST, 'tailoring');
       completeAndTurnInAt(sim, HOBBY_MASTER, HOBBY_QUEST);
       for (let i = 0; i < 20; i++) sim.tick();
