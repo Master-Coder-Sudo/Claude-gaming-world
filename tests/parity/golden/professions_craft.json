@@ -440,7 +440,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 416,
-      "state": "d7b261a5",
+      "state": "e5bbfee9",
       "events": "a39a1866",
       "rng": {
         "draws": 2,
@@ -481,7 +481,8 @@
           },
           "deedStats": {
             "counters": {
-              "craftsPerformed": 2
+              "craftsPerformed": 2,
+              "masterworksCrafted": 1
             },
             "dungeonClears": {},
             "itemsDiscovered": [
@@ -625,7 +626,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 416,
-      "state": "ce411798",
+      "state": "d462a5ec",
       "events": "c3a1794c",
       "rng": {
         "draws": 3,
@@ -666,7 +667,8 @@
           },
           "deedStats": {
             "counters": {
-              "craftsPerformed": 3
+              "craftsPerformed": 3,
+              "masterworksCrafted": 1
             },
             "dungeonClears": {},
             "itemsDiscovered": [
@@ -808,7 +810,7 @@
       "tick": 0,
       "time": 0,
       "nextId": 416,
-      "state": "ce411798",
+      "state": "d462a5ec",
       "events": "741638a5",
       "rng": {
         "draws": 3,
@@ -849,7 +851,8 @@
           },
           "deedStats": {
             "counters": {
-              "craftsPerformed": 3
+              "craftsPerformed": 3,
+              "masterworksCrafted": 1
             },
             "dungeonClears": {},
             "itemsDiscovered": [
