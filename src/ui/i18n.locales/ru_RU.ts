@@ -383,6 +383,7 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.wocStore.wtype.wand': 'Жезл',
   'hudChrome.wocStore.wtype.bow': 'Лук',
   'hudChrome.wocStore.wtype.crossbow': 'Арбалет',
+  'hudChrome.wocStore.wtype.polearm': 'Древковое оружие',
   'hudChrome.wocStore.badge.flagship': 'Флагман',
   'hudChrome.wocStore.badge.hero': 'Герой',
   'hudChrome.wocStore.inspectAria': 'Осмотреть {item}',
@@ -2303,7 +2304,6 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'itemUi.tooltip.ifYouEquip': 'Если надеть это',
   'itemUi.tooltip.damageSpeed': '{min} - {max} урона Скорость {speed}',
   'itemUi.tooltip.dps': '({dps} урона в секунду)',
-  'itemUi.tooltip.dagger': 'Кинжал',
   'itemUi.tooltip.armorStat': '{value} брони',
   'itemUi.tooltip.stat': '+{value} {stat}',
   'itemUi.tooltip.useFood':

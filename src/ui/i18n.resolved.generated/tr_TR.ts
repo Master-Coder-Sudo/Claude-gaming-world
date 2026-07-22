@@ -609,7 +609,8 @@ export const tr_TR: EnTranslations = {
         "staff": "Asa",
         "wand": "Değnek",
         "bow": "Yay",
-        "crossbow": "Arbalet"
+        "crossbow": "Arbalet",
+        "polearm": "Polearm"
       },
       "badge": {
         "flagship": "Amiral gemisi",
@@ -6223,7 +6224,6 @@ export const tr_TR: EnTranslations = {
       "ifYouEquip": "Bunu kuşanırsan",
       "damageSpeed": "{min} - {max} Hasar Hız {speed}",
       "dps": "(saniyede {dps} hasar)",
-      "dagger": "Hançer",
       "armorStat": "{value} Zırh",
       "stat": "+{value} {stat}",
       "useFood": "Kullanım: {seconds} saniyede {amount} can yeniler. Yerken oturur kalmalısın.",

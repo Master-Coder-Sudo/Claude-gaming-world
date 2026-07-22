@@ -609,7 +609,8 @@ export const es_ES: EnTranslations = {
         "staff": "Bastón",
         "wand": "Varita",
         "bow": "Arco",
-        "crossbow": "Ballesta"
+        "crossbow": "Ballesta",
+        "polearm": "Polearm"
       },
       "badge": {
         "flagship": "Emblemático",
@@ -6223,7 +6224,6 @@ export const es_ES: EnTranslations = {
       "ifYouEquip": "Si equipas esto",
       "damageSpeed": "{min} - {max} de daño Velocidad {speed}",
       "dps": "({dps} de daño por segundo)",
-      "dagger": "Daga",
       "armorStat": "{value} de armadura",
       "stat": "+{value} {stat}",
       "useFood": "Uso: restaura {amount} de salud durante {seconds} s. Debes permanecer sentado mientras comes.",

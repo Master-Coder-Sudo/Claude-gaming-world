@@ -609,7 +609,8 @@ export const en_XA: EnTranslations = {
         "staff": "[Šţáƒƒ]",
         "wand": "[Ŵáñð]",
         "bow": "[Ɓóŵ]",
-        "crossbow": "[Çŕóššƀóŵ]"
+        "crossbow": "[Çŕóššƀóŵ]",
+        "polearm": "[Þóļéáŕɱ]"
       },
       "badge": {
         "flagship": "[Ƒļáĝšĥíþ]",
@@ -6223,7 +6224,6 @@ export const en_XA: EnTranslations = {
       "ifYouEquip": "[Íƒ ýóú éɋúíþ ţĥíš]",
       "damageSpeed": "[{min} - {max} Ðáɱáĝé Šþééð {speed}]",
       "dps": "[({dps} ðáɱáĝé þéŕ šéçóñð)]",
-      "dagger": "[Ðáĝĝéŕ]",
       "armorStat": "[{value} Áŕɱóŕ]",
       "stat": "[+{value} {stat}]",
       "useFood": "[Úšé: Ŕéšţóŕéš {amount} ĥéáļţĥ óʋéŕ {seconds} šéç. Ɱúšţ ŕéɱáíñ šéáţéð ŵĥíļé éáţíñĝ.]",

@@ -609,7 +609,8 @@ export const da_DK: EnTranslations = {
         "staff": "Stav",
         "wand": "Tryllestav",
         "bow": "Bue",
-        "crossbow": "Armbrøst"
+        "crossbow": "Armbrøst",
+        "polearm": "Polearm"
       },
       "badge": {
         "flagship": "Flagskib",
@@ -6223,7 +6224,6 @@ export const da_DK: EnTranslations = {
       "ifYouEquip": "Hvis du udruster denne",
       "damageSpeed": "{min} - {max} Skade Hastighed {speed}",
       "dps": "({dps} skade i sekundet)",
-      "dagger": "Dolk",
       "armorStat": "{value} Rustning",
       "stat": "+{value} {stat}",
       "useFood": "Brug: Genopretter {amount} helbred over {seconds} sek. Skal forblive siddende mens du spiser.",

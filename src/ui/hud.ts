@@ -501,6 +501,7 @@ import {
   wocBalanceVerified,
 } from './wallet_balance';
 import { type WeaponProcEffectDesc, weaponProcLines } from './weapon_proc_view';
+import { weaponTypeLabelKey } from './weapon_type_label';
 import {
   installWindowDrag,
   isWindowDragPreviewMutation,
@@ -4611,6 +4612,19 @@ export class Hud {
       qualityKindHtml += ` <span style="color:#e5cc80">${esc(t('hudChrome.itemHeroicTag'))}</span>`;
     }
     html += `<div class="tt-sub">${qualityKindHtml}</div>`;
+    // Weapon type (Sword/Dagger/Mace/...) as its own plain line under the
+    // quality/kind line and above the slot/handedness line, classic-style, so a
+    // player can tell a dagger from a sword at a glance (rogues need daggers). It
+    // is NOT colored by class the way armor weight is: any class can equip most
+    // weapon types and the class/weapon rules are archetype-based, not type-based,
+    // so a red type label would mislead. Null only for a non-weapon or
+    // unclassified id (the map is guarded), which simply shows no type line.
+    if (item.kind === 'weapon') {
+      const weaponTypeKey = weaponTypeLabelKey(item.id);
+      if (weaponTypeKey) {
+        html += `<div class="tt-sub tt-weapon-type">${esc(t(weaponTypeKey))}</div>`;
+      }
+    }
     if (item.slot) {
       // Classic layout: slot name on the left, armor subtype (Cloth/Leather/Mail)
       // right-aligned on the same line so it is clear which classes the gear suits.
@@ -4669,8 +4683,9 @@ export class Hud {
         }),
       )}</div>`;
       html += `<div class="tt-stat">${esc(t('itemUi.tooltip.dps', { dps: itemNumber(dps, 1) }))}</div>`;
-      if (item.weapon.dagger)
-        html += `<div class="tt-sub">${esc(t('itemUi.tooltip.dagger'))}</div>`;
+      // The weapon type (incl. Dagger) now appears on the slot line above like
+      // every other weapon, so the old standalone "Dagger" sub-line is gone. The
+      // item.weapon.dagger DATA field still drives Backstab; only this line went.
     }
     if (item.stats) {
       for (const [k, v] of Object.entries(item.stats)) {

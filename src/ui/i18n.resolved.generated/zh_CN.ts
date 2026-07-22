@@ -609,7 +609,8 @@ export const zh_CN: EnTranslations = {
         "staff": "法杖",
         "wand": "魔杖",
         "bow": "弓",
-        "crossbow": "弩"
+        "crossbow": "弩",
+        "polearm": "长柄武器"
       },
       "badge": {
         "flagship": "旗舰",
@@ -6223,7 +6224,6 @@ export const zh_CN: EnTranslations = {
       "ifYouEquip": "装备后",
       "damageSpeed": "{min} - {max} 伤害 速度 {speed}",
       "dps": "（每秒 {dps} 伤害）",
-      "dagger": "匕首",
       "armorStat": "{value} 护甲",
       "stat": "+{value} {stat}",
       "useFood": "使用：在 {seconds} 秒内恢复 {amount} 点生命值。进食时必须保持坐下。",

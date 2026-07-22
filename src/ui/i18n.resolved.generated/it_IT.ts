@@ -609,7 +609,8 @@ export const it_IT: EnTranslations = {
         "staff": "Personale",
         "wand": "Bacchetta",
         "bow": "Arco",
-        "crossbow": "Balestra"
+        "crossbow": "Balestra",
+        "polearm": "Polearm"
       },
       "badge": {
         "flagship": "Pezzo forte",
@@ -6223,7 +6224,6 @@ export const it_IT: EnTranslations = {
       "ifYouEquip": "Se equipaggi questo",
       "damageSpeed": "{min} - {max} danni Velocità {speed}",
       "dps": "({dps} danni al secondo)",
-      "dagger": "Pugnale",
       "armorStat": "{value} armatura",
       "stat": "+{value} {stat}",
       "useFood": "Usa: ripristina {amount} salute in {seconds} s. Devi restare seduto mentre mangi.",

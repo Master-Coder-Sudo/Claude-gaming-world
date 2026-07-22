@@ -609,7 +609,8 @@ export const vi_VN: EnTranslations = {
         "staff": "Trượng",
         "wand": "Đũa phép",
         "bow": "Cung",
-        "crossbow": "Nỏ"
+        "crossbow": "Nỏ",
+        "polearm": "Polearm"
       },
       "badge": {
         "flagship": "Chủ lực",
@@ -6223,7 +6224,6 @@ export const vi_VN: EnTranslations = {
       "ifYouEquip": "Nếu bạn trang bị món này",
       "damageSpeed": "{min} - {max} Sát Thương Tốc Độ {speed}",
       "dps": "({dps} sát thương mỗi giây)",
-      "dagger": "Dao Găm",
       "armorStat": "{value} Giáp",
       "stat": "+{value} {stat}",
       "useFood": "Dùng: Hồi {amount} sinh lực trong {seconds} giây. Phải ngồi yên khi ăn.",

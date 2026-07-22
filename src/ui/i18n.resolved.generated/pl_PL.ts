@@ -609,7 +609,8 @@ export const pl_PL: EnTranslations = {
         "staff": "Kostur",
         "wand": "Różdżka",
         "bow": "Ukłon",
-        "crossbow": "Kusza"
+        "crossbow": "Kusza",
+        "polearm": "Polearm"
       },
       "badge": {
         "flagship": "Flagowiec",
@@ -6223,7 +6224,6 @@ export const pl_PL: EnTranslations = {
       "ifYouEquip": "Jeśli to założysz",
       "damageSpeed": "{min} - {max} obrażeń Szybkość {speed}",
       "dps": "({dps} obrażeń na sekundę)",
-      "dagger": "Sztylet",
       "armorStat": "{value} pancerza",
       "stat": "+{value} {stat}",
       "useFood": "Użycie: Przywraca {amount} zdrowia w ciągu {seconds} s. Podczas jedzenia musisz pozostać w pozycji siedzącej.",

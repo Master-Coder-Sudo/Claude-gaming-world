@@ -609,7 +609,8 @@ export const sv_SE: EnTranslations = {
         "staff": "Stav",
         "wand": "Trollstav",
         "bow": "Båge",
-        "crossbow": "Armborst"
+        "crossbow": "Armborst",
+        "polearm": "Polearm"
       },
       "badge": {
         "flagship": "Flaggskepp",
@@ -6223,7 +6224,6 @@ export const sv_SE: EnTranslations = {
       "ifYouEquip": "Om du utrustar detta",
       "damageSpeed": "{min} - {max} Skada Hastighet {speed}",
       "dps": "({dps} skada per sekund)",
-      "dagger": "Dolk",
       "armorStat": "{value} Rustning",
       "stat": "+{value} {stat}",
       "useFood": "Använd: Återställer {amount} hälsa under {seconds} sek. Du måste förbli sittande medan du äter.",

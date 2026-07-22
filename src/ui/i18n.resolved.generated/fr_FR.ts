@@ -609,7 +609,8 @@ export const fr_FR: EnTranslations = {
         "staff": "Bâton",
         "wand": "Baguette",
         "bow": "Arc",
-        "crossbow": "Arbalète"
+        "crossbow": "Arbalète",
+        "polearm": "Polearm"
       },
       "badge": {
         "flagship": "Produit phare",
@@ -6223,7 +6224,6 @@ export const fr_FR: EnTranslations = {
       "ifYouEquip": "Si vous équipez ceci",
       "damageSpeed": "{min} - {max} points de dégâts Vitesse {speed}",
       "dps": "({dps} dégâts par seconde)",
-      "dagger": "Dague",
       "armorStat": "{value} armure",
       "stat": "+{value} {stat}",
       "useFood": "Utiliser : rend {amount} points de vie en {seconds} s. Vous devez rester assis en mangeant.",

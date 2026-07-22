@@ -388,6 +388,7 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.wocStore.wtype.wand': '마법봉',
   'hudChrome.wocStore.wtype.bow': '활',
   'hudChrome.wocStore.wtype.crossbow': '석궁',
+  'hudChrome.wocStore.wtype.polearm': '장창',
   'hudChrome.wocStore.badge.flagship': '플래그십',
   'hudChrome.wocStore.badge.hero': '영웅',
   'hudChrome.wocStore.inspectAria': '{item} 살펴보기',
@@ -2262,7 +2263,6 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'itemUi.tooltip.ifYouEquip': '이것을 착용하면',
   'itemUi.tooltip.damageSpeed': '{min} - {max} 피해 속도 {speed}',
   'itemUi.tooltip.dps': '(초당 피해 {dps})',
-  'itemUi.tooltip.dagger': '단검',
   'itemUi.tooltip.armorStat': '방어도 {value}',
   'itemUi.tooltip.stat': '+{value} {stat}',
   'itemUi.tooltip.useFood':

@@ -490,6 +490,66 @@ export const TARGETS = [
     },
   },
   {
+    key: 'weapon-type-tooltip',
+    label: 'Item tooltip: weapon type on the slot line (Dagger / Polearm)',
+    when: ['ui/weapon_type_label'],
+    // Grant a spread of weapons, open bags, hover one: the new type label reads
+    // on its own plain line above the slot line. The dagger variant is the
+    // headline case (rogues need daggers, and it replaces the old standalone
+    // "Dagger" sub-line); the polearm variant shows the added label.
+    // Full-frame shot: the tooltip renders beside the bags window and a single
+    // selector clip cannot union the two rects.
+    variants: [
+      { key: 'dagger', hover: 'Fang of Korzul' },
+      { key: 'polearm', hover: 'Tidereaver Gaff' },
+    ],
+    async capture(page, variant) {
+      await page.evaluate(() => {
+        document.querySelector('#gpu-notice')?.remove();
+        document.querySelector('.camera-prompt-confirm')?.click();
+        const sim = window.__game?.sim;
+        // A sword, a dagger, a staff, a wand and a polearm so several types read
+        // in the bag; the hovered one carries the tooltip. Dungeon-drop ids the
+        // starter bag can never contain, so the aria-label lookup is unambiguous.
+        for (const id of [
+          'worn_sword',
+          'fang_of_korzul',
+          'gnarled_staff',
+          'drowned_tide_scepter',
+          'tidereaver_gaff',
+        ]) {
+          try {
+            sim?.addItem(id, 1);
+          } catch {}
+        }
+        const el = document.querySelector('#bags');
+        if (el) el.style.display = 'none';
+        window.__game?.hud?.toggleBags?.();
+      });
+      let open = await pollForSize(page, '#bags');
+      if (!open) {
+        await page.evaluate(() => window.__game?.hud?.toggleBags?.());
+        open = await pollForSize(page, '#bags');
+      }
+      if (!open) return {};
+      await page.evaluate((name) => {
+        document.querySelector('.camera-prompt-confirm')?.click();
+        const banner = document.querySelector('#banner');
+        if (banner) banner.style.opacity = '0';
+        // Real focus fires attachTooltip's focusin arm (the keyboard-nav path), a
+        // sturdier trigger than synthetic mouseenter under headless.
+        const cell = Array.from(document.querySelectorAll('#bags button')).find((b) =>
+          b.getAttribute('aria-label')?.includes(name),
+        );
+        cell?.scrollIntoView({ block: 'center' });
+        cell?.focus();
+      }, variant?.hover ?? 'Fang of Korzul');
+      await pollForSize(page, '#tooltip');
+      await wait(300);
+      return {};
+    },
+  },
+  {
     key: 'unbind-window',
     label: "Maker's Bond unbind window (station master service)",
     when: ['ui/hud/vendor/unbind', 'sim/professions/commission'],

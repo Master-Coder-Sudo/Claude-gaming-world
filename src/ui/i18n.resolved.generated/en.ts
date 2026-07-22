@@ -609,7 +609,8 @@ export const en: EnTranslations = {
         "staff": "Staff",
         "wand": "Wand",
         "bow": "Bow",
-        "crossbow": "Crossbow"
+        "crossbow": "Crossbow",
+        "polearm": "Polearm"
       },
       "badge": {
         "flagship": "Flagship",
@@ -6223,7 +6224,6 @@ export const en: EnTranslations = {
       "ifYouEquip": "If you equip this",
       "damageSpeed": "{min} - {max} Damage Speed {speed}",
       "dps": "({dps} damage per second)",
-      "dagger": "Dagger",
       "armorStat": "{value} Armor",
       "stat": "+{value} {stat}",
       "useFood": "Use: Restores {amount} health over {seconds} sec. Must remain seated while eating.",
