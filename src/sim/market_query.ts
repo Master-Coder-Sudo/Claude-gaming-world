@@ -21,12 +21,14 @@ export const MARKET_ITEM_TYPE_FILTERS = [
 export const MARKET_ARMOR_TYPE_FILTERS = [
   'all',
   'helmet',
+  'neck',
   'shoulder',
   'chest',
   'waist',
   'legs',
   'gloves',
   'feet',
+  'ring',
 ] as const;
 export const MARKET_WEAPON_TYPE_FILTERS = [
   'all',
