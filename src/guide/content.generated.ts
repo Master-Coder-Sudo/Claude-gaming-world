@@ -3585,6 +3585,199 @@ export const GUIDE_DEEDS: GuideDeed[] = [
     "category": "pvp",
     "renown": 5,
     "feat": false
+  },
+  {
+    "id": "prog_guildsworn",
+    "name": "Guildsworn",
+    "category": "progression",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Guildsworn"
+  },
+  {
+    "id": "prog_masterwright",
+    "name": "Masterwright",
+    "category": "progression",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Masterwright"
+  },
+  {
+    "id": "prog_fishing_100",
+    "name": "Old Salt",
+    "category": "progression",
+    "renown": 10,
+    "feat": false
+  },
+  {
+    "id": "prog_master_angler",
+    "name": "Master Angler",
+    "category": "progression",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Master Angler"
+  },
+  {
+    "id": "prog_engineering_50",
+    "name": "Cogs and Sprockets",
+    "category": "progression",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "prog_alchemy_50",
+    "name": "Strange Brews",
+    "category": "progression",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "prog_cooking_50",
+    "name": "Seasoned Chef",
+    "category": "progression",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "prog_leatherworking_50",
+    "name": "Tanner's Trade",
+    "category": "progression",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "prog_tailoring_50",
+    "name": "A Fine Seam",
+    "category": "progression",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "prog_enchanting_50",
+    "name": "A Glimmer of Arcana",
+    "category": "progression",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "prog_weaponcrafting_50",
+    "name": "Edge and Temper",
+    "category": "progression",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "prog_armorcrafting_50",
+    "name": "Hammer and Plate",
+    "category": "progression",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "prog_grandmaster_engineering",
+    "name": "Grandmaster Engineering",
+    "category": "progression",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Grandmaster Engineering"
+  },
+  {
+    "id": "prog_grandmaster_alchemy",
+    "name": "Grandmaster Alchemy",
+    "category": "progression",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Grandmaster Alchemy"
+  },
+  {
+    "id": "prog_grandmaster_cooking",
+    "name": "Grandmaster Cooking",
+    "category": "progression",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Grandmaster Cooking"
+  },
+  {
+    "id": "prog_grandmaster_leatherworking",
+    "name": "Grandmaster Leatherworking",
+    "category": "progression",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Grandmaster Leatherworking"
+  },
+  {
+    "id": "prog_grandmaster_tailoring",
+    "name": "Grandmaster Tailoring",
+    "category": "progression",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Grandmaster Tailoring"
+  },
+  {
+    "id": "prog_grandmaster_enchanting",
+    "name": "Grandmaster Enchanting",
+    "category": "progression",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Grandmaster Enchanting"
+  },
+  {
+    "id": "prog_grandmaster_weaponcrafting",
+    "name": "Grandmaster Weaponcrafting",
+    "category": "progression",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Grandmaster Weaponcrafting"
+  },
+  {
+    "id": "prog_grandmaster_armorcrafting",
+    "name": "Grandmaster Armorcrafting",
+    "category": "progression",
+    "renown": 25,
+    "feat": false,
+    "rewardTitle": "Grandmaster Armorcrafting"
+  },
+  {
+    "id": "col_pristine_vein",
+    "name": "Pristine Vein",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_ancient_heartwood",
+    "name": "Ancient Heartwood",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_moonlit_bloom",
+    "name": "Moonlit Bloom",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "col_perfect_specimen",
+    "name": "A Perfect Specimen",
+    "category": "collection",
+    "renown": 0,
+    "feat": false
+  },
+  {
+    "id": "soc_first_salvage",
+    "name": "Waste Not",
+    "category": "social",
+    "renown": 5,
+    "feat": false
+  },
+  {
+    "id": "soc_salvage_50",
+    "name": "The Breaker's Yard",
+    "category": "social",
+    "renown": 10,
+    "feat": false
   }
 ];
 

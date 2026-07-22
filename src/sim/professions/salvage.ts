@@ -102,7 +102,13 @@ export function resolveSalvage(ctx: SimContext, pid: number, itemId: string): Sa
   const materialItemId = SALVAGE_MATERIAL_BY_QUALITY[def.quality ?? 'common'] ?? 'bone_fragments';
   const count = salvageYield(def, ctx.rng);
   ctx.addItem(materialItemId, count, pid);
-  if (meta) recordAction(meta);
+  if (meta) {
+    recordAction(meta);
+    // Phase 15: the lifetime salvage counter (soc_first_salvage /
+    // soc_salvage_50). Bumped strictly AFTER the single salvageYield rng
+    // draw above; the bump itself draws nothing.
+    ctx.bumpDeedStat(meta, 'salvagesPerformed', 1);
+  }
   return { ok: true, itemId, materialItemId, count };
 }
 
