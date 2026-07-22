@@ -276,6 +276,8 @@ export const pending: Record<string, readonly string[]> = {
     "guide.professions.stationsHeading",
     "guide.professions.whatBody",
     "guide.professions.whatHeading",
+    "hud.logs.keptBoundMany",
+    "hud.logs.keptBoundOne",
     "hudChrome.bags.itemAriaMasterwork",
     "hudChrome.professions.ctaRaiseSpecialized",
     "questUi.dialog.profIntroHint"
@@ -547,6 +549,8 @@ export const pending: Record<string, readonly string[]> = {
     "guide.professions.stationsHeading",
     "guide.professions.whatBody",
     "guide.professions.whatHeading",
+    "hud.logs.keptBoundMany",
+    "hud.logs.keptBoundOne",
     "hudChrome.bags.itemAriaMasterwork",
     "hudChrome.professions.ctaRaiseSpecialized",
     "questUi.dialog.profIntroHint"
@@ -818,6 +822,8 @@ export const pending: Record<string, readonly string[]> = {
     "guide.professions.stationsHeading",
     "guide.professions.whatBody",
     "guide.professions.whatHeading",
+    "hud.logs.keptBoundMany",
+    "hud.logs.keptBoundOne",
     "hudChrome.bags.itemAriaMasterwork",
     "hudChrome.professions.ctaRaiseSpecialized",
     "questUi.dialog.profIntroHint"
@@ -1089,6 +1095,8 @@ export const pending: Record<string, readonly string[]> = {
     "guide.professions.stationsHeading",
     "guide.professions.whatBody",
     "guide.professions.whatHeading",
+    "hud.logs.keptBoundMany",
+    "hud.logs.keptBoundOne",
     "hudChrome.bags.itemAriaMasterwork",
     "hudChrome.professions.ctaRaiseSpecialized",
     "questUi.dialog.profIntroHint"
@@ -1361,6 +1369,8 @@ export const pending: Record<string, readonly string[]> = {
     "guide.professions.stationsHeading",
     "guide.professions.whatBody",
     "guide.professions.whatHeading",
+    "hud.logs.keptBoundMany",
+    "hud.logs.keptBoundOne",
     "hudChrome.bags.itemAriaMasterwork",
     "hudChrome.professions.ctaRaiseSpecialized",
     "questUi.dialog.profIntroHint"
@@ -1632,6 +1642,8 @@ export const pending: Record<string, readonly string[]> = {
     "guide.professions.stationsHeading",
     "guide.professions.whatBody",
     "guide.professions.whatHeading",
+    "hud.logs.keptBoundMany",
+    "hud.logs.keptBoundOne",
     "hudChrome.bags.itemAriaMasterwork",
     "hudChrome.professions.ctaRaiseSpecialized",
     "questUi.dialog.profIntroHint"
@@ -1923,6 +1935,8 @@ export const pending: Record<string, readonly string[]> = {
     "guide.professions.stationsHeading",
     "guide.professions.whatBody",
     "guide.professions.whatHeading",
+    "hud.logs.keptBoundMany",
+    "hud.logs.keptBoundOne",
     "hudChrome.bags.itemAriaMasterwork",
     "hudChrome.professions.ctaRaiseSpecialized",
     "questUi.dialog.profIntroHint"
@@ -2199,6 +2213,8 @@ export const pending: Record<string, readonly string[]> = {
     "guide.professions.stationsHeading",
     "guide.professions.whatBody",
     "guide.professions.whatHeading",
+    "hud.logs.keptBoundMany",
+    "hud.logs.keptBoundOne",
     "hudChrome.bags.itemAriaMasterwork",
     "hudChrome.professions.ctaRaiseSpecialized",
     "questUi.dialog.profIntroHint"
@@ -2470,6 +2486,8 @@ export const pending: Record<string, readonly string[]> = {
     "guide.professions.stationsHeading",
     "guide.professions.whatBody",
     "guide.professions.whatHeading",
+    "hud.logs.keptBoundMany",
+    "hud.logs.keptBoundOne",
     "hudChrome.bags.itemAriaMasterwork",
     "hudChrome.professions.ctaRaiseSpecialized",
     "questUi.dialog.profIntroHint"
@@ -2741,6 +2759,8 @@ export const pending: Record<string, readonly string[]> = {
     "guide.professions.stationsHeading",
     "guide.professions.whatBody",
     "guide.professions.whatHeading",
+    "hud.logs.keptBoundMany",
+    "hud.logs.keptBoundOne",
     "hudChrome.bags.itemAriaMasterwork",
     "hudChrome.professions.ctaRaiseSpecialized",
     "questUi.dialog.profIntroHint"
@@ -3012,6 +3032,8 @@ export const pending: Record<string, readonly string[]> = {
     "guide.professions.stationsHeading",
     "guide.professions.whatBody",
     "guide.professions.whatHeading",
+    "hud.logs.keptBoundMany",
+    "hud.logs.keptBoundOne",
     "hudChrome.bags.itemAriaMasterwork",
     "hudChrome.professions.ctaRaiseSpecialized",
     "questUi.dialog.profIntroHint"
@@ -3283,6 +3305,8 @@ export const pending: Record<string, readonly string[]> = {
     "guide.professions.stationsHeading",
     "guide.professions.whatBody",
     "guide.professions.whatHeading",
+    "hud.logs.keptBoundMany",
+    "hud.logs.keptBoundOne",
     "hudChrome.bags.itemAriaMasterwork",
     "hudChrome.professions.ctaRaiseSpecialized",
     "questUi.dialog.profIntroHint"
@@ -3554,6 +3578,8 @@ export const pending: Record<string, readonly string[]> = {
     "guide.professions.stationsHeading",
     "guide.professions.whatBody",
     "guide.professions.whatHeading",
+    "hud.logs.keptBoundMany",
+    "hud.logs.keptBoundOne",
     "hudChrome.bags.itemAriaMasterwork",
     "hudChrome.professions.ctaRaiseSpecialized",
     "questUi.dialog.profIntroHint"
@@ -3825,6 +3851,8 @@ export const pending: Record<string, readonly string[]> = {
     "guide.professions.stationsHeading",
     "guide.professions.whatBody",
     "guide.professions.whatHeading",
+    "hud.logs.keptBoundMany",
+    "hud.logs.keptBoundOne",
     "hudChrome.bags.itemAriaMasterwork",
     "hudChrome.professions.ctaRaiseSpecialized",
     "questUi.dialog.profIntroHint"
@@ -4096,6 +4124,8 @@ export const pending: Record<string, readonly string[]> = {
     "guide.professions.stationsHeading",
     "guide.professions.whatBody",
     "guide.professions.whatHeading",
+    "hud.logs.keptBoundMany",
+    "hud.logs.keptBoundOne",
     "hudChrome.bags.itemAriaMasterwork",
     "hudChrome.professions.ctaRaiseSpecialized",
     "questUi.dialog.profIntroHint"

@@ -1991,6 +1991,8 @@ export const ja_JP: Partial<Record<TranslationKey, string>> = {
   'hud.logs.soldItem': '{item}を{money}で売却しました。',
   'hud.logs.soldJunkOne': '不要品{count}個を{money}で売却しました。',
   'hud.logs.soldJunkMany': '不要品{count}個を{money}で売却しました。',
+  'hud.logs.keptBoundOne': 'バインド品{count}個は売らずに残しました。',
+  'hud.logs.keptBoundMany': 'バインド品{count}個は売らずに残しました。',
   'hud.logs.friendOnline': '{name}がオンラインになりました。',
   'hud.logs.friendOffline': '{name}がオフラインになりました。',
   'hud.markers.names.star': '星',

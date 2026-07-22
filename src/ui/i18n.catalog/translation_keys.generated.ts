@@ -4673,6 +4673,8 @@ export type TranslationKeyFlat =
   | 'hud.logs.duelEnded'
   | 'hud.logs.friendOffline'
   | 'hud.logs.friendOnline'
+  | 'hud.logs.keptBoundMany'
+  | 'hud.logs.keptBoundOne'
   | 'hud.logs.lootMoney'
   | 'hud.logs.lootReceiveItem'
   | 'hud.logs.lootReceiveMoney'

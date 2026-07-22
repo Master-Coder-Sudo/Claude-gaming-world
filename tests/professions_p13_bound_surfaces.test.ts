@@ -86,6 +86,10 @@ function errorTexts(events: SimEvent[]): string[] {
   return events.filter((e) => e.type === 'error').map((e) => (e as { text: string }).text);
 }
 
+function lootTexts(events: SimEvent[]): string[] {
+  return events.filter((e) => e.type === 'loot').map((e) => (e as { text: string }).text);
+}
+
 function tickFor(sim: Sim, seconds: number): void {
   for (let i = 0; i < Math.ceil(seconds * 20); i++) sim.tick();
 }
@@ -318,6 +322,66 @@ describe('vendor: plain and armed copies sell, stamped copies are refused (wash 
     expect(copperOf(sim, pid)).toBe(0);
     const left = slotsOf(sim, pid, R);
     expect(left.reduce((n, s) => n + s.count, 0)).toBe(2);
+  });
+
+  it('mixed-stack sell emits ONE kept notice beside the sold line, singular form', () => {
+    // The ruled replacement for the silent partial: the clamp still sells the
+    // unbound copy, and the player is told the bound one was spared.
+    const { sim, pid } = vendorSetup();
+    setCopper(sim, pid, 0);
+    sim.addItem(R, 1, pid);
+    sim.addItemInstance(R, { ...STAMPED }, pid);
+    sim.sellItem(R, 2, pid);
+    const loot = lootTexts(sim.drainEvents());
+    expect(loot).toContain(`Sold ${ITEMS[R].name} for 40c.`);
+    expect(loot).toContain('Kept 1 bound copy.');
+    expect(copperOf(sim, pid)).toBe(40);
+    const left = slotsOf(sim, pid, R);
+    expect(left).toHaveLength(1);
+    expect(left[0].instance?.boundTo).toBe(999);
+  });
+
+  it('mixed-stack sell with two spared copies uses the plural form', () => {
+    const { sim, pid } = vendorSetup();
+    setCopper(sim, pid, 0);
+    sim.addItem(R, 1, pid);
+    sim.addItemInstance(R, { ...STAMPED }, pid);
+    sim.addItemInstance(R, { ...STAMPED }, pid);
+    sim.sellItem(R, 3, pid);
+    const loot = lootTexts(sim.drainEvents());
+    expect(loot).toContain('Kept 2 bound copies.');
+    expect(copperOf(sim, pid)).toBe(40);
+    expect(slotsOf(sim, pid, R).reduce((n, s) => n + s.count, 0)).toBe(2);
+  });
+
+  it('a clean unbound sell stays silent: no kept notice on the happy path', () => {
+    const { sim, pid } = vendorSetup();
+    setCopper(sim, pid, 0);
+    sim.addItem(R, 2, pid);
+    sim.sellItem(R, 2, pid);
+    const loot = lootTexts(sim.drainEvents());
+    expect(loot).toContain(`Sold ${ITEMS[R].name} x2 for 80c.`);
+    expect(loot.some((l) => l.startsWith('Kept'))).toBe(false);
+    expect(copperOf(sim, pid)).toBe(80);
+  });
+
+  it('sellAllJunk spares a bound gray copy: the sweep mirrors the sellItem gate', () => {
+    // No poor-quality def binds in shipped content; the arm exists so future
+    // content can never reopen the buyback wash through the junk sweep. The
+    // bound copy shares its itemId with plain fodder to prove the skip-aware
+    // removal never consumes the spared slot.
+    const { sim, pid } = vendorSetup();
+    setCopper(sim, pid, 0);
+    sim.addItem('mudfin_scale', 3, pid);
+    sim.addItemInstance('mudfin_scale', { ...STAMPED }, pid);
+    sim.sellAllJunk(pid);
+    const loot = lootTexts(sim.drainEvents());
+    expect(loot).toContain('Sold 3 junk items for 15c.');
+    expect(copperOf(sim, pid)).toBe(15);
+    const left = slotsOf(sim, pid, 'mudfin_scale');
+    expect(left).toHaveLength(1);
+    expect(left[0].count).toBe(1);
+    expect(left[0].instance).toEqual({ bindOnTrade: true, boundTo: 999 });
   });
 });
 

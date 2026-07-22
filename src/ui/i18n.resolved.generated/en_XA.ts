@@ -6131,6 +6131,8 @@ export const en_XA: EnTranslations = {
       "soldItem": "[Šóļð {item} ƒóŕ {money}.]",
       "soldJunkOne": "[Šóļð {count} ĵúñķ íţéɱ ƒóŕ {money}.]",
       "soldJunkMany": "[Šóļð {count} ĵúñķ íţéɱš ƒóŕ {money}.]",
+      "keptBoundOne": "[Ķéþţ {count} ƀóúñð çóþý.]",
+      "keptBoundMany": "[Ķéþţ {count} ƀóúñð çóþíéš.]",
       "friendOnline": "[{name} ĥáš çóɱé óñļíñé.]",
       "friendOffline": "[{name} ĥáš ĝóñé óƒƒļíñé.]"
     },

@@ -6131,6 +6131,8 @@ export const ru_RU: EnTranslations = {
       "soldItem": "Вы продали {item} за {money}.",
       "soldJunkOne": "Вы продали {count} серый предмет за {money}.",
       "soldJunkMany": "Вы продали серые предметы ({count}) за {money}.",
+      "keptBoundOne": "Оставлена {count} привязанная копия.",
+      "keptBoundMany": "Оставлены привязанные копии ({count}).",
       "friendOnline": "{name} вошел в игру.",
       "friendOffline": "{name} вышел из игры."
     },

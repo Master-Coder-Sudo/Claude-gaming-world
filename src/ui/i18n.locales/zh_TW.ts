@@ -1905,6 +1905,8 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'hud.logs.soldItem': '你以 {money} 賣出 {item}。',
   'hud.logs.soldJunkOne': '你以 {money} 賣出 {count} 件雜物。',
   'hud.logs.soldJunkMany': '你以 {money} 賣出 {count} 件雜物。',
+  'hud.logs.keptBoundOne': '已保留 {count} 件綁定物品。',
+  'hud.logs.keptBoundMany': '已保留 {count} 件綁定物品。',
   'hud.logs.friendOnline': '{name} 上線了。',
   'hud.logs.friendOffline': '{name} 下線了。',
   'hud.markers.names.star': '星形',

@@ -6131,6 +6131,8 @@ export const zh_TW: EnTranslations = {
       "soldItem": "你以 {money} 賣出 {item}。",
       "soldJunkOne": "你以 {money} 賣出 {count} 件雜物。",
       "soldJunkMany": "你以 {money} 賣出 {count} 件雜物。",
+      "keptBoundOne": "已保留 {count} 件綁定物品。",
+      "keptBoundMany": "已保留 {count} 件綁定物品。",
       "friendOnline": "{name} 上線了。",
       "friendOffline": "{name} 下線了。"
     },

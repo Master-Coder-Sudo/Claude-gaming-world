@@ -6131,6 +6131,8 @@ export const cs_CZ: EnTranslations = {
       "soldItem": "Prodáno {item} za {money}.",
       "soldJunkOne": "Prodán {count} odpadní předmět za {money}.",
       "soldJunkMany": "Prodáno {count} odpadních předmětů za {money}.",
+      "keptBoundOne": "Kept {count} bound copy.",
+      "keptBoundMany": "Kept {count} bound copies.",
       "friendOnline": "{name} je online.",
       "friendOffline": "{name} se odpojil(a)."
     },

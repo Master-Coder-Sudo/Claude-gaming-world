@@ -2014,6 +2014,8 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hud.logs.soldItem': 'Вы продали {item} за {money}.',
   'hud.logs.soldJunkOne': 'Вы продали {count} серый предмет за {money}.',
   'hud.logs.soldJunkMany': 'Вы продали серые предметы ({count}) за {money}.',
+  'hud.logs.keptBoundOne': 'Оставлена {count} привязанная копия.',
+  'hud.logs.keptBoundMany': 'Оставлены привязанные копии ({count}).',
   'hud.logs.friendOnline': '{name} вошел в игру.',
   'hud.logs.friendOffline': '{name} вышел из игры.',
   'hud.markers.names.star': 'Звезда',

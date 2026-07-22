@@ -10974,6 +10974,13 @@ export class Hud {
         money: this.localizeSimMoney(match[2]),
       });
     }
+    match = /^Kept (\d+) bound cop(?:y|ies)\.$/.exec(text);
+    if (match) {
+      const n = Number(match[1]);
+      return t(n === 1 ? 'hud.logs.keptBoundOne' : 'hud.logs.keptBoundMany', {
+        count: formatNumber(n, { maximumFractionDigits: 0 }),
+      });
+    }
     match = /^(.+) assigned (.+) to (.+)\.$/.exec(text);
     if (match)
       return t('hudChrome.masterLoot.assigned', {

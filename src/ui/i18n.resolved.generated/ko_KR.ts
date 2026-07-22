@@ -6131,6 +6131,8 @@ export const ko_KR: EnTranslations = {
       "soldItem": "{item}을(를) {money}에 팔았습니다.",
       "soldJunkOne": "잡동사니 아이템 {count}개를 {money}에 팔았습니다.",
       "soldJunkMany": "잡동사니 아이템 {count}개를 {money}에 팔았습니다.",
+      "keptBoundOne": "귀속된 아이템 {count}개는 팔지 않고 남겼습니다.",
+      "keptBoundMany": "귀속된 아이템 {count}개는 팔지 않고 남겼습니다.",
       "friendOnline": "{name}님이 접속했습니다.",
       "friendOffline": "{name}님이 접속을 종료했습니다."
     },

@@ -6131,6 +6131,8 @@ export const da_DK: EnTranslations = {
       "soldItem": "Solgte {item} for {money}.",
       "soldJunkOne": "Solgte {count} skrammelgenstand for {money}.",
       "soldJunkMany": "Solgte {count} skrammelgenstande for {money}.",
+      "keptBoundOne": "Kept {count} bound copy.",
+      "keptBoundMany": "Kept {count} bound copies.",
       "friendOnline": "{name} er kommet online.",
       "friendOffline": "{name} er gået offline."
     },

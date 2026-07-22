@@ -6131,6 +6131,8 @@ export const id_ID: EnTranslations = {
       "soldItem": "Menjual {item} seharga {money}.",
       "soldJunkOne": "Menjual {count} barang rongsok seharga {money}.",
       "soldJunkMany": "Menjual {count} barang rongsok seharga {money}.",
+      "keptBoundOne": "Kept {count} bound copy.",
+      "keptBoundMany": "Kept {count} bound copies.",
       "friendOnline": "{name} telah daring.",
       "friendOffline": "{name} telah luring."
     },

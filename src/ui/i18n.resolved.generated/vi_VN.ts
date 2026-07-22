@@ -6131,6 +6131,8 @@ export const vi_VN: EnTranslations = {
       "soldItem": "Đã bán {item} được {money}.",
       "soldJunkOne": "Đã bán {count} vật phẩm rác được {money}.",
       "soldJunkMany": "Đã bán {count} vật phẩm rác được {money}.",
+      "keptBoundOne": "Kept {count} bound copy.",
+      "keptBoundMany": "Kept {count} bound copies.",
       "friendOnline": "{name} đã trực tuyến.",
       "friendOffline": "{name} đã ngoại tuyến."
     },

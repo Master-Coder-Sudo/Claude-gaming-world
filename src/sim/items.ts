@@ -640,6 +640,19 @@ export function sellItem(ctx: SimContext, itemId: string, count = 1, pid?: numbe
     text: `Sold ${def.name}${sellableCount > 1 ? ' x' + sellableCount : ''} for ${formatMoney(payout)}.`,
     pid: meta.entityId,
   });
+  // A mixed stack sold fewer copies than asked because the clamp above spared
+  // bound ones: say so in one info line instead of a silent partial (the
+  // maintainer-ruled replacement). keptCount counts only bound copies the
+  // player actually asked to sell, since sellCount is pre-clamped to
+  // `available`; a clean unbound sell emits nothing here.
+  const keptCount = sellCount - sellableCount;
+  if (keptCount > 0) {
+    ctx.emit({
+      type: 'loot',
+      text: `Kept ${keptCount} bound ${keptCount === 1 ? 'copy' : 'copies'}.`,
+      pid: meta.entityId,
+    });
+  }
 }
 
 // Bulk-sell every gray (poor-quality) item in the bags in one action, applying the
@@ -667,6 +680,11 @@ export function sellAllJunk(ctx: SimContext, pid?: number): void {
         def.kind !== 'quest' &&
         !def.noVendorSell &&
         !def.soulbound &&
+        // A bound copy (instance payload carrying boundTo) is never
+        // vendor-sellable: the same Maker's Bond gate sellItem applies. No
+        // poor-quality def binds in shipped content, so this arm closes the
+        // recorded future hole before content can reopen the buyback wash.
+        s.instance?.boundTo === undefined &&
         s.count > 0
       );
     })
@@ -676,7 +694,15 @@ export function sellAllJunk(ctx: SimContext, pid?: number): void {
   let soldCount = 0;
   for (const { itemId, count } of junk) {
     const def = ITEMS[itemId]!;
-    ctx.removeItem(itemId, count, meta.entityId);
+    // Skip-aware removal: a spared bound slot sharing this itemId must never
+    // be the slot the removal walk consumes (plain removeItem cannot skip).
+    removePreferFungible(
+      ctx,
+      itemId,
+      count,
+      meta.entityId,
+      (instance) => instance.boundTo !== undefined,
+    );
     recordVendorBuyback(meta, itemId, count);
     total += def.sellValue * count;
     soldCount += count;

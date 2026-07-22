@@ -6131,6 +6131,8 @@ export const nl_NL: EnTranslations = {
       "soldItem": "{item} verkocht voor {money}.",
       "soldJunkOne": "{count} rommelvoorwerp verkocht voor {money}.",
       "soldJunkMany": "{count} rommelvoorwerpen verkocht voor {money}.",
+      "keptBoundOne": "Kept {count} bound copy.",
+      "keptBoundMany": "Kept {count} bound copies.",
       "friendOnline": "{name} is online gekomen.",
       "friendOffline": "{name} is offline gegaan."
     },

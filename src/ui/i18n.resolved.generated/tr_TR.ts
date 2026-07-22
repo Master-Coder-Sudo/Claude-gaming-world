@@ -6131,6 +6131,8 @@ export const tr_TR: EnTranslations = {
       "soldItem": "{item}, {money} karşılığında satıldı.",
       "soldJunkOne": "{count} değersiz eşya {money} karşılığında satıldı.",
       "soldJunkMany": "{count} değersiz eşya {money} karşılığında satıldı.",
+      "keptBoundOne": "Kept {count} bound copy.",
+      "keptBoundMany": "Kept {count} bound copies.",
       "friendOnline": "{name} çevrimiçi oldu.",
       "friendOffline": "{name} çevrimdışı oldu."
     },

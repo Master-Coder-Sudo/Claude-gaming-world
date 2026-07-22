@@ -6131,6 +6131,8 @@ export const ja_JP: EnTranslations = {
       "soldItem": "{item}を{money}で売却しました。",
       "soldJunkOne": "不要品{count}個を{money}で売却しました。",
       "soldJunkMany": "不要品{count}個を{money}で売却しました。",
+      "keptBoundOne": "バインド品{count}個は売らずに残しました。",
+      "keptBoundMany": "バインド品{count}個は売らずに残しました。",
       "friendOnline": "{name}がオンラインになりました。",
       "friendOffline": "{name}がオフラインになりました。"
     },

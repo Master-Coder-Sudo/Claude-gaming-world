@@ -6131,6 +6131,8 @@ export const it_IT: EnTranslations = {
       "soldItem": "Hai venduto {item} per {money}.",
       "soldJunkOne": "Hai venduto {count} oggetto grigio per {money}.",
       "soldJunkMany": "Hai venduto {count} oggetti grigi per {money}.",
+      "keptBoundOne": "Kept {count} bound copy.",
+      "keptBoundMany": "Kept {count} bound copies.",
       "friendOnline": "{name} è entrato online.",
       "friendOffline": "{name} è uscito offline."
     },

@@ -1976,6 +1976,8 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'hud.logs.soldItem': '{item}을(를) {money}에 팔았습니다.',
   'hud.logs.soldJunkOne': '잡동사니 아이템 {count}개를 {money}에 팔았습니다.',
   'hud.logs.soldJunkMany': '잡동사니 아이템 {count}개를 {money}에 팔았습니다.',
+  'hud.logs.keptBoundOne': '귀속된 아이템 {count}개는 팔지 않고 남겼습니다.',
+  'hud.logs.keptBoundMany': '귀속된 아이템 {count}개는 팔지 않고 남겼습니다.',
   'hud.logs.friendOnline': '{name}님이 접속했습니다.',
   'hud.logs.friendOffline': '{name}님이 접속을 종료했습니다.',
   'hud.markers.names.star': '별',
