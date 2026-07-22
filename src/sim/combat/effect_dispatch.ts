@@ -2160,12 +2160,12 @@ export function runEffects(
               aura.kind === 'slow')
           ) {
             // Product ruling (Avatar, the sole breakControl user): the break
-            // frees the caster from HOSTILE PvP and trash control only.
-            // Self-sourced auras and boss mechanics stay; a source that
+            // removes control from any source EXCEPT the caster itself and
+            // mobs whose template carries boss: true (final-boss templates).
+            // Encounter mobs without the flag are breakable; a source that
             // cannot be resolved (despawned, since ctx.entities is the full
             // authoritative roster here) defaults to breakable, the common
-            // hostile case. Non-boss elites and minibosses count as trash:
-            // only a template with boss: true protects its control.
+            // case.
             if (aura.sourceId === p.id) continue;
             const source = ctx.entities.get(aura.sourceId);
             if (source && MOBS[source.templateId]?.boss) continue;

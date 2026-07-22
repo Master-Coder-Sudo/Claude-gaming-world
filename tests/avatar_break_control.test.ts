@@ -6,7 +6,7 @@
 // and its break removes HOSTILE PvP and trash control only, never boss-sourced
 // or self-sourced control, and never encounter-authored unbreakable control.
 import { describe, expect, it } from 'vitest';
-import { MOBS } from '../src/sim/data';
+import { CLASSES, MOBS } from '../src/sim/data';
 import { createMob, createPlayer } from '../src/sim/entity';
 import { Sim } from '../src/sim/sim';
 import type { Aura, Entity } from '../src/sim/types';
@@ -47,8 +47,8 @@ function addBossMob(sim: Sim, id = 9200): Entity {
 function addHostilePlayer(sim: Sim, id = 9300): Entity {
   const p = sim.player;
   // A player's templateId is its class id; if a mob template ever collided
-  // with a class id, MOBS[templateId] could boss-protect PvP control.
-  expect(MOBS.warlock).toBeUndefined();
+  // with any class id, MOBS[templateId] could boss-protect PvP control.
+  for (const classId of Object.keys(CLASSES)) expect(MOBS[classId]).toBeUndefined();
   const enemy = createPlayer(id, 'warlock', { x: p.pos.x + 6, y: p.pos.y, z: p.pos.z }, 'Enemy');
   addEntity(sim, enemy);
   return enemy;
@@ -61,7 +61,7 @@ function control(id: string, kind: Aura['kind'], sourceId: number, value = 0): A
 const hasAura = (p: Entity, id: string) => p.auras.some((a) => a.id === id);
 const hasAvatarBuff = (p: Entity) => p.auras.some((a) => a.kind === 'buff_avatar');
 
-describe('Avatar breaks hostile control (usableWhileControlled + source-scoped break)', () => {
+describe('Avatar breaks enemy control (usableWhileControlled + source-scoped break)', () => {
   it('breaks a trash-mob fear (incapacitate) when cast while feared', () => {
     const { sim, p } = rigWarrior();
     const mob = addTrashMob(sim);
@@ -117,10 +117,11 @@ describe('Avatar breaks hostile control (usableWhileControlled + source-scoped b
     expect(hasAvatarBuff(p)).toBe(true);
   });
 
-  it('breaks control from a non-boss ELITE: only boss: true protects a source', () => {
+  it('breaks control from a mob without the template boss flag: only boss: true protects', () => {
     const { sim, p } = rigWarrior();
-    // Deliberate product boundary: elites and minibosses without the boss
-    // flag count as trash, so their control is breakable.
+    // Deliberate product boundary: the rule keys on the boss: true template
+    // flag (final-boss templates), so an encounter mob without it, like this
+    // dungeon-finder encounter, is breakable.
     expect(MOBS.korgath_the_bound.elite).toBe(true);
     expect(MOBS.korgath_the_bound.boss).toBeFalsy();
     const elite = createMob(9400, MOBS.korgath_the_bound, 20, {
@@ -241,6 +242,12 @@ describe('Avatar breaks hostile control (usableWhileControlled + source-scoped b
       for (let i = 0; i < 40; i++) events.push(...sim.tick());
       return { auras: p.auras.map((a) => a.id), events };
     };
-    expect(run()).toEqual(run());
+    const first = run();
+    expect(first).toEqual(run());
+    // Decisive end state, so this test also fails if either fix hunk regresses
+    // (not only on nondeterminism in general).
+    expect(first.auras).not.toContain('trash_stun');
+    expect(first.auras).toContain('boss_fear');
+    expect(first.auras.some((id) => id === 'avatar')).toBe(true);
   });
 });
