@@ -7679,7 +7679,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "str",
-          "value": 5
+          "value": 2
         }
       ]
     },
@@ -7697,7 +7697,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "int",
-          "value": 5
+          "value": 2
         }
       ]
     },
@@ -7715,7 +7715,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "sta",
-          "value": 8
+          "value": 3
         }
       ]
     },
@@ -7733,7 +7733,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "spi",
-          "value": 5
+          "value": 3
         }
       ]
     },
@@ -7751,7 +7751,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "agi",
-          "value": 5
+          "value": 2
         }
       ]
     },
@@ -7773,7 +7773,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "sta",
-          "value": 10
+          "value": 4
         }
       ]
     },
@@ -7791,7 +7791,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "sta",
-          "value": 6
+          "value": 3
         }
       ]
     },
@@ -7813,7 +7813,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "sta",
-          "value": 8
+          "value": 3
         }
       ]
     },
@@ -7831,7 +7831,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "agi",
-          "value": 6
+          "value": 3
         }
       ]
     },
@@ -7849,7 +7849,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "int",
-          "value": 6
+          "value": 3
         }
       ]
     },
@@ -7867,7 +7867,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "agi",
-          "value": 4
+          "value": 2
         }
       ]
     },
@@ -7885,7 +7885,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "spi",
-          "value": 4
+          "value": 2
         }
       ]
     },
@@ -7903,7 +7903,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "agi",
-          "value": 5
+          "value": 2
         }
       ]
     },
@@ -7925,7 +7925,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "int",
-          "value": 8
+          "value": 4
         }
       ]
     },
@@ -7947,7 +7947,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "armor",
-          "value": 30
+          "value": 15
         }
       ]
     },
@@ -7965,7 +7965,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "int",
-          "value": 5
+          "value": 2
         }
       ]
     },
@@ -7983,7 +7983,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "agi",
-          "value": 5
+          "value": 2
         }
       ]
     },
@@ -8001,7 +8001,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "str",
-          "value": 5
+          "value": 2
         }
       ]
     },
@@ -8019,7 +8019,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "int",
-          "value": 5
+          "value": 2
         }
       ]
     },
@@ -8041,7 +8041,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "spi",
-          "value": 8
+          "value": 4
         }
       ]
     },
@@ -8063,7 +8063,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "armor",
-          "value": 40
+          "value": 20
         }
       ]
     },
@@ -8081,7 +8081,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "str",
-          "value": 6
+          "value": 3
         }
       ]
     },
@@ -8099,7 +8099,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "agi",
-          "value": 6
+          "value": 3
         }
       ]
     },
@@ -8121,7 +8121,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "int",
-          "value": 8
+          "value": 4
         }
       ]
     },
@@ -8139,7 +8139,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "str",
-          "value": 6
+          "value": 3
         }
       ]
     },
@@ -8157,7 +8157,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "str",
-          "value": 4
+          "value": 2
         }
       ]
     },
@@ -8175,7 +8175,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "sta",
-          "value": 5
+          "value": 2
         }
       ]
     },
@@ -8193,7 +8193,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "str",
-          "value": 4
+          "value": 2
         }
       ]
     },
@@ -8211,7 +8211,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "agi",
-          "value": 4
+          "value": 2
         }
       ]
     },
@@ -8229,7 +8229,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "int",
-          "value": 4
+          "value": 2
         }
       ]
     },
@@ -8251,7 +8251,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "str",
-          "value": 8
+          "value": 5
         }
       ]
     },
@@ -8273,7 +8273,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "int",
-          "value": 8
+          "value": 5
         }
       ]
     },
@@ -8295,7 +8295,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "sta",
-          "value": 12
+          "value": 6
         }
       ]
     },
@@ -8317,7 +8317,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "sta",
-          "value": 14
+          "value": 7
         }
       ]
     },
@@ -8339,7 +8339,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "sta",
-          "value": 12
+          "value": 6
         }
       ]
     },
@@ -8361,7 +8361,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "agi",
-          "value": 9
+          "value": 6
         }
       ]
     },
@@ -8383,7 +8383,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "str",
-          "value": 6
+          "value": 3
         }
       ]
     },
@@ -8405,7 +8405,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "int",
-          "value": 6
+          "value": 3
         }
       ]
     },
@@ -8427,7 +8427,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "spi",
-          "value": 10
+          "value": 5
         }
       ]
     },
@@ -8449,7 +8449,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "agi",
-          "value": 8
+          "value": 4
         }
       ]
     },
@@ -8471,7 +8471,7 @@ export const GUIDE_PROF_ENCHANTING: GuideProfEnchanting = {
       "bonus": [
         {
           "stat": "sta",
-          "value": 10
+          "value": 5
         }
       ]
     }
