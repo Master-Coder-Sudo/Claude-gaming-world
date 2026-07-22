@@ -991,6 +991,17 @@ export const TARGETS = [
     // party dots, and the 3D model tint (priest moved the furthest, off pure white).
     variants: [
       { key: 'chat', charClass: 'warrior', charName: 'Thorgar' },
+      // The class names paint on whatever panel the active UI theme sets
+      // (src/ui/theme.ts presets), so legibility must be checked per theme,
+      // not only on the shipped classic dark panel.
+      { key: 'chat-midnight', charClass: 'warrior', charName: 'Thorgar', theme: 'midnight' },
+      { key: 'chat-parchment', charClass: 'warrior', charName: 'Thorgar', theme: 'parchment' },
+      {
+        key: 'chat-highcontrast',
+        charClass: 'warrior',
+        charName: 'Thorgar',
+        theme: 'highContrast',
+      },
       { key: 'party', charClass: 'priest', charName: 'Lumina' },
       { key: 'raid', charClass: 'warrior', charName: 'Thorgar' },
       { key: 'model', charClass: 'priest', charName: 'Lumina' },
@@ -1003,7 +1014,15 @@ export const TARGETS = [
         document.querySelector('.tut-skip')?.click();
         document.querySelector('#gpu-notice')?.remove();
       });
-      if (variant.key === 'chat') {
+      if (variant.key.startsWith('chat')) {
+        if (variant.theme) {
+          // Switch the UI theme through the REAL options hook (store +
+          // applyTheme), the same path the Options panel preset buttons take.
+          await page.evaluate((preset) => {
+            window.__game?.hud?.optionsHooks?.theme?.setPreset(preset);
+          }, variant.theme);
+          await wait(300);
+        }
         await pollForSize(page, '#chatlog-wrap', 60, 500);
         // One line per class, spread across channels, through the real dispatch
         // (hud.handleEvents; mirrors the chat-flair-class-color target). pid-less
