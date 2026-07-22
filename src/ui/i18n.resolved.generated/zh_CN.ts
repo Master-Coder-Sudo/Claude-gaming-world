@@ -2241,6 +2241,7 @@ export const zh_CN: EnTranslations = {
       "tutorialLine": "将任意一门技艺提升到技能 {target}，即可解锁你的第一个阶级。",
       "ctaHeader": "下一步",
       "ctaRaise": "继续提升{craft}：距离下一阶级还差 {points} 点。",
+      "ctaRaiseSpecialized": "继续提升{craft}：距离专精还差 {points} 点，材料消耗将降低。",
       "ctaStart": "使用任意专业进行制作或采集，即可开始。",
       "unattunedIdentity": "你尚未调谐任何原型。提升你的技艺并完成一次调谐，以选择你的组合。",
       "nudgeNearTier": "{craft}：距离下一阶级还差 {points} 点",

@@ -2241,6 +2241,7 @@ export const ko_KR: EnTranslations = {
       "tutorialLine": "아무 기술이나 숙련도 {target}까지 올리면 첫 티어가 열립니다.",
       "ctaHeader": "다음 단계",
       "ctaRaise": "{craft}를 계속 올리세요. 다음 티어까지 숙련도 {points} 남았습니다.",
+      "ctaRaiseSpecialized": "{craft}를 계속 올리세요. 전문화까지 숙련도 {points} 남았습니다: 재료 소모가 줄어듭니다.",
       "ctaStart": "아무 전문 기술로 제작하거나 채집하면 시작됩니다.",
       "unattunedIdentity": "아직 원형에 조율되지 않았습니다. 기술을 올리고 조율을 완료하여 조합을 선택하세요.",
       "nudgeNearTier": "{craft}: 다음 티어까지 숙련도 {points}",

@@ -7109,7 +7109,7 @@ export class Hud {
       // checks on the slow band; the server re-validates the gate on every
       // craft regardless.
       if (
-        $('#crafting-window').style.display !== 'none' &&
+        $('#crafting-window').style.display === 'flex' &&
         stationTypesSignature(inRangeStationTypes(sim.player.pos, sim.activeMobileStationCraft)) !==
           this.lastCraftingStationSig
       )
@@ -9042,7 +9042,7 @@ export class Hud {
               '#ff6b6b',
             );
           }
-          if ($('#crafting-window').style.display !== 'none') this.renderCrafting();
+          if ($('#crafting-window').style.display === 'flex') this.renderCrafting();
           break;
         }
         case 'trainResult': {
@@ -9089,7 +9089,7 @@ export class Hud {
           // known recipes) without waiting for a manual reopen.
           if (this.openTrainNpcId !== null && $('#train-window').style.display === 'block')
             this.renderTrain();
-          if ($('#crafting-window').style.display !== 'none') this.renderCrafting();
+          if ($('#crafting-window').style.display === 'flex') this.renderCrafting();
           break;
         }
         case 'unbindResult': {
@@ -11539,7 +11539,7 @@ export class Hud {
   // -------------------------------------------------------------------------
 
   toggleCrafting(): void {
-    if ($('#crafting-window').style.display !== 'none') {
+    if ($('#crafting-window').style.display === 'flex') {
       this.closeCrafting();
       return;
     }
@@ -11879,7 +11879,7 @@ export class Hud {
     if (sig === this.lastProfessionSurfaceSig) return;
     this.lastProfessionSurfaceSig = sig;
     this.charWindow.renderIfOpen();
-    if ($('#crafting-window').style.display !== 'none') this.renderCrafting();
+    if ($('#crafting-window').style.display === 'flex') this.renderCrafting();
   }
 
   renderBags(): void {

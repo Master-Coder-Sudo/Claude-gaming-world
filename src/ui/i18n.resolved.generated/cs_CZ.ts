@@ -2241,6 +2241,7 @@ export const cs_CZ: EnTranslations = {
       "tutorialLine": "Dosáhněte dovednosti {target} v jakémkoli řemesle a odemkněte svou první úroveň.",
       "ctaHeader": "Další krok",
       "ctaRaise": "Pokračuj ve zvyšování {craft}: do další úrovně zbývá {points} bodů.",
+      "ctaRaiseSpecialized": "Keep raising {craft}: {points} more points to Specialized, and material costs drop.",
       "ctaStart": "Pro začátek vytvořte nebo shromážděte s jakoukoli profesí.",
       "unattunedIdentity": "Ještě nejste naladěni na archetyp. Zvyšte své řemeslo a dokončete naladění, abyste si vybrali svůj pár.",
       "nudgeNearTier": "{craft}: do další úrovně zbývá {points} bodů",

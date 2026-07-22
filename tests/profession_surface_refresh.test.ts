@@ -122,7 +122,7 @@ describe('Hud profession-surface convergence wiring', () => {
         '    )',
     );
     expect(method).toContain('this.charWindow.renderIfOpen()');
-    expect(method).toContain("$('#crafting-window').style.display !== 'none'");
+    expect(method).toContain("$('#crafting-window').style.display === 'flex'");
     expect(method).toContain('this.renderCrafting()');
   });
 

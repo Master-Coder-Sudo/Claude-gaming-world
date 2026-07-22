@@ -398,7 +398,16 @@ describe('switch cost', () => {
       amendsProgress: 1,
       amendsRequired: 11,
       nextSwitchCost: 11,
+      show: true,
     });
+  });
+
+  it('hides the switch-cost line until the player has ever attuned', () => {
+    // The maintainer copy call (Phase 5 deferral): a never-attuned player has
+    // no archetype to switch FROM, so the line is noise; any held pair (even
+    // after returning to unattuned) keeps it visible.
+    expect(view(attunedIdentity).switchCost.show).toBe(true);
+    expect(view(identity({ attunedPairs: [] })).switchCost.show).toBe(false);
   });
 });
 

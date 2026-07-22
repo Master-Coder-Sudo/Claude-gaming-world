@@ -2241,6 +2241,7 @@ export const fr_FR: EnTranslations = {
       "tutorialLine": "Atteignez la compétence {target} dans n'importe quel métier pour débloquer votre premier niveau.",
       "ctaHeader": "Étape suivante",
       "ctaRaise": "Continuez à augmenter {craft}: {points} plus de points pour passer au niveau suivant.",
+      "ctaRaiseSpecialized": "Keep raising {craft}: {points} more points to Specialized, and material costs drop.",
       "ctaStart": "Fabriquez ou rassemblez n’importe quelle profession pour commencer.",
       "unattunedIdentity": "Vous n’êtes pas encore à l’écoute d’un archétype. Élevez votre artisanat et effectuez une initiation pour choisir votre paire.",
       "nudgeNearTier": "{craft} : points {points} du niveau suivant",

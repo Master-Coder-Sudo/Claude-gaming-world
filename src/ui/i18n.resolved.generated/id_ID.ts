@@ -2241,6 +2241,7 @@ export const id_ID: EnTranslations = {
       "tutorialLine": "Raih keterampilan {target} di kerajinan apa pun untuk membuka kunci tingkat pertama Anda.",
       "ctaHeader": "Langkah selanjutnya",
       "ctaRaise": "Tingkatkan terus {craft}:{points} poin lebih banyak ke tingkat berikutnya.",
+      "ctaRaiseSpecialized": "Keep raising {craft}: {points} more points to Specialized, and material costs drop.",
       "ctaStart": "Buat atau kumpulkan dengan profesi apa pun untuk memulai.",
       "unattunedIdentity": "Anda belum terbiasa dengan suatu arketipe. Tingkatkan kerajinan Anda dan selesaikan attunement untuk memilih pasangan Anda.",
       "nudgeNearTier": "{craft}: {points} poin dari tingkat berikutnya",

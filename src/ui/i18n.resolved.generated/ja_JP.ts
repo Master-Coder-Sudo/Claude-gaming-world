@@ -2241,6 +2241,7 @@ export const ja_JP: EnTranslations = {
       "tutorialLine": "いずれかの技を技能 {target} まで上げると、最初のティアが解放されます。",
       "ctaHeader": "次のステップ",
       "ctaRaise": "{craft}を伸ばしましょう。次のティアまであと {points} です。",
+      "ctaRaiseSpecialized": "{craft}を伸ばしましょう。専門化まであと {points}：素材コストが下がります。",
       "ctaStart": "いずれかの専門技能で製作か採集を行うと始まります。",
       "unattunedIdentity": "まだアーキタイプに調律していません。技を伸ばし、調律を完了して組み合わせを選びましょう。",
       "nudgeNearTier": "{craft}：次のティアまであと {points}",

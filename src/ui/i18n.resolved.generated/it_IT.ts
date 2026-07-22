@@ -2241,6 +2241,7 @@ export const it_IT: EnTranslations = {
       "tutorialLine": "Raggiungi l'abilità {target} in qualsiasi mestiere per sbloccare il tuo primo livello.",
       "ctaHeader": "Prossimo passo",
       "ctaRaise": "Continua ad aumentare {craft}: {points} più punti al livello successivo.",
+      "ctaRaiseSpecialized": "Keep raising {craft}: {points} more points to Specialized, and material costs drop.",
       "ctaStart": "Crea o riunisciti con qualsiasi professione per iniziare.",
       "unattunedIdentity": "Non sei ancora in sintonia con un archetipo. Migliora le tue abilità e completa un'armonizzazione per scegliere la tua coppia.",
       "nudgeNearTier": "{craft}: punti {points} dal livello successivo",

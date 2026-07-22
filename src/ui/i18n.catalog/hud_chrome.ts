@@ -2424,6 +2424,8 @@ export const hudChromeStrings = {
     tutorialLine: 'Reach {target} skill in any craft to unlock your first tier.',
     ctaHeader: 'Next step',
     ctaRaise: 'Keep raising {craft}: {points} more points to the next tier.',
+    ctaRaiseSpecialized:
+      'Keep raising {craft}: {points} more points to Specialized, and material costs drop.',
     ctaStart: 'Craft or gather with any profession to begin.',
     unattunedIdentity:
       'You are not yet attuned to an archetype. Raise your crafts and complete an attunement to choose your pair.',

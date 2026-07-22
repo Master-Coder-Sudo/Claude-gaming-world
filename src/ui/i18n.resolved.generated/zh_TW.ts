@@ -2241,6 +2241,7 @@ export const zh_TW: EnTranslations = {
       "tutorialLine": "將任意一門技藝提升到技能 {target}，即可解鎖你的第一個階級。",
       "ctaHeader": "下一步",
       "ctaRaise": "繼續提升{craft}：距離下一階級還差 {points} 點。",
+      "ctaRaiseSpecialized": "繼續提升{craft}：距離專精還差 {points} 點，材料消耗將降低。",
       "ctaStart": "使用任意專業進行製作或採集，即可開始。",
       "unattunedIdentity": "你尚未調諧任何原型。提升你的技藝並完成一次調諧，以選擇你的組合。",
       "nudgeNearTier": "{craft}：距離下一階級還差 {points} 點",

@@ -8397,6 +8397,7 @@ export const ru_RU: Partial<Record<TranslationKey, string>> = {
   'hudChrome.professions.ctaHeader': 'Следующий шаг',
   'hudChrome.professions.ctaRaise':
     'Продолжайте развивать {craft}: до следующего ранга {points} навыка.',
+    'hudChrome.professions.ctaRaiseSpecialized': 'Продолжайте развивать {craft}: до специализации {points} навыка, расход материалов снизится.',
   'hudChrome.professions.ctaStart':
     'Чтобы начать, создайте предмет или соберите ресурсы любой профессией.',
   'hudChrome.professions.unattunedIdentity':

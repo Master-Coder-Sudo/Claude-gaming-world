@@ -472,7 +472,7 @@ describe('crafting window Phase 6 QA pins', () => {
       // data attribute, so a theme retune is a one-file change.
       expect(el?.getAttribute('style'), difficulty).toBeNull();
       expect(componentsCss).toContain(
-        `.crafting-difficulty[data-difficulty='${difficulty}'] {\n    color: var(${token});\n  }`,
+        `.crafting-difficulty[data-difficulty="${difficulty}"] {\n    color: var(${token});\n  }`,
       );
       // Never color-only: the localized label rides inside the tinted span.
       expect(el?.textContent, difficulty).toBe(label);
@@ -570,7 +570,7 @@ describe('crafting window station-range repaint liveness (source pins)', () => {
     // appearing/expiring) must refresh the cold painter's rows (out-of-range
     // note, disabled state) without a per-frame repaint: the slow band
     // compares the live set's signature against the last painted one.
-    expect(hud).toContain("$('#crafting-window').style.display !== 'none' &&");
+    expect(hud).toContain("$('#crafting-window').style.display === 'flex' &&");
     expect(hud).toMatch(
       /stationTypesSignature\(inRangeStationTypes\(sim\.player\.pos, sim\.activeMobileStationCraft\)\) !==\s*this\.lastCraftingStationSig/,
     );

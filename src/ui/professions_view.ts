@@ -260,6 +260,11 @@ export interface SwitchCostModel {
   amendsRequired: number;
   /** Client-computed at rest, display-only: requiredAmendsProgress(returnCount). */
   nextSwitchCost: number;
+  /** Whether the switch-cost line renders at all: a player who has NEVER
+   *  attuned (attunedPairs empty) has no archetype to switch from, so the
+   *  "next switch costs N amends" line is noise until the first attunement
+   *  (maintainer copy call, closing the Phase 5 deferral). */
+  show: boolean;
 }
 
 export type ProfessionsWindowMode = 'simplified' | 'full';
@@ -348,6 +353,7 @@ export function buildProfessionsView(input: ProfessionsViewInput): ProfessionsVi
       amendsProgress: input.identity.amendsProgress,
       amendsRequired: input.identity.amendsRequired,
       nextSwitchCost: requiredAmendsProgress(input.identity.switchCount),
+      show: input.identity.attunedPairs.length > 0,
     },
     simplified: mode === 'simplified' ? buildSimplifiedCallToAction(identity) : null,
   };

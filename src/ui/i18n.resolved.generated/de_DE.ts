@@ -2241,6 +2241,7 @@ export const de_DE: EnTranslations = {
       "tutorialLine": "Erreiche die Fertigkeit {target} in einem beliebigen Handwerk, um deine erste Stufe freizuschalten.",
       "ctaHeader": "Nächster Schritt",
       "ctaRaise": "Erhöhe weiter {craft}: {points} weitere Punkte für die nächste Stufe.",
+      "ctaRaiseSpecialized": "Keep raising {craft}: {points} more points to Specialized, and material costs drop.",
       "ctaStart": "Stelle mit einem beliebigen Beruf etwas her oder sammle etwas, um zu beginnen.",
       "unattunedIdentity": "Du bist noch auf keinen Archetyp abgestimmt. Steigere deine Handwerksberufe und schließe eine Abstimmung ab, um dein Paar zu wählen.",
       "nudgeNearTier": "{craft}: noch {points} Punkte bis zur nächsten Stufe",

@@ -2241,6 +2241,7 @@ export const pt_BR: EnTranslations = {
       "tutorialLine": "Alcance a habilidade {target} em qualquer embarcação para desbloquear seu primeiro nível.",
       "ctaHeader": "Próxima etapa",
       "ctaRaise": "Continue aumentando {craft}: {points} mais pontos para o próximo nível.",
+      "ctaRaiseSpecialized": "Keep raising {craft}: {points} more points to Specialized, and material costs drop.",
       "ctaStart": "Crie ou reúna qualquer profissão para começar.",
       "unattunedIdentity": "Você ainda não está sintonizado com um arquétipo. Eleve seu artesanato e complete uma sintonização para escolher seu par.",
       "nudgeNearTier": "{craft}: pontos {points} do próximo nível",

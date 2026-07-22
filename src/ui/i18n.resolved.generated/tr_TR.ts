@@ -2241,6 +2241,7 @@ export const tr_TR: EnTranslations = {
       "tutorialLine": "İlk seviyenizin kilidini açmak için herhangi bir zanaatta {target} becerisine ulaşın.",
       "ctaHeader": "Sonraki adım",
       "ctaRaise": "{craft}'yi yükseltmeye devam edin: {points} bir sonraki aşamaya daha fazla puan kazandırır.",
+      "ctaRaiseSpecialized": "Keep raising {craft}: {points} more points to Specialized, and material costs drop.",
       "ctaStart": "Başlamak için herhangi bir meslekle zanaat yapın veya toplayın.",
       "unattunedIdentity": "Henüz bir arketipe uyum sağlamadınız. El sanatlarınızı yükseltin ve çiftinizi seçmek için bir uyumlamayı tamamlayın.",
       "nudgeNearTier": "{craft}: {points} sonraki seviyeden puanlar",

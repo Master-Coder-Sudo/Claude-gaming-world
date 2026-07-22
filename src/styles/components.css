@@ -6383,8 +6383,8 @@
      vector-effect="non-scaling-stroke" so these pixel widths survive the
      unit-circle viewBox; every colour in this section is a token. */
   #professions-window {
-    width: 560px;
-    max-height: calc(var(--app-vh, 100vh) * 0.78 / var(--window-scale) - 24px);
+    width: 720px;
+    max-height: calc(var(--app-vh, 100vh) * 0.85 / var(--window-scale) - 24px);
     flex-direction: column;
   }
   #professions-window .panel-title {
@@ -6408,11 +6408,17 @@
   }
   .prof-section-header {
     margin: 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #463a1c;
     font-family: var(--title-font);
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
-    color: var(--gold-dim);
+    letter-spacing: 0.06em;
+    font-variant: small-caps;
+    color: var(--gold);
   }
+  /* Every section rides the showcase inset-card idiom (the char-window stat
+     panels): dark inset fill, gold-brown hairline, 7px radius. */
   .prof-identity,
   .prof-crafts,
   .prof-perks,
@@ -6420,7 +6426,36 @@
   .prof-cta {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
+    padding: 8px 12px 10px;
+    border: 1px solid #463a1c;
+    border-radius: 7px;
+    background: rgba(0, 0, 0, 0.24);
+  }
+  /* The hero band: the identity card beside the wheel on its stage. */
+  .prof-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 264px;
+    gap: 10px;
+    align-items: stretch;
+  }
+  /* The wheel's stage: the char-window model-panel treatment (keyline, inner
+     vignette, warm radial haze, ground shadow), purely decorative around the
+     role="img" ring. */
+  .prof-ring-stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 240px;
+    border: 1px solid #463a1c;
+    border-radius: 7px;
+    background:
+      radial-gradient(ellipse 62% 46% at 50% 58%, rgba(216, 166, 69, 0.1), transparent 70%),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.34));
+    box-shadow:
+      inset 0 0 0 1px rgba(0, 0, 0, 0.55),
+      inset 0 0 40px rgba(0, 0, 0, 0.35);
   }
   .prof-pair-title {
     font-family: var(--title-font);
@@ -6510,7 +6545,6 @@
   .prof-ring-node.role-dormant {
     opacity: 0.55;
   }
-  .prof-list,
   .prof-perk-list,
   .prof-nudges {
     list-style: none;
@@ -6520,32 +6554,57 @@
     flex-direction: column;
     gap: 6px;
   }
+  /* The craft (and gathering) rows lay out as a two-column grid on the wide
+     window, five rows tall instead of ten; minmax(0, 1fr) keeps long
+     localized names truncation-safe. */
+  .prof-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px 14px;
+  }
   .prof-craft-row,
   .prof-gather-row {
     display: flex;
     align-items: flex-start;
-    gap: 8px;
+    gap: 9px;
+    padding: 6px 8px;
+    border-radius: 5px;
+    background: #ffffff05;
   }
   .prof-craft-icon {
     flex: none;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border: 1px solid var(--color-border-default);
-    border-radius: 4px;
+    border-radius: 5px;
   }
   .prof-craft-main {
     flex: 1 1 auto;
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
   }
+  /* The name line carries ONLY the name and the right-aligned value; chips
+     live on their own line below (the text-squish fix). */
   .prof-craft-head {
     display: flex;
     align-items: baseline;
     gap: 6px;
+    font-size: 13px;
+  }
+  .prof-craft-name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .prof-craft-chips {
+    display: flex;
+    align-items: center;
+    gap: 5px;
     flex-wrap: wrap;
-    font-size: 12px;
   }
   .prof-craft-name {
     font-family: var(--title-font);
@@ -6556,11 +6615,14 @@
   }
   .prof-role-badge,
   .prof-ceiling {
-    font-size: 11px;
+    font-size: 10px;
+    line-height: 1;
     color: var(--color-text-muted);
-    border: 1px solid var(--color-border-default);
-    border-radius: 8px;
-    padding: 0 6px;
+    border: 1px solid #463a1c;
+    border-radius: 999px;
+    padding: 3px 8px;
+    background: rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
   }
   .role-major .prof-role-badge {
     color: var(--gold);
@@ -6571,36 +6633,40 @@
   }
   .prof-skill-value {
     margin-left: auto;
+    flex: none;
     font-size: 11px;
+    font-variant-numeric: tabular-nums;
     color: var(--color-text-light);
   }
   .prof-bar-wrap {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 7px;
   }
   .prof-bar {
     display: inline-block;
     flex: 1 1 auto;
-    height: 8px;
+    height: 9px;
     border: 1px solid var(--color-border-default);
     border-radius: 4px;
     background: var(--color-bg-input);
     overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
   }
   .prof-bar-fill {
     display: block;
     height: 100%;
-    background: var(--gold-dim);
+    background: linear-gradient(180deg, var(--gold), var(--gold-dim) 85%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
   }
   .prof-pips {
     display: inline-flex;
     flex: none;
-    gap: 2px;
+    gap: 3px;
   }
   .prof-pip {
-    width: 6px;
-    height: 6px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     border: 1px solid var(--color-border-default);
     background: var(--color-bg-input);

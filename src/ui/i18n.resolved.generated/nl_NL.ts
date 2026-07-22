@@ -2241,6 +2241,7 @@ export const nl_NL: EnTranslations = {
       "tutorialLine": "Bereik de vaardigheid {target} in een willekeurig vak om je eerste niveau te ontgrendelen.",
       "ctaHeader": "Volgende stap",
       "ctaRaise": "Blijf {craft} verhogen: {points} extra punten naar het volgende niveau.",
+      "ctaRaiseSpecialized": "Keep raising {craft}: {points} more points to Specialized, and material costs drop.",
       "ctaStart": "Maak of verzamel met elk beroep om te beginnen.",
       "unattunedIdentity": "Je bent nog niet afgestemd op een archetype. Verhoog uw ambachten en voltooi een afstemming om uw paar te kiezen.",
       "nudgeNearTier": "{craft}: {points} punten van het volgende niveau",

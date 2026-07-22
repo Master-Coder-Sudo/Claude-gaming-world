@@ -8228,6 +8228,7 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.professions.ctaHeader': '다음 단계',
   'hudChrome.professions.ctaRaise':
     '{craft}를 계속 올리세요. 다음 티어까지 숙련도 {points} 남았습니다.',
+    'hudChrome.professions.ctaRaiseSpecialized': '{craft}를 계속 올리세요. 전문화까지 숙련도 {points} 남았습니다: 재료 소모가 줄어듭니다.',
   'hudChrome.professions.ctaStart': '아무 전문 기술로 제작하거나 채집하면 시작됩니다.',
   'hudChrome.professions.unattunedIdentity':
     '아직 원형에 조율되지 않았습니다. 기술을 올리고 조율을 완료하여 조합을 선택하세요.',

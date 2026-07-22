@@ -2241,6 +2241,7 @@ export const pl_PL: EnTranslations = {
       "tutorialLine": "Osiągnij umiejętność {target} w dowolnym rzemiośle, aby odblokować swój pierwszy poziom.",
       "ctaHeader": "Następny krok",
       "ctaRaise": "Podnoś dalej {craft}: {points} więcej punktów do następnego poziomu.",
+      "ctaRaiseSpecialized": "Keep raising {craft}: {points} more points to Specialized, and material costs drop.",
       "ctaStart": "Na początek twórz lub zbieraj dowolną profesją.",
       "unattunedIdentity": "Nie jesteś jeszcze dostrojony do archetypu. Podnieś swoje rzemiosło i dokończ dostrojenie, aby wybrać swoją parę.",
       "nudgeNearTier": "{craft}: {points} punkty z następnego poziomu",

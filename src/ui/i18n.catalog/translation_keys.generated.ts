@@ -6310,6 +6310,7 @@ export type TranslationKeyFlat =
   | 'hudChrome.professions.close'
   | 'hudChrome.professions.ctaHeader'
   | 'hudChrome.professions.ctaRaise'
+  | 'hudChrome.professions.ctaRaiseSpecialized'
   | 'hudChrome.professions.ctaStart'
   | 'hudChrome.professions.gatheringHeader'
   | 'hudChrome.professions.hobbyLabel'

@@ -2241,6 +2241,7 @@ export const vi_VN: EnTranslations = {
       "tutorialLine": "Đạt được kỹ năng {target} trong bất kỳ nghề thủ công nào để mở khóa cấp độ đầu tiên của bạn.",
       "ctaHeader": "Bước tiếp theo",
       "ctaRaise": "Tiếp tục nâng cao {craft}: {points} có thêm điểm lên cấp tiếp theo.",
+      "ctaRaiseSpecialized": "Keep raising {craft}: {points} more points to Specialized, and material costs drop.",
       "ctaStart": "Hãy bắt đầu thủ công hoặc tập hợp bất kỳ ngành nghề nào.",
       "unattunedIdentity": "Bạn vẫn chưa hòa hợp được với một nguyên mẫu. Nâng cao kỹ năng thủ công của bạn và hoàn thành việc điều chỉnh để chọn cặp của bạn.",
       "nudgeNearTier": "{craft}: Điểm {points} từ cấp tiếp theo",

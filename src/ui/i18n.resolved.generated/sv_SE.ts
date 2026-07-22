@@ -2241,6 +2241,7 @@ export const sv_SE: EnTranslations = {
       "tutorialLine": "Nå {target} skicklighet i vilket hantverk som helst för att låsa upp din första nivå.",
       "ctaHeader": "Nästa steg",
       "ctaRaise": "Fortsätt höja {craft}: {points} poäng till nästa nivå.",
+      "ctaRaiseSpecialized": "Keep raising {craft}: {points} more points to Specialized, and material costs drop.",
       "ctaStart": "Hantverk eller samla med vilket yrke som helst för att börja.",
       "unattunedIdentity": "Du är ännu inte inställd på en arketyp. Lyft ditt hantverk och slutför en inställning för att välja ditt par.",
       "nudgeNearTier": "{craft}: {points} poäng från nästa nivå",

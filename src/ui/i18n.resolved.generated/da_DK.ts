@@ -2241,6 +2241,7 @@ export const da_DK: EnTranslations = {
       "tutorialLine": "Opnå {target} færdigheder i ethvert håndværk for at låse op for dit første niveau.",
       "ctaHeader": "Næste skridt",
       "ctaRaise": "Fortsæt med at hæve {craft}: {points} point mere til næste niveau.",
+      "ctaRaiseSpecialized": "Keep raising {craft}: {points} more points to Specialized, and material costs drop.",
       "ctaStart": "Fremstil eller indsaml med et hvilket som helst erhverv for at begynde.",
       "unattunedIdentity": "Du er endnu ikke indstillet på en arketype. Hæv dit håndværk og fuldfør en afstemning for at vælge dit par.",
       "nudgeNearTier": "{craft}: {points} point fra næste niveau",

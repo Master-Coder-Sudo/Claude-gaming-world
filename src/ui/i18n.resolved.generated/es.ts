@@ -2241,6 +2241,7 @@ export const es: EnTranslations = {
       "tutorialLine": "Alcanza la habilidad {target} en cualquier oficio para desbloquear tu primer nivel.",
       "ctaHeader": "Siguiente paso",
       "ctaRaise": "Sigue subiendo {craft}: {points} más puntos para el siguiente nivel.",
+      "ctaRaiseSpecialized": "Keep raising {craft}: {points} more points to Specialized, and material costs drop.",
       "ctaStart": "Crea o reúne cualquier profesión para comenzar.",
       "unattunedIdentity": "Aún no estás en sintonía con un arquetipo. Mejora tus artesanías y completa una sintonía para elegir tu pareja.",
       "nudgeNearTier": "{craft}: puntos {points} del siguiente nivel",
