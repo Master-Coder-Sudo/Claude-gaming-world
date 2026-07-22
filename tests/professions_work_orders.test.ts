@@ -11,7 +11,10 @@
 //   - xpReward is the make-amends repeatable band (100).
 import { describe, expect, it } from 'vitest';
 import { ITEMS, QUESTS } from '../src/sim/data';
-import { WORK_ORDER_CADENCE_TICKS } from '../src/sim/professions/cadence';
+import {
+  WORK_ORDER_CADENCE_TICKS,
+  WORK_ORDER_PAYOUT_FRACTION,
+} from '../src/sim/professions/cadence';
 import { Sim } from '../src/sim/sim';
 
 // questId -> the seated master who gives and takes it (content, Phase 14). The
@@ -49,8 +52,10 @@ function collectObjective(questId: string): { itemId: string; count: number } {
   return { itemId: obj.itemId, count: obj.count };
 }
 
-/** floor(0.5 * summed vendor sell value of every collect objective's materials),
- *  computed from LIVE item data so a sell-value retune reds the reward pin. */
+/** floor(WORK_ORDER_PAYOUT_FRACTION * summed vendor sell value of every collect
+ *  objective's materials), computed from LIVE item data so a sell-value retune
+ *  reds the reward pin. The fraction itself is literal-pinned in the economics
+ *  suite below, so this derivation is never self-referential. */
 function expectedReward(questId: string): number {
   let sum = 0;
   for (const obj of QUESTS[questId].objectives) {
@@ -58,7 +63,7 @@ function expectedReward(questId: string): number {
       sum += obj.count * (ITEMS[obj.itemId].sellValue ?? 0);
     }
   }
-  return Math.floor(0.5 * sum);
+  return Math.floor(WORK_ORDER_PAYOUT_FRACTION * sum);
 }
 
 /** The vendor sell value of the full requested material stack (what a player
@@ -90,6 +95,7 @@ function turnIn(sim: Sim, questId: string, master: string, itemId: string, provi
 describe.each(WORK_ORDERS)('$questId economics (Phase 14, live data)', ({ questId }) => {
   it('pays floor(0.5 * summed material sell value), from live item data', () => {
     const quest = QUESTS[questId];
+    expect(WORK_ORDER_PAYOUT_FRACTION).toBe(0.5);
     expect(quest.copperReward).toBe(expectedReward(questId));
   });
 

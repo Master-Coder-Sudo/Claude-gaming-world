@@ -13,6 +13,16 @@
 // (36000 ticks at 20 Hz): a deliberate day-to-day cadence, not a balance number.
 export const WORK_ORDER_CADENCE_TICKS = 36000;
 
+// The work-order payout convention: each order's authored copperReward is
+// floor(this fraction * the summed vendor sellValue of the requested
+// materials). The rewards themselves stay authored literals on the quest
+// records; this constant is the single statement of the convention, consumed
+// by the wiki generator (scripts/wiki/build_content.mjs) and enforced by the
+// recomputation guard in tests/professions_work_orders.test.ts, so a reward
+// or sellValue edit that breaks the convention fails loudly instead of
+// silently drifting the published number.
+export const WORK_ORDER_PAYOUT_FRACTION = 0.5;
+
 // A trend nudge repeats at most once every 15 minutes (18000 ticks at 20 Hz),
 // long enough that a wandering unattuned crafter is reminded without nagging.
 export const NUDGE_CADENCE_TICKS = 18000;

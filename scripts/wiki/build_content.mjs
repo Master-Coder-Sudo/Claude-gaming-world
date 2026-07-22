@@ -67,13 +67,13 @@ const entrySource = `
     MASTERWORK_SPECIALIZATION_CHANCE, MASTERWORK_CHANCE_CAP,
   } from './src/sim/professions/masterwork.ts';
   export { UNBIND_FEE_BY_QUALITY_TIER } from './src/sim/professions/commission.ts';
-  export { WORK_ORDER_CADENCE_TICKS } from './src/sim/professions/cadence.ts';
+  export { WORK_ORDER_CADENCE_TICKS, WORK_ORDER_PAYOUT_FRACTION } from './src/sim/professions/cadence.ts';
   export { DISENCHANT_MATERIAL_BY_QUALITY } from './src/sim/professions/enchanting.ts';
   export {
     ARMOR_SECONDARY_BY_TYPE, TIMBER_WEAPON_TYPES,
   } from './src/sim/professions/disenchant_reagents.ts';
   export { SALVAGE_MATERIAL_BY_QUALITY } from './src/sim/professions/salvage.ts';
-  export { MARKET_CUT } from './src/sim/market.ts';
+  export { MARKET_CUT, MARKET_LISTING_DEPOSIT_COPPER } from './src/sim/market.ts';
   export { ARCHETYPE_PAIR_TARGETS } from './src/sim/professions/archetype.ts';
 `;
 
@@ -166,11 +166,13 @@ const {
   MASTERWORK_CHANCE_CAP,
   UNBIND_FEE_BY_QUALITY_TIER,
   WORK_ORDER_CADENCE_TICKS,
+  WORK_ORDER_PAYOUT_FRACTION,
   DISENCHANT_MATERIAL_BY_QUALITY,
   ARMOR_SECONDARY_BY_TYPE,
   TIMBER_WEAPON_TYPES,
   SALVAGE_MATERIAL_BY_QUALITY,
   MARKET_CUT,
+  MARKET_LISTING_DEPOSIT_COPPER,
   ARCHETYPE_PAIR_TARGETS,
 } = await import(dataUrl);
 
@@ -826,7 +828,7 @@ const profEconomy = {
     maxActions: CRAFT_THROTTLE_MAX_PER_WINDOW,
   },
   marketCutPct: pct(MARKET_CUT),
-  listingDepositCopper: 0,
+  listingDepositCopper: MARKET_LISTING_DEPOSIT_COPPER,
   trainingFeeCopperByTier: [...TRAINING_FEE_BY_TIER],
   unbindFeeCopper: {
     uncommon: UNBIND_FEE_BY_QUALITY_TIER[0],
@@ -835,7 +837,7 @@ const profEconomy = {
   },
   workOrders: {
     cadenceMinutes: WORK_ORDER_CADENCE_TICKS / 20 / 60,
-    payoutPctOfVendorValue: 50,
+    payoutPctOfVendorValue: pct(WORK_ORDER_PAYOUT_FRACTION),
     orders: workOrders,
   },
 };

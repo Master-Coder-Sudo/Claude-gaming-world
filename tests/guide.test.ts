@@ -59,8 +59,11 @@ import {
 } from '../src/sim/content/professions';
 import { ALL_RECIPES } from '../src/sim/content/recipes';
 import { CAMPS, ITEMS, MOBS, NPCS, QUESTS, ZONES } from '../src/sim/data';
-import { MARKET_CUT } from '../src/sim/market';
-import { WORK_ORDER_CADENCE_TICKS } from '../src/sim/professions/cadence';
+import { MARKET_CUT, MARKET_LISTING_DEPOSIT_COPPER } from '../src/sim/market';
+import {
+  WORK_ORDER_CADENCE_TICKS,
+  WORK_ORDER_PAYOUT_FRACTION,
+} from '../src/sim/professions/cadence';
 import { UNBIND_FEE_BY_QUALITY_TIER } from '../src/sim/professions/commission';
 import {
   ARMOR_SECONDARY_BY_TYPE,
@@ -1547,6 +1550,7 @@ describe('Guide professions enchanting and economy accuracy', () => {
     expect(e.actionThrottle).toEqual({ windowSeconds: 60, maxActions: 10 });
     expect(e.marketCutPct).toBe(Math.round(MARKET_CUT * 100));
     expect(e.marketCutPct).toBe(5);
+    expect(e.listingDepositCopper).toBe(MARKET_LISTING_DEPOSIT_COPPER);
     expect(e.listingDepositCopper).toBe(0);
     expect(e.trainingFeeCopperByTier).toEqual([...TRAINING_FEE_BY_TIER]);
     expect(e.trainingFeeCopperByTier).toEqual([0, 2500, 10000, 40000, 160000]);
@@ -1575,6 +1579,11 @@ describe('Guide professions enchanting and economy accuracy', () => {
     const wo = GUIDE_PROF_ECONOMY.workOrders;
     expect(wo.cadenceMinutes).toBe(WORK_ORDER_CADENCE_TICKS / 20 / 60);
     expect(wo.cadenceMinutes).toBe(30);
+    // Literal arm first so the constant-derived checks below are never
+    // self-referential: the fraction itself is the pinned contract.
+    expect(WORK_ORDER_PAYOUT_FRACTION).toBe(0.5);
+    expect(wo.payoutPctOfVendorValue).toBe(WORK_ORDER_PAYOUT_FRACTION * 100);
+    expect(wo.payoutPctOfVendorValue).toBe(50);
     const simOrders = Object.values(QUESTS).filter(
       (q) =>
         q.repeatCadenceTicks === WORK_ORDER_CADENCE_TICKS &&
@@ -1592,10 +1601,11 @@ describe('Guide professions enchanting and economy accuracy', () => {
       expect(order.master).toBe(NPCS[quest.giverNpcId]?.name ?? '');
       expect(order.count).toBe(obj.count);
       expect(order.material).toBe(ITEMS[obj.itemId].name);
-      // The maintainer-resolved payout formula: floor(0.5 * vendor value).
+      // The maintainer-resolved payout formula, from the sim's own constant
+      // (its 0.5 value is literal-pinned above).
       const vendorValue = (ITEMS[obj.itemId].sellValue ?? 0) * obj.count;
       expect(order.coinCopper, `work order "${order.id}" coin off-formula`).toBe(
-        Math.floor(0.5 * vendorValue),
+        Math.floor(WORK_ORDER_PAYOUT_FRACTION * vendorValue),
       );
       expect(order.coinCopper).toBe(quest.copperReward ?? 0);
     }
