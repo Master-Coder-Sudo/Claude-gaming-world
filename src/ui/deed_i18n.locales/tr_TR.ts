@@ -79,6 +79,7 @@ export const table: DeedLocaleTable = {
   },
   prog_master_gatherer: {
     name: 'Usta Toplayıcı',
+    desc: "Madencilik, Odun Kesimi, Şifalı Otçuluk ve Balık Tutma'nın herhangi üçünde 100 yetkinliğe ulaş.",
   },
   prog_first_craft: { name: 'El Emeği Göz Nuru', desc: 'İlk başarılı üretimini tamamla.' },
   prog_craft_specialist: {
@@ -645,5 +646,120 @@ export const table: DeedLocaleTable = {
   chr_marsh_first_cast: {
     name: 'Sazlıktaki Yılanbalıkları',
     desc: "Mirefen Bataklığı'nın sularından bir balık tut.",
+  },
+  prog_guildsworn: {
+    name: 'Lonca Yeminlisi',
+    desc: 'Bir arketip çiftine bağlan ve mesleklerini ciddiyetle üstlen.',
+    title: 'Lonca Yeminlisi',
+  },
+  prog_masterwright: {
+    name: 'Şaheser Ustası',
+    desc: 'İlk şaheserini yap; o denli ince ki tüm bölge duyar bunu.',
+    title: 'Şaheser Ustası',
+  },
+  prog_fishing_100: {
+    name: 'Eski Denizci',
+    desc: 'Balık Tutmada 100 yetkinliğe ulaş.',
+  },
+  prog_master_angler: {
+    name: 'Usta Olta Ustası',
+    desc: 'Balık Tutmada 200 yetkinliğe ulaş; olta sanatının en zirvesi.',
+    title: 'Usta Olta Ustası',
+  },
+  prog_engineering_50: {
+    name: 'Dişliler ve Makaralar',
+    desc: 'Mühendislikte 50 beceriye ulaş.',
+  },
+  prog_alchemy_50: {
+    name: 'Tuhaf Karışımlar',
+    desc: 'Simyada 50 beceriye ulaş.',
+  },
+  prog_cooking_50: {
+    name: 'Deneyimli Şef',
+    desc: 'Yemek Pişirmede 50 beceriye ulaş.',
+  },
+  prog_leatherworking_50: {
+    name: 'Tabakçı Ticaret',
+    desc: 'Deri İşlemede 50 beceriye ulaş.',
+  },
+  prog_tailoring_50: {
+    name: 'İnce Dikiş',
+    desc: 'Terzilikte 50 beceriye ulaş.',
+  },
+  prog_enchanting_50: {
+    name: 'Arkanın Kıvılcımı',
+    desc: 'Büyülemede 50 beceriye ulaş.',
+  },
+  prog_weaponcrafting_50: {
+    name: 'Kenar ve Sunum',
+    desc: 'Silah Yapımında 50 beceriye ulaş.',
+  },
+  prog_armorcrafting_50: {
+    name: 'Çekiç ve Levha',
+    desc: 'Zırh Yapımında 50 beceriye ulaş.',
+  },
+  prog_grandmaster_engineering: {
+    name: 'Büyük Usta Mühendislik',
+    desc: 'Mühendislikte 125 beceriye ulaş; zanaatın en zirvesi.',
+    title: 'Büyük Usta Mühendislik',
+  },
+  prog_grandmaster_alchemy: {
+    name: 'Büyük Usta Simya',
+    desc: 'Simyada 125 beceriye ulaş; zanaatın en zirvesi.',
+    title: 'Büyük Usta Simya',
+  },
+  prog_grandmaster_cooking: {
+    name: 'Büyük Usta Aşçılık',
+    desc: 'Yemek Pişirmede 125 beceriye ulaş; zanaatın en zirvesi.',
+    title: 'Büyük Usta Aşçılık',
+  },
+  prog_grandmaster_leatherworking: {
+    name: 'Büyük Usta Deri İşleme',
+    desc: 'Deri İşlemede 125 beceriye ulaş; zanaatın en zirvesi.',
+    title: 'Büyük Usta Deri İşleme',
+  },
+  prog_grandmaster_tailoring: {
+    name: 'Büyük Usta Terzilik',
+    desc: 'Terzilikte 125 beceriye ulaş; zanaatın en zirvesi.',
+    title: 'Büyük Usta Terzilik',
+  },
+  prog_grandmaster_enchanting: {
+    name: 'Büyük Usta Büyüleme',
+    desc: 'Büyülemede 125 beceriye ulaş; zanaatın en zirvesi.',
+    title: 'Büyük Usta Büyüleme',
+  },
+  prog_grandmaster_weaponcrafting: {
+    name: 'Büyük Usta Silah Yapımı',
+    desc: 'Silah Yapımında 125 beceriye ulaş; zanaatın en zirvesi.',
+    title: 'Büyük Usta Silah Yapımı',
+  },
+  prog_grandmaster_armorcrafting: {
+    name: 'Büyük Usta Zırh Yapımı',
+    desc: 'Zırh Yapımında 125 beceriye ulaş; zanaatın en zirvesi.',
+    title: 'Büyük Usta Zırh Yapımı',
+  },
+  col_pristine_vein: {
+    name: 'Bozulmamış Damar',
+    desc: 'Bozulmamış bir damarı kır; duyulsun tüm bölgede.',
+  },
+  col_ancient_heartwood: {
+    name: 'Kadim Kalp Ağacı',
+    desc: 'Devrilmiş bir ağaçtan kadim bir kalp ağacı parçası çıkar.',
+  },
+  col_moonlit_bloom: {
+    name: 'Ay Işığı Çiçeği',
+    desc: 'Tam açtığı anda bir ay ışığı çiçeği topla.',
+  },
+  col_perfect_specimen: {
+    name: 'Mükemmel Numune',
+    desc: 'Hasat edilmiş bir yaratıktan tek çizik ya da leke olmaksızın mükemmel bir numune al.',
+  },
+  soc_first_salvage: {
+    name: 'İsrafı Önle',
+    desc: 'Bir teçhizat parçasını ham maddelere dönüştürmek için hurda işlemine sok.',
+  },
+  soc_salvage_50: {
+    name: 'Hurda Bahçesi',
+    desc: 'Elli teçhizat parçasını hurda işlemine sokarak ham maddelere dönüştür.',
   },
 };

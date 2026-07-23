@@ -36,7 +36,10 @@ export const table: DeedLocaleTable = {
   prog_mining_100: { name: '血中礦脈', desc: '採礦熟練度達到100。' },
   prog_logging_100: { name: '心材伐手', desc: '伐木熟練度達到100。' },
   prog_herbalism_100: { name: '百草宗師', desc: '草藥學熟練度達到100。' },
-  prog_master_gatherer: { name: '採集大師' },
+  prog_master_gatherer: {
+    name: '採集大師',
+    desc: '採礦、伐木、草藥學與釣魚中，任意三項熟練度達到100。',
+  },
   prog_first_craft: { name: '親手打造', desc: '完成你的第一次成功製作。' },
   prog_craft_specialist: { name: '不傳之秘', desc: '任一工藝技能達到75，並解鎖其專精特長。' },
   prog_around_the_ring: { name: '環座巡禮', desc: '五種不同工藝的技能各達到25。' },
@@ -384,4 +387,119 @@ export const table: DeedLocaleTable = {
     desc: '勇闖廢棄墓穴，從其守衛手中奪回墓穴鑰石的上下兩半與古老日記。',
   },
   chr_marsh_first_cast: { name: '蘆葦間有鰻', desc: '在泥沼濕地的水域釣起一條魚。' },
+  prog_guildsworn: {
+    name: '立誓匠人',
+    desc: '調諧至一對命途，並在其兩門行業中正式踏上匠途。',
+    title: '立誓匠人',
+  },
+  prog_masterwright: {
+    name: '傑作匠師',
+    desc: '完成你的第一件傑作，一件精絕到令整個區域都傳為美談的作品。',
+    title: '傑作匠師',
+  },
+  prog_fishing_100: {
+    name: '老釣手',
+    desc: '釣魚熟練度達到100。',
+  },
+  prog_master_angler: {
+    name: '釣藝宗師',
+    desc: '釣魚熟練度達到200，垂釣技藝的巔峰。',
+    title: '釣藝宗師',
+  },
+  prog_engineering_50: {
+    name: '齒輪與棘輪',
+    desc: '工程學技能達到50。',
+  },
+  prog_alchemy_50: {
+    name: '奇異煉藥',
+    desc: '鍊金術技能達到50。',
+  },
+  prog_cooking_50: {
+    name: '老道廚手',
+    desc: '烹飪技能達到50。',
+  },
+  prog_leatherworking_50: {
+    name: '鞣皮手藝',
+    desc: '製皮技能達到50。',
+  },
+  prog_tailoring_50: {
+    name: '一針見縫',
+    desc: '裁縫技能達到50。',
+  },
+  prog_enchanting_50: {
+    name: '秘法微光',
+    desc: '附魔技能達到50。',
+  },
+  prog_weaponcrafting_50: {
+    name: '鋒刃與淬火',
+    desc: '武器鍛造技能達到50。',
+  },
+  prog_armorcrafting_50: {
+    name: '鐵鎚與鋼板',
+    desc: '護甲鍛造技能達到50。',
+  },
+  prog_grandmaster_engineering: {
+    name: '工程學大宗師',
+    desc: '工程學技能達到125，此技藝的頂點。',
+    title: '工程學大宗師',
+  },
+  prog_grandmaster_alchemy: {
+    name: '鍊金術大宗師',
+    desc: '鍊金術技能達到125，此技藝的頂點。',
+    title: '鍊金術大宗師',
+  },
+  prog_grandmaster_cooking: {
+    name: '烹飪大宗師',
+    desc: '烹飪技能達到125，此技藝的頂點。',
+    title: '烹飪大宗師',
+  },
+  prog_grandmaster_leatherworking: {
+    name: '製皮大宗師',
+    desc: '製皮技能達到125，此技藝的頂點。',
+    title: '製皮大宗師',
+  },
+  prog_grandmaster_tailoring: {
+    name: '裁縫大宗師',
+    desc: '裁縫技能達到125，此技藝的頂點。',
+    title: '裁縫大宗師',
+  },
+  prog_grandmaster_enchanting: {
+    name: '附魔大宗師',
+    desc: '附魔技能達到125，此技藝的頂點。',
+    title: '附魔大宗師',
+  },
+  prog_grandmaster_weaponcrafting: {
+    name: '武器鍛造大宗師',
+    desc: '武器鍛造技能達到125，此技藝的頂點。',
+    title: '武器鍛造大宗師',
+  },
+  prog_grandmaster_armorcrafting: {
+    name: '護甲鍛造大宗師',
+    desc: '護甲鍛造技能達到125，此技藝的頂點。',
+    title: '護甲鍛造大宗師',
+  },
+  col_pristine_vein: {
+    name: '純淨礦脈',
+    desc: '鑿開一條純淨礦脈，讓整個區域都聽聞此事。',
+  },
+  col_ancient_heartwood: {
+    name: '遠古心木',
+    desc: '從一棵伐倒的大樹中取出一段遠古心木。',
+  },
+  col_moonlit_bloom: {
+    name: '月光之花',
+    desc: '在月光之花恰好綻放之際將其採下。',
+  },
+  col_perfect_specimen: {
+    name: '完美標本',
+    desc: '從獵獲的野獸身上取下一件完美標本，毫無割痕或瑕疵。',
+  },
+  soc_first_salvage: {
+    name: '物盡其用',
+    desc: '將一件裝備拆解還原為製作原料。',
+  },
+  soc_salvage_50: {
+    name: '廢料場行家',
+    desc: '將50件裝備拆解還原為製作原料。',
+  },
 };
