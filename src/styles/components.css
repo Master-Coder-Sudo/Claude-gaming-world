@@ -5137,6 +5137,14 @@
     background: rgba(0, 0, 0, 0.24);
     overflow: hidden;
   }
+  /* The recipe card rides .vendor-item for its base metrics, so the family's
+     .vendor-item:hover wash would REPLACE the card's inset fill on any hover
+     over the card (the pseudo-class rule outranks the single-class fill).
+     The card itself is not interactive (the Craft and commission chips carry
+     the affordances), so hover restates the fill with no wash. */
+  .vendor-item.crafting-recipe-item:hover {
+    background: rgba(0, 0, 0, 0.24);
+  }
   .crafting-recipe-item > .vendor-item {
     flex: 1 0 100%;
     gap: 10px;

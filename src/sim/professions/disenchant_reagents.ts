@@ -30,7 +30,7 @@ export const ARMOR_SECONDARY_BY_TYPE: Readonly<Record<string, string>> = {
 // stocks: staves, wands, bows, crossbows). Every other classified weapon
 // family, and any weapon with no WEAPON_TYPE_BY_ITEM classification, yields
 // resonant steel (the melee default). Staves and wands sitting in the WEAPON
-// (timber) bucket is a maintainer-resolved decision: timber is a weapon bucket,
+// (timber) bucket is a settled decision: timber is a weapon bucket,
 // not the cloth armor line.
 export const TIMBER_WEAPON_TYPES: ReadonlySet<string> = new Set([
   'staff',

@@ -1379,7 +1379,7 @@ export const guideStrings = {
 
     // Professions hub (Professions 2.0 wiki arm, final prose): the
     // overview page renders the generated ring/gathering/archetype data and
-    // links every detail page. The maintainer-resolved transparency policy
+    // links every detail page. The transparency policy
     // lets these sections carry exact numbers. Multi-paragraph bodies use
     // '\n\n' and render through the shared paras() helper.
     whatHeading: 'A trade beside the sword',

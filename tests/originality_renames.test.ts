@@ -31,6 +31,9 @@ describe('originality-sweep display literals stay renamed', () => {
     expect(ITEMS.sootscale_mantle.name).toBe('Kilnscale Mantle');
     expect(ITEMS.silverthread_slippers.name).toBe('Palethread Slippers');
     expect(ITEMS.goldweave_robe.name).toBe('Gildenweave Robe');
+    expect(ITEMS.elderwood_log.name).toBe('Highpine Log');
+    expect(ITEMS.elderwood_axe.name).toBe('Highpine Axe');
+    expect(ITEMS.elderwood_battle_staff.name).toBe('Highpine Battle Staff');
     // The one deliberate id/name divergence that predates the sweep: the id
     // shipped, the display name already carried the original coin.
     expect(ITEMS.raw_stonescale_carp.name).toBe('Raw Slatefin Carp');

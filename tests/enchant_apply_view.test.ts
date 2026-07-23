@@ -40,6 +40,12 @@ describe('enchant_apply_view: enchantNameKey', () => {
     for (const key of Object.keys(table)) {
       expect(ENCHANTS[key], `orphaned enchantName row ${key}`).toBeDefined();
     }
+    // The catalog English and the table's own name field are two copies of one
+    // string (the UI renders the catalog; the table name feeds the wiki
+    // generator), so a rename touching only one side must fail loudly here.
+    for (const id of Object.keys(ENCHANTS)) {
+      expect(table[id], `catalog/table name drift for ${id}`).toBe(ENCHANTS[id].name);
+    }
   });
 });
 

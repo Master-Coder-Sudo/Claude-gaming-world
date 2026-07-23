@@ -127,6 +127,18 @@ describe('renderCraftingWindow commission toggle-chip', () => {
     expect(rule).toContain('flex-shrink: 0');
   });
 
+  it('hovering the recipe card keeps its inset fill (the vendor-family wash cannot blank it)', () => {
+    // jsdom applies no CSS, so the cascade fix is pinned at the source: the
+    // family's .vendor-item:hover wash outranks the single-class card fill,
+    // and the card restates its fill at matching specificity (the card is not
+    // interactive, so it takes no wash; its chips carry the affordances).
+    const css = readFileSync(join(__dirname, '../src/styles/components.css'), 'utf8');
+    const start = css.indexOf('.vendor-item.crafting-recipe-item:hover {');
+    expect(start).toBeGreaterThanOrEqual(0);
+    const rule = css.slice(start, css.indexOf('}', start));
+    expect(rule).toContain('background: rgba(0, 0, 0, 0.24)');
+  });
+
   it('docks the chip in the card footer after the craft button, hint tooltip on the chip', () => {
     const el = document.createElement('div');
     const deps = craftingDeps();

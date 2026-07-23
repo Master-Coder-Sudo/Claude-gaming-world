@@ -1601,7 +1601,7 @@ describe('Guide professions enchanting and economy accuracy', () => {
       expect(order.master).toBe(NPCS[quest.giverNpcId]?.name ?? '');
       expect(order.count).toBe(obj.count);
       expect(order.material).toBe(ITEMS[obj.itemId].name);
-      // The maintainer-resolved payout formula, from the sim's own constant
+      // The payout formula, from the sim's own constant
       // (its 0.5 value is literal-pinned above).
       const vendorValue = (ITEMS[obj.itemId].sellValue ?? 0) * obj.count;
       expect(order.coinCopper, `work order "${order.id}" coin off-formula`).toBe(

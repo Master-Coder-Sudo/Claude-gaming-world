@@ -109,9 +109,11 @@ hosts, plus the pinned callback-name list in `tests/sim_context.test.ts`.
   evaluate predicates and counters only, drawing ZERO rng, so adding or
   removing a deed never moves a parity golden. Keep any new deed hook on that
   side of the line.
-- The free-slot signing policy: every SIGNED unit granted needs a genuinely
-  free bag slot; when none exists the grant falls back to an unsigned stack
-  top-up (truncation beats signing; pinned in
+- The signing slot policy: a SIGNED grant needs same-signer stack room OR a
+  genuinely free bag slot (the merge-aware `canGrantItemInstance` gate; a
+  signed instance merges only into a byte-equal same-signer stack, never a
+  plain one); with neither it falls back to the unsigned fungible top-up
+  (the signature truncates, the yield does not; pinned in
   `tests/gather_node_harvest.test.ts`).
 - The economy invariant: no recipe vendors above its input value, enforced
   for EVERY recipe by `tests/recipe_economy.test.ts` (the exception list is

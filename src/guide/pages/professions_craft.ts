@@ -4,7 +4,7 @@
 // t() keys; item/recipe/NPC names are baked English proper nouns (the
 // GUIDE_DEEDS precedent) and craft/station/slot/stat/quality labels localize
 // through their existing catalog keys. TRANSPARENCY POLICY
-// (maintainer-resolved): professions pages publish EXACT numbers; the mirrored
+// professions pages publish EXACT numbers; the mirrored
 // accuracy guards live in tests/guide.test.ts.
 //
 // Enchanting rides this module as one of its routes rather than a bespoke

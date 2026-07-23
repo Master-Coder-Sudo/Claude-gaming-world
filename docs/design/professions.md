@@ -121,9 +121,12 @@ byte-equal (`canStackInstancePayloads`,
 any NEW payload field automatically prevents cross-field merges. Provenance
 copy resolves by item KIND: gathered signers read "Gathered by {name}",
 crafted read "Crafted by {name}". Instanced slots carry a bag-grid marker.
-Signed grants demand a genuinely free slot per unit; when none exists the
-grant falls back to unsigned stack top-up (truncation beats signing; pinned
-in `tests/gather_node_harvest.test.ts`). Mail attachments expire after
+A signed grant needs same-signer stack room OR a genuinely free slot (the
+merge-aware `canGrantItemInstance` gate; a signed instance merges only into
+a byte-equal same-signer stack, never a plain one); with neither, the grant
+falls back to the unsigned fungible top-up (the signature truncates, the
+yield does not; pinned in `tests/gather_node_harvest.test.ts` and the corpse
+suites). Mail attachments expire after
 `MAIL_ATTACHMENT_EXPIRY_SECONDS` with exactly one return-to-sender cycle
 (system and work-order mail exempt). A character rename re-keys market and
 mail but sweeps only the renamed character's own blob for instance signers
@@ -467,3 +470,17 @@ the lever is material quantities per craft.
 - Salvage craft-skill gain, shared battle-elixir exclusivity slot, cooking
   buff food, `prog_first_harvest` wording vs first-catch completion:
   maintainer glances recorded in the branch history.
+- Finish-line QA deferrals (accepted nice-to-haves): every commission chip
+  shares the accessible name "Commission piece" (folding the recipe name in
+  needs a new interpolated key plus non-Latin fills); crafting tab
+  accessible names concatenate the bare recipe count; `unbindFeeFor`
+  bottom-clamps an unknown quality string to the first fee tier (unreachable
+  from the def union today); the pre-existing `#bags` family still reads
+  open-state via the negated inline-display form (benign: phantom repaints
+  and idempotent teardown only; migrate to the `bagsWindowShown` predicate
+  when next touched); a non-maximum base enchant sharing a slot+axis with a
+  stronger sibling has no literal magnitude pin; the selected-tab underline
+  `#cc9a3c` and the five gold-gradient chip sites stay family-consistent
+  literals pending a ruled-in token pass; renamed item display names get no
+  mixed-fleet legacy alias (cosmetic name skew only during the deploy
+  window; the aura string needed one because the sim emits it).

@@ -1,7 +1,8 @@
-// THE PHASE 12c RESET REHEARSAL: a blob-diff sweep proving that load-then-
-// serialize applies EXACTLY the documented deltas to a character blob and
-// nothing else. Default mode runs a deterministic synthetic corpus (modern
-// 12b-era shape, legacy professions-key-only shape, over-cap values, minimal
+// THE ONE-TIME MASTERY RESET REHEARSAL: a blob-diff sweep proving that
+// load-then-serialize applies EXACTLY the documented deltas to a character
+// blob and nothing else. Default mode runs a deterministic synthetic corpus
+// (the modern gather-cast shape, the legacy professions-key-only shape,
+// over-cap values, minimal
 // fresh shape, and one with masteryResetApplied already true). Env-gated
 // mode: RESET_REHEARSAL_INPUT names a JSON file (an array of {id, state}
 // rows exported from a database copy) and the same sweep runs over every row
