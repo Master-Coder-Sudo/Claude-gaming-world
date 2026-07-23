@@ -38,6 +38,7 @@ import { OVERHEAD_EMOTE_IDS, type PlayerClass } from '../src/sim/types';
 // The 27 facet interfaces the W1 split produced (src/world_api/<facet>.ts), plus the
 // bank facet added in the bank-system feature and the Book of Deeds facet. Imported
 // type-only to pin each facet's runtime member array to its interface key-set below.
+import type { IWorldActionBar } from '../src/world_api/action_bar';
 import type { IWorldBank } from '../src/world_api/bank';
 import type { IWorldCardMinigame } from '../src/world_api/card_minigame';
 import type { IWorldChat } from '../src/world_api/chat';
@@ -292,18 +293,20 @@ export const IWORLD_MEMBERS = [
   { name: 'lastCraftResult', kind: 'data' },
   { name: 'lastMasterwork', kind: 'data' },
   { name: 'craftItem', kind: 'method' },
-  { name: 'activeArchetype', kind: 'data' },
-  { name: 'archetypeSwitchCount', kind: 'data' },
-  { name: 'archetypeAmendsProgress', kind: 'data' },
-  { name: 'archetypeAmendsRequired', kind: 'data' },
   { name: 'archetypeTitle', kind: 'data' },
   { name: 'hobbyCraft', kind: 'data' },
-  { name: 'acceptArchetypeQuest', kind: 'method' },
-  { name: 'advanceAmendsProgress', kind: 'method' },
-  { name: 'switchArchetype', kind: 'method' },
   { name: 'placeMobileStation', kind: 'method' },
   { name: 'trainRecipe', kind: 'method' },
   { name: 'activeMobileStationCraft', kind: 'data' },
+  // Enchanting profession commands + result reads (Professions 2.0).
+  { name: 'disenchantItem', kind: 'method' },
+  { name: 'applyEnchant', kind: 'method' },
+  { name: 'salvageItem', kind: 'method' },
+  { name: 'lastDisenchantResult', kind: 'data' },
+  { name: 'lastEnchantResult', kind: 'data' },
+  { name: 'lastSalvageResult', kind: 'data' },
+  // Maker's Bond unbind service (Professions 2.0).
+  { name: 'unbindItem', kind: 'method' },
   { name: 'raidLockouts', kind: 'method' }, // read-returning (5/6)
   { name: 'dungeonDifficulty', kind: 'method' }, // read-returning
   { name: 'setDungeonDifficulty', kind: 'method' },
@@ -352,6 +355,9 @@ export const IWORLD_MEMBERS = [
   { name: 'setActiveTitle', kind: 'method' },
   { name: 'deedsRarity', kind: 'method' },
   { name: 'deedsLeaderboard', kind: 'method' },
+  // IWorldActionBar: per-character action-bar layout persistence + login restore.
+  { name: 'saveActionBarLayout', kind: 'method' },
+  { name: 'takeActionBarLayoutRestore', kind: 'method' },
 ] as const satisfies readonly IWorldMember[];
 
 const DATA_MEMBERS = IWORLD_MEMBERS.filter((m) => m.kind === 'data');
@@ -456,11 +462,11 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
     // The merged Talent V2 + mage-line surface (selectTalentRow supersedes
     // pickRowTalent; rowPicks stays off the seam, rows live on the allocation)
     // plus the release's Card Duel facet, the Professions 2.0 identity
-    // surface, and Phase 8's mobile-station pair (placeMobileStation +
-    // activeMobileStationCraft).
-    expect(IWORLD_MEMBERS.length).toBe(251);
-    expect(DATA_MEMBERS.length).toBe(68);
-    expect(METHOD_MEMBERS.length).toBe(183);
+    // surface, the mobile-station pair (placeMobileStation +
+    // activeMobileStationCraft), and the commissions unbindItem command.
+    expect(IWORLD_MEMBERS.length).toBe(253);
+    expect(DATA_MEMBERS.length).toBe(67);
+    expect(METHOD_MEMBERS.length).toBe(186);
   });
   it('has no duplicate member names', () => {
     const names = IWORLD_MEMBERS.map((m) => m.name);
@@ -469,27 +475,22 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
 
   // Sorted-name `toEqual` snapshots: a dropped, renamed, or kind-flipped member reddens
   // these deliberately, forcing a reviewed edit. NOT length-only.
-  it('the full sorted member set is exactly the pinned 251', () => {
+  it('the full sorted member set is exactly the pinned list', () => {
     expect(IWORLD_MEMBERS.map((m) => m.name).sort()).toEqual([
       'abandonPet',
       'abandonQuest',
-      'acceptArchetypeQuest',
       'acceptLinkedQuest',
       'acceptQuest',
       'accountCosmetics',
       'accountFlair',
-      'activeArchetype',
       'activeFrostRings',
       'activeLoadout',
       'activeLootRolls',
       'activeMobileStationCraft',
       'activeTemporalHourglasses',
       'activeTitle',
-      'advanceAmendsProgress',
+      'applyEnchant',
       'applyTalents',
-      'archetypeAmendsProgress',
-      'archetypeAmendsRequired',
-      'archetypeSwitchCount',
       'archetypeTitle',
       'arenaAugmentPick',
       'arenaInfo',
@@ -549,6 +550,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'delveShopOffers',
       'devLeaderboard',
       'discardItem',
+      'disenchantItem',
       'duelAccept',
       'duelDecline',
       'duelInfo',
@@ -603,7 +605,10 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'joinCardDuelQueue',
       'known',
       'lastCraftResult',
+      'lastDisenchantResult',
+      'lastEnchantResult',
       'lastMasterwork',
+      'lastSalvageResult',
       'leaderboard',
       'leaveCardDuelQueue',
       'leaveDelve',
@@ -671,6 +676,8 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'resurrectAtCorpse',
       'resurrectAtSpiritHealer',
       'revivePet',
+      'salvageItem',
+      'saveActionBarLayout',
       'saveLoadout',
       'searchCharacters',
       'selectTalentRow',
@@ -690,9 +697,9 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'startAutoAttack',
       'stopAutoAttack',
       'submitLootRoll',
-      'switchArchetype',
       'switchLoadout',
       'tabTarget',
+      'takeActionBarLayoutRestore',
       'talentPoints',
       'talentRole',
       'talentSpec',
@@ -709,6 +716,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'tradeSetOffer',
       'trainRecipe',
       'turnInQuest',
+      'unbindItem',
       'unequipBag',
       'unequipItem',
       'unequipMechChroma',
@@ -725,18 +733,14 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
     ]);
   });
 
-  it('the sorted data-kind set is exactly the pinned 68', () => {
+  it('the sorted data-kind set is exactly the pinned list', () => {
     expect(DATA_MEMBERS.map((m) => m.name).sort()).toEqual([
       'accountCosmetics',
-      'activeArchetype',
       'activeFrostRings',
       'activeLoadout',
       'activeMobileStationCraft',
       'activeTemporalHourglasses',
       'activeTitle',
-      'archetypeAmendsProgress',
-      'archetypeAmendsRequired',
-      'archetypeSwitchCount',
       'archetypeTitle',
       'arenaInfo',
       'bagCapacity',
@@ -766,7 +770,10 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'inventory',
       'known',
       'lastCraftResult',
+      'lastDisenchantResult',
+      'lastEnchantResult',
       'lastMasterwork',
+      'lastSalvageResult',
       'lifetimeHonor',
       'lifetimeXp',
       'loadouts',
@@ -798,16 +805,15 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
     ]);
   });
 
-  it('the sorted method-kind set is exactly the pinned 183', () => {
+  it('the sorted method-kind set is exactly the pinned list', () => {
     expect(METHOD_MEMBERS.map((m) => m.name).sort()).toEqual([
       'abandonPet',
       'abandonQuest',
-      'acceptArchetypeQuest',
       'acceptLinkedQuest',
       'acceptQuest',
       'accountFlair',
       'activeLootRolls',
-      'advanceAmendsProgress',
+      'applyEnchant',
       'applyTalents',
       'arenaAugmentPick',
       'arenaQueueJoin',
@@ -850,6 +856,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'delveShopOffers',
       'devLeaderboard',
       'discardItem',
+      'disenchantItem',
       'duelAccept',
       'duelDecline',
       'duelRequest',
@@ -941,6 +948,8 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'resurrectAtCorpse',
       'resurrectAtSpiritHealer',
       'revivePet',
+      'salvageItem',
+      'saveActionBarLayout',
       'saveLoadout',
       'searchCharacters',
       'selectTalentRow',
@@ -959,9 +968,9 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'startAutoAttack',
       'stopAutoAttack',
       'submitLootRoll',
-      'switchArchetype',
       'switchLoadout',
       'tabTarget',
+      'takeActionBarLayoutRestore',
       'talentPoints',
       'targetEntity',
       'targetNearestFriendly',
@@ -973,6 +982,7 @@ describe('IWORLD_MEMBERS is the pinned IWorld contract (anti-loosening)', () => 
       'tradeSetOffer',
       'trainRecipe',
       'turnInQuest',
+      'unbindItem',
       'unequipBag',
       'unequipItem',
       'unequipMechChroma',
@@ -1397,18 +1407,18 @@ const FACET_PROFESSIONS = [
   'lastCraftResult',
   'lastMasterwork',
   'craftItem',
-  'activeArchetype',
-  'archetypeSwitchCount',
-  'archetypeAmendsProgress',
-  'archetypeAmendsRequired',
   'archetypeTitle',
   'hobbyCraft',
-  'acceptArchetypeQuest',
-  'advanceAmendsProgress',
-  'switchArchetype',
   'placeMobileStation',
   'trainRecipe',
   'activeMobileStationCraft',
+  'disenchantItem',
+  'applyEnchant',
+  'salvageItem',
+  'lastDisenchantResult',
+  'lastEnchantResult',
+  'lastSalvageResult',
+  'unbindItem',
 ] as const satisfies readonly (keyof IWorldProfessions)[];
 type _ExhaustProfessions = AssertNever<
   Exclude<keyof IWorldProfessions, (typeof FACET_PROFESSIONS)[number]>
@@ -1425,7 +1435,15 @@ const FACET_DEEDS = [
 ] as const satisfies readonly (keyof IWorldDeeds)[];
 type _ExhaustDeeds = AssertNever<Exclude<keyof IWorldDeeds, (typeof FACET_DEEDS)[number]>>;
 
-// The 27-facet partition, keyed by facet for legible failure messages.
+const FACET_ACTION_BAR = [
+  'saveActionBarLayout',
+  'takeActionBarLayoutRestore',
+] as const satisfies readonly (keyof IWorldActionBar)[];
+type _ExhaustActionBar = AssertNever<
+  Exclude<keyof IWorldActionBar, (typeof FACET_ACTION_BAR)[number]>
+>;
+
+// The facet partition, keyed by facet for legible failure messages.
 const FACET_MEMBER_ARRAYS: Readonly<Record<string, readonly string[]>> = {
   entityRoster: FACET_ENTITY_ROSTER,
   combat: FACET_COMBAT,
@@ -1455,11 +1473,12 @@ const FACET_MEMBER_ARRAYS: Readonly<Record<string, readonly string[]>> = {
   valeCup: FACET_VALE_CUP,
   dungeonFinder: FACET_DUNGEON_FINDER,
   deeds: FACET_DEEDS,
+  actionBar: FACET_ACTION_BAR,
 };
 
 describe('W1: aggregate IWorld member set equals the disjoint union of the 28 facets', () => {
   it('pins the facet count at 28', () => {
-    expect(Object.keys(FACET_MEMBER_ARRAYS).length).toBe(28);
+    expect(Object.keys(FACET_MEMBER_ARRAYS).length).toBe(29);
   });
 
   it('each facet array is non-empty and internally duplicate-free', () => {
@@ -1485,10 +1504,10 @@ describe('W1: aggregate IWorld member set equals the disjoint union of the 28 fa
     expect(overlaps, `members filed in more than one facet:\n${overlaps.join('\n')}`).toEqual([]);
   });
 
-  it('the union of the 28 facets equals the pinned 251-member IWORLD_MEMBERS set', () => {
+  it('the union of the facets equals the pinned IWORLD_MEMBERS set', () => {
     const union = Object.values(FACET_MEMBER_ARRAYS).flatMap((arr) => [...arr]);
-    expect(union.length, 'union size before dedup (catches a duplicated member)').toBe(251);
-    expect(new Set(union).size, 'union size after dedup (catches a duplicated member)').toBe(251);
+    expect(union.length, 'union size before dedup (catches a duplicated member)').toBe(253);
+    expect(new Set(union).size, 'union size after dedup (catches a duplicated member)').toBe(253);
     const sortedUnion = [...union].sort();
     const pinned = IWORLD_MEMBERS.map((m) => m.name).sort();
     expect(sortedUnion).toEqual(pinned);
