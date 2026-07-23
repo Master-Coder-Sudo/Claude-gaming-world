@@ -1269,6 +1269,22 @@ export interface MobTemplate {
     name: string;
     school?: string;
   };
+  // Anti-kite gap closer ("Charge"): an Onrush-style dash, the melee analogue of
+  // the aoeSlow snare. HEROIC-ONLY at runtime: the template field is inert until
+  // applyDungeonMobTuning stamps Entity.chargeEnabled on a heroic spawn, so a
+  // normal spawn of the same template never charges. When the mob is engaged and
+  // its aggro target sits between minRange and maxRange, it stuns the target for
+  // stunDuration (immediately, same tick, like the player Onrush; no diminishing
+  // returns, matching stomp) and dashes to melee at 3x move speed (mob/charge.ts).
+  // Draws no rng in any branch, so it cannot perturb the parity gate.
+  charge?: {
+    minRange: number;
+    maxRange: number;
+    cooldown: number;
+    stunDuration: number;
+    name: string;
+    school?: string;
+  };
   // Periodic self-shield: the mob wraps itself in a damage-absorbing barrier
   // every `every` seconds, soaking up to `amount` damage for `duration` seconds.
   // Reuses the existing `absorb` aura (soaked first in dealDamage) — no new combat math.
@@ -2869,7 +2885,7 @@ export interface Entity {
   firedSummons: number; // summonAdds thresholds already triggered
   summonedIds: number[]; // live adds this boss summoned; despawned on reset
   enraged: boolean; // enrage mechanic active
-  // Heroic-instance mechanic scaling (instances/difficulty.ts applyHeroicMobTuning).
+  // Heroic-instance mechanic scaling (instances/difficulty.ts applyDungeonMobTuning).
   // Mechanic numbers (aoePulse/bigCast/stomp damage; mendAlly/wardAllies/stoneskin
   // amounts) are read from the base MOBS table at fire time, so the fire sites
   // multiply by these AFTER the rng draw. undefined = 1 (normal difficulty).
@@ -2878,10 +2894,19 @@ export interface Entity {
   // Entity-level CC/snare immunity, the per-spawn twin of the MobTemplate
   // ccImmune/slowImmune flags (which are read from the base MOBS table, so a
   // spawn-time template transform cannot grant them). Heroic instances set
-  // both on boss-flagged mobs (applyHeroicMobTuning); the applyAura gates and
+  // both on boss-flagged mobs (applyDungeonMobTuning); the applyAura gates and
   // the polymorph cast gate check template OR entity.
   ccImmune?: boolean;
   slowImmune?: boolean;
+  // Heroic anti-kite charge (mob/charge.ts). chargeEnabled is stamped by
+  // applyDungeonMobTuning on heroic spawns of charge-bearing templates only;
+  // normal spawns of the same template never charge. The cooldown deliberately
+  // starts absent/0 (ready), unlike the telegraphed pulse timers: a heroic
+  // warrior mob opens the pull with its charge, that is the anti-kite design.
+  chargeEnabled?: boolean;
+  mobChargeCooldown?: number; // seconds until the next charge may fire (undefined = ready)
+  mobChargeTimeLeft?: number; // seconds left in the in-flight dash (undefined/0 = not dashing)
+  mobChargeTargetId?: number | null; // dash victim; null/undefined = not dashing
   healedThisPull: boolean; // desperation self-heal already used this pull
   nythraxis?: NythraxisEncounterState; // sim-only state for the Nythraxis raid encounter
   spawnPos: Vec3;
