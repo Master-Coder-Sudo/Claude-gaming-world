@@ -435,7 +435,7 @@ export const table: DeedLocaleTable = {
     name: 'Stammkunde',
     desc: 'Entdecke alle zehn Stücke aus dem Vorrat des Heroischen Quartiermeisters.',
   },
-  col_glimmerfin: { name: 'Ein Schimmer Hoffnung', desc: 'Fange einen Schimmerflossen-Koi.' },
+  col_glimmerfin: { name: 'Ein Schimmer Hoffnung' },
   col_full_creel: {
     name: 'Voller Fangkorb',
     desc: 'Entdecke alle sechs gewöhnlichen Fänge aus den Gewässern des Tals, des Moors und der Höhen.',

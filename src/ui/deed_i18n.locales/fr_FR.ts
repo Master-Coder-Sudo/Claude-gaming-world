@@ -455,10 +455,7 @@ export const table: DeedLocaleTable = {
     name: 'Client privilégié',
     desc: "Découvrir les dix pièces du stock de l'Intendant Vex.",
   },
-  col_glimmerfin: {
-    name: "Une lueur d'espoir",
-    desc: 'Pêcher un Koï aux nageoires scintillantes.',
-  },
+  col_glimmerfin: { name: "Une lueur d'espoir" },
   col_full_creel: {
     name: 'Bourriche pleine',
     desc: 'Découvrir les six prises communes des eaux du Val, du Marais et des Hauteurs.',

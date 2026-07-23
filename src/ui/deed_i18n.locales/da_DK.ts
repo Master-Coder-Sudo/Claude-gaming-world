@@ -385,7 +385,7 @@ export const table: DeedLocaleTable = {
     name: 'Stamkunde',
     desc: 'Opdag alle ti dele af den Heroiske Kvartermesters lager.',
   },
-  col_glimmerfin: { name: 'Et Glimt af Håb', desc: 'Fang en Glimtfinne-Koi.' },
+  col_glimmerfin: { name: 'Et Glimt af Håb' },
   col_full_creel: {
     name: 'Fyldt Fiskekurv',
     desc: 'Opdag alle seks almindelige fangster fra Dalens, Sumpens og Højdernes vande.',

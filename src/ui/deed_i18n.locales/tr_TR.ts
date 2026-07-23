@@ -412,7 +412,7 @@ export const table: DeedLocaleTable = {
     name: 'Gedikli Müşteri',
     desc: "Kahramanca Levazımcısı'nın tezgâhındaki on parçanın tamamını keşfet.",
   },
-  col_glimmerfin: { name: 'Umut Pırıltısı', desc: 'Bir Pırıltıyüzgeç Koi tut.' },
+  col_glimmerfin: { name: 'Umut Pırıltısı' },
   col_full_creel: {
     name: 'Dolu Sepet',
     desc: "Vadi'nin, Bataklık'ın ve Tepeler'in sularındaki altı yaygın avın tümünü keşfet.",
@@ -570,7 +570,7 @@ export const table: DeedLocaleTable = {
     title: 'Seyyah',
   },
   exp_something_shiny: { name: 'Parlak Bir Şey', desc: 'Işıldayan bir nesneyi yerden al.' },
-  exp_first_ore: { name: 'Kazmayı Toprağa Vur', desc: 'İlk cevher kaynağını topla.' },
+  exp_first_ore: { desc: 'İlk cevher kaynağını topla.' },
   exp_first_timber: { name: 'Ağaç Devriliyor!', desc: 'İlk odun kaynağını topla.' },
   exp_first_herb: { name: 'Bereketli Eller', desc: 'İlk şifalı ot kaynağını topla.' },
   feat_era_cap: {

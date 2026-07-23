@@ -387,7 +387,7 @@ export const table: DeedLocaleTable = {
     name: '단골 손님',
     desc: '병참장교 벡스의 취급 물품 열 가지를 모두 발견하십시오.',
   },
-  col_glimmerfin: { name: '희망의 반짝임', desc: '반짝이는 지느러미 코이를 낚으십시오.' },
+  col_glimmerfin: { name: '희망의 반짝임', desc: '윤슬 코이를 낚으십시오.' },
   col_full_creel: {
     name: '가득 찬 어망',
     desc: '골짜기, 습지, 고지의 물에서 나는 여섯 가지 흔한 어획물을 모두 발견하십시오.',
@@ -545,7 +545,12 @@ export const table: DeedLocaleTable = {
     title: '길손',
   },
   exp_something_shiny: { name: '반짝이는 무언가', desc: '땅에 떨어진 반짝이는 물건을 주우십시오.' },
-  exp_first_ore: { name: '땅을 내리쳐라', desc: '처음으로 광맥을 캐내십시오.' },
+  prog_guildsworn: {
+    name: '기예에 맹세한 자',
+    desc: '생업 짝에 조율하고 그 두 생업을 본격적으로 익히십시오.',
+    title: '기예에 맹세한 자',
+  },
+  exp_first_ore: { name: '곡괭이가 돌을 만나다', desc: '처음으로 광맥을 캐내십시오.' },
   exp_first_timber: { name: '나무 넘어간다!', desc: '처음으로 나무를 베어 목재를 거두십시오.' },
   exp_first_herb: { name: '약초 캐는 손', desc: '처음으로 약초를 캐십시오.' },
   feat_era_cap: { name: '제1시대의 아이', desc: '제1시대가 이어지는 동안 레벨 20을 달성했습니다.' },

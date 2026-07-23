@@ -3011,7 +3011,7 @@ async function startGame(
     }
   }
 
-  // Desktop-only gather-node hover tooltip (Professions 2.0 Phase 12): the
+  // Desktop-only gather-node hover tooltip (Professions 2.0): the
   // module owns the listener/throttle/paint; this is thin wiring only.
   attachGatherNodeHoverTooltip(
     canvas,

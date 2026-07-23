@@ -440,7 +440,7 @@ export const table: DeedLocaleTable = {
     name: 'Vaste Klant',
     desc: 'Ontdek alle tien de stukken uit de voorraad van de Heroïsche Kwartiermeester.',
   },
-  col_glimmerfin: { name: 'Een Glansje Hoop', desc: 'Vang een Glansvin-Koi.' },
+  col_glimmerfin: { name: 'Een Glansje Hoop' },
   col_full_creel: {
     name: 'Volle Viskorf',
     desc: 'Ontdek alle zes de gewone vangsten uit de wateren van het Dal, het Moeras en de Hoogten.',

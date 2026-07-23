@@ -428,7 +428,7 @@ export const table: DeedLocaleTable = {
     name: 'Khách Quen Hạng Nhất',
     desc: 'Khám phá đủ cả mười món hàng của Quân Nhu Trưởng Vex.',
   },
-  col_glimmerfin: { name: 'Tia Hy Vọng Lấp Lánh', desc: 'Câu được một con Cá Koi Vây Lấp Lánh.' },
+  col_glimmerfin: { name: 'Tia Hy Vọng Lấp Lánh' },
   col_full_creel: {
     name: 'Giỏ Cá Đầy Ắp',
     desc: 'Khám phá đủ sáu loại cá thường từ vùng nước của Thung Lũng, Đầm Lầy và Cao Nguyên.',
