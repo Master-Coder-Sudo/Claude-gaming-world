@@ -3640,7 +3640,7 @@ export const ja_JP: EnTranslations = {
       "stationsHeading": "作業場と師匠",
       "stationsBody": "三つの町の拠点に六つの種類別作業場があり、常駐の師匠がレシピを教え、作業依頼を出しています。",
       "deedsHeading": "旅路を刻む功績",
-      "deedsBody": "功績の書が歩みに寄り添います。初めての調律でCraftsworn、初めての傑作でMasterwrightを獲得し、どちらも称号として身につけられます。八つの製作職はそれぞれスキル50で節目の功績、上限125でGrandmaster称号を戴き、釣りは熟練100でOld Salt、200でMaster Angler称号を得ます。初めての採集や製作、野外の幸運な発見、サルベージにも静かなページがあります。すべて装飾のみ。称号と名声だけで、功績が力を与えることはありません。",
+      "deedsBody": "功績の書が歩みに寄り添います。初めての調律で技巧に誓いし者、初めての傑作でMasterwrightを獲得し、どちらも称号として身につけられます。八つの製作職はそれぞれスキル50で節目の功績、上限125でGrandmaster称号を戴き、釣りは熟練100でOld Salt、200でMaster Angler称号を得ます。初めての採集や製作、野外の幸運な発見、サルベージにも静かなページがあります。すべて装飾のみ。称号と名声だけで、功績が力を与えることはありません。",
       "startHeading": "どこから始めるか",
       "startBody": "Eastbrookに着いたばかりなら、Foreman Odellを訪ねてA Trade for Every Handを受けましょう。町の南西Copper Digの鉱脈を教えてくれます。以後は旅の途中で見かける鉱脈や木立、薬草をすべて採ること。町ではTキーで製作ウィンドウを開き、誰もが知る初期レシピを作り、鍛冶場、厨房、織機、工作場の師匠たちを訪ね、作業依頼で堅実に稼ぎましょう。ギルドの手紙が届く頃には、どの対が我が家か分かっているはずです。",
       "colStation": "作業場",
@@ -3703,29 +3703,29 @@ export const ja_JP: EnTranslations = {
         },
         "armorcrafting": {
           "identityHeading": "前線のメイル",
-          "identityBody": "梯子は兵士の経歴のようです。鋲打ちの銅装備で始まり、ironlink段で初めて本物の能力値がつき、レアのosmiumscale兜、胸当て、脚甲は職人が打てる最大の防御力を誇る力とスタミナの装備です。静かな一面もあります。野外コモンのEastbrook Warded Leggingsとスキル75のKilnscale Mantle（知力と精神のメイル肩）が、呪文使いのメイル職を顧客に留めます。環では武器鍛冶と工作の間。鍛冶師の対はDarvaの前で誓え、工作との対Gearwrightには誓いのクエストがまだありません。",
+          "identityBody": "梯子は兵士の経歴のようです。鋲打ちの銅装備で始まり、ironlink段で初めて本物の能力値がつき、レアのosmiumscale兜、胸当て、脚甲は職人が打てる最大の防御力を誇る力とスタミナの装備です。静かな一面もあります。野外コモンのEastbrook Warded Leggingsとスキル75の窯鱗のマント（知力と精神のメイル肩）が、呪文使いのメイル職を顧客に留めます。環では武器鍛冶と工作の間。鍛冶師の対はDarvaの前で誓え、工作との対歯車師には誓いのクエストがまだありません。",
           "materialsHeading": "袋いっぱいの鉱石",
           "materialsBody": "これほど鉱石を食う職はありません。ironlink hauberk一着で鉄鉱石5個、osmiumscaleは各piece3から4個のオスミウムにグリフ鋼の延べ棒1本。本気の防具職人はMirefen MarshとThornpeak Heightsを自ら掘るか、誰かに払います。銅は最初の段の分で、Copper Dig脇の鉱脈から。金属の周りには柔らかい素材、粗皮、骨片、リネンの端切れ、そしてほぼ全レシピにSmithing Flux（鍛冶場で20銅）。急ぎならDarvaがオスミウムを店売りしています。",
           "ladderHeading": "Darvaの炉で学ぶ",
-          "ladderBody": "野外コモン二着（Eastbrook Chainmail VestとWarded Leggings）は最初から誰でもどこでも。訓練の梯子はEastbrook鍛冶場の三段九レシピで、銅段はスキル0無料、ironlink段はスキル25で各25銀、osmiumscale段はスキル50で各1金。梯子の外に二つの特例。Boundstone Helmは鍛冶師の合作レシピ（要調律、両スキル25、作業場不要）。Kilnscale Mantleは師匠不要で全員が知っていますが、スキル75かつ鍛冶場限定、この職の第3段の締めくくりです。",
+          "ladderBody": "野外コモン二着（Eastbrook Chainmail VestとWarded Leggings）は最初から誰でもどこでも。訓練の梯子はEastbrook鍛冶場の三段九レシピで、銅段はスキル0無料、ironlink段はスキル25で各25銀、osmiumscale段はスキル50で各1金。梯子の外に二つの特例。Boundstone Helmは鍛冶師の合作レシピ（要調律、両スキル25、作業場不要）。窯鱗のマントは師匠不要で全員が知っていますが、スキル75かつ鍛冶場限定、この職の第3段の締めくくりです。",
           "routeHeading": "傑作と、125への道のり",
-          "routeBody": "ironlink段以上はすべて傑作の抽選があります。防御力しかない銅段コモンは発動しません。鉄は素材段階1、グリフ鋼は段階2。道は定番の三段、銅で25、ironlinkで50、osmiumscaleで75。75以降の幸運はKilnscale Mantleです。第3段レシピなので99まで全速、以降半減。最後の50ポイントが150回ではなくおよそ75回で済みます。1着にオスミウム7個とSmithing Flux 5個、Thornpeakと鍛冶場カウンターで買いだめを。Darvaの依頼は30分ごとに銅鉱石8個。スキル50でHammer and Plate、125でGrandmaster Armorcraftingです。"
+          "routeBody": "ironlink段以上はすべて傑作の抽選があります。防御力しかない銅段コモンは発動しません。鉄は素材段階1、グリフ鋼は段階2。道は定番の三段、銅で25、ironlinkで50、osmiumscaleで75。75以降の幸運は窯鱗のマントです。第3段レシピなので99まで全速、以降半減。最後の50ポイントが150回ではなくおよそ75回で済みます。1着にオスミウム7個とSmithing Flux 5個、Thornpeakと鍛冶場カウンターで買いだめを。Darvaの依頼は30分ごとに銅鉱石8個。スキル50でHammer and Plate、125でGrandmaster Armorcraftingです。"
         },
         "tailoring": {
           "identityHeading": "術者の布、皆の鞄",
-          "identityBody": "梯子はhomespunの基本からgildenweave一式を経てレア段のSilkbinder's Raimentとsunweaveへ。第二の商売は万人向けです。Silkspun Satchelは10枠の鞄で、鞄を嫌う職業もレベルもありません。環では皮革加工と銘文の間。生きた対は装具師（皮革加工と裁縫）で、Eastbrookの織機のWeaver Ottilieの前で、webwood蜘蛛を四匹狩って絹を捧げて誓います。銘文との対Inkweaverは銘文最初のレシピ待ちです。",
+          "identityBody": "梯子はhomespunの基本から鍍金織り一式を経てレア段のSilkbinder's Raimentとsunweaveへ。第二の商売は万人向けです。Silkspun Satchelは10枠の鞄で、鞄を嫌う職業もレベルもありません。環では皮革加工と銘文の間。生きた対は装具師（皮革加工と裁縫）で、Eastbrookの織機のWeaver Ottilieの前で、webwood蜘蛛を四匹狩って絹を捧げて誓います。銘文との対墨織師は銘文最初のレシピ待ちです。",
           "materialsHeading": "糸と絹、それに薬草",
-          "materialsBody": "織機は狩りの戦利品と野の恵みで回ります。リネンの端切れと手織り布は人型の敵から、蜘蛛の糸は蜘蛛の亡骸から。レア段の目玉Silkbinder's RaimentにはPristine Silk（亡骸採集の署名入り標本）が要ります。薬草学はどの装備職よりも裁縫を養います。sheenleafが履物を飾り、goldleafがgildenweaveを染め、sunpetalがレア段全体を縫い上げます。Spool of ThreadはOttilieで12銅。織機は金属を一切求めず、Wardweave Cowlの上級品でさえpremium herbs、Pristine Silk、蜘蛛の糸、糸で織られます。",
+          "materialsBody": "織機は狩りの戦利品と野の恵みで回ります。リネンの端切れと手織り布は人型の敵から、蜘蛛の糸は蜘蛛の亡骸から。レア段の目玉Silkbinder's RaimentにはPristine Silk（亡骸採集の署名入り標本）が要ります。薬草学はどの装備職よりも裁縫を養います。艶葉草が履物を飾り、goldleafが鍍金織りを染め、sunpetalがレア段全体を縫い上げます。Spool of ThreadはOttilieで12銅。織機は金属を一切求めず、Wardweave Cowlの上級品でさえpremium herbs、Pristine Silk、蜘蛛の糸、糸で織られます。",
           "ladderHeading": "Ottilieの織機で学ぶ",
-          "ladderBody": "野外コモン二着（Eastbrook Wool TrousersとRitual Vestments）は最初からどこでも。訓練の梯子はEastbrookの井戸の南の織機で、homespun段はスキル0無料、gildenweave段（Silkspun Satchel含む）はスキル25で各25銀、レア段はスキル50で各1金。Wardweave Cowlに師匠は不要で全員が知っていますが、スキル75かつ織機限定、この職の第3段の締めくくりです。例によって、段が届けばOttilieがすぐ教えてくれます。",
+          "ladderBody": "野外コモン二着（Eastbrook Wool TrousersとRitual Vestments）は最初からどこでも。訓練の梯子はEastbrookの井戸の南の織機で、homespun段はスキル0無料、鍍金織り段（Silkspun Satchel含む）はスキル25で各25銀、レア段はスキル50で各1金。Wardweave Cowlに師匠は不要で全員が知っていますが、スキル75かつ織機限定、この職の第3段の締めくくりです。例によって、段が届けばOttilieがすぐ教えてくれます。",
           "routeHeading": "傑作と、125への道のり",
-          "routeBody": "RaimentのPristine Silkはそれだけで署名素材ボーナスを満たし、goldleafとsunpetalは素材段階1と2に数えられるので、レア段が最も発動しやすい場所です。鞄のような無能力値の品は決して発動しません。道はhomespunで25、gildenweaveで50、レア段で75。75からはWardweave Cowl（第3段レシピ、99まで全速、以降半減）が引き継ぎ、最後の50ポイントはおよそ75回、1回にPristine Silk 2枚、蜘蛛の糸4本、sunpetalとgoldleafの薬草を各2、糸2。鞄は文字通り全員に売れ、Ottilieの依頼は30分ごとに蜘蛛の糸6本。スキル50でA Fine Seam、125でGrandmaster Tailoringです。"
+          "routeBody": "RaimentのPristine Silkはそれだけで署名素材ボーナスを満たし、goldleafとsunpetalは素材段階1と2に数えられるので、レア段が最も発動しやすい場所です。鞄のような無能力値の品は決して発動しません。道はhomespunで25、鍍金織りで50、レア段で75。75からはWardweave Cowl（第3段レシピ、99まで全速、以降半減）が引き継ぎ、最後の50ポイントはおよそ75回、1回にPristine Silk 2枚、蜘蛛の糸4本、sunpetalとgoldleafの薬草を各2、糸2。鞄は文字通り全員に売れ、Ottilieの依頼は30分ごとに蜘蛛の糸6本。スキル50でA Fine Seam、125でGrandmaster Tailoringです。"
         },
         "leatherworking": {
           "identityHeading": "俊敏な者の革",
           "identityBody": "梯子は素朴なFenbridgeの硬革の脚絆、靴、帯から、良質のmarshstalker一式を経て、職人が裁てる最高の革であるレアのmirewarden一式へ。術者向けの二着、野外コモンのEastbrook Druid's Hideとスキル75のDuskhide Wrapsが陣容を締めます。環では料理と裁縫の間。生きた対は装具師（皮革加工と裁縫）でEastbrookのWeaver Ottilieの前で誓い、料理との対Trapperには誓いのクエストがまだありません。",
           "materialsHeading": "狩りこそが収穫",
-          "materialsBody": "皮革加工ではレベリングの道と補給線が同じ一本道です。粗皮は皮を持つ亡骸、とりわけ狼と猪から直接剥ぎ、亡骸一体につき早い者勝ちの一人だけ。レア以上の採集判定はPristine Hideも授け、Mirewarden Jerkinがまさにそれを求めるので、見つけたら必ず取っておくこと。脇役は少なめで、蜘蛛の脚と糸、人型の手織り布、mirewardenのレア各着にオスミウム1個（Duskhide Wrapsの上級品は6個）、そしてなめし場カウンターのTanning Agent（16銅）。掘りたくなければTanner Hesk がオスミウムも売っています。",
+          "materialsBody": "皮革加工ではレベリングの道と補給線が同じ一本道です。粗皮は皮を持つ亡骸、とりわけ狼と猪から直接剥ぎ、亡骸一体につき早い者勝ちの一人だけ。レア以上の採集判定はPristine Hideも授け、Mirewarden Jerkinがまさにそれを求めるので、見つけたら必ず取っておくこと。脇役は少なめで、蜘蛛の脚と糸、人型の手織り布、mirewardenのレア各着にオスミウム1個（Duskhide Wrapsの上級品は6個）、そしてなめし場カウンターのTanning Agent（16銅）。掘りたくなければTanner Heskがオスミウムも売っています。",
           "ladderHeading": "Fenbridgeで修行",
           "ladderBody": "ひとつだけ違うところ。なめし場はMirefen Marsh街道のFenbridgeにあり、Eastbrookの外で修行する唯一の本格職です。Tanner Heskが桶のそばで教えます。硬革段はスキル0無料、marshstalker段はスキル25から各25銀、mirewarden段はスキル50から各1金。二つのレシピは師匠を飛ばします。野外コモン（Tanned Leather JerkinとDruid's Hide）は最初からどこでも、Duskhide Wrapsは全員が知っていますがスキル75かつなめし場限定。装具師の誓い自体はEastbrookのOttilieの前です。沼で行うのは修行だけ。",
           "routeHeading": "傑作と、125への道のり",
@@ -3745,17 +3745,17 @@ export const ja_JP: EnTranslations = {
           "identityHeading": "戦いを制する小瓶",
           "identityBody": "この職はHighwatchの薬房で営みます。主はAlchemist Verane。レシピの梯子を教え、Glass Vialを12銅で売り、作業依頼で薬草に金を払います。錬金術は試行錯誤の職たちと並び、片側に工作、もう片側に料理。ゆえに対は二つ、爆破師（工作と錬金術、EastbrookのTinker Gizzelの前で）と薬師（錬金術と料理、Cook Marlowの前で）です。どちらかに調律すれば錬金術は主専攻となり上限まで開きます。それまでは未宣誓の職と同じくレア段階まで働きます。",
           "materialsHeading": "薬草と毒腺とガラス",
-          "materialsBody": "どの薬もGlass Vialひとつと段に応じた薬草を求めます。sheenleafはEastbrook Vale、goldleafはMirefen Marsh、sunpetalはThornpeak Heightsに育ち、一地方に一種、薬瓶は世界と共に登っていきます。薬草学は生まれつきの相棒ですが、採集者や市場から買っても構いません。深い地方の上位の草むらは良い鎌を求めるので、自分で摘むなら道具を新しく。強壮剤の系統には狩人の素材が加わります。毒持ちの亡骸から採るVenom Gland、頂点の強壮剤にはPristine Venom Gland（署名入りのレア標本）です。",
+          "materialsBody": "どの薬もGlass Vialひとつと段に応じた薬草を求めます。艶葉草はEastbrook Vale、goldleafはMirefen Marsh、sunpetalはThornpeak Heightsに育ち、一地方に一種、薬瓶は世界と共に登っていきます。薬草学は生まれつきの相棒ですが、採集者や市場から買っても構いません。深い地方の上位の草むらは良い鎌を求めるので、自分で摘むなら道具を新しく。強壮剤の系統には狩人の素材が加わります。毒持ちの亡骸から採るVenom Gland、頂点の強壮剤にはPristine Venom Gland（署名入りのレア標本）です。",
           "ladderHeading": "レシピの梯子",
-          "ladderBody": "Minor Healing Potionは全員が最初から知り、どこでも混ぜられます。本当の梯子はVeraneが薬房で教える九つのレシピ、各段三つずつ。スキル0の段は無料、25の段は各25銀、50の段は各1金です。各段は回復薬、マナ薬、スタミナ強壮剤の三点で、コモンのsheenleaf瓶（回復120、マナ160）から良質のgoldleaf（200と260）、レアのsunpetal（280と360）へ。強壮剤も同じく登ります。Elixir of the Boarはスタミナ6を10分、Vipersear Elixirは9を15分、Elixir of the Serpentは12を15分で一度に2本。脇にもう一つ、合作のElixir of the Bear。錬金25でVeraneが25銀で教え、どこでも混ぜられますが、両スキル25の調律済み爆破師だけが作れます。",
+          "ladderBody": "Minor Healing Potionは全員が最初から知り、どこでも混ぜられます。本当の梯子はVeraneが薬房で教える九つのレシピ、各段三つずつ。スキル0の段は無料、25の段は各25銀、50の段は各1金です。各段は回復薬、マナ薬、スタミナ強壮剤の三点で、コモンの艶葉草瓶（回復120、マナ160）から良質のgoldleaf（200と260）、レアのsunpetal（280と360）へ。強壮剤も同じく登ります。Elixir of the Boarはスタミナ6を10分、Vipersear Elixirは9を15分、Elixir of the Serpentは12を15分で一度に2本。脇にもう一つ、合作のElixir of the Bear。錬金25でVeraneが25銀で教え、どこでも混ぜられますが、両スキル25の調律済み爆破師だけが作れます。",
           "routeHeading": "調合師の125への道",
-          "routeBody": "薬は決して傑作になりません。あれは能力値を持つ装備のものです。それでも名前は旅をします。レアのsunpetal薬は一本ずつ醸され署名入りで届き、2本組のElixir of the Serpentは無印のままです。スキル75で特化し、以後すべての錬金レシピの素材が2割引き。薬草学を早めに取り、レベリングしながら摘みましょう。sheenleafは谷中にあり、Veraneの調合台に着けば、無料段はどのみち摘んだ薬草で25まで綺麗に運んでくれます。25の段は開いた瞬間に習い、摘み場を沼のgoldleafへ移し、Veraneの依頼（Goldleaf Herb6本で45銅、30分ごと）で小銭を回収。50からはThornpeakの薬草でsunpetal薬とSerpentを醸します。100から125は意図された細流なので、数字のために薬草を燃やさず、売れる物を醸すこと。スキル50でStrange Brews、上限でGrandmaster Alchemyです。"
+          "routeBody": "薬は決して傑作になりません。あれは能力値を持つ装備のものです。それでも名前は旅をします。レアのsunpetal薬は一本ずつ醸され署名入りで届き、2本組のElixir of the Serpentは無印のままです。スキル75で特化し、以後すべての錬金レシピの素材が2割引き。薬草学を早めに取り、レベリングしながら摘みましょう。艶葉草は谷中にあり、Veraneの調合台に着けば、無料段はどのみち摘んだ薬草で25まで綺麗に運んでくれます。25の段は開いた瞬間に習い、摘み場を沼のgoldleafへ移し、Veraneの依頼（Goldleaf Herb6本で45銅、30分ごと）で小銭を回収。50からはThornpeakの薬草でsunpetal薬とSerpentを醸します。100から125は意図された細流なので、数字のために薬草を燃やさず、売れる物を醸すこと。スキル50でStrange Brews、上限でGrandmaster Alchemyです。"
         },
         "engineering": {
           "identityHeading": "道具職人の独占",
-          "identityBody": "この職はEastbrook広場南東角の工作場で営みます。主はTinker Gizzel。どの道具系統も段階1から3は普通の店売り品ですが、段階4と5はエンジニアの手からしか生まれません。環では錬金術と防具鍛冶の間で、対は爆破師（工作と錬金術）とGearwright（未実装の誓い）。ここで何より大事な警告をひとつ。工作の両レシピ段は、趣味や未宣誓の職が働くレア段階の天井より上にあるため、スキルが動くのは工作を主専攻に持つ者、今日で言えば爆破師だけです。道具は誰でも作れます。未調律の職人は、作っても何も学ばないだけです。",
+          "identityBody": "この職はEastbrook広場南東角の工作場で営みます。主はTinker Gizzel。どの道具系統も段階1から3は普通の店売り品ですが、段階4と5はエンジニアの手からしか生まれません。環では錬金術と防具鍛冶の間で、対は爆破師（工作と錬金術）と歯車師（防具鍛冶と工作、誓いのクエストはまだありません）。ここで何より大事な警告をひとつ。工作の両レシピ段は、趣味や未宣誓の職が働くレア段階の天井より上にあるため、スキルが動くのは工作を主専攻に持つ者、今日で言えば爆破師だけです。道具は誰でも作れます。未調律の職人は、作っても何も学ばないだけです。",
           "materialsHeading": "素材と前段の道具",
-          "materialsBody": "どの道具レシピも一段下の道具と上位素材を飲み込みます。Osmium Ore4個とSkysilver Mining PickがOsmium Mining Pickになり、Glyphsteel Bar2本とそのオスミウムのつるはしがGlyphsteel Mining Pickになります。斧と鎌の系統もAshwoodとHighpineの丸太、GoldleafとSunpetalの薬草で同じ形をなぞります。急ぎならGizzelが工作場で六種の上位素材をすべて置いていますが、鉱石も丸太も薬草もMirefen MarshとThornpeak Heightsで採れ、利益は自前の採集にあります。唯一の例外は店売りのみのGlyphsteel Barで、グリフ鋼級の道具には固定の金額が底値として組み込まれます。",
+          "materialsBody": "どの道具レシピも一段下の道具と上位素材を飲み込みます。オスミウム鉱石4個とスカイシルバーの採掘ピックがOsmium Mining Pickになり、グリフ鋼の延べ棒2本とそのオスミウムのつるはしがGlyphsteel Mining Pickになります。斧と鎌の系統もAshwoodと高嶺松の丸太、GoldleafとSunpetalの薬草で同じ形をなぞります。急ぎならGizzelが工作場で六種の上位素材をすべて置いていますが、鉱石も丸太も薬草もMirefen MarshとThornpeak Heightsで採れ、利益は自前の採集にあります。唯一の例外は店売りのみのグリフ鋼の延べ棒で、グリフ鋼級の道具には固定の金額が底値として組み込まれます。",
           "ladderHeading": "道具の梯子",
           "ladderBody": "梯子全体でレシピは六つだけ。すべて工作場限定で自動習得、修行費は一切なし。スキル75で段階4のつるはし、斧、鎌、スキル150で段階5です。150は誤植ではなく、現在の上限125より上に据えた意図的な数字です。ここではスキル要件が製作を止めることはなく、成長の形を決めるだけなので、素材と前段の道具が揃った日に段階5の道具を作れます。完成品はすべてレアかエピックで、出荷時から署名入り。工作は合作レシピの半分も担ぎます。Elixir of the Bear、両スキル25の調律済み爆破師の醸す一本です。",
           "routeHeading": "エンジニアの125への道",
@@ -3784,14 +3784,14 @@ export const ja_JP: EnTranslations = {
       "specializationBody": "スキルが{at}に達するとこの職に特化し、レシピの素材コストが{pct}%減ります。",
       "ench": {
         "disenchantHeading": "分解",
-        "disenchantNote": "分解は不要な武器や防具を品質に応じた秘術素材へ砕きます。",
+        "disenchantNote": "分解は、コモン品質以上の武器や防具を一個消費し、素材へと砕く作業です。既に付呪された品は対象外です。コモンとアンコモンの品は、まとまった量の鈴音の粉塵へと砕けます。レアや高品質な品ほど多く出ます。レア以上になると収量の形が変わり、レア品からは鈴音の精髄が一個、エピックや伝説品からは鈴音のかけらが一個、そして素材の種別に応じた副産物が一つ追加されます。",
         "typedHeading": "種別副産物",
         "typedNote": "レア以上の装備は、種別ごとのトレードバインド副産物も産出します。レア装備からは{rare}個、エピックか伝説からは{epicMin}から{epicMax}個です。",
         "colSource": "分解元",
         "meleeWeapons": "近接武器",
         "timberWeapons": "杖・ワンド・弓・クロスボウ",
         "enchantsHeading": "エンチャント",
-        "enchantsNote": "各エンチャントの対象部位・素材・正確なボーナスの一覧です。ルーンの段だけが種別副産物の使い道です。",
+        "enchantsNote": "エンチャントは三段階あります。基礎段階は鈴音の粉塵（高位は精髄も少量使用）を消費し、武器と副手以外のすべての防具スロットをカバーします。各ビルドがすべてのスロットに合った選択肢を見つけられるだけの能力値の軸が揃っています。上位段階はGreaterと呼ばれ、鈴音のかけら1個と精髄を消費します。かけらの唯一の使い道がこれです。より影響の大きいスロットに強力なボーナスを付与します。\n\nその間に五つのルーンエンチャントが挟まります。種別副産物を一個ずつ使う構成で、砕いた素材が無駄になりません。ルーンの刃（武器、筋力、共鳴の鋼）、ルーンの印章（武器、知力、共鳴の木材）、ルーン織り（胸、精神、共鳴の糸）、ルーンの革（脚、敏捷、共鳴の革）、ルーンの鎖（兜、スタミナ、共鳴の鎖）の五種。いずれも鈴音の精髄2個を必要とします。詳細なボーナスは下の表を参照してください。",
         "colEnchant": "エンチャント",
         "colSlot": "部位",
         "colTier": "段",
@@ -3806,9 +3806,9 @@ export const ja_JP: EnTranslations = {
         "bonusFmt": "+{value} {stat}"
       },
       "gatherIntro": {
-        "mining": "採掘は三つのゾーンの鉱脈から鉱石を掘り出し、鍛冶系の職に素材を供給します。上限は100です。",
-        "logging": "伐採は三つのゾーンの林から木材を切り出し、武器の柄や道具に素材を供給します。上限は100です。",
-        "herbalism": "薬草学は三つのゾーンで薬草を摘み、錬金術と料理に素材を供給します。上限は100です。",
+        "mining": "採掘は三つのゾーンの鉱脈から鉱石を掘り出し、鍛冶系の職に素材を供給します。銅鉱石はEastbrook Vale、鉄鉱石はMirefen Marsh、オスミウム鉱石はThornpeak Heightsから。上限は100です。",
+        "logging": "伐採は三つのゾーンの林から木材を切り出し、武器の柄や道具に素材を供給します。ironbarkはEastbrook Vale、ashwoodはMirefen Marsh、高嶺松はThornpeak Heightsから。上限は100です。",
+        "herbalism": "薬草学は三つのゾーンで薬草を摘み、錬金術と料理に素材を供給します。艶葉草はEastbrook Vale、goldleafはMirefen Marsh、sunpetalはThornpeak Heightsに育ちます。上限は100です。",
         "fishing": "釣りはアタリとリールの呼吸で各ゾーンの開けた水辺から獲物を釣り上げます。上限は200です。"
       },
       "rhythmHeading": "採集のリズム",
@@ -3837,7 +3837,7 @@ export const ja_JP: EnTranslations = {
         "mining": "どの採集職でも最初の採取でFruits of the Fieldを、採掘100でOre in the Bloodを刻みます。採掘、伐採、薬草学、釣りのうち三つで100に達するとMaster Gatherer（名声25）。pristine veinを掘り当てれば専用の収集印も。功績は称号と名声のみで、力は与えません。",
         "logging": "どの採集職でも最初の採取でFruits of the Fieldを、伐採100でHeartwood Hewerを刻みます。四採集職のうち三つで100に達するとMaster Gatherer（名声25）。ancient heartwoodを切り出せば専用の収集印も。功績は称号と名声のみで、力は与えません。",
         "herbalism": "どの採集職でも最初の採取でFruits of the Fieldを、薬草学100でMaster of the Meadowを刻みます。四採集職のうち三つで100に達するとMaster Gatherer（名声25）。moonlit bloomを摘めば専用の収集印も。功績は称号と名声のみで、力は与えません。",
-        "fishing": "熟練100でOld Saltを、200でMaster Anglerとその称号を刻みます。釣り人の頂点です。釣りもMaster Gatherer（三職100）に数えられます。各地方の水域で最初の一匹を釣ればそれぞれのページが埋まり、Sunglint Koiを釣ればGlimmer of Hopeが記されます。"
+        "fishing": "熟練100でOld Saltを、200でMaster Anglerとその称号を刻みます。釣り人の頂点です。釣りもMaster Gatherer（三職100）に数えられます。各地方の水域で最初の一匹を釣ればそれぞれのページが埋まり、日映えの錦鯉を釣ればGlimmer of Hopeが記されます。杖を荷物に忍ばせる旅人は、思いのほか早く功績の書を満たします。"
       },
       "fish": {
         "startHeading": "はじめかた",
@@ -3856,8 +3856,8 @@ export const ja_JP: EnTranslations = {
         "colOdds": "確率",
         "pctFmt": "{pct}%",
         "emptyHook": "アタリなし",
-        "koiHeading": "Sunglint Koi",
-        "koiBody": "世界中のあらゆる水域に同じ大物が潜んでいます。Sunglint Koi、良質のきらめく錦鯉で、商人に売れば75銅、誇りとしてはそれ以上の価値があります。確率は釣り上げごとに一律3%（Thornpeakの冷たい水では4%）でスキルに左右されず、桟橋の新人もMaster Anglerも同じ土俵です。釣り上げれば功績の書にGlimmer of Hope（名声ゼロの収集印）が記されます。"
+        "koiHeading": "日映えの錦鯉",
+        "koiBody": "世界中のあらゆる水域に同じ大物が潜んでいます。日映えの錦鯉、良質のきらめく錦鯉で、商人に売れば75銅、誇りとしてはそれ以上の価値があります。確率は釣り上げごとに一律3%（Thornpeakの冷たい水では4%）でスキルに左右されず、桟橋の新人もMaster Anglerも同じ土俵です。釣り上げれば功績の書にGlimmer of Hope（名声ゼロの収集印）が記されます。"
       },
       "econ": {
         "title": "製作経済",

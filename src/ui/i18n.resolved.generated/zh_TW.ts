@@ -3683,7 +3683,7 @@ export const zh_TW: EnTranslations = {
       "craftIntro": {
         "weaponcrafting": "武器鍛造在東溪的鍛造坊打造斧、錘、刃與法杖，從銅製入門武器一路到精良的鋨金與銘鋼之作。",
         "armorcrafting": "護甲鍛造在東溪的鍛造坊打造鎖甲，從鉚接銅甲到精良的鋨鱗重甲。",
-        "tailoring": "裁縫在東溪的織布機旁織造施法者布甲與一只寬敞的背包，從家紡基礎款到精良的日織系列。",
+        "tailoring": "裁縫在東溪的織布機旁織造施法者布甲與一只寬敞的背包，從家紡基礎款到精良的鎏金織套裝。",
         "leatherworking": "製皮在芬橋的製革坊鞣製靈巧的皮甲，從獸皮基礎款到精良的澤守系列。",
         "cooking": "烹飪在東溪的廚房把魚、野味和草藥做成坐下享用的餐食，最高可達精良的盛宴佳餚。",
         "alchemy": "鍊金術在高望的藥坊調配治療與法力藥劑，以及耐力合劑。",
@@ -3784,14 +3784,14 @@ export const zh_TW: EnTranslations = {
       "specializationBody": "技能達到{at}即在本行業專精，配方材料消耗減少{pct}%。",
       "ench": {
         "disenchantHeading": "分解",
-        "disenchantNote": "分解會按品質把不需要的武器或護甲拆成奧術材料。",
+        "disenchantNote": "分解任何普通品質及以上的武器或護甲（未附魔的），每次只消耗一件。普通與優秀品質的裝備研磨後隨機產出若干鈴音之塵，稀有度越高、等級越高則產量越豐；精良品起，產出形態改變：精良件出一個鈴音精華，史詩或傳說件出一個鈴音碎片，另附一個與原件材質掛鉤的定向副產物。",
         "typedHeading": "定向副產物",
         "typedNote": "精良及以上的裝備還會產出一種定向的、交易綁定的副產物：精良裝備產出{rare}件，史詩或傳說產出{epicMin}到{epicMax}件。",
         "colSource": "拆解來源",
         "meleeWeapons": "近戰武器",
         "timberWeapons": "法杖、魔杖、弓與弩",
         "enchantsHeading": "附魔",
-        "enchantsNote": "每種附魔的目標部位、材料與確切加成；符文層級是定向副產物的唯一去處。",
+        "enchantsNote": "附魔分三個層級。基礎層以鈴音之塵（高端配方加少量鈴音精華）驅動，涵蓋武器槽與除副手外的全部護甲槽，屬性軸選項豐富，每種配裝都能為每個槽位找到合適的附魔。進階層消耗一個鈴音碎片加鈴音精華，是鈴音碎片的唯一用途：為高價值槽位提供更強的加成。\n\n兩層之間另有五種符文附魔，每種消耗一個定向副產物，確保研磨所得無一浪費：符文鋒刃（武器，力量，消耗共鳴鋼）、符文印記（武器，智力，共鳴木）、符文織紋（胸部，精神，共鳴絲線）、符文皮革（護腿，敏捷，共鳴皮革）、符文鎖鏈（頭盔，耐力，共鳴鏈環）。每種符文附魔還需要兩個鈴音精華；若某槽位同時有基礎與進階附魔，符文加成落在兩者之間，但符文織紋是胸部最強的精神附魔，符文皮革則是護腿唯一的敏捷附魔。確切加成數值見下表。",
         "colEnchant": "附魔",
         "colSlot": "部位",
         "colTier": "層級",
@@ -3837,7 +3837,7 @@ export const zh_TW: EnTranslations = {
         "mining": "任意行業的第一次採集獲得Fruits of the Field，採礦100上限銘刻Ore in the Blood。採礦、伐木、藥草學與釣魚中任意三項達到100可得Master Gatherer（25聲望），鑿開純淨礦脈另有收藏印記。功業只有頭銜與聲望，永不賦予力量。",
         "logging": "任意行業的第一次採集獲得Fruits of the Field，伐木100上限銘刻Heartwood Hewer。四種採集行業中任意三項達到100可得Master Gatherer（25聲望），劈出遠古心材另有收藏印記。功業只有頭銜與聲望，永不賦予力量。",
         "herbalism": "任意行業的第一次採集獲得Fruits of the Field，藥草學100上限銘刻Master of the Meadow。四種採集行業中任意三項達到100可得Master Gatherer（25聲望），採下月光綻放另有收藏印記。功業只有頭銜與聲望，永不賦予力量。",
-        "fishing": "釣魚100熟練銘刻Old Salt，200銘刻Master Angler及其頭銜，垂釣技藝的頂點；釣魚同樣計入Master Gatherer（任意三項採集達到100）。在每個區域的水域釣起第一條魚各有其頁，釣起Sunglint Koi則記下Glimmer of Hope。"
+        "fishing": "釣魚100熟練銘刻Old Salt，200銘刻Master Angler及其頭銜，垂釣技藝的頂點；釣魚同樣計入Master Gatherer（任意三項採集達到100）。在每個區域的水域釣起第一條魚各有其頁，釣起日輝錦鯉則記下Glimmer of Hope。"
       },
       "fish": {
         "startHeading": "入門",
@@ -3856,8 +3856,8 @@ export const zh_TW: EnTranslations = {
         "colOdds": "機率",
         "pctFmt": "{pct}%",
         "emptyHook": "無魚上鉤",
-        "koiHeading": "Sunglint Koi",
-        "koiBody": "全世界的每片水域都藏著同一份大獎：Sunglint Koi，一尾優秀品質的閃光錦鯉，賣給商人值75銅，對你的自豪感則遠不止此。牠的機率固定為每次起竿3%（Thornpeak的冷水中為4%），不隨技能變化，因此碼頭上的新手與Master Angler機會均等。釣起牠會在功業之書記下Glimmer of Hope（零聲望的收藏印記）。"
+        "koiHeading": "日輝錦鯉",
+        "koiBody": "全世界的每片水域都藏著同一份大獎：日輝錦鯉，一尾優秀品質的閃光錦鯉，賣給商人值75銅，對你的自豪感則遠不止此。牠的機率固定為每次起竿3%（Thornpeak的冷水中為4%），不隨技能變化，因此碼頭上的新手與Master Angler機會均等。釣起牠會在功業之書記下Glimmer of Hope（零聲望的收藏印記）。"
       },
       "econ": {
         "title": "製作經濟",

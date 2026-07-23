@@ -441,7 +441,10 @@ export const table: DeedLocaleTable = {
     name: 'Vaste Klant',
     desc: 'Ontdek alle tien de stukken uit de voorraad van de Heroïsche Kwartiermeester.',
   },
-  col_glimmerfin: { name: 'Een Glansje Hoop' },
+  col_glimmerfin: {
+    name: 'Een Glansje Hoop',
+    desc: 'Vang een Zonglinstering-Koi.',
+  },
   col_full_creel: {
     name: 'Volle Viskorf',
     desc: 'Ontdek alle zes de gewone vangsten uit de wateren van het Dal, het Moeras en de Hoogten.',
@@ -623,7 +626,10 @@ export const table: DeedLocaleTable = {
     name: 'Iets Glinsterends',
     desc: 'Raap een fonkelend voorwerp op van de grond.',
   },
-  exp_first_ore: { name: 'De Eerste Ader', desc: 'Oogst je eerste ertsader.' },
+  exp_first_ore: {
+    name: 'Hak Ontmoet Steen',
+    desc: 'Oogst je eerste ertsader.',
+  },
   exp_first_timber: { name: 'Van Onderen!', desc: 'Oogst je eerste houtvindplaats.' },
   exp_first_herb: { name: 'Groene Vingers', desc: 'Oogst je eerste kruidenvindplaats.' },
   feat_era_cap: {
@@ -697,9 +703,9 @@ export const table: DeedLocaleTable = {
     desc: 'Vang een vis in de wateren van Slijkveenmoeras.',
   },
   prog_guildsworn: {
-    name: 'Gildgetrouwe',
+    name: 'Ambachtsgetrouwe',
     desc: 'Stem je af op een archetypepaar en neem zijn ambachten ernstig ter hand.',
-    title: 'Gildgetrouwe',
+    title: 'Ambachtsgetrouwe',
   },
   prog_masterwright: {
     name: 'Meestersmaker',

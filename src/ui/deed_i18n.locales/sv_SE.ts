@@ -405,7 +405,10 @@ export const table: DeedLocaleTable = {
     name: 'Stamkund',
     desc: 'Upptäck alla tio delar av den heroiska kvartersmästarens utbud.',
   },
-  col_glimmerfin: { name: 'Ett skimmer av hopp' },
+  col_glimmerfin: {
+    name: 'Ett skimmer av hopp',
+    desc: 'Fanga en Solglintens koi.',
+  },
   col_full_creel: {
     name: 'Full fiskekorg',
     desc: 'Upptäck alla sex vanliga fångster ur dalens, träskets och höjdernas vatten.',
@@ -566,7 +569,10 @@ export const table: DeedLocaleTable = {
     name: 'Något som glimmar',
     desc: 'Plocka upp ett gnistrande föremål från marken.',
   },
-  exp_first_ore: { name: 'Hugg i berget', desc: 'Skörda din första malmådra.' },
+  exp_first_ore: {
+    name: 'Hackan mot stenen',
+    desc: 'Skörda din första malmådra.',
+  },
   exp_first_timber: { name: 'Träd faller!', desc: 'Skörda ditt första timmerbestånd.' },
   exp_first_herb: { name: 'Gröna fingrar', desc: 'Skörda ditt första örtstånd.' },
   feat_era_cap: { name: 'Första erans barn', desc: 'Nådde nivå 20 medan Första eran ännu rådde.' },
@@ -625,9 +631,9 @@ export const table: DeedLocaleTable = {
   },
   chr_marsh_first_cast: { name: 'Ålar i vassen', desc: 'Fånga en fisk ur Dykärrsträskets vatten.' },
   prog_guildsworn: {
-    name: 'Gildessvuren',
+    name: 'Hantverkssvuren',
     desc: 'Inrikta dig på ett arketyppar och ta upp dess hantverk på allvar.',
-    title: 'Gildessvuren',
+    title: 'Hantverkssvuren',
   },
   prog_masterwright: {
     name: 'Mästerhantverkaren',

@@ -7212,7 +7212,7 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'hudChrome.archetypePair.enchanting+jewelcrafting': '보석결속사',
   'hudChrome.archetypePair.jewelcrafting+weaponcrafting': '칼날장인',
   'hudChrome.archetypePair.weaponcrafting+armorcrafting': '대장장이',
-  'hudChrome.archetypePair.armorcrafting+engineering': '톱니장인',
+  'hudChrome.archetypePair.armorcrafting+engineering': '기어장인',
   'hudChrome.craftName.armorcrafting': '방어구 제작',
   'hudChrome.craftName.weaponcrafting': '무기 제작',
   'hudChrome.craftName.jewelcrafting': '보석세공',
@@ -8730,7 +8730,7 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'guide.profPages.craftIntro.armorcrafting':
     '방어구 제작은 이스트브룩 대장간에서 사슬 방어구를 벼리며, 리벳 구리 장비부터 희귀한 오스뮴비늘 중갑까지 만든다.',
   'guide.profPages.craftIntro.tailoring':
-    '재봉은 이스트브룩 베틀에서 시전자용 천 방어구와 널찍한 가방을 짜며, 손베 기본부터 희귀한 태양직물까지 만든다.',
+    '재봉은 이스트브룩 베틀에서 시전자용 천 방어구와 널찍한 가방을 짜며, 홈스펀 기본부터 도금직조 세트를 거쳐 희귀한 태양직물까지 만든다.',
   'guide.profPages.craftIntro.leatherworking':
     '가죽세공은 펜브리지 무두질 작업장에서 날렵한 가죽 장비를 무두질하며, 생가죽 기본부터 희귀한 늪지기 장비까지 만든다.',
   'guide.profPages.craftIntro.cooking':
@@ -8761,7 +8761,7 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
     '기술이 {at}에 이르면 이 전문직에 전문화되어 제조법 재료 비용이 {pct}% 줄어든다.',
   'guide.profPages.ench.disenchantHeading': '마력 추출',
   'guide.profPages.ench.disenchantNote':
-    '마력 추출은 쓸모없는 무기나 방어구를 품질에 따라 비전 재료로 부순다.',
+    '마력 추출은 일반 품질 이상의 무기나 방어구를 하나 소모해 마법 재료로 분해한다. 이미 마법이 부여된 물건은 분해할 수 없다. 일반과 고급 품질은 울림 가루 한 줌으로 변하며, 희귀하거나 레벨이 높을수록 조금 더 나온다. 희귀 이상은 결과물의 형태가 달라져, 희귀 품질은 울림 정수 하나, 영웅이나 전설 품질은 울림 파편 하나가 나오고, 재료의 종류에 따른 보조 재료도 함께 나온다.',
   'guide.profPages.ench.typedHeading': '계열 부산물',
   'guide.profPages.ench.typedNote':
     '희귀 이상의 장비는 계열별 거래 귀속 부산물도 내놓는다. 희귀 장비는 {rare}개, 영웅이나 전설은 {epicMin}에서 {epicMax}개다.',
@@ -8770,7 +8770,7 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'guide.profPages.ench.timberWeapons': '지팡이, 마법봉, 활, 석궁',
   'guide.profPages.ench.enchantsHeading': '마법부여',
   'guide.profPages.ench.enchantsNote':
-    '모든 마법부여의 대상 부위, 재료, 정확한 보너스. 룬 단계만이 계열 부산물의 유일한 쓰임새다.',
+    '마법부여는 세 단계로 나뉜다. 기본 단계는 울림 가루(고급 끝 단에서는 울림 정수도 약간 필요)로 이루어지며, 보조 무기 슬롯을 제외한 무기와 모든 방어구 슬롯을 다룬다. 모든 능력치 축에 옵션이 있어 어느 빌드든 각 슬롯에 맞는 것을 찾을 수 있다. 상급 단계는 울림 파편 하나와 울림 정수가 필요하며, 파편의 유일한 쓰임새이기도 하다. 영향이 큰 슬롯에 더 강한 보너스를 준다.\n\n그 사이에 다섯 가지 룬 마법부여가 있다. 계열 부산물 하나씩을 소모해 막힌 길을 없앤다. Runed Edge(무기, 힘, Resonant Steel 소모), Runed Sigil(무기, 지능, Resonant Timber), Runed Weave(가슴, 정신, Resonant Thread), Runed Hide(다리, 민첩, Resonant Hide), Runed Links(투구, 체력, Resonant Links). 각각 울림 정수 두 개도 필요하다. 슬롯과 능력치에 기본과 상급이 모두 있는 경우 룬 보너스는 그 중간에 해당하지만, Runed Weave는 가슴 정신 마법부여 중 단독 최강이고 Runed Hide는 다리 민첩 마법부여 중 유일한 선택이다. 정확한 수치는 아래 표에 있다.',
   'guide.profPages.ench.colEnchant': '마법부여',
   'guide.profPages.ench.colSlot': '부위',
   'guide.profPages.ench.colTier': '단계',
@@ -8902,7 +8902,7 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
     '전문 기술은 이 세계의 생활이다. 네 가지 채집 기술이 땅에서 원료를 캐내고, 열 가지 제작 기술이 그것을 장비와 음식, 물약, 도구로 바꾼다. 모든 것이 맞물린다. 캐낸 광석은 검이 되고, 검은 마법부여를 받으며, 그 마법부여는 낡은 장비를 분해한 가루를 필요로 한다. 전문 기술 수 제한은 없다. 콘텐츠가 있는 여덟 제작 기술과 네 채집 기술을 모두 나란히 올릴 수 있고, 유일한 배타적 선택은 언젠가 맹세할 원형뿐이며, 일단 맹세하고 나면 그 뒤로 휴면에 든 제작 기술은 더 이상 오르지 않는다. 기술은 절대 내려가지 않고, 배운 것을 빼앗기지도 않는다.',
   'guide.professions.deedsHeading': '여정을 새기는 업적',
   'guide.professions.deedsBody':
-    '업적의 서가 모든 걸음에 함께한다. 첫 조율은 Craftsworn을, 첫 걸작은 Masterwright를 주며 둘 다 칭호로 착용할 수 있다. 여덟 제작 기술은 각각 기술 50에 이정표 업적을, 상한 125에 Grandmaster 칭호를 두고, 낚시는 숙련 100에 Old Salt를, 200에 Master Angler 칭호를 준다. 첫 채집과 첫 제작, 야외의 희귀한 발견, 분해 회수의 조용한 페이지도 있다. 전부 장식일 뿐이다. 칭호와 명성만 있을 뿐, 업적은 결코 힘을 주지 않는다.',
+    '업적의 서가 모든 걸음에 함께한다. 첫 조율은 Craftsworn을, 첫 걸작은 Masterwright를 주며 둘 다 칭호로 착용할 수 있다. 여덟 제작 기술은 각각 기술 50에 이정표 업적을, 상한 125에 Grandmaster 칭호를 두고, 낚시는 숙련 100에 Old Salt를, 200에 Master Angler 칭호를 준다.\n\n첫 채집과 첫 제작, 야외의 희귀한 발견, 분해 회수의 조용한 페이지도 있다. 전부 장식일 뿐이다. 칭호와 명성만 있을 뿐, 업적은 결코 힘을 주지 않는다.',
   'guide.professions.startHeading': '어디서 시작할까',
   'guide.professions.startBody':
     'Eastbrook에 막 도착했다면 Foreman Odell을 찾아 A Trade for Every Hand를 받자. 마을 남서쪽 Copper Dig 주변의 광맥을 알려 준다. 그 뒤로는 여행 중 지나치는 광맥과 나무, 약초를 전부 캐면 된다. 마을에서는 T 키로 제작 창을 열어 누구나 아는 기본 제조법을 만들고, 대장간과 주방, 베틀, 공작소의 장인들을 찾아 무엇을 가르치는지 보고, 작업 주문으로 꾸준한 동전을 벌자. 길드의 편지가 도착할 즈음이면 어느 짝이 내 집인지 이미 알게 된다.',
@@ -8917,13 +8917,13 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
   'guide.profPages.gatherDeeds.herbalism':
     '어느 채집이든 첫 채집은 Fruits of the Field를, 약초학 100 상한은 Master of the Meadow를 새긴다. 네 채집 기술 중 셋이 100에 이르면 Master Gatherer(명성 25)를 얻고, 달빛 개화를 꺾으면 전용 수집 표식도 남는다. 업적은 칭호와 명성뿐, 힘을 주지 않는다.',
   'guide.profPages.gatherDeeds.fishing':
-    '숙련 100은 Old Salt를, 200은 Master Angler와 그 칭호를 새긴다. 낚시꾼 기예의 정점이다. 낚시도 Master Gatherer(세 기술 100)에 포함된다. 각 지역의 물에서 낚는 첫 물고기가 저마다의 페이지를 채우고, Sunglint Koi를 낚으면 Glimmer of Hope가 기록된다.',
+    '숙련 100은 Old Salt를, 200은 Master Angler와 그 칭호를 새긴다. 낚시꾼 기예의 정점이다. 낚시도 Master Gatherer(세 기술 100)에 포함된다. 각 지역의 물에서 낚는 첫 물고기가 저마다의 페이지를 채우고, 윤슬 코이를 낚으면 Glimmer of Hope가 기록된다.',
   'guide.profPages.fish.startHeading': '시작하기',
   'guide.profPages.fish.startBody':
     'Simple Fishing Pole은 Eastbrook의 Fisherman Brandt가 20동에 판다(마을 동쪽 끝에서 Mirror Lake를 노려보는 노련한 낚시꾼이다). Tinker Gizzel, Fenbridge의 Provisioner Hale, Highwatch의 Quartermaster Bree도 재고가 있다. 전방 약 24야드 안의 충분히 깊은 물을 바라보고 낚싯대를 쓰면 찌가 날아간다. 전투 중, 수영 중, 사망 중에는 던질 수 없다. 물가에서 던지는 것이 정석이고, 어느 지역의 낚시 가능한 물이든 좋다.',
-  'guide.profPages.fish.koiHeading': 'Sunglint Koi',
+  'guide.profPages.fish.koiHeading': '윤슬 코이',
   'guide.profPages.fish.koiBody':
-    '세상의 모든 물에는 같은 상품이 숨어 있다. Sunglint Koi, 상인에게 75동에 팔리는 고급 등급의 반짝이는 잉어로, 자부심의 값은 그 이상이다. 확률은 낚아 올릴 때마다 고정 3%(Thornpeak의 찬물에서는 4%)로 기술과 무관하니, 부두의 초심자도 Master Angler와 기회가 같다. 낚으면 업적의 서에 Glimmer of Hope(명성 0의 수집 표식)가 기록된다.',
+    '세상의 모든 물에는 같은 상품이 숨어 있다. 윤슬 코이, 상인에게 75동에 팔리는 고급 등급의 반짝이는 잉어로, 자부심의 값은 그 이상이다. 확률은 낚아 올릴 때마다 고정 3%(Thornpeak의 찬물에서는 4%)로 기술과 무관하니, 부두의 초심자도 Master Angler와 기회가 같다. 낚으면 업적의 서에 Glimmer of Hope(명성 0의 수집 표식)가 기록된다.',
   'guide.profPages.econ.sellsHeading': '무엇이 팔리고, 왜 팔리나',
   'guide.profPages.econ.sellsBody':
     '가장 꾸준한 장사는 소모품이다. 쓰면 사라지고 다시 사기 때문이다. 물약, 요리, 마법부여는 모두 소모된다. 검을 한 번 산 전사도 치유 물약은 영원히 산다. 걸작은 프리미엄 시장이다. 주문 제작이 불가능하니 원하는 물건 하나에 진짜 웃돈이 붙고, 그 위의 서명은 걸어 다니는 광고다. 재료가 세 번째 기둥이다. 분해에서 나오는 비전 재료, 분해자에게서 마법부여사에게 곧장 흐르는 Resonant 부산물, 그리고 걸작 발동을 노리는 장인들이 웃돈을 주고 사는 서명된 채집 재료다.',
@@ -8938,37 +8938,37 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
     '희귀 단만으로 세 가지 수요를 모두 채운다. 힘 근접용 Osmium Warblade, 민첩 전사용 Glyphsteel War Axe, 그리고 로브 차림을 위한 지능과 정신의 지팡이 Highpine Battle Staff. 제작의 고리에서는 방어구 제작과 보석세공 사이에 있다. 대장장이(무기 제작과 방어구 제작)는 Forgemistress Darva 앞에서 광맥 세 곳을 제 손으로 캐고 맹세할 수 있고, 보석세공과 이루는 Bladewright는 그 제조법이 미래 지역과 함께 올 때까지 맹세할 수 없다.',
   'guide.profPages.craftProse.weaponcrafting.materialsHeading': '용광로가 삼키는 것',
   'guide.profPages.craftProse.weaponcrafting.materialsBody':
-    '채광이 등뼈다. 구리 광석은 Eastbrook Vale, 철 광석은 Mirefen Marsh, 오스뮴은 Thornpeak Heights에서 난다. 벌목도 생각보다 중요하다. ironbark가 멧돼지 창 자루가 되고, ashwood가 망치를 받치며, highpine 통나무 하나가 지팡이가 된다. 나머지는 사냥과 상점에서 온다. 거친 가죽은 늑대와 멧돼지 사체에서 벗기고, 뼛조각은 일상 사냥에서 나오며, 사다리 제조법은 Smithing Flux(Darva에게 20동)를 태운다. 채광이 달리면 Darva가 오스뮴 광석을, Tinker Gizzel이 공작소에서 문양강철 주괴를 비싸게 판다.',
+    '채광이 등뼈다. 구리 광석은 Eastbrook Vale, 철 광석은 Mirefen Marsh, 오스뮴은 Thornpeak Heights에서 난다. 벌목도 생각보다 중요하다. ironbark가 멧돼지 창 자루가 되고, ashwood가 망치를 받치며, 고산솔 통나무 하나가 지팡이가 된다. 나머지는 사냥과 상점에서 온다. 거친 가죽은 늑대와 멧돼지 사체에서 벗기고, 뼛조각은 일상 사냥에서 나오며, 사다리 제조법은 Smithing Flux(Darva에게 20동)를 태운다. 채광이 달리면 Darva가 오스뮴 광석을, Tinker Gizzel이 공작소에서 문양강철 주괴를 비싸게 판다.',
   'guide.profPages.craftProse.weaponcrafting.ladderHeading': '한 단씩 오르는 사다리',
   'guide.profPages.craftProse.weaponcrafting.ladderBody':
     '야외 제조법 Eastbrook Arming Sword는 누구나 처음부터 알고 어디서든 만든다. 진짜 사다리는 대장간 전용 세 단 아홉 제조법이다. 구리 단은 기술 0에 무료, 철 단은 기술 25에 각 25은, 오스뮴 단은 기술 50에 각 1금. 당신의 단이 닿는 순간 Darva가 가르쳐 준다. 짝을 타는 제조법이 하나 더 있다. Gravewyrm Gauntlets. 무기 제작과 방어구 제작이 모두 25인 조율된 대장장이만 만들 수 있는 합작품으로, 작업대조차 필요 없다.',
   'guide.profPages.craftProse.weaponcrafting.routeHeading': '걸작, 그리고 125까지의 길',
   'guide.profPages.craftProse.weaponcrafting.routeBody':
-    '능력치가 있는 물건(철 단 이상)만 걸작이 될 수 있다. 능력치 없는 구리 단 일반품은 절대 발동하지 않는다. 철은 재료 1단계(+1%), highpine와 문양강철는 2단계(+2%)다. 경로는 구리 단으로 25, 철 단으로 50, 오스뮴 단으로 75. 이후 더 높은 제조법이 없어 오스뮴 단이 절반, 4분의 1로 줄어드니 상한 125까지 약 150회를 잡자. 분당 열 번의 공유 제한도 기억할 것. Darva의 작업 주문은 30분마다 구리 광석 8개를 사 준다. 업적의 서는 기술 50에 Edge and Temper를, 125에 Grandmaster Weaponcrafting을 새긴다.',
+    '능력치가 있는 물건(철 단 이상)만 걸작이 될 수 있다. 능력치 없는 구리 단 일반품은 절대 발동하지 않는다. 철은 재료 1단계(+1%), 고산솔과 문양강철은 2단계(+2%)다. 경로는 구리 단으로 25, 철 단으로 50, 오스뮴 단으로 75. 이후 더 높은 제조법이 없어 오스뮴 단이 절반, 4분의 1로 줄어드니 상한 125까지 약 150회를 잡자. 분당 열 번의 공유 제한도 기억할 것. Darva의 작업 주문은 30분마다 구리 광석 8개를 사 준다. 업적의 서는 기술 50에 Edge and Temper를, 125에 Grandmaster Weaponcrafting을 새긴다.',
   'guide.profPages.craftProse.armorcrafting.identityHeading': '최전선의 사슬 갑옷',
   'guide.profPages.craftProse.armorcrafting.identityBody':
-    '사다리는 군인의 이력서 같다. 리벳 박은 구리 장비로 시작해, ironlink 단에서 처음 진짜 능력치가 붙고, 희귀 osmiumscale 투구, 흉갑, 다리 보호구는 장인이 두드릴 수 있는 가장 큰 방어도의 힘과 체력 장비다. 조용한 면도 있다. 야외 일반품 Eastbrook Warded Leggings와 기술 75의 Kilnscale Mantle(지능과 정신의 사슬 어깨)이 주문 계열 사슬 착용자를 고객으로 붙잡는다. 무기 제작과 기계공학 사이에 있으며, 대장장이 짝은 Darva 앞에서 맹세하고 Gearwright는 아직 서약 퀘스트가 없다.',
+    '사다리는 군인의 이력서 같다. 리벳 박은 구리 장비로 시작해, ironlink 단에서 처음 진짜 능력치가 붙고, 희귀 osmiumscale 투구, 흉갑, 다리 보호구는 장인이 두드릴 수 있는 가장 큰 방어도의 힘과 체력 장비다. 조용한 면도 있다. 야외 일반품 Eastbrook Warded Leggings와 기술 75의 가마비늘 망토(지능과 정신의 사슬 어깨)가 주문 계열 사슬 착용자를 고객으로 붙잡는다. 무기 제작과 기계공학 사이에 있으며, 대장장이 짝은 Darva 앞에서 맹세하고 기어장인은 아직 서약 퀘스트가 없다.',
   'guide.profPages.craftProse.armorcrafting.materialsHeading': '자루째 드는 광석',
   'guide.profPages.craftProse.armorcrafting.materialsBody':
     '광석을 이보다 빨리 먹는 기술은 없다. ironlink hauberk 한 벌에 철 광석 다섯, osmiumscale 한 점마다 오스뮴 서너 개에 문양강철 주괴 하나. 진지한 갑옷 장인은 Mirefen Marsh와 Thornpeak Heights를 직접 캐거나 캐는 이에게 돈을 낸다. 구리는 첫 단 몫으로 Copper Dig 옆 광맥에서 나온다. 금속 둘레엔 부드러운 재료들, 거친 가죽과 뼛조각, 아마 조각이 있고 거의 모든 제조법에 Smithing Flux(대장간 20동) 한 병이 든다. 급하면 Darva가 오스뮴을 판다.',
   'guide.profPages.craftProse.armorcrafting.ladderHeading': 'Darva의 용광로에서 배우기',
   'guide.profPages.craftProse.armorcrafting.ladderBody':
-    '야외 일반품 두 벌(Eastbrook Chainmail Vest와 Warded Leggings)은 처음부터 어디서든 만든다. 수련 사다리는 Eastbrook 대장간의 세 단 아홉 제조법이다. 구리 단은 기술 0에 무료, ironlink 단은 기술 25에 각 25은, osmiumscale 단은 기술 50에 각 1금. 사다리 밖에 특례가 둘 있다. Boundstone Helm은 대장장이 합작 제조법(조율 필수, 두 기술 25, 작업대 불필요)이고, Kilnscale Mantle은 스승이 필요 없어 모두가 알지만 기술 75에 대장간 전용, 이 기술의 3단 마무리다.',
+    '야외 일반품 두 벌(Eastbrook Chainmail Vest와 Warded Leggings)은 처음부터 어디서든 만든다. 수련 사다리는 Eastbrook 대장간의 세 단 아홉 제조법이다. 구리 단은 기술 0에 무료, ironlink 단은 기술 25에 각 25은, osmiumscale 단은 기술 50에 각 1금. 사다리 밖에 특례가 둘 있다. Boundstone Helm은 대장장이 합작 제조법(조율 필수, 두 기술 25, 작업대 불필요)이고, 가마비늘 망토는 스승이 필요 없어 모두가 알지만 기술 75에 대장간 전용, 이 기술의 3단 마무리다.',
   'guide.profPages.craftProse.armorcrafting.routeHeading': '걸작, 그리고 125까지의 길',
   'guide.profPages.craftProse.armorcrafting.routeBody':
-    'ironlink 단 이상은 모두 걸작을 굴린다. 방어도뿐인 구리 단 일반품은 발동하지 않는다. 철은 재료 1단계, 문양강철는 2단계. 경로는 정석 세 단, 구리로 25, ironlink로 50, osmiumscale로 75. 75 이후의 행운은 Kilnscale Mantle이다. 3단 제조법이라 99까지 전속, 이후 절반이니 마지막 50점이 150회가 아니라 약 75회로 끝난다. 한 벌에 오스뮴 7개와 Smithing Flux 5개, Thornpeak과 대장간 계산대에서 미리 쟁여 두자. Darva의 주문은 30분마다 구리 광석 8개. 기술 50에 Hammer and Plate, 125에 Grandmaster Armorcrafting이 기다린다.',
+    'ironlink 단 이상은 모두 걸작을 굴린다. 방어도뿐인 구리 단 일반품은 발동하지 않는다. 철은 재료 1단계, 문양강철은 2단계. 경로는 정석 세 단, 구리로 25, ironlink로 50, osmiumscale로 75. 75 이후의 행운은 가마비늘 망토다. 3단 제조법이라 99까지 전속, 이후 절반이니 마지막 50점이 150회가 아니라 약 75회로 끝난다. 한 벌에 오스뮴 7개와 Smithing Flux 5개, Thornpeak과 대장간 계산대에서 미리 쟁여 두자. Darva의 주문은 30분마다 구리 광석 8개. 기술 50에 Hammer and Plate, 125에 Grandmaster Armorcrafting이 기다린다.',
   'guide.profPages.craftProse.tailoring.identityHeading': '시전자의 천, 모두의 가방',
   'guide.profPages.craftProse.tailoring.identityBody':
-    "사다리는 homespun 기본에서 gildenweave 세트를 거쳐 희귀 단의 Silkbinder's Raiment와 sunweave로 오른다. 두 번째 장사는 만인의 것이다. Silkspun Satchel은 10칸 가방이고, 가방 자리를 마다할 직업도 레벨도 없다. 재봉은 가죽세공과 각인 사이에 있다. 살아 있는 짝은 의복 장인(가죽세공과 재봉)으로 Eastbrook 베틀 곁의 Weaver Ottilie 앞에서 webwood 거미 네 마리를 잡아 실을 바치고 맹세한다. 각인과 이루는 Inkweaver는 각인의 첫 제조법을 기다린다.",
+    "사다리는 homespun 기본에서 도금직조 세트를 거쳐 희귀 단의 Silkbinder's Raiment와 sunweave로 오른다. 두 번째 장사는 만인의 것이다. Silkspun Satchel은 10칸 가방이고, 가방 자리를 마다할 직업도 레벨도 없다. 재봉은 가죽세공과 각인 사이에 있다. 살아 있는 짝은 의복 장인(가죽세공과 재봉)으로 Eastbrook 베틀 곁의 Weaver Ottilie 앞에서 webwood 거미 네 마리를 잡아 실을 바치고 맹세한다. 각인과 이루는 Inkweaver는 각인의 첫 제조법을 기다린다.",
   'guide.profPages.craftProse.tailoring.materialsHeading': '실과 비단, 그리고 약초',
   'guide.profPages.craftProse.tailoring.materialsBody':
-    "베틀은 사냥의 전리품과 들판의 소출로 돈다. 아마 조각과 홈스펀 천은 인간형에게서, 거미줄은 거미 사체에서 나오고, 희귀 단의 핵심 Silkbinder's Raiment는 Pristine Silk(사체 채집의 서명 표본)를 원한다. 약초학은 어느 장비 기술보다 재봉을 살찌운다. sheenleaf가 신발을 장식하고, goldleaf가 gildenweave를 물들이며, sunpetal이 희귀 단 전체를 꿰맨다. Spool of Thread는 Ottilie에게 12동이고, 베틀은 금속을 전혀 요구하지 않으며 Wardweave Cowl 정점품조차 premium herbs, Pristine Silk, 거미줄, 실로 짜인다.",
+    "베틀은 사냥의 전리품과 들판의 소출로 돈다. 아마 조각과 홈스펀 천은 인간형에게서, 거미줄은 거미 사체에서 나오고, 희귀 단의 핵심 Silkbinder's Raiment는 Pristine Silk(사체 채집의 서명 표본)를 원한다. 약초학은 어느 장비 기술보다 재봉을 살찌운다. 윤광잎이 신발을 장식하고, goldleaf가 도금직조를 물들이며, sunpetal이 희귀 단 전체를 꿰맨다. Spool of Thread는 Ottilie에게 12동이고, 베틀은 금속을 전혀 요구하지 않으며 Wardweave Cowl 정점품조차 premium herbs, Pristine Silk, 거미줄, 실로 짜인다.",
   'guide.profPages.craftProse.tailoring.ladderHeading': 'Ottilie의 베틀에서 배우기',
   'guide.profPages.craftProse.tailoring.ladderBody':
-    '야외 일반품 두 벌(Eastbrook Wool Trousers와 Ritual Vestments)은 어디서든 만든다. 수련 사다리는 Eastbrook 우물 남쪽 베틀에서 돈다. homespun 단은 기술 0에 무료, gildenweave 단(Silkspun Satchel 포함)은 기술 25에 각 25은, 희귀 단은 기술 50에 각 1금. Wardweave Cowl은 스승이 필요 없다. 모두가 알지만 기술 75에 베틀 전용, 이 기술의 3단 마무리다. 어디서나 그렇듯 단이 닿으면 Ottilie가 바로 가르쳐 준다.',
+    '야외 일반품 두 벌(Eastbrook Wool Trousers와 Ritual Vestments)은 어디서든 만든다. 수련 사다리는 Eastbrook 우물 남쪽 베틀에서 돈다. homespun 단은 기술 0에 무료, 도금직조 단(Silkspun Satchel 포함)은 기술 25에 각 25은, 희귀 단은 기술 50에 각 1금. Wardweave Cowl은 스승이 필요 없다. 모두가 알지만 기술 75에 베틀 전용, 이 기술의 3단 마무리다. 어디서나 그렇듯 단이 닿으면 Ottilie가 바로 가르쳐 준다.',
   'guide.profPages.craftProse.tailoring.routeHeading': '걸작, 그리고 125까지의 길',
   'guide.profPages.craftProse.tailoring.routeBody':
-    '로브 속 Pristine Silk 하나로 서명 재료 보너스가 채워지고, goldleaf와 sunpetal은 각각 재료 1, 2단계로 세니 희귀 단이 발동 확률의 정점이다. 가방처럼 능력치 없는 물건은 절대 발동하지 않는다. 경로는 homespun으로 25, gildenweave로 50, 희귀 단으로 75. 75부터는 Wardweave Cowl(3단 제조법, 99까지 전속, 이후 절반)이 이어받아 마지막 50점이 약 75회, 한 번에 Pristine Silk 2개, 거미줄 4가닥, sunpetal과 goldleaf 약초 각 2, 실 2다. 가방은 말 그대로 모두에게 팔리고, Ottilie의 주문은 30분마다 거미줄 6가닥을 사 준다. 기술 50에 A Fine Seam, 125에 Grandmaster Tailoring이 기다린다.',
+    '로브 속 Pristine Silk 하나로 서명 재료 보너스가 채워지고, goldleaf와 sunpetal은 각각 재료 1, 2단계로 세니 희귀 단이 발동 확률의 정점이다. 가방처럼 능력치 없는 물건은 절대 발동하지 않는다. 경로는 homespun으로 25, 도금직조로 50, 희귀 단으로 75. 75부터는 Wardweave Cowl(3단 제조법, 99까지 전속, 이후 절반)이 이어받아 마지막 50점이 약 75회, 한 번에 Pristine Silk 2개, 거미줄 4가닥, sunpetal과 goldleaf 약초 각 2, 실 2다. 가방은 말 그대로 모두에게 팔리고, Ottilie의 주문은 30분마다 거미줄 6가닥을 사 준다. 기술 50에 A Fine Seam, 125에 Grandmaster Tailoring이 기다린다.',
   'guide.profPages.craftProse.leatherworking.identityHeading': '날랜 자들의 가죽',
   'guide.profPages.craftProse.leatherworking.identityBody':
     "사다리는 소박한 Fenbridge 생가죽 다리 보호구, 장화, 허리띠에서 고급 marshstalker 셋을 거쳐 장인이 잘라 낼 수 있는 최고의 가죽인 희귀 mirewarden 세트로 오른다. 시전자용 두 벌, 야외 일반품 Eastbrook Druid's Hide와 기술 75의 Duskhide Wraps가 진용을 채운다. 요리와 재봉 사이에 있으며, 살아 있는 짝은 Eastbrook의 Weaver Ottilie 앞에서 맹세하는 의복 장인이고, 요리와 이루는 Trapper는 아직 서약 퀘스트가 없다.",
@@ -8998,19 +8998,19 @@ export const ko_KR: Partial<Record<TranslationKey, string>> = {
     '이 기술은 Highwatch의 약방에서 이루어진다. 주인은 Alchemist Verane. 제조법 사다리를 가르치고, Glass Vial을 12동에 팔며, 작업 주문으로 약초 값을 치른다. 연금술은 시행착오 기술들 곁에 있어 한쪽은 기계공학, 다른 쪽은 요리다. 그래서 짝이 둘이다. 폭격수(기계공학과 연금술, Eastbrook의 Tinker Gizzel 앞에서)와 약제사(연금술과 요리, Cook Marlow 앞에서). 어느 쪽이든 조율하면 연금술이 주 전공이 되어 상한까지 열린다. 그 전까지는 여느 미서약 기술처럼 희귀 단계까지 일한다.',
   'guide.profPages.craftProse.alchemy.materialsHeading': '약초, 독샘, 유리',
   'guide.profPages.craftProse.alchemy.materialsBody':
-    '어느 물약이든 Glass Vial 하나에 단에 맞는 약초가 든다. sheenleaf는 Eastbrook Vale에, goldleaf는 Mirefen Marsh에, sunpetal은 Thornpeak Heights에 자란다. 한 지역에 한 약초, 병은 세계와 함께 오른다. 약초학이 타고난 짝 기술이지만 채집가나 시장에서 사도 무방하다. 깊은 지역의 상위 약초밭은 더 좋은 낫을 원하니 직접 꺾을 거라면 도구를 최신으로. 강장제 계열엔 사냥꾼의 재료가 더해진다. 독 있는 사체에서 채집하는 Venom Gland, 그리고 정점의 강장제가 원하는 Pristine Venom Gland(서명된 희귀 표본)다.',
+    '어느 물약이든 Glass Vial 하나에 단에 맞는 약초가 든다. 윤광잎은 Eastbrook Vale에, goldleaf는 Mirefen Marsh에, sunpetal은 Thornpeak Heights에 자란다. 한 지역에 한 약초, 병은 세계와 함께 오른다. 약초학이 타고난 짝 기술이지만 채집가나 시장에서 사도 무방하다. 깊은 지역의 상위 약초밭은 더 좋은 낫을 원하니 직접 꺾을 거라면 도구를 최신으로. 강장제 계열엔 사냥꾼의 재료가 더해진다. 독 있는 사체에서 채집하는 Venom Gland, 그리고 정점의 강장제가 원하는 Pristine Venom Gland(서명된 희귀 표본)다.',
   'guide.profPages.craftProse.alchemy.ladderHeading': '제조법 사다리',
   'guide.profPages.craftProse.alchemy.ladderBody':
-    'Minor Healing Potion은 모두가 처음부터 알고 어디서든 섞는다. 진짜 사다리는 Verane이 약방에서 가르치는 아홉 제조법, 단마다 셋이다. 기술 0 단은 무료, 25 단은 각 25은, 50 단은 각 1금. 각 단은 치유 물약, 마나 물약, 체력 강장제로, 일반 sheenleaf 병(생명 120, 마나 160)에서 고급 goldleaf(200과 260), 희귀 sunpetal(280과 360)로 오른다. 강장제도 같이 오른다. Elixir of the Boar는 체력 6을 10분, Vipersear Elixir는 9를 15분, Elixir of the Serpent는 12를 15분에 한 번에 두 병. 옆길에 합작 하나, Elixir of the Bear. 연금 25에 Verane이 25은에 가르치고 어디서든 섞을 수 있지만, 두 기술 25의 조율된 폭격수만 만든다.',
+    'Minor Healing Potion은 모두가 처음부터 알고 어디서든 섞는다. 진짜 사다리는 Verane이 약방에서 가르치는 아홉 제조법, 단마다 셋이다. 기술 0 단은 무료, 25 단은 각 25은, 50 단은 각 1금. 각 단은 치유 물약, 마나 물약, 체력 강장제로, 일반 윤광잎 병(생명 120, 마나 160)에서 고급 goldleaf(200과 260), 희귀 sunpetal(280과 360)로 오른다. 강장제도 같이 오른다. Elixir of the Boar는 체력 6을 10분, Vipersear Elixir는 9를 15분, Elixir of the Serpent는 12를 15분에 한 번에 두 병. 옆길에 합작 하나, Elixir of the Bear. 연금 25에 Verane이 25은에 가르치고 어디서든 섞을 수 있지만, 두 기술 25의 조율된 폭격수만 만든다.',
   'guide.profPages.craftProse.alchemy.routeHeading': '조제사의 125 길',
   'guide.profPages.craftProse.alchemy.routeBody':
-    '물약은 절대 걸작이 되지 않는다. 그것은 능력치 있는 장비의 몫이다. 그래도 이름은 여행한다. 희귀 sunpetal 물약은 한 병씩 빚어져 서명되어 나오고, 두 병짜리 Elixir of the Serpent는 무명으로 남는다. 기술 75에 특화하면 모든 연금 제조법의 재료가 20% 절약된다. 약초학을 일찍 배워 레벨링하며 꺾자. sheenleaf는 골짜기에 널렸고, Verane의 작업대에 닿으면 무료 단이 어차피 꺾었을 약초로 깔끔하게 25까지 데려간다. 25 단은 열리는 즉시 배우고, 채집을 늪의 goldleaf로 옮기고, Verane의 주문(Goldleaf Herb 여섯에 45동, 30분마다)으로 잔돈을 회수하자. 50부터는 Thornpeak 약초로 sunpetal 물약과 Serpent를 빚는다. 100에서 125는 의도된 가는 물줄기이니 숫자 때문에 약초를 태우지 말고 팔리는 것을 빚자. 기술 50에 Strange Brews, 상한에 Grandmaster Alchemy다.',
+    '물약은 절대 걸작이 되지 않는다. 그것은 능력치 있는 장비의 몫이다. 그래도 이름은 여행한다. 희귀 sunpetal 물약은 한 병씩 빚어져 서명되어 나오고, 두 병짜리 Elixir of the Serpent는 무명으로 남는다. 기술 75에 특화하면 모든 연금 제조법의 재료가 20% 절약된다. 약초학을 일찍 배워 레벨링하며 꺾자. 윤광잎은 골짜기에 널렸고, Verane의 작업대에 닿으면 무료 단이 어차피 꺾었을 약초로 깔끔하게 25까지 데려간다. 25 단은 열리는 즉시 배우고, 채집을 늪의 goldleaf로 옮기고, Verane의 주문(Goldleaf Herb 여섯에 45동, 30분마다)으로 잔돈을 회수하자. 50부터는 Thornpeak 약초로 sunpetal 물약과 Serpent를 빚는다. 100에서 125는 의도된 가는 물줄기이니 숫자 때문에 약초를 태우지 말고 팔리는 것을 빚자. 기술 50에 Strange Brews, 상한에 Grandmaster Alchemy다.',
   'guide.profPages.craftProse.engineering.identityHeading': '공구장이의 독점',
   'guide.profPages.craftProse.engineering.identityBody':
-    '이 기술은 Eastbrook 광장 남동쪽 모퉁이의 공작소에서 이루어진다. 주인은 Tinker Gizzel. 어느 공구 계열이든 1단계에서 3단계는 흔한 상점 물건이지만 4단계와 5단계는 기술자의 손에서만 나온다. 연금술과 방어구 제작 사이에 있고 짝은 폭격수(기계공학과 연금술)와 Gearwright(아직 맹세 불가)다. 무엇보다 중요한 경고 하나. 기계공학의 두 제조법 단 모두 취미와 미서약자가 일하는 희귀 단계 천장보다 위에 있어, 기술 수치는 기계공학을 주 전공으로 지닌 자, 오늘은 곧 폭격수에게만 오른다. 공구는 누구나 만들 수 있다. 조율하지 않은 이는 만들어도 아무것도 배우지 못할 뿐이다.',
+    '이 기술은 Eastbrook 광장 남동쪽 모퉁이의 공작소에서 이루어진다. 주인은 Tinker Gizzel. 어느 공구 계열이든 1단계에서 3단계는 흔한 상점 물건이지만 4단계와 5단계는 기술자의 손에서만 나온다. 연금술과 방어구 제작 사이에 있고 짝은 폭격수(기계공학과 연금술)와 기어장인(아직 맹세 불가)다. 무엇보다 중요한 경고 하나. 기계공학의 두 제조법 단 모두 취미와 미서약자가 일하는 희귀 단계 천장보다 위에 있어, 기술 수치는 기계공학을 주 전공으로 지닌 자, 오늘은 곧 폭격수에게만 오른다. 공구는 누구나 만들 수 있다. 조율하지 않은 이는 만들어도 아무것도 배우지 못할 뿐이다.',
   'guide.profPages.craftProse.engineering.materialsHeading': '재료와 이전 단계 공구',
   'guide.profPages.craftProse.engineering.materialsBody':
-    '모든 공구 제조법은 한 단계 아래 공구와 상급 재료를 삼킨다. Osmium Ore 4개와 Skysilver Mining Pick이 Osmium Mining Pick이 되고, Glyphsteel Bar 2개와 그 오스뮴 곡괭이가 Glyphsteel Mining Pick이 된다. 도끼와 낫 계열도 Ashwood와 Highpine Log, Goldleaf와 Sunpetal Herb로 같은 모양을 그린다. Gizzel이 공작소에 상급 재료 여섯을 모두 두지만, 광석과 통나무와 약초는 Mirefen Marsh와 Thornpeak Heights에서 캘 수 있고 이윤은 직접 캔 재고에 있다. 유일한 예외는 상점에만 있는 Glyphsteel Bar로, 문양강철급 공구마다 고정된 동전 바닥값을 깔아 준다.',
+    '모든 공구 제조법은 한 단계 아래 공구와 상급 재료를 삼킨다. 오스뮴 광석 4개와 천은 채광 곡괭이가 오스뮴 채광 곡괭이가 되고, 문양강철 주괴 2개와 그 오스뮴 곡괭이가 문양강철 채광 곡괭이가 된다. 도끼와 낫 계열도 Ashwood와 고산솔 통나무, Goldleaf와 Sunpetal 약초로 같은 모양을 그린다. Gizzel이 공작소에 상급 재료 여섯을 모두 두지만, 광석과 통나무와 약초는 Mirefen Marsh와 Thornpeak Heights에서 캘 수 있고 이윤은 직접 캔 재고에 있다. 유일한 예외는 상점에만 있는 문양강철 주괴로, 문양강철급 공구마다 고정된 동전 바닥값을 깔아 준다.',
   'guide.profPages.craftProse.engineering.ladderHeading': '공구 사다리',
   'guide.profPages.craftProse.engineering.ladderBody':
     '사다리 전체가 제조법 여섯뿐이다. 전부 공작소 전용에 자동 습득, 수련비는 영원히 없다. 기술 75에 4단계 곡괭이, 도끼, 낫, 기술 150에 5단계다. 150은 오타가 아니고 일부러 현 상한 125 위에 있다. 여기서 기술 요구치는 제작을 막지 않고 성장만 좌우하니, 재료와 4단계 전작이 손에 든 날 5단계 공구를 만들 수 있다. 완성품은 모두 희귀나 영웅 품질이고 출고부터 서명이 새겨져 있다. 기계공학은 합작 제조법의 반쪽도 맡는다. Elixir of the Bear, 두 기술 25의 조율된 폭격수가 빚는 물약이다.',

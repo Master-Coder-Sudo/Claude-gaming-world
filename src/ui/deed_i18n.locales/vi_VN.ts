@@ -429,7 +429,10 @@ export const table: DeedLocaleTable = {
     name: 'Khách Quen Hạng Nhất',
     desc: 'Khám phá đủ cả mười món hàng của Quân Nhu Trưởng Vex.',
   },
-  col_glimmerfin: { name: 'Tia Hy Vọng Lấp Lánh' },
+  col_glimmerfin: {
+    name: 'Tia Hy Vọng Lấp Lánh',
+    desc: 'Câu được một Cá Koi Ánh Nắng.',
+  },
   col_full_creel: {
     name: 'Giỏ Cá Đầy Ắp',
     desc: 'Khám phá đủ sáu loại cá thường từ vùng nước của Thung Lũng, Đầm Lầy và Cao Nguyên.',
@@ -617,7 +620,10 @@ export const table: DeedLocaleTable = {
     name: 'Thứ Gì Đó Lấp Lánh',
     desc: 'Nhặt một vật thể lấp lánh trên mặt đất.',
   },
-  exp_first_ore: { name: 'Cuốc Vỡ Đất', desc: 'Thu hoạch mạch quặng đầu tiên của bạn.' },
+  exp_first_ore: {
+    name: 'Cuốc Chạm Đá',
+    desc: 'Thu hoạch mạch quặng đầu tiên của bạn.',
+  },
   exp_first_timber: { name: 'Cây Đổ Đấy!', desc: 'Thu hoạch cụm gỗ đầu tiên của bạn.' },
   exp_first_herb: { name: 'Mát Tay', desc: 'Thu hoạch bụi thảo dược đầu tiên của bạn.' },
   feat_era_cap: {
@@ -694,9 +700,9 @@ export const table: DeedLocaleTable = {
     desc: 'Câu một con cá từ vùng nước của Đầm Lầy Bùn Sâu.',
   },
   prog_guildsworn: {
-    name: 'Thề Nguyện Hiệp Hội',
+    name: 'Thề Nguyện Thủ Công',
     desc: 'Gắn kết bản thân với một đôi kiểu mẫu và dấn thân vào các nghề của nó một cách thực sự.',
-    title: 'Thề Nguyện Hiệp Hội',
+    title: 'Thề Nguyện Thủ Công',
   },
   prog_masterwright: {
     name: 'Thợ Đại Tài',

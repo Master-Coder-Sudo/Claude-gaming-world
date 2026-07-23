@@ -386,7 +386,10 @@ export const table: DeedLocaleTable = {
     name: 'Stamkunde',
     desc: 'Opdag alle ti dele af den Heroiske Kvartermesters lager.',
   },
-  col_glimmerfin: { name: 'Et Glimt af Håb' },
+  col_glimmerfin: {
+    name: 'Et Glimt af Håb',
+    desc: 'Fang en Solglimt-Koikarpe.',
+  },
   col_full_creel: {
     name: 'Fyldt Fiskekurv',
     desc: 'Opdag alle seks almindelige fangster fra Dalens, Sumpens og Højdernes vande.',
@@ -553,7 +556,10 @@ export const table: DeedLocaleTable = {
     name: 'Noget, der Glimter',
     desc: 'Saml en funklende genstand op fra jorden.',
   },
-  exp_first_ore: { name: 'Hak i Klippen', desc: 'Høst din første malmforekomst.' },
+  exp_first_ore: {
+    name: 'Hakken Moder Klippen',
+    desc: 'Høst din første malmforekomst.',
+  },
   exp_first_timber: { name: 'Træet Falder!', desc: 'Høst din første træforekomst.' },
   exp_first_herb: { name: 'Grønne Fingre', desc: 'Høst din første urteforekomst.' },
   feat_era_cap: {
@@ -624,9 +630,9 @@ export const table: DeedLocaleTable = {
   },
   chr_marsh_first_cast: { name: 'Ål i Sivene', desc: 'Fang en fisk i Mosekær Sumps vande.' },
   prog_guildsworn: {
-    name: 'Laugssvoren',
+    name: 'Håndværkssvoren',
     desc: 'Stem dig ind på et arketypepar og tag dets håndværk op i fuldt alvor.',
-    title: 'Laugssvoren',
+    title: 'Håndværkssvoren',
   },
   prog_masterwright: {
     name: 'Mesterbygger',

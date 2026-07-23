@@ -2152,12 +2152,12 @@ export const da_DK: EnTranslations = {
       "alchemy+cooking": "Apoteker",
       "cooking+leatherworking": "Fældefanger",
       "leatherworking+tailoring": "Udstyrer",
-      "tailoring+inscription": "Trolddomsvæver",
+      "tailoring+inscription": "Troldvæver",
       "inscription+enchanting": "Arkanist",
       "enchanting+jewelcrafting": "Edelstenbinder",
       "jewelcrafting+weaponcrafting": "Klingesmed",
       "weaponcrafting+armorcrafting": "Smed",
-      "armorcrafting+engineering": "Tandhjulsmed"
+      "armorcrafting+engineering": "Tandhjulsbygger"
     },
     "craftName": {
       "armorcrafting": "Rustningsfremstilling",
@@ -2241,6 +2241,7 @@ export const da_DK: EnTranslations = {
       "tutorialLine": "Opnå {target} færdigheder i ethvert håndværk for at låse op for dit første niveau.",
       "ctaHeader": "Næste skridt",
       "ctaRaise": "Fortsæt med at hæve {craft}: {points} point mere til næste niveau.",
+      "ctaRaiseSpecialized": "Bliv ved med at hæve {craft}: {points} point mere til Specialiseret, og materialeomkostningerne falder.",
       "ctaStart": "Fremstil eller indsaml med et hvilket som helst erhverv for at begynde.",
       "unattunedIdentity": "Du er endnu ikke indstillet på en arketype. Hæv dit håndværk og fuldfør en afstemning for at vælge dit par.",
       "nudgeNearTier": "{craft}: {points} point fra næste niveau",
@@ -3611,15 +3612,15 @@ export const da_DK: EnTranslations = {
     "professions": {
       "intro": "Ud over kamp og opdrag belønner verden dig for at arbejde med jorden og essen: at samle råmaterialer, forvandle dem til udstyr og varer på tværs af ti håndværksfag og finde sig til rette i en identitet som en af de ti arketyper, fagene står for.",
       "harvestTitle": "At høste selve jagten",
-      "harvestBody": "Indsamling stopper ikke ved forekomster. Nogle dræbte bæster kan høstes for komponenter, skind, hugtænder, silke og mærkeligere ting, direkte fra liget ved siden af dets almindelige bytte. Én høster pr. drab: den, der høster først, får det hele. Valget er også dit hver gang: strip alt, hvad liget tilbyder, eller koncentrer dig om en enkelt komponent og tag en finere grad af den. Enhver karakter kan høste, uden fag eller oplæring, og en særligt fin komponent bærer endda navnet på den, der høstede den.",
+      "harvestBody": "Indsamling stopper ikke ved ressourcekilder. Mange dræbte bæster kan høstes én gang hver, den der kommer først betjenes først, for skind, huggtænder, silke og kød direkte fra liget ved siden af dets almindelige bytte; ét tryk åbner begge. Valget er dit hver gang: strip alt, liget byder på, eller koncentrer dig om færre komponenter og tag en mærkbart finere kvalitet af det, du faktisk tager.\n\nEt sjælden eller bedre høsteresultat på en prøve-bærende familie giver også et signeret perfekt eksemplar (et Uberørt Skind, Uberørt Silke, Uberørt Giftkirtel eller Førsteklasses Udskæring) oven i det ordinære udbytte og optegner Et Perfekt Eksemplar i din Bedrifternes Bog. Enhver karakter kan høste, ingen træning kræves, og ethvert indsamlingsredskab, du ejer, tæller mod premium-armen, uanset hvilket håndværk det tilhører.",
       "focusTitle": "Byfokus",
       "focusBody": "Hver hjemmebase har et Byfokus-panel for besøgende høstere: stå i byen, åbn det ved siden af minikortet, og ret et lille budget af fokuspoint mod de komponenttyper, du bryder dig om. Jo mere fokus du giver en komponent, jo finere og rigere kommer den af hvert senere lig; din fordeling følger din karakter, hvor end den færdes, og du kan omarbejde den, gratis, ved ethvert senere besøg i byen.",
       "craftHowTitle": "Håndværksvinduet",
-      "craftMasteryTitle": "Færdighed og mesterskab",
-      "craftMasteryBody": "Vellykket håndværk opbygger færdighed i faget, og færdighed låser aldrig et håndværks opskrifter væk: kender du en opskrift og har dens materialer, kan du forsøge dig. Hvad færdighed i stedet giver dig, er kvalitet, en øvet hånd frembringer finere arbejde. Den ene undtagelse er kombinationsopskrifter, der beder dig bevise dig selv i begge deres håndværk, før de åbner sig.",
-      "archetypeChooseTitle": "Valg af din arketype",
-      "archetypeChooseBody": "At erklære en arketype vil blive et historieøjeblik: et opdrag, der formelt optager dig i den identitet. Den vej er stadig under opbygning, så indtil videre vandrer hver karakter gennem verden med valget foran sig, og hvert håndværk avancerer til den sjældne kvalitetsgrad i mellemtiden.",
-      "archetypeSwitchBody": "En erklæring vil heller ikke være en livstidsdom. Planen er en gentagelig handling, hvor du gør bod over for dit gamle fag, før du tager et nyt op, og boden bliver stejlere for hver gang du skifter, så valget forbliver meningsfuldt frem for omkostningsfrit. Ligesom selve erklæringen er den stadig på vej.",
+      "craftMasteryTitle": "Hvor lang tid mesterskab tager",
+      "craftMasteryBody": "Ærlige forventninger: klatringen til et håndværks grænse på 125 er mindst 125 vellykkede fremstillinger, da enhver fuld-gevinst-fremstilling rykker dig præcis ét point, og i praksis noget mere, efterhånden som opskrifter falmer mellem trænertrin. Selve fremstillingen er hurtig; at forsyne den er den egentlige rejse, så afsæt et par dedikerede aftener med indsamling og fremstilling pr. håndværk.\n\nIndsamlingshåndværkene når deres grænse på 100 i løbet af en normal oplevelsesrejse, hvis du høster, mens du rejser, omend den sidste strækning kræver de høje niveaukilder langt mod nord. Fiskeri er af design den lange vej: efter sin egen gevinst-tidsplan er 200 færdighed mere end tre tusind fangster. Mesterangler er en titel, der optjenes over en sæson af stille aftener, ikke en weekend.",
+      "archetypeChooseTitle": "Laugets brev, og at skifte mening",
+      "archetypeChooseBody": "Du behøver ikke at opsøge noget af dette. Arbejd dine håndværk, og når dine håndværksfærdigheder første gang viser en tydelig hældning mod ét par, lægger Håndværkerlauget mærke til det og sender et Ravnepostbrev med navn på den mester, du skal opsøge, og den opgave, du skal tage. Det ankommer én gang pr. karakter og kun hvis du ikke allerede har svoret dig til et par.",
+      "archetypeSwitchBody": "En erklæring er heller ikke en livstidsdom. Et par, du aldrig har holdt, er blot en frisk stemningsopgave, mens en tilbagevenden til et par, du forlod, kræver, at du gør op for dig først: fem opgaver første gang, og tre mere for hvert skift, du allerede har foretaget. Valget forbliver meningsfuldt uden nogensinde at lukke en dør for altid.",
       "whatHeading": "Et håndværk ved siden af sværdet",
       "whatBody": "Professioner er verdens arbejdsliv: fire indsamlingsfag, der trækker råmaterialer direkte ud af landet, og en ring af ti håndværk, der omdanner dem til udstyr, måltider, drikke og værktøjer. Alt fodrer noget andet her. Det malm, du miner, bliver et sværd, sværdet tager en fortryllelse, og fortryllelsen har brug for støv brudt ud af gammelt udstyr, så en indsamler, en håndværker og en pusler er alle led i én kæde.\n\nDer er ingen professionsgrænse at kvæles over. Enhver karakter kan hæve alle otte håndværk med indhold i dag og alle fire indsamlingsprofessioner side om side; det eneste eksklusive valg er din arketype, den identitet du til sidst sværger dig til, selvom de håndværk, der falder inaktive bag den, stopper med at klatre, når du stemmer ind. Færdighed falder aldrig, og intet, du lærer, tages nogensinde fra dig.",
       "ringHeading": "Håndværksringen",
@@ -3639,7 +3640,7 @@ export const da_DK: EnTranslations = {
       "stationsHeading": "Stationer og de tre knudepunkter",
       "stationsBody": "Seks typede stationer betjener de syv stationsbundne håndværk, spredt over de tre by-knudepunkter. Østbæk rummer essen (Våbensmedning og Rustningssmedning deler den), køkkenerne, vævsstolen og værkstedet; Fenbridge har garveriet, og Højvagt apoteket. Hver station har en tilstedeværende mester ved siden af, der underviser opskrifter, slår arbejdsopgaver op og tilbyder aflæsningstjenesten.\n\nArbejdsradien er 20 yards, omtrent stationens eget gårdrum, så du fremstiller stående ved amboltene frem for fra den anden side af byen. Juvelkunst, Inskription og Fortryllelse har ingen station: de to første afventer deres opskrifter, og Fortryllelse virker overalt af design.",
       "deedsHeading": "Bedrifter, der husker rejsen",
-      "deedsBody": "Bedrifternes Bog går ved siden af hvert skridt af dette. Din første afstemning optjener Laugssvoren og dit første mesterværk optjener Mesterbygger, begge kan bæres som titler. Hvert af de otte optjenbare håndværk markerer en milepæls-bedrift ved 50 færdighed og kroner sin grænse med en Grandmestertitel, mens Fiskeri får Gammel Søulk ved 100 færdighed og Mesterangler-titlen ved 200.\n\nDer er stille sider også: bedrifter for din første høst og første fremstilling, for de sjældne fund, som held bringer frem i felten, og for at tage fat på ophug. Alt dette er kosmetisk, titler og Hæder alene. En bedrift giver aldrig magt; den beviser kun, at du var der.",
+      "deedsBody": "Bedrifternes Bog går ved siden af hvert skridt af dette. Din første afstemning optjener Håndværkssvoren og dit første mesterværk optjener Mesterbygger, begge kan bæres som titler. Hvert af de otte optjenbare håndværk markerer en milepæls-bedrift ved 50 færdighed og kroner sin grænse med en Grandmestertitel, mens Fiskeri får Gammel Søulk ved 100 færdighed og Mesterangler-titlen ved 200.\n\nDer er stille sider også: bedrifter for din første høst og første fremstilling, for de sjældne fund, som held bringer frem i felten, og for at tage fat på ophug. Alt dette er kosmetisk, titler og Hæder alene. En bedrift giver aldrig magt; den beviser kun, at du var der.",
       "startHeading": "Hvor du begynder",
       "startBody": "Frisk ankommet til Østbæk? Find Formand Odell og tag Et Håndværk til Hver Hånd: han peger dig mod malmårerne omkring Kobbergraven sydvest for byen og giver dig dine første hårde hænder. Fra da af, høst enhver åre, tømmerstamme og urterand, du passerer, mens du løser opgaver; færdighed kommer naturligt til rejsende.\n\nTilbage i byen trykker du T for at åbne håndværksvinduet og arbejde de almindelige opskrifter, enhver karakter kender fra starten. Besøg mestrene ved essen, køkkenerne, vævsstolen og værkstedet for at se, hvad de underviser, og tag deres arbejdsopgaver for stabil møntindtægt. Inden Laugets brev finder dig, vil du allerede vide, hvilket par der føles som hjemme.",
       "colStation": "Station",
@@ -3680,9 +3681,9 @@ export const da_DK: EnTranslations = {
       "colNodeTier": "Ressourceniveau",
       "colToolNeeded": "Redskab krævet",
       "craftIntro": {
-        "weaponcrafting": "Våbensmedning er våbenbænken på Østbæks smedje: økser, køller, klinger, spyd og endda en troldmands stav, fra kobberstartere til sjælden thorium- og arkanitarbejde. Et våben er den mest mærkbare opgradering et niveau kan købe, så en våbensmed er den ven, alle husker at skaffe sig.",
-        "armorcrafting": "Rustningssmedning hamrer ringbrynje, den tungeste rustning en håndværker kan fremstille, fra nittet kobber-basis til det sjældne thoriumskæl-sæt, med et par trolddomsstatistik-stykker på siden. Dens kunder er dem, der står der, hvor slagene lander.",
-        "tailoring": "Skrædderkunst væver det Intellekt- og Ånd-klæde, som troldmænd lever i, fra grovvævet basis over guldvæv-sættet til sjælden solvæv-arbejde, og syr Silkebundet Taske, en ti-pladser som ingen nogensinde afviser.",
+        "weaponcrafting": "Våbensmedning er våbenbænken på Østbæks smedje: økser, køller, klinger, spyd og endda en troldmands stav, fra kobberstartere til sjælden osmium- og glyfstålarbejde. Et våben er den mest mærkbare opgradering et niveau kan købe, så en våbensmed er den ven, alle husker at skaffe sig.",
+        "armorcrafting": "Rustningssmedning hamrer ringbrynje, den tungeste rustning en håndværker kan fremstille, fra nittet kobber-basis til det sjældne osmiumskæl-sæt, med et par trolddomsstatistik-stykker på siden. Dens kunder er dem, der står der, hvor slagene lander.",
+        "tailoring": "Skrædderkunst væver det Intellekt- og Ånd-klæde, som troldmænd lever i, fra grovvævet basis over gyldenvæv-sættet til sjælden solvæv-arbejde, og syr Silkebundet Taske, en ti-pladser som ingen nogensinde afviser.",
         "leatherworking": "Lærbearbejdning garver Smidighed- og Udholdenhedsudstyr til de klasser, der undviger frem for at blokere, fra Fenbro-skind-basis til det sjældne sumpvogter-sæt, og det er det ene dybe håndværk, der trænes ude i mosen.",
         "cooking": "Madlavning forvandler dagens fangst til måltider med siddeplads, der heler over 18 sekunders hvile, den billigste heling i spillet, fra Saltet Rykkekød hele vejen til Marlows Store Steg. Alle spiser, så intet håndværk er mere universelt velkomment i en gruppe.",
         "alchemy": "Alkymi forvandler urter, kirtler og glas til flasker, der vinder kampe: helbreds- og manadrikke til det øjeblik, tingene går galt, og udholdenhedsmikstur der sidder på din forstærkningsbjælke gennem hele en fangekælder.",
@@ -3692,43 +3693,43 @@ export const da_DK: EnTranslations = {
       "craftProse": {
         "weaponcrafting": {
           "identityHeading": "Eggen enhver kæmper handler efter",
-          "identityBody": "Nogen i enhver gruppe vil have dette håndværks arbejde, for det sjældne trin alene dækker alle tre appetitter: Thorium-Krigsklingen til Styrke-nærkamp, Arkanit-Krigsøksen til Smidigheds-krigere, og Gammeltræets Kampstav, en Intellekt og Ånd-stav til kåbeklædte.\n\nPå håndværkshjulet står det mellem Rustningssmedning og Juvelkunst. Dens levende identitet er Smed, Våbensmedning og Rustningssmedning-parret, svoret over for Smedemester Darva ved smedjen ved at bearbejde tre malmårer med egne hænder; Klingesmeds-parret med Juvelkunst er også navngivet på hjulet, men kan endnu ikke sværges, da Juvelkunst ikke sender nogen opskrifter til en senere zone-udvidelse.",
+          "identityBody": "Nogen i enhver gruppe vil have dette håndværks arbejde, for det sjældne trin alene dækker alle tre appetitter: Osmium-Krigsklingen til Styrke-nærkamp, Glyfstål-Krigsøksen til Smidigheds-krigere, og Højfyrre-Kampstaven, en Intellekt og Ånd-stav til kåbeklædte.\n\nPå håndværkshjulet står det mellem Rustningssmedning og Juvelkunst. Dens levende identitet er Smed, Våbensmedning og Rustningssmedning-parret, svoret over for Smedemester Darva ved smedjen ved at bearbejde tre malmårer med egne hænder; Klingesmeds-parret med Juvelkunst er også navngivet på hjulet, men kan endnu ikke sværges, da Juvelkunst ikke sender nogen opskrifter til en senere zone-udvidelse.",
           "materialsHeading": "Hvad smedjen fortærer",
-          "materialsBody": "Minedrift er rygraden. Kobbermalm kommer fra niveau 1-årer i Østbæk-Dalen, jernmalm fra Mirefen-Mosen, og thoriummalm fra Tornetop-Højderne, og hvert trin på stigen følger det samme mønster opad. Skovhugst betyder mere, end du måske forventer: jernbark udgør spydstokken på vildsvinespydet, asketræ bærer slaghammerens skæft, og en enkelt Gammeltræsstok danner kampstaven.\n\nResten kommer fra jagten og disken. Råt skind til grebet høstes direkte fra ulve- og vildsvinekadavere, knoglefragmenter falder fra hverdagsdrab, og smedjetrappen brænder Smedjeflux, 20 kobber pr. krukke hos Darva selv. Hvis din egen minedrift halter bagud, sælger Darva thoriummalm ved smedjen og Tinker Gizzel lagerfører arkanitbarer ved værktøjsværket, til en pris der gør indsamlingsvenner til et godt køb.",
+          "materialsBody": "Minedrift er rygraden. Kobbermalm kommer fra niveau 1-årer i Østbæk-Dalen, jernmalm fra Mirefen-Mosen, og osmiummalm fra Tornetop-Højderne, og hvert trin på stigen følger det samme mønster opad. Skovhugst betyder mere, end du måske forventer: jernbark udgør spydstokken på vildsvinespydet, asketræ bærer slaghammerens skæft, og en enkelt højfyrrestamme danner kampstaven.\n\nResten kommer fra jagten og disken. Råt skind til grebet høstes direkte fra ulve- og vildsvinekadavere, knoglefragmenter falder fra hverdagsdrab, og smedjetrappen brænder Smedjeflux, 20 kobber pr. krukke hos Darva selv. Hvis din egen minedrift halter bagud, sælger Darva osmiummalm ved smedjen og Opfinder Gizzel lagerfører glyfstålbarer ved værktøjsværket, til en pris der gør indsamlingsvenner til et godt køb.",
           "ladderHeading": "Stigen, trin for trin",
-          "ladderBody": "En marksopskrift, det Østbækske Armeringssværd, kendes af alle fra starten og fremstilles overalt fra jagtudbyttet (et par ulve-huggtænder og knoglefragmenter) plus seks Smedjeflux fra smeddisken. Den rigtige stige er ni læreopskrifter i tre trin, alle smedjebundne: kobber-trinnet (skægsøkse, flanget kølle, vildsvinespyd) er gratis at lære ved færdighed 0, jerntrinnet (langsværd, stridshammer, dolk) åbner ved færdighed 25 for 25 sølv per opskrift, og thorium-trinnet (krigsklingen, krigsøksen, kampstaven) åbner ved færdighed 50 for 1 guld per opskrift. Darva underviser en opskrift, så snart dit niveau i håndværket når dens eget, så hvert trin låses op præcis, når dets færdighedsbånd begynder.\n\nEndnu en opskrift bærer parret: Gravormens Handsker, et lærer-undervist kombinationsstykke, som kun en indstillet Smed med begge Våbensmedning og Rustningssmedning på færdighed 25 kan arbejde med, og det kræver ingen station overhovedet.",
+          "ladderBody": "En marksopskrift, det Østbækske Armeringssværd, kendes af alle fra starten og fremstilles overalt fra jagtudbyttet (et par ulve-huggtænder og knoglefragmenter) plus seks Smedjeflux fra smeddisken. Den rigtige stige er ni læreopskrifter i tre trin, alle smedjebundne: kobber-trinnet (skægsøkse, flanget kølle, vildsvinespyd) er gratis at lære ved færdighed 0, jerntrinnet (langsværd, stridshammer, dolk) åbner ved færdighed 25 for 25 sølv per opskrift, og osmium-trinnet (krigsklingen, krigsøksen, kampstaven) åbner ved færdighed 50 for 1 guld per opskrift. Darva underviser en opskrift, så snart dit niveau i håndværket når dens eget, så hvert trin låses op præcis, når dets færdighedsbånd begynder.\n\nEndnu en opskrift bærer parret: Gravormens Handsker, et lærer-undervist kombinationsstykke, som kun en indstillet Smed med begge Våbensmedning og Rustningssmedning på færdighed 25 kan arbejde med, og det kræver ingen station overhovedet.",
           "routeHeading": "Mesterværker, og en arbejdende rute til 125",
-          "routeBody": "Ethvert stykke med en rigtig statistiklinje, hvilket på denne stige betyder jerntrinnet og opefter, kan komme fra ambolten som et mesterværk; de statistikløse kobberalmenvæsenerne frembringer aldrig et, fordi der ikke er noget i dem at forbedre. Jern tæller som et niveau 1-materiale til mesterværksbonussen, Gammeltræ og arkanit som niveau 2, så det øverste trin frembringer lidt oftere.\n\nRid kobbertrinnet til 25, træn jerntrinnet den dag det åbner og rid det til 50, derefter thoriumtrinnet til 75. Ud over 75 er intet højere klar endnu, så thorium-opskrifterne fader til halvt og derefter kvartsgevinst: budgetér med ca. 150 håndværk mere for at nå loftet på 125, og husk den delte begrænsning på ti håndværkshandlinger pr. minut, når du sætter dig til at lave en batch.\n\nFinansier klatringen efterhånden: Darvas smedjearbejdsordre tager otte kobbermalm fra dine hænder hvert 30. minut mod lidt mønt og XP, og jern- og thoriumtrinnet sælger ærligt til levelende nærkampsfægtere. Bedrifternes Bog markerer Æg og Hærde ved færdighed 50 og kroner Stormester i Våbensmedning ved 125."
+          "routeBody": "Ethvert stykke med en rigtig statistiklinje, hvilket på denne stige betyder jerntrinnet og opefter, kan komme fra ambolten som et mesterværk; de statistikløse kobberalmenvæsenerne frembringer aldrig et, fordi der ikke er noget i dem at forbedre. Jern tæller som et niveau 1-materiale til mesterværksbonussen, Højfyrre og glyfstål som niveau 2, så det øverste trin frembringer lidt oftere.\n\nRid kobbertrinnet til 25, træn jerntrinnet den dag det åbner og rid det til 50, derefter osmiumtrinnet til 75. Ud over 75 er intet højere klar endnu, så osmium-opskrifterne fader til halvt og derefter kvartsgevinst: budgetér med ca. 150 håndværk mere for at nå loftet på 125, og husk den delte begrænsning på ti håndværkshandlinger pr. minut, når du sætter dig til at lave en batch.\n\nFinansier klatringen efterhånden: Darvas smedjearbejdsordre tager otte kobbermalm fra dine hænder hvert 30. minut mod lidt mønt og XP, og jern- og osmiumtrinnet sælger ærligt til levelende nærkampsfægtere. Bedrifternes Bog markerer Æg og Hærde ved færdighed 50 og kroner Stormester i Våbensmedning ved 125."
         },
         "armorcrafting": {
           "identityHeading": "Ringbrynje til frontlinjen",
-          "identityBody": "Rustningssmedningens stige læses som en soldaters karriere: den enkle nittede kobberbælte, sabatons og handsker til at starte, jernkæde-brynje, benvogter og skulderplader med deres første rigtige statistiklinjer, og den sjældne thoriumskæl-storhjælm, kørease og benbeklædning, Styrke og Udholdenhedsstykker med de største rustningstal en håndværker kan lave.\n\nDen har også en mere stille side: Østbæks Vartede Benbeklædning, et trolddoms-statistik-fæltes almenvæsen, og Sodskæl-Kappe, en sjælden Intellekt og Ånd ringbrynje-skulder ved færdighed 75, holder den trolddomsorienterede ringbrynje-bærer på kunderlisten. På hjulet sidder det mellem Våbensmedning og Ingeniørkunst; Smedde-parret med Våbensmedning sværges over for Smedemester Darva, mens Tandhjulssmed-parret med Ingeniørkunst er navngivet men endnu ikke har en edquest.",
+          "identityBody": "Rustningssmedningens stige læses som en soldaters karriere: den enkle nittede kobberbælte, sabatons og handsker til at starte, jernkæde-brynje, benvogter og skulderplader med deres første rigtige statistiklinjer, og den sjældne osmiumskæl-storhjælm, kørease og benbeklædning, Styrke og Udholdenhedsstykker med de største rustningstal en håndværker kan lave.\n\nDen har også en mere stille side: Østbæks Vartede Benbeklædning, et trolddoms-statistik-fæltes almenvæsen, og Ovnskæl-Kappe, en sjælden Intellekt og Ånd ringbrynje-skulder ved færdighed 75, holder den trolddomsorienterede ringbrynje-bærer på kunderlisten. På hjulet sidder det mellem Våbensmedning og Ingeniørkunst; Smedde-parret med Våbensmedning sværges over for Smedemester Darva, mens Tandhjulsbygger-parret med Ingeniørkunst er navngivet men endnu ikke har en edquest.",
           "materialsHeading": "Malm i sækkevis",
-          "materialsBody": "Intet håndværk sluger malm hurtigere. Jernkæde-brynjen alene kræver fem jernmalm, og hvert thoriumskæl-stykke vil have tre eller fire thorium plus en arkanitbar, så en seriøs rustningsmed miner Mirefen-Mosen og Tornetop-Højderne eller betaler nogen, der gør det. Kobber forsyner det første trin, direkte fra årer ved Kobbergraven.\n\nRundt om metallet går de bløde dele: groft skind høstet fra ulve- og vildsvine-lig, knoglefragmenter og linnedrester fra almindelig jagt, og en krukke Smedjeflux (20 kobber ved smedjen) i næsten enhver opskrift. Darva sælger thoriummalm over skranken til utålmodige.",
+          "materialsBody": "Intet håndværk sluger malm hurtigere. Jernkæde-brynjen alene kræver fem jernmalm, og hvert osmiumskæl-stykke vil have tre eller fire osmium plus en glyfstålbar, så en seriøs rustningsmed miner Mirefen-Mosen og Tornetop-Højderne eller betaler nogen, der gør det. Kobber forsyner det første trin, direkte fra årer ved Kobbergraven.\n\nRundt om metallet går de bløde dele: groft skind høstet fra ulve- og vildsvine-lig, knoglefragmenter og linnedrester fra almindelig jagt, og en krukke Smedjeflux (20 kobber ved smedjen) i næsten enhver opskrift. Darva sælger osmiummalm over skranken til utålmodige.",
           "ladderHeading": "At lære ved Darvas smedje",
-          "ladderBody": "To almenvæsener, Østbæks Kæde-Vest og Vartede Benbeklædning, kendes fra starten og fremstilles overalt. Lærerstigen er ni opskrifter i tre trin på Østbæks smedje: kobber-trinnet er gratis ved færdighed 0, jernkæde-trinnet koster 25 sølv per opskrift ved færdighed 25, og thoriumskæl-trinnet koster 1 guld per opskrift ved færdighed 50, og hvert trin kan undervises så snart dit niveau når det.\n\nUd over stigen sidder to specials. Bundstenshjelmen er Smeddenes kombinationsopskrift, lærer-underviser, stationsfri, og kun til rådighed for en indstillet Smed med begge håndværk på færdighed 25. Sodskæl-Kappen behøver ingen læremester overhovedet: alle kender den, men ved færdighed 75 og smedje-bundet, er det håndværkets niveau 3-toppunkt.",
+          "ladderBody": "To almenvæsener, Østbæks Kæde-Vest og Vartede Benbeklædning, kendes fra starten og fremstilles overalt. Lærerstigen er ni opskrifter i tre trin på Østbæks smedje: kobber-trinnet er gratis ved færdighed 0, jernkæde-trinnet koster 25 sølv per opskrift ved færdighed 25, og osmiumskæl-trinnet koster 1 guld per opskrift ved færdighed 50, og hvert trin kan undervises så snart dit niveau når det.\n\nUd over stigen sidder to specials. Bundstenshjelmen er Smeddenes kombinationsopskrift, lærer-underviser, stationsfri, og kun til rådighed for en indstillet Smed med begge håndværk på færdighed 25. Ovnskæl-Kappen behøver ingen læremester overhovedet: alle kender den, men ved færdighed 75 og smedje-bundet, er det håndværkets niveau 3-toppunkt.",
           "routeHeading": "Mesterværker, og en praktisk vej til 125",
-          "routeBody": "Fra jernkæde-trinnet og op ruller ethvert håndværk mesterværk-chancen; rustnings-kun kobber-almenvæsener kan ikke udløse proc, da et mesterværk forbedrer statistik og de har ingen. Jern tæller som et niveau 1-materiale for proc og arkanit som niveau 2.\n\nKlatringen er den standard tre-trins tur: kobber til 25, jernkæde til 50, thoriumskæl til 75, og undervisning af hvert trin den dag det åbner. Hvor Rustningssmedning er heldig er stræket efter 75: Sodskæl-Kappen er en niveau 3-opskrift, så den betaler fuld gevinst til 99 og halvt derefter, hvilket betyder de sidste halvtreds point tager omkring 75 fremstillinger i stedet for de 150 et håndværk uden et toppunkt behøver. Hver kappe koster syv thoriummalm og fem Smedjeflux, så lagerser op i Tornetop og ved smeddisken, inden du starter kørslen.\n\nDarvas arbejdsordre køber otte kobbermalm hvert 30. minut for mønt og EXP, en god afvandingsventil for det lave-niveau malm du vokser fra. Bogen af Bedrifter markerer Hammer og Plader ved færdighed 50, og Stormester i Rustningssmedning venter ved 125-loftet."
+          "routeBody": "Fra jernkæde-trinnet og op ruller ethvert håndværk mesterværk-chancen; rustnings-kun kobber-almenvæsener kan ikke udløse proc, da et mesterværk forbedrer statistik og de har ingen. Jern tæller som et niveau 1-materiale for proc og glyfstål som niveau 2.\n\nKlatringen er den standard tre-trins tur: kobber til 25, jernkæde til 50, osmiumskæl til 75, og undervisning af hvert trin den dag det åbner. Hvor Rustningssmedning er heldig er stræket efter 75: Ovnskæl-Kappen er en niveau 3-opskrift, så den betaler fuld gevinst til 99 og halvt derefter, hvilket betyder de sidste halvtreds point tager omkring 75 fremstillinger i stedet for de 150 et håndværk uden et toppunkt behøver. Hver kappe koster syv osmiummalm og fem Smedjeflux, så lager op i Tornetop og ved smeddisken, inden du starter kørslen.\n\nDarvas arbejdsordre køber otte kobbermalm hvert 30. minut for mønt og EXP, en god afvandingsventil for det lave-niveau malm du vokser fra. Bogen af Bedrifter markerer Hammer og Plader ved færdighed 50, og Stormester i Rustningssmedning venter ved 125-loftet."
         },
         "tailoring": {
           "identityHeading": "Klæde til troldmændene, tasker til alle",
-          "identityBody": "Stigen klatrer fra grovvævet basis over guldvæv-sættet til det sjældne trin: Silkebinderens Klædedragt og solvæv-stykkerne. Dens andet erhverv er universelt: Silkebundet Taske er en ti-pladser, og der er ingen klasse, specialisering eller niveau der ikke vil have mere taskeplads.\n\nPå hjulet sidder Skrædderkunst mellem Lærbearbejdning og Inskription. Dens levende par er Udstyrsmager, Lærbearbejdning og Skrædderkunst sammen, svoret over for Væver Ottilie ved Østbæks væv efter at have ryddet fire nettedskov-edderkopper for deres silke; Troldvæver-parret med Inskription er navngivet på hjulet men afventer Inskriptionens første opskrifter, inden det kan sværges.",
+          "identityBody": "Stigen klatrer fra grovvævet basis over gyldenvæv-sættet til det sjældne trin: Silkebinderens Klædedragt og solvæv-stykkerne. Dens andet erhverv er universelt: Silkebundet Taske er en ti-pladser, og der er ingen klasse, specialisering eller niveau der ikke vil have mere taskeplads.\n\nPå hjulet sidder Skrædderkunst mellem Lærbearbejdning og Inskription. Dens levende par er Udstyrsmager, Lærbearbejdning og Skrædderkunst sammen, svoret over for Væver Ottilie ved Østbæks væv efter at have ryddet fire nettedskov-edderkopper for deres silke; Blækvæver-parret med Inskription er navngivet på hjulet men afventer Inskriptionens første opskrifter, inden det kan sværges.",
           "materialsHeading": "Tråd, silke og ja, urter",
-          "materialsBody": "Væven kører på hvad jagten taber og hvad markerne gror. Linnedstrimler og grovvævet klæde kommer fra humanoid-drab, edderkoppesilke høstes fra edderkoppe-lig, og det sjældne trins centerpiece, Silkebinderens Klædedragt, vil have en Uberørt Silke, det signerede eksemplar et heldigt lig-høst frembringer.\n\nUrtekundskab forsyner skrædderkunst mere end noget andet udrustningshåndværk: sølvblad trimmer tøflerne, guldblad farver guldvæv-sættet, og solkrone trævler hele det sjældne trin, så en skrædder der plukker sine egne urter sparer støt. En Trådspolde koster 12 kobber fra Ottilie, og væven kræver intet metal overhovedet: selv Vardvæv-Kappens toppunkt er vævet af premium-urter, Uberørt Silke, edderkoppesilke og tråd.",
+          "materialsBody": "Væven kører på hvad jagten taber og hvad markerne gror. Linnedstrimler og grovvævet klæde kommer fra humanoid-drab, edderkoppesilke høstes fra edderkoppe-lig, og det sjældne trins centerpiece, Silkebinderens Klædedragt, vil have en Uberørt Silke, det signerede eksemplar et heldigt lig-høst frembringer.\n\nUrtekundskab forsyner skrædderkunst mere end noget andet udrustningshåndværk: glansbladet trimmer tøflerne, guldblad farver gyldenvæv-sættet, og solkrone trævler hele det sjældne trin, så en skrædder der plukker sine egne urter sparer støt. En Trådspolde koster 12 kobber fra Ottilie, og væven kræver intet metal overhovedet: selv Vardvæv-Kappens toppunkt er vævet af premium-urter, Uberørt Silke, edderkoppesilke og tråd.",
           "ladderHeading": "At lære ved Ottilies væv",
-          "ladderBody": "To fæltes almenvæsener, Østbæks Uldbenklæder og Ritualklædning, kendes fra starten og fremstilles overalt. Lærerstigen løber ved væven syd for Østbæks brønd: grovvævet trin (hætte, vanter, tøfler) er gratis ved færdighed 0, guldvæv-trinnet (kappe, benbeklædning og Silkebunden Taske) koster 25 sølv per opskrift ved færdighed 25, og det sjældne trin (klædedragt, skulderkappe, skridt) koster 1 guld per opskrift ved færdighed 50.\n\nVardvæv-Kappen behøver ingen læremester: alle kender den, men den sidder ved færdighed 75 og er væv-bundet som håndværkets niveau 3-toppunkt. Som alle andre steder underviser Ottilie en opskrift, så snart dit niveau i Skrædderkunst når opskriftens eget niveau.",
+          "ladderBody": "To fæltes almenvæsener, Østbæks Uldbenklæder og Ritualklædning, kendes fra starten og fremstilles overalt. Lærerstigen løber ved væven syd for Østbæks brønd: grovvævet trin (hætte, vanter, tøfler) er gratis ved færdighed 0, gyldenvæv-trinnet (kappe, benbeklædning og Silkebunden Taske) koster 25 sølv per opskrift ved færdighed 25, og det sjældne trin (klædedragt, skulderkappe, skridt) koster 1 guld per opskrift ved færdighed 50.\n\nVardvæv-Kappen behøver ingen læremester: alle kender den, men den sidder ved færdighed 75 og er væv-bundet som håndværkets niveau 3-toppunkt. Som alle andre steder underviser Ottilie en opskrift, så snart dit niveau i Skrædderkunst når opskriftens eget niveau.",
           "routeHeading": "Mesterværker, og en praktisk vej til 125",
-          "routeBody": "En Uberørt Silke i klædedragten dækker mesterværkets signerede-reagens-bonus alene, og guldblad og solkrone tæller som niveau 1- og niveau 2-materialer for proc, så det sjældne trin er der, oddsen topper. Slette, statistikløse arbejder som tasken udløser aldrig proc: et mesterværk forbedrer statistik, og en taske har ingen.\n\nSy grovvævet trin til 25, træn guldvæv den dag det åbner og rid det til 50, derefter det sjældne trin til 75. Fra 75 overtager Vardvæv-Kappen: en niveau 3-opskrift, fuld gevinst til 99 og halvt derefter, ca. 75 fremstillinger for de afsluttende halvtreds point, og hver koster to Uberørt Silke, fire edderkoppesilke, et par af henholdsvis solkrone og guldbladsurter, og to tråd.\n\nFå klatringen til at betale for sig selv: tasker sælges til bogstaveligt talt alle, og Ottilies væv-arbejdsordre køber seks edderkoppesilke hvert 30. minut. Bogen af Bedrifter markerer Et Fint Søm ved færdighed 50, med Stormester i Skrædderkunst der venter ved 125-loftet."
+          "routeBody": "En Uberørt Silke i klædedragten dækker mesterværkets signerede-reagens-bonus alene, og guldblad og solkrone tæller som niveau 1- og niveau 2-materialer for proc, så det sjældne trin er der, oddsen topper. Slette, statistikløse arbejder som tasken udløser aldrig proc: et mesterværk forbedrer statistik, og en taske har ingen.\n\nSy grovvævet trin til 25, træn gyldenvæv den dag det åbner og rid det til 50, derefter det sjældne trin til 75. Fra 75 overtager Vardvæv-Kappen: en niveau 3-opskrift, fuld gevinst til 99 og halvt derefter, ca. 75 fremstillinger for de afsluttende halvtreds point, og hver koster to Uberørt Silke, fire edderkoppesilke, et par af henholdsvis solkrone og guldbladsurter, og to tråd.\n\nFaa klatringen til at betale for sig selv: tasker sælges til bogstaveligt talt alle, og Ottilies væv-arbejdsordre køber seks edderkoppesilke hvert 30. minut. Bogen af Bedrifter markerer Et Fint Søm ved færdighed 50, med Stormester i Skrædderkunst der venter ved 125-loftet."
         },
         "leatherworking": {
           "identityHeading": "Læder til de hurtige",
           "identityBody": "Stigen klatrer fra de slette Fenbro-skind-benbeklædning, støvler og bælte over den ualmindelige sumpstrejfer-trøje, hætte og skulderplader til det sjældne sumpvogter-sæt, det bedste læder en håndværker kan skære. To trolddomsstykker runder det af: det Østbækske Druid-Skind-fæltes almenvæsen og Skumrings-Ombindingerne ved færdighed 75.\n\nPå hjulet sidder det mellem Madlavning og Skrædderkunst. Dens levende par er Udstyrsmager, Lærbearbejdning og Skrædderkunst, svoret over for Væver Ottilie i Østbæk; Fælder-parret med Madlavning er navngivet på hjulet men har endnu ingen edquest.",
           "materialsHeading": "Jagten er høsten",
-          "materialsBody": "Lærbearbejdning er det håndværk, hvor din avanceringsrute og din forsyningslinje er det samme: groft skind høstes direkte fra skind-bærende lig, ulve og vildsvin frem for alt, og hvert lig tjener kun én høster, der kommer først, betjenes først. Et sjælden eller bedre høsteresultat giver også et Uberørt Skind, et signeret eksemplar som Sumpvogter-Trøjen kalder på, så bank hvert stykke du finder.\n\nBistøtten er lille: edderkoppe-ben og silke, grovt klæde fra humanoider, en enkelt thoriummalm i hvert sumpvogter-sjælden stykke (seks i Skumrings-Ombindingernes toppunkt), og et Garvemiddel til 16 kobber fra garveri-skranken. Garver Hesk sælger også thoriummalm, hvis du helst ikke vil mine.",
+          "materialsBody": "Lærbearbejdning er det håndværk, hvor din avanceringsrute og din forsyningslinje er det samme: groft skind høstes direkte fra skind-bærende lig, ulve og vildsvin frem for alt, og hvert lig tjener kun én høster, der kommer først, betjenes først. Et sjælden eller bedre høsteresultat giver også et Uberørt Skind, et signeret eksemplar som Sumpvogter-Trøjen kalder på, så bank hvert stykke du finder.\n\nBistøtten er lille: edderkoppe-ben og silke, grovt klæde fra humanoider, en enkelt osmiummalm i hvert sumpvogter-sjælden stykke (seks i Skumrings-Ombindingernes toppunkt), og et Garvemiddel til 16 kobber fra garveri-skranken. Garver Hesk sælger også osmiummalm, hvis du helst ikke vil mine.",
           "ladderHeading": "Undervist i Fenbro",
           "ladderBody": "Her er det særlige: garveriet ligger i Fenbro, på Mirefen-Mosvej, hvilket gør Lærbearbejdning til det ene dybe håndværk, der trænes uden for Østbæk. Garver Hesk underviser stigen ved sine baljer: Fenbro-skind-trinnet gratis ved færdighed 0, sumpstrejfer-trinnet ved 25 sølv per opskrift fra færdighed 25, og sumpvogter-trinnet ved 1 guld per opskrift fra færdighed 50, og hvert trin åbnes, når dit niveau når det.\n\nTo opskrifter springer over læremesteren: fæltes almenvæsener (den Garvede Lædervest og Druid-Skindet) fremstilles overalt fra starten, og Skumrings-Ombindingerne kendes af alle men er ved færdighed 75 og garveribundet. Bemærk at Udstyrsmager-løftet selv sværges tilbage i Østbæk med Ottilie; kun undervisningen sker i mosen.",
           "routeHeading": "Mesterværker, og en praktisk vej til 125",
-          "routeBody": "Fra sumpstrejfer-trinnet og op ruller ethvert håndværk mesterværk-chancen, og det Uberørtede Skind i en Sumpvogter-Trøje giver den signerede-reagens-bonus automatisk; thorium tæller som et niveau 1-materiale for proc. De statistikløse skind-almenvæsener kan ikke udløse proc.\n\nAvancér det på den naturlige måde: høst enhver ulv og hvert vildsvin, du dræber fra niveau et, fremstil skind-trinnet til 25, uanset hvor du står, og træn derefter i Fenbro, som questerne trækker dig ind i mosen alligevel. Sumpstrejfer bærer dig til 50 og sumpvogter til 75; efter det betaler Skumrings-Ombindingerne, en niveau 3-opskrift ved seks thoriummalm, tre Uberørt Skind, to groft skind og et Garvemiddel, fuld gevinst til 99 og halvt derefter, ca. 75 fremstillinger for de afsluttende halvtreds point til 125-loftet.\n\nDet mobile garve-anlæg betyder mere for dette håndværk end noget andet: specialisér ved 75 og en pose skind bliver til færdigt udstyr ved bålstedet i stedet for en tur tilbage til Fenbro. Hesks garveri-arbejdsordre køber otte groft skind hvert 30. minut, et ryddeligt afkast af skind du samlede alligevel, og Bogen af Bedrifter markerer Garverens Metier ved færdighed 50 med Stormester i Lærbearbejdning ved loftet."
+          "routeBody": "Fra sumpstrejfer-trinnet og op ruller ethvert håndværk mesterværk-chancen, og det Uberørtede Skind i en Sumpvogter-Trøje giver den signerede-reagens-bonus automatisk; osmium tæller som et niveau 1-materiale for proc. De statistikløse skind-almenvæsener kan ikke udløse proc.\n\nAvancér det på den naturlige måde: høst enhver ulv og hvert vildsvin, du dræber fra niveau et, fremstil skind-trinnet til 25, uanset hvor du står, og træn derefter i Fenbro, som questerne trækker dig ind i mosen alligevel. Sumpstrejfer bærer dig til 50 og sumpvogter til 75; efter det betaler Skumrings-Ombindingerne, en niveau 3-opskrift ved seks osmiummalm, tre Uberørt Skind, to groft skind og et Garvemiddel, fuld gevinst til 99 og halvt derefter, ca. 75 fremstillinger for de afsluttende halvtreds point til 125-loftet.\n\nDet mobile garve-anlæg betyder mere for dette håndværk end noget andet: specialisér ved 75 og en pose skind bliver til færdigt udstyr ved bålstedet i stedet for en tur tilbage til Fenbro. Hesks garveri-arbejdsordre køber otte groft skind hvert 30. minut, et ryddeligt afkast af skind du samlede alligevel, og Bogen af Bedrifter markerer Garverens Metier ved færdighed 50 med Stormester i Lærbearbejdning ved loftet."
         },
         "cooking": {
           "identityHeading": "Gryden der mætter gruppen",
@@ -3744,17 +3745,17 @@ export const da_DK: EnTranslations = {
           "identityHeading": "Flasker der vinder kampe",
           "identityBody": "Håndværket udøves på apoteket i Høj vagt, hjemsted for Alkymist Verane, Mester i Apoteket, der underviser i opskriftstigern, sælger Glasflaske for 12 kobber, og betaler mønt for urter via sin arbejdsordre.\n\nPå håndværkshjulet sidder Alkymi med de prøv-og-fejl-fag, ved siden af Ingeniørkunst på den ene side og Madlavning på den anden. Det giver det to paridentiteter: Bombardøren (Ingeniørkunst og Alkymi, taget op før Opfinder Gizzel i Østbæk) og Apotekeren (Alkymi og Madlavning, svoret over for Kok Marlow). Indstil dig til begge par for at gøre Alkymi til et hovedfag og åbne færdigheden hele vejen til dens loft; indtil da virker det til det sjældne niveau som ethvert ikke-erklæret håndværk.",
           "materialsHeading": "Urter, kirtler og glas",
-          "materialsBody": "Enhver drik kræver en Glasflaske plus urter matchet til dens trin: sølvblad vokser i Østbæk-Dalen, guldblad i Mirefen-Mosen, og solkrone i Tornetop-Højderne, en urt per zone, så dine flasker klatrer verden op ved siden af dig. Urtekundskab er den naturlige partnerfærdighed, selvom det fungerer ligeså godt at købe fra indsamlere eller markedet; dybere zoner huser højniveaulapper, der kræver en bedre segl, så hold dit redskab opdateret, hvis du plukker selv.\n\nMiksturtræet tilføjer en jægers ingrediens: Giftkirtel høstet fra giftige lig, og den øverste mikstur kræver en Uberørt Giftkirtel, det signerede sjældne eksemplar et heldigt ligs-høst afslører. Hvis du ikke høster selv, er det præcis de varer, der er værd at bede en jægerven om at bringe hjem.",
+          "materialsBody": "Enhver drik kræver en Glasflaske plus urter matchet til dens trin: glansbladet vokser i Østbæk-Dalen, guldblad i Mirefen-Mosen, og solkrone i Tornetop-Højderne, en urt per zone, så dine flasker klatrer verden op ved siden af dig. Urtekundskab er den naturlige partnerfærdighed, selvom det fungerer ligeså godt at købe fra indsamlere eller markedet; dybere zoner huser højniveaulapper, der kræver en bedre segl, så hold dit redskab opdateret, hvis du plukker selv.\n\nMiksturtræet tilføjer en jægers ingrediens: Giftkirtel høstet fra giftige lig, og den øverste mikstur kræver en Uberørt Giftkirtel, det signerede sjældne eksemplar et heldigt ligs-høst afslører. Hvis du ikke høster selv, er det præcis de varer, der er værd at bede en jægerven om at bringe hjem.",
           "ladderHeading": "Opskriftstigerne",
-          "ladderBody": "Alle kender den Lille Helbredelsesdrik fra starten og kan blande den overalt, ingen station nødvendig. Den rigtige stige er ni opskrifter undervist af Verane på apoteket, tre på hvert trin: trin 0-opskrifterne er gratis, trin 25 koster 25 sølv per opskrift, og trin 50 koster 1 guld per opskrift. Hvert trin er en helbredelsdrik, en manadrik og en udholdenhedsmikstur, der stiger fra almindelige sølvbladflasker (120 helbred, 160 mana) over ualmindelig guldbladske (200 helbred, 260 mana) til sjælden solkrone (280 helbred, 360 mana).\n\nMiksturen klatrer på samme måde: Vildsvine-Mikstur giver 6 Udholdenhed i 10 minutter, Giftild-Mikstur 9 i 15 minutter, og Slangens Mikstur 12 i 15 minutter, og brygger to flasker per fremstilling. Endnu en opskrift sidder lidt til siden: Bjørnens Mikstur, et kombinationsbrygge Verane underviser for 25 sølv, når din Alkymi når 25, blandbar overalt, men kun af en indstillet Bombardør med begge Alkymi og Ingeniørkunst på 25.",
+          "ladderBody": "Alle kender den Lille Helbredelsesdrik fra starten og kan blande den overalt, ingen station nødvendig. Den rigtige stige er ni opskrifter undervist af Verane på apoteket, tre på hvert trin: trin 0-opskrifterne er gratis, trin 25 koster 25 sølv per opskrift, og trin 50 koster 1 guld per opskrift. Hvert trin er en helbredelsdrik, en manadrik og en udholdenhedsmikstur, der stiger fra almindelige glansbladsflasker (120 helbred, 160 mana) over ualmindelig guldbladske (200 helbred, 260 mana) til sjælden solkrone (280 helbred, 360 mana).\n\nMiksturen klatrer på samme måde: Vildsvine-Mikstur giver 6 Udholdenhed i 10 minutter, Giftild-Mikstur 9 i 15 minutter, og Slangens Mikstur 12 i 15 minutter, og brygger to flasker per fremstilling. Endnu en opskrift sidder lidt til siden: Bjørnens Mikstur, et kombinationsbrygge Verane underviser for 25 sølv, når din Alkymi når 25, blandbar overalt, men kun af en indstillet Bombardør med begge Alkymi og Ingeniørkunst på 25.",
           "routeHeading": "En bryggermands vej til 125",
-          "routeBody": "Drikke og miksturer rulles aldrig som mesterværk; det proc tilhører statistik-bærende udstyr. Dit navn rejser dog stadig: de sjældne solkronedrikke brygges en flaske ad gangen og ankommer signeret med et håndværkermærke, mens det dobbeltbatch Slangens Mikstur forbliver plad. Ved færdighed 75 specialiserer du dig, og alle Alkymi-opskrifter koster 20 procent færre materialer derefter.\n\nTag Urtekundskab tidligt og pluk, mens du avancerer: sølvblad er overalt i Dalen, og når du når Veranes bænk, vil det gratis trin bære dig rent til færdighed 25 på urter, du alligevel ville have plukket. Lær trin 25 det øjeblik det åbner, flyt din plukning til mosen efter guldblad, og lad Veranes arbejdsordre (seks Guldbladurter for 45 kobber, gentagbar hvert 30. minut) give lidt mønt tilbage, mens du er på vej.\n\nFra 50 og frem, bryg solkronedrikke og Slangepartier fra Tornetop-urter. Den sidste stræk fra 100 til 125 er en bevidst sild, så bryg hvad der faktisk sælger frem for at brænde urter for tallet, og husk at forbrugsvarer er den ene fremstillede vare alle køber om igen for evigt. Bogen af Bedrifter markerer Mærkelige Bryg ved færdighed 50 og Stormester i Alkymi ved loftet."
+          "routeBody": "Drikke og miksturer rulles aldrig som mesterværk; det proc tilhører statistik-bærende udstyr. Dit navn rejser dog stadig: de sjældne solkronedrikke brygges en flaske ad gangen og ankommer signeret med et håndværkermærke, mens det dobbeltbatch Slangens Mikstur forbliver plad. Ved færdighed 75 specialiserer du dig, og alle Alkymi-opskrifter koster 20 procent færre materialer derefter.\n\nTag Urtekundskab tidligt og pluk, mens du avancerer: glansbladet er overalt i Dalen, og når du når Veranes bænk, vil det gratis trin bære dig rent til færdighed 25 på urter, du alligevel ville have plukket. Lær trin 25 det øjeblik det åbner, flyt din plukning til mosen efter guldblad, og lad Veranes arbejdsordre (seks Guldbladurter for 45 kobber, gentagbar hvert 30. minut) give lidt mønt tilbage, mens du er på vej.\n\nFra 50 og frem, bryg solkronedrikke og Slangepartier fra Tornetop-urter. Den sidste stræk fra 100 til 125 er en bevidst sild, så bryg hvad der faktisk sælger frem for at brænde urter for tallet, og husk at forbrugsvarer er den ene fremstillede vare alle køber om igen for evigt. Bogen af Bedrifter markerer Mærkelige Bryg ved færdighed 50 og Stormester i Alkymi ved loftet."
         },
         "engineering": {
           "identityHeading": "Redskabsmagerens monopol",
-          "identityBody": "Håndværket udøves på værktøjsværket i det sydøstlige hjørne af Østbæk-Torvet, hjemsted for Opfinder Gizzel, Mester i Værktøjsværket. Niveau 1 til 3 af alle redskabslinjer er ordinære handelsvarer; niveau 4 og 5 eksisterer kun via en ingeniør.\n\nPå hjulet sidder det med prøv-og-fejl-fagene, ved siden af Alkymi og Rustningssmedning, hvilket giver det to paridentiteter: Bombardøren (Ingeniørkunst og Alkymi, taget op før Gizzel selv) og Tandhjulssmed (Rustningssmedning og Ingeniørkunst, navngivet men endnu ikke mulig at sværge). En advarsel betyder mere her end noget andet sted: begge Ingeniørkunstens opskriftstrin sidder over det sjælden-niveaus loft, som hobbyer og ikke-erklærede håndværkere arbejder under, så færdighedstallet bevæger sig kun for en håndværker, hvis hovedfag inkluderer Ingeniørkunst, hvilket i dag betyder Bombardøren. Alle kan stadig bygge redskaberne; en ikke-indstillet håndværker lærer bare ikke noget af det.",
+          "identityBody": "Håndværket udøves på værktøjsværket i det sydøstlige hjørne af Østbæk-Torvet, hjemsted for Opfinder Gizzel, Mester i Værktøjsværket. Niveau 1 til 3 af alle redskabslinjer er ordinære handelsvarer; niveau 4 og 5 eksisterer kun via en ingeniør.\n\nPå hjulet sidder det med prøv-og-fejl-fagene, ved siden af Alkymi og Rustningssmedning, hvilket giver det to paridentiteter: Bombardøren (Ingeniørkunst og Alkymi, taget op før Gizzel selv) og Tandhjulsbygger (Rustningssmedning og Ingeniørkunst, navngivet men endnu ikke mulig at sværge). En advarsel betyder mere her end noget andet sted: begge Ingeniørkunstens opskriftstrin sidder over det sjælden-niveaus loft, som hobbyer og ikke-erklærede håndværkere arbejder under, så færdighedstallet bevæger sig kun for en håndværker, hvis hovedfag inkluderer Ingeniørkunst, hvilket i dag betyder Bombardøren. Alle kan stadig bygge redskaberne; en ikke-indstillet håndværker lærer bare ikke noget af det.",
           "materialsHeading": "Reagenser og forudgående redskaber",
-          "materialsBody": "Enhver redskabsopskrift forbruger redskabet et niveau under det plus et premium-materiale: fire Thoriummalm og en Mithrilminehakke bliver til Thoriumminehakken, dernæst to Arkanitbarer og den thoriumhakke bliver Arkanitminehakken, og økserne og segl-linjerne afspejler den samme form med Aske- og Gammeltræsstammer, Guldblad- og Solkroneurt.\n\nGizzel lagerfører alle seks premium-reagenser på værktøjsværket, hvis du vil have fart over margin, men malm, stammer og urter er alle indsamlingsbare i Mirefen-Mosen og Tornetop-Højderne, og indsamlet lager er, hvor profitten lever. Den ene undtagelse er Arkanitbaren, som er handelsvare-kun, så ethvert arkanit-niveau redskab bærer et fast møntgulv bygget ind i dets pris.",
+          "materialsBody": "Enhver redskabsopskrift forbruger redskabet et niveau under det plus et premium-materiale: fire Osmiummalm og en Himmelsølvminehakke bliver til Osmiumminehakken, dernæst to Glyfstålbarer og den osmiumhakke bliver Glyfstålminehakken, og økserne og segl-linjerne afspejler den samme form med Aske- og Højfyrrestammer, Guldblad- og Solkroneurt.\n\nGizzel lagerfører alle seks premium-reagenser på værktøjsværket, hvis du vil have fart over margin, men malm, stammer og urter er alle indsamlingsbare i Mirefen-Mosen og Tornetop-Højderne, og indsamlet lager er, hvor profitten lever. Den ene undtagelse er Glyfstålbaren, som er handelsvare-kun, så ethvert glyfstål-niveau redskab bærer et fast møntgulv bygget ind i dets pris.",
           "ladderHeading": "Redskabsstigen",
           "ladderBody": "Hele stigen er seks opskrifter, alle bundet til værktøjsværks-stationen og alle kendt automatisk, aldrig nogen læringsgebyr: niveau 4-hakke, -økse og -segl ved færdighed 75, og niveau 5-versionerne ved færdighed 150. Det andet tal er ikke en slåfejl, og det sidder over det nuværende 125-loft med vilje: færdighedskrav lægger aldrig hindringer for et håndværk her, de former kun færdighedsgevinsten, så du kan bygge et niveau 5-redskab den dag du har dets reagenser og dets niveau 4-forgænger.\n\nEthvert færdigt redskab er sjælden eller episk kvalitet og leveres signeret, så dit navn rejser zonerne på andre spilleres redskabsbælter. Ingeniørkunst holder også halvdelen af en kombinationsopskrift oppe: Bjørnens Mikstur, brygget af en indstillet Bombardør med begge Ingeniørkunst og Alkymi på 25.",
           "routeHeading": "En ingeniørs vej til 125",
@@ -3783,14 +3784,14 @@ export const da_DK: EnTranslations = {
       "specializationBody": "Ved færdighed {at} specialiserer dette håndværk dig, ingen opgave nødvendig: opskrifter koster {pct}% færre materialer fra da af, og specialiseringen tilføjer sit eget løft til mesterværkschancen.\n\nSpecialister lærer også at tage værkstedet med sig: en specialiseret håndværker kan opstille en mobil station i felten i ti minutter ad gangen, så stationsbundne opskrifter kan fremstilles ved mindens mund frem for tilbage i byen. Dens grænser er tilsigtede: den tæller aldrig ved træning hos en mester eller ved aflæsning af et kommissionsstykke, og den udløber på sin timer uanset om du brugte den.",
       "ench": {
         "disenchantHeading": "Affortrylling",
-        "disenchantNote": "Affortrylling tager et vilkårligt våben- eller rustningsstykke af almindelig kvalitet eller bedre og forbruger ét eksemplar, aldrig et eksemplar der allerede er fortryllet. Almindelige og ualmindelige stykker males ned til en rullet håndfuld Arkan Støv, lidt rigere for sjældnere og stykker med højere niveau; fra sjælden og op ændres udbyttet, præcis én Arkan Essens fra et sjældent stykke eller én Arkan Skærv fra et episk eller legendarisk, plus en typebestemt sekundær keyed til hvad stykket var lavet af.",
+        "disenchantNote": "Affortrylling tager et vilkårligt våben- eller rustningsstykke af almindelig kvalitet eller bedre og forbruger ét eksemplar, aldrig et eksemplar der allerede er fortryllet. Almindelige og ualmindelige stykker males ned til en rullet håndfuld Kime Støv, lidt rigere for sjældnere og stykker med højere niveau; fra sjælden og op ændres udbyttet, præcis én Kime Essens fra et sjældent stykke eller én Kime Skærv fra et episk eller legendarisk, plus en typebestemt sekundær keyed til hvad stykket var lavet af.",
         "typedHeading": "Typebestemte sekundærer",
         "typedNote": "De typebestemte sekundærer følger materialet: klædedrustning giver Resonant Tråd, læder Resonant Skind, mail Resonante Ringe, nærkampsvåben Resonant Stål, og stave, trylledrikstave, buer og armbrøster Resonant Tømmer. Et sjældent stykke giver præcis {rare}; et episk eller legendarisk stykke giver {epicMin} eller {epicMax}. Ringe og halskæder har ingen rustningsklasse, så de giver kun det primære materiale.\n\nBemærk det med småt: de Resonante sekundærer binder ved handel, så hver kan skifte hænder præcis én gang, direkte fra nedbryderen til fortrylleren der vil brænde den. Støv, Essens og Skærver bærer ingen sådan snor og bevæger sig som enhver anden handelsvare.",
         "colSource": "Brudt fra",
         "meleeWeapons": "Nærkampsvåben",
         "timberWeapons": "Stave, trylledrikstave, buer og armbrøster",
         "enchantsHeading": "Fortryllelser",
-        "enchantsNote": "Fortryllelser kommer i tre niveauer. Basisniveauets kører på Arkan Støv (med lidt Essens ved den høje ende) og dækker våbenpladsen plus hver rustningsplads, med nok statistikakseindstillinger til at enhver build finder noget til hver plads. Større niveau koster én Arkan Skærv plus Essens og er det eneste, Skærver bruges til: stærkere bonusser på pladserne med størst indflydelse.\n\nMellem dem sidder de fem Runede fortryllelser, én forbruger pr. typebestemt sekundær, så intet du maler er nogensinde en blindgyde: Runet Æg (våben, Styrke, forbruger Resonant Stål), Runet Fokus (våben, Intellekt, Resonant Tømmer), Runenet (bryst, Ånd, Resonant Tråd), Runet Skind (ben, Smidighed, Resonant Skind) og Runede Ringe (hjelm, Udholdenhed, Resonante Ringe). Hver tager også to Arkan Essens og lander mellem sine basis- og Større-søskende i styrke; de præcise bonusser er alle i tabellen nedenfor.",
+        "enchantsNote": "Fortryllelser kommer i tre niveauer. Basisniveauets kører på Kime Støv (med lidt Essens ved den høje ende) og dækker våbenpladsen plus hver rustningsplads, med nok statistikakseindstillinger til at enhver build finder noget til hver plads. Større niveau koster én Kime Skærv plus Essens og er det eneste, Skærver bruges til: stærkere bonusser på pladserne med størst indflydelse.\n\nMellem dem sidder de fem Runede fortryllelser, én forbruger pr. typebestemt sekundær, så intet du maler er nogensinde en blindgyde: Runet Æg (våben, Styrke, forbruger Resonant Stål), Runet Fokus (våben, Intellekt, Resonant Tømmer), Runenet (bryst, Ånd, Resonant Tråd), Runet Skind (ben, Smidighed, Resonant Skind) og Runede Ringe (hjelm, Udholdenhed, Resonante Ringe). Hver tager også to Kime Essens og lander mellem sine basis- og Større-søskende i styrke; de præcise bonusser er alle i tabellen nedenfor.",
         "colEnchant": "Fortryllelse",
         "colSlot": "Plads",
         "colTier": "Niveau",
@@ -3805,9 +3806,9 @@ export const da_DK: EnTranslations = {
         "bonusFmt": "+{value} {stat}"
       },
       "gatherIntro": {
-        "mining": "Minedrift trækker malm direkte ud af verdens klipper: kobber i Østbæk Dal, jern i Mirefen Mose og thorium i Tornetop-Højderne, der fodrer smedehåndværkene. Åbent for alle fra niveau 1, ingen som helst adgangsbetingelse, spores på sin egen tæller op til en grænse på 100.",
-        "logging": "Skovhugst fælder tømmer fra skovstande i alle tre zoner: jernbark i Østbæk Dal, asketræ i Mirefen Mose og Gammeltræ i Tornetop-Højderne, råmaterialerne til skafter, stave og ingeniørens bænk. Åbent for alle fra niveau 1, spores på sin egen tæller op til en grænse på 100.",
-        "herbalism": "Urtekundskab indsamler det, der vokser vildt: sølvblad i Østbæk Dal, guldblad i Mirefen Mose og solkrone i Tornetop-Højderne, blade og stilke der holder apotekerhandelen i gang. Åbent for alle fra niveau 1, spores på sin egen tæller op til en grænse på 100.",
+        "mining": "Minedrift trækker malm direkte ud af verdens klipper: kobber i Østbæk Dal, jern i Mirefen Mose og osmium i Tornetop-Højderne, der fodrer smedehåndværkene. Åbent for alle fra niveau 1, ingen som helst adgangsbetingelse, spores på sin egen tæller op til en grænse på 100.",
+        "logging": "Skovhugst fælder tømmer fra skovstande i alle tre zoner: jernbark i Østbæk Dal, asketræ i Mirefen Mose og højfyrre i Tornetop-Højderne, råmaterialerne til skafter, stave og ingeniørens bænk. Åbent for alle fra niveau 1, spores på sin egen tæller op til en grænse på 100.",
+        "herbalism": "Urtekundskab indsamler det, der vokser vildt: glansbladet i Østbæk Dal, guldblad i Mirefen Mose og solkrone i Tornetop-Højderne, blade og stilke der holder apotekerhandelen i gang. Åbent for alle fra niveau 1, spores på sin egen tæller op til en grænse på 100.",
         "fishing": "Fiskeri er det anderledes fag blandt indsamlingsfagene, og det dybeste: et rigtigt bid-og-hiv-minispil, sine egne fangsttabeller i hver zone, og en færdighedsgrænse på 200, det dobbelte af de andre. Køb en stang, vend dig mod åbent vand, og kast."
       },
       "rhythmHeading": "Indsamlingsrytmen",
@@ -3836,7 +3837,7 @@ export const da_DK: EnTranslations = {
         "mining": "Din første ressourcekilde i et fag optjener Markens Frugter, og 100-grænsen i Minedrift indskriver Malm i Blodet. At nå 100 i tre af Minedrift, Skovhugst, Urtekundskab og Fiskeri tilføjer Mesterindsamler ved 25 Hæder, og at knække en uberørt åre optegner sit eget samlerensmærke. Ingen af disse giver magt: bedrifter er titler og Hæder, et minde om de veje, du har vandret.",
         "logging": "Din første ressourcekilde i et fag optjener Markens Frugter, og 100-grænsen i Skovhugst indskriver Kernevedhugger. At nå 100 i tre af Minedrift, Skovhugst, Urtekundskab og Fiskeri tilføjer Mesterindsamler ved 25 Hæder, og et hugget stykke gammelt kernetræ optegner sit eget samlerensmærke. Bedrifter er titler og Hæder alene, aldrig magt.",
         "herbalism": "Din første ressourcekilde i et fag optjener Markens Frugter, og 100-grænsen i Urtekundskab indskriver Engmarksmesters. At nå 100 i tre af Minedrift, Skovhugst, Urtekundskab og Fiskeri tilføjer Mesterindsamler ved 25 Hæder, og en måneskinsblomst optegner sit eget samlerensmærke. Bedrifter er titler og Hæder alene, aldrig magt.",
-        "fishing": "100-milepælen indskriver Gammel Søulk og 200 indskriver Mesterangler med sin titel, selve toppen af fiskerkunsten; Fiskeri tæller også mod Mesterindsamler, optjent ved 100 i tre indsamlingsfag. En første fisk fra hver zones vande udfylder sin egen side, og Glimmerfin-Koikarpen optegner Et Glimt af Håb, så rejsende med en stang i tasken udfylder deres bog hurtigere, end de forventer."
+        "fishing": "100-milepælen indskriver Gammel Søulk og 200 indskriver Mesterangler med sin titel, selve toppen af fiskerkunsten; Fiskeri tæller også mod Mesterindsamler, optjent ved 100 i tre indsamlingsfag. En første fisk fra hver zones vande udfylder sin egen side, og Solglimt-Koikarpen optegner Et Glimt af Håb, så rejsende med en stang i tasken udfylder deres bog hurtigere, end de forventer."
       },
       "fish": {
         "startHeading": "Kom i gang",
@@ -3855,8 +3856,8 @@ export const da_DK: EnTranslations = {
         "colOdds": "Odds",
         "pctFmt": "{pct}%",
         "emptyHook": "Intet bider",
-        "koiHeading": "Glimtfinne-Koien",
-        "koiBody": "Hvert vandlegeme i spillet skjuler den samme præmie: Glimtfinne-Koien, et ualmindeligt glimt på linen til en pris af 75 kobber hos en handlende og langt mere for din stolthed. Dens odds er flade 3 procent pr. landet fangst (4 procent i Tornetops kolde vand) ved hvert niveau, og at lande én registrerer Et Glimt af Håb i din Bedrifternes Bog, et nul-Hæder samlermærke. Når det sker, sørger loggen for at du ved det."
+        "koiHeading": "Solglimt-Koikarpen",
+        "koiBody": "Hvert vandlegeme i spillet skjuler den samme præmie: Solglimt-Koikarpen, et ualmindeligt glimt på linen til en pris af 75 kobber hos en handlende og langt mere for din stolthed. Dens odds er flade 3 procent pr. landet fangst (4 procent i Tornetops kolde vand) ved hvert niveau, og at lande én registrerer Et Glimt af Håb i din Bedrifternes Bog, et nul-Hæder samlermærke. Når det sker, sørger loggen for at du ved det."
       },
       "econ": {
         "title": "Håndværksøkonomi",
@@ -3910,7 +3911,7 @@ export const da_DK: EnTranslations = {
         "q5": "Hvordan afbinder jeg et kommissioneret stykke, og hvad koster det?",
         "a5": "Gå til en hvilken som helst håndværksstation med stykket i dine tasker og betal mesteren. Gebyret følger genstandens kvalitet: 25 sølv for et ualmindeligt stykke, 1 guld for et sjældent, 4 guld for et episk; et legendarisk betaler den episke takst, og et kommissioneret almindeligt stykke betaler den ualmindelige takst. Det skal være en rigtig station: en mobil station tilbyder aldrig tjenesten.\n\nGebyret køber en ren tavle, ikke en kur: stykket forbliver en kommission, så det binder sig igen til den, der modtager det i næste handel. Hvis flere bundne eksemplarer deler en stak, skrælles ét eksemplar af og afbindes pr. betaling.",
         "q6": "Hvor lærer jeg opskrifter, og hvad koster de?",
-        "a6": "De ni almindelige feltopskrifter og værktøjsopskrifterne er kendte for alle fra starten, og det er tre stationsbundne toppunkter også (Sodskæl-Mantlen, Vard-Væve-Hætten og Dusk-Skind-Indpakningerne), der ikke kræver nogen træner, kun deres station. Alt andet undervises af de tilstedeværende mestre på deres stationer på tværs af de tre hub-byer: de fleste står i Østbæk, garveren holder garverierne i Fenbridge, og alkymisten holder apoteket i Højvagt.\n\nTræneropskrifter kommer i trin ved færdighed 0, 25 og 50, prissat gratis, 25 sølv og 1 guld som et engangsgebyr. En mester underviser en opskrift, når dit trin i det håndværk har nået opskriftens eget trin, og du skal stå ved deres station for at lære: en mobil station tæller ikke.",
+        "a6": "De ni almindelige feltopskrifter og værktøjsopskrifterne er kendte for alle fra starten, og det er tre stationsbundne toppunkter også (Ovnskæl-Kappen, Vardvæv-Kappen og Skumrings-Ombindingerne), der ikke kræver nogen træner, kun deres station. Alt andet undervises af de tilstedeværende mestre på deres stationer på tværs af de tre hub-byer: de fleste står i Østbæk, garveren holder garverierne i Fenbridge, og alkymisten holder apoteket i Højvagt.\n\nTræneropskrifter kommer i trin ved færdighed 0, 25 og 50, prissat gratis, 25 sølv og 1 guld som et engangsgebyr. En mester underviser en opskrift, når dit trin i det håndværk har nået opskriftens eget trin, og du skal stå ved deres station for at lære: en mobil station tæller ikke.",
         "q7": "Hvorfor gik min indsamling pludselig langsommere?",
         "a7": "Indsamlingskasten starter ved 2,5 sekunder og barberes ned på to måder: 0,4 sekunder for hvert værktøjsniveau du ejer over forekomstens eget trin, og 0,15 sekunder for hvert færdighedsniveau du har krydset (ved 100 og 200), med et gulv på 1,5 sekunder. Flyt fra niveau 1-forekomster op til niveau 3-forekomster, og dit overskud forsvinder, så den samme hakke svinger langsommere igen. At eje præcis det krævede niveau køber ingen hastighed; det åbner kun forekomsten.\n\nFærdighedsgevinst fader på samme måde som håndværk gør: en forekomst gråner ud, efterhånden som din færdighed klatrer forbi dens niveau (niveau 1-forekomster underviser intet fra færdighed 75 og opefter), så svaret på langsomme gevinster er forekomster af højere niveau, der kræver et værktøj af mindst deres niveau (bare hænder tæller som niveau 1). Fiskeri følger sin egen aftagende kurve: fuld gevinst under 50 færdighed, halvt under 100, en smule på 0,1 under 150 og 0,02 under 200, og skrammel-fangster underviser intet fra 100 og opefter.",
         "q8": "Kan jeg lave håndværk væk fra byen?",
@@ -6130,6 +6131,8 @@ export const da_DK: EnTranslations = {
       "soldItem": "Solgte {item} for {money}.",
       "soldJunkOne": "Solgte {count} skrammelgenstand for {money}.",
       "soldJunkMany": "Solgte {count} skrammelgenstande for {money}.",
+      "keptBoundOne": "Beholdt {count} bundent eksemplar.",
+      "keptBoundMany": "Beholdt {count} bundne eksemplarer.",
       "friendOnline": "{name} er kommet online.",
       "friendOffline": "{name} er gået offline."
     },
@@ -8012,7 +8015,7 @@ export const da_DK: EnTranslations = {
         "name": "Skumringsskindsbind"
       },
       "sootscale_mantle": {
-        "name": "Sodskælskappe"
+        "name": "Sodskæl-Kappe"
       },
       "gravecaller_blade": {
         "name": "Gravkalderens Bredklinge"
@@ -8087,13 +8090,13 @@ export const da_DK: EnTranslations = {
         "name": "Lærredslap"
       },
       "arcane_dust": {
-        "name": "Arkanstøv"
+        "name": "Arkan Støv"
       },
       "arcane_essence": {
-        "name": "Arkanessens"
+        "name": "Arkan Essens"
       },
       "arcane_shard": {
-        "name": "Arkanskår"
+        "name": "Arkan Skærv"
       },
       "fen_muster_order": {
         "name": "Kærbro Mønstringsordre"
@@ -8342,7 +8345,7 @@ export const da_DK: EnTranslations = {
         "name": "Tinduld-Kjortel"
       },
       "stalkerhide_jerkin": {
-        "name": "Snigerhuds-Vams"
+        "name": "Luskerhuds-Vams"
       },
       "cragwalker_boots": {
         "name": "Klippevandrer-Støvler"
@@ -8513,7 +8516,7 @@ export const da_DK: EnTranslations = {
         "name": "Askeøkse"
       },
       "elderwood_axe": {
-        "name": "Gammeltræsøkse"
+        "name": "Gammeltræøkse"
       },
       "goldleaf_sickle": {
         "name": "Guldbladssegl"
@@ -8525,13 +8528,13 @@ export const da_DK: EnTranslations = {
         "name": "Thoriummalm"
       },
       "arcanite_bar": {
-        "name": "Arkanitbarre"
+        "name": "Arkanitbar"
       },
       "ashwood_log": {
         "name": "Askeved Stamme"
       },
       "elderwood_log": {
-        "name": "Gammel Hyldeved Stamme"
+        "name": "Gammeltræstamme"
       },
       "goldleaf_herb": {
         "name": "Guldbladurt"
@@ -8669,7 +8672,7 @@ export const da_DK: EnTranslations = {
         "name": "Jernbarkstamme"
       },
       "silverleaf_herb": {
-        "name": "Sølvbladsurt"
+        "name": "Sølvbladurt"
       },
       "rough_hide": {
         "name": "Groft skind"
@@ -8732,13 +8735,13 @@ export const da_DK: EnTranslations = {
         "name": "Slebet jerndolk"
       },
       "thorium_warblade": {
-        "name": "Thoriumkrigsklinge"
+        "name": "Thorium-Krigsklinge"
       },
       "arcanite_war_axe": {
-        "name": "Arkanitkrigsøkse"
+        "name": "Arkanit-Krigsøkse"
       },
       "elderwood_battle_staff": {
-        "name": "Olderskovs kampstav"
+        "name": "Gammeltræ-Kampstav"
       },
       "riveted_copper_girdle": {
         "name": "Nittet kobberbælte"
@@ -8759,13 +8762,13 @@ export const da_DK: EnTranslations = {
         "name": "Jernledsskulderplader"
       },
       "thoriumscale_greathelm": {
-        "name": "Thoriumskæl-storhjelm"
+        "name": "Thoriumskæl-Storhjælm"
       },
       "thoriumscale_cuirass": {
-        "name": "Thoriumskælbrystplade"
+        "name": "Thoriumskæl-Kørease"
       },
       "thoriumscale_leggings": {
-        "name": "Thoriumskæl-benklæder"
+        "name": "Thoriumskæl-Benbeklædning"
       },
       "homespun_hood": {
         "name": "Hjemmespundet hætte"
@@ -8774,13 +8777,13 @@ export const da_DK: EnTranslations = {
         "name": "Hjemmespundne luffer"
       },
       "silverthread_slippers": {
-        "name": "Hjemmesko med sølvtråd"
+        "name": "Blegtråd-Futter"
       },
       "goldweave_robe": {
-        "name": "Guldvævet kappe"
+        "name": "Guldvæv-Kjortel"
       },
       "goldweave_leggings": {
-        "name": "Guldvævede bukser"
+        "name": "Guldvæv-Benbeklædning"
       },
       "silkspun_satchel": {
         "name": "Silkespundet taske"
@@ -8864,7 +8867,7 @@ export const da_DK: EnTranslations = {
         "name": "Guldblads manadrik"
       },
       "venomfire_elixir": {
-        "name": "Giftildseliksir"
+        "name": "Hugormsvie-Eliksir"
       },
       "sunpetal_healing_draught": {
         "name": "Solblads helbredelsesdrik"
@@ -9167,7 +9170,7 @@ export const da_DK: EnTranslations = {
         "name": "Nightfang-Trædesko"
       },
       "glimmerfin_koi": {
-        "name": "Glimtfinne-Koi"
+        "name": "Glimmerfin-Koikarpe"
       },
       "raw_bog_eel": {
         "name": "Rå Sumpål"
@@ -10749,7 +10752,7 @@ export const da_DK: EnTranslations = {
         }
       },
       "q_stalker_pelts": {
-        "title": "Vinteren Kommer til Højvagt",
+        "title": "Første Frost ved Højvagt",
         "text": "Vinteren på dette bjerg banker ikke på, {playerName} - den sparker døren ind. Otte bjergryg-snigjægerskind vil fore nok kapper til at få muren gennem de første sne. Bæsterne strejfer på bjergryggene, der flankerer vejen mod syd.",
         "completion": "Tykke som min arm, disse. Vagten skal ikke fryse i år - tag disse trædesko for din ulejlighed.",
         "objectives": {

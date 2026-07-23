@@ -435,7 +435,10 @@ export const table: DeedLocaleTable = {
     name: 'Pelanggan Kesayangan',
     desc: 'Temukan kesepuluh barang dagangan Kepala Perbekalan Vex.',
   },
-  col_glimmerfin: { name: 'Kilau Harapan' },
+  col_glimmerfin: {
+    name: 'Kilau Harapan',
+    desc: 'Tangkap seekor Koi Kerlip Surya.',
+  },
   col_full_creel: {
     name: 'Keranjang Ikan Penuh',
     desc: 'Temukan keenam tangkapan umum dari perairan Lembah, Rawa, dan Dataran Tinggi.',
@@ -617,7 +620,10 @@ export const table: DeedLocaleTable = {
     name: 'Sesuatu yang Berkilau',
     desc: 'Pungut sebuah benda berkilauan dari tanah.',
   },
-  exp_first_ore: { desc: 'Panen titik bijih pertamamu.' },
+  exp_first_ore: {
+    name: 'Beliung Menemui Batu',
+    desc: 'Panen titik bijih pertamamu.',
+  },
   exp_first_timber: { name: 'Awas, Tumbang!', desc: 'Panen titik kayu pertamamu.' },
   exp_first_herb: { name: 'Tangan Dingin', desc: 'Panen titik herba pertamamu.' },
   feat_era_cap: {
@@ -691,9 +697,9 @@ export const table: DeedLocaleTable = {
     desc: 'Pancing seekor ikan dari perairan Rawa Mirefen.',
   },
   prog_guildsworn: {
-    name: 'Tersumpah Serikat',
+    name: 'Tersumpah Karya',
     desc: 'Selaraskan dirimu pada sepasang arketipe dan tekuni perdagangan-perdagangannya dengan sungguh-sungguh.',
-    title: 'Tersumpah Serikat',
+    title: 'Tersumpah Karya',
   },
   prog_masterwright: {
     name: 'Pandai Karya',

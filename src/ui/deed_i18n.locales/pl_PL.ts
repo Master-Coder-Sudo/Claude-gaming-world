@@ -429,7 +429,10 @@ export const table: DeedLocaleTable = {
     name: 'Stały klient',
     desc: 'Odkryj wszystkie dziesięć przedmiotów z zapasów Kwatermistrza Vexa.',
   },
-  col_glimmerfin: { name: 'Promyk nadziei' },
+  col_glimmerfin: {
+    name: 'Promyk nadziei',
+    desc: 'Złów Karpika Słonecznoblask.',
+  },
   col_full_creel: {
     name: 'Pełen kosz',
     desc: 'Odkryj wszystkie sześć pospolitych ryb z wód Doliny, Trzęsawiska i Wyżyn.',
@@ -612,7 +615,7 @@ export const table: DeedLocaleTable = {
   },
   exp_something_shiny: { name: 'Błyskotka', desc: 'Podnieś z ziemi migoczący przedmiot.' },
   exp_first_ore: {
-    name: 'Kilofem w ziemię!',
+    name: 'Kilof spotyka Kamień',
     desc: 'Wydobądź surowce ze swojego pierwszego złoża rudy.',
   },
   exp_first_timber: { name: 'Uwaga, drzewo!', desc: 'Pozyskaj swoje pierwsze stanowisko drewna.' },
@@ -685,9 +688,9 @@ export const table: DeedLocaleTable = {
     desc: 'Złów rybę w wodach Trzęsawiska Mokrzawia.',
   },
   prog_guildsworn: {
-    name: 'Zaprzysiężony Gildiom',
+    name: 'Zaprzysiężony Rzemiosłu',
     desc: 'Dostroić się do pary archetypów i podjąć na serio jej rzemiosła.',
-    title: 'Zaprzysiężony Gildiom',
+    title: 'Zaprzysiężony Rzemiosłu',
   },
   prog_masterwright: {
     name: 'Mistrz Wyrobu',

@@ -2152,12 +2152,12 @@ export const pl_PL: EnTranslations = {
       "alchemy+cooking": "Aptekarz",
       "cooking+leatherworking": "Traper",
       "leatherworking+tailoring": "Krawiec-Wytwórca",
-      "tailoring+inscription": "Tkacz Many",
+      "tailoring+inscription": "Magotkacz",
       "inscription+enchanting": "Arkanista",
       "enchanting+jewelcrafting": "Jubiler",
       "jewelcrafting+weaponcrafting": "Miecznik",
       "weaponcrafting+armorcrafting": "Kowal",
-      "armorcrafting+engineering": "Mechanik"
+      "armorcrafting+engineering": "Zębatkowiec"
     },
     "craftName": {
       "armorcrafting": "Wytwarzanie Pancerzy",
@@ -2209,7 +2209,7 @@ export const pl_PL: EnTranslations = {
       "enchant_legs_greater_stamina": "Zaklinanie nóg - Wielka wytrzymałość",
       "enchant_gloves_greater_agility": "Zaklinanie rękawic - Wielka zwinność",
       "enchant_weapon_runed_edge": "Zaklinanie broni - Runowe ostrze",
-      "enchant_weapon_runed_focus": "Zaklinanie broni - Runowy fokus",
+      "enchant_weapon_runed_focus": "Zaklinanie broni - Runowe Ognisko",
       "enchant_chest_runeweave": "Zaklinanie piersi - Runowy splot",
       "enchant_legs_runed_hide": "Zaklinanie nóg - Runowa skóra",
       "enchant_helmet_runed_links": "Zaklinanie hełmu - Runowe ogniwa"
@@ -2241,6 +2241,7 @@ export const pl_PL: EnTranslations = {
       "tutorialLine": "Osiągnij umiejętność {target} w dowolnym rzemiośle, aby odblokować swój pierwszy poziom.",
       "ctaHeader": "Następny krok",
       "ctaRaise": "Podnoś dalej {craft}: {points} więcej punktów do następnego poziomu.",
+      "ctaRaiseSpecialized": "Podnoś dalej {craft}: {points} więcej punktów do Specjalistycznego, a koszty materiałów spadną.",
       "ctaStart": "Na początek twórz lub zbieraj dowolną profesją.",
       "unattunedIdentity": "Nie jesteś jeszcze dostrojony do archetypu. Podnieś swoje rzemiosło i dokończ dostrojenie, aby wybrać swoją parę.",
       "nudgeNearTier": "{craft}: {points} punkty z następnego poziomu",
@@ -3611,15 +3612,15 @@ export const pl_PL: EnTranslations = {
     "professions": {
       "intro": "Poza walką i zadaniami świat nagradza pracę na roli i przy kuźni: zbieranie surowców, przekuwanie ich w ekwipunek i towary w dziesięciu rzemiosłach oraz wrastanie w tożsamość jednego z dziesięciu archetypów, które te fachy reprezentują.",
       "harvestTitle": "Pozyskiwanie z samego łowu",
-      "harvestBody": "Zbieractwo nie kończy się na węzłach. Z niektórych ubitych bestii można pozyskać komponenty, skóry, kły, jedwab i dziwniejsze rzeczy, prosto z ciała, obok zwykłego łupu. Jeden zbieracz na jedno zabójstwo: kto zbierze pierwszy, bierze wszystko. Za każdym razem wybór należy do ciebie: zdejmij wszystko, co ciało oferuje, albo skup się na jednym komponencie i weź jego lepszy gatunek. Zbierać może każda postać, bez fachu czy szkolenia, a szczególnie okazały komponent nosi nawet imię tego, kto go pozyskał.",
+      "harvestBody": "Zbieranie nie kończy się na węzłach. Wiele pokonanych bestii można zebrać po jednej z każdej tuszy, kto pierwszy ten lepszy, pozyskując skóry, kły, jedwab i mięso prosto ze zwłok razem ze zwykłym łupem; jedno wciśnięcie otwiera oboje. Wybór należy do ciebie za każdym razem: obierz wszystko, co oferują zwłoki, albo skup się na mniejszej liczbie składników i odbierz wyraźniejszy gatunek tego, co bierzesz.\n\nRzadki lub lepszy rzut zbierania ze zwłok rasy z osobnikami daje też podpisany doskonały okaz (Nieskazitelna Skóra, Nieskazitelny Jedwab, Nieskazitelny Gruczoł Jadowy lub Polędwiczek) ponad zwykłym plonem i zapisuje Doskonały Osobnik w twojej Księdze Czynów. Każda postać może zbierać bez żadnego szkolenia, a każde narzędzie zbierackie, które posiadasz, wlicza się do premii za jakość, niezależnie od fachu, do którego należy.",
       "focusTitle": "Priorytety miasta",
       "focusBody": "W każdym głównym mieście działa panel Priorytetów miasta dla odwiedzających zbieraczy: stań w mieście, otwórz go obok minimapy i skieruj niewielki budżet punktów priorytetu na interesujące cię rodzaje komponentów. Im więcej priorytetu przydzielisz komponentowi, tym lepszej i bogatszej jakości schodzi on z każdego późniejszego ciała; twój przydział podąża za postacią, gdziekolwiek się uda, a możesz go przerobić za darmo przy każdej kolejnej wizycie w mieście.",
       "craftHowTitle": "Okno wytwarzania",
-      "craftMasteryTitle": "Umiejętność i biegłość",
-      "craftMasteryBody": "Udane wytwarzanie buduje umiejętność w danym fachu, a umiejętność nigdy nie zamyka przepisów rzemiosła: jeśli znasz przepis i masz jego materiały, możesz spróbować. To, co daje ci umiejętność, to jakość, wprawna ręka wykonuje lepszą robotę. Jedynym wyjątkiem są przepisy łączone, które wymagają, byś wykazał się w obu ich fachach, zanim się otworzą.",
-      "archetypeChooseTitle": "Wybór archetypu",
-      "archetypeChooseBody": "Zadeklarowanie archetypu będzie momentem fabularnym: zadaniem, które formalnie przyjmuje cię do tej tożsamości. Ta droga wciąż powstaje, więc na razie każda postać przemierza świat z tym wyborem wciąż przed sobą, a każde rzemiosło w międzyczasie rozwija się do poziomu rzadkiej jakości.",
-      "archetypeSwitchBody": "Deklaracja nie będzie też dożywotnim wyrokiem. W planach jest powtarzalny akt zadośćuczynienia twojemu dawnemu fachowi, zanim podejmiesz nowy, przy czym zadośćuczynienie robi się coraz surowsze z każdą zmianą, dzięki czemu wybór pozostaje znaczący, a nie darmowy. Podobnie jak sama deklaracja, wciąż jest w drodze.",
+      "craftMasteryTitle": "Jak długo trwa zdobycie mistrzostwa",
+      "craftMasteryBody": "Uczciwe oczekiwania: wspinaczka do pułapu 125 w rzemiośle to co najmniej 125 udanych wytworzeń, gdyż każde wytworzenie za pełny przyrost przesuwa wynik dokładnie o jeden punkt, a w praktyce nieco więcej, gdy przepisy słabną między szczeblami mistrza. Samo wytwarzanie jest szybkie; zasilanie go to prawdziwa podróż, więc zaplanuj kilka dedykowanych wieczorów zbierania i wytwarzania na fach.\n\nFachy zbierackie docierają do pułapu 100 podczas normalnego poziomowania, jeśli zbierasz podczas podróży, choć ostatni odcinek wymaga węzłów wysokiego poziomu dalekiej północy. Wędkarstwo to z założenia długa droga: według własnego harmonogramu przyrostu, 200 biegłości to ponad trzy tysiące połowów. Mistrz Wędkarz to tytuł zdobywany przez cały sezon spokojnych wieczorów, nie przez jeden weekend.",
+      "archetypeChooseTitle": "List Gildii i zmiana zdania",
+      "archetypeChooseBody": "Nie musisz tego szukać samodzielnie. Wykonuj swoje rzemiosła, a gdy twoje umiejętności po raz pierwszy wyraźnie skłaniają się ku jednej parze, Gildia Rzemieślnicza to zauważa i wysyła list Kruczą Pocztą, podając imię mistrza do odwiedzenia i zadanie do podjęcia. Przybywa raz na postać i tylko wtedy, gdy nie złożyłeś jeszcze przysięgi parze.",
+      "archetypeSwitchBody": "Deklaracja nie jest też wyrokiem dożywotnim. Para, której nigdy nie miałeś, to po prostu świeże zadanie dostrojenia, natomiast powrót do pary, od której odszedłeś, wymaga najpierw naprawienia szkód: pięciu zadań za pierwszym razem, z trzema kolejnymi za każde następne przekształcenie. Wybór pozostaje znaczący, nie zamykając na dobre żadnych drzwi.",
       "whatHeading": "Fach obok miecza",
       "whatBody": "Profesje to życie zawodowe świata: cztery zawody zbierackie wyciągające surowce wprost z ziemi i pierścień dziesięciu rzemiosł przekuwających je w ekwipunek, posiłki, mikstury i narzędzia. Wszystko tu coś zasila. Ruda, którą wydobywasz, staje się ostrzem, ostrze przyjmuje zaklinanie, a zaklinanie potrzebuje pyłu wybitego ze starego ekwipunku, więc zbieracz, rzemieślnik i majster to ogniwa jednego łańcucha.\n\nNie ma tu limitu profesji, nad którym trzeba by się głowić. Każda postać może rozwijać wszystkie osiem rzemiosł z dzisiejszą zawartością i wszystkie cztery zawody zbierackie równolegle; jedynym wyłącznym wyborem jest twój archetyp - tożsamość, do której w końcu przysięgasz - choć gdy się dostroisz, rzemiosła, które za nim uśpią, przestają się wspinać. Umiejętność nigdy nie spada i niczego, czego się nauczyłeś, nie odbiera ci się nigdy.",
       "ringHeading": "Pierścień rzemiosł",
@@ -3639,7 +3640,7 @@ export const pl_PL: EnTranslations = {
       "stationsHeading": "Stacje i trzy centra",
       "stationsBody": "Sześć typowanych stacji obsługuje siedem rzemiosł stacjonarnych, rozłożonych po trzech centrach miejskich. Wschodni Potok mieści kuźnię (Płatnerstwo i Zbrojmistrzostwo dzielą ją), kuchnie, krosnię i warsztat; Fenmost ma garbarnie, a Wysoka Straż aptekarię. Przy każdej stacji stoi rezydujący mistrz, który uczy przepisów, wystawia zlecenia i oferuje usługę odwiązywania.\n\nPromień pracy to 20 jardów, mniej więcej podwórko stacji, więc wytwarza się stojąc przy kowadle, a nie z drugiego końca miasta. Jubilerstwo, Inskrypcja i Zaklinanie nie mają stacji: pierwsze dwa czekają na przepisy, a Zaklinanie działa wszędzie z założenia.",
       "deedsHeading": "Czyny pamiętające drogę",
-      "deedsBody": "Księga Czynów kroczy obok każdego kroku tej drogi. Pierwsze dostrojenie przynosi czyn Zaprzysiężony Gildiom, a pierwsze arcydzieło - Mistrz Wyrobu, oba do noszenia jako tytuły. Każde z ośmiu rzemiosł możliwych do zdobycia zaznacza kamień milowy przy 50 umiejętności i uwieńcza swój limit tytułem Arcymistrza, podczas gdy wędkarstwo dostaje Starego Solonego przy 100 biegłości i tytuł Mistrza Wędkarstwa przy 200.\n\nSą też spokojniejsze strony: czyny za pierwsze zebranie i pierwsze wytworzenie, za rzadkie znaleziska, które los przynosi w terenie, i za wzięcie się za salvage. Wszystko jest kosmetyczne: tytuły i Renoma wyłącznie. Czyn nie daje mocy; tylko udowadnia, że tam byłeś.",
+      "deedsBody": "Księga Czynów kroczy obok każdego kroku tej drogi. Pierwsze dostrojenie przynosi czyn Zaprzysiężony Rzemiosłu, a pierwsze arcydzieło - Mistrz Wyrobu, oba do noszenia jako tytuły. Każde z ośmiu rzemiosł możliwych do zdobycia zaznacza kamień milowy przy 50 umiejętności i uwieńcza swój limit tytułem Arcymistrza, podczas gdy wędkarstwo dostaje Starego Solonego przy 100 biegłości i tytuł Mistrza Wędkarstwa przy 200.\n\nSą też spokojniejsze strony: czyny za pierwsze zebranie i pierwsze wytworzenie, za rzadkie znaleziska, które los przynosi w terenie, i za wzięcie się za salvage. Wszystko jest kosmetyczne: tytuły i Renoma wyłącznie. Czyn nie daje mocy; tylko udowadnia, że tam byłeś.",
       "startHeading": "Od czego zacząć",
       "startBody": "Świeżo przybyły do Wschodniego Potoku? Znajdź Brygadzistę Odella i przyjmij zadanie Fach dla Każdej Ręki: wskaże ci żyły rudy wokół Miedzianego Wykopu na południowym zachodzie od miasta i da ci pierwsze odciski. Od tej chwili zbieraj każdą żyłę, drzewostan i łan ziół, które mijasz przy zadaniach; biegłość przychodzi naturalnie do podróżników.\n\nZ powrotem w mieście naciśnij T, by otworzyć okno wytwarzania, i pracuj na pospolitych przepisach znanych każdej postaci od początku. Odwiedź mistrzów przy kuźni, kuchni, krosnach i warsztacie, by zobaczyć, czego uczą, i przyjmij ich zlecenia na stały dochód. Zanim list Gildii cię odnajdzie, już będziesz wiedział, która para czuje się jak dom.",
       "colStation": "Stacja",
@@ -3680,9 +3681,9 @@ export const pl_PL: EnTranslations = {
       "colNodeTier": "Poziom węzła",
       "colToolNeeded": "Wymagane narzędzie",
       "craftIntro": {
-        "weaponcrafting": "Wytwarzanie Broni to kuźnia oręża z Eastbrook: topory, maczugi, ostrza, włócznie i nawet różdżka zaklinacza, od miedziannych początków po rzadką robotę thoriumową i arknitową. Broń to najbardziej odczuwalny awans, jaki można kupić za poziom, więc wytwórca broni to przyjaciel, którego wszyscy pamiętają, by sobie zrobić.",
-        "armorcrafting": "Wytwarzanie Pancerzy kuje kolczugę, najcięższy pancerz, jaki rzemieślnik może zrobić, od nitowanych miedziannych podstaw po rzadki zestaw ze skóry thorium, z parą elementów pod statystyki magów przy okazji. Jego klientami są ci, którzy stoją tam, gdzie lądują ciosy.",
-        "tailoring": "Krawiectwo tka materiał na Intelekt i Ducha, w którym żyją zaklęty, od płóciennych podstaw przez zestaw złotosplotny po rzadką robótę słonecznosplotną, i zszywa Jedwabną Sakwę, dziesięciomiejscowy plecak, którego nikt nigdy nie odmawia.",
+        "weaponcrafting": "Wytwarzanie Broni to kuźnia oręża z Eastbrook: topory, maczugi, ostrza, włócznie i nawet różdżka zaklinacza, od miedziannych początków po rzadką robotę osmiumową i glifostalową. Broń to najbardziej odczuwalny awans, jaki można kupić za poziom, więc wytwórca broni to przyjaciel, którego wszyscy pamiętają, by sobie zrobić.",
+        "armorcrafting": "Wytwarzanie Pancerzy kuje kolczugę, najcięższy pancerz, jaki rzemieślnik może zrobić, od nitowanych miedziannych podstaw po rzadki zestaw osmiumowy, z parą elementów pod statystyki magów przy okazji. Jego klientami są ci, którzy stoją tam, gdzie lądują ciosy.",
+        "tailoring": "Krawiectwo tka materiał na Intelekt i Ducha, w którym żyją zaklęci, od płóciennych podstaw przez zestaw Gildenweave po rzadką robótkę słonecznosplotną, i zszywa Jedwabną Sakwę, dziesięciomiejscowy plecak, którego nikt nigdy nie odmawia.",
         "leatherworking": "Garbarstwo wyprawia ekwipunek na Zręczność i Wytrzymałość dla klas, które unikają zamiast blokować, od fenbryjskich skórzanych podstaw po rzadki zestaw strażnika bajor, i jest jedynym głębokim fachem szkolonym poza Eastbrook.",
         "cooking": "Gotowanie zamienia dzienny połów w posiłki, które leczą przez 18 sekund odpoczynku: najtańsze leczenie w grze, od Solonej Soloniny aż po Wielki Pieczeń Marlowa. Wszyscy jedzą, więc żaden fach nie jest bardziej powszechnie mile widziany w grupie.",
         "alchemy": "Alchemia zamienia zioła, gruczoły i szkło w butelki, które wygrywają walki: leczące i manowe wywary na chwilę, gdy wszystko idzie nie tak, oraz eliksiry wytrzymałości, które siedzą na pasku wzmocnień przez cały loch.",
@@ -3692,43 +3693,43 @@ export const pl_PL: EnTranslations = {
       "craftProse": {
         "weaponcrafting": {
           "identityHeading": "Ostrze, którego szuka każdy wojownik",
-          "identityBody": "Ktoś w każdej grupie chce roboty tego fachu, bo sam rzadki szczebel pokrywa wszystkie trzy apetyty: Wojenna Klinga z Thorium dla walczących na Siłę, Wojenny Topór z Arkanitu dla myśliwych na Zręczność, oraz Bojowy Kostur z Elderwood, laska na Intelekt i Ducha dla tłumu w szatach.\n\nNa pierścieniu rzemiosł stoi między Wytwarzaniem Pancerzy a Jubilerstwem. Jego żywą tożsamością jest Kowal, para Wytwarzania Broni i Wytwarzania Pancerzy, przysięgnięta przed Mistrzynią Kuźni Darvą przy kuźni przez wydobycie trzech żył rudy własnymi rękami; para Mistrzów Ostrzy z Jubilerstwem jest też nazwana na pierścieniu, ale nie można jej jeszcze przysięgnąć, bo Jubilerstwo nie wydaje przepisów aż do późniejszej ekspansji stref.",
+          "identityBody": "Ktoś w każdej grupie chce roboty tego fachu, bo sam rzadki szczebel pokrywa wszystkie trzy apetyty: Osmiumowa Klinga Wojenna dla walczących na Siłę, Glifostalowy Topór Wojenny dla myśliwych na Zręczność, oraz Wysokososnowy Kostur Bojowy, laska na Intelekt i Ducha dla tłumu w szatach.\n\nNa pierścieniu rzemiosł stoi między Wytwarzaniem Pancerzy a Jubilerstwem. Jego żywą tożsamością jest Kowal, para Wytwarzania Broni i Wytwarzania Pancerzy, przysięgnięta przed Mistrzynią Kuźni Darvą przy kuźni przez wydobycie trzech żył rudy własnymi rękami; para Mistrzów Ostrzy z Jubilerstwem jest też nazwana na pierścieniu, ale nie można jej jeszcze przysięgnąć, bo Jubilerstwo nie wydaje przepisów aż do późniejszej ekspansji stref.",
           "materialsHeading": "Czym żywi się kuźnia",
-          "materialsBody": "Górnictwo to fundament. Miedź pochodzi z żył pierwszego poziomu w Dolinie Eastbrook, ruda żelaza z Mirefen, a ruda thorium ze Thornpeak, i każdy szczebel drabiny wspina się dokładnie tak samo. Drwalstwo ma większe znaczenie, niż mogłoby się wydawać: żelazna kora służy jako trzon włóczni na dzika, jesionowe drewno dźwiga buzdygan, a z jednej kłody starodrzewu powstaje laska bojowa.\n\nReszta pochodzi z łowów i lady. Szorstka skóra na uchwyty jest zbierana prosto z tusz wilków i dzików, fragmenty kości wypadają przy zwykłych zabójstwach, a drabina kuźni spala Topnik Kowalski, po 20 miedzi za słoik od samej Darvy. Jeśli twoje wydobycie własne pozostaje w tyle, Darva sprzedaje rudę thorium przy kuźni, a Majsterkowicz Gizzel zaopatruje sztabki arkanitu w warsztatach, za dopłatą, która sprawia, że znajomi zbieracze wyglądają tanio.",
+          "materialsBody": "Górnictwo to fundament. Miedź pochodzi z żył pierwszego poziomu w Dolinie Eastbrook, ruda żelaza z Mirefen, a ruda osmium ze Thornpeak, i każdy szczebel drabiny wspina się dokładnie tak samo. Drwalstwo ma większe znaczenie, niż mogłoby się wydawać: żelaznokora służy jako trzon włóczni na dzika, jesionowe drewno dźwiga buzdygan, a z jednej kłody Wysokiej Sosny powstaje laska bojowa.\n\nReszta pochodzi z łowów i lady. Szorstka skóra na uchwyty jest zbierana prosto z tusz wilków i dzików, fragmenty kości wypadają przy zwykłych zabójstwach, a drabina kuźni spala Topnik Kowalski, po 20 miedzi za słoik od samej Darvy. Jeśli twoje wydobycie własne pozostaje w tyle, Darva sprzedaje rudę osmium przy kuźni, a Majsterkowicz Gizzel zaopatruje sztabki glifostalu w warsztatach, za dopłatą, która sprawia, że znajomi zbieracze wyglądają tanio.",
           "ladderHeading": "Drabinka szczebel po szczeblu",
-          "ladderBody": "Jeden przepis polowy, Miecz Uzbrojenia z Eastbrook, jest znany wszystkim od początku i wytwarza się wszędzie ze spadów z łowów (para wilczych kłów i odłamki kości) plus sześć Topników Kowalskich z lady kuźni. Prawdziwa drabinka to dziewięć przepisów od mistrza w trzech szczeblach, wszystkie ograniczone do kuźni: miedziany szczebel (topór brodaty, buława żebrowana, włócznia na dzika) jest darmowy do nauki przy umiejętności 0, żelazny szczebel (długi miecz, maczuga, sztylet) otwiera się przy umiejętności 25 za 25 srebrnych za przepis, a thoriumowy szczebel (klinga wojenna, topór wojenny, kostur bojowy) otwiera się przy umiejętności 50 za 1 złoty za przepis. Darva uczy przepisu w chwili, gdy twój poziom w fachu osiągnie jego własny, więc każdy szczebel odblokowuje się dokładnie wtedy, gdy zaczyna się jego pasmo umiejętności.\n\nJeden dodatkowy przepis jedzie z parą: Rękawice Grobosmoka, kombinowany element nauczany przez mistrza, możliwy do wykonania tylko przez dostrojonego Kowala z Wytwarzaniem Broni i Wytwarzaniem Pancerzy na poziomie 25, i nie wymaga żadnej stacji.",
+          "ladderBody": "Jeden przepis polowy, Miecz Uzbrojenia z Eastbrook, jest znany wszystkim od początku i wytwarza się wszędzie ze spadów z łowów (para wilczych kłów i odłamki kości) plus sześć Topników Kowalskich z lady kuźni. Prawdziwa drabinka to dziewięć przepisów od mistrza w trzech szczeblach, wszystkie ograniczone do kuźni: miedziany szczebel (topór brodaty, buława żebrowana, włócznia na dzika) jest darmowy do nauki przy umiejętności 0, żelazny szczebel (długi miecz, maczuga, sztylet) otwiera się przy umiejętności 25 za 25 srebrnych za przepis, a osmiumowy szczebel (klinga wojenna, topór wojenny, kostur bojowy) otwiera się przy umiejętności 50 za 1 złoty za przepis. Darva uczy przepisu w chwili, gdy twój poziom w fachu osiągnie jego własny, więc każdy szczebel odblokowuje się dokładnie wtedy, gdy zaczyna się jego pasmo umiejętności.\n\nJeden dodatkowy przepis jedzie z parą: Rękawice Grobosmoka, kombinowany element nauczany przez mistrza, możliwy do wykonania tylko przez dostrojonego Kowala z Wytwarzaniem Broni i Wytwarzaniem Pancerzy na poziomie 25, i nie wymaga żadnej stacji.",
           "routeHeading": "Arcydzieła i robocza trasa do poziomu 125",
-          "routeBody": "Każdy przedmiot z prawdziwą linią statystyk, co na tej drabinie oznacza poziom żelaza i wyżej, może wyjść z kowadła jako arcydzieło; pospolite wyroby miedziane bez statystyk nigdy nie wyzwalają efektu, bo nie ma w nich nic do ulepszenia. Żelazo liczy się jako materiał pierwszego poziomu dla premii arcydzieła, starodrzew i arkanit jako drugiego, więc najwyższy szczebel wyzwala efekt nieco częściej.\n\nPrzejedź poziom miedzi do 25, naucz się poziomu żelaza w dniu, gdy się odblokuje, i przejedź go do 50, następnie poziom thorium do 75. Po 75 nic wyższego nie jest jeszcze dostępne, więc przepisy thorium słabną do połowy, a potem ćwierci zysku: zaplanuj mniej więcej 150 dodatkowych wyrobów, by dotrzeć do pułapu 125, i pamiętaj o współdzielonym ograniczniku dziesięciu akcji wytwarzania na minutę, gdy siadasz do hurtowej produkcji.\n\nFinansuj wspinaczkę na bieżąco: zlecenie robocze z kuźni Darvy bierze osiem rud miedzi z ręki co 30 minut w zamian za trochę monet i PD, a poziomy żelaza i thorium sprzedają się uczciwie rozwijającym się wojownikom wręcz. Księga Czynów oznacza Ostrze i Zahartowanie przy umiejętności 50 i uwieńcza tytułem Wielki Mistrz Wytwarzania Broni przy 125."
+          "routeBody": "Każdy przedmiot z prawdziwą linią statystyk, co na tej drabinie oznacza poziom żelaza i wyżej, może wyjść z kowadła jako arcydzieło; pospolite wyroby miedziane bez statystyk nigdy nie wyzwalają efektu, bo nie ma w nich nic do ulepszenia. Żelazo liczy się jako materiał pierwszego poziomu dla premii arcydzieła, Wysoka Sosna i glifstal jako drugiego, więc najwyższy szczebel wyzwala efekt nieco częściej.\n\nPrzejedź poziom miedzi do 25, naucz się poziomu żelaza w dniu, gdy się odblokuje, i przejedź go do 50, następnie poziom osmium do 75. Po 75 nic wyższego nie jest jeszcze dostępne, więc przepisy osmiumowe słabną do połowy, a potem ćwierci zysku: zaplanuj mniej więcej 150 dodatkowych wyrobów, by dotrzeć do pułapu 125, i pamiętaj o współdzielonym ograniczniku dziesięciu akcji wytwarzania na minutę, gdy siadasz do hurtowej produkcji.\n\nFinansuj wspinaczkę na bieżąco: zlecenie robocze z kuźni Darvy bierze osiem rud miedzi z ręki co 30 minut w zamian za trochę monet i PD, a poziomy żelaza i osmium sprzedają się uczciwie rozwijającym się wojownikom wręcz. Księga Czynów oznacza Ostrze i Zahartowanie przy umiejętności 50 i uwieńcza tytułem Wielki Mistrz Wytwarzania Broni przy 125."
         },
         "armorcrafting": {
           "identityHeading": "Kolczuga na pierwszą linię",
-          "identityBody": "Drabinka Wytwarzania Pancerzy czyta się jak kariera żołnierza: zwykły nitowany miedziany pas, sabatonki i rękawice na start, kolczugowy napierśnik, nagolenniki i naramienniki ze swoimi pierwszymi prawdziwymi liniami statystyk, oraz rzadki wielki hełm, napierśnik i nagolenniki ze skóry thorium, elementy Siły i Wytrzymałości z największymi liczbami pancerza, jakie rzemieślnik może zrobić.\n\nMa też cichszą stronę: Ochraniacze Nóg ze Wschodniej Twierdzy Eastbrook, element polowy pod statystyki magów, oraz Naramiennik Poczernionej Łuski, rzadki naramiennik kolczugi na Intelekt i Ducha przy umiejętności 75, trzymają magicznie nastawionych nosicieli kolczugi na liście klientów. Na pierścieniu stoi między Wytwarzaniem Broni a Inżynierią; para Kowala z Wytwarzaniem Broni jest przysięgana przed Mistrzynią Kuźni Darvą, a para Zębatkowca z Inżynierią jest nazwana, ale nie ma jeszcze zadania przysięgi.",
+          "identityBody": "Drabinka Wytwarzania Pancerzy czyta się jak kariera żołnierza: zwykły nitowany miedziany pas, sabatonki i rękawice na start, kolczugowy napierśnik, nagolenniki i naramienniki ze swoimi pierwszymi prawdziwymi liniami statystyk, oraz rzadki wielki hełm, napierśnik i nagolenniki osmiumowej łuski, elementy Siły i Wytrzymałości z największymi liczbami pancerza, jakie rzemieślnik może zrobić.\n\nMa też cichszą stronę: Ochraniacze Nóg ze Wschodniej Twierdzy Eastbrook, element polowy pod statystyki magów, oraz Naramiennik Piecołuski, rzadki naramiennik kolczugi na Intelekt i Ducha przy umiejętności 75, trzymają magicznie nastawionych nosicieli kolczugi na liście klientów. Na pierścieniu stoi między Wytwarzaniem Broni a Inżynierią; para Kowala z Wytwarzaniem Broni jest przysięgana przed Mistrzynią Kuźni Darvą, a para Zębatkowca z Inżynierią jest nazwana, ale nie ma jeszcze zadania przysięgi.",
           "materialsHeading": "Ruda na worki",
-          "materialsBody": "Żaden fach nie pochłania rudy szybciej. Sam kolczugowy napierśnik bierze pięć rud żelaza, a każdy element ze skóry thorium potrzebuje trzech lub czterech sztuk thorium plus pręt arkanitu, więc poważny wytwórca pancerzy wydobywa w Bagnach Mirefen i Wyżynach Thornpeak lub płaci komuś, kto to robi. Miedź zasila pierwszy szczebel, prosto z żył przy Miedzianym Kopalniku.\n\nWokół metalu idą miękkie elementy: surowa skóra zbierana ze zwłok wilków i dzików, odłamki kości i lniane skrawki ze zwykłego łowiectwa, oraz słoik Topnika Kowalskiego (20 miedzianych przy kuźni) w niemal każdym przepisie. Darva sprzedaje rudę thorium przez ladę dla niecierpliwych.",
+          "materialsBody": "Żaden fach nie pochłania rudy szybciej. Sam kolczugowy napierśnik bierze pięć rud żelaza, a każdy element osmiumowej łuski potrzebuje trzech lub czterech sztuk osmium plus sztabkę glifostalu, więc poważny wytwórca pancerzy wydobywa w Bagnach Mirefen i Wyżynach Thornpeak lub płaci komuś, kto to robi. Miedź zasila pierwszy szczebel, prosto z żył przy Miedzianym Kopalniku.\n\nWokół metalu idą miękkie elementy: surowa skóra zbierana ze zwłok wilków i dzików, odłamki kości i lniane skrawki ze zwykłego łowiectwa, oraz słoik Topnika Kowalskiego (20 miedzianych przy kuźni) w niemal każdym przepisie. Darva sprzedaje rudę osmium przez ladę dla niecierpliwych.",
           "ladderHeading": "Nauka przy kuźni Darvy",
-          "ladderBody": "Dwa polowe pospolite elementy, Kolczugi Wschodni Kaftan i Ochraniacze Nóg, są znane od samego początku i wytwarzane wszędzie. Drabinka mistrza to dziewięć przepisów w trzech szczeblach w kuźni Eastbrook: miedziany szczebel jest darmowy przy umiejętności 0, szczebel kolczugowy kosztuje 25 srebrnych za przepis od umiejętności 25, a szczebel ze skóry thorium kosztuje 1 złoty za przepis od umiejętności 50, przy czym każdy szczebel można kupić w chwili, gdy twój poziom go osiągnie.\n\nPoza drabinką leżą dwie specjalne rzeczy. Hełm Kamienia Granicznego to kombinowany przepis Kowala, nauczany przez mistrza, bez stacji, możliwy do wykonania tylko przez dostrojonego Kowala z obydwoma fachami na umiejętności 25. Naramiennik Poczernionej Łuski nie wymaga żadnego mistrza: wszyscy go znają, ale przy umiejętności 75 i ograniczony do kuźni, to zwieńczenie trzeciego poziomu fachu.",
+          "ladderBody": "Dwa polowe pospolite elementy, Kolczugi Wschodni Kaftan i Ochraniacze Nóg, są znane od samego początku i wytwarzane wszędzie. Drabinka mistrza to dziewięć przepisów w trzech szczeblach w kuźni Eastbrook: miedziany szczebel jest darmowy przy umiejętności 0, szczebel kolczugowy kosztuje 25 srebrnych za przepis od umiejętności 25, a szczebel osmiumowej łuski kosztuje 1 złoty za przepis od umiejętności 50, przy czym każdy szczebel można kupić w chwili, gdy twój poziom go osiągnie.\n\nPoza drabinką leżą dwie specjalne rzeczy. Hełm Kamienia Granicznego to kombinowany przepis Kowala, nauczany przez mistrza, bez stacji, możliwy do wykonania tylko przez dostrojonego Kowala z obydwoma fachami na umiejętności 25. Naramiennik Piecołuski nie wymaga żadnego mistrza: wszyscy go znają, ale przy umiejętności 75 i ograniczony do kuźni, to zwieńczenie trzeciego poziomu fachu.",
           "routeHeading": "Arcydzieła i działająca droga do 125",
-          "routeBody": "Od szczebla kolczugowego wzwyż każde wytworzenie rzuca szansę na arcydzieło; pospolite miedzianie bez pancerza nie mogą jej procować, bo arcydzieło poprawia statystyki, a te ich nie mają. Żelazo liczy się jako materiał pierwszego poziomu dla procentu, a arkanit jako drugiego.\n\nWspinaczka to standardowa trzyszczeblowa przejażdżka: miedź do 25, kolczuga do 50, skóra thorium do 75, ucząc każdego szczebla w dniu, gdy się otwiera. Wytwarzanie Pancerzy ma szczęście w odcinku po 75: Naramiennik Poczernionej Łuski to przepis trzeciego poziomu, więc płaci pełny przyrost do 99 i połowę potem, co oznacza, że ostatnie pięćdziesiąt punktów zajmuje około 75 wytworzeń zamiast 150, których potrzebuje fach bez zwieńczenia. Każdy naramiennik kosztuje siedem rud thorium i pięć Topników Kowalskich, więc zaopatrz się w Thornpeak i przy ladzie kuźni przed rozpoczęciem biegu.\n\nZamówienie robocze Darvy kupuje osiem rud miedzianych co 30 minut za monetę i PD, niezły odpływ dla rudy niskiego poziomu, z której wyrastasz. Księga Czynów zaznacza Młot i Płytę przy umiejętności 50, a Arcymistrzostwo Wytwarzania Pancerzy czeka przy pułapie 125."
+          "routeBody": "Od szczebla kolczugowego wzwyż każde wytworzenie rzuca szansę na arcydzieło; pospolite miedzianie bez pancerza nie mogą jej procować, bo arcydzieło poprawia statystyki, a te ich nie mają. Żelazo liczy się jako materiał pierwszego poziomu dla procentu, a glifstal jako drugiego.\n\nWspinaczka to standardowa trzyszczeblowa przejażdżka: miedź do 25, kolczuga do 50, osmiumowa łuska do 75, ucząc każdego szczebla w dniu, gdy się otwiera. Wytwarzanie Pancerzy ma szczęście w odcinku po 75: Naramiennik Piecołuski to przepis trzeciego poziomu, więc płaci pełny przyrost do 99 i połowę potem, co oznacza, że ostatnie pięćdziesiąt punktów zajmuje około 75 wytworzeń zamiast 150, których potrzebuje fach bez zwieńczenia. Każdy naramiennik kosztuje siedem rud osmium i pięć Topników Kowalskich, więc zaopatrz się w Thornpeak i przy ladzie kuźni przed rozpoczęciem biegu.\n\nZamówienie robocze Darvy kupuje osiem rud miedzianych co 30 minut za monetę i PD, niezły odpływ dla rudy niskiego poziomu, z której wyrastasz. Księga Czynów zaznacza Młot i Płytę przy umiejętności 50, a Arcymistrzostwo Wytwarzania Pancerzy czeka przy pułapie 125."
         },
         "tailoring": {
           "identityHeading": "Tkanina dla zaklinaczy, torby dla wszystkich",
-          "identityBody": "Drabinka wspina się od płóciennych podstaw przez zestaw złotosplotny po rzadki szczebel: Szatę Jedwaboprzędnika i elementy słonecznosplotne. Jej drugi fach jest uniwersalny: Jedwabiana Sakwa to dziesięciomiejscowy plecak, i nie ma klasy, specjalizacji ani poziomu, który nie chciałby więcej miejsca w torbach.\n\nNa pierścieniu Krawiectwo siedzi między Garbarstwem a Inskrypcją. Jego żywą parą jest Zaopatrzeniowiec, Garbarstwo i Krawiectwo razem, przysięgnięte przed Tkaczką Ottilie przy krosnach Eastbrook po wytrzebieniu czterech pająków jedwabnikowych dla ich jedwabiu; para Magotkaczy z Inskrypcją jest nazwana na pierścieniu, ale czeka na pierwsze przepisy Inskrypcji przed możliwością przysięgania.",
+          "identityBody": "Drabinka wspina się od płóciennych podstaw przez zestaw Gildenweave po rzadki szczebel: Szatę Jedwaboprzędnika i elementy słonecznosplotne. Jej drugi fach jest uniwersalny: Jedwabiana Sakwa to dziesięciomiejscowy plecak, i nie ma klasy, specjalizacji ani poziomu, który nie chciałby więcej miejsca w torbach.\n\nNa pierścieniu Krawiectwo siedzi między Garbarstwem a Inskrypcją. Jego żywą parą jest Zaopatrzeniowiec, Garbarstwo i Krawiectwo razem, przysięgnięte przed Tkaczką Ottilie przy krosnach Eastbrook po wytrzebieniu czterech pająków jedwabnikowych dla ich jedwabiu; para Atramentarzy z Inskrypcją jest nazwana na pierścieniu, ale czeka na pierwsze przepisy Inskrypcji przed możliwością przysięgania.",
           "materialsHeading": "Nić, jedwab i, tak, zioła",
-          "materialsBody": "Krosna działają na tym, co spada z łowów i co rosną na polach. Lniane skrawki i grube płótno schodzą z zabójstw humanoidów, pajączy jedwab jest zbierany ze zwłok pająków, a centralny element rzadkiego szczebla, Szata Jedwaboprzędnika, potrzebuje Nieskazitelnego Jedwabiu, sygnowanego okazu, który pojawia się przy szczęśliwym żniwie ze zwłok.\n\nZielarstwo karmi Krawiectwo bardziej niż jakikolwiek inny fach oparty na ekwipunku: srebrnolist wykańcza kapcie, złotolist barwi zestaw złotosplotny, a słonecznopłatek szyje przez cały rzadki szczebel, więc krawiec, który zbiera własne zioła, oszczędza stale. Szpula Nici kosztuje 12 miedzianych od Ottilie, a krosna nie wymagają żadnego metalu: nawet zwieńczeniowy Kaptur Odzianowelnowy jest tkany z premium ziół, Nieskazitelnego Jedwabiu, pajączego jedwabiu i nici.",
+          "materialsBody": "Krosna działają na tym, co spada z łowów i co rosną na polach. Lniane skrawki i grube płótno schodzą z zabójstw humanoidów, pajączy jedwab jest zbierany ze zwłok pająków, a centralny element rzadkiego szczebla, Szata Jedwaboprzędnika, potrzebuje Nieskazitelnego Jedwabiu, sygnowanego okazu, który pojawia się przy szczęśliwym żniwie ze zwłok.\n\nZielarstwo karmi Krawiectwo bardziej niż jakikolwiek inny fach oparty na ekwipunku: lśnolist wykańcza kapcie, złotolist barwi zestaw Gildenweave, a słonecznopłatek szyje przez cały rzadki szczebel, więc krawiec, który zbiera własne zioła, oszczędza stale. Szpula Nici kosztuje 12 miedzianych od Ottilie, a krosna nie wymagają żadnego metalu: nawet zwieńczeniowy Kaptur Odzianowelnowy jest tkany z premium ziół, Nieskazitelnego Jedwabiu, pajączego jedwabiu i nici.",
           "ladderHeading": "Nauka przy krosnach Ottilie",
-          "ladderBody": "Dwa polowe pospolite elementy, Wschodnie Spodnie Wełniane i Obrzędowe Szaty, są znane od początku i wytwarzane wszędzie. Drabinka mistrza biegnie przy krosnach na południe od studni Eastbrook: szczebel płócienny (kaptur, rękawiczki, kapcie) jest darmowy przy umiejętności 0, szczebel złotosplotny (szata, nogawice i Jedwabiana Sakwa) kosztuje 25 srebrnych za przepis przy umiejętności 25, a rzadki szczebel (szata ozdobna, naramiennik, buty) kosztuje 1 złoty za przepis przy umiejętności 50.\n\nKaptur Odzianowelnowy nie wymaga mistrza: wszyscy go znają, ale siedzi przy umiejętności 75, ograniczony do krosien, jako zwieńczenie trzeciego poziomu fachu. Jak wszędzie, Ottilie uczy przepisu, gdy twój poziom w Krawiectwi go osiągnie.",
+          "ladderBody": "Dwa polowe pospolite elementy, Wschodnie Spodnie Wełniane i Obrzędowe Szaty, są znane od początku i wytwarzane wszędzie. Drabinka mistrza biegnie przy krosnach na południe od studni Eastbrook: szczebel płócienny (kaptur, rękawiczki, kapcie) jest darmowy przy umiejętności 0, szczebel Gildenweave (szata, nogawice i Jedwabiana Sakwa) kosztuje 25 srebrnych za przepis przy umiejętności 25, a rzadki szczebel (szata ozdobna, naramiennik, buty) kosztuje 1 złoty za przepis przy umiejętności 50.\n\nKaptur Odzianowelnowy nie wymaga mistrza: wszyscy go znają, ale siedzi przy umiejętności 75, ograniczony do krosien, jako zwieńczenie trzeciego poziomu fachu. Jak wszędzie, Ottilie uczy przepisu, gdy twój poziom w Krawiectwi go osiągnie.",
           "routeHeading": "Arcydzieła i działająca droga do 125",
-          "routeBody": "Nieskazitelny Jedwab w szacie ozdobnej obejmuje premię za sygnowany reagent arcydzieła sam w sobie, a złotolist i słonecznopłatek liczą się jako materiały pierwszego i drugiego poziomu dla procentu, więc rzadki szczebel to miejsce, gdzie szanse szczytują. Zwykła, statystycznie pusta robota jak sakwa nigdy nie procuje: arcydzieło poprawia statystyki, a torba ich nie ma.\n\nZszyj płócienny szczebel do 25, ucz złotosplotnego w dniu, gdy się otwiera i jedź nim do 50, potem rzadkiego szczebla do 75. Od 75 Kaptur Odzianowelnowy przejmuje: przepis trzeciego poziomu, pełny przyrost do 99 i połowa potem, około 75 wytworzeń na ostatnie pięćdziesiąt punktów, każde kosztujące dwa Nieskazitelne Jedwabie, cztery pajączy jedwab, parę słonecznopłatka i złotolistu, i dwie nici.\n\nSpraw, by wspinaczka opłacała samą siebie: sakwy sprzedają się dosłownie wszystkim, a zamówienie robocze krosien Ottilie kupuje sześć pajączego jedwabiu co 30 minut. Księga Czynów zaznacza Dobre Szycie przy umiejętności 50, z Arcymistrzostwem Krawiectwa czekającym przy pułapie 125."
+          "routeBody": "Nieskazitelny Jedwab w szacie ozdobnej obejmuje premię za sygnowany reagent arcydzieła sam w sobie, a złotolist i słonecznopłatek liczą się jako materiały pierwszego i drugiego poziomu dla procentu, więc rzadki szczebel to miejsce, gdzie szanse szczytują. Zwykła, statystycznie pusta robota jak sakwa nigdy nie procuje: arcydzieło poprawia statystyki, a torba ich nie ma.\n\nZszyj płócienny szczebel do 25, ucz Gildenweave w dniu, gdy się otwiera i jedź nim do 50, potem rzadkiego szczebla do 75. Od 75 Kaptur Odzianowelnowy przejmuje: przepis trzeciego poziomu, pełny przyrost do 99 i połowa potem, około 75 wytworzeń na ostatnie pięćdziesiąt punktów, każde kosztujące dwa Nieskazitelne Jedwabie, cztery pajączy jedwab, parę słonecznopłatka i złotolistu, i dwie nici.\n\nSpraw, by wspinaczka opłacała samą siebie: sakwy sprzedają się dosłownie wszystkim, a zamówienie robocze krosien Ottilie kupuje sześć pajączego jedwabiu co 30 minut. Księga Czynów zaznacza Dobre Szycie przy umiejętności 50, z Arcymistrzostwem Krawiectwa czekającym przy pułapie 125."
         },
         "leatherworking": {
           "identityHeading": "Skóra dla szybkich",
           "identityBody": "Drabinka wspina się od zwykłych fenbryjskich skórzanych nogawic, butów i pasa przez niespopolite kaftany, kaptura i naramienniki strażnika bagien po rzadki zestaw strażnika bajor, najlepszą skórę, jaką rzemieślnik może wyciąć. Dwa elementy pod magów go uzupełniają: polowy Kaftan Druida ze Wschodniego Eastbrook i Owijacze Mrocznej Skóry przy umiejętności 75.\n\nNa pierścieniu siedzi między Gotowaniem a Krawiectwem. Jego żywą parą jest Zaopatrzeniowiec, Garbarstwo i Krawiectwo, przysięgnięte przed Tkaczką Ottilie w Eastbrook; para Łapacza z Gotowaniem jest nazwana na pierścieniu, ale nie ma jeszcze zadania przysięgi.",
           "materialsHeading": "Łów to żniwo",
-          "materialsBody": "Garbarstwo to fach, gdzie twoja trasa poziomowania i linia dostaw to to samo: surowa skóra jest zbierana prosto ze skóronośnych zwłok, wilków i dzików przede wszystkim, a każde zwłoki służy tylko jednemu zbieraczowi, kto pierwszy ten lepszy. Rzadkie lub lepsze żniwo ze zwłok daje też Nieskazitelną Skórę, sygnowany okaz, którego Kaftan Strażnika Bajor wymaga, więc bankuj każdą, jaką znajdziesz.\n\nObsada wspierająca jest mała: nogi pająka i jedwab, grube płótno z humanoidów, jedna ruda thorium w każdym rzadkim elemencie strażnika bajor (sześć w zwieńczeniu Owijaczów Mrocznej Skóry) i Środek Garbujący za 16 miedzianych z lady garbarni. Garbarz Hesk też sprzedaje rudę thorium, jeśli wolisz nie wydobywać.",
+          "materialsBody": "Garbarstwo to fach, gdzie twoja trasa poziomowania i linia dostaw to to samo: surowa skóra jest zbierana prosto ze skóronośnych zwłok, wilków i dzików przede wszystkim, a każde zwłoki służy tylko jednemu zbieraczowi, kto pierwszy ten lepszy. Rzadkie lub lepsze żniwo ze zwłok daje też Nieskazitelną Skórę, sygnowany okaz, którego Kaftan Strażnika Bajor wymaga, więc bankuj każdą, jaką znajdziesz.\n\nObsada wspierająca jest mała: nogi pająka i jedwab, grube płótno z humanoidów, jedna ruda osmium w każdym rzadkim elemencie strażnika bajor (sześć w zwieńczeniu Owijaczów Mrocznej Skóry) i Środek Garbujący za 16 miedzianych z lady garbarni. Garbarz Hesk też sprzedaje rudę osmium, jeśli wolisz nie wydobywać.",
           "ladderHeading": "Szkolenie w Fenbridge",
           "ladderBody": "Oto szkopuł: garbarnia stoi w Fenbridge, na drodze do Bagien Mirefen, co sprawia, że Garbarstwo to jedyny głęboki fach szkolony poza Eastbrook. Garbarz Hesk uczy drabinki przy swoich kadziach: fenbryjski szczebel skóry za darmo przy umiejętności 0, szczebel strażnika bagien za 25 srebrnych za przepis od umiejętności 25, oraz szczebel strażnika bajor za 1 złoty za przepis od umiejętności 50, przy czym każdy szczebel otwiera się, gdy twój poziom go osiągnie.\n\nDwa przepisy omijają mistrza: polowe pospolite elementy (Wyprawiony Skórzany Kaftan i Kaftan Druida) wytwarzają się wszędzie od początku, a Owijacze Mrocznej Skóry są znane wszystkim, ale siedzą przy umiejętności 75, ograniczone do garbarni. Zauważ, że sam akt przysięgi Zaopatrzeniowca jest składany z powrotem w Eastbrook z Ottilie; tylko nauczanie odbywa się w bagnach.",
           "routeHeading": "Arcydzieła i działająca droga do 125",
-          "routeBody": "Od szczebla strażnika bagien wzwyż każde wytworzenie rzuca szansę na arcydzieło, a Nieskazitelna Skóra w Kaftanie Strażnika Bajor zapewnia automatycznie premię za sygnowany reagent; thorium liczy się jako materiał pierwszego poziomu dla procentu. Statystycznie puste pospolite skórzane elementy nie mogą procować.\n\nPoziomuj to w naturalny sposób: zbieraj każdego wilka i dzika, którego zabijesz od pierwszego poziomu, wytwarzaj szczebel skóry do 25 gdziekolwiek stoisz, a potem szkol w Fenbridge, gdy questy ciągną cię i tak w bagno. Strażnik bagien niesie cię do 50, a strażnik bajor do 75; po tym Owijacze Mrocznej Skóry, przepis trzeciego poziomu na sześć rud thorium, trzy Nieskazitelne Skóry, dwie surowe skóry i Środek Garbujący, płaci pełny przyrost do 99 i połowę potem, około 75 wytworzeń na ostatnie pięćdziesiąt punktów do pułapu 125.\n\nMobilna garbarnia liczy się bardziej dla tego fachu niż dla jakiegokolwiek innego: wyspecjalizuj się przy 75, a torba skór staje się gotowym ekwipunkiem przy ognisku zamiast spaceru z powrotem do Fenbridge. Zamówienie robocze garbarni Heska kupuje osiem surowych skór co 30 minut, schludny zwrot za skóry, które i tak zbierałeś, a Księga Czynów zaznacza Rzemiosło Garbarza przy umiejętności 50 i Arcymistrzostwo Garbarstwa przy pułapie."
+          "routeBody": "Od szczebla strażnika bagien wzwyż każde wytworzenie rzuca szansę na arcydzieło, a Nieskazitelna Skóra w Kaftanie Strażnika Bajor zapewnia automatycznie premię za sygnowany reagent; osmium liczy się jako materiał pierwszego poziomu dla procentu. Statystycznie puste pospolite skórzane elementy nie mogą procować.\n\nPoziomuj to w naturalny sposób: zbieraj każdego wilka i dzika, którego zabijesz od pierwszego poziomu, wytwarzaj szczebel skóry do 25 gdziekolwiek stoisz, a potem szkol w Fenbridge, gdy questy ciągną cię i tak w bagno. Strażnik bagien niesie cię do 50, a strażnik bajor do 75; po tym Owijacze Mrocznej Skóry, przepis trzeciego poziomu na sześć rud osmium, trzy Nieskazitelne Skóry, dwie surowe skóry i Środek Garbujący, płaci pełny przyrost do 99 i połowę potem, około 75 wytworzeń na ostatnie pięćdziesiąt punktów do pułapu 125.\n\nMobilna garbarnia liczy się bardziej dla tego fachu niż dla jakiegokolwiek innego: wyspecjalizuj się przy 75, a torba skór staje się gotowym ekwipunkiem przy ognisku zamiast spaceru z powrotem do Fenbridge. Zamówienie robocze garbarni Heska kupuje osiem surowych skór co 30 minut, schludny zwrot za skóry, które i tak zbierałeś, a Księga Czynów zaznacza Rzemiosło Garbarza przy umiejętności 50 i Arcymistrzostwo Garbarstwa przy pułapie."
         },
         "cooking": {
           "identityHeading": "Garnek, który karmi drużynę",
@@ -3744,17 +3745,17 @@ export const pl_PL: EnTranslations = {
           "identityHeading": "Butelki, które wygrywają walki",
           "identityBody": "Fach jest uprawiany w aptece w Highwatch, domu Alchemistki Verane, Mistrzyni Apteki, która uczy drabinki przepisów, sprzedaje Szklane Fiolki po 12 miedzianych i płaci monetą za zioła przez swoje zamówienie robocze.\n\nNa pierścieniu rzemiosł Alchemia siedzi z fachami prób i błędów, obok Inżynierii z jednej strony i Gotowania z drugiej. To daje jej dwie tożsamości parowe: Bombardiera (Inżynieria i Alchemia, podjęte przed Konstruktorem Gizzelem w Eastbrook) i Aptekarza (Alchemia i Gotowanie, przysięgniete przed Kucharką Marlow). Dostrój się do jednej z par, by zrobić z Alchemii specjalizację i otworzyć umiejętność aż do jej pułapu; do tego czasu działa do rzadkiej jakości jak każdy niezadeklarowany fach.",
           "materialsHeading": "Zioła, gruczoły i szkło",
-          "materialsBody": "Każdy wywar potrzebuje Szklanej Fiolki i ziół dopasowanych do swojego szczebla: srebrnolist rośnie w Dolinie Eastbrook, złotolist w Bagnach Mirefen, a słonecznopłatek w Wyżynach Thornpeak, jedno zioło na strefę, więc twoje fiolki wspinają się przez świat razem z tobą. Zielarstwo to naturalny fach partnerski, choć kupowanie od zbieraczy lub na rynku działa równie dobrze; głębsze strefy mają łany wyższego poziomu, które wymagają lepszego sierpa, więc trzymaj narzędzie aktualne, jeśli zbierasz własne.\n\nLinia eliksirów dodaje składnik myśliwski: Gruczoły Jadowe zbierane z jadowitych zwłok, a najlepszy eliksir wymaga Nieskalanego Gruczołu Jadowego, sygnowanego rzadkiego okazu, który pojawia się przy szczęśliwym żniwie ze zwłok. Jeśli sam nie zbierasz, to są dokładnie te towary, o które warto poprosić przyjaciela myśliwego.",
+          "materialsBody": "Każdy wywar potrzebuje Szklanej Fiolki i ziół dopasowanych do swojego szczebla: lśnolist rośnie w Dolinie Eastbrook, złotolist w Bagnach Mirefen, a słonecznopłatek w Wyżynach Thornpeak, jedno zioło na strefę, więc twoje fiolki wspinają się przez świat razem z tobą. Zielarstwo to naturalny fach partnerski, choć kupowanie od zbieraczy lub na rynku działa równie dobrze; głębsze strefy mają łany wyższego poziomu, które wymagają lepszego sierpa, więc trzymaj narzędzie aktualne, jeśli zbierasz własne.\n\nLinia eliksirów dodaje składnik myśliwski: Gruczoły Jadowe zbierane z jadowitych zwłok, a najlepszy eliksir wymaga Nieskalanego Gruczołu Jadowego, sygnowanego rzadkiego okazu, który pojawia się przy szczęśliwym żniwie ze zwłok. Jeśli sam nie zbierasz, to są dokładnie te towary, o które warto poprosić przyjaciela myśliwego.",
           "ladderHeading": "Drabinka przepisów",
-          "ladderBody": "Każdy zna Drobny Eliksir Leczący od samego początku i może go mieszać wszędzie, bez potrzeby stacji. Prawdziwa drabinka to dziewięć przepisów nauczanych przez Verane w aptece, trzy na każdym szczeblu: przepisy na umiejętności 0 są darmowe, szczebel umiejętności 25 kosztuje 25 srebrnych za przepis, a szczebel umiejętności 50 kosztuje 1 złoty za przepis. Każdy szczebel to wywar leczący, manowy i eliksir wytrzymałości, wspinając się od pospolitych srebrnolistnych fiolek (120 zdrowia, 160 many) przez niepospolite złotolistne (200 zdrowia, 260 many) po rzadkie słonecznopłatkowe (280 zdrowia, 360 many).\n\nEliksiry wspinają się tak samo: Eliksir Dzika nadaje 6 Wytrzymałości na 10 minut, Eliksir Jadoognisty 9 na 15 minut, a Eliksir Węża 12 na 15 minut, warząc dwie fiolki za jedno wytworzenie. Jeden dodatkowy przepis stoi z boku: Eliksir Niedźwiedzia, kombinowany wywar, którego Verane uczy za 25 srebrnych, gdy twoja Alchemia osiągnie 25, do zawarcia wszędzie, ale tylko przez dostrojonego Bombardiera z Alchemią i Inżynierią na poziomie 25.",
+          "ladderBody": "Każdy zna Drobny Eliksir Leczący od samego początku i może go mieszać wszędzie, bez potrzeby stacji. Prawdziwa drabinka to dziewięć przepisów nauczanych przez Verane w aptece, trzy na każdym szczeblu: przepisy na umiejętności 0 są darmowe, szczebel umiejętności 25 kosztuje 25 srebrnych za przepis, a szczebel umiejętności 50 kosztuje 1 złoty za przepis. Każdy szczebel to wywar leczący, manowy i eliksir wytrzymałości, wspinając się od pospolitych fiolek z lśnolistem (120 zdrowia, 160 many) przez niepospolite ze złotolistem (200 zdrowia, 260 many) po rzadkie ze słonecznopłatkiem (280 zdrowia, 360 many).\n\nEliksiry wspinają się tak samo: Eliksir Dzika nadaje 6 Wytrzymałości na 10 minut, Eliksir Jadoognisty 9 na 15 minut, a Eliksir Węża 12 na 15 minut, warząc dwie fiolki za jedno wytworzenie. Jeden dodatkowy przepis stoi z boku: Eliksir Niedźwiedzia, kombinowany wywar, którego Verane uczy za 25 srebrnych, gdy twoja Alchemia osiągnie 25, do zawarcia wszędzie, ale tylko przez dostrojonego Bombardiera z Alchemią i Inżynierią na poziomie 25.",
           "routeHeading": "Droga piwowara do 125",
-          "routeBody": "Wywary i eliksiry nigdy nie tworują arcydzieł; ten procent należy do ekwipunku ze statystykami. Twoje imię i tak podróżuje: rzadkie wywary słonecznopłatkowe są warzone po jednej fiolce i trafiają podpisane znakiem wytwórcy, podczas gdy podwójny Eliksir Węża pozostaje anonimowy. Przy umiejętności 75 się specjalizujesz, a każdy przepis Alchemii kosztuje od tej chwili 20 procent mniej materiałów.\n\nWez Zielarstwo wcześnie i zbieraj podczas poziomowania: srebrnolist jest wszędzie w Dolinie, a gdy dotrzesz do ławy Verane, darmowy szczebel przeprowadzi cię czysto do umiejętności 25 na ziołach, które i tak zbierałbyś. Naucz się szczebla 25 w chwili, gdy się odblokuje, przenieś zbiory do bagien po złotolist i pozwól zamówieniu roboczemu Verane (sześć Złotolistnych Ziół za 45 miedzianych, powtarzalne co 30 minut) oddawać ci trochę monety po drodze.\n\nOd 50 wzwyż warzyj wywary słonecznopłatkowe i partie Węża z ziół Thornpeak. Ostatni odcinek od 100 do 125 to celowe sączenie, więc warzyj to, co faktycznie sprzedajesz, zamiast palić zioła dla samej liczby, i pamiętaj, że środki spożywcze to jeden wytworzony towar, który wszyscy kupują na nowo w nieskończoność. Księga Czynów zaznacza Dziwne Wywary przy umiejętności 50 i Arcymistrzostwo Alchemii przy pułapie."
+          "routeBody": "Wywary i eliksiry nigdy nie tworują arcydzieł; ten procent należy do ekwipunku ze statystykami. Twoje imię i tak podróżuje: rzadkie wywary ze słonecznopłatkiem są warzone po jednej fiolce i trafiają podpisane znakiem wytwórcy, podczas gdy podwójny Eliksir Węża pozostaje anonimowy. Przy umiejętności 75 się specjalizujesz, a każdy przepis Alchemii kosztuje od tej chwili 20 procent mniej materiałów.\n\nWez Zielarstwo wcześnie i zbieraj podczas poziomowania: lśnolist jest wszędzie w Dolinie, a gdy dotrzesz do ławy Verane, darmowy szczebel przeprowadzi cię czysto do umiejętności 25 na ziołach, które i tak zbierałbyś. Naucz się szczebla 25 w chwili, gdy się odblokuje, przenieś zbiory do bagien po złotolist i pozwól zamówieniu roboczemu Verane (sześć Ziół Złotolistnych za 45 miedzianych, powtarzalne co 30 minut) oddawać ci trochę monety po drodze.\n\nOd 50 wzwyż warzyj wywary ze słonecznopłatkiem i partie Węża z ziół Thornpeak. Ostatni odcinek od 100 do 125 to celowe sączenie, więc warzyj to, co faktycznie sprzedajesz, zamiast palić zioła dla samej liczby, i pamiętaj, że środki spożywcze to jeden wytworzony towar, który wszyscy kupują na nowo w nieskończoność. Księga Czynów zaznacza Dziwne Wywary przy umiejętności 50 i Arcymistrzostwo Alchemii przy pułapie."
         },
         "engineering": {
           "identityHeading": "Monopol wytwórcy narzędzi",
           "identityBody": "Fach jest uprawiany w warsztatach narzędziowych w południowo-wschodnim rogu Placu Eastbrook, domu Konstruktora Gizzela, Mistrza Warsztatów. Poziomy 1 do 3 każdej linii narzędzi to zwykły towar u sprzedawców; poziomy 4 i 5 istnieją tylko przez inżyniera.\n\nNa pierścieniu siedzi z fachami prób i błędów, obok Alchemii i Wytwarzania Pancerzy, co daje mu dwie tożsamości parowe: Bombardiera (Inżynieria i Alchemia, podjęte przed samym Gizzelem) i Zębatkowca (Wytwarzanie Pancerzy i Inżynieria, nazwane, ale jeszcze nieprzysiężone). Jedno ostrzeżenie ma tu większe znaczenie niż gdziekolwiek indziej: obydwa szczeble przepisów Inżynierii siedzą powyżej pułapu rzadkiego poziomu, pod którym pracują hobby i niezadeklarowani rzemieślnicy, więc liczba umiejętności przesuwa się tylko dla rzemieślnika, którego specjalizacje obejmują Inżynierię, co dziś oznacza Bombardiera. Każdy wciąż może zbudować narzędzia; niedostrojony rzemieślnik po prostu niczego przy tym nie uczy.",
           "materialsHeading": "Reagenty i poprzednie narzędzia",
-          "materialsBody": "Każdy przepis narzędzia zużywa narzędzie o jeden poziom niżej plus materiał premium: cztery Rudy Thorium i Mithrilowy Kilof Górniczy stają się Kilofem Górniczym z Thorium, a potem dwa Pręty Arkanitu i tamten kilof thoriumowy stają się Kilofem Górniczym z Arkanitu, a linie siekier i sierpów odzwierciedlają ten sam kształt z Kłodami Ashwood i Elderwood, Ziołami Złotolistnymi i Słonecznopłatkowymi.\n\nGizzel trzyma wszystkie sześć premiumowych reagentów w warsztatach, jeśli chcesz szybkości ponad marżę, ale rudy, kłody i zioła da się zebrać w Bagnach Mirefen i Wyżynach Thornpeak, i zebrany towar to miejsce, gdzie leży zysk. Jedynym wyjątkiem jest Pręt Arkanitu, dostępny tylko u sprzedawcy, więc każde narzędzie arknitowego poziomu ma wbudowany stały monetowy próg w swój koszt.",
+          "materialsBody": "Każdy przepis narzędzia zużywa narzędzie o jeden poziom niżej plus materiał premium: cztery Rudy Osmium i Niebiosrebrny Kilof Górniczy stają się Osmiumowym Kilofem Górniczym, a potem dwie Sztabki Glifostalu i tamten kilof osmiumowy stają się Glifostalowym Kilofem Górniczym, a linie siekier i sierpów odzwierciedlają ten sam kształt z Kłodami Jesionowymi i Wysokiej Sosny, Ziołami Złotolistnymi i Słonecznopłatkowymi.\n\nGizzel trzyma wszystkie sześć premiumowych reagentów w warsztatach, jeśli chcesz szybkości ponad marżę, ale rudy, kłody i zioła da się zebrać w Bagnach Mirefen i Wyżynach Thornpeak, i zebrany towar to miejsce, gdzie leży zysk. Jedynym wyjątkiem jest Sztabka Glifostalu, dostępna tylko u sprzedawcy, więc każde narzędzie glifostalowego poziomu ma wbudowany stały monetowy próg w swój koszt.",
           "ladderHeading": "Drabinka narzędzi",
           "ladderBody": "Cała drabinka to sześć przepisów, wszystkie ograniczone do stacji warsztatów i wszystkie znane automatycznie, bez żadnej opłaty za mistrza: kilof, siekiera i sierp poziomu 4 przy umiejętności 75, oraz wersje poziomu 5 przy umiejętności 150. Ta druga liczba nie jest literówką i siedzi powyżej obecnego pułapu 125 celowo: wymagania umiejętności nigdy nie blokują wytworzenia, tylko kształtują przyrost umiejętności, więc możesz zbudować narzędzie poziomu 5 w dniu, gdy masz jego reagenty i poprzednik poziomu 4.\n\nKażde ukończone narzędzie jest rzadkiej lub epickiej jakości i wychodzi podpisane, więc twoje imię jeździ po strefach na narzędziownikach innych graczy. Inżynieria trzyma też połowę jednego przepisu kombinowanego: Eliksir Niedźwiedzia, warzony przez dostrojonego Bombardiera z Inżynierią i Alchemią na poziomie 25.",
           "routeHeading": "Droga inżyniera do 125",
@@ -3783,14 +3784,14 @@ export const pl_PL: EnTranslations = {
       "specializationBody": "Przy umiejętności {at} dane rzemiosło cię specjalizuje, bez żadnego zadania: od tej chwili przepisy kosztują {pct}% mniej materiałów, a specjalizacja dodaje też własną premię do szansy na arcydzieło.\n\nSpecjaliści uczą się też zabierać warsztat ze sobą: wyspecjalizowany rzemieślnik może rozstawić mobilną stację w terenie na dziesięć minut, dzięki czemu przepisy stacjonarne można realizować przy wejściu do kopalni zamiast wracać do miasta. Ograniczenia są celowe: mobilna stacja nigdy nie liczy się jako trening u mistrza ani do odwiązywania zamówionych przedmiotów i wygasa po odliczeniu czasu niezależnie od tego, czy jej użyłeś.",
       "ench": {
         "disenchantHeading": "Rozkładanie zaklęć",
-        "disenchantNote": "Rozkładanie zaklęć bierze dowolną broń lub element zbroi pospolitej jakości lub lepszy i zużywa jedną kopię, nigdy kopii, która jest już zaklęta. Pospolite i niepospolite przedmioty mielą się w losową garść Arkanicznego Pyłu, trochę bogatszego dla rzadszych i wyższopoziomowych przedmiotów; od rzadkiego wzwyż plon zmienia kształt, dokładnie jedna Arkaniczna Esencja z rzadkiego przedmiotu lub jeden Arkaniczna Drzazga z epickiego lub legendarnego, plus typowany drugorzędny klucz do tego, z czego przedmiot był wykonany.",
+        "disenchantNote": "Rozkładanie zaklęć bierze dowolną broń lub element zbroi pospolitej jakości lub lepszy i zużywa jedną kopię, nigdy kopii, która jest już zaklęta. Pospolite i niepospolite przedmioty mielą się w losową garść Pyłu Kuranta, trochę bogatszego dla rzadszych i wyższopoziomowych przedmiotów; od rzadkiego wzwyż plon zmienia kształt, dokładnie jedna Esencja Kuranta z rzadkiego przedmiotu lub jeden Odłamek Kuranta z epickiego lub legendarnego, plus typowany drugorzędny klucz do tego, z czego przedmiot był wykonany.",
         "typedHeading": "Typowane drugorzędne",
         "typedNote": "Typowane drugorzędne podążają za materiałem: zbroja materiałowa daje Rezonujący Wątek, skórzana Rezonującą Skórę, kolcza Rezonujące Ogniwa, bronie do walki wręcz Rezonującą Stal, a laski, różdżki, łuki i kusze Rezonujące Drewno. Rzadki przedmiot daje dokładnie {rare}; epicki lub legendarny przedmiot daje {epicMin} lub {epicMax}. Pierścienie i naszyjniki nie mają klasy zbroi, więc dają tylko materiał podstawowy.\n\nZwróć uwagę na drobny druk: drugorzędne Rezonujące wiążą się przy wymianie, więc każde może zmienić właścicieli dokładnie raz, prosto od rozkładacza do zaklinacza, który je spali. Pył, Esencja i Drzazgi nie mają takiego ograniczenia i poruszają się jak każdy inny towar handlowy.",
         "colSource": "Uzyskiwane z",
         "meleeWeapons": "Bronie do walki wręcz",
         "timberWeapons": "Laski, różdżki, łuki i kusze",
         "enchantsHeading": "Zaklęcia",
-        "enchantsNote": "Zaklęcia dzielą się na trzy poziomy. Podstawowy poziom opiera się na Arkanicznym Pyle (z odrobiną Esencji na wyższym końcu) i obejmuje slot broni oraz każdy slot zbroi, z wystarczającą liczbą opcji osi statystyk, by każdy build znalazł coś dla każdego slotu. Poziom Wyższy kosztuje jeden Arkaniczna Drzazga plus Esencję i jest jedynym zastosowaniem Drzazg: silniejsze bonusy na slotach o największym wpływie.\n\nPomiędzy nimi leży pięć zaklęć Runicznych, jedno dla każdego typowanego drugorzędnego, więc nic, co zmielisz, nigdy nie jest ślepą uliczką: Runiczne Ostrze (broń, Siła, zużywa Rezonującą Stal), Runiczny Fokus (broń, Intelekt, Rezonujące Drewno), Runisplot (pierś, Ducha, Rezonujący Wątek), Runicza Skóra (nogi, Zwinność, Rezonująca Skóra) i Runiczne Ogniwa (hełm, Wytrzymałość, Rezonujące Ogniwa). Każde wymaga też dwóch Arkaniczna Esencji i plasuje się między swoim podstawowym a Wyższym odpowiednikiem pod względem siły; dokładne bonusy znajdują się w poniższej tabeli.",
+        "enchantsNote": "Zaklęcia dzielą się na trzy poziomy. Podstawowy poziom opiera się na Pyle Kuranta (z odrobiną Esencji na wyższym końcu) i obejmuje slot broni oraz każdy slot zbroi, z wystarczającą liczbą opcji osi statystyk, by każdy build znalazł coś dla każdego slotu. Poziom Wyższy kosztuje jeden Odłamek Kuranta plus Esencję i jest jedynym zastosowaniem Odłamków: silniejsze bonusy na slotach o największym wpływie.\n\nPomiędzy nimi leży pięć zaklęć Runicznych, jedno dla każdego typowanego drugorzędnego, więc nic, co zmielisz, nigdy nie jest ślepą uliczką: Runiczne Ostrze (broń, Siła, zużywa Rezonującą Stal), Runiczny Fokus (broń, Intelekt, Rezonujące Drewno), Runisplot (pierś, Ducha, Rezonujący Wątek), Runicza Skóra (nogi, Zwinność, Rezonująca Skóra) i Runiczne Ogniwa (hełm, Wytrzymałość, Rezonujące Ogniwa). Każde wymaga też dwóch Esencji Kuranta i plasuje się między swoim podstawowym a Wyższym odpowiednikiem pod względem siły; dokładne bonusy znajdują się w poniższej tabeli.",
         "colEnchant": "Zaklęcie",
         "colSlot": "Slot",
         "colTier": "Poziom",
@@ -3805,9 +3806,9 @@ export const pl_PL: EnTranslations = {
         "bonusFmt": "+{value} {stat}"
       },
       "gatherIntro": {
-        "mining": "Górnictwo wydobywa rudę wprost ze skalnego łona świata: miedź we Wschodniej Dolinie Potoku, żelazo w Bagnie Mirefen i thorium w górach Szczytu Cierni, zasilając rzemiosła kowalskie. Dostępne dla każdego od 1 poziomu, bez żadnych wymagań, śledzone na własnym liczniku do limitu 100.",
-        "logging": "Drwalstwo wycina drewno z drzewostanów we wszystkich trzech strefach: żelaznokora we Wschodniej Dolinie Potoku, jesionowe drewno w Bagnie Mirefen i starowieczne drewno na Szczycie Cierni - surowiec na drzewca, kije i stół inżyniera. Dostępne dla każdego od 1 poziomu, śledzone na własnym liczniku do limitu 100.",
-        "herbalism": "Zielarstwo zbiera to, co rośnie dziko: srebrnolist we Wschodniej Dolinie Potoku, złotolist w Bagnie Mirefen i słoneczny płatek na Szczycie Cierni - liść i łodygę, dzięki którym aptekarskie warsztaty nie stoją. Dostępne dla każdego od 1 poziomu, śledzone na własnym liczniku do limitu 100.",
+        "mining": "Górnictwo wydobywa rudę wprost ze skalnego łona świata: miedź we Wschodniej Dolinie Potoku, żelazo w Bagnie Mirefen i osmium w górach Szczytu Cierni, zasilając rzemiosła kowalskie. Dostępne dla każdego od 1 poziomu, bez żadnych wymagań, śledzone na własnym liczniku do limitu 100.",
+        "logging": "Drwalstwo wycina drewno z drzewostanów we wszystkich trzech strefach: żelaznokora we Wschodniej Dolinie Potoku, jesionowe drewno w Bagnie Mirefen i Wysoka Sosna na Szczycie Cierni - surowiec na drzewca, kije i stół inżyniera. Dostępne dla każdego od 1 poziomu, śledzone na własnym liczniku do limitu 100.",
+        "herbalism": "Zielarstwo zbiera to, co rośnie dziko: lśnolist we Wschodniej Dolinie Potoku, złotolist w Bagnie Mirefen i słoneczny płatek na Szczycie Cierni - liść i łodygę, dzięki którym aptekarskie warsztaty nie stoją. Dostępne dla każdego od 1 poziomu, śledzone na własnym liczniku do limitu 100.",
         "fishing": "Wędkarstwo to wyjątek wśród zawodów zbierackich, i to najgłębszy: prawdziwa mini-gra z braniem i holowaniem, własne tabele połowów w każdej strefie i limit biegłości 200 - dwukrotnie wyższy niż u pozostałych. Kup wędkę, stań nad otwartą wodą i rzuć."
       },
       "rhythmHeading": "Rytm zbierania",
@@ -3836,7 +3837,7 @@ export const pl_PL: EnTranslations = {
         "mining": "Pierwszy węzeł jakiegokolwiek zawodu przynosi czyn Plony Pola, a osiągnięcie limitu 100 w górnictwie wpisuje tytuł Ruda we Krwi. Osiągnięcie 100 w dowolnych trzech spośród górnictwa, drwalstwa, zielarstwa i wędkarstwa daje Mistrza Zbieracza za 25 Renomy, a odkucie pierwotnej żyły zapisuje własny znak kolekcjonera. Żaden z tych czynów nie daje mocy: to tytuły i Renoma, zapis dróg, którymi kroczyłeś.",
         "logging": "Pierwszy węzeł jakiegokolwiek zawodu przynosi czyn Plony Pola, a osiągnięcie limitu 100 w drwalstwie wpisuje tytuł Rąbiarz Twardego Drewna. Osiągnięcie 100 w dowolnych trzech spośród górnictwa, drwalstwa, zielarstwa i wędkarstwa daje Mistrza Zbieracza za 25 Renomy, a uderzenie w starożytne twarde drewno zapisuje własny znak kolekcjonera. Czyny to wyłącznie tytuły i Renoma, nigdy moc.",
         "herbalism": "Pierwszy węzeł jakiegokolwiek zawodu przynosi czyn Plony Pola, a osiągnięcie limitu 100 w zielarstwie wpisuje tytuł Mistrz Łąki. Osiągnięcie 100 w dowolnych trzech spośród górnictwa, drwalstwa, zielarstwa i wędkarstwa daje Mistrza Zbieracza za 25 Renomy, a zebranie rozkwitłego w blasku księżyca ziela zapisuje własny znak kolekcjonera. Czyny to wyłącznie tytuły i Renoma, nigdy moc.",
-        "fishing": "Kamień milowy 100 wpisuje tytuł Stary Solony, a 200 tytuł Mistrz Wędkarstwa; wędkarstwo wlicza się też do Mistrza Zbieracza, zdobywanego po osiągnięciu 100 w dowolnych trzech zawodach zbierackich. Pierwsza ryba z wód każdej strefy wypełnia własną stronę, a Brokatowy Karp zapisuje Połysk Nadziei, więc podróżnicy z wędką w tobołku wypełniają swoją księgę szybciej, niż się spodziewają."
+        "fishing": "Kamień milowy 100 wpisuje tytuł Stary Solony, a 200 tytuł Mistrz Wędkarstwa; wędkarstwo wlicza się też do Mistrza Zbieracza, zdobywanego po osiągnięciu 100 w dowolnych trzech zawodach zbierackich. Pierwsza ryba z wód każdej strefy wypełnia własną stronę, a Karpik Słonecznoblask zapisuje Przebłysk Nadziei, więc podróżnicy z wędką w tobołku wypełniają swoją księgę szybciej, niż się spodziewają."
       },
       "fish": {
         "startHeading": "Pierwsze kroki",
@@ -3855,8 +3856,8 @@ export const pl_PL: EnTranslations = {
         "colOdds": "Szanse",
         "pctFmt": "{pct}%",
         "emptyHook": "Nic nie bierze",
-        "koiHeading": "Karpik Błyskotki",
-        "koiBody": "Każdy zbiornik wodny w grze kryje tę samą nagrodę: Karpika Błyskotki, rzadki blask na żyłce wart 75 miedzi u sprzedawcy i o wiele więcej dla twojej dumy. Jego szanse to stałe 3 procent na złowiony połów (4 procent w zimnych wodach Ciernistego Grzbietu) przy każdym paśmie, a złowienie go zapisuje Przebłysk Nadziei w twojej Księdze Czynów, znak kolekcjonerski bez Renomy. Gdy to nastąpi, dziennik daje ci znać."
+        "koiHeading": "Karpik Słonecznoblask",
+        "koiBody": "Każdy zbiornik wodny w grze kryje tę samą nagrodę: Karpika Słonecznoblask, rzadki blask na żyłce wart 75 miedzi u sprzedawcy i o wiele więcej dla twojej dumy. Jego szanse to stałe 3 procent na złowiony połów (4 procent w zimnych wodach Ciernistego Grzbietu) przy każdym paśmie, a złowienie go zapisuje Przebłysk Nadziei w twojej Księdze Czynów, znak kolekcjonerski bez Renomy. Gdy to nastąpi, dziennik daje ci znać."
       },
       "econ": {
         "title": "Gospodarka Wytwarzania",
@@ -3910,7 +3911,7 @@ export const pl_PL: EnTranslations = {
         "q5": "Jak odwiązać zamówiony przedmiot i ile to kosztuje?",
         "a5": "Podejdź do dowolnej stacji rzemieślniczej z przedmiotem w torbie i zapłać mistrzowi. Opłata zależy od jakości przedmiotu: 25 srebrnych za niepospolity, 1 złoty za rzadki, 4 złote za epicki; legendarny płaci stawkę epicką, a pospolity wyrób na zamówienie stawkę niepospolitą. Musi to być prawdziwa stacja: ruchoma stacja nigdy tej usługi nie oferuje.\n\nOpłata kupuje czysty zapis, nie lekarstwo: przedmiot pozostaje zamówieniem, więc wiąże się ponownie z tym, kto go otrzyma w następnej wymianie. Jeśli kilka związanych kopii dzieli stos, jedna kopia jest oddzielana i odwiązywana za każdą płatność.",
         "q6": "Gdzie uczę się przepisów i ile kosztują?",
-        "a6": "Dziewięć pospolitych przepisów polnych i przepisy na narzędzia są znane każdemu od początku, podobnie jak trzy przywiązane do stacji zwieńczenia (Płaszcz Sootscale, Kaptur Wardweave i Owijacze Duskhide), które nie wymagają trenera, tylko ich stacji. Wszystko inne uczy mistrzów rezydentów przy stacjach w trzech miastach centralnych: większość stoi w Eastbrook, garbarko prowadzi garbarnie w Fenbridge, a alchemik prowadzi aptekę w Highwatch.\n\nPrzepisy od trenera przychodzą w poziomach przy umiejętności 0, 25 i 50, wycenianych bezpłatnie, 25 srebrnych i 1 złoty jako jednorazowa opłata. Mistrz uczy przepisu, gdy twoje pasmo biegłości w danym rzemiośle osiągnęło własne pasmo przepisu, i musisz stać przy jego stacji, by się uczyć: ruchoma stacja nie liczy się.",
+        "a6": "Dziewięć pospolitych przepisów polnych i przepisy na narzędzia są znane każdemu od początku, podobnie jak trzy przywiązane do stacji zwieńczenia (Naramiennik Piecołuski, Kaptur Odzianowelnowy i Owijacze Mrocznej Skóry), które nie wymagają trenera, tylko ich stacji. Wszystko inne uczy mistrzów rezydentów przy stacjach w trzech miastach centralnych: większość stoi w Eastbrook, garbarko prowadzi garbarnie w Fenbridge, a alchemik prowadzi aptekę w Highwatch.\n\nPrzepisy od trenera przychodzą w poziomach przy umiejętności 0, 25 i 50, wycenianych bezpłatnie, 25 srebrnych i 1 złoty jako jednorazowa opłata. Mistrz uczy przepisu, gdy twoje pasmo biegłości w danym rzemiośle osiągnęło własne pasmo przepisu, i musisz stać przy jego stacji, by się uczyć: ruchoma stacja nie liczy się.",
         "q7": "Dlaczego moje zbieranie nagle zwolniło?",
         "a7": "Rzut zbierania zaczyna się od 2,5 sekundy i skraca się na dwa sposoby: 0,4 sekundy za każdy poziom narzędzia, który posiadasz powyżej własnego poziomu węzła, i 0,15 sekundy za każde pasmo biegłości, które przekroczyłeś (przy 100 i 200), z podłogą 1,5 sekundy. Przejdź z węzłów pierwszego poziomu do węzłów trzeciego poziomu, a twoja nadwyżka znika, więc ta sama kilof huśta się wolniej. Posiadanie dokładnie wymaganego poziomu nie kupuje prędkości; tylko otwiera węzeł.\n\nZysk umiejętności zanika tak samo jak przy wytwarzaniu: węzeł szarzeje, gdy twoja biegłość mija jego poziom (węzły pierwszego poziomu niczego nie uczą od biegłości 75 wzwyż), więc odpowiedzią na powolne zyski są węzły wyższego poziomu, które wymagają narzędzia co najmniej ich poziomu (gołe ręce liczą się jako poziom 1). Wędkarstwo podąża za własnym zawężeniem: pełny zysk poniżej biegłości 50, połowa poniżej 100, mały zysk 0,1 poniżej 150 i 0,02 poniżej 200, a śmieciowe połowy w ogóle niczego nie uczą od 100 wzwyż.",
         "q8": "Czy mogę wytwarzać z dala od miasta?",
@@ -6130,6 +6131,8 @@ export const pl_PL: EnTranslations = {
       "soldItem": "Sprzedano {item} za {money}.",
       "soldJunkOne": "Sprzedano {count} bezwartościowy przedmiot za {money}.",
       "soldJunkMany": "Sprzedano {count} bezwartościowych przedmiotów za {money}.",
+      "keptBoundOne": "Zachowano {count} zawiązaną kopię.",
+      "keptBoundMany": "Zachowano {count} zawiązanych kopii.",
       "friendOnline": "{name} pojawił się w sieci.",
       "friendOffline": "{name} przeszedł w tryb offline."
     },
@@ -8012,7 +8015,7 @@ export const pl_PL: EnTranslations = {
         "name": "Owijki ze Zmierzchowej Skóry"
       },
       "sootscale_mantle": {
-        "name": "Płaszcz z Sadzołusek"
+        "name": "Peleryna Poczernionej Łuski"
       },
       "gravecaller_blade": {
         "name": "Szerokie ostrze Grobowego Przyzywacza"
@@ -8087,13 +8090,13 @@ export const pl_PL: EnTranslations = {
         "name": "Skrawek lnu"
       },
       "arcane_dust": {
-        "name": "Arkaniczny pył"
+        "name": "Pył Kuranta"
       },
       "arcane_essence": {
-        "name": "Arkaniczna esencja"
+        "name": "Esencja Kuranta"
       },
       "arcane_shard": {
-        "name": "Arkaniczny odłamek"
+        "name": "Odłamek Kuranta"
       },
       "fen_muster_order": {
         "name": "Rozkaz zbiórki z Fenbridge"
@@ -8342,7 +8345,7 @@ export const pl_PL: EnTranslations = {
         "name": "Szata ze szczytowej wełny"
       },
       "stalkerhide_jerkin": {
-        "name": "Kaftan ze skóry czyhacza"
+        "name": "Kaftan ze Skóry Czyhacza"
       },
       "cragwalker_boots": {
         "name": "Buty skalnego wędrowca"
@@ -8504,10 +8507,10 @@ export const pl_PL: EnTranslations = {
         "name": "Sierp Srebrnolistny"
       },
       "thorium_mining_pick": {
-        "name": "Torowy Kilof Górniczy"
+        "name": "Kilof Górniczy z Thorium"
       },
       "arcanite_mining_pick": {
-        "name": "Arkanitowy Kilof Górniczy"
+        "name": "Kilof Górniczy z Arkanitu"
       },
       "ashwood_axe": {
         "name": "Siekiera z Jesionu"
@@ -8522,7 +8525,7 @@ export const pl_PL: EnTranslations = {
         "name": "Sierp Słonecznopłatkowy"
       },
       "thorium_ore": {
-        "name": "Ruda Toru"
+        "name": "Ruda Thorium"
       },
       "arcanite_bar": {
         "name": "Sztabka Arkanitu"
@@ -8531,7 +8534,7 @@ export const pl_PL: EnTranslations = {
         "name": "Kłoda Jesionu Popiołowego"
       },
       "elderwood_log": {
-        "name": "Kłoda Starego Bzu"
+        "name": "Kłoda Starodrzewu"
       },
       "goldleaf_herb": {
         "name": "Ziele Złotolistne"
@@ -8669,7 +8672,7 @@ export const pl_PL: EnTranslations = {
         "name": "Kłoda Żelaznej Kory"
       },
       "silverleaf_herb": {
-        "name": "Ziele srebrzystego liścia"
+        "name": "Ziele Srebrnolistne"
       },
       "rough_hide": {
         "name": "Szorstka skóra"
@@ -8732,13 +8735,13 @@ export const pl_PL: EnTranslations = {
         "name": "Zaostrzony żelazny sztylet"
       },
       "thorium_warblade": {
-        "name": "Torowe ostrze bojowe"
+        "name": "Wojenna Klinga z Thorium"
       },
       "arcanite_war_axe": {
-        "name": "Arkanitowy topór bojowy"
+        "name": "Wojenny Topór z Arkanitu"
       },
       "elderwood_battle_staff": {
-        "name": "Kostur Bojowy Elderwood"
+        "name": "Bojowy Kostur ze Starodrzewu"
       },
       "riveted_copper_girdle": {
         "name": "Nitowany miedziany pas"
@@ -8759,13 +8762,13 @@ export const pl_PL: EnTranslations = {
         "name": "Naramienniki Ironlink"
       },
       "thoriumscale_greathelm": {
-        "name": "Wielki Hełm w łusce toru"
+        "name": "Wielki Hełm z Łuski Thorium"
       },
       "thoriumscale_cuirass": {
-        "name": "Kirys w łuskach toru"
+        "name": "Kirys z Łuski Thorium"
       },
       "thoriumscale_leggings": {
-        "name": "Legginsy w łuskach toru"
+        "name": "Nogawice z Łuski Thorium"
       },
       "homespun_hood": {
         "name": "Kaptur samodziałowy"
@@ -8774,13 +8777,13 @@ export const pl_PL: EnTranslations = {
         "name": "Domowe rękawice z jednym palcem"
       },
       "silverthread_slippers": {
-        "name": "Kapcie ze srebrną nitką"
+        "name": "Pantofle ze Srebrnej Nici"
       },
       "goldweave_robe": {
-        "name": "Złota szata"
+        "name": "Szata Złotosplotna"
       },
       "goldweave_leggings": {
-        "name": "Legginsy ze złotym splotem"
+        "name": "Nogawice Złotosplotne"
       },
       "silkspun_satchel": {
         "name": "Torba Silkspun"
@@ -8864,7 +8867,7 @@ export const pl_PL: EnTranslations = {
         "name": "Mikstura many ze Złotego Liścia"
       },
       "venomfire_elixir": {
-        "name": "Eliksir Jadowitego Ognia"
+        "name": "Eliksir Jadoognisty"
       },
       "sunpetal_healing_draught": {
         "name": "Mikstura lecznicza ze Słonecznego Płatka"
@@ -9167,7 +9170,7 @@ export const pl_PL: EnTranslations = {
         "name": "Trzewiki Nightfang"
       },
       "glimmerfin_koi": {
-        "name": "Lśniącopłetwy karp koi"
+        "name": "Karpik Słonecznoblask"
       },
       "raw_bog_eel": {
         "name": "Surowy węgorz bagienny"
@@ -10749,7 +10752,7 @@ export const pl_PL: EnTranslations = {
         }
       },
       "q_stalker_pelts": {
-        "title": "Zima nadciąga do Strażnicy",
+        "title": "Pierwszy Szron w Wysokiej Straży",
         "text": "Zima na tej górze nie puka, {playerName} - kopniakiem wyważa drzwi. Osiem skór łowców z grani wyściele dość płaszczy, by mur przetrwał pierwsze śniegi. Bestie grasują po graniach po obu stronach drogi na południe.",
         "completion": "Grube jak moje ramię, te. Warta nie zmarznie w tym roku - weź te skóry za swój trud.",
         "objectives": {

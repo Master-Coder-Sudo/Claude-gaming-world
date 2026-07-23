@@ -8333,7 +8333,7 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'guide.profPages.craftIntro.armorcrafting':
     '護甲鍛造在東溪的鍛造坊打造鎖甲，從鉚接銅甲到精良的鋨鱗重甲。',
   'guide.profPages.craftIntro.tailoring':
-    '裁縫在東溪的織布機旁織造施法者布甲與一只寬敞的背包，從家紡基礎款到精良的日織系列。',
+    '裁縫在東溪的織布機旁織造施法者布甲與一只寬敞的背包，從家紡基礎款到精良的鎏金織套裝。',
   'guide.profPages.craftIntro.leatherworking':
     '製皮在芬橋的製革坊鞣製靈巧的皮甲，從獸皮基礎款到精良的澤守系列。',
   'guide.profPages.craftIntro.cooking':
@@ -8361,7 +8361,8 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'guide.profPages.specializationHeading': '專精',
   'guide.profPages.specializationBody': '技能達到{at}即在本行業專精，配方材料消耗減少{pct}%。',
   'guide.profPages.ench.disenchantHeading': '分解',
-  'guide.profPages.ench.disenchantNote': '分解會按品質把不需要的武器或護甲拆成奧術材料。',
+  'guide.profPages.ench.disenchantNote':
+    '分解任何普通品質及以上的武器或護甲（未附魔的），每次只消耗一件。普通與優秀品質的裝備研磨後隨機產出若干鈴音之塵，稀有度越高、等級越高則產量越豐；精良品起，產出形態改變：精良件出一個鈴音精華，史詩或傳說件出一個鈴音碎片，另附一個與原件材質掛鉤的定向副產物。',
   'guide.profPages.ench.typedHeading': '定向副產物',
   'guide.profPages.ench.typedNote':
     '精良及以上的裝備還會產出一種定向的、交易綁定的副產物：精良裝備產出{rare}件，史詩或傳說產出{epicMin}到{epicMax}件。',
@@ -8370,7 +8371,7 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'guide.profPages.ench.timberWeapons': '法杖、魔杖、弓與弩',
   'guide.profPages.ench.enchantsHeading': '附魔',
   'guide.profPages.ench.enchantsNote':
-    '每種附魔的目標部位、材料與確切加成；符文層級是定向副產物的唯一去處。',
+    '附魔分三個層級。基礎層以鈴音之塵（高端配方加少量鈴音精華）驅動，涵蓋武器槽與除副手外的全部護甲槽，屬性軸選項豐富，每種配裝都能為每個槽位找到合適的附魔。進階層消耗一個鈴音碎片加鈴音精華，是鈴音碎片的唯一用途：為高價值槽位提供更強的加成。\n\n兩層之間另有五種符文附魔，每種消耗一個定向副產物，確保研磨所得無一浪費：符文鋒刃（武器，力量，消耗共鳴鋼）、符文印記（武器，智力，共鳴木）、符文織紋（胸部，精神，共鳴絲線）、符文皮革（護腿，敏捷，共鳴皮革）、符文鎖鏈（頭盔，耐力，共鳴鏈環）。每種符文附魔還需要兩個鈴音精華；若某槽位同時有基礎與進階附魔，符文加成落在兩者之間，但符文織紋是胸部最強的精神附魔，符文皮革則是護腿唯一的敏捷附魔。確切加成數值見下表。',
   'guide.profPages.ench.colEnchant': '附魔',
   'guide.profPages.ench.colSlot': '部位',
   'guide.profPages.ench.colTier': '層級',
@@ -8513,13 +8514,13 @@ export const zh_TW: Partial<Record<TranslationKey, string>> = {
   'guide.profPages.gatherDeeds.herbalism':
     '任意行業的第一次採集獲得Fruits of the Field，藥草學100上限銘刻Master of the Meadow。四種採集行業中任意三項達到100可得Master Gatherer（25聲望），採下月光綻放另有收藏印記。功業只有頭銜與聲望，永不賦予力量。',
   'guide.profPages.gatherDeeds.fishing':
-    '釣魚100熟練銘刻Old Salt，200銘刻Master Angler及其頭銜，垂釣技藝的頂點；釣魚同樣計入Master Gatherer（任意三項採集達到100）。在每個區域的水域釣起第一條魚各有其頁，釣起Sunglint Koi則記下Glimmer of Hope。',
+    '釣魚100熟練銘刻Old Salt，200銘刻Master Angler及其頭銜，垂釣技藝的頂點；釣魚同樣計入Master Gatherer（任意三項採集達到100）。在每個區域的水域釣起第一條魚各有其頁，釣起日輝錦鯉則記下Glimmer of Hope。',
   'guide.profPages.fish.startHeading': '入門',
   'guide.profPages.fish.startBody':
     '一根Simple Fishing Pole在Eastbrook的Fisherman Brandt處只賣20銅（他在鎮東緣望著Mirror Lake）；Tinker Gizzel、Fenbridge的Provisioner Hale和Highwatch的Quartermaster Bree也有存貨。面向前方約24碼內足夠深的水面使用魚竿即可拋竿。戰鬥中、游泳時或死亡時無法拋竿：站在岸上釣才是正途，任何區域的可釣水域都行。',
-  'guide.profPages.fish.koiHeading': 'Sunglint Koi',
+  'guide.profPages.fish.koiHeading': '日輝錦鯉',
   'guide.profPages.fish.koiBody':
-    '全世界的每片水域都藏著同一份大獎：Sunglint Koi，一尾優秀品質的閃光錦鯉，賣給商人值75銅，對你的自豪感則遠不止此。牠的機率固定為每次起竿3%（Thornpeak的冷水中為4%），不隨技能變化，因此碼頭上的新手與Master Angler機會均等。釣起牠會在功業之書記下Glimmer of Hope（零聲望的收藏印記）。',
+    '全世界的每片水域都藏著同一份大獎：日輝錦鯉，一尾優秀品質的閃光錦鯉，賣給商人值75銅，對你的自豪感則遠不止此。牠的機率固定為每次起竿3%（Thornpeak的冷水中為4%），不隨技能變化，因此碼頭上的新手與Master Angler機會均等。釣起牠會在功業之書記下Glimmer of Hope（零聲望的收藏印記）。',
   'guide.profPages.econ.sellsHeading': '什麼好賣，為什麼',
   'guide.profPages.econ.sellsBody':
     '最穩的生意是消耗品，因為用掉就要再買：藥水、熟食與附魔都隨使用而消失。傑作是高端市場：無法訂做，想要的人只能出高價，而上面的署名就是行走的招牌。原料是第三支柱：分解所得的奧術材料、直接從拆解者流向附魔師的各類Resonant次級材料，以及追逐傑作觸發的工匠願意溢價收購的署名採集品。',

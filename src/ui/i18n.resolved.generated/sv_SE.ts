@@ -2152,12 +2152,12 @@ export const sv_SE: EnTranslations = {
       "alchemy+cooking": "Apotekare",
       "cooking+leatherworking": "Fångstman",
       "leatherworking+tailoring": "Utrustare",
-      "tailoring+inscription": "Magivävare",
+      "tailoring+inscription": "Bläckvävare",
       "inscription+enchanting": "Arkanist",
       "enchanting+jewelcrafting": "Stenbindare",
       "jewelcrafting+weaponcrafting": "Klingasmed",
       "weaponcrafting+armorcrafting": "Smed",
-      "armorcrafting+engineering": "Kugghjulssmed"
+      "armorcrafting+engineering": "Kugghjulsbyggare"
     },
     "craftName": {
       "armorcrafting": "Rustningssmide",
@@ -2209,7 +2209,7 @@ export const sv_SE: EnTranslations = {
       "enchant_legs_greater_stamina": "Förtrollning Ben - Större uthållighet",
       "enchant_gloves_greater_agility": "Förtrollning Handskar - Större rörlighet",
       "enchant_weapon_runed_edge": "Förtrollning Vapen - Runristad egg",
-      "enchant_weapon_runed_focus": "Förtrollning Vapen - Runristat fokus",
+      "enchant_weapon_runed_focus": "Förtrollning Vapen - Runat Sigill",
       "enchant_chest_runeweave": "Förtrollning Bröst - Runvävnad",
       "enchant_legs_runed_hide": "Förtrollning Ben - Runhud",
       "enchant_helmet_runed_links": "Förtrollning Hjälm - Runlänkar"
@@ -2241,6 +2241,7 @@ export const sv_SE: EnTranslations = {
       "tutorialLine": "Nå {target} skicklighet i vilket hantverk som helst för att låsa upp din första nivå.",
       "ctaHeader": "Nästa steg",
       "ctaRaise": "Fortsätt höja {craft}: {points} poäng till nästa nivå.",
+      "ctaRaiseSpecialized": "Fortsätt höja {craft}: {points} poäng till Specialiserad, och materialkostnaderna sjunker.",
       "ctaStart": "Hantverk eller samla med vilket yrke som helst för att börja.",
       "unattunedIdentity": "Du är ännu inte inställd på en arketyp. Lyft ditt hantverk och slutför en inställning för att välja ditt par.",
       "nudgeNearTier": "{craft}: {points} poäng från nästa nivå",
@@ -3611,15 +3612,15 @@ export const sv_SE: EnTranslations = {
     "professions": {
       "intro": "Bortom strider och uppdrag belönar världen dig för att bruka jorden och smedjan: samla råmaterial, förvandla dem till utrustning och varor genom tio hantverksyrken, och slå dig till ro i en identitet som en av de tio arketyper yrkena representerar.",
       "harvestTitle": "Att skörda själva jakten",
-      "harvestBody": "Insamling stannar inte vid fyndplatser. Vissa fällda bestar kan skördas på komponenter, skinn, huggtänder, silke och märkligare ting, direkt från kroppen jämte dess vanliga byte. En skördare per dråp: den som skördar först tar allt. Valet är också ditt varje gång: skala av allt kroppen erbjuder, eller koncentrera dig på en enda komponent och ta en finare kvalitet av den. Vilken karaktär som helst kan skörda, inget yrke eller ingen träning krävs, och en särskilt fin komponent bär till och med namnet på den som skördade den.",
+      "harvestBody": "Insamling stannar inte vid noder. Många slagna bestar kan skördas en gång var, först till kvarn, för hudar, huggtänder, silke och kött, direkt från kroppen vid sidan av det vanliga bytet; ett tryck öppnar båda. Valet är ditt varje gång: ta allt kroppen erbjuder, eller koncentrera dig på färre komponenter och ta en mätbart finare kvalitet av det du tar.\n\nEtt sällsynt eller bättre skördeslag på en exemplarbärande familj ger också ett signerat perfekt exemplar (ett Orört skinn, Orörd siden, Orörd giftkörtel eller Primärsnitt) utöver det vanliga utbytet, och registrerar Ett perfekt exemplar i din Bedrifternas bok. Vilken karaktär som helst kan skörda, ingen träning krävs, och vilket insamlingsverktyg du äger räknas mot premiumarmen, oavsett vilket yrke det tillhör.",
       "focusTitle": "Stadsfokus",
       "focusBody": "Varje huvudort har en Stadsfokus-panel för besökande skördare: stå i staden, öppna den bredvid minikartan, och rikta en liten budget av fokuspoäng mot de komponenttyper du bryr dig om. Ju mer fokus du ger en komponent, desto finare och rikare kommer den av varje senare kropp; din fördelning följer din karaktär vart den än vandrar, och du kan göra om den, gratis, vid vilket senare besök i staden som helst.",
       "craftHowTitle": "Hantverksfönstret",
-      "craftMasteryTitle": "Skicklighet och mästerskap",
-      "craftMasteryBody": "Lyckade hantverk bygger skicklighet i det yrket, och skicklighet låser aldrig bort ett hantverks recept: kan du ett recept och har dess material, kan du försöka dig på det. Vad skicklighet i stället köper dig är kvalitet, en övad hand gör finare arbete. Det enda undantaget är kombinationsrecept, som ber dig ha bevisat dig i båda sina hantverk innan de öppnas.",
-      "archetypeChooseTitle": "Att välja arketyp",
-      "archetypeChooseBody": "Att förklara en arketyp kommer att bli ett berättelseögonblick: ett uppdrag som formellt tar upp dig i den identiteten. Den vägen håller fortfarande på att byggas, så för tillfället vandrar varje karaktär genom världen med valet framför sig, och varje hantverk avancerar under tiden till kvalitetsnivån Sällsynt.",
-      "archetypeSwitchBody": "Inte heller kommer en förklaring att bli ett livstidsstraff. Planen är en upprepningsbar gottgörelse till ditt gamla yrke innan du tar upp ett nytt, där gottgörelsen blir brantare för varje gång du byter, så att valet förblir meningsfullt i stället för kostnadsfritt. Liksom själva förklaringen är den fortfarande på väg.",
+      "craftMasteryTitle": "Hur lång tid mästerskap tar",
+      "craftMasteryBody": "Ärlighet om förväntningarna: klättringen till ett hantverks tak på 125 är minst 125 lyckade hantverk, eftersom varje hantverk med full vinst rör skickligheten exakt ett poäng, och i praktiken lite fler allteftersom recepten bleknar mellan tränarens steg. Själva hantverkandet är snabbt; att förse det med material är den verkliga resan, så budgetera ett par dedikerade kvällar av insamling och hantverkande per yrke.\n\nInsamlingsyrkena når sitt tak på 100 under en normal levlarresa om du skördar medan du reser, men den sista sträckan vill ha de högre noderna i det avlägsna norr. Fiske är den långa vägen av design: med sitt eget vinstschema kräver 200 skicklighet mer än tre tusen fångster. Mästarfiskaren är en titel förtjänad över en säsong av stilla kvällar, inte en helg.",
+      "archetypeChooseTitle": "Gillebrevet, och att ändra sig",
+      "archetypeChooseBody": "Du behöver inte leta upp något av detta. Arbeta med dina hantverk, och när dina hantverksfärdigheter för första gången visar en tydlig lutning mot ett par lägger Hantverksgillet märke till det och skickar ett Korppostbrev som namnger vilken mästare du ska söka upp och vilket uppdrag du ska ta. Det anländer en gång per karaktär, och bara om du inte redan svurit dig till ett par.",
+      "archetypeSwitchBody": "En deklaration är inte ett livslångt åtagande heller. Ett par du aldrig haft är bara ett nytt anpassningsuppdrag, medan att återvända till ett par du lämnat ber dig att gottgöra dig först: fem uppgifter första gången, och tre till läggs till för varje byte du redan gjort. Valet förblir meningsfullt utan att någonsin låsa en dörr för gott.",
       "whatHeading": "En handel vid sidan om svärdet",
       "whatBody": "Yrken är världens arbetsliv: fyra insamlingsyrken som bryter råmaterial direkt ur landet, och en ring av tio hantverk som förvandlar det till utrustning, måltider, drycker och verktyg. Allt matar något annat här. Malmen du bryter blir ett blad, bladet tar en förtrollning, och förtrollningen behöver damm bruten ur gamla föremål, så en skördare, en hantverkare och en tinkrare är alla länkar i en kedja.\n\nDet finns ingen yrkeskänsgräns att ångra sig över. Varje karaktär kan höja alla åtta hantverk med innehåll idag och alla fyra insamlingsyrken sida vid sida; det enda exklusiva valet är din arketyp, den identitet du till slut svär till, men när du väl inriktar dig slutar hantverken som faller vilande bakom den att klättra. Skicklighet sjunker aldrig, och ingenting du lärt dig tas någonsin ifrån dig.",
       "ringHeading": "Hantverksringen",
@@ -3639,7 +3640,7 @@ export const sv_SE: EnTranslations = {
       "stationsHeading": "Stationer och de tre orterna",
       "stationsBody": "Sex typade stationer tjänar de sju stationsbundna hantverken, spridda över de tre stadsorterna. Östbäck har smedjan (Vapentillverkning och Rustningssmide delar den), köket, vävstolen och verkstaden; Fenbron har garvarstugan, och Högvakt apoteket. Varje station har en stationerad mästare bredvid sig som tränar recept, lägger upp arbetsorder och erbjuder upplösningstjänsten.\n\nArbetradiusen är 20 yard, ungefär stationens egen gård, så du hantverkar stående vid städet snarare än från andra sidan staden. Juvelsmide, Inskription och Förtrollning har ingen station: de första två väntar på sina recept, och Förtrollning fungerar var som helst till sin natur.",
       "deedsHeading": "Bedrifter som minns resan",
-      "deedsBody": "Bedriftboken vandrar bredvid varje steg av detta. Din första inriktning förtjänar Gildessvuren och ditt första mästerverk förtjänar Mästerhantverkaren, båda bärbara som titlar. Var och en av de åtta hantverken med innehåll markerar en milstolpebedrift vid 50 skicklighet och kröner sitt tak med en Stormästare-titel, medan Fiske får Gamla saltet vid 100 skicklighet och titeln Mästarfiskare vid 200.\n\nDet finns tystare sidor också: bedrifter för din första skörd och ditt första hantverk, för de sällsynta fynd som turen bjuder på i fält, och för att ta upp avförtrollning. Allt är kosmetiskt, titlar och Ryktbarhet enbart. En bedrift ger aldrig kraft; den bevisar bara att du var där.",
+      "deedsBody": "Bedriftboken vandrar bredvid varje steg av detta. Din första inriktning förtjänar Hantverkssvuren och ditt första mästerverk förtjänar Mästerhantverkaren, båda bärbara som titlar. Var och en av de åtta hantverken med innehåll markerar en milstolpebedrift vid 50 skicklighet och kröner sitt tak med en Stormästare-titel, medan Fiske får Gamla saltet vid 100 skicklighet och titeln Mästarfiskare vid 200.\n\nDet finns tystare sidor också: bedrifter för din första skörd och ditt första hantverk, för de sällsynta fynd som turen bjuder på i fält, och för att ta upp avförtrollning. Allt är kosmetiskt, titlar och Ryktbarhet enbart. En bedrift ger aldrig kraft; den bevisar bara att du var där.",
       "startHeading": "Var börjar man",
       "startBody": "Nyss anländ i Östbäck? Hitta Förman Odell och ta En handel för varje hand: han visar dig malmådrorna runt Koppargropen sydväst om staden och ger dig dina första valkar. Från och med då, skörda varje åder, timmerbestånd och örtfläck du passerar under uppdragens gång; skicklighet kommer naturligt för resenärer.\n\nTillbaka i staden, tryck T för att öppna hantverksfönstret och arbeta med de vanliga recept varje karaktär kan från start. Besök mästarna vid smedjan, köket, vävstolen och verkstaden för att se vad de lär ut, och ta deras arbetsorder för stabila mynt. När Gillets brev hittar dig vet du redan vilket par som känns som hemma.",
       "colStation": "Station",
@@ -3680,9 +3681,9 @@ export const sv_SE: EnTranslations = {
       "colNodeTier": "Fyndplatsnivå",
       "colToolNeeded": "Verktyg som krävs",
       "craftIntro": {
-        "weaponcrafting": "Vapensmide är vapenbänken hos Östbäckssmedjan: yxor, klubbor, klingor, spjut och till och med en trollkarls stav, från kopparstarters till sällsynta torium- och arkanitarbeten. Ett vapen är den enda uppgradering per nivå som märks mest, så en vapensmed är den vän alla minns att skaffa.",
-        "armorcrafting": "Rustningssmide hamrar ringbrynja, den tyngsta rustning en hantverkare kan tillverka, från nitade koppargrunder till det sällsynta toriumfjällsetet, med ett par kastetableringsstycken på sidan. Kunderna är de som står där slagen landar.",
-        "tailoring": "Skrädderi väver den Intelligens- och Andeduk trollkarlarna lever i, från hemspunnet bastyg genom guldvävssetet till sällsynt solvävarbete, och syr Silkessömmarens säck, en tioplatspåse som ingen någonsin tackar nej till.",
+        "weaponcrafting": "Vapensmide är vapenbänken hos Östbäckssmedjan: yxor, klubbor, klingor, spjut och till och med en trollkarls stav, från kopparstarters till sällsynta osmium- och glyfstålsarbeten. Ett vapen är den enda uppgradering per nivå som märks mest, så en vapensmed är den vän alla minns att skaffa.",
+        "armorcrafting": "Rustningssmide hamrar ringbrynja, den tyngsta rustning en hantverkare kan tillverka, från nitade koppargrunder till det sällsynta osmiumfjällsetet, med ett par kastetableringsstycken på sidan. Kunderna är de som står där slagen landar.",
+        "tailoring": "Skrädderi väver den Intelligens- och Andeduk trollkarlarna lever i, från hemspunnet bastyg genom gildenvävnadssetet till sällsynt solvävarbete, och syr Silkessömmarens säck, en tioplatspåse som ingen någonsin tackar nej till.",
         "leatherworking": "Läderhantverkeri garvar Rörlighets- och Uthållighetsutrustning för de klasser som undviker slag i stället för att blockera dem, från Fenbros hudbaser till det sällsynta myrväktarsetet, och det är det enda djupa hantverket som lärs ut ute i träsket.",
         "cooking": "Matlagning förvandlar dagens fångst till sittmåltider som läker under 18 sekunder av vila, den billigaste läkning i spelet, från Saltat rimkött hela vägen till Marlows Storläckra stek. Alla äter, så inget hantverk är mer välkommet i en grupp.",
         "alchemy": "Alkemi förvandlar örter, körtlar och glas till flaskor som avgör strider: läkande drycker och manadrycker när läget är kritiskt, och uthållighetselixir som sitter kvar i din buffrad under hela fängelsehålan.",
@@ -3692,43 +3693,43 @@ export const sv_SE: EnTranslations = {
       "craftProse": {
         "weaponcrafting": {
           "identityHeading": "Eggen varje stridande handlar",
-          "identityBody": "Någon i varje grupp vill ha detta hantverks arbete, för det sällsynta steget täcker alla tre smaken ensam: Toriumkrigsklinga för Styrkamenykampare, Arkanitkrigsyxa för Rörlighetsstriders och GammelträdsstridsStav, en Intelligens- och Andestav för kåpfolket.\n\nPå hantverkshjulet står det mellan Rustningssmide och Juveleringskonst. Dess levande identitet är Smeden, paret Vapensmide och Rustningssmide, svuret inför Smedmästare Darva vid smedjan genom att bearbeta tre malmådror med egna händer; Bladsmeds-paret med Juveleringskonst är också namngivet på hjulet, men det kan inte sväras ännu eftersom Juveleringskonst inte levererar några recept förrän vid en senare zonexpansion.",
+          "identityBody": "Någon i varje grupp vill ha detta hantverks arbete, för det sällsynta steget täcker alla tre smaken ensam: Osmiumkrigsklinga för Styrkamenykampare, Glyfstålskrigsyxa för Rörlighetsstriders och Högtallsstridsstav, en Intelligens- och Andestav för kåpfolket.\n\nPå hantverkshjulet står det mellan Rustningssmide och Juveleringskonst. Dess levande identitet är Smeden, paret Vapensmide och Rustningssmide, svuret inför Smedmästare Darva vid smedjan genom att bearbeta tre malmådror med egna händer; Bladsmeds-paret med Juveleringskonst är också namngivet på hjulet, men det kan inte sväras ännu eftersom Juveleringskonst inte levererar några recept förrän vid en senare zonexpansion.",
           "materialsHeading": "Vad smedjan dricks av",
-          "materialsBody": "Gruvdrift är ryggraden. Kopparmalm kommer från nivå 1-ådror i Östbäcksdalen, järnmalm från Mirefen-träsket och thoriummalm från Törntoppens höjder, och varje steg på stegen följer samma mönster. Skogsavverkning spelar större roll än du kanske väntar: järnbarksskaft bärs av galtspar, askvedsskuldra av stridshammare och en enda gammeltrestock formar stidsstaven.\n\nResten kommer från jakten och disken. Grovt skinn för grepp skördas direkt från ulv- och vildsvinskroppar, benfragment droppar från vardagliga dräp och smedjetrappan bränner Smidesfluss, 20 koppar per burk från Darva själv. Om din egen gruvdrift halkar efter säljer Darva thoriummalm vid smedjan och Mekaniker Gizzel lagerhåller arkanitbarrar vid verktygsverkstan, till ett pris som gör insamlingsvänner billiga i jämförelse.",
+          "materialsBody": "Gruvdrift är ryggraden. Kopparmalm kommer från nivå 1-ådror i Östbäcksdalen, järnmalm från Mirefen-träsket och osmiummalm från Törntoppens höjder, och varje steg på stegen följer samma mönster. Skogsavverkning spelar större roll än du kanske väntar: järnbarksskaft bärs av galtspar, askvedsskuldra av stridshammare och en enda högtallstock formar stridsklubban.\n\nResten kommer från jakten och disken. Grovt skinn för grepp skördas direkt från ulv- och vildsvinskroppar, benfragment droppar från vardagliga dräp och smedjetrappan bränner Smidesfluss, 20 koppar per burk från Darva själv. Om din egen gruvdrift halkar efter säljer Darva osmiummalm vid smedjan och Mekaniker Gizzel lagerhåller glyfstålsbarrar vid verktygsverkstan, till ett pris som gör insamlingsvänner billiga i jämförelse.",
           "ladderHeading": "Stegen, steg för steg",
-          "ladderBody": "Ett fältrecept, Östbäcks armérsvärd, är känt för alla från start och tillverkas var som helst från jaktbyten (ett par varghuggare och benfragment) plus sex Smidesfluss från smedjadisken. Den riktiga stegen är nio tränarrecept i tre steg, alla smedjebundna: kopparsteget (skäggig yxa, flänsad klubba, vildsvinsspjut) är gratis att lära vid skicklighet 0, järnsteget (långsvärd, stridshammare, dolk) öppnar vid skicklighet 25 för 25 silver per recept och toriumsteget (krigsklinga, krigsyxa, stridsklubba) öppnar vid skicklighet 50 för 1 guld var. Darva lär ut ett recept i det ögonblick din nivå i hantverket når det egna, så varje steg låses upp exakt när dess skicklighetsband börjar.\n\nYtterligare ett recept rider på paret: Gravmaskvantskar, ett tränarlärt kombinationsstycke som bara en anpassad Smed med både Vapensmide och Rustningssmide på skicklighet 25 kan tillverka, och det kräver ingen station alls.",
+          "ladderBody": "Ett fältrecept, Östbäcks armérsvärd, är känt för alla från start och tillverkas var som helst från jaktbyten (ett par varghuggare och benfragment) plus sex Smidesfluss från smedjadisken. Den riktiga stegen är nio tränarrecept i tre steg, alla smedjebundna: kopparsteget (skäggig yxa, flänsad klubba, vildsvinsspjut) är gratis att lära vid skicklighet 0, järnsteget (långsvärd, stridshammare, dolk) öppnar vid skicklighet 25 för 25 silver per recept och osmiumsteget (krigsklinga, krigsyxa, stridsklubba) öppnar vid skicklighet 50 för 1 guld var. Darva lär ut ett recept i det ögonblick din nivå i hantverket når det egna, så varje steg låses upp exakt när dess skicklighetsband börjar.\n\nYtterligare ett recept rider på paret: Gravmaskvantskar, ett tränarlärt kombinationsstycke som bara en anpassad Smed med både Vapensmide och Rustningssmide på skicklighet 25 kan tillverka, och det kräver ingen station alls.",
           "routeHeading": "Mästerverk, och en fungerande väg till 125",
-          "routeBody": "Alla pjäser med en riktig statrad, vilket på den här stegen betyder järnsteget och uppåt, kan komma från städet som mästerverk; de statslösa kopparvanligheterna processar aldrig, eftersom det inte finns något i dem att förbättra. Järn räknas som ett nivå 1-material för mästerverksbonus, äldreved och arkanit som nivå 2, så det översta steget processar lite oftare.\n\nRid kopparsteget till 25, träna järnsteget den dag det öppnas och rid det till 50, sedan thoriumsteget till 75. Förbi 75 skickas inget högre än, så thoriumrecepten bleknar till halv och sedan kvarts vinst: planera ungefär 150 fler hantverk för att nå taket på 125, och kom ihåg den delade begränsningen på tio hantverksåtgärder per minut när du sätter dig ner för att masshantvera.\n\nFinansiera klättringen allt efter: Darvas smedjearbetsorder tar åtta kopparmalm ur dina händer var 30:e minut mot lite mynt och erfarenhet, och järn- och thoriumstegen säljer ärligt till nivåanpassade närstridare. Bedrifternas bok markerar Egg och Härdning vid skicklighet 50 och kröner Stormästare i Vapensmide vid 125."
+          "routeBody": "Alla pjäser med en riktig statrad, vilket på den här stegen betyder järnsteget och uppåt, kan komma från städet som mästerverk; de statslösa kopparvanligheterna processar aldrig, eftersom det inte finns något i dem att förbättra. Järn räknas som ett nivå 1-material för mästerverksbonus, högtall och glyfstål som nivå 2, så det översta steget processar lite oftare.\n\nRid kopparsteget till 25, träna järnsteget den dag det öppnas och rid det till 50, sedan osmiumsteget till 75. Förbi 75 skickas inget högre än, så osmiumrecepten bleknar till halv och sedan kvarts vinst: planera ungefär 150 fler hantverk för att nå taket på 125, och kom ihåg den delade begränsningen på tio hantverksåtgärder per minut när du sätter dig ner för att masshantvera.\n\nFinansiera klättringen allt efter: Darvas smedjearbetsorder tar åtta kopparmalm ur dina händer var 30:e minut mot lite mynt och erfarenhet, och järn- och osmiumstegen säljer ärligt till nivåanpassade närstridare. Bedrifternas bok markerar Egg och Härdning vid skicklighet 50 och kröner Stormästare i Vapensmide vid 125."
         },
         "armorcrafting": {
           "identityHeading": "Ringbrynja för frontlinjen",
-          "identityBody": "Rustningssmidet stegen liknar en soldats karriär: de enkla nitade kopparskärpet, sabatonerna och handskarna i början, järnlänkhauberk, benskydd och axelplåtar med sina första riktiga egenskapsrader, och det sällsynta toriumfjällstorhjalmet, bröstpansaret och benen, Styrka- och Uthållighetspjäser med de största rustningstalen en hantverkare kan göra.\n\nDet har också en tystare sida: Östbäcks skyddade benskydd, ett kastetableringsfältvanligt, och Sotskalets mantel, en sällsynt Intelligens- och Andebrynjeskuldra vid skicklighet 75, håller de trollsynta ringbrynjebärarna på kundlistan. På hjulet sitter det mellan Vapensmide och Ingenjörskonst; Smith-paret med Vapensmide svurs inför Smedmästare Darva, medan Kuggsmeds-paret med Ingenjörskonst är namngivet men saknar ännu ett löfteuppdrag.",
+          "identityBody": "Rustningssmidet stegen liknar en soldats karriär: de enkla nitade kopparskärpet, sabatonerna och handskarna i början, järnlänkhauberk, benskydd och axelplåtar med sina första riktiga egenskapsrader, och det sällsynta osmiumfjällsstorhjalmet, bröstpansaret och benen, Styrka- och Uthållighetspjäser med de största rustningstalen en hantverkare kan göra.\n\nDet har också en tystare sida: Östbäcks skyddade benskydd, ett kastetableringsfältvanligt, och Ugnsfjällets mantel, en sällsynt Intelligens- och Andebrynjeskuldra vid skicklighet 75, håller de trollsynta ringbrynjebärarna på kundlistan. På hjulet sitter det mellan Vapensmide och Ingenjörskonst; Smith-paret med Vapensmide svurs inför Smedmästare Darva, medan Kugghjulsbyggar-paret med Ingenjörskonst är namngivet men saknar ännu ett löfteuppdrag.",
           "materialsHeading": "Malm i säcktals",
-          "materialsBody": "Inget hantverk förbrukar malm snabbare. Järnlänkhauberken kräver ensam fem järnmalm och varje toriumfjällpjäs vill ha tre eller fyra torium plus en arkanitbar, så en seriös rustningssmed bryter malm i Mirefen-träsket och Törntoppshöjderna eller betalar någon som gör det. Koppar föder det första steget, direkt från ådrorna vid Koppargropen.\n\nRunt metallen går de mjuka delarna: grovt skinn skördat från varg- och vildsvinskroppar, benfragment och linflikar från vanlig jakt och en burk Smidesfluss (20 koppar vid smedjan) i nästan varje recept. Darva säljer toriummalm direkt för den otålige.",
+          "materialsBody": "Inget hantverk förbrukar malm snabbare. Järnlänkhauberken kräver ensam fem järnmalm och varje osmiumfjällpjäs vill ha tre eller fyra osmium plus en glyfstålsbar, så en seriös rustningssmed bryter malm i Mirefen-träsket och Törntoppshöjderna eller betalar någon som gör det. Koppar föder det första steget, direkt från ådrorna vid Koppargropen.\n\nRunt metallen går de mjuka delarna: grovt skinn skördat från varg- och vildsvinskroppar, benfragment och linflikar från vanlig jakt och en burk Smidesfluss (20 koppar vid smedjan) i nästan varje recept. Darva säljer osmiummalm direkt för den otålige.",
           "ladderHeading": "Att lära sig vid Darvas smedja",
-          "ladderBody": "Två fältvanligheter, Östbäcks ringbrynjekolt och de Skyddade benskydden, är kända från start och kan tillverkas var som helst. Tränarstegen är nio recept i tre steg vid Östbäckssmedjan: kopparsteget är gratis vid skicklighet 0, järnlänksteget kostar 25 silver per recept vid skicklighet 25 och toriumfjällsteget kostar 1 guld var vid skicklighet 50, med varje steg lärobart i det ögonblick din nivå når den.\n\nBortom stegen sitter två specialfall. Gränstenenshjalmen är kombinationsreceptet för Smed, tränarlärt, stationsfritt och möjligt enbart för en anpassad Smed med båda hantverken på skicklighet 25. Sotskalets mantel kräver ingen lärare alls: alla känner den, men vid skicklighet 75 och smedsbunden är den hantverkets nivå 3-toppstycke.",
+          "ladderBody": "Två fältvanligheter, Östbäcks ringbrynjekolt och de Skyddade benskydden, är kända från start och kan tillverkas var som helst. Tränarstegen är nio recept i tre steg vid Östbäckssmedjan: kopparsteget är gratis vid skicklighet 0, järnlänksteget kostar 25 silver per recept vid skicklighet 25 och osmiumfjällsteget kostar 1 guld var vid skicklighet 50, med varje steg lärobart i det ögonblick din nivå når den.\n\nBortom stegen sitter två specialfall. Gränstenenshjalmen är kombinationsreceptet för Smed, tränarlärt, stationsfritt och möjligt enbart för en anpassad Smed med båda hantverken på skicklighet 25. Ugnsfjällets mantel kräver ingen lärare alls: alla känner den, men vid skicklighet 75 och smedsbunden är den hantverkets nivå 3-toppstycke.",
           "routeHeading": "Mästerverk, och en fungerande väg till 125",
-          "routeBody": "Från järnlänksteget och uppåt kan varje hantverk ge mästerverk; de kopparbaserade rustningsvanligheter kan inte procca, eftersom ett mästerverk förbättrar egenskaper och de saknar sådana. Järn räknas som ett nivå 1-material för procen och arkanit som nivå 2.\n\nKlättringen följer den vanliga trestegsvägen: koppar till 25, järnlänk till 50, toriumfjäll till 75, med träning av varje steg den dag det öppnar. Där Rustningssmide är lyckligt lottad är sträckan efter 75: Sotskalets mantel är ett nivå 3-recept, så det ger full vinst till 99 och hälften därefter, vilket innebär att de sista femtio poängen tar ungefär 75 tillverkningar i stället för de 150 ett hantverk utan toppstycke behöver. Varje mantel kostar sju toriummalm och fem Smidesfluss, så lagra på i Törntoppet och vid smedjans disk innan du börjar löpningen.\n\nDarvas arbetsorder köper åtta kopparmalm var 30:e minut för mynt och XP, ett trevligt slukhål för den lågnivåmalm du växt ur. Bedrifternas bok markerar Hammare och Plåt vid skicklighet 50, och Stormästare i Rustningssmide väntar vid 125-taket."
+          "routeBody": "Från järnlänksteget och uppåt kan varje hantverk ge mästerverk; de kopparbaserade rustningsvanligheter kan inte procca, eftersom ett mästerverk förbättrar egenskaper och de saknar sådana. Järn räknas som ett nivå 1-material för procen och glyfstål som nivå 2.\n\nKlättringen följer den vanliga trestegsvägen: koppar till 25, järnlänk till 50, osmiumfjäll till 75, med träning av varje steg den dag det öppnar. Där Rustningssmide är lyckligt lottad är sträckan efter 75: Ugnsfjällets mantel är ett nivå 3-recept, så det ger full vinst till 99 och hälften därefter, vilket innebär att de sista femtio poängen tar ungefär 75 tillverkningar i stället för de 150 ett hantverk utan toppstycke behöver. Varje mantel kostar sju osmiummalm och fem Smidesfluss, så lagra på i Törntoppet och vid smedjans disk innan du börjar löpningen.\n\nDarvas arbetsorder köper åtta kopparmalm var 30:e minut för mynt och XP, ett trevligt slukhål för den lågnivåmalm du växt ur. Bedrifternas bok markerar Hammare och Plåt vid skicklighet 50, och Stormästare i Rustningssmide väntar vid 125-taket."
         },
         "tailoring": {
           "identityHeading": "Tyg för trollkarlarna, väskor för alla",
-          "identityBody": "Stegen klättrar från hemspunna grunder via guldvävssetet till den sällsynta rungan: Silkesvalkets Dräkt och solvävsdelarna. Dess andra handel är universell: Silkessömmarens säck är en tioplatspåse, och det finns ingen klass, spec eller nivå som inte vill ha mer väskutrymme.\n\nPå hjulet sitter Skrädderi mellan Läderhantverkeri och Inskription. Dess levande par är Utrustaren, Läderhantverkeri och Skrädderi tillsammans, svuren inför Vävare Ottilie vid Östbäcks vävstol efter att ha gallrat fyra spindelvävsedderkoppar för deras silke; Magivävarparet med Inskription är namngivet på hjulet men väntar på Inskriptions första recept innan det kan sväras.",
+          "identityBody": "Stegen klättrar från hemspunna grunder via gildenvävnadssetet till den sällsynta rungan: Silkesvalkets Dräkt och solvävsdelarna. Dess andra handel är universell: Silkessömmarens säck är en tioplatspåse, och det finns ingen klass, spec eller nivå som inte vill ha mer väskutrymme.\n\nPå hjulet sitter Skrädderi mellan Läderhantverkeri och Inskription. Dess levande par är Utrustaren, Läderhantverkeri och Skrädderi tillsammans, svuren inför Vävare Ottilie vid Östbäcks vävstol efter att ha gallrat fyra spindelvävsedderkoppar för deras silke; Bläckvävarparet med Inskription är namngivet på hjulet men väntar på Inskriptions första recept innan det kan sväras.",
           "materialsHeading": "Tråd, silke och ja, örter",
-          "materialsBody": "Vävstolen drivs av vad jakten ger och vad fälten odlar. Lintrsor och hemspunnet tyg faller från humanoider, spindelsilke skördas från spindelkroppar och den sällsynta rungens mittpunkt, Silkesvalkets Dräkt, vill ha ett Fint silke, det signerade exemplaret som en lyckad kroppsskörd kan ge.\n\nÖrtkunskap matar skrädderiet mer än något annat rustningshantverk: silverblad kanter tofflorna, guldblad färgar guldvävssetet och solkronblad syr hela den sällsynta rungan, så en skräddare som plockar sina egna örter sparar stadigt. En Trådrull kostar 12 koppar hos Ottilie och vävstolen kräver inget metall alls: till och med Varpmässkekhuvan toppstycke är vävt av premiumörter, Fint silke, spindelsilke och tråd.",
+          "materialsBody": "Vävstolen drivs av vad jakten ger och vad fälten odlar. Lintrsor och hemspunnet tyg faller från humanoider, spindelsilke skördas från spindelkroppar och den sällsynta rungens mittpunkt, Silkesvalkets Dräkt, vill ha ett Fint silke, det signerade exemplaret som en lyckad kroppsskörd kan ge.\n\nÖrtkunskap matar skrädderiet mer än något annat rustningshantverk: skimmerblad kanter tofflorna, guldblad färgar gildenvävnadssetet och solkronblad syr hela den sällsynta rungan, så en skräddare som plockar sina egna örter sparar stadigt. En Trådrull kostar 12 koppar hos Ottilie och vävstolen kräver inget metall alls: till och med Varpmässkekhuvan toppstycke är vävt av premiumörter, Fint silke, spindelsilke och tråd.",
           "ladderHeading": "Att lära sig vid Ottilies vävstol",
-          "ladderBody": "Två fältvanligheter, Östbäcks Yllebrallar och Rituella kläder, är kända från start och tillverkas var som helst. Tränarstegen löper vid vävstolen söder om Östbäcks brunn: det hemspunna steget (huva, vantar, tofflor) är gratis vid skicklighet 0, guldvävssteget (dräkt, benskydd och Silkessömmarens säck) kostar 25 silver per recept vid skicklighet 25 och det sällsynta steget (dräkt, mantel, sandaler) kostar 1 guld var vid skicklighet 50.\n\nVarpmässkekhuvan behöver ingen tränare: alla känner den, men den sitter vid skicklighet 75, vävstolsbunden, som hantverkets nivå 3-toppstycke. Som överallt lär Ottilie ut ett recept så fort din nivå i Skrädderi når receptets egna nivå.",
+          "ladderBody": "Två fältvanligheter, Östbäcks Yllebrallar och Rituella kläder, är kända från start och tillverkas var som helst. Tränarstegen löper vid vävstolen söder om Östbäcks brunn: det hemspunna steget (huva, vantar, tofflor) är gratis vid skicklighet 0, gildenvävnadssteget (dräkt, benskydd och Silkessömmarens säck) kostar 25 silver per recept vid skicklighet 25 och det sällsynta steget (dräkt, mantel, sandaler) kostar 1 guld var vid skicklighet 50.\n\nVarpmässkekhuvan behöver ingen tränare: alla känner den, men den sitter vid skicklighet 75, vävstolsbunden, som hantverkets nivå 3-toppstycke. Som överallt lär Ottilie ut ett recept så fort din nivå i Skrädderi når receptets egna nivå.",
           "routeHeading": "Mästerverk, och en fungerande väg till 125",
-          "routeBody": "Ett Fint silke i dräkten täcker mästverkets signerade-reagens-bonus på egen hand, och guldblad och solkronblad räknas som nivå 1- respektive nivå 2-material för procen, så det sällsynta steget är där oddsen toppar. Enkelt, statslöst arbete som säcken proccar aldrig: ett mästerverk förbättrar egenskaper och en väska har inga.\n\nSy det hemspunna steget till 25, träna guldväven den dag den öppnar och rida den till 50, sedan det sällsynta steget till 75. Från 75 tar Varpmässkekhuvan över: ett nivå 3-recept, full vinst till 99 och hälften bortom, ungefär 75 tillverkningar för de sista femtio poängen, var och en kostande två Fint silke, fyra spindelsilke, ett par vardera av solkronblad och guldbladörter och två tråd.\n\nLåt klättringen betala sig själv: säckar säljer till bokstavligen alla och Ottilies vävstols-arbetsorder köper sex spindelsilke var 30:e minut. Bedrifternas bok markerar En fin söm vid skicklighet 50, med Stormästare i Skrädderi väntande vid 125-taket."
+          "routeBody": "Ett Fint silke i dräkten täcker mästverkets signerade-reagens-bonus på egen hand, och guldblad och solkronblad räknas som nivå 1- respektive nivå 2-material för procen, så det sällsynta steget är där oddsen toppar. Enkelt, statslöst arbete som säcken proccar aldrig: ett mästerverk förbättrar egenskaper och en väska har inga.\n\nSy det hemspunna steget till 25, träna gildenvävnaden den dag den öppnar och rida den till 50, sedan det sällsynta steget till 75. Från 75 tar Varpmässkekhuvan över: ett nivå 3-recept, full vinst till 99 och hälften bortom, ungefär 75 tillverkningar för de sista femtio poängen, var och en kostande två Fint silke, fyra spindelsilke, ett par vardera av solkronblad och guldbladörter och två tråd.\n\nLåt klättringen betala sig själv: säckar säljer till bokstavligen alla och Ottilies vävstols-arbetsorder köper sex spindelsilke var 30:e minut. Bedrifternas bok markerar En fin söm vid skicklighet 50, med Stormästare i Skrädderi väntande vid 125-taket."
         },
         "leatherworking": {
           "identityHeading": "Läder för de snabbfotade",
           "identityBody": "Stegen klättrar från de enkla Fenbroskinnbenskydden, stövlarna och bältet via den ovanliga träskjägarstyvkjorteln, huvan och axelplåtarna till det sällsynta myrväktarsetet, det bästa läder en hantverkare kan skära. Två kastestableringsdelar kompletterar det: Östbäcks Druidhid fältvanligt och Skymningshudlindorna vid skicklighet 75.\n\nPå hjulet sitter det mellan Matlagning och Skrädderi. Dess levande par är Utrustaren, Läderhantverkeri och Skrädderi, svuren inför Vävare Ottilie i Östbäck; Jägareparet med Matlagning är namngivet på hjulet men saknar ännu ett löfteuppdrag.",
           "materialsHeading": "Jakten är skörden",
-          "materialsBody": "Läderhantverkeri är det hantverk där din levlarrutt och din försörjningslinje är samma sak: grovt skinn skördas direkt från skinntransparanta koppor, vargar och vildsvin framför allt, och varje kropp betjänar bara en skördare, först till kvarn. Ett sällsynt eller bättre skördeslag ger också ett Fint skinn, ett signerat exemplar som Myrväktarstyvkjorteln efterfrågar, så lagra varje du hittar.\n\nBistödet är litet: spindelben och silke, hemspunnet tyg från humanoider, en enda toriummalm i varje myrväktarsällsynt-pjäs (sex i Skymningshudlindornas toppstycke) och ett Garvmedel för 16 koppar från garveridisken. Garvare Hesk säljer också toriummalm om du hellre slipper bryta den.",
+          "materialsBody": "Läderhantverkeri är det hantverk där din levlarrutt och din försörjningslinje är samma sak: grovt skinn skördas direkt från skinntransparanta koppor, vargar och vildsvin framför allt, och varje kropp betjänar bara en skördare, först till kvarn. Ett sällsynt eller bättre skördeslag ger också ett Fint skinn, ett signerat exemplar som Myrväktarstyvkjorteln efterfrågar, så lagra varje du hittar.\n\nBistödet är litet: spindelben och silke, hemspunnet tyg från humanoider, en enda osmiummalm i varje myrväktarsällsynt-pjäs (sex i Skymningshudlindornas toppstycke) och ett Garvmedel för 16 koppar från garveridisken. Garvare Hesk säljer också osmiummalm om du hellre slipper bryta den.",
           "ladderHeading": "Lärd i Fenbridge",
           "ladderBody": "Här finns krånglet: garveriet ligger i Fenbridge, på vägen till Mirefen-träsket, vilket gör Läderhantverkeri till det enda djupa hantverket tränat utanför Östbäck. Garvare Hesk lär ut stegen vid sina kar: Fenbroskinnssteget gratis vid skicklighet 0, träskjägarsteget för 25 silver per recept från skicklighet 25 och myrväktarsteget för 1 guld var från skicklighet 50, med varje steg som öppnas när din nivå når det.\n\nTvå recept hoppar över tränaren: fältvanligheter (den Garvade läderstyvkjorteln och Druidhiden) tillverkas var som helst från start, och Skymningshudlindorna är kända av alla men sitter vid skicklighet 75, garveribundna. Notera att Utrustar-löftet i sig svurs tillbaka i Östbäck med Ottilie; bara undervisningen sker i träsket.",
           "routeHeading": "Mästerverk, och en fungerande väg till 125",
-          "routeBody": "Från träskjägarsteget och uppåt kan varje hantverk ge mästerverk, och det Fina skinnet i en Myrväktarstyvkjortel ger den signerade-reagens-bonusen automatiskt; torium räknas som ett nivå 1-material för procen. De statslösa skinnvanligheter kan inte procca.\n\nLeva upp det på naturlig väg: skörda varje varg och vildsvin du dödar från nivå ett, tillverka skinnsteget till 25 var du än befinner dig, träna sedan i Fenbridge när uppdragen ändå drar dig in i träsket. Träskjägare bär dig till 50 och myrväktare till 75; efter det ger Skymningshudlindorna, ett nivå 3-recept på sex toriummalm, tre Fina skinn, två grova skinn och ett Garvmedel, full vinst till 99 och hälften därefter, ungefär 75 tillverkningar för de sista femtio poängen till 125-taket.\n\nDet mobila garveriet spelar större roll för detta hantverk än något annat: specialisera vid 75 och en väskfull skinn förvandlas till färdig utrustning vid lägerelden i stället för en promenad tillbaka till Fenbridge. Hesks garveri-arbetsorder köper åtta grova skinn var 30:e minut, en snygg avkastning på skinn du samlade ändå, och Bedrifternas bok markerar Garvarens handel vid skicklighet 50 med Stormästare i Läderhantverkeri vid taket."
+          "routeBody": "Från träskjägarsteget och uppåt kan varje hantverk ge mästerverk, och det Fina skinnet i en Myrväktarstyvkjortel ger den signerade-reagens-bonusen automatiskt; osmium räknas som ett nivå 1-material för procen. De statslösa skinnvanligheter kan inte procca.\n\nLeva upp det på naturlig väg: skörda varje varg och vildsvin du dödar från nivå ett, tillverka skinnsteget till 25 var du än befinner dig, träna sedan i Fenbridge när uppdragen ändå drar dig in i träsket. Träskjägare bär dig till 50 och myrväktare till 75; efter det ger Skymningshudlindorna, ett nivå 3-recept på sex osmiummalm, tre Fina skinn, två grova skinn och ett Garvmedel, full vinst till 99 och hälften därefter, ungefär 75 tillverkningar för de sista femtio poängen till 125-taket.\n\nDet mobila garveriet spelar större roll för detta hantverk än något annat: specialisera vid 75 och en väskfull skinn förvandlas till färdig utrustning vid lägerelden i stället för en promenad tillbaka till Fenbridge. Hesks garveri-arbetsorder köper åtta grova skinn var 30:e minut, en snygg avkastning på skinn du samlade ändå, och Bedrifternas bok markerar Garvarens handel vid skicklighet 50 med Stormästare i Läderhantverkeri vid taket."
         },
         "cooking": {
           "identityHeading": "Grytan som mättar sällskapet",
@@ -3744,17 +3745,17 @@ export const sv_SE: EnTranslations = {
           "identityHeading": "Flaskor som avgör strider",
           "identityBody": "Hantverket utövas vid apoteket i Highwatch, hem för Alkemisten Verane, Mästare i apoteket, som lär ut receptstegen, säljer Glasflaskor för 12 koppar och betalar mynt för örter via sin arbetsorder.\n\nPå hantverkshjulet sitter Alkemi med de försök-och-misslyckas-yrkena, bredvid Ingenjörskonst på ena sidan och Matlagning på den andra. Det ger det två paridentiteter: Bombardören (Ingenjörskonst och Alkemi, svuren inför Mekaniker Gizzel i Östbäck) och Apotekaren (Alkemi och Matlagning, svuren inför Kock Marlow). Anpassa dig till något av paren för att göra Alkemi till ett huvudyrke och öppna skickligheten hela vägen till sitt tak; tills dess fungerar det till sällsynt nivå som vilket odeklarerat hantverk som helst.",
           "materialsHeading": "Örter, körtlar och glas",
-          "materialsBody": "Varje dryck kräver en Glasflaska plus örter matchade till sitt steg: silverblad växer i Östbäcksdalen, guldblad i Mirefensumparna och solkronblad i Törntoppshöjderna, en ört per zon, så dina flaskor klättrar med världen vid din sida. Örtkunskap är den naturliga partnerfärdigheten, men att köpa från insamlare eller på marknaden fungerar lika bra; djupare zoner innehåller högre nivåfläckar som kräver en bättre skära, så håll verktyget aktuellt om du plockar själv.\n\nElixirlinjen lägger till en jägaringrediens: Giftkörtlar skördade från giftiga kroppar, och topperxiret kräver en Ren giftkortel, det signerade sällsynta exemplaret som en lyckad kroppsskörd kan ge. Har du inte egna skördar är det precis de varor det är värt att be en jägarvän ta med sig tillbaka.",
+          "materialsBody": "Varje dryck kräver en Glasflaska plus örter matchade till sitt steg: skimmerblad växer i Östbäcksdalen, guldblad i Mirefensumparna och solkronblad i Törntoppshöjderna, en ört per zon, så dina flaskor klättrar med världen vid din sida. Örtkunskap är den naturliga partnerfärdigheten, men att köpa från insamlare eller på marknaden fungerar lika bra; djupare zoner innehåller högre nivåfläckar som kräver en bättre skära, så håll verktyget aktuellt om du plockar själv.\n\nElixirlinjen lägger till en jägaringrediens: Giftkörtlar skördade från giftiga kroppar, och topperxiret kräver en Ren giftkortel, det signerade sällsynta exemplaret som en lyckad kroppsskörd kan ge. Har du inte egna skördar är det precis de varor det är värt att be en jägarvän ta med sig tillbaka.",
           "ladderHeading": "Receptstegen",
-          "ladderBody": "Alla känner till den Lilla läkedrycken från start och kan blanda den var som helst, ingen station behövs. Den riktiga stegen är nio recept som lärs ut av Verane vid apoteket, tre per steg: skicklighet 0-recepten är gratis, skicklighet 25-steget kostar 25 silver per recept och skicklighet 50-steget kostar 1 guld per recept. Varje steg är en läkedryck, en manadryck och ett uthållighetselixir, som klättrar från vanliga silverbladflaskor (120 hälsa, 160 mana) via ovanliga guldbladflaskor (200 hälsa, 260 mana) till sällsynta solkronbladflaskor (280 hälsa, 360 mana).\n\nElixiren klättrar på samma sätt: Vildsvinsens elixir ger 6 Uthållighet i 10 minuter, Gifteldselixiret 9 i 15 minuter och Ormens elixir 12 i 15 minuter, och brygger två flaskor per hantverk. Ytterligare ett recept sitter avsides: Björnens elixir, ett kombinationsbrygg som Verane lär ut för 25 silver när din Alkemi nått 25, blandbart var som helst, men enbart av en anpassad Bombardör med både Alkemi och Ingenjörskonst på 25.",
+          "ladderBody": "Alla känner till den Lilla läkedrycken från start och kan blanda den var som helst, ingen station behövs. Den riktiga stegen är nio recept som lärs ut av Verane vid apoteket, tre per steg: skicklighet 0-recepten är gratis, skicklighet 25-steget kostar 25 silver per recept och skicklighet 50-steget kostar 1 guld per recept. Varje steg är en läkedryck, en manadryck och ett uthållighetselixir, som klättrar från vanliga skimmerbladflaskor (120 hälsa, 160 mana) via ovanliga guldbladflaskor (200 hälsa, 260 mana) till sällsynta solkronbladflaskor (280 hälsa, 360 mana).\n\nElixiren klättrar på samma sätt: Vildsvinsens elixir ger 6 Uthållighet i 10 minuter, Gifteldselixiret 9 i 15 minuter och Ormens elixir 12 i 15 minuter, och brygger två flaskor per hantverk. Ytterligare ett recept sitter avsides: Björnens elixir, ett kombinationsbrygg som Verane lär ut för 25 silver när din Alkemi nått 25, blandbart var som helst, men enbart av en anpassad Bombardör med både Alkemi och Ingenjörskonst på 25.",
           "routeHeading": "En bryggares väg till 125",
-          "routeBody": "Drycker och elixir får aldrig mästerverk; den procen tillhör utrustning med egenskaper. Ditt namn reser dock med dem: de sällsynta solkronbladdryckerna bryggs en flaska i taget och levereras signerade med ett tillverkarmärke, medan den dubbelbatchade Ormens elixir förblir anonym. Vid skicklighet 75 specialiserar du dig och varje Alkemirecept kostar 20 procent färre material från och med då.\n\nTa Örtkunskap tidigt och plocka allteftersom du levlar: silverblad finns överallt i Dalen, och när du väl når Veranes bänk bär den gratis rungan dig smidigt till skicklighet 25 på örter du ändå hade plockat. Lär dig 25-rungan i samma stund den öppnas, flytta ditt plockande till träsket för guldblad och låt Veranes arbetsorder (sex Guldbladörter för 45 koppar, upprepningsbar var 30:e minut) ge lite mynt tillbaka på vägen.\n\nFrån 50 och uppåt, brygger du solkronbladdrycker och Ormbatchar av Törntoppsörter. Den sista sträckan från 100 till 125 är ett avsiktligt droppande, så brygger det som faktiskt säljer i stället för att bränna örter för siffran, och kom ihåg att förbrukningsvaror är den enda tillverkade varan alla köper om och om igen för alltid. Bedrifternas bok markerar Konstiga brygder vid skicklighet 50 och Stormästare i Alkemi vid taket."
+          "routeBody": "Drycker och elixir får aldrig mästerverk; den procen tillhör utrustning med egenskaper. Ditt namn reser dock med dem: de sällsynta solkronbladdryckerna bryggs en flaska i taget och levereras signerade med ett tillverkarmärke, medan den dubbelbatchade Ormens elixir förblir anonym. Vid skicklighet 75 specialiserar du dig och varje Alkemirecept kostar 20 procent färre material från och med då.\n\nTa Örtkunskap tidigt och plocka allteftersom du levlar: skimmerblad finns överallt i Dalen, och när du väl når Veranes bänk bär den gratis rungan dig smidigt till skicklighet 25 på örter du ändå hade plockat. Lär dig 25-rungan i samma stund den öppnas, flytta ditt plockande till träsket för guldblad och låt Veranes arbetsorder (sex Guldbladörter för 45 koppar, upprepningsbar var 30:e minut) ge lite mynt tillbaka på vägen.\n\nFrån 50 och uppåt, brygger du solkronbladdrycker och Ormbatchar av Törntoppsörter. Den sista sträckan från 100 till 125 är ett avsiktligt droppande, så brygger det som faktiskt säljer i stället för att bränna örter för siffran, och kom ihåg att förbrukningsvaror är den enda tillverkade varan alla köper om och om igen för alltid. Bedrifternas bok markerar Konstiga brygder vid skicklighet 50 och Stormästare i Alkemi vid taket."
         },
         "engineering": {
           "identityHeading": "Verktygsmakarens monopol",
-          "identityBody": "Hantverket utövas vid verktygsverkstan i sydöstra hörnet av Östbäckstorget, hem för Mekaniker Gizzel, Mästare i Verktygsverkstan. Nivå 1 till 3 av varje verktygslinje är vanliga handlarstockar; nivå 4 och 5 finns bara via en ingenjör.\n\nPå hjulet sitter det med försök-och-misslyckas-yrkena, bredvid Alkemi och Rustningssmide, vilket ger det två paridentiteter: Bombardören (Ingenjörskonst och Alkemi, svuren inför Gizzel själv) och Kuggsmeden (Rustningssmide och Ingenjörskonst, namngivet men ännu inte svärbart). En varning är viktigare här än någon annanstans: båda av Ingenjörskonstens receptsteg sitter ovan sällsynt-nivå-taket som hobbyn och odeklarerade hantverkare arbetar under, så skicklighetspoäng rör sig bara för en hantverkare vars huvudyrken inkluderar Ingenjörskonst, vilket idag innebär Bombardören. Vem som helst kan fortfarande bygga verktygen; en icke-anpassad hantverkare lär sig bara ingenting av att göra det.",
+          "identityBody": "Hantverket utövas vid verktygsverkstan i sydöstra hörnet av Östbäckstorget, hem för Mekaniker Gizzel, Mästare i Verktygsverkstan. Nivå 1 till 3 av varje verktygslinje är vanliga handlarstockar; nivå 4 och 5 finns bara via en ingenjör.\n\nPå hjulet sitter det med försök-och-misslyckas-yrkena, bredvid Alkemi och Rustningssmide, vilket ger det två paridentiteter: Bombardören (Ingenjörskonst och Alkemi, svuren inför Gizzel själv) och Kugghjulsbyggaren (Rustningssmide och Ingenjörskonst, namngivet men ännu inte svärbart). En varning är viktigare här än någon annanstans: båda av Ingenjörskonstens receptsteg sitter ovan sällsynt-nivå-taket som hobbyn och odeklarerade hantverkare arbetar under, så skicklighetspoäng rör sig bara för en hantverkare vars huvudyrken inkluderar Ingenjörskonst, vilket idag innebär Bombardören. Vem som helst kan fortfarande bygga verktygen; en icke-anpassad hantverkare lär sig bara ingenting av att göra det.",
           "materialsHeading": "Reagenser och tidigare verktyg",
-          "materialsBody": "Varje verktygrecept förbrukar verktyget en nivå under sig plus ett premiumaterial: fyra Toriummalm och en Mithrils hacka blir Toriumhackan, sedan två Arkanitbarer och den toriumhackan ger Arkanithackan, och yxan och skäran speglar samma form med Askträds- och Gammelträdstockar, Guldblads- och Solkronbladsörter.\n\nGizzel lagrar alla sex premiumreagenser vid verktygsverkstan om du vill ha fart över marginal, men malmen, stockarna och örterna är alla insamlingsbara i Mirefen-träsket och Törntoppshöjderna, och insamlad lagerstatus är där vinsten finns. Det enda undantaget är Arkanitbaren, som bara finns hos handlare, så varje arkanitverktyg har ett fast myntgolv inbyggt i sin kostnad.",
+          "materialsBody": "Varje verktygrecept förbrukar verktyget en nivå under sig plus ett premiumaterial: fyra Osmiummalm och en Himmelssilver-hacka blir Osmiumhackan, sedan två Glyfstålsbarrar och den osmiumhackan ger Glyfstålshackan, och yxan och skäran speglar samma form med Askträds- och Högtallsstockar, Guldblads- och Solkronbladsörter.\n\nGizzel lagrar alla sex premiumreagenser vid verktygsverkstan om du vill ha fart över marginal, men malmen, stockarna och örterna är alla insamlingsbara i Mirefen-träsket och Törntoppshöjderna, och insamlad lagerstatus är där vinsten finns. Det enda undantaget är Glyfstålsbaren, som bara finns hos handlare, så varje glyfstålsverktyg har ett fast myntgolv inbyggt i sin kostnad.",
           "ladderHeading": "Verktygssteget",
           "ladderBody": "Hela stegen består av sex recept, alla bundna till verktygsverkstationsstationen och alla kända automatiskt, aldrig någon tränareavgift: nivå 4-hacka, yxa och skära vid skicklighet 75 och nivå 5-versionerna vid skicklighet 150. Det andra numret är inget skrivfel och sitter medvetet ovanför det nuvarande 125-taket: skicklighetspoäng blockerar aldrig ett hantverk här, de formar bara skicklighetsvinsten, så du kan bygga ett nivå 5-verktyg den dag du har dess reagenser och föregångaren.\n\nVarje färdigt verktyg är av sällsynt eller episk kvalitet och levereras signerat, så ditt namn reser med zonerna på andra spelares verktygsremmor. Ingenjörskonst bär också upp halvan av ett kombinationsrecept: Björnens elixir, bryggt av en anpassad Bombardör med både Ingenjörskonst och Alkemi på 25.",
           "routeHeading": "En ingenjörs väg till 125",
@@ -3783,14 +3784,14 @@ export const sv_SE: EnTranslations = {
       "specializationBody": "Vid skicklighet {at} specialiserar detta hantverk dig, inget uppdrag behövs: recept kostar {pct}% färre material från och med då, och specialiseringen lägger till en egen höjning av mästerverksrisken.\n\nSpecialister lär sig också att ta verkstaden med sig: en specialiserad hantverkare kan sätta upp en mobil station i fält i tio minuter åt gången, så att stationsbundna recept kan utföras vid gruventrén istället för tillbaka i staden. Dess gränser är avsiktliga: den räknas aldrig för träning hos en mästare eller för att lösa upp ett beställt föremål, och den löper ut vid sin timer oavsett om du använde den.",
       "ench": {
         "disenchantHeading": "Avförtrollning",
-        "disenchantNote": "Avförtrollning tar ett vapen eller en rustningspjäs av vanlig kvalitet eller bättre och konsumerar en kopia, aldrig en kopia som redan är förtrollad. Vanliga och ovanliga pjäser mals ner till en rullad handfull Arkandamm, lite rikare för sällsyntare och högre-nivåartiklar; från sällsynt och uppåt ändrar avkastningen form, exakt en Arkanessens från en sällsynt pjäs eller en Arkanskarva från en episk eller legendarisk, plus en typad sekundär kopplad till vad pjäsen var tillverkad av.",
+        "disenchantNote": "Avförtrollning tar ett vapen eller en rustningspjäs av vanlig kvalitet eller bättre och konsumerar en kopia, aldrig en kopia som redan är förtrollad. Vanliga och ovanliga pjäser mals ner till en rullad handfull Klingdamm, lite rikare för sällsyntare och högre-nivåartiklar; från sällsynt och uppåt ändrar avkastningen form, exakt en Klingessens från en sällsynt pjäs eller en Klingskarva från en episk eller legendarisk, plus en typad sekundär kopplad till vad pjäsen var tillverkad av.",
         "typedHeading": "Typade sekundärer",
         "typedNote": "De typade sekundärerna följer materialet: tygruskning ger Resonant Tråd, läder Resonant Skinn, ringbrynja Resonant Länkpjäser, närstridsvapen Resonant Stål, och stavar, trollstavar, bågar och armborstar Resonant Timmer. En sällsynt pjäs ger exakt {rare}; en episk eller legendarisk pjäs ger {epicMin} eller {epicMax}. Ringar och halsband har ingen rustningsklass, så de ger bara primärmaterialet.\n\nVar uppmärksam på det finstilta: de Resonanta sekundärerna binds vid handel, så var och en kan byta händer exakt en gång, rakt från avbrytaren till förtrollaren som ska bränna det. Damm, Essens och Skärvor bär ingen sådan sträng och rör sig som vilken annan handelsvara som helst.",
         "colSource": "Krossad fran",
         "meleeWeapons": "Narstridsvapen",
         "timberWeapons": "Stavar, trollstaVar, bagor, och armborstar",
         "enchantsHeading": "Förtrollningar",
-        "enchantsNote": "Förtrollningar finns i tre nivåer. Basnivån körs på Arkandamm (med lite Essens på den höga sidan) och täcker vapensplatsen plus varje rustningsplats, med tillräckligt med stategenskapsalternativ att varje byggnad hittar något för varje plats. Den Högre nivån kostar en Arkanskarva plus Essens och är den enda saken Skärvor är till för: starkare bonusar på de mest inflytelserika platserna.\n\nMellan dem sitter de fem Runristade förtrollningarna, en konsument per typad sekundär, så inget du maler är någonsin en återvändsgränd: Runristad Egg (vapen, Styrka, konsumerar Resonant Stål), Runristad Fokus (vapen, Intelligens, Resonant Timmer), Runvävning (bröst, Ande, Resonant Tråd), Runristat Skinn (ben, Rörlighet, Resonant Skinn) och Runristade Länkpjäser (hjälm, Härdighet, Resonant Länkpjäser). Var och en tar också två Arkanessens och placerar sig mellan sina bas- och Högre-syskon i styrka; de exakta bonusarna finns alla i tabellen nedan.",
+        "enchantsNote": "Förtrollningar finns i tre nivåer. Basnivån körs på Klingdamm (med lite Essens på den höga sidan) och täcker vapensplatsen plus varje rustningsplats, med tillräckligt med stategenskapsalternativ att varje byggnad hittar något för varje plats. Den Högre nivån kostar en Klingskarva plus Essens och är den enda saken Skärvor är till för: starkare bonusar på de mest inflytelserika platserna.\n\nMellan dem sitter de fem Runristade förtrollningarna, en konsument per typad sekundär, så inget du maler är någonsin en återvändsgränd: Runristad Egg (vapen, Styrka, konsumerar Resonant Stål), Runristad Fokus (vapen, Intelligens, Resonant Timmer), Runvävning (bröst, Ande, Resonant Tråd), Runristat Skinn (ben, Rörlighet, Resonant Skinn) och Runristade Länkpjäser (hjälm, Härdighet, Resonant Länkpjäser). Var och en tar också två Klingessens och placerar sig mellan sina bas- och Högre-syskon i styrka; de exakta bonusarna finns alla i tabellen nedan.",
         "colEnchant": "Förtrollning",
         "colSlot": "Plats",
         "colTier": "Nivå",
@@ -3805,9 +3806,9 @@ export const sv_SE: EnTranslations = {
         "bonusFmt": "+{value} {stat}"
       },
       "gatherIntro": {
-        "mining": "Gruvdrift bryter malm direkt ur världens berg: koppar i Östbäcksdalen, järn i Mirefenkärret och torium uppe i Törntoppens höjder, mat till smedjeyrken. Öppet för alla från nivå 1, ingen som helst spärr, spårat på en egen räknare till ett tak på 100.",
-        "logging": "Skogsavverkning fäller timmer från trädbestånd i alla tre zoner: järnbark i Östbäcksdalen, askved i Mirefenkärret och äldreved i Törntoppens höjder, råvaran till skaft, stavar och ingenjörsbänken. Öppet för alla från nivå 1, spårat på en egen räknare till ett tak på 100.",
-        "herbalism": "Örtkunskap samlar det som växer vilt: silverblad i Östbäcksdalen, guldblad i Mirefenkärret och solkronblad i Törntoppens höjder, blad och stjälk som håller apotekyrkena bubblande. Öppet för alla från nivå 1, spårat på en egen räknare till ett tak på 100.",
+        "mining": "Gruvdrift bryter malm direkt ur världens berg: koppar i Östbäcksdalen, järn i Mirefenkärret och osmium uppe i Törntoppens höjder, mat till smedjeyrken. Öppet för alla från nivå 1, ingen som helst spärr, spårat på en egen räknare till ett tak på 100.",
+        "logging": "Skogsavverkning fäller timmer från trädbestånd i alla tre zoner: järnbark i Östbäcksdalen, askved i Mirefenkärret och högtall i Törntoppens höjder, råvaran till skaft, stavar och ingenjörsbänken. Öppet för alla från nivå 1, spårat på en egen räknare till ett tak på 100.",
+        "herbalism": "Örtkunskap samlar det som växer vilt: skimmerblad i Östbäcksdalen, guldblad i Mirefenkärret och solkronblad i Törntoppens höjder, blad och stjälk som håller apotekyrkena bubblande. Öppet för alla från nivå 1, spårat på en egen räknare till ett tak på 100.",
         "fishing": "Fiske är det udda av insamlingsyrkena, och det djupaste: ett riktigt napp-och-rulle-minispel, egna fångsttabeller i varje zon, och ett skicklighetstak på 200, dubbelt mot de andra. Köp ett spö, vett mot öppet vatten och kasta."
       },
       "rhythmHeading": "Insamlingsrytmen",
@@ -3836,7 +3837,7 @@ export const sv_SE: EnTranslations = {
         "mining": "Din första nod i vilket yrke som helst förtjänar Markens frukter, och 100-taket i Gruvdrift skriver in Malm i blodet. Att nå 100 i tre av Gruvdrift, Skogsavverkning, Örtplockning och Fiske lägger till Mästarskördare med 25 Ryktbarhet, och att knäcka en oskadd åder registrerar sin egen samlarmarkering. Inget av detta ger kraft: bedrifter är titlar och Ryktbarhet, ett register över de vägar du vandrat.",
         "logging": "Din första nod i vilket yrke som helst förtjänar Markens frukter, och 100-taket i Skogsavverkning skriver in Hjärtvedhuggaren. Att nå 100 i tre av Gruvdrift, Skogsavverkning, Örtplockning och Fiske lägger till Mästarskördare med 25 Ryktbarhet, och ett hugg av urgammalt hjärtved registrerar sin egen samlarmarkering. Bedrifter är titlar och Ryktbarhet enbart, aldrig kraft.",
         "herbalism": "Din första nod i vilket yrke som helst förtjänar Markens frukter, och 100-taket i Örtkunskap skriver in Ängens mästare. Att nå 100 i tre av Gruvdrift, Skogsavverkning, Örtkunskap och Fiske lägger till Mästarskördare med 25 Ryktbarhet, och en månlyst blomma registrerar sin egen samlarmarkering. Bedrifter är titlar och Ryktbarhet enbart, aldrig kraft.",
-        "fishing": "100-milstolpen skriver in Gamla saltet och 200 skriver in Mästarfiskaren med dess titel, det allra finaste inom fiskarkonsten; Fiske räknas också mot Mästarskördare, förtjänat vid 100 i tre valfria insamlingsyrken. Den första fisken från varje zons vatten fyller en egen sida, och Glimmerfenans Koi registrerar Glimmer av hopp, så resenärer med ett spö i packningen fyller sin bok snabbare än de väntar sig."
+        "fishing": "100-milstolpen skriver in Gamla saltet och 200 skriver in Mästarfiskaren med dess titel, det allra finaste inom fiskarkonsten; Fiske räknas också mot Mästarskördare, förtjänat vid 100 i tre valfria insamlingsyrken. Den första fisken från varje zons vatten fyller en egen sida, och Solglintens koi registrerar Glimmer av hopp, så resenärer med ett spö i packningen fyller sin bok snabbare än de väntar sig."
       },
       "fish": {
         "startHeading": "Kom igång",
@@ -3855,8 +3856,8 @@ export const sv_SE: EnTranslations = {
         "colOdds": "Odds",
         "pctFmt": "{pct}%",
         "emptyHook": "Ingenting nappar",
-        "koiHeading": "Glimmerfenkoien",
-        "koiBody": "Varje vattenkälla i spelet gömmer samma pris: Glimmerfenans koi, en ovanlig glans på linan värd 75 koppar till en handlare och ganska mer för din stolthet. Dess odds är en fast 3 procent per landad fångst (4 procent i Törntoppens kalla vatten) vid varje skicklighetsband, och att landa en registrerar Glimmer av hopp i din Bedriftbok, ett noll-ryktbarhetens samlarmärke. När det händer ser loggen till att du vet om det."
+        "koiHeading": "Solglintens koi",
+        "koiBody": "Varje vattenkälla i spelet gömmer samma pris: Solglintens koi, en ovanlig glans på linan värd 75 koppar till en handlare och ganska mer för din stolthet. Dess odds är en fast 3 procent per landad fångst (4 procent i Törntoppens kalla vatten) vid varje skicklighetsband, och att landa en registrerar Glimmer av hopp i din Bedriftbok, ett noll-ryktbarhetens samlarmärke. När det händer ser loggen till att du vet om det."
       },
       "econ": {
         "title": "Hantverksekonomi",
@@ -3910,7 +3911,7 @@ export const sv_SE: EnTranslations = {
         "q5": "Hur löser jag upp ett bestellt stycke, och vad kostar det?",
         "a5": "Gå till valfri hantverksstation med pjäsen i din väska och betala mästaren. Avgiften följer föremålets kvalitet: 25 silver för ett ovanligt stycke, 1 guld för ett sällsynt, 4 guld för ett episkt; ett legendariskt betalar den episka taxan, och ett beställt vanligt stycke betalar den ovanliga. Det måste vara en riktig station: en mobil station erbjuder aldrig tjänsten.\n\nAvgiften köper en ren tavla, inte ett botemedel: pjäsen förblir en beställning, så det binds igen till vem som tar emot det i nästa handel. Om flera bundna kopior delar en stapel lossas en kopia av och löses upp per betalning.",
         "q6": "Var lär jag mig recept, och vad kostar de?",
-        "a6": "De nio vanliga fältrecepten och verktygerecepten är kända av alla från start, och det är också tre stationsbundna toppstycken (Sotskalets mantel, Varpmässkekhuvan och Skymningshudlindorna), som inte behöver något tränarrecept, bara sin station. Allt annat lärs ut av de stationerade mästarna vid deras stationer i de tre stadscentrumen: de flesta står i Östbäck, garvaren håller garveriet i Fenbridge, och alkemisten håller apoteket i Highwatch.\n\nTränarrecept kommer i steg vid skicklighet 0, 25 och 50, prissatta gratis, 25 silver och 1 guld som en engångsavgift. En mästare lär ut ett recept när din nivå i det hantverket har nått receptets egna nivå, och du måste stå vid deras station för att lära: en mobil station räknas inte.",
+        "a6": "De nio vanliga fältrecepten och verktygerecepten är kända av alla från start, och det är också tre stationsbundna toppstycken (Ugnsfjällets mantel, Varpmässkekhuvan och Skymningshudlindorna), som inte behöver något tränarrecept, bara sin station. Allt annat lärs ut av de stationerade mästarna vid deras stationer i de tre stadscentrumen: de flesta står i Östbäck, garvaren håller garveriet i Fenbridge, och alkemisten håller apoteket i Highwatch.\n\nTränarrecept kommer i steg vid skicklighet 0, 25 och 50, prissatta gratis, 25 silver och 1 guld som en engångsavgift. En mästare lär ut ett recept när din nivå i det hantverket har nått receptets egna nivå, och du måste stå vid deras station för att lära: en mobil station räknas inte.",
         "q7": "Varfor gick min insamling plötsligt langsamt?",
         "a7": "Insamlingskastet börjar vid 2,5 sekunder och trimmas ner på två sätt: 0,4 sekunder för varje verktygsnivå du äger över nodens egna nivå, och 0,15 sekunder för varje skicklighetsband du har passerat (vid 100 och 200), med ett golv på 1,5 sekunder. Flytta från nivå 1-noder upp till nivå 3-noder och ditt överskott försvinner, så samma hacka svingar långsamt igen. Att äga exakt den krävda nivån köper ingen hastighet; den öppnar bara noden.\n\nSkicklighetsvinst bleknar på samma sätt som tillverkning gör: en nod grånär när din skicklighet klättrar förbi dess nivå (nivå 1-noder lär inget från skicklighet 75 och uppåt), så svaret på låga vinster är högre nivånoder, som behöver ett verktyg av minst deras nivå (bara händer räknas som nivå 1). Fiske följer sin egen avtappning: full vinst under 50 skicklighet, halv under 100, ett rännil på 0,1 under 150 och 0,02 under 200, och skräpfångster lär ingenting från 100 och uppåt.",
         "q8": "Kan jag tillverka utanfor staden?",
@@ -6130,6 +6131,8 @@ export const sv_SE: EnTranslations = {
       "soldItem": "Sålde {item} för {money}.",
       "soldJunkOne": "Sålde {count} skräpföremål för {money}.",
       "soldJunkMany": "Sålde {count} skräpföremål för {money}.",
+      "keptBoundOne": "Behöll {count} bunden kopia.",
+      "keptBoundMany": "Behöll {count} bundna kopior.",
       "friendOnline": "{name} har kopplat upp.",
       "friendOffline": "{name} har kopplat från."
     },
@@ -8012,7 +8015,7 @@ export const sv_SE: EnTranslations = {
         "name": "Skymningshudslindor"
       },
       "sootscale_mantle": {
-        "name": "Sotfjällsmantel"
+        "name": "Sotskalets mantel"
       },
       "gravecaller_blade": {
         "name": "Gravkallarens bredklinga"
@@ -8087,13 +8090,13 @@ export const sv_SE: EnTranslations = {
         "name": "Linnetrasa"
       },
       "arcane_dust": {
-        "name": "Arkanstoft"
+        "name": "Arkandamm"
       },
       "arcane_essence": {
         "name": "Arkanessens"
       },
       "arcane_shard": {
-        "name": "Arkanskärva"
+        "name": "Arkanskarva"
       },
       "fen_muster_order": {
         "name": "Kärrbros mönstringsorder"
@@ -8342,7 +8345,7 @@ export const sv_SE: EnTranslations = {
         "name": "Toppullsrobe"
       },
       "stalkerhide_jerkin": {
-        "name": "Smygarskinnsväst"
+        "name": "Smygarhudsjacka"
       },
       "cragwalker_boots": {
         "name": "Klippvandrarstövlar"
@@ -8483,7 +8486,7 @@ export const sv_SE: EnTranslations = {
         "name": "Järnhacka"
       },
       "mithril_mining_pick": {
-        "name": "Mithrilhacka"
+        "name": "Mithrihacka"
       },
       "handaxe": {
         "name": "Handyxa"
@@ -8513,7 +8516,7 @@ export const sv_SE: EnTranslations = {
         "name": "Askträdsyxa"
       },
       "elderwood_axe": {
-        "name": "Gammelträdsyxa"
+        "name": "Äldrevedsyxa"
       },
       "goldleaf_sickle": {
         "name": "Guldbladsskära"
@@ -8525,13 +8528,13 @@ export const sv_SE: EnTranslations = {
         "name": "Toriummalm"
       },
       "arcanite_bar": {
-        "name": "Arkanittacka"
+        "name": "Arkanitbalk"
       },
       "ashwood_log": {
         "name": "Askvedstock"
       },
       "elderwood_log": {
-        "name": "Uråldrig Flädervedsstock"
+        "name": "Gammelträdstock"
       },
       "goldleaf_herb": {
         "name": "Guldbladsört"
@@ -8669,7 +8672,7 @@ export const sv_SE: EnTranslations = {
         "name": "Järnbarksstock"
       },
       "silverleaf_herb": {
-        "name": "Silverbladsört"
+        "name": "Silverbladört"
       },
       "rough_hide": {
         "name": "Grovt skinn"
@@ -8738,7 +8741,7 @@ export const sv_SE: EnTranslations = {
         "name": "Arkanitkrigsyxa"
       },
       "elderwood_battle_staff": {
-        "name": "Äldreskogens stridsstav"
+        "name": "Äldrevedsstridsstav"
       },
       "riveted_copper_girdle": {
         "name": "Nitad koppargördel"
@@ -8759,10 +8762,10 @@ export const sv_SE: EnTranslations = {
         "name": "Järnlänksskuldror"
       },
       "thoriumscale_greathelm": {
-        "name": "Toriumfjällstorhjälm"
+        "name": "Toriumfjällstorhjalm"
       },
       "thoriumscale_cuirass": {
-        "name": "Toriumfjällharnesk"
+        "name": "Toriumfjällskyrass"
       },
       "thoriumscale_leggings": {
         "name": "Toriumfjällsbyxor"
@@ -8774,13 +8777,13 @@ export const sv_SE: EnTranslations = {
         "name": "Hemspunna vantar"
       },
       "silverthread_slippers": {
-        "name": "Silvertrådiga tofflor"
+        "name": "Blektrådstofflor"
       },
       "goldweave_robe": {
-        "name": "Guldvävsrock"
+        "name": "Guldvävsdräkt"
       },
       "goldweave_leggings": {
-        "name": "Guldvävda byxor"
+        "name": "Guldvävsbyxor"
       },
       "silkspun_satchel": {
         "name": "Silkespunna väska"
@@ -8849,10 +8852,10 @@ export const sv_SE: EnTranslations = {
         "name": "Marlows feststek"
       },
       "silverleaf_healing_draught": {
-        "name": "Silverblads läkande brygd"
+        "name": "Silverblads läkedryck"
       },
       "silverleaf_mana_draught": {
-        "name": "Silverblads manabrygd"
+        "name": "Silverblads manadryck"
       },
       "elixir_of_the_boar": {
         "name": "Galtens elixir"
@@ -9167,7 +9170,7 @@ export const sv_SE: EnTranslations = {
         "name": "Nightfang-stövlar"
       },
       "glimmerfin_koi": {
-        "name": "Skimmerfenad koi"
+        "name": "Glimmerfenans koi"
       },
       "raw_bog_eel": {
         "name": "Rå kärrål"
@@ -10749,7 +10752,7 @@ export const sv_SE: EnTranslations = {
         }
       },
       "q_stalker_pelts": {
-        "title": "Vintern kommer till Högvakten",
+        "title": "Första frosten vid Högvakt",
         "text": "Vintern på det här berget knackar inte på, {playerName} - den sparkar in dörren. Åtta bergskamssmygarskinn fodrar nog med mantlar för att se muren genom de första snöfallen. Bestarna stryker omkring på bergskammarna längs vägen söderut.",
         "completion": "Tjocka som min arm, dessa. Vakten kommer inte att frysa i år - ta dessa kängor för besväret.",
         "objectives": {

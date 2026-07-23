@@ -416,7 +416,10 @@ export const table: DeedLocaleTable = {
     name: 'Věrný zákazník',
     desc: 'Objev všech deset kusů z nabídky Zásobovače Vexe.',
   },
-  col_glimmerfin: { name: 'Třpyt naděje' },
+  col_glimmerfin: {
+    name: 'Třpyt naděje',
+    desc: 'Chyť Slunolesklého koi.',
+  },
   col_full_creel: {
     name: 'Plný košík',
     desc: 'Objev všech šest běžných úlovků z vod Údolí, Močálu a Výšin.',
@@ -589,7 +592,10 @@ export const table: DeedLocaleTable = {
     title: 'Pocestný',
   },
   exp_something_shiny: { name: 'Něco se třpytí', desc: 'Seber ze země třpytící se předmět.' },
-  exp_first_ore: { desc: 'Skliď své první naleziště rudy.' },
+  exp_first_ore: {
+    name: 'Krumpáč potkal rudu',
+    desc: 'Skliď své první naleziště rudy.',
+  },
   exp_first_timber: { name: 'Pozor, padá!', desc: 'Skliď své první naleziště dřeva.' },
   exp_first_herb: { name: 'Zelené prsty', desc: 'Skliď své první naleziště bylin.' },
   feat_era_cap: {
@@ -660,9 +666,9 @@ export const table: DeedLocaleTable = {
     desc: 'Chyť rybu ve vodách Mirefenského močálu.',
   },
   prog_guildsworn: {
-    name: 'Přísežný cechu',
+    name: 'Přísežný řemeslu',
     desc: 'Nalaď se na archetyp pár a ujmi se jeho řemesel doopravdy.',
-    title: 'Přísežný cechu',
+    title: 'Přísežný řemeslu',
   },
   prog_masterwright: {
     name: 'Mistr díla',

@@ -261,7 +261,10 @@ export const table: DeedLocaleTable = {
   col_true_colors: { name: '本色登場', desc: '穿上職業預設以外的任一外觀上場。' },
   col_all_slots: { name: '十一分體面', desc: '同時在全部十一個裝備欄位裝上物品。' },
   col_quartermaster_buyout: { name: '老主顧', desc: '發現軍需官維克斯所販售的全部十件貨品。' },
-  col_glimmerfin: { name: '一線微光', desc: '釣起一條日輝錦鯉。' },
+  col_glimmerfin: {
+    name: '一線微光',
+    desc: '釣起一條日輝錦鯉。',
+  },
   col_full_creel: { name: '滿簍而歸', desc: '發現溪谷、沼澤與高地水域的全部六種常見漁獲。' },
   col_junk_drawer: { name: '雜物抽屜', desc: '發現 10 種不同的粗糙品質物品。' },
   pvp_arena_first_match: { name: '靴中之沙', desc: '在灰燼競技場打一場積分賽，任一組別皆可。' },
@@ -340,11 +343,14 @@ export const table: DeedLocaleTable = {
   exp_world_traveler: { name: '行遍天下', desc: '贏得全部三個區域的遠行者功績。', title: '遠行者' },
   exp_something_shiny: { name: '閃亮的小東西', desc: '從地上撿起一件閃閃發亮的物品。' },
   prog_guildsworn: {
-    name: '誓藝者',
-    desc: '調諧一對原型生業，正式操持它的兩門手藝。',
-    title: '誓藝者',
+    name: '工藝誓者',
+    desc: '調諧至一對命途，並在其兩門行業中正式踏上匠途。',
+    title: '工藝誓者',
   },
-  exp_first_ore: { name: '一鎬見石', desc: '採集你的第一處礦石採集點。' },
+  exp_first_ore: {
+    name: '一鎬見石',
+    desc: '採集你的第一處礦石採集點。',
+  },
   exp_first_timber: { name: '樹倒啦！', desc: '採集你的第一處木材採集點。' },
   exp_first_herb: { name: '綠手指', desc: '採集你的第一處草藥採集點。' },
   feat_era_cap: { name: '第一紀元之子', desc: '於第一紀元尚為當世紀元時達到 20 級。' },
@@ -387,11 +393,6 @@ export const table: DeedLocaleTable = {
     desc: '勇闖廢棄墓穴，從其守衛手中奪回墓穴鑰石的上下兩半與古老日記。',
   },
   chr_marsh_first_cast: { name: '蘆葦間有鰻', desc: '在泥沼濕地的水域釣起一條魚。' },
-  prog_guildsworn: {
-    name: '立誓匠人',
-    desc: '調諧至一對命途，並在其兩門行業中正式踏上匠途。',
-    title: '立誓匠人',
-  },
   prog_masterwright: {
     name: '傑作匠師',
     desc: '完成你的第一件傑作，一件精絕到令整個區域都傳為美談的作品。',

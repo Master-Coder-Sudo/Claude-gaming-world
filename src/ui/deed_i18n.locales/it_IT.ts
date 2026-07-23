@@ -450,7 +450,10 @@ export const table: DeedLocaleTable = {
     name: 'Cliente di Riguardo',
     desc: 'Scopri tutti e dieci i pezzi della mercanzia del Quartiermastro Vex.',
   },
-  col_glimmerfin: { name: 'Un Barlume di Speranza' },
+  col_glimmerfin: {
+    name: 'Un Barlume di Speranza',
+    desc: 'Cattura un Koi del Bagliore Solare.',
+  },
   col_full_creel: {
     name: 'Cesta Piena',
     desc: 'Scopri tutte e sei le prede comuni delle acque della Valle, della Palude e delle Alture.',
@@ -647,7 +650,10 @@ export const table: DeedLocaleTable = {
     name: 'Qualcosa che Luccica',
     desc: 'Raccogli da terra un oggetto scintillante.',
   },
-  exp_first_ore: { name: 'Giù il Piccone', desc: 'Raccogli il tuo primo nodo di minerale.' },
+  exp_first_ore: {
+    name: 'Il Piccone Incontra la Roccia',
+    desc: 'Raccogli il tuo primo nodo di minerale.',
+  },
   exp_first_timber: { name: "Cade l'Albero!", desc: 'Raccogli il tuo primo nodo di legname.' },
   exp_first_herb: { name: 'Pollice Verde', desc: 'Raccogli il tuo primo nodo di erbe.' },
   feat_era_cap: {
@@ -724,9 +730,9 @@ export const table: DeedLocaleTable = {
     desc: 'Pesca un pesce nelle acque della Palude di Mirefen.',
   },
   prog_guildsworn: {
-    name: 'Giurato della Gilda',
+    name: 'Giurato del Mestiere',
     desc: 'Sintonizzati su una coppia di archetipi e abbraccia i suoi mestieri con dedizione.',
-    title: 'Giurato della Gilda',
+    title: 'Giurato del Mestiere',
   },
   prog_masterwright: {
     name: 'Mastro Artefice',

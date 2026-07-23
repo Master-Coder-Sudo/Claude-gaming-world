@@ -438,7 +438,10 @@ export const table: DeedLocaleTable = {
     name: 'Cliente Preferencial',
     desc: 'Descubra todas as dez peças do estoque heroico do Intendente Vex.',
   },
-  col_glimmerfin: { name: 'Lampejo de Esperança' },
+  col_glimmerfin: {
+    name: 'Lampejo de Esperança',
+    desc: 'Pesque um Koi do Brilho Solar.',
+  },
   col_full_creel: {
     name: 'Cesto Cheio',
     desc: 'Descubra todos os seis pescados comuns das águas do Vale, do Pântano e das Alturas.',
@@ -620,7 +623,10 @@ export const table: DeedLocaleTable = {
     title: 'o Andarilho',
   },
   exp_something_shiny: { name: 'Algo Brilhante', desc: 'Pegue um objeto cintilante do chão.' },
-  exp_first_ore: { desc: 'Colete seu primeiro veio de minério.' },
+  exp_first_ore: {
+    name: 'Picareta Encontra Pedra',
+    desc: 'Colete seu primeiro veio de minério.',
+  },
   exp_first_timber: { name: 'Madeira!', desc: 'Colete seu primeiro ponto de madeira.' },
   exp_first_herb: { name: 'Dedo Verde', desc: 'Colha seu primeiro ponto de ervas.' },
   feat_era_cap: {
@@ -694,9 +700,9 @@ export const table: DeedLocaleTable = {
     desc: 'Pesque um peixe nas águas do Pântano de Mirefen.',
   },
   prog_guildsworn: {
-    name: 'Jurado da Guilda',
+    name: 'Jurado do Ofício',
     desc: 'Sintonize-se a um par de arquétipos e assuma seus ofícios de vez.',
-    title: 'Jurado da Guilda',
+    title: 'Jurado do Ofício',
   },
   prog_masterwright: {
     name: 'Mestre Artesao',

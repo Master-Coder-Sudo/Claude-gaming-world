@@ -438,7 +438,10 @@ export const table: DeedLocaleTable = {
     name: 'Cliente preferente',
     desc: 'Descubre las diez piezas del inventario del Intendente Vex.',
   },
-  col_glimmerfin: { name: 'Un destello de esperanza' },
+  col_glimmerfin: {
+    name: 'Un destello de esperanza',
+    desc: 'Pesca un Koi Destello Solar.',
+  },
   col_full_creel: {
     name: 'Nasa llena',
     desc: 'Descubre las seis capturas comunes de las aguas del Valle, la Ciénaga y las Alturas.',
@@ -623,7 +626,10 @@ export const table: DeedLocaleTable = {
     title: 'Caminante',
   },
   exp_something_shiny: { name: 'Algo brillante', desc: 'Recoge un objeto reluciente del suelo.' },
-  exp_first_ore: { name: '¡A picar piedra!', desc: 'Recolecta tu primer nodo de mineral.' },
+  exp_first_ore: {
+    name: 'El pico y la piedra',
+    desc: 'Recolecta tu primer nodo de mineral.',
+  },
   exp_first_timber: { name: '¡Árbol va!', desc: 'Recolecta tu primer nodo de madera.' },
   exp_first_herb: { name: 'Mano verde', desc: 'Recolecta tu primer nodo de hierbas.' },
   feat_era_cap: {
@@ -697,9 +703,9 @@ export const table: DeedLocaleTable = {
     desc: 'Pesca un pez en las aguas de la Ciénaga de Mirefen.',
   },
   prog_guildsworn: {
-    name: 'Juramentado del Gremio',
+    name: 'Juramentado del Oficio',
     desc: 'Sintonízate con un par de arquetipos y toma sus oficios en serio.',
-    title: 'Juramentado del Gremio',
+    title: 'Juramentado del Oficio',
   },
   prog_masterwright: {
     name: 'Gran Artesano',

@@ -456,7 +456,10 @@ export const table: DeedLocaleTable = {
     name: 'Client privilégié',
     desc: "Découvrir les dix pièces du stock de l'Intendant Vex.",
   },
-  col_glimmerfin: { name: "Une lueur d'espoir" },
+  col_glimmerfin: {
+    name: "Une lueur d'espoir",
+    desc: 'Pêcher un Koi solaire.',
+  },
   col_full_creel: {
     name: 'Bourriche pleine',
     desc: 'Découvrir les six prises communes des eaux du Val, du Marais et des Hauteurs.',
@@ -654,7 +657,7 @@ export const table: DeedLocaleTable = {
     desc: 'Ramassez un objet scintillant sur le sol.',
   },
   exp_first_ore: {
-    name: 'Premier coup de pioche',
+    name: 'La pioche et la roche',
     desc: 'Récoltez votre premier filon de minerai.',
   },
   exp_first_timber: { name: 'Ça va tomber !', desc: 'Récoltez votre première coupe de bois.' },
@@ -730,9 +733,9 @@ export const table: DeedLocaleTable = {
     desc: 'Pêcher un poisson dans les eaux du Marais de Mirefen.',
   },
   prog_guildsworn: {
-    name: 'Jure-guilde',
+    name: 'Juré-métier',
     desc: "Harmonisez-vous à une paire d'archétype et embrassez sérieusement ses métiers.",
-    title: 'Jure-guilde',
+    title: 'Juré-métier',
   },
   prog_masterwright: {
     name: 'Maître-artisan',

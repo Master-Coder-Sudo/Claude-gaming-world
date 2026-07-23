@@ -436,7 +436,10 @@ export const table: DeedLocaleTable = {
     name: 'Stammkunde',
     desc: 'Entdecke alle zehn Stücke aus dem Vorrat des Heroischen Quartiermeisters.',
   },
-  col_glimmerfin: { name: 'Ein Schimmer Hoffnung' },
+  col_glimmerfin: {
+    name: 'Ein Schimmer Hoffnung',
+    desc: 'Fange einen Sonnenschimmer-Koi.',
+  },
   col_full_creel: {
     name: 'Voller Fangkorb',
     desc: 'Entdecke alle sechs gewöhnlichen Fänge aus den Gewässern des Tals, des Moors und der Höhen.',
@@ -615,7 +618,10 @@ export const table: DeedLocaleTable = {
     name: 'Etwas Glitzerndes',
     desc: 'Hebe ein funkelndes Objekt vom Boden auf.',
   },
-  exp_first_ore: { name: 'Hau in den Fels', desc: 'Baue dein erstes Erzvorkommen ab.' },
+  exp_first_ore: {
+    name: 'Pickel trifft Stein',
+    desc: 'Baue dein erstes Erzvorkommen ab.',
+  },
   exp_first_timber: { name: 'Baum fällt!', desc: 'Ernte dein erstes Holzvorkommen.' },
   exp_first_herb: { name: 'Ein grüner Daumen', desc: 'Ernte dein erstes Kräutervorkommen.' },
   feat_era_cap: {
@@ -689,9 +695,9 @@ export const table: DeedLocaleTable = {
     desc: 'Fange einen Fisch aus den Gewässern des Mirefen-Moors.',
   },
   prog_guildsworn: {
-    name: 'Gildengeschworen',
+    name: 'Handwerksgeschworen',
     desc: 'Stimme dich auf ein Archetyp-Paar ein und nimm seine Berufe ernsthaft auf.',
-    title: 'Gildengeschworen',
+    title: 'Handwerksgeschworen',
   },
   prog_masterwright: {
     name: 'Meisterwerk-Macher',

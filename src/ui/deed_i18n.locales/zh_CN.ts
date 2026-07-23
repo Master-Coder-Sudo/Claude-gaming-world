@@ -258,7 +258,10 @@ export const table: DeedLocaleTable = {
   col_true_colors: { name: '真我本色', desc: '穿着你职业默认之外的任意外观登场。' },
   col_all_slots: { name: '十一分讲究', desc: '让全部十一个装备栏位同时都有装备。' },
   col_quartermaster_buyout: { name: '老主顾', desc: '发现军需官维克斯所售的全部十件货品。' },
-  col_glimmerfin: { name: '一线微光', desc: '钓起一条日辉锦鲤。' },
+  col_glimmerfin: {
+    name: '一线微光',
+    desc: '钓起一条日辉锦鲤。',
+  },
   col_full_creel: { name: '满载鱼篓', desc: '发现来自溪谷、湿地与高地水域的全部六种常见渔获。' },
   col_junk_drawer: { name: '杂物抽屉', desc: '发现 10 件不同的粗糙品质物品。' },
   pvp_arena_first_match: { name: '靴中黄沙', desc: '在灰烬竞技场打一场评级赛，任一组别皆可。' },
@@ -329,10 +332,13 @@ export const table: DeedLocaleTable = {
   exp_something_shiny: { name: '闪光之物', desc: '从地上捡起一件闪闪发光的物品。' },
   prog_guildsworn: {
     name: '誓艺者',
-    desc: '调谐一对原型生业，正式操持它的两门手艺。',
+    desc: '向一个原型组合完成调谐，正式踏上它所代表的两门技艺之路。',
     title: '誓艺者',
   },
-  exp_first_ore: { name: '一镐见石', desc: '采集你的第一处矿石点。' },
+  exp_first_ore: {
+    name: '镐遇石鸣',
+    desc: '采集你的第一处矿石点。',
+  },
   exp_first_timber: { name: '顺山倒！', desc: '采集你的第一处木材点。' },
   exp_first_herb: { name: '绿手指', desc: '采集你的第一处草药点。' },
   feat_era_cap: { name: '第一纪元之子', desc: '在第一纪元仍为当前纪元时达到20级。' },
@@ -372,11 +378,6 @@ export const table: DeedLocaleTable = {
     desc: '闯入废弃墓穴，从其守卫者手中取回墓穴钥石的上下两半与古老日记。',
   },
   chr_marsh_first_cast: { name: '苇丛藏鳗', desc: '在泥沼湿地的水域钓起一条鱼。' },
-  prog_guildsworn: {
-    name: '公会誓盟',
-    desc: '向一个原型组合完成调谐，正式踏上它所代表的两门技艺之路。',
-    title: '公会誓盟者',
-  },
   prog_masterwright: {
     name: '杰作锻师',
     desc: '制作出你的第一件杰作，令整片区域都传颂这份匠心。',

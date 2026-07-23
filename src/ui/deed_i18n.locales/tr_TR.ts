@@ -413,7 +413,10 @@ export const table: DeedLocaleTable = {
     name: 'Gedikli Müşteri',
     desc: "Kahramanca Levazımcısı'nın tezgâhındaki on parçanın tamamını keşfet.",
   },
-  col_glimmerfin: { name: 'Umut Pırıltısı' },
+  col_glimmerfin: {
+    name: 'Umut Pırıltısı',
+    desc: 'Bir Günışıltısı Sazan tut.',
+  },
   col_full_creel: {
     name: 'Dolu Sepet',
     desc: "Vadi'nin, Bataklık'ın ve Tepeler'in sularındaki altı yaygın avın tümünü keşfet.",
@@ -571,7 +574,10 @@ export const table: DeedLocaleTable = {
     title: 'Seyyah',
   },
   exp_something_shiny: { name: 'Parlak Bir Şey', desc: 'Işıldayan bir nesneyi yerden al.' },
-  exp_first_ore: { desc: 'İlk cevher kaynağını topla.' },
+  exp_first_ore: {
+    name: 'Kazma Taşa Değdi',
+    desc: 'İlk cevher kaynağını topla.',
+  },
   exp_first_timber: { name: 'Ağaç Devriliyor!', desc: 'İlk odun kaynağını topla.' },
   exp_first_herb: { name: 'Bereketli Eller', desc: 'İlk şifalı ot kaynağını topla.' },
   feat_era_cap: {
@@ -648,9 +654,9 @@ export const table: DeedLocaleTable = {
     desc: "Mirefen Bataklığı'nın sularından bir balık tut.",
   },
   prog_guildsworn: {
-    name: 'Lonca Yeminlisi',
+    name: 'Zanaat Yeminlisi',
     desc: 'Bir arketip çiftine bağlan ve mesleklerini ciddiyetle üstlen.',
-    title: 'Lonca Yeminlisi',
+    title: 'Zanaat Yeminlisi',
   },
   prog_masterwright: {
     name: 'Şaheser Ustası',

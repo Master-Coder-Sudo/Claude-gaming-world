@@ -364,7 +364,10 @@ export const table: DeedLocaleTable = {
     name: 'お得意様',
     desc: '補給係ヴェックスの品揃え全10点を発見する。',
   },
-  col_glimmerfin: { name: '希望のきらめき', desc: '日映えの錦鯉を釣り上げる。' },
+  col_glimmerfin: {
+    name: '希望のきらめき',
+    desc: '日映えの錦鯉を釣り上げる。',
+  },
   col_full_creel: {
     name: '満杯の魚籠',
     desc: '渓谷、湿地、高地の水辺で釣れるコモンの獲物6種をすべて発見する。',
@@ -503,10 +506,13 @@ export const table: DeedLocaleTable = {
   exp_something_shiny: { name: 'きらりと光るもの', desc: '地面できらめく物を拾い上げる。' },
   prog_guildsworn: {
     name: '技巧に誓いし者',
-    desc: '生業の対に調律し、その二つの生業を本式に修める。',
+    desc: 'アーキタイプの組み合わせに調律し、その製作技を本格的に磨き始める。',
     title: '技巧に誓いし者',
   },
-  exp_first_ore: { name: 'つるはしが石を打つ', desc: '初めての鉱脈から鉱石を採掘する。' },
+  exp_first_ore: {
+    name: 'つるはし、石を打つ',
+    desc: '初めての鉱脈から鉱石を採掘する。',
+  },
   exp_first_timber: { name: '倒れるぞーっ！', desc: '初めての立ち木を伐採する。' },
   exp_first_herb: { name: '緑の指', desc: '初めての薬草を摘み取る。' },
   feat_era_cap: { name: '第一の時代の申し子', desc: '第一の時代のさなかにレベル20へ到達した。' },
@@ -561,11 +567,6 @@ export const table: DeedLocaleTable = {
     desc: '放棄された地下墓所へ足を踏み入れ、その守護者たちから要石の両片と古い日誌を回収する。',
   },
   chr_marsh_first_cast: { name: '葦間のウナギ', desc: 'マイアフェン湿地の水辺で魚を釣り上げる。' },
-  prog_guildsworn: {
-    name: 'ギルド誓約者',
-    desc: 'アーキタイプの組み合わせに調律し、その製作技を本格的に磨き始める。',
-    title: 'ギルド誓約者',
-  },
   prog_masterwright: {
     name: '名工',
     desc: '初めての傑作を打ち上げる。あまりの出来栄えに、ゾーン全体にその名が轟く。',

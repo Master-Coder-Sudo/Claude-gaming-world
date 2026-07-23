@@ -2157,7 +2157,7 @@ export const es_ES: EnTranslations = {
       "enchanting+jewelcrafting": "Gemoencantador",
       "jewelcrafting+weaponcrafting": "Forjajoyero",
       "weaponcrafting+armorcrafting": "Herrero",
-      "armorcrafting+engineering": "Mecanoforjador"
+      "armorcrafting+engineering": "Engranajero"
     },
     "craftName": {
       "armorcrafting": "Forja de armaduras",
@@ -2209,7 +2209,7 @@ export const es_ES: EnTranslations = {
       "enchant_legs_greater_stamina": "Encantar piernas - Aguante superior",
       "enchant_gloves_greater_agility": "Encantar guantes - Agilidad superior",
       "enchant_weapon_runed_edge": "Encantar arma - Filo rúnico",
-      "enchant_weapon_runed_focus": "Encantar arma - Foco rúnico",
+      "enchant_weapon_runed_focus": "Encantar arma - Sello Rúnico",
       "enchant_chest_runeweave": "Encantar pecho - Tejido rúnico",
       "enchant_legs_runed_hide": "Encantar piernas - Piel rúnica",
       "enchant_helmet_runed_links": "Encantar yelmo - Eslabones rúnicos"
@@ -2241,6 +2241,7 @@ export const es_ES: EnTranslations = {
       "tutorialLine": "Alcanza la habilidad {target} en cualquier oficio para desbloquear tu primer nivel.",
       "ctaHeader": "Siguiente paso",
       "ctaRaise": "Sigue subiendo {craft}: {points} más puntos para el siguiente nivel.",
+      "ctaRaiseSpecialized": "Sigue subiendo {craft}: {points} puntos más para Especializado, y los costes de materiales bajan.",
       "ctaStart": "Crea o reúne cualquier profesión para comenzar.",
       "unattunedIdentity": "Aún no estás en sintonía con un arquetipo. Mejora tus artesanías y completa una sintonía para elegir tu pareja.",
       "nudgeNearTier": "{craft}: puntos {points} del siguiente nivel",
@@ -3611,15 +3612,15 @@ export const es_ES: EnTranslations = {
     "professions": {
       "intro": "Más allá del combate y las misiones, el mundo te recompensa por trabajar la tierra y la fragua: recolectar materias primas, convertirlas en equipo y bienes a lo largo de diez oficios de artesanía, y asentarte en una identidad como uno de los diez arquetipos que esos oficios representan.",
       "harvestTitle": "Cosechar la propia cacería",
-      "harvestBody": "La recolección no se detiene en los nodos. De algunas bestias abatidas se pueden cosechar componentes, pieles, colmillos, seda y cosas más extrañas, directamente del cadáver junto a su botín corriente. Un solo recolector por muerte: la cosecha entera es de quien coseche primero. La elección es tuya cada vez, además: despoja cuanto ofrece el cadáver, o concéntrate en un único componente y toma un grado más fino de él. Cualquier personaje puede cosechar, sin necesidad de oficio ni entrenamiento, y un componente especialmente fino incluso lleva el nombre de quien lo cosechó.",
+      "harvestBody": "La recolección no se limita a los nodos. Muchas bestias abatidas pueden cosecharse una sola vez, el primero en llegar, para obtener pieles, colmillos, seda y carne directamente del cadáver junto a su botín ordinario; con una pulsación se abre todo a la vez. La elección también es tuya cada vez: extrae todo lo que ofrece el cadáver, o concéntrate en menos componentes y obtén una calidad notablemente superior de lo que sí tomas.\n\nUna tirada de cosecha rara o mejor en una familia portadora de ejemplares también otorga un ejemplar perfecto firmado (una Piel Prístina, Seda Prístina, Glándula de Veneno Prístina o Corte Primo) además del rendimiento ordinario, y registra Espécimen Perfecto en tu Libro de Gestas. Cualquier personaje puede cosechar, sin necesidad de entrenamiento, y cualquier herramienta de recolección que poseas cuenta para el tramo de calidad superior, sea del oficio que sea.",
       "focusTitle": "Enfoque del pueblo",
       "focusBody": "Cada pueblo principal mantiene un panel de Enfoque del pueblo para los recolectores de paso: párate en el pueblo, ábrelo junto al minimapa y dirige un pequeño presupuesto de puntos de enfoque hacia los tipos de componente que te interesan. Cuanto más enfoque des a un componente, más fino y rico saldrá de cada cadáver posterior; tu asignación acompaña a tu personaje dondequiera que vaya, y puedes reajustarla, gratis, en cualquier visita posterior al pueblo.",
       "craftHowTitle": "La ventana de artesanía",
-      "craftMasteryTitle": "Habilidad y maestría",
-      "craftMasteryBody": "Fabricar con éxito aumenta tu habilidad en ese oficio, y la habilidad nunca deja bajo llave las recetas de un oficio: si conoces una receta y tienes sus materiales, puedes intentarla. Lo que la habilidad te compra, en cambio, es calidad: una mano experta produce un trabajo más fino. La única excepción son las recetas combinadas, que te piden haberte probado en ambos oficios antes de abrirse.",
-      "archetypeChooseTitle": "Elegir tu arquetipo",
-      "archetypeChooseBody": "Declarar un arquetipo será un momento de historia: una misión que te acepta formalmente en esa identidad. Ese camino aún se está construyendo, así que por ahora cada personaje recorre el mundo con la elección todavía por delante, y mientras tanto cada oficio avanza hasta el nivel de calidad Raro.",
-      "archetypeSwitchBody": "Tampoco será una declaración una condena de por vida. El plan es un acto repetible de enmendar las cosas con tu antiguo oficio antes de adoptar uno nuevo, y la enmienda se vuelve más exigente cada vez que cambias, de modo que la elección siga teniendo peso en lugar de salir gratis. Como la propia declaración, aún está en camino.",
+      "craftMasteryTitle": "Cuánto tarda la maestría",
+      "craftMasteryBody": "Expectativas honestas: el camino hasta el tope de 125 de un oficio requiere al menos 125 elaboraciones exitosas, ya que cada elaboración con ganancia completa avanza exactamente un punto, y en la práctica algo más a medida que las recetas pierden color entre un peldaño y otro del entrenador. La elaboración en sí es rápida; abastecerla es el viaje real, así que reserva varias tardes dedicadas a recolectar y elaborar por cada oficio.\n\nLos oficios de recolección alcanzan su tope de 100 a lo largo de un recorrido normal de subida de nivel si cosechas mientras viajas, aunque el tramo final pide los nodos de nivel superior del lejano norte. La Pesca es el camino largo por diseño: según su propio ritmo de ganancia, 200 de pericia equivale a más de tres mil capturas. El Pescador Maestro es un título que se gana durante una temporada de tardes tranquilas, no en un fin de semana.",
+      "archetypeChooseTitle": "La carta del Gremio, y cambiar de opinión",
+      "archetypeChooseBody": "No es necesario que busques nada de esto. Trabaja tus oficios, y en cuanto tus habilidades artesanales muestren claramente una inclinación hacia un par, el Gremio de Artesanos lo nota y envía una carta por cuervo nombrando al maestro que debes visitar y la misión que debes tomar. Llega una vez por personaje, y solo si aún no te has comprometido con un par.",
+      "archetypeSwitchBody": "Una declaración tampoco es una condena de por vida. Un par que nunca has tenido es simplemente una misión de sintonización nueva, mientras que volver a un par del que te alejaste te pide que hagas las paces primero: cinco tareas la primera vez, y tres más por cada cambio que ya hayas realizado. La elección sigue siendo significativa sin cerrar nunca una puerta para siempre.",
       "whatHeading": "Un oficio junto a la espada",
       "whatBody": "Los oficios son la vida laboral del mundo: cuatro oficios de recolección que sacan materia prima directamente de la tierra, y un anillo de diez oficios de artesanía que la convierten en equipo, comidas, pociones y herramientas. Todo alimenta a otra cosa aquí. El mineral que minas se convierte en una espada, la espada recibe un encanto, y el encanto necesita polvo sacado de equipo viejo, así que un recolector, un artesano y un técnico son todos eslabones de una misma cadena.\n\nNo hay un límite de profesiones con el que agonizar. Cada personaje puede subir los ocho oficios de artesanía que tienen contenido hoy y los cuatro oficios de recolección al mismo tiempo; la única elección exclusiva es tu arquetipo, la identidad a la que eventualmente te comprometes, aunque una vez que te sintonizas los oficios que quedan inactivos dejan de avanzar. La habilidad nunca baja, y nada de lo que aprendes se te quita jamás.",
       "ringHeading": "El anillo de oficios",
@@ -3639,7 +3640,7 @@ export const es_ES: EnTranslations = {
       "stationsHeading": "Estaciones y los tres centros",
       "stationsBody": "Seis estaciones especializadas sirven a los siete oficios vinculados a estación, distribuidas por los tres centros del pueblo. Eastbrook tiene la fragua (Fabricación de armas y Fabricación de armaduras la comparten), las cocinas, el telar y el taller de herramientas; Fenbridge tiene la curtiduría y Highwatch el boticario. Cada estación tiene un maestro residente junto a ella que enseña recetas, publica encargos de trabajo y ofrece el servicio de desvinculación.\n\nEl radio de trabajo es de 20 metros, aproximadamente el patio propio de la estación, así que elaboras parado junto al yunque y no desde el otro lado del pueblo. Joyería, Inscripción y Encantación no tienen estación: las dos primeras esperan sus recetas, y la Encantación funciona en cualquier lugar por diseño.",
       "deedsHeading": "Gestas que recuerdan el viaje",
-      "deedsBody": "El Libro de Gestas acompaña cada paso de esto. Tu primera sintonización gana Juramentado del Gremio y tu primera obra maestra gana Gran Artesano, ambos usables como títulos. Cada uno de los ocho oficios con gestas marca una gesta hito a los 50 de habilidad y corona su tope con un título de Gran Maestro, mientras que la Pesca recibe Viejo Sal a los 100 de pericia y el título de Pescador Maestro a los 200.\n\nHay páginas más silenciosas también: gestas por tu primera cosecha y primera elaboración, por los hallazgos raros que la suerte te da en el campo, y por empezar el salvamento. Todo es cosmético, títulos y Renombre únicamente. Una gesta nunca otorga poder; solo prueba que estuviste allí.",
+      "deedsBody": "El Libro de Gestas acompaña cada paso de esto. Tu primera sintonización gana Juramentado del Oficio y tu primera obra maestra gana Gran Artesano, ambos usables como títulos. Cada uno de los ocho oficios con gestas marca una gesta hito a los 50 de habilidad y corona su tope con un título de Gran Maestro, mientras que la Pesca recibe Viejo Sal a los 100 de pericia y el título de Pescador Maestro a los 200.\n\nHay páginas más silenciosas también: gestas por tu primera cosecha y primera elaboración, por los hallazgos raros que la suerte te da en el campo, y por empezar el salvamento. Todo es cosmético, títulos y Renombre únicamente. Una gesta nunca otorga poder; solo prueba que estuviste allí.",
       "startHeading": "Por dónde empezar",
       "startBody": "¿Recién llegado a Eastbrook? Busca al Capataz Odell y acepta Un oficio para cada mano: te señalará las vetas de mineral alrededor de la Excavación de Cobre al suroeste del pueblo y te dará tus primeros callos. A partir de entonces, cosecha cada veta, arboleda y mata de hierba que encuentres mientras haces misiones; la pericia llega de forma natural a los viajeros.\n\nDe vuelta en el pueblo, pulsa T para abrir la ventana de artesanía y trabaja las recetas comunes que cada personaje conoce desde el principio. Visita a los maestros en la fragua, las cocinas, el telar y el taller de herramientas para ver qué enseñan, y acepta sus encargos de trabajo para obtener monedas constantes. Para cuando la carta del Gremio te encuentre, ya sabrás qué par se siente como hogar.",
       "colStation": "Estación",
@@ -3680,8 +3681,8 @@ export const es_ES: EnTranslations = {
       "colNodeTier": "Nivel del nodo",
       "colToolNeeded": "Herramienta necesaria",
       "craftIntro": {
-        "weaponcrafting": "La forja de armas es el banco de armamento de la fragua de Eastbrook: hachas, mazas, hojas, lanzas e incluso el báculo de un lanzador, desde los iniciadores de cobre hasta las raras obras de torio y arcanita. Un arma es la mejora que más se nota que un nivel puede comprar, así que un forjador de armas es el amigo que todo el mundo recuerda hacer.",
-        "armorcrafting": "La forja de armaduras trabaja la malla, la armadura más pesada que un artesano puede fabricar, desde las básicas de cobre remachado hasta el raro conjunto de escama de torio, con un par de piezas con estadísticas de lanzador como complemento. Sus clientes son quienes se ponen donde caen los golpes.",
+        "weaponcrafting": "La forja de armas es el banco de armamento de la fragua de Eastbrook: hachas, mazas, hojas, lanzas e incluso el báculo de un lanzador, desde los iniciadores de cobre hasta las raras obras de osmio y glyfiacero. Un arma es la mejora que más se nota que un nivel puede comprar, así que un forjador de armas es el amigo que todo el mundo recuerda hacer.",
+        "armorcrafting": "La forja de armaduras trabaja la malla, la armadura más pesada que un artesano puede fabricar, desde las básicas de cobre remachado hasta el raro conjunto de escama de osmio, con un par de piezas con estadísticas de lanzador como complemento. Sus clientes son quienes se ponen donde caen los golpes.",
         "tailoring": "La sastrería teje la tela de Intelecto y Espíritu en la que viven los lanzadores, desde los básicos de tela basta hasta el conjunto de tejido dorado y las obras raras de tejido solar, y cose la Bolsa de Seda Hilada, una bolsa de diez espacios que nadie rechaza.",
         "leatherworking": "La peletería curte equipo de Agilidad y Aguante para las clases que esquivan en lugar de bloquear, desde los básicos de piel de Fenbridge hasta el raro conjunto mireguardián, y es el único oficio profundo que se entrena en el pantano.",
         "cooking": "La cocina convierte la pesca del día en comidas que curan durante 18 segundos de descanso, la curación más barata del juego, desde el Tasajo Salado hasta el Gran Asado de Marlow. Todo el mundo come, así que ningún oficio es más universalmente bienvenido en un grupo.",
@@ -3692,29 +3693,29 @@ export const es_ES: EnTranslations = {
       "craftProse": {
         "weaponcrafting": {
           "identityHeading": "El filo que busca cada combatiente",
-          "identityBody": "Alguien en cada grupo quiere el trabajo de este oficio, porque el peldaño raro solo ya cubre los tres gustos: el Mandoble de Torio para cuerpo a cuerpo de Fuerza, el Hacha de Guerra de Arcanita para combatientes de Agilidad y el Báculo de Batalla de Elderwood, un báculo de Intelecto y Espíritu para los de ropa.\n\nEn la rueda de oficios se sitúa entre la Forja de armaduras y la Joyería. Su identidad activa es el Herrero, el par de Forja de armas y Forja de armaduras, jurado ante la Maestra de la Fragua Darva en la fragua trabajando tres vetas de mineral con tus propias manos; el par Forjajoyero con la Joyería también está nombrado en la rueda, pero aún no puede jurarse, ya que la Joyería no tiene recetas hasta una expansión de zona posterior.",
+          "identityBody": "Alguien en cada grupo quiere el trabajo de este oficio, porque el peldaño raro solo ya cubre los tres gustos: el Mandoble de Osmio para cuerpo a cuerpo de Fuerza, el Hacha de Guerra de Glyfiacero para combatientes de Agilidad y el Báculo de Batalla de Pino Cumbre, un báculo de Intelecto y Espíritu para los de ropa.\n\nEn la rueda de oficios se sitúa entre la Forja de armaduras y la Joyería. Su identidad activa es el Herrero, el par de Forja de armas y Forja de armaduras, jurado ante la Maestra de la Fragua Darva en la fragua trabajando tres vetas de mineral con tus propias manos; el par Forjajoyero con la Joyería también está nombrado en la rueda, pero aún no puede jurarse, ya que la Joyería no tiene recetas hasta una expansión de zona posterior.",
           "materialsHeading": "Lo que bebe la forja",
-          "materialsBody": "La Minería es la columna vertebral. El mineral de cobre sale de las vetas de nivel 1 del Valle de Eastbrook, el mineral de hierro del Pantano de Mirefen, y el mineral de torio de las Alturas de Thornpeak, y cada peldaño de la escalera sube de la misma manera. La Tala importa más de lo que podrías esperar: la corteza de hierro afianza la lanza de jabalí, el fresno soporta el mazo, y un solo tronco de saúco forma el bastón de batalla.\n\nEl resto viene de la caza y el mostrador. La piel áspera para los mangos se recolecta directamente de los cadáveres de lobos y jabalíes, los fragmentos de hueso caen de las muertes cotidianas, y la escalera de la forja quema Flujo de Fundición, 20 cobres el frasco donde Darva misma los vende. Si tu propia minería se retrasa, Darva vende mineral de torio en la forja y el Artífice Gizzel tiene barras de arcanita en el taller de herramientas, a un precio que hace que tener amigos recolectores parezca barato.",
+          "materialsBody": "La Minería es la columna vertebral. El mineral de cobre sale de las vetas de nivel 1 del Valle de Eastbrook, el mineral de hierro del Pantano de Mirefen, y el mineral de osmio de las Alturas de Thornpeak, y cada peldaño de la escalera sube de la misma manera. La Tala importa más de lo que podrías esperar: la corteza de hierro afianza la lanza de jabalí, el fresno soporta el mazo, y un solo tronco de pino cumbre forma el bastón de batalla.\n\nEl resto viene de la caza y el mostrador. La piel áspera para los mangos se recolecta directamente de los cadáveres de lobos y jabalíes, los fragmentos de hueso caen de las muertes cotidianas, y la escalera de la forja quema Flujo de Fundición, 20 cobres el frasco donde Darva misma los vende. Si tu propia minería se retrasa, Darva vende mineral de osmio en la forja y el Artífice Gizzel tiene barras de glyfiacero en el taller de herramientas, a un precio que hace que tener amigos recolectores parezca barato.",
           "ladderHeading": "La escalera, peldaño a peldaño",
-          "ladderBody": "Una receta de campo, la Espada de Armar de Eastbrook, la conoce todo el mundo desde el principio y se fabrica en cualquier lugar con botín de caza (un par de colmillos de lobo y fragmentos de hueso) más seis Fundentes de Forja del mostrador de la fragua. La escalera real son nueve recetas de entrenador en tres peldaños, todos vinculados a la fragua: el peldaño de cobre (hacha con barba, maza flangeada, lanza jabalí) es gratuito en habilidad 0, el peldaño de hierro (espada larga, mazo, daga) se abre en habilidad 25 por 25 de plata la receta y el peldaño de torio (mandoble, hacha de guerra, báculo de batalla) se abre en habilidad 50 por 1 de oro cada uno. Darva enseña una receta en cuanto tu nivel en el oficio alcanza el suyo, así que cada peldaño se desbloquea exactamente cuando comienza su franja de habilidad.\n\nUna receta más va con el par: los Guanteletes del Dragón Sepulcro, una pieza combinada enseñada por el entrenador que solo un Herrero sintonizado con Forja de armas y Forja de armaduras ambas en habilidad 25 puede trabajar, y no necesita ninguna estación.",
+          "ladderBody": "Una receta de campo, la Espada de Armar de Eastbrook, la conoce todo el mundo desde el principio y se fabrica en cualquier lugar con botín de caza (un par de colmillos de lobo y fragmentos de hueso) más seis Fundentes de Forja del mostrador de la fragua. La escalera real son nueve recetas de entrenador en tres peldaños, todos vinculados a la fragua: el peldaño de cobre (hacha con barba, maza flangeada, lanza jabalí) es gratuito en habilidad 0, el peldaño de hierro (espada larga, mazo, daga) se abre en habilidad 25 por 25 de plata la receta y el peldaño de osmio (mandoble, hacha de guerra, báculo de batalla) se abre en habilidad 50 por 1 de oro cada uno. Darva enseña una receta en cuanto tu nivel en el oficio alcanza el suyo, así que cada peldaño se desbloquea exactamente cuando comienza su franja de habilidad.\n\nUna receta más va con el par: los Guanteletes del Dragón Sepulcro, una pieza combinada enseñada por el entrenador que solo un Herrero sintonizado con Forja de armas y Forja de armaduras ambas en habilidad 25 puede trabajar, y no necesita ninguna estación.",
           "routeHeading": "Obras maestras y una ruta de trabajo hasta 125",
-          "routeBody": "Cualquier pieza con una línea de estadísticas real, que en esta escalera significa el peldaño de hierro en adelante, puede salir del yunque como obra maestra; los comunes de cobre sin estadísticas nunca activan el proc, porque no hay nada en ellos que mejorar. El hierro cuenta como material de nivel 1 para el bono de obra maestra, el saúco y la arcanita como nivel 2, por lo que el peldaño superior activa el proc con un poco más de frecuencia.\n\nSube el peldaño de cobre hasta 25, aprende el peldaño de hierro el día que se abra y súbelo hasta 50, luego el peldaño de torio hasta 75. Pasado 75 nada superior está disponible todavía, por lo que las recetas de torio se reducen a la mitad y luego a un cuarto de ganancia: calcula aproximadamente 150 creaciones más para alcanzar el límite de 125, y recuerda el límite compartido de diez acciones de creación por minuto cuando te sientes a producir en masa.\n\nFinancia el ascenso conforme avanzas: la orden de trabajo de la forja de Darva acepta ocho minerales de cobre de tus manos cada 30 minutos a cambio de unas pocas monedas y experiencia de misión, y los peldaños de hierro y torio se venden honestamente a los combatientes de cuerpo a cuerpo que suben de nivel. El Libro de Gestas marca Filo y Temple en habilidad 50 y corona al Gran Maestro Artesano de Armas en 125."
+          "routeBody": "Cualquier pieza con una línea de estadísticas real, que en esta escalera significa el peldaño de hierro en adelante, puede salir del yunque como obra maestra; los comunes de cobre sin estadísticas nunca activan el proc, porque no hay nada en ellos que mejorar. El hierro cuenta como material de nivel 1 para el bono de obra maestra, el pino cumbre y el glyfiacero como nivel 2, por lo que el peldaño superior activa el proc con un poco más de frecuencia.\n\nSube el peldaño de cobre hasta 25, aprende el peldaño de hierro el día que se abra y súbelo hasta 50, luego el peldaño de osmio hasta 75. Pasado 75 nada superior está disponible todavía, por lo que las recetas de osmio se reducen a la mitad y luego a un cuarto de ganancia: calcula aproximadamente 150 creaciones más para alcanzar el límite de 125, y recuerda el límite compartido de diez acciones de creación por minuto cuando te sientes a producir en masa.\n\nFinancia el ascenso conforme avanzas: la orden de trabajo de la forja de Darva acepta ocho minerales de cobre de tus manos cada 30 minutos a cambio de unas pocas monedas y experiencia de misión, y los peldaños de hierro y osmio se venden honestamente a los combatientes de cuerpo a cuerpo que suben de nivel. El Libro de Gestas marca Filo y Temple en habilidad 50 y corona al Gran Maestro Artesano de Armas en 125."
         },
         "armorcrafting": {
           "identityHeading": "Malla para la primera línea",
-          "identityBody": "La escalera de la forja de armaduras se lee como la carrera de un soldado: la sencilla cota de malla de cobre remachada, las grebas y los guanteletes para empezar, el peto de eslabones de hierro, los guardapiernas y las hombreras con sus primeras líneas de estadísticas reales, y el gran yelmo de escama de torio raro, el peto y los leggings, piezas de Fuerza y Aguante con los mayores valores de armadura que un artesano puede fabricar.\n\nTiene también su lado más discreto: los Leggings Protegidos de Eastbrook, un campo común con estadísticas de lanzador, y el Manto Escama Hollín, una rara malla de hombro con Intelecto y Espíritu en habilidad 75, mantienen a los portadores de malla de mente arcana en la lista de clientes. En la rueda se sitúa entre la Forja de armas y la Ingeniería; el par Herrero con la Forja de armas se jura ante la Maestra de la Fragua Darva, mientras que el par Mecanoforjador con la Ingeniería está nombrado pero aún no tiene misión de juramento.",
+          "identityBody": "La escalera de la forja de armaduras se lee como la carrera de un soldado: la sencilla cota de malla de cobre remachada, las grebas y los guanteletes para empezar, el peto de eslabones de hierro, los guardapiernas y las hombreras con sus primeras líneas de estadísticas reales, y el gran yelmo de escama de osmio raro, el peto y los leggings, piezas de Fuerza y Aguante con los mayores valores de armadura que un artesano puede fabricar.\n\nTiene también su lado más discreto: los Leggings Protegidos de Eastbrook, un campo común con estadísticas de lanzador, y el Manto de Escama de Horno, una rara malla de hombro con Intelecto y Espíritu en habilidad 75, mantienen a los portadores de malla de mente arcana en la lista de clientes. En la rueda se sitúa entre la Forja de armas y la Ingeniería; el par Herrero con la Forja de armas se jura ante la Maestra de la Fragua Darva, mientras que el par Engranajero con la Ingeniería está nombrado pero aún no tiene misión de juramento.",
           "materialsHeading": "Mineral a sacos",
-          "materialsBody": "Ningún oficio consume mineral más rápido. El peto de eslabones de hierro solo ya requiere cinco minerales de hierro, y cada pieza de escama de torio necesita tres o cuatro de torio más una barra de arcanita, así que un forjador de armaduras serio extrae en el Pantano de Mirefen y las Alturas de Thornpeak o paga a quien lo hace. El cobre alimenta el primer peldaño, directamente de las vetas junto a la Excavación de Cobre.\n\nAlrededor del metal van las partes blandas: piel áspera recolectada de cadáveres de lobos y jabalíes, fragmentos de hueso y retales de lino de la caza ordinaria, y un frasco de Fundente de Forja (20 cobres en la fragua) en casi cada receta. Darva vende mineral de torio en el mostrador para los impacientes.",
+          "materialsBody": "Ningún oficio consume mineral más rápido. El peto de eslabones de hierro solo ya requiere cinco minerales de hierro, y cada pieza de escama de osmio necesita tres o cuatro de osmio más una barra de glyfiacero, así que un forjador de armaduras serio extrae en el Pantano de Mirefen y las Alturas de Thornpeak o paga a quien lo hace. El cobre alimenta el primer peldaño, directamente de las vetas junto a la Excavación de Cobre.\n\nAlrededor del metal van las partes blandas: piel áspera recolectada de cadáveres de lobos y jabalíes, fragmentos de hueso y retales de lino de la caza ordinaria, y un frasco de Fundente de Forja (20 cobres en la fragua) en casi cada receta. Darva vende mineral de osmio en el mostrador para los impacientes.",
           "ladderHeading": "Aprendiendo en la fragua de Darva",
-          "ladderBody": "Dos campos comunes, el Chaleco de Malla de Eastbrook y los Leggings Protegidos, se conocen desde el principio y se fabrican en cualquier lugar. La escalera del entrenador son nueve recetas en tres peldaños en la fragua de Eastbrook: el peldaño de cobre es gratuito en habilidad 0, el peldaño de eslabones de hierro cuesta 25 de plata por receta en habilidad 25 y el peldaño de escama de torio cuesta 1 de oro cada uno en habilidad 50, pudiendo enseñar cada peldaño en cuanto tu nivel llega a él.\n\nMás allá de la escalera hay dos especiales. El Yelmo de Piedralímite es la receta combinada del Herrero, enseñada por el entrenador, sin necesidad de estación y realizable solo por un Herrero sintonizado con ambos oficios en habilidad 25. El Manto Escama Hollín no necesita entrenador: todo el mundo lo conoce, pero en habilidad 75 y vinculado a la fragua, es la piedra angular de nivel 3 del oficio.",
+          "ladderBody": "Dos campos comunes, el Chaleco de Malla de Eastbrook y los Leggings Protegidos, se conocen desde el principio y se fabrican en cualquier lugar. La escalera del entrenador son nueve recetas en tres peldaños en la fragua de Eastbrook: el peldaño de cobre es gratuito en habilidad 0, el peldaño de eslabones de hierro cuesta 25 de plata por receta en habilidad 25 y el peldaño de escama de osmio cuesta 1 de oro cada uno en habilidad 50, pudiendo enseñar cada peldaño en cuanto tu nivel llega a él.\n\nMás allá de la escalera hay dos especiales. El Yelmo de Piedralímite es la receta combinada del Herrero, enseñada por el entrenador, sin necesidad de estación y realizable solo por un Herrero sintonizado con ambos oficios en habilidad 25. El Manto de Escama de Horno no necesita entrenador: todo el mundo lo conoce, pero en habilidad 75 y vinculado a la fragua, es la piedra angular de nivel 3 del oficio.",
           "routeHeading": "Obras maestras y una ruta hasta 125",
-          "routeBody": "Desde el peldaño de eslabones de hierro en adelante, cada fabricación tiene posibilidad de generar obra maestra; los campos comunes de cobre solo para armadura no pueden activarse, ya que una obra maestra mejora las estadísticas y esas piezas no tienen ninguna. El hierro cuenta como material de nivel 1 para el efecto y la arcanita como nivel 2.\n\nLa subida es el viaje estándar de tres peldaños: cobre hasta 25, eslabones de hierro hasta 50, escama de torio hasta 75, entrenando cada peldaño el día que se abre. Donde la Forja de armaduras tiene suerte es en el tramo después de 75: el Manto Escama Hollín es una receta de nivel 3, por lo que da ganancia completa hasta 99 y la mitad después, lo que significa que los últimos cincuenta puntos tardan unas 75 fabricaciones en lugar de las 150 que necesita un oficio sin piedra angular. Cada manto cuesta siete minerales de torio y cinco de Fundente de Forja, así que abastécete en Thornpeak y en el mostrador de la fragua antes de empezar la carrera.\n\nEl pedido de trabajo de Darva compra ocho minerales de cobre cada 30 minutos por monedas y XP, un buen uso para el mineral de bajo nivel que ya no necesitas. El Libro de Gestas marca Martillo y Placa en habilidad 50, y la Forja de Armaduras del Gran Maestro espera en el tope de 125."
+          "routeBody": "Desde el peldaño de eslabones de hierro en adelante, cada fabricación tiene posibilidad de generar obra maestra; los campos comunes de cobre solo para armadura no pueden activarse, ya que una obra maestra mejora las estadísticas y esas piezas no tienen ninguna. El hierro cuenta como material de nivel 1 para el efecto y el glyfiacero como nivel 2.\n\nLa subida es el viaje estándar de tres peldaños: cobre hasta 25, eslabones de hierro hasta 50, escama de osmio hasta 75, entrenando cada peldaño el día que se abre. Donde la Forja de armaduras tiene suerte es en el tramo después de 75: el Manto de Escama de Horno es una receta de nivel 3, por lo que da ganancia completa hasta 99 y la mitad después, lo que significa que los últimos cincuenta puntos tardan unas 75 fabricaciones en lugar de las 150 que necesita un oficio sin piedra angular. Cada manto cuesta siete minerales de osmio y cinco de Fundente de Forja, así que abastécete en Thornpeak y en el mostrador de la fragua antes de empezar la carrera.\n\nEl pedido de trabajo de Darva compra ocho minerales de cobre cada 30 minutos por monedas y XP, un buen uso para el mineral de bajo nivel que ya no necesitas. El Libro de Gestas marca Martillo y Placa en habilidad 50, y la Forja de Armaduras del Gran Maestro espera en el tope de 125."
         },
         "tailoring": {
           "identityHeading": "Tela para los lanzadores, bolsas para todos",
           "identityBody": "La escalera sube desde los básicos de tela basta, pasando por el conjunto de tejido dorado, hasta el peldaño raro: el Atavío del Vinculaseda y las piezas de tejido solar. Su segundo oficio es universal: la Bolsa de Seda Hilada es una bolsa de diez espacios, y no hay clase, especialización ni nivel que no quiera más espacio en bolsa.\n\nEn la rueda la Sastrería se sitúa entre la Peletería y la Inscripción. Su par activo es el Pertrechador, Peletería y Sastrería juntas, jurado ante la Tejedora Ottilie en el telar de Eastbrook tras eliminar cuatro arañas de madera telada para obtener su seda; el par Tejedormago con la Inscripción está nombrado en la rueda pero espera las primeras recetas de la Inscripción antes de poder jurarse.",
           "materialsHeading": "Hilo, seda y, sí, hierbas",
-          "materialsBody": "El telar funciona con lo que suelta la caza y lo que crecen los campos. Los retales de lino y la tela basta vienen de las muertes de humanoides, la seda de araña se recolecta de los cadáveres de arañas, y la pieza central del peldaño raro, el Atavío del Vinculaseda, necesita una Seda Prístina, el ejemplar firmado que aparece con suerte al cosechar un cadáver.\n\nLa herboristería alimenta a la sastrería más que a cualquier otro oficio de equipo: la hoja de plata recorta las pantuflas, la hoja dorada colorea el conjunto de tejido dorado y el pétalo de sol enhebra todo el peldaño raro, así que un sastre que recoge sus propias hierbas ahorra constantemente. Un Carrete de Hilo cuesta 12 cobres de Ottilie, y el telar no pide metal alguno: incluso la piedra angular del Capuchón Tejidoguarda se teje con hierbas premium, Seda Prístina, seda de araña e hilo.",
+          "materialsBody": "El telar funciona con lo que suelta la caza y lo que crecen los campos. Los retales de lino y la tela basta vienen de las muertes de humanoides, la seda de araña se recolecta de los cadáveres de arañas, y la pieza central del peldaño raro, el Atavío del Vinculaseda, necesita una Seda Prístina, el ejemplar firmado que aparece con suerte al cosechar un cadáver.\n\nLa herboristería alimenta a la sastrería más que a cualquier otro oficio de equipo: la hoja de brillo recorta las pantuflas, la hoja dorada colorea el conjunto de tejido dorado y el pétalo de sol enhebra todo el peldaño raro, así que un sastre que recoge sus propias hierbas ahorra constantemente. Un Carrete de Hilo cuesta 12 cobres de Ottilie, y el telar no pide metal alguno: incluso la piedra angular del Capuchón Tejidoguarda se teje con hierbas premium, Seda Prístina, seda de araña e hilo.",
           "ladderHeading": "Aprendiendo en el telar de Ottilie",
           "ladderBody": "Dos campos comunes, los Pantalones de Lana de Eastbrook y los Vestidos Rituales, se conocen desde el principio y se fabrican en cualquier lugar. La escalera del entrenador transcurre en el telar al sur del pozo de Eastbrook: el peldaño de tela basta (capucha, manoplas, pantuflas) es gratuito en habilidad 0, el peldaño de tejido dorado (túnica, leggings y la Bolsa de Seda Hilada) cuesta 25 de plata la receta en habilidad 25, y el peldaño raro (atavío, manto, calzado) cuesta 1 de oro cada uno en habilidad 50.\n\nEl Capuchón Tejidoguarda no necesita entrenador: todo el mundo lo conoce, pero está en habilidad 75 y vinculado al telar como la piedra angular de nivel 3 del oficio. Como en todas partes, Ottilie enseña una receta en cuanto tu nivel en Sastrería alcanza el propio de la receta.",
           "routeHeading": "Obras maestras y una ruta hasta 125",
@@ -3724,11 +3725,11 @@ export const es_ES: EnTranslations = {
           "identityHeading": "Cuero para los veloces",
           "identityBody": "La escalera sube desde los simples leggings, botas y cinturón de piel de Fenbridge, pasando por el jubón, la capucha y las hombreras de acechodepantano infrecuentes, hasta el raro conjunto mireguardián, el mejor cuero que un artesano puede cortar. Dos piezas de lanzador lo redondean: el campo común Piel de Druida de Eastbrook y las Vendas de Cuero Crepuscular en habilidad 75.\n\nEn la rueda se sitúa entre la Cocina y la Sastrería. Su par activo es el Pertrechador, Peletería y Sastrería, jurado ante la Tejedora Ottilie en Eastbrook; el par Trampero con la Cocina está nombrado en la rueda pero aún no tiene misión de juramento.",
           "materialsHeading": "La caza es la cosecha",
-          "materialsBody": "La Peletería es el oficio donde tu ruta de subida de nivel y tu línea de suministro son la misma cosa: la piel áspera se recolecta directamente de los cadáveres portadores de piel, sobre todo lobos y jabalíes, y cada cadáver sirve a un solo recolector, el primero en llegar. Una tirada de cosecha rara o mejor también otorga una Piel Prístina, un ejemplar firmado que el Jubón de Mireguardián requiere, así que guarda cada una que encuentres.\n\nEl elenco de apoyo es pequeño: patas de araña y seda, tela basta de humanoides, un único mineral de torio en cada pieza rara de mireguardián (seis en la piedra angular de las Vendas de Cuero Crepuscular), y un Agente de Curtido a 16 cobres en el mostrador de la tenería. El Curtidor Hesk también vende mineral de torio, si prefieres no minarlo.",
+          "materialsBody": "La Peletería es el oficio donde tu ruta de subida de nivel y tu línea de suministro son la misma cosa: la piel áspera se recolecta directamente de los cadáveres portadores de piel, sobre todo lobos y jabalíes, y cada cadáver sirve a un solo recolector, el primero en llegar. Una tirada de cosecha rara o mejor también otorga una Piel Prístina, un ejemplar firmado que el Jubón de Mireguardián requiere, así que guarda cada una que encuentres.\n\nEl elenco de apoyo es pequeño: patas de araña y seda, tela basta de humanoides, un único mineral de osmio en cada pieza rara de mireguardián (seis en la piedra angular de las Vendas de Cuero Crepuscular), y un Agente de Curtido a 16 cobres en el mostrador de la tenería. El Curtidor Hesk también vende mineral de osmio, si prefieres no minarlo.",
           "ladderHeading": "Entrenado en Fenbridge",
           "ladderBody": "Aquí está la particularidad: la tenería se encuentra en Fenbridge, en el camino del Pantano de Mirefen, haciendo de la Peletería el único oficio profundo entrenado fuera de Eastbrook. El Curtidor Hesk enseña la escalera en sus cubas: el peldaño de piel de Fenbridge gratuito en habilidad 0, el peldaño de acechodepantano por 25 de plata la receta desde habilidad 25 y el peldaño de mireguardián por 1 de oro cada uno desde habilidad 50, abriéndose cada peldaño cuando tu nivel lo alcanza.\n\nDos recetas se saltan el entrenador: los campos comunes (el Jubón de Cuero Curtido y la Piel de Druida) se fabrican en cualquier lugar desde el principio, y las Vendas de Cuero Crepuscular las conoce todo el mundo pero están en habilidad 75 y vinculadas a la tenería. Ten en cuenta que el propio juramento del Pertrechador se hace de vuelta en Eastbrook con Ottilie; solo la enseñanza ocurre en el pantano.",
           "routeHeading": "Obras maestras y una ruta hasta 125",
-          "routeBody": "Desde el peldaño de acechodepantano en adelante, cada fabricación tiene posibilidad de generar obra maestra, y la Piel Prístina en un Jubón de Mireguardián aporta la bonificación de reactivo firmado automáticamente; el torio cuenta como material de nivel 1 para el efecto. Los campos comunes de piel sin estadísticas no pueden activarse.\n\nSúbelo de manera natural: cosecha cada lobo y jabalí que mates desde el nivel uno, fabrica el peldaño de piel hasta 25 donde estés, luego entrena en Fenbridge cuando las misiones te lleven al pantano de todos modos. El acechodepantano te lleva hasta 50 y el mireguardián hasta 75; pasado eso las Vendas de Cuero Crepuscular, una receta de nivel 3 con seis minerales de torio, tres Pieles Prístinas, dos pieles ásperas y un Agente de Curtido, pagan ganancia completa hasta 99 y la mitad después, unas 75 fabricaciones para los últimos cincuenta puntos hasta el tope de 125.\n\nLa tenería de campo portátil importa más para este oficio que para cualquier otro: especialízate en 75 y una alforja de pieles se convierte en equipo terminado junto al fuego de campamento en lugar de un paseo de vuelta a Fenbridge. El pedido de trabajo de tenería de Hesk compra ocho pieles ásperas cada 30 minutos, un retorno ordenado por pieles que recolectabas de todos modos, y el Libro de Gestas marca el Oficio del Curtidor en habilidad 50 con la Peletería del Gran Maestro en el tope."
+          "routeBody": "Desde el peldaño de acechodepantano en adelante, cada fabricación tiene posibilidad de generar obra maestra, y la Piel Prístina en un Jubón de Mireguardián aporta la bonificación de reactivo firmado automáticamente; el osmio cuenta como material de nivel 1 para el efecto. Los campos comunes de piel sin estadísticas no pueden activarse.\n\nSúbelo de manera natural: cosecha cada lobo y jabalí que mates desde el nivel uno, fabrica el peldaño de piel hasta 25 donde estés, luego entrena en Fenbridge cuando las misiones te lleven al pantano de todos modos. El acechodepantano te lleva hasta 50 y el mireguardián hasta 75; pasado eso las Vendas de Cuero Crepuscular, una receta de nivel 3 con seis minerales de osmio, tres Pieles Prístinas, dos pieles ásperas y un Agente de Curtido, pagan ganancia completa hasta 99 y la mitad después, unas 75 fabricaciones para los últimos cincuenta puntos hasta el tope de 125.\n\nLa tenería de campo portátil importa más para este oficio que para cualquier otro: especialízate en 75 y una alforja de pieles se convierte en equipo terminado junto al fuego de campamento en lugar de un paseo de vuelta a Fenbridge. El pedido de trabajo de tenería de Hesk compra ocho pieles ásperas cada 30 minutos, un retorno ordenado por pieles que recolectabas de todos modos, y el Libro de Gestas marca el Oficio del Curtidor en habilidad 50 con la Peletería del Gran Maestro en el tope."
         },
         "cooking": {
           "identityHeading": "El puchero que alimenta al grupo",
@@ -3744,17 +3745,17 @@ export const es_ES: EnTranslations = {
           "identityHeading": "Frascos que ganan combates",
           "identityBody": "El oficio se trabaja en el boticario de Highwatch, hogar de la Alquimista Verane, Maestra del Boticario, quien enseña la escalera de recetas, vende Viales de Vidrio a 12 cobres y paga monedas por hierbas a través de su pedido de trabajo.\n\nEn la rueda de oficios, la Alquimia se sienta con los oficios de ensayo y error, junto a la Ingeniería por un lado y la Cocina por el otro. Eso le da dos identidades de par: el Bombardero (Ingeniería y Alquimia, tomado antes de Tinker Gizzel en Eastbrook) y el Boticario (Alquimia y Cocina, jurado ante la Cocinera Marlow). Sintonízate con cualquiera de los dos pares para hacer de la Alquimia una especialización principal y abrir la habilidad hasta su tope; hasta entonces funciona hasta el nivel raro como cualquier oficio no declarado.",
           "materialsHeading": "Hierbas, glándulas y vidrio",
-          "materialsBody": "Cada poción necesita un Vial de Vidrio más las hierbas correspondientes a su peldaño: la hoja de plata crece en el Valle de Eastbrook, la hoja dorada en el Pantano de Mirefen y el pétalo de sol en las Alturas de Thornpeak, una hierba por zona, así que tus frascos suben por el mundo junto a ti. La herboristería es la habilidad complementaria natural, aunque comprar a recolectores o en el mercado funciona igual de bien; las zonas más profundas tienen parcelas de nivel superior que requieren una hoz mejor, así que mantén tu herramienta al día si recolectas tú mismo.\n\nLa línea de elixires añade un ingrediente del cazador: Glándulas de Veneno recolectadas de cadáveres venenosos, y el elixir superior requiere una Glándula de Veneno Prístina, el raro ejemplar firmado que aparece con suerte al cosechar un cadáver. Si no recolectas tú mismo, esos son exactamente los bienes que vale la pena pedirle a un amigo cazador que traiga de vuelta.",
+          "materialsBody": "Cada poción necesita un Vial de Vidrio más las hierbas correspondientes a su peldaño: la hoja de brillo crece en el Valle de Eastbrook, la hoja dorada en el Pantano de Mirefen y el pétalo de sol en las Alturas de Thornpeak, una hierba por zona, así que tus frascos suben por el mundo junto a ti. La herboristería es la habilidad complementaria natural, aunque comprar a recolectores o en el mercado funciona igual de bien; las zonas más profundas tienen parcelas de nivel superior que requieren una hoz mejor, así que mantén tu herramienta al día si recolectas tú mismo.\n\nLa línea de elixires añade un ingrediente del cazador: Glándulas de Veneno recolectadas de cadáveres venenosos, y el elixir superior requiere una Glándula de Veneno Prístina, el raro ejemplar firmado que aparece con suerte al cosechar un cadáver. Si no recolectas tú mismo, esos son exactamente los bienes que vale la pena pedirle a un amigo cazador que traiga de vuelta.",
           "ladderHeading": "La escalera de recetas",
-          "ladderBody": "Todo el mundo conoce la Poción de Curación Menor desde el principio y puede mezclarla en cualquier lugar, sin necesitar estación. La escalera real son nueve recetas enseñadas por Verane en el boticario, tres en cada peldaño: las recetas de habilidad 0 son gratuitas, el peldaño de habilidad 25 cuesta 25 de plata por receta y el peldaño de habilidad 50 cuesta 1 de oro por receta. Cada peldaño incluye una poción de curación, una poción de maná y un elixir de aguante, escalando desde los frascos comunes de hoja de plata (120 de salud, 160 de maná), pasando por la hoja dorada infrecuente (200 de salud, 260 de maná), hasta la pétalo de sol rara (280 de salud, 360 de maná).\n\nLos elixires suben de la misma manera: el Elixir del Jabalí otorga 6 de Aguante durante 10 minutos, el Elixir Venenofuego otorga 9 durante 15 minutos, y el Elixir de la Serpiente otorga 12 durante 15 minutos, fabricando dos frascos por elaboración. Una receta más está aparte: el Elixir del Oso, una poción combinada que Verane enseña por 25 de plata una vez que tu Alquimia alcanza 25, elaborable en cualquier lugar, pero solo por un Bombardero sintonizado con Alquimia e Ingeniería ambas en 25.",
+          "ladderBody": "Todo el mundo conoce la Poción de Curación Menor desde el principio y puede mezclarla en cualquier lugar, sin necesitar estación. La escalera real son nueve recetas enseñadas por Verane en el boticario, tres en cada peldaño: las recetas de habilidad 0 son gratuitas, el peldaño de habilidad 25 cuesta 25 de plata por receta y el peldaño de habilidad 50 cuesta 1 de oro por receta. Cada peldaño incluye una poción de curación, una poción de maná y un elixir de aguante, escalando desde los frascos comunes de hoja de brillo (120 de salud, 160 de maná), pasando por la hoja dorada infrecuente (200 de salud, 260 de maná), hasta la pétalo de sol rara (280 de salud, 360 de maná).\n\nLos elixires suben de la misma manera: el Elixir del Jabalí otorga 6 de Aguante durante 10 minutos, el Elixir Venenofuego otorga 9 durante 15 minutos, y el Elixir de la Serpiente otorga 12 durante 15 minutos, fabricando dos frascos por elaboración. Una receta más está aparte: el Elixir del Oso, una poción combinada que Verane enseña por 25 de plata una vez que tu Alquimia alcanza 25, elaborable en cualquier lugar, pero solo por un Bombardero sintonizado con Alquimia e Ingeniería ambas en 25.",
           "routeHeading": "La ruta de un elaborador hasta 125",
-          "routeBody": "Las pociones y los elixires nunca generan obras maestras; ese efecto corresponde al equipo con estadísticas. Aunque tu nombre sí viaja: las raras pociones de pétalo de sol se elaboran de a un frasco y llegan firmadas con la marca del fabricante, mientras que el Elixir de la Serpiente de doble lote se queda sin firma. A habilidad 75 te especializas, y desde entonces cada receta de Alquimia cuesta un 20 por ciento menos de materiales.\n\nToma Herboristería desde temprano y recoge mientras subes de nivel: la hoja de plata abunda en el Valle, y una vez que llegas al banco de Verane el peldaño gratuito te llevará limpiamente hasta habilidad 25 con hierbas que habrías recolectado de todos modos. Aprende el peldaño 25 en cuanto esté disponible, mueve tu recolección al pantano para la hoja dorada y deja que el pedido de trabajo de Verane (seis Hierbas de Hoja Dorada por 45 cobres, repetible cada 30 minutos) te devuelva algo de moneda mientras avanzas.\n\nDesde 50 en adelante, elabora pociones de pétalo de sol y lotes de Serpiente con hierbas de Thornpeak. El último tramo de 100 a 125 es un goteo deliberado, así que elabora lo que realmente se vende en lugar de quemar hierbas por el número, y recuerda que los consumibles son el único bien artesanal que todo el mundo vuelve a comprar para siempre. El Libro de Gestas marca Extrañas Pociones en habilidad 50 y Alquimia del Gran Maestro en el tope."
+          "routeBody": "Las pociones y los elixires nunca generan obras maestras; ese efecto corresponde al equipo con estadísticas. Aunque tu nombre sí viaja: las raras pociones de pétalo de sol se elaboran de a un frasco y llegan firmadas con la marca del fabricante, mientras que el Elixir de la Serpiente de doble lote se queda sin firma. A habilidad 75 te especializas, y desde entonces cada receta de Alquimia cuesta un 20 por ciento menos de materiales.\n\nToma Herboristería desde temprano y recoge mientras subes de nivel: la hoja de brillo abunda en el Valle, y una vez que llegas al banco de Verane el peldaño gratuito te llevará limpiamente hasta habilidad 25 con hierbas que habrías recolectado de todos modos. Aprende el peldaño 25 en cuanto esté disponible, mueve tu recolección al pantano para la hoja dorada y deja que el pedido de trabajo de Verane (seis Hierbas de Hoja Dorada por 45 cobres, repetible cada 30 minutos) te devuelva algo de moneda mientras avanzas.\n\nDesde 50 en adelante, elabora pociones de pétalo de sol y lotes de Serpiente con hierbas de Thornpeak. El último tramo de 100 a 125 es un goteo deliberado, así que elabora lo que realmente se vende en lugar de quemar hierbas por el número, y recuerda que los consumibles son el único bien artesanal que todo el mundo vuelve a comprar para siempre. El Libro de Gestas marca Extrañas Pociones en habilidad 50 y Alquimia del Gran Maestro en el tope."
         },
         "engineering": {
           "identityHeading": "El monopolio del fabricante de herramientas",
-          "identityBody": "El oficio se trabaja en el taller de herramientas en la esquina sureste de la Plaza de Eastbrook, hogar de Tinker Gizzel, Maestro del Taller de Herramientas. Los niveles 1 a 3 de cada línea de herramientas son existencias normales de vendedor; los niveles 4 y 5 solo existen a través de un ingeniero.\n\nEn la rueda se sitúa con los oficios de ensayo y error, junto a la Alquimia y la Forja de armaduras, dándole dos identidades de par: el Bombardero (Ingeniería y Alquimia, tomado ante el propio Gizzel) y el Mecanoforjador (Forja de armaduras e Ingeniería, nombrado pero aún no puede jurarse). Una advertencia importa más aquí que en ningún otro lugar: ambos peldaños de recetas de la Ingeniería están por encima del techo de nivel raro bajo el que trabajan las aficiones y los artesanos no declarados, así que el número de habilidad solo avanza para un artesano cuyas especializaciones principales incluyan Ingeniería, que hoy en día significa el Bombardero. Cualquiera puede seguir fabricando las herramientas; un artesano no sintonizado simplemente no aprende nada al hacerlo.",
+          "identityBody": "El oficio se trabaja en el taller de herramientas en la esquina sureste de la Plaza de Eastbrook, hogar de Tinker Gizzel, Maestro del Taller de Herramientas. Los niveles 1 a 3 de cada línea de herramientas son existencias normales de vendedor; los niveles 4 y 5 solo existen a través de un ingeniero.\n\nEn la rueda se sitúa con los oficios de ensayo y error, junto a la Alquimia y la Forja de armaduras, dándole dos identidades de par: el Bombardero (Ingeniería y Alquimia, tomado ante el propio Gizzel) y el Engranajero (Forja de armaduras e Ingeniería, nombrado pero aún no puede jurarse). Una advertencia importa más aquí que en ningún otro lugar: ambos peldaños de recetas de la Ingeniería están por encima del techo de nivel raro bajo el que trabajan las aficiones y los artesanos no declarados, así que el número de habilidad solo avanza para un artesano cuyas especializaciones principales incluyan Ingeniería, que hoy en día significa el Bombardero. Cualquiera puede seguir fabricando las herramientas; un artesano no sintonizado simplemente no aprende nada al hacerlo.",
           "materialsHeading": "Reactivos y herramientas anteriores",
-          "materialsBody": "Cada receta de herramienta consume la herramienta del nivel anterior más un material premium: cuatro Minerales de Torio y un Pico de Minería de Mitril se convierten en el Pico de Minería de Torio, luego dos Barras de Arcanita y ese pico de torio se convierten en el Pico de Minería de Arcanita, y las líneas de hacha y hoz siguen la misma forma con Troncos de Ashwood y Elderwood, Hierbas de Hoja Dorada y Pétalo de Sol.\n\nGizzel tiene los seis reactivos premium en el taller si quieres velocidad sobre margen, pero el mineral, los troncos y las hierbas son todos recolectables en el Pantano de Mirefen y las Alturas de Thornpeak, y las existencias recolectadas son donde vive el beneficio. La excepción es la Barra de Arcanita, que solo se consigue del vendedor, así que cada herramienta de nivel arcanita lleva un costo fijo en monedas incorporado en su precio.",
+          "materialsBody": "Cada receta de herramienta consume la herramienta del nivel anterior más un material premium: cuatro Minerales de Osmio y un Pico de Minería de Plata Celeste se convierten en el Pico de Minería de Osmio, luego dos Barras de Glyfiacero y ese pico de osmio se convierten en el Pico de Minería de Glyfiacero, y las líneas de hacha y hoz siguen la misma forma con Troncos de Ashwood y Pino Cumbre, Hierbas de Hoja Dorada y Pétalo de Sol.\n\nGizzel tiene los seis reactivos premium en el taller si quieres velocidad sobre margen, pero el mineral, los troncos y las hierbas son todos recolectables en el Pantano de Mirefen y las Alturas de Thornpeak, y las existencias recolectadas son donde vive el beneficio. La excepción es la Barra de Glyfiacero, que solo se consigue del vendedor, así que cada herramienta de nivel glyfiacero lleva un costo fijo en monedas incorporado en su precio.",
           "ladderHeading": "La escalera de herramientas",
           "ladderBody": "Toda la escalera son seis recetas, todas vinculadas a la estación del taller de herramientas y todas conocidas automáticamente, sin tarifa de entrenador nunca: el pico, el hacha y la hoz de nivel 4 en habilidad 75, y las versiones de nivel 5 en habilidad 150. Ese segundo número no es un error de tipeo, y se sitúa por encima del tope actual de 125 a propósito: los requisitos de habilidad nunca bloquean una fabricación aquí, solo dan forma a la ganancia de habilidad, así que puedes fabricar una herramienta de nivel 5 el día que tengas sus reactivos y el nivel 4 anterior.\n\nCada herramienta terminada es de calidad rara o épica y sale firmada, por lo que tu nombre viaja por las zonas en los cinturones de herramientas de otros jugadores. La Ingeniería también sostiene la mitad de una receta combinada: el Elixir del Oso, elaborado por un Bombardero sintonizado con Ingeniería y Alquimia ambas en 25.",
           "routeHeading": "La ruta de un ingeniero hasta 125",
@@ -3783,14 +3784,14 @@ export const es_ES: EnTranslations = {
       "specializationBody": "En la habilidad {at} este oficio te especializa, sin necesidad de misión: las recetas cuestan un {pct}% menos de materiales a partir de entonces, y la especialización añade su propio impulso a la probabilidad de obra maestra.\n\nLos especializados también aprenden a llevar el taller consigo: un artesano especializado puede montar una estación móvil en el campo durante diez minutos seguidos, de modo que las recetas de estación se pueden trabajar en la boca de la mina en vez de volver al pueblo. Sus límites son deliberados: nunca cuenta para entrenar con un maestro ni para desvincular una pieza de encargo, y expira con su temporizador la hayas usado o no.",
       "ench": {
         "disenchantHeading": "Desencantamiento",
-        "disenchantNote": "Desencantar toma cualquier arma o pieza de armadura de calidad común o mejor y consume una copia, nunca una que ya esté encantada. Las piezas comunes y poco comunes se procesan en un puñado de Polvo arcano, más rico para piezas más raras y de mayor nivel; a partir de raro, el rendimiento cambia de forma: exactamente una Esencia arcana de una pieza rara o un Fragmento arcano de una pieza épica o legendaria, más un secundario tipificado según el material del que estaba hecha la pieza.",
+        "disenchantNote": "Desencantar toma cualquier arma o pieza de armadura de calidad común o mejor y consume una copia, nunca una que ya esté encantada. Las piezas comunes y poco comunes se procesan en un puñado de Polvo de Carillón, más rico para piezas más raras y de mayor nivel; a partir de raro, el rendimiento cambia de forma: exactamente una Esencia de Carillón de una pieza rara o un Fragmento de Carillón de una pieza épica o legendaria, más un secundario tipificado según el material del que estaba hecha la pieza.",
         "typedHeading": "Secundarios tipificados",
         "typedNote": "Los secundarios tipificados siguen el material: la armadura de tela produce Hilo Resonante, el cuero Piel Resonante, la cota de malla Eslabones Resonantes, las armas de cuerpo a cuerpo Acero Resonante, y los bastones, varitas, arcos y ballestas Madera Resonante. Una pieza rara da exactamente {rare}; una pieza épica o legendaria da {epicMin} o {epicMax}. Los anillos y collares no tienen clase de armadura, así que solo producen el material primario.\n\nPresta atención a la letra pequeña: los secundarios Resonantes se vinculan al intercambiar, así que cada uno puede cambiar de manos exactamente una vez, directamente del desencantador al encantador que lo usará. El Polvo, la Esencia y los Fragmentos no tienen esa restricción y se mueven como cualquier otro bien de intercambio.",
         "colSource": "Obtenido de",
         "meleeWeapons": "Armas de cuerpo a cuerpo",
         "timberWeapons": "Bastones, varitas, arcos y ballestas",
         "enchantsHeading": "Encantamientos",
-        "enchantsNote": "Los encantamientos vienen en tres niveles. El nivel base funciona con Polvo arcano (con un poco de Esencia en el extremo superior) y cubre la ranura de arma más cada ranura de armadura, con suficientes opciones de estadísticas para que cada build encuentre algo para cada ranura. El nivel Mayor cuesta un Fragmento arcano más Esencia y es lo único para lo que sirven los Fragmentos: bonos más fuertes en las ranuras de mayor impacto.\n\nEntre ellos están los cinco encantamientos Rúnicos, uno por secundario tipificado, para que nada de lo que proceses sea un callejón sin salida: Filo Rúnico (arma, Fuerza, consume Acero Resonante), Foco Rúnico (arma, Intelecto, Madera Resonante), Tejido Rúnico (pecho, Espíritu, Hilo Resonante), Piel Rúnica (piernas, Agilidad, Piel Resonante) y Eslabones Rúnicos (casco, Aguante, Eslabones Resonantes). Cada uno también requiere dos Esencias arcanas y queda entre sus hermanos base y Mayor en potencia; los bonos exactos están todos en la tabla siguiente.",
+        "enchantsNote": "Los encantamientos vienen en tres niveles. El nivel base funciona con Polvo de Carillón (con un poco de Esencia en el extremo superior) y cubre la ranura de arma más cada ranura de armadura, con suficientes opciones de estadísticas para que cada build encuentre algo para cada ranura. El nivel Mayor cuesta un Fragmento de Carillón más Esencia y es lo único para lo que sirven los Fragmentos: bonos más fuertes en las ranuras de mayor impacto.\n\nEntre ellos están los cinco encantamientos Rúnicos, uno por secundario tipificado, para que nada de lo que proceses sea un callejón sin salida: Filo Rúnico (arma, Fuerza, consume Acero Resonante), Foco Rúnico (arma, Intelecto, Madera Resonante), Tejido Rúnico (pecho, Espíritu, Hilo Resonante), Piel Rúnica (piernas, Agilidad, Piel Resonante) y Eslabones Rúnicos (casco, Aguante, Eslabones Resonantes). Cada uno también requiere dos Esencias de Carillón y queda entre sus hermanos base y Mayor en potencia; los bonos exactos están todos en la tabla siguiente.",
         "colEnchant": "Encantamiento",
         "colSlot": "Ranura",
         "colTier": "Nivel",
@@ -3805,9 +3806,9 @@ export const es_ES: EnTranslations = {
         "bonusFmt": "+{value} {stat}"
       },
       "gatherIntro": {
-        "mining": "La Minería extrae mineral directamente de la roca del mundo: cobre en el Valle de Eastbrook, hierro en el Pantano de Mirefen y torio en las Alturas de Thornpeak, que alimenta los oficios de la forja. Disponible para todos desde el nivel 1, sin ningún requisito, con su propio contador hasta un tope de 100.",
-        "logging": "La Tala derriba madera de arboledas en las tres zonas: corteza de hierro en el Valle de Eastbrook, madera de ceniza en el Pantano de Mirefen y madera de saúco en las Alturas de Thornpeak, el material bruto para mangos, bastones y el banco del ingeniero. Disponible para todos desde el nivel 1, con su propio contador hasta un tope de 100.",
-        "herbalism": "La Herboristería recoge lo que crece silvestre: hoja de plata en el Valle de Eastbrook, hoja dorada en el Pantano de Mirefen y pétalo de sol en las Alturas de Thornpeak, la hoja y el tallo que mantienen activos los oficios del boticario. Disponible para todos desde el nivel 1, con su propio contador hasta un tope de 100.",
+        "mining": "La Minería extrae mineral directamente de la roca del mundo: cobre en el Valle de Eastbrook, hierro en el Pantano de Mirefen y osmio en las Alturas de Thornpeak, que alimenta los oficios de la forja. Disponible para todos desde el nivel 1, sin ningún requisito, con su propio contador hasta un tope de 100.",
+        "logging": "La Tala derriba madera de arboledas en las tres zonas: corteza de hierro en el Valle de Eastbrook, madera de ceniza en el Pantano de Mirefen y pino cumbre en las Alturas de Thornpeak, el material bruto para mangos, bastones y el banco del ingeniero. Disponible para todos desde el nivel 1, con su propio contador hasta un tope de 100.",
+        "herbalism": "La Herboristería recoge lo que crece silvestre: hoja de brillo en el Valle de Eastbrook, hoja dorada en el Pantano de Mirefen y pétalo de sol en las Alturas de Thornpeak, la hoja y el tallo que mantienen activos los oficios del boticario. Disponible para todos desde el nivel 1, con su propio contador hasta un tope de 100.",
         "fishing": "La Pesca es la diferente entre los oficios de recolección, y la más profunda: un minijuego real de picar y cobrar, con sus propias tablas de captura en cada zona y un tope de pericia de 200, el doble que los demás. Compra una caña, mira hacia aguas abiertas y lanza."
       },
       "rhythmHeading": "El ritmo de recolección",
@@ -3836,7 +3837,7 @@ export const es_ES: EnTranslations = {
         "mining": "Tu primer nodo de cualquier oficio gana Frutos del Campo, y el tope de 100 en Minería inscribe Mineral en la Sangre. Llegar a 100 en cualquiera de los tres entre Minería, Tala, Herboristería y Pesca añade Maestro Recolector con 25 de Renombre, y romper una vena prístina registra su propia marca de coleccionista. Nada de esto otorga poder: las gestas son títulos y Renombre, un registro de los caminos que has recorrido.",
         "logging": "Tu primer nodo de cualquier oficio gana Frutos del Campo, y el tope de 100 en Tala inscribe Talador de Duramen. Llegar a 100 en cualquiera de los tres entre Minería, Tala, Herboristería y Pesca añade Maestro Recolector con 25 de Renombre, y un golpe de duramen antiguo registra su propia marca de coleccionista. Las gestas son títulos y Renombre únicamente, nunca poder.",
         "herbalism": "Tu primer nodo de cualquier oficio gana Frutos del Campo, y el tope de 100 en Herboristería inscribe Maestro del Prado. Llegar a 100 en cualquiera de los tres entre Minería, Tala, Herboristería y Pesca añade Maestro Recolector con 25 de Renombre, y una flor iluminada por la luna registra su propia marca de coleccionista. Las gestas son títulos y Renombre únicamente, nunca poder.",
-        "fishing": "El hito de 100 inscribe Viejo Sal y el de 200 inscribe Pescador Maestro con su título, la cumbre misma del arte del pescador; la Pesca también cuenta para Maestro Recolector, que se gana con 100 en cualquiera de los tres oficios de recolección. Un primer pez de las aguas de cada zona llena su propia página, y la Koi destellada registra Destello de Esperanza, así que los viajeros con una caña en el morral llenan su libro más rápido de lo que esperan."
+        "fishing": "El hito de 100 inscribe Viejo Sal y el de 200 inscribe Pescador Maestro con su título, la cumbre misma del arte del pescador; la Pesca también cuenta para Maestro Recolector, que se gana con 100 en cualquiera de los tres oficios de recolección. Un primer pez de las aguas de cada zona llena su propia página, y el Koi Destello Solar registra Destello de Esperanza, así que los viajeros con una caña en el morral llenan su libro más rápido de lo que esperan."
       },
       "fish": {
         "startHeading": "Primeros pasos",
@@ -3855,8 +3856,8 @@ export const es_ES: EnTranslations = {
         "colOdds": "Probabilidad",
         "pctFmt": "{pct}%",
         "emptyHook": "Nada pica",
-        "koiHeading": "El Koi de Aletas Brillantes",
-        "koiBody": "Cada cuerpo de agua del juego esconde el mismo premio: el Koi de Aletas Brillantes, un destello poco común en el sedal que vale 75 cobres para un vendedor y bastante más para tu orgullo. Sus probabilidades son un fijo 3 por ciento por captura conseguida (4 por ciento en las aguas frías de Thornpeak) en cualquier franja, y atrapar uno registra Destello de Esperanza en tu Libro de Gestas, una marca de coleccionista con Renombre cero. Cuando sucede, el registro se asegura de que lo sepas."
+        "koiHeading": "El Koi Destello Solar",
+        "koiBody": "Cada cuerpo de agua del juego esconde el mismo premio: el Koi Destello Solar, un destello poco común en el sedal que vale 75 cobres para un vendedor y bastante más para tu orgullo. Sus probabilidades son un fijo 3 por ciento por captura conseguida (4 por ciento en las aguas frías de Thornpeak) en cualquier franja, y atrapar uno registra Destello de Esperanza en tu Libro de Gestas, una marca de coleccionista con Renombre cero. Cuando sucede, el registro se asegura de que lo sepas."
       },
       "econ": {
         "title": "Economía de Artesanía",
@@ -3910,7 +3911,7 @@ export const es_ES: EnTranslations = {
         "q5": "¿Cómo desvínculo una pieza de encargo y cuánto cuesta?",
         "a5": "Ve a cualquier estación de artesanía con la pieza en tus bolsas y paga al maestro. La tarifa sigue la calidad del objeto: 25 de plata para una pieza poco común, 1 de oro para una rara, 4 de oro para una épica; una legendaria paga la tarifa épica, y una pieza común de encargo paga la tarifa poco común. Debe ser una estación real: una estación móvil nunca ofrece el servicio.\n\nLa tarifa compra un estado limpio, no una cura: la pieza sigue siendo un encargo, así que se vuelve a vincular a quien la reciba en el siguiente intercambio. Si varias copias vinculadas comparten una pila, se separa una copia y se desvincula por pago.",
         "q6": "¿Dónde aprendo recetas y cuánto cuestan?",
-        "a6": "Las nueve recetas de campo comunes y las recetas de herramientas las conocen todos desde el principio, y también tres capítulos finales vinculados a estación (el Manto Hollín, la Capucha Tejido Guardián y las Envolturas Crepúsculo), que no necesitan entrenador, solo su estación. Todo lo demás lo enseñan los maestros residentes en sus estaciones en los tres pueblos principales: la mayoría están en Eastbrook, el curtidor lleva la curtiduría en Fenbridge, y el alquimista lleva la botica en Highwatch.\n\nLas recetas de entrenadores vienen en peldaños en habilidad 0, 25 y 50, con precios de gratis, 25 de plata y 1 de oro como tarifa única. Un maestro enseña una receta una vez que tu categoría en ese oficio ha alcanzado la propia categoría de la receta, y debes estar en su estación para aprender: una estación móvil no cuenta.",
+        "a6": "Las nueve recetas de campo comunes y las recetas de herramientas las conocen todos desde el principio, y también tres capítulos finales vinculados a estación (el Manto de Escama de Horno, la Capucha Tejido Guardián y las Envolturas Crepúsculo), que no necesitan entrenador, solo su estación. Todo lo demás lo enseñan los maestros residentes en sus estaciones en los tres pueblos principales: la mayoría están en Eastbrook, el curtidor lleva la curtiduría en Fenbridge, y el alquimista lleva la botica en Highwatch.\n\nLas recetas de entrenadores vienen en peldaños en habilidad 0, 25 y 50, con precios de gratis, 25 de plata y 1 de oro como tarifa única. Un maestro enseña una receta una vez que tu categoría en ese oficio ha alcanzado la propia categoría de la receta, y debes estar en su estación para aprender: una estación móvil no cuenta.",
         "q7": "¿Por qué mi recolección se volvió más lenta de repente?",
         "a7": "El lanzamiento de recolección comienza en 2.5 segundos y se reduce de dos maneras: 0.4 segundos por cada nivel de herramienta que tengas por encima del propio nivel del nodo, y 0.15 segundos por cada franja de pericia que hayas cruzado (en 100 y 200), con un mínimo de 1.5 segundos. Pasa de los nodos de nivel 1 a los de nivel 3 y tu superávit desaparece, por lo que el mismo pico vuelve a oscilar más lento. Tener exactamente el nivel requerido no compra velocidad; solo abre el nodo.\n\nLa ganancia de habilidad se desvanece de la misma manera que la artesanía: un nodo se vuelve gris conforme tu pericia supera su nivel (los nodos de nivel 1 no enseñan nada a partir de pericia 75), por lo que la respuesta a las ganancias lentas son nodos de nivel superior, que necesitan una herramienta de al menos su nivel (las manos vacías cuentan como nivel 1). La Pesca sigue su propia reducción gradual: ganancia completa por debajo de pericia 50, la mitad por debajo de 100, un goteo de 0.1 por debajo de 150 y 0.02 por debajo de 200, y las capturas de chatarra no enseñan nada a partir de 100.",
         "q8": "¿Puedo crear objetos lejos del pueblo?",
@@ -6130,6 +6131,8 @@ export const es_ES: EnTranslations = {
       "soldItem": "Vendiste {item} por {money}.",
       "soldJunkOne": "Vendiste {count} objeto gris por {money}.",
       "soldJunkMany": "Vendiste {count} objetos grises por {money}.",
+      "keptBoundOne": "Se conservó {count} copia vinculada.",
+      "keptBoundMany": "Se conservaron {count} copias vinculadas.",
       "friendOnline": "{name} se ha conectado.",
       "friendOffline": "{name} se ha desconectado."
     },
@@ -8012,7 +8015,7 @@ export const es_ES: EnTranslations = {
         "name": "Vendajes de cuero crepuscular"
       },
       "sootscale_mantle": {
-        "name": "Manto de escamas de hollín"
+        "name": "Manto de Escama de Horno"
       },
       "gravecaller_blade": {
         "name": "Mandoble de Gravecaller"
@@ -8087,13 +8090,13 @@ export const es_ES: EnTranslations = {
         "name": "Retal de lino"
       },
       "arcane_dust": {
-        "name": "Polvo arcano"
+        "name": "Polvo de Carillón"
       },
       "arcane_essence": {
-        "name": "Esencia arcana"
+        "name": "Esencia de Carillón"
       },
       "arcane_shard": {
-        "name": "Fragmento arcano"
+        "name": "Fragmento de Carillón"
       },
       "fen_muster_order": {
         "name": "Orden de alistamiento de Fenbridge"
@@ -8342,7 +8345,7 @@ export const es_ES: EnTranslations = {
         "name": "Toga de lana de cumbre"
       },
       "stalkerhide_jerkin": {
-        "name": "Jubón de piel de acechador"
+        "name": "Jubón de Piel de Merodeo"
       },
       "cragwalker_boots": {
         "name": "Botas Caminarrocas"
@@ -8483,7 +8486,7 @@ export const es_ES: EnTranslations = {
         "name": "Pico de Minería de Hierro"
       },
       "mithril_mining_pick": {
-        "name": "Pico de Minería de Mithril"
+        "name": "Pico de Minería de Plata Celeste"
       },
       "handaxe": {
         "name": "Hacha de Mano"
@@ -8501,19 +8504,19 @@ export const es_ES: EnTranslations = {
         "name": "Hoz de Bronce"
       },
       "silverleaf_sickle": {
-        "name": "Hoz de Hoja de Plata"
+        "name": "Hoz de Hoja de Brillo"
       },
       "thorium_mining_pick": {
-        "name": "Pico de Minería de Torio"
+        "name": "Pico de Minería de Osmio"
       },
       "arcanite_mining_pick": {
-        "name": "Pico de Minería de Arcanita"
+        "name": "Pico de Minería de Glyfiacero"
       },
       "ashwood_axe": {
         "name": "Hacha de Fresno"
       },
       "elderwood_axe": {
-        "name": "Hacha de Madera Añeja"
+        "name": "Hacha de Pino Cumbre"
       },
       "goldleaf_sickle": {
         "name": "Hoz de Hoja Dorada"
@@ -8522,16 +8525,16 @@ export const es_ES: EnTranslations = {
         "name": "Hoz de Pétalo Solar"
       },
       "thorium_ore": {
-        "name": "Mineral de Torio"
+        "name": "Mineral de Osmio"
       },
       "arcanite_bar": {
-        "name": "Barra de Arcanita"
+        "name": "Barra de Glyfiacero"
       },
       "ashwood_log": {
         "name": "Tronco de Ceniza"
       },
       "elderwood_log": {
-        "name": "Tronco de Saúco"
+        "name": "Tronco de Pino Cumbre"
       },
       "goldleaf_herb": {
         "name": "Hierba Hoja de Oro"
@@ -8669,7 +8672,7 @@ export const es_ES: EnTranslations = {
         "name": "Tronco de corteza de hierro"
       },
       "silverleaf_herb": {
-        "name": "Hierba de hoja plateada"
+        "name": "Hierba Hoja de Brillo"
       },
       "rough_hide": {
         "name": "Piel áspera"
@@ -8732,13 +8735,13 @@ export const es_ES: EnTranslations = {
         "name": "Puñal de hierro afilado"
       },
       "thorium_warblade": {
-        "name": "Hoja de guerra de torio"
+        "name": "Hoja de guerra de Osmio"
       },
       "arcanite_war_axe": {
-        "name": "Hacha de guerra arcanita"
+        "name": "Hacha de Guerra de Glyfiacero"
       },
       "elderwood_battle_staff": {
-        "name": "Bastón de batalla de Elderwood"
+        "name": "Bastón de Batalla de Pino Cumbre"
       },
       "riveted_copper_girdle": {
         "name": "Faja Cobre Remachada"
@@ -8759,13 +8762,13 @@ export const es_ES: EnTranslations = {
         "name": "Bufas de enlace de hierro"
       },
       "thoriumscale_greathelm": {
-        "name": "Gran yelmo de escamas de torio"
+        "name": "Gran Yelmo de Escama de Osmio"
       },
       "thoriumscale_cuirass": {
-        "name": "Coraza de escamas de torio"
+        "name": "Coraza de Escama de Osmio"
       },
       "thoriumscale_leggings": {
-        "name": "Leotardos de escamas de torio"
+        "name": "Leotardos de Escama de Osmio"
       },
       "homespun_hood": {
         "name": "Capucha casera"
@@ -8774,13 +8777,13 @@ export const es_ES: EnTranslations = {
         "name": "Mitones caseros"
       },
       "silverthread_slippers": {
-        "name": "Zapatillas de hilo plateado"
+        "name": "Escarpines de Hilo Pálido"
       },
       "goldweave_robe": {
-        "name": "Toga de tejido dorado"
+        "name": "Toga de Tejido Dorado"
       },
       "goldweave_leggings": {
-        "name": "Leotardos de tejido dorado"
+        "name": "Leotardos de Tejido Dorado"
       },
       "silkspun_satchel": {
         "name": "Cartera hilada de seda"
@@ -8849,10 +8852,10 @@ export const es_ES: EnTranslations = {
         "name": "Gran asado de Marlow"
       },
       "silverleaf_healing_draught": {
-        "name": "Brebaje curativo de hoja plateada"
+        "name": "Brebaje curativo de hoja de brillo"
       },
       "silverleaf_mana_draught": {
-        "name": "Brebaje de maná de hoja plateada"
+        "name": "Brebaje de maná de hoja de brillo"
       },
       "elixir_of_the_boar": {
         "name": "Elixir del jabalí"
@@ -8864,7 +8867,7 @@ export const es_ES: EnTranslations = {
         "name": "Brebaje de maná de hoja dorada"
       },
       "venomfire_elixir": {
-        "name": "Elixir de fuego venenoso"
+        "name": "Elixir Venenofuego"
       },
       "sunpetal_healing_draught": {
         "name": "Brebaje curativo de pétalo solar"
@@ -9167,7 +9170,7 @@ export const es_ES: EnTranslations = {
         "name": "Botines Nightfang"
       },
       "glimmerfin_koi": {
-        "name": "Koi de aletas brillantes"
+        "name": "Koi Destello Solar"
       },
       "raw_bog_eel": {
         "name": "Anguila de ciénaga cruda"
@@ -10749,7 +10752,7 @@ export const es_ES: EnTranslations = {
         }
       },
       "q_stalker_pelts": {
-        "title": "El invierno llega a Highwatch",
+        "title": "Primera Escarcha en Highwatch",
         "text": "El invierno de esta montaña derriba puertas, {playerName}. Ocho pieles de acechador forrarán capas para la muralla.",
         "completion": "Gruesas como mi brazo. La guardia no se congelará este año.",
         "objectives": {
