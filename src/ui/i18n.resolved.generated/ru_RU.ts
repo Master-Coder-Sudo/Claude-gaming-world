@@ -6401,7 +6401,7 @@ export const ru_RU: EnTranslations = {
       "readyQuestAria": "Задание готово к сдаче: {name}",
       "discussQuest": "Обсудить {name}.",
       "discussQuestAria": "Обсудить задание: {name}",
-      "profIntroHint": "See {name} for \"{quest}\".",
+      "profIntroHint": "Обратитесь к {name} за заданием «{quest}».",
       "nythraxisDeathlessKingWarning": "Три реликвии рассказывают одну историю: Алдрен сражался, защищая своего короля, Малрик нарушил границу смерти, а Восс пытался остановить то, что последовало. Печать слабеет, и заброшенная крипта ведет вниз.",
       "browseGoods": "Покажите ваши товары.",
       "browseGoodsAria": "Посмотреть товары у {name}",

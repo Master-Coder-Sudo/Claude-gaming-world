@@ -6401,7 +6401,7 @@ export const zh_TW: EnTranslations = {
       "readyQuestAria": "可交付任務：{name}",
       "discussQuest": "談論{name}。",
       "discussQuestAria": "談論任務：{name}",
-      "profIntroHint": "See {name} for \"{quest}\".",
+      "profIntroHint": "請找{name}接取《{quest}》。",
       "nythraxisDeathlessKingWarning": "三件遺物講述著同一個故事：阿爾德倫為守護國王而戰，馬爾里克打破了死亡的界限，沃斯試圖阻止隨後發生的一切。封印正在減弱，廢棄墓穴就是通往地下的道路。",
       "browseGoods": "讓我看看你的貨物。",
       "browseGoodsAria": "查看 {name} 的貨物",

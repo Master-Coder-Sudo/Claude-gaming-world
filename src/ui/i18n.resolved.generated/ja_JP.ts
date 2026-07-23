@@ -6401,7 +6401,7 @@ export const ja_JP: EnTranslations = {
       "readyQuestAria": "報告可能なクエスト: {name}",
       "discussQuest": "{name}について話す。",
       "discussQuestAria": "クエストについて話す: {name}",
-      "profIntroHint": "See {name} for \"{quest}\".",
+      "profIntroHint": "{name}から「{quest}」を受けましょう。",
       "nythraxisDeathlessKingWarning": "三つの遺物は同じ物語を語っています。オルドレンは王を守るために戦い、マルリックは死の境界を破り、ヴォスはその後に起きたことを止めようとしました。封印は弱まり、廃棄された墓所こそ地下への道です。",
       "browseGoods": "品物を見せてください。",
       "browseGoodsAria": "{name}の品物を見る",
